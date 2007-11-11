@@ -1,0 +1,55 @@
+timersdone.conf(5)      Epgsearch Version 0.9.24.beta9      timersdone.conf(5)
+
+
+
+NAME
+       timersdone.conf - Liste von anstehenden Timern, die von Suchtimern
+       erzeugt wurden.
+
+BESCHREIBUNG
+       Diese Datei enthält eine Liste von anstendenden Timern, die von
+       Suchtimern erzeugt wurden. Wenn die Setup-Option ’Timer nach Löschen
+       neuprogrammieren’ auf nein steht, benutzt epgsearch diese Liste, um zu
+       prüfen, ob ein Timer bereits angelegt wurde und erstellt den Timer in
+       diesem Fall nicht nochmals.  Sobald die zugehörige Aufnahme stattgefun‐
+       den hat, wird der Timer automatisch aus dieser Liste entfernt.
+
+FORMAT
+       Pro Zeile ein Timer, die Felder werden durch ’:’ getrennt.
+
+       Folgende Felder existieren:
+
+         1 - Kanal-Kennung
+         2 - Startzeit
+         3 - Stopzeit
+         4 - Suchtimer-ID
+         5 - Titel der Sendung
+         6 - Untertitel der Sendung
+
+SIEHE AUCH
+       epgsearch(1)
+
+AUTOR (man pages)
+       Mike Constabel <epgsearch (at) constabel (dot) net>
+
+FEHLER MELDEN
+       Fehlerberichte bitte im Bugtracker.
+
+       <http://www.vdr-developer.org/mantisbt/>
+
+       Mailinglist:
+
+       <http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+
+COPYRIGHT und LIZENZ
+       Copyright (c) 2005-2006 Christian Wieninger
+
+       <http://www.cwieninger.de.vu/>
+
+       Dieses Programm ist freie Software. Es darf nach belieben benutzt,
+       kopiert, modifiziert, verteilt und verkauft werden, solange niemand
+       anderem das Recht abgesprochen wird dasselbe zu tun.
+
+
+
+perl v5.8.8                       2007-11-04                timersdone.conf(5)

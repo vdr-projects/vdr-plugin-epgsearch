@@ -1,0 +1,77 @@
+epgsearchcmds.conf(5)   Epgsearch Version 0.9.24.beta9   epgsearchcmds.conf(5)
+
+
+
+NAME
+       epgsearchcmds.conf - EPG-Befehle
+
+BESCHREIBUNG
+       Diese Datei enthält ähnlich der commands.conf oder der reccmds.conf
+       Befehle, die auf die in der Programmübersicht ausgewählte Sendung ange‐
+       wandt werden können.
+
+       Intern besitzt epgsearch 8 nicht veränderbare EPG-Befehle.
+
+       Wenn eine epgsearchcmds.conf existiert, werden die darin aufgeführten
+       Befehle beginnend mit Nummer 9 gelistet.
+
+       Sprachen
+
+       Man kann für verschiedene Sprachen unterschiedliche Dateien anlegen.
+       Sie müssen dann z.B. epgsearchcmds-deu.conf für deutsch oder
+       epgsearchcmds-eng.conf für englisch heissen.
+
+       Wenn eine Datei entsprechend der im VDR eingestellten Sprache existiert
+       wird diese geladen. Existiert eine solche nicht wird versucht
+       epgsearchcmds.conf zu laden.
+
+FORMAT
+       Befehlsname   : Befehl
+
+BEISPIELE
+       epg2taste (de): /usr/local/vdr/epg2taste.sh
+
+SIEHE AUCH
+       epgsearch(1)
+
+AUTOR (man pages)
+       Mike Constabel <epgsearch (at) constabel (dot) net>
+
+FEHLER MELDEN
+       Fehlerberichte bitte im Bugtracker.
+
+       <http://www.vdr-developer.org/mantisbt/>
+
+       Mailinglist:
+
+       <http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+
+COPYRIGHT and LIZENZ
+       Copyright © 2004-2007 Christian Wieninger
+
+       Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+       der GNU General Public License, wie von der Free Software Foundation
+       veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Ver‐
+       sion 2 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+
+       Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+       Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
+       die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
+       BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.
+
+       Sie sollten ein Exemplar der GNU General Public License zusammen mit
+       diesem Programm erhalten haben. Falls nicht, schreiben Sie an die Free
+       Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA
+       02111-1307, USA.  Oder rufen Sie in Ihrem Browser
+       http://www.gnu.org/licenses/old-licenses/gpl-2.0.html auf.
+
+       Der Author kann über cwieninger@gmx.de erreicht werden.
+
+       Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+
+       Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm von RSA
+       Data Security, Inc..
+
+
+
+perl v5.8.8                       2007-11-04             epgsearchcmds.conf(5)

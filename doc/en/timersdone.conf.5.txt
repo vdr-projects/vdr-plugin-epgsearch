@@ -1,0 +1,56 @@
+timersdone.conf(5)      Epgsearch Version 0.9.24.beta9      timersdone.conf(5)
+
+
+
+NAME
+       timersdone.conf - list of current timers created by search timers
+
+DESCRIPTION
+       This file contains the current timers that were created by search
+       timers. If the setup option ’Recreate timers after deletion’ is set to
+       ’no’, epgsearch uses this list to determine if a timer was already cre‐
+       ated and cancels further timer creations. If a corresponding recording
+       was made for any timer in this list, the timer is automatically removed
+       from it.
+
+FORMAT
+       Timers are stored one per line, where the fields are separated with
+       ’:’.
+
+       The following fields exists:
+
+         1 - channel-ID
+         2 - start time
+         3 - stop time
+         4 - search timer ID
+         5 - event title
+         6 - event episode
+
+SEE ALSO
+       epgsearch(1)
+
+AUTHOR (man pages)
+       Mike Constabel <epgsearch (at) constabel (dot) net>
+
+REPORT BUGS
+       Bug reports (german):
+
+       <http://www.vdr-developer.org/mantisbt/>
+
+       Mailing list:
+
+       <http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+
+COPYRIGHT and LICENSE
+       Copyright (c) 2005-2006 Christian Wieninger
+
+       <http://www.cwieninger.de.vu/>
+
+       This  is free software.  You may redistribute copies of it under the
+       terms of the GNU General Public License
+       <http://www.gnu.org/licenses/gpl.html>.  There is NO WARRANTY, to the
+       extent permitted by law.
+
+
+
+perl v5.8.8                       2007-11-04                timersdone.conf(5)

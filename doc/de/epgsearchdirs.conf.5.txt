@@ -1,0 +1,97 @@
+epgsearchdirs.conf(5)   Epgsearch Version 0.9.24.beta9   epgsearchdirs.conf(5)
+
+
+
+NAME
+       epgsearchdirs.conf - Liste von Aufnahmepfaden zur einfachen Auswahl
+
+BESCHREIBUNG
+       In epgsearch, speziell beim Editieren von Suchtimern, muss man häufig
+       ganze Verzeichnisspfade eingeben. Da dies oft mühselig ist, können in
+       dieser Datei häufig genutzte Pfade vorgegeben werden, die dann im Menü
+       einfach ausgewählt werden können.
+
+FORMAT
+       Pro Zeile ein Pfad. Pfade können Variablen enthalten.
+
+       Verwendet werden können interne Variablen, die Variablen des erweit‐
+       erten EPG (epgsearchcats.conf) sowie die in der Datei epgsearchuser‐
+       vars.conf konfigurierten Variablen.
+
+       Folgende internen Variablen stehen zur Verfügung:
+
+        %title%      - Title der Sendung
+        %subtitle%   - Subtitle der Sendung
+        %time%       - Startzeit im Format HH:MM
+        %date%       - Startzeit im Format TT.MM.YY
+        %datesh%     - Startdatum im Format TT.MM.
+        %time_w%     - Name des Wochentages
+        %time_d%     - Tag der Sendung im Format TT
+        %chnr%       - Kanalnummer
+        %chsh%       - Kanalname kurz
+        %chlng%      - Kanalname lang
+
+       Für weitere Variablen siehe "epgsearchcats.conf(5)" und "epgsearchuser‐
+       vars.conf(5)".
+
+       Im Auswahlmenü werden die Pfade alphabetisch sortiert dargestellt.
+       Pfade die Variablen enthalten stehen am Anfang der Liste.
+
+BEISPIELE
+        %Category%~%Genre%
+        %Category%~%Genre%~%Title%~%Episode%: %Subtitle%
+        Information~Natur~%Title%~%Episode%: %Subtitle%
+        %Serie%
+        Spielfilm~Action
+        Spielfilm~Doku
+        Spielfilm~Drama
+        Spielfilm~Horror
+        Musik
+        Sport
+        Show
+        Serie
+
+SIEHE AUCH
+       epgsearch(1), "epgsearchcats.conf(5)", "epgsearchuservars.conf(5)"
+
+AUTOR (man pages)
+       Mike Constabel <epgsearch (at) constabel (dot) net>
+
+FEHLER MELDEN
+       Fehlerberichte bitte im Bugtracker.
+
+       <http://www.vdr-developer.org/mantisbt/>
+
+       Mailinglist:
+
+       <http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+
+COPYRIGHT and LIZENZ
+       Copyright © 2004-2007 Christian Wieninger
+
+       Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+       der GNU General Public License, wie von der Free Software Foundation
+       veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Ver‐
+       sion 2 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+
+       Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+       Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
+       die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
+       BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.
+
+       Sie sollten ein Exemplar der GNU General Public License zusammen mit
+       diesem Programm erhalten haben. Falls nicht, schreiben Sie an die Free
+       Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA
+       02111-1307, USA.  Oder rufen Sie in Ihrem Browser
+       http://www.gnu.org/licenses/old-licenses/gpl-2.0.html auf.
+
+       Der Author kann über cwieninger@gmx.de erreicht werden.
+
+       Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+
+       Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm von RSA
+       Data Security, Inc..
+
+
+
+perl v5.8.8                       2007-11-04             epgsearchdirs.conf(5)

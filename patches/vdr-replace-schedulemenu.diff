@@ -1,0 +1,33 @@
+--- menu.c.org	2005-06-18 12:31:52.000000000 +0200
++++ menu.c	2005-07-04 19:47:42.000000000 +0200
+@@ -2447,7 +2447,11 @@
+   // Initial submenus:
+ 
+   switch (State) {
+-    case osSchedule:   AddSubMenu(new cMenuSchedule); break;
++    case osSchedule:   {
++			cPlugin *p = cPluginManager::GetPlugin("epgsearch");
++    			(p && !p->SetupParse("IsOrgSchedule", "0")) ? AddSubMenu((cOsdMenu *)p->MainMenuAction()) : AddSubMenu(new cMenuSchedule);
++		       }			
++		       break;
+     case osChannels:   AddSubMenu(new cMenuChannels); break;
+     case osTimers:     AddSubMenu(new cMenuTimers); break;
+     case osRecordings: AddSubMenu(new cMenuRecordings(NULL, 0, true)); break;
+@@ -2553,7 +2557,16 @@
+   HadSubMenu |= HasSubMenu();
+ 
+   switch (state) {
+-    case osSchedule:   return AddSubMenu(new cMenuSchedule);
++    case osSchedule:   {
++			cPlugin *p = cPluginManager::GetPlugin("epgsearch");
++            		if (p && !p->SetupParse("IsOrgSchedule", "0")) {
++			    return AddSubMenu((cOsdMenu *)p->MainMenuAction());
++			    state = osEnd;
++			    }
++			else 
++			    return AddSubMenu(new cMenuSchedule);
++		       }			
++		       break;
+     case osChannels:   return AddSubMenu(new cMenuChannels);
+     case osTimers:     return AddSubMenu(new cMenuTimers);
+     case osRecordings: return AddSubMenu(new cMenuRecordings);

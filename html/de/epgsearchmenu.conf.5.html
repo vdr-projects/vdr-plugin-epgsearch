@@ -1,0 +1,153 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Epgsearch Version 0.9.24.beta9</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#beschreibung">BESCHREIBUNG</a></li>
+	<li><a href="#format">FORMAT</a></li>
+	<li><a href="#beispiele">BEISPIELE</a></li>
+	<li><a href="#siehe_auch">SIEHE AUCH</a></li>
+	<li><a href="#autor__man_pages_">AUTOR (man pages)</a></li>
+	<li><a href="#fehler_melden">FEHLER MELDEN</a></li>
+	<li><a href="#copyright_and_lizenz">COPYRIGHT and LIZENZ</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><em>epgsearchmenu.conf</em> - Konfiguration der Menüdarstellung</p>
+<p>
+</p>
+<hr />
+<h1><a name="beschreibung">BESCHREIBUNG</a></h1>
+<p>Die Darstellung des Menüs des Plugins kann auf die eigenen Wünsche
+angepasst werden. Die Konfiguration erfolgt mit Hilfe dieser Datei.</p>
+<p>
+</p>
+<hr />
+<h1><a name="format">FORMAT</a></h1>
+<pre>
+ In dieser Datei können den Variablen</pre>
+<pre>
+ MenuWhatsOnNow
+ MenuWhatsOnNext
+ MenuWhatsOnElse
+ MenuSchedule
+ MenuSearchResults</pre>
+<p>Zeichenketten zugewiesen werden die die Darstellung der Menüs im OSD regeln.</p>
+<p>Eine Besonderheit stellt MenuSearchResults. Hier kann man der Variablen
+MenuSearchResults eine beliebige Zeichenkette anhängen:</p>
+<pre>
+ MenuSearchResultsSerienlayout=...</pre>
+<p>Dies bewirkt das man beim Editieren eines Suchtimers nun auch dieses Layout
+unter dem Namen ``Serienlayout'' auswählen kann.</p>
+<p>So kann man jedem Suchtimer seine eigene OSD Darstellung verpassen.</p>
+<p>Es können alle Variablen verwendet werden. Die Variablen aus dem erweiterten
+EPG, die in der <em>epgsearchuservars.conf</em> konfigurierten sowie die folgenden
+internen:</p>
+<pre>
+ %title%      - Title der Sendung
+ %subtitle%   - Subtitle der Sendung
+ %time%       - Startzeit im Format HH:MM
+ %date%       - Startzeit im Format TT.MM.YY
+ %datesh%     - Startdatum im Format TT.MM.
+ %time_w%     - Name des Wochentages
+ %time_d%     - Tag der Sendung im Format TT
+ %time_lng%   - Startzeit in Sekunden seit 1970-01-01 00:00
+ %t_status%   - Timerstatus ('T', 't', 'R')
+ %v_status%   - VPS Status
+ %r_status%   - Running Status
+ %status%     - Kompletter Status, das selbe wie
+                '%t_status%%v_status%%r_status%'</pre>
+<p>Für die Menüs ``Was läuft jetzt'' und ``Suchergebniss'', also die Variablen
+MenuWhatsOnNow und MenuSearchResults, stehen fünf weitere Variablen
+zur Verfügung:</p>
+<pre>
+ %chnr%       - Kanalnummer
+ %chsh%       - Kanalname kurz
+ %chlng%      - Kanalname lang
+ %chdata%     - VDR's interne Kanaldarstellung (z.B. 'S19.2E-1-1101-28106')
+ %progr%      - Grafischer Fortschrittsbalken (nicht für das Menü &quot;Suchergenis&quot;)
+ %progrT2S%   - Fortschrittsbalken im text2skin Stil (nicht für das Menü &quot;Suchergenis&quot;)</pre>
+<p>Es wird bei den Variablen nicht zwischen Gross-/Kleinschreibung unterschieden.</p>
+<p>Ein Eintrag besteht aus bis zu 6 Tabellenspalten, die Spalten werden durch
+'|' getrennt. Der letzte Eintrag jeder Spalte kann die Spaltenbreite durch
+angabe einer Breite in Zeichen festlegen. Die Breitenangabe wird durch ':'
+vom Variablennamen getrennt.</p>
+<p>Wenn du Trenner wie '~', '-' oder '#' verwendest um einzelne Bestandteile zu
+trennen, z.B. %title% ~ %subtitle%, dann achtet epgsearch darauf das ein
+solcher Trenner nicht am Ende einer Spalte steht.</p>
+<p>Die einzelnen Spaltenbreiten sollten angepasst werden, das Aussehen ist vom
+verwendeten Skin abhängig.</p>
+<p>Wenn diese Datei verändert werden soll während VDR läuft kann man dem Plugin
+den Startparamter '-r' oder '--reloadmenuconf' übergeben, die Datei wird dann
+bei jedem öffnen des Menüs neu eingelesen.</p>
+<p>
+</p>
+<hr />
+<h1><a name="beispiele">BEISPIELE</a></h1>
+<pre>
+ MenuWhatsOnNow=%chnr%:3|%progrt2s%:5| %time% %t_status%:8|%category%:6| %title% ~ %subtitle%:35
+ MenuWhatsOnNext=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
+ MenuWhatsOnElse=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
+ MenuSchedule=%time% %t_status%:8|%genre%:14| %title% ~ %subtitle%:35
+ MenuSearchResults=%chnr%:3|%datesh% %time% %t_status%:14|%genre%:8| %title%%colon% %subtitle%:35
+ MenuFavorites=%chnr%:3|%datesh% %time% %t_status%:14|%genre%:8| %title%%colon%%subtitle%:35</pre>
+<p>
+</p>
+<hr />
+<h1><a name="siehe_auch">SIEHE AUCH</a></h1>
+<p><code>epgsearch(1)</code>, <code>epgsearchcats.conf</code>, <code>epgsearchuservars.conf</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="autor__man_pages_">AUTOR (man pages)</a></h1>
+<p>Mike Constabel &lt;epgsearch (at) constabel (dot) net&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="fehler_melden">FEHLER MELDEN</a></h1>
+<p>Fehlerberichte bitte im Bugtracker.</p>
+<p><a href="http://www.vdr-developer.org/mantisbt/">http://www.vdr-developer.org/mantisbt/</a></p>
+<p>Mailinglist:</p>
+<p><a href="http://www.vdr-developer.org/mailman/listinfo/epgsearch">http://www.vdr-developer.org/mailman/listinfo/epgsearch</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_lizenz">COPYRIGHT and LIZENZ</a></h1>
+<p>Copyright © 2004-2007 Christian Wieninger</p>
+<p>Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+der GNU General Public License, wie von der Free Software Foundation 
+veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
+der Lizenz oder (nach Ihrer Option) jeder späteren Version.</p>
+<p>Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es 
+Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die 
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN 
+ZWECK. Details finden Sie in der GNU General Public License.</p>
+<p>Sie sollten ein Exemplar der GNU General Public License zusammen mit 
+diesem Programm erhalten haben. Falls nicht, schreiben Sie an die 
+Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+Oder rufen Sie in Ihrem Browser <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</a>
+auf.</p>
+<p>Der Author kann über <a href="mailto:cwieninger@gmx.de">cwieninger@gmx.de</a> erreicht werden.</p>
+<p>Die Projektseite ist <a href="http://winni.vdr-developer.org/epgsearch">http://winni.vdr-developer.org/epgsearch</a></p>
+<p>Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm 
+von RSA Data Security, Inc..</p>
+
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Epgsearch Version 0.9.24.beta9</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#beschreibung">BESCHREIBUNG</a></li>
+	<li><a href="#format">FORMAT</a></li>
+	<li><a href="#siehe_auch">SIEHE AUCH</a></li>
+	<li><a href="#autor__man_pages_">AUTOR (man pages)</a></li>
+	<li><a href="#fehler_melden">FEHLER MELDEN</a></li>
+	<li><a href="#copyright_und_lizenz">COPYRIGHT und LIZENZ</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><em>timersdone.conf</em> - Liste von anstehenden Timern, die von Suchtimern erzeugt
+wurden.</p>
+<p>
+</p>
+<hr />
+<h1><a name="beschreibung">BESCHREIBUNG</a></h1>
+<p>Diese Datei enthält eine Liste von anstendenden Timern, die von Suchtimern
+erzeugt wurden. Wenn die Setup-Option 'Timer nach Löschen neuprogrammieren'
+auf nein steht, benutzt epgsearch diese Liste, um zu prüfen, ob ein Timer
+bereits angelegt wurde und erstellt den Timer in diesem Fall nicht nochmals.
+Sobald die zugehörige Aufnahme stattgefunden hat, wird der Timer automatisch
+aus dieser Liste entfernt.</p>
+<p>
+</p>
+<hr />
+<h1><a name="format">FORMAT</a></h1>
+<p>Pro Zeile ein Timer, die Felder werden durch ':' getrennt.</p>
+<p>Folgende Felder existieren:</p>
+<pre>
+  1 - Kanal-Kennung
+  2 - Startzeit
+  3 - Stopzeit
+  4 - Suchtimer-ID
+  5 - Titel der Sendung
+  6 - Untertitel der Sendung</pre>
+<p>
+</p>
+<hr />
+<h1><a name="siehe_auch">SIEHE AUCH</a></h1>
+<p><code>epgsearch(1)</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="autor__man_pages_">AUTOR (man pages)</a></h1>
+<p>Mike Constabel &lt;epgsearch (at) constabel (dot) net&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="fehler_melden">FEHLER MELDEN</a></h1>
+<p>Fehlerberichte bitte im Bugtracker.</p>
+<p><a href="http://www.vdr-developer.org/mantisbt/">http://www.vdr-developer.org/mantisbt/</a></p>
+<p>Mailinglist:</p>
+<p><a href="http://www.vdr-developer.org/mailman/listinfo/epgsearch">http://www.vdr-developer.org/mailman/listinfo/epgsearch</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_und_lizenz">COPYRIGHT und LIZENZ</a></h1>
+<p>Copyright (c) 2005-2006 Christian Wieninger</p>
+<p><a href="http://www.cwieninger.de.vu/">http://www.cwieninger.de.vu/</a></p>
+<p>Dieses Programm ist freie Software. Es darf nach belieben benutzt, 
+kopiert, modifiziert, verteilt und verkauft werden, solange niemand
+anderem das Recht abgesprochen wird dasselbe zu tun.</p>
+
+</body>
+
+</html>

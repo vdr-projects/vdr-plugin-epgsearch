@@ -1,0 +1,44 @@
+---------------------------------------------------
+Building and maintaining translations for EPGSearch
+---------------------------------------------------
+
+If your language is not yet supported in EPGSearch or any 
+updates are needed it would be great if you could give your 
+support for this. 
+
+To do so please follow these steps:
+
+1. Check if there is a current beta version of EPGSearch at
+
+   http://winni.vdr-developer.org/epgsearch/downloads/beta
+
+   If not please use the latest known release.
+
+2. Copy the original po file for your language to any backup 
+   destination. Now edit the original po file for your language in 
+   the po subdirectory. All entries with 'msgstr ""' should be filled 
+   with your translation.
+
+3. To test your translations:
+   in vdr > 1.5.6: 
+   simply recompile EPGSearch and check your changes.
+   in vdr < 1.5.7: 
+   for backwards compatibility the translation is built from the 
+   po files. To do so call
+
+   make generate-i18n
+
+   from EPGSearch's source directory and then recompile EPGSearch.
+   (this calls buildutil/pot2i18n.pl which may need to install Locale::PO 
+   in the pearl cpan shell)
+
+4. When done please send me your po file or even better a patch for it,
+   created like
+
+   cd po
+   diff -Nru /path-to-backup-po-file/x.po x.po > epgsearch_x.diff
+
+
+Many thanks for your support
+
+Christian

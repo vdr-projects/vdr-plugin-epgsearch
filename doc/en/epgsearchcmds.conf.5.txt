@@ -1,0 +1,74 @@
+epgsearchcmds.conf(5)   Epgsearch Version 0.9.24.beta9   epgsearchcmds.conf(5)
+
+
+
+NAME
+       epgsearchcmds.conf - EPG Commands
+
+DESCRIPTION
+       This file contains, like the file commands.conf or reccmds.conf, com‐
+       mands, which can be applied to the in the program menu selected event.
+
+       Internal epgsearch has 8 not changeable commands.
+
+       If there is a epgsearchcmds.conf, the commands in it will be appended
+       to the list of the internal commands, starting with 9.
+
+       Language
+
+       You can use different files for each language. For example
+       epgsearchcmds-eng.conf will be loaded if the, in VDR selected, language
+       is english.
+
+       If there is no file for the selected language, epgsearch tries to load
+       epgsearchcmds.conf.
+
+SYNTAX
+       Description   : Command
+
+EXAMPLE
+       epg2taste (de): /usr/local/vdr/epg2taste.sh
+
+SEE ALSO
+       epgsearch(1)
+
+AUTHOR (man pages)
+       Mike Constabel <epgsearch (at) constabel (dot) net>
+
+REPORT BUGS
+       Bug reports (german):
+
+       <http://www.vdr-developer.org/mantisbt/>
+
+       Mailing list:
+
+       <http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+
+COPYRIGHT and LICENSE
+       Copyright (C) 2004-2007 Christian Wieninger
+
+       This program is free software; you can redistribute it and/or modify it
+       under the terms of the GNU General Public License as published by the
+       Free Software Foundation; either version 2 of the License, or (at your
+       option) any later version.
+
+       This program is distributed in the hope that it will be useful, but
+       WITHOUT ANY WARRANTY; without even the implied warranty of MER‐
+       CHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+       Public License for more details.
+
+       You should have received a copy of the GNU General Public License along
+       with this program; if not, write to the Free Software Foundation, Inc.,
+       51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA Or, point
+       your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+       The author can be reached at cwieninger@gmx.de
+
+       The project’s page is at http://winni.vdr-developer.org/epgsearch
+
+       The MD5 code is derived from the RSA Data Security, Inc. MD5 Message-
+       Digest Algorithm.
+
+
+
+perl v5.8.8                       2007-11-04             epgsearchcmds.conf(5)
