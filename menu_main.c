@@ -53,9 +53,9 @@ cMenuSearchMain::cMenuSearchMain(void)
   InWhatsOnMenu = false;
   InFavoritesMenu = false;
   cChannel *channel = Channels.GetByNumber(cDevice::CurrentChannel());
+  schedules = cSchedules::Schedules(schedulesLock);
   if (channel) {
     cMenuWhatsOnSearch::SetCurrentChannel(channel->Number());
-    schedules = cSchedules::Schedules(schedulesLock);
     PrepareSchedule(channel);
     SetHelpKeys();
     cMenuWhatsOnSearch::currentShowMode = showNow;
@@ -89,7 +89,7 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
     eventObjects.Clear();
 
    if (schedules) {
-	const cSchedule *Schedule = schedules->GetSchedule(Channel->GetChannelID());
+	const cSchedule *Schedule = schedules->GetSchedule(Channel);
 	currentChannel = Channel->Number();
 	if (Schedule && Schedule->Events()->First()) 
 	{

@@ -244,15 +244,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Button$All no",
-    "Alle nein",
+  { "Button$Invert selection",
+    "Ausw. umdrehen",
     "",
-    "Tutto no",
-    "Allen nee",
+    "Invertire la selezione",
+    "Selectie omdraaien",
     "",
-    "Tous non",
+    "Inversion de la selection",
     "",
-    "Ei yhtään",
+    "Päinvastoin",
     "",
     "",
     "",
@@ -314,15 +314,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Button$Invert selection",
-    "Ausw. umdrehen",
+  { "Button$All no",
+    "Alle nein",
     "",
-    "Invertire la selezione",
-    "Selectie omdraaien",
+    "Tutto no",
+    "Allen nee",
     "",
-    "Inversion de la selection",
+    "Tous non",
     "",
-    "Päinvastoin",
+    "Ei yhtään",
     "",
     "",
     "",
@@ -393,41 +393,6 @@ const tI18nPhrase Phrases[] = {
     "Le groupe existe déjà!",
     "",
     "Samanniminen kanavaryhmä on jo olemassa!",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "%d timer conflict(s)! First at %s. Show them?",
-    "%d Timer-Konflikt(e)! Erster am %s. Anzeigen?",
-    "",
-    "",
-    "",
-    "",
-    "%d de conflits de programmation! Le premier le %s. Afficher?",
-    "",
-    "Päällekkäisiä ajastimia (%d kpl %s)! Näytetäänkö?",
     "",
     "",
     "",
@@ -568,6 +533,41 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "seuraava",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "%d timer conflict(s)! First at %s. Show them?",
+    "%d Timer-Konflikt(e)! Erster am %s. Anzeigen?",
+    "",
+    "",
+    "",
+    "",
+    "%d de conflits de programmation! Le premier le %s. Afficher?",
+    "",
+    "Päällekkäisiä ajastimia (%d kpl %s)! Näytetäänkö?",
     "",
     "",
     "",
@@ -5634,76 +5634,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Button$Episode",
-    "Episode",
-    "",
-    "Episodio",
-    "Episode",
-    "",
-    "Épisode",
-    "",
-    "Jaksot",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Button$Title",
-    "Titel",
-    "",
-    "Titolo",
-    "Titel",
-    "",
-    "Titre",
-    "",
-    "Nimet",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Button$by channel",
     "nach Programm",
     "",
@@ -5748,6 +5678,76 @@ const tI18nPhrase Phrases[] = {
     "de début",
     "",
     "Kellonajat",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Button$Episode",
+    "Episode",
+    "",
+    "Episodio",
+    "Episode",
+    "",
+    "Épisode",
+    "",
+    "Jaksot",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Button$Title",
+    "Titel",
+    "",
+    "Titolo",
+    "Titel",
+    "",
+    "Titre",
+    "",
+    "Nimet",
     "",
     "",
     "",
@@ -8784,15 +8784,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Button$Delete all",
-    "Alle löschen",
+  { "Button$by name",
+    "nach Name",
     "",
     "",
     "",
     "",
-    "Effacer toutes",
+    "par nom",
     "",
-    "Poista kaikki",
+    "Nimi",
     "",
     "",
     "",
@@ -8854,15 +8854,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Button$by name",
-    "nach Name",
+  { "Button$Delete all",
+    "Alle löschen",
     "",
     "",
     "",
     "",
-    "par nom",
+    "Effacer toutes",
     "",
-    "Nimi",
+    "Poista kaikki",
     "",
     "",
     "",
@@ -9073,181 +9073,6 @@ const tI18nPhrase Phrases[] = {
     "Infos supplémentaires",
     "",
     "Lisätiedot",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Button$Actions",
-    "Aktionen",
-    "",
-    "",
-    "",
-    "",
-    "Actions",
-    "",
-    "Komennot",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Search entries",
-    "Sucheinträge",
-    "",
-    "",
-    "",
-    "",
-    "Entrée de recherche",
-    "",
-    "Hakutermit",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "active",
-    "aktiv",
-    "",
-    "",
-    "",
-    "",
-    "actif",
-    "",
-    "aktiivista",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Edit$Delete search?",
-    "Suche löschen?",
-    "",
-    "Cancellare criteri?",
-    "Zoeken wissen",
-    "",
-    "Effacer la recherche",
-    "",
-    "Poistetaanko haku?",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Delete all timers created from this search?",
-    "Alle Timer löschen, die von dieser Suche erzeugt wurden?",
-    "",
-    "",
-    "",
-    "",
-    "Effacer les programmations issues de cette recherche?",
-    "",
-    "Poistetaanko kaikki tällä haulla luodut ajastimet?",
     "",
     "",
     "",
@@ -9913,6 +9738,181 @@ const tI18nPhrase Phrases[] = {
     "Copier cette entrée dans modèles?",
     "",
     "Kopioidaanko hakutermi mallipohjaksi?",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Delete all timers created from this search?",
+    "Alle Timer löschen, die von dieser Suche erzeugt wurden?",
+    "",
+    "",
+    "",
+    "",
+    "Effacer les programmations issues de cette recherche?",
+    "",
+    "Poistetaanko kaikki tällä haulla luodut ajastimet?",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Button$Actions",
+    "Aktionen",
+    "",
+    "",
+    "",
+    "",
+    "Actions",
+    "",
+    "Komennot",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Search entries",
+    "Sucheinträge",
+    "",
+    "",
+    "",
+    "",
+    "Entrée de recherche",
+    "",
+    "Hakutermit",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "active",
+    "aktiv",
+    "",
+    "",
+    "",
+    "",
+    "actif",
+    "",
+    "aktiivista",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Edit$Delete search?",
+    "Suche löschen?",
+    "",
+    "Cancellare criteri?",
+    "Zoeken wissen",
+    "",
+    "Effacer la recherche",
+    "",
+    "Poistetaanko haku?",
     "",
     "",
     "",

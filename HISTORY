@@ -12,6 +12,7 @@ new:
 - speedup in searching and search timer updates (about 25%)
 - new patch against VDR (vdr-1.5.11-progressbar-support-0.0.1.diff) that adds support 
   for graphical progressbars in skins classic and st:tng
+- speedup in EPG menues, thanks to patch authors from http://www.open7x0.org
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 

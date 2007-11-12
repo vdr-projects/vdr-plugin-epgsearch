@@ -314,7 +314,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
          if (EPGSearchConfig.showRadioChannels == 0 && ISRADIO(Channel))
             continue;
 
-         const cSchedule *Schedule = schedules->GetSchedule(Channel->GetChannelID());
+         const cSchedule *Schedule = schedules->GetSchedule(Channel);
          const cEvent *Event = NULL;
          if (Schedule) 
          {		
@@ -709,7 +709,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                   cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
                   if (mi && mi->channel)
                   {
-                     const cSchedule *Schedule = schedules->GetSchedule(mi->channel->GetChannelID());
+                     const cSchedule *Schedule = schedules->GetSchedule(mi->channel);
                      if (Schedule)
                      {
                         time_t now = time(NULL);
