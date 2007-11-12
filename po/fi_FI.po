@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-11-07 13:27+0100\n"
+"POT-Creation-Date: 2007-11-12 19:20+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -18,220 +18,151 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: changrp.c:305 epgsearchsetup.c:675 epgsearchsetup.c:688
-#: epgsearchsetup.c:722
 msgid "Channel groups"
 msgstr "Kanavaryhmät"
 
-#: changrp.c:322 epgsearchsetup.c:588 menu_blacklistedit.c:337
-#: menu_dirselect.c:225 menu_myedittimer.c:290 menu_quicksearch.c:239
-#: menu_searchedit.c:531 menu_searchedit.c:563 menu_templateedit.c:146
-#: menu_templateedit.c:178
 msgid "Button$Select"
 msgstr "Valitse"
 
-#: changrp.c:350
 msgid "Channel group used by:"
 msgstr "Kanavaryhmä käytössä:"
 
-#: changrp.c:355
 msgid "Edit$Delete group?"
 msgstr "Poistetaanko kanavaryhmä?"
 
-#: changrp.c:409
 msgid "Edit channel group"
 msgstr "Muokkaa kanavaryhmää"
 
-#: changrp.c:429 changrp.c:452 changrp.c:454
 msgid "Group name"
 msgstr "Kanavaryhmän nimi"
 
-#: changrp.c:453 menu_searchedit.c:871
-msgid "Button$All no"
-msgstr "Ei yhtään"
-
-#: changrp.c:453 menu_searchedit.c:871
-msgid "Button$All yes"
-msgstr "Kaikki"
-
-#: changrp.c:453 menu_searchedit.c:871
 msgid "Button$Invert selection"
 msgstr "Päinvastoin"
 
-#: changrp.c:462
+msgid "Button$All yes"
+msgstr "Kaikki"
+
+msgid "Button$All no"
+msgstr "Ei yhtään"
+
 msgid "Group name is empty!"
 msgstr "Kanavaryhmältä puuttuu nimi!"
 
-#: changrp.c:467
 msgid "Group name already exists!"
 msgstr "Samanniminen kanavaryhmä on jo olemassa!"
 
-#: conflictcheck_thread.c:114 searchtimer_thread.c:478
+msgid "Direct access to epgsearch's conflict check menu"
+msgstr "Suoratoiminto EPGSearch-laajennoksen ajastimien tarkistukselle"
+
+msgid "Timer conflicts"
+msgstr "Päällekkäiset ajastimet"
+
+msgid "Conflict info in main menu"
+msgstr "Näytä päällekkäisyydet päävalikossa"
+
+msgid "next"
+msgstr "seuraava"
+
 #, c-format
 msgid "%d timer conflict(s)! First at %s. Show them?"
 msgstr "Päällekkäisiä ajastimia (%d kpl %s)! Näytetäänkö?"
 
-#: conflictcheckonly.c:35
-msgid "Direct access to epgsearch's conflict check menu"
-msgstr "Suoratoiminto EPGSearch-laajennoksen ajastimien tarkistukselle"
-
-#: conflictcheckonly.c:36 menu_conflictcheck.c:86 menu_conflictcheck.c:198
-msgid "Timer conflicts"
-msgstr "Päällekkäiset ajastimet"
-
-#: conflictcheckonly.c:37
-msgid "Conflict info in main menu"
-msgstr "Näytä päällekkäisyydet päävalikossa"
-
-#: conflictcheckonly.c:207
-msgid "next"
-msgstr "seuraava"
-
-#: epgsearch.c:68
 msgid "search the EPG for repeats and more"
 msgstr "Monipuolinen ohjelmaopas hakutoiminnolla"
 
-#: epgsearch.c:128 epgsearchsetup.c:136 epgsearchsetup.c:177
 msgid "Program guide"
 msgstr "Ohjelmaopas"
 
-#: epgsearchonly.c:35
 msgid "Direct access to epgsearch's search menu"
 msgstr "Suoratoiminto EPGSearch-laajennoksen haulle"
 
-#: epgsearchonly.c:36
 msgid "Search"
 msgstr "Etsi ohjelmaoppaasta"
 
-#: epgsearchonly.c:37
 msgid "EpgSearch-Search in main menu"
 msgstr "EpgSearch-laajennoksen hakutoiminto päävalikossa"
 
-#: epgsearchsetup.c:89 epgsearchsetup.c:365 epgsearchsetup.c:451
-#: epgsearchsetup.c:519 epgsearchsetup.c:588 epgsearchsetup.c:591
-#: epgsearchsetup.c:593 epgsearchsetup.c:689 epgsearchsetup.c:691
-#: epgsearchsetup.c:693 epgsearchsetup.c:695 epgsearchsetup.c:798
-#: epgsearchsetup.c:907 epgsearchsetup.c:912 epgsearchsetup.c:915
-#: epgsearchsetup.c:919 epgsearchsetup.c:924 epgsearchsetup.c:927
-#: menu_searchedit.c:108 menu_searchedit.c:402 menu_searchedit.c:504
-#: menu_searchedit.c:516 menu_searchedit.c:522 menu_searchedit.c:526
-#: menu_searchedit.c:531 menu_searchedit.c:536 menu_searchedit.c:541
-#: menu_searchedit.c:546 menu_searchedit.c:551 menu_searchedit.c:556
-#: menu_searchedit.c:563 menu_searchedit.c:566
 msgid "Button$Help"
 msgstr "Opaste"
 
-#: epgsearchsetup.c:105 epgsearchsetup.c:108 templatefile.c:292
 msgid "Standard"
 msgstr "Vakio"
 
-#: epgsearchsetup.c:106 menu_announcelist.c:53 menu_announcelist.c:55
-#: menu_conflictcheck.c:234 menu_favorites.c:185 menu_favorites.c:187
-#: menu_main.c:276 menu_main.c:282 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839 menu_whatson.c:586
-#: menu_whatson.c:591
 msgid "Button$Commands"
 msgstr "Komennot"
 
-#: epgsearchsetup.c:109 menu_main.c:276 menu_main.c:282 menu_whatson.c:589
-#: menu_whatson.c:594
 msgid "Button$Search"
 msgstr "Etsi"
 
-#: epgsearchsetup.c:112
 msgid "pipes"
 msgstr "teksti"
 
-#: epgsearchsetup.c:113
 msgid "graphical"
 msgstr "grafiikka"
 
-#: epgsearchsetup.c:118
 msgid "never"
 msgstr "ei koskaan"
 
-#: epgsearchsetup.c:119
 msgid "always"
 msgstr "aina"
 
-#: epgsearchsetup.c:120
 msgid "smart"
 msgstr "älykkäästi"
 
-#: epgsearchsetup.c:123
 msgid "before user-def. times"
 msgstr "ennen ajankohtia"
 
-#: epgsearchsetup.c:124
 msgid "after user-def. times"
 msgstr "ajankohtien jälkeen"
 
-#: epgsearchsetup.c:147 epgsearchsetup.c:295 epgsearchsetup.c:340
 msgid "General"
 msgstr "Yleiset"
 
-#: epgsearchsetup.c:148 epgsearchsetup.c:297 epgsearchsetup.c:396
 msgid "EPG menus"
 msgstr "Valikot"
 
-#: epgsearchsetup.c:149 epgsearchsetup.c:299 epgsearchsetup.c:457
 msgid "User-defined EPG times"
 msgstr "Käyttäjän määrittelemät ajankohdat"
 
-#: epgsearchsetup.c:150 epgsearchsetup.c:301 epgsearchsetup.c:555
 msgid "Timer programming"
 msgstr "Ajastimien luonti"
 
-#: epgsearchsetup.c:151 epgsearchsetup.c:303 epgsearchsetup.c:636
 msgid "Search and search timers"
 msgstr "Haut ja hakuajastimet"
 
-#: epgsearchsetup.c:152 epgsearchsetup.c:305 epgsearchsetup.c:751
 msgid "Timer conflict checking"
 msgstr "Päällekkäisten ajastimien tarkistus"
 
-#: epgsearchsetup.c:153 epgsearchsetup.c:307 epgsearchsetup.c:830
 msgid "Email notification"
 msgstr "Ilmoitukset sähköpostilla"
 
-#: epgsearchsetup.c:351
 msgid "Hide main menu entry"
 msgstr "Piilota valinta päävalikosta"
 
-#: epgsearchsetup.c:352
 msgid "Help$Hides the main menu entry and may be useful if this plugin is used to replace the original 'Schedule' entry."
 msgstr "Piilottaa valinnan päävalikosta. Suositellaan asetettavaksi päälle, jos laajennoksella korvataan alkuperäinen ohjelmaopas."
 
-#: epgsearchsetup.c:355
 msgid "Main menu entry"
 msgstr "Valinta päävalikossa"
 
-#: epgsearchsetup.c:356
 msgid "Help$The name of the main menu entry which defaults to 'Programm guide'."
 msgstr "Päävalikossa sijaitsevan valinnan nimi, joka on oletuksena 'Ohjelmaopas'."
 
-#: epgsearchsetup.c:358
 msgid "Replace original schedule"
 msgstr "Korvaa alkuperäinen ohjelmaopas"
 
-#: epgsearchsetup.c:359
 msgid "Help$When VDR is patched to allow this plugin to replace the original 'Schedule' entry, you can de/activate this replacement here."
 msgstr "Korvaa alkuperäisen ohjelmaoppaan päävalikossa tällä laajennoksella, jos VDR on paikattu asianmukaisesti."
 
-#: epgsearchsetup.c:360
 msgid "Start menu"
 msgstr "Oletusnäyttö"
 
-#: epgsearchsetup.c:361
 msgid "Help$Choose between 'Overview - Now' and 'Schedule' as start menu when this plugin is called."
 msgstr "Valitsee oletusnäytöksi joko tämänhetkisen yleiskatsauksen tai valitun kanavan ohjelmiston."
 
-#: epgsearchsetup.c:407
 msgid "Ok key"
 msgstr "'OK' näppäin"
 
-#: epgsearchsetup.c:408
 msgid ""
 "Help$Choose here the behaviour of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
 "Note: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."
@@ -239,11 +170,9 @@ msgstr ""
 "Valitse toiminto 'OK' näppäimelle: näytä ohjelman tiedot tai vaihda kyseiselle kanavalle.\n"
 "Huomioi: sinisen näppäimen toiminto (Vaihda/Tiedot/Hae) riippuu tästä asetuksesta"
 
-#: epgsearchsetup.c:410
 msgid "Red key"
 msgstr "Punainen näppäin"
 
-#: epgsearchsetup.c:411
 msgid ""
 "Help$Choose which standard function ('Record' or 'Commands') you like to have on the red key.\n"
 "(Can be toggled with key '0')"
@@ -251,11 +180,9 @@ msgstr ""
 "Valitsee oletustoiminnon ('Tallenna' tai 'Komennot') punaiselle näppäimelle.\n"
 "Punaisen näppäimen toimintoa voidaan vaihtaa myös lennossa painamalla '0' näppäintä."
 
-#: epgsearchsetup.c:412
 msgid "Blue key"
 msgstr "Sininen näppäin"
 
-#: epgsearchsetup.c:413
 msgid ""
 "Help$Choose which standard function ('Switch'/'Info' or 'Search') you like to have on the blue key.\n"
 "(Can be toggled with key '0')"
@@ -263,11 +190,9 @@ msgstr ""
 "Valitsee oletustoiminnon ('Valitse' tai 'Etsi') siniselle näppäimelle.\n"
 "Sinisen näppäimen toimintoa voidaan vaihtaa myös lennossa painamalla '0' näppäintä."
 
-#: epgsearchsetup.c:415
 msgid "Show progress in 'Now'"
 msgstr "Näytä aikajana 'Nyt'-sivulla"
 
-#: epgsearchsetup.c:416
 msgid ""
 "Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event.\n"
 "Depending on your selected skin you can choose between 'Pipes' or 'graphical' to get the best look."
@@ -275,11 +200,9 @@ msgstr ""
 "Näyttää aikajanan tämänhetkisessä yleiskatsauksessa.\n"
 "Voit valita käyttämäsi ulkoasun mukaan joko teksti- tai grafiikkapohjaisen aikajanan."
 
-#: epgsearchsetup.c:417
 msgid "Show channel numbers"
 msgstr "Näytä kanavien numerointi"
 
-#: epgsearchsetup.c:418
 msgid ""
 "Help$Display channel numbers in 'Overview - Now'.\n"
 "\n"
@@ -289,59 +212,45 @@ msgstr ""
 "\n"
 "Lisätietoja valikon muokkauksesta löytyy MANUAL-tiedostosta."
 
-#: epgsearchsetup.c:419
 msgid "Show channel separators"
 msgstr "Näytä kanavaerottimet"
 
-#: epgsearchsetup.c:420
 msgid "Help$Display VDR channel groups as separators between your channels in 'Overview - Now'."
 msgstr "Näyttää erottimet yleiskatsauksessa kanavaville."
 
-#: epgsearchsetup.c:421
 msgid "Show day separators"
 msgstr "Näytä päiväerottimet"
 
-#: epgsearchsetup.c:422
 msgid "Help$Display a separator line at day break in 'Schedule'."
 msgstr "Näyttää erottimet ohjelmistossa päivän vaihtuessa."
 
-#: epgsearchsetup.c:423
 msgid "Show radio channels"
 msgstr "Näytä radiokanavat"
 
-#: epgsearchsetup.c:424
 msgid "Help$Show also radio channels."
 msgstr "Näyttää myös radiokanavat listauksessa."
 
-#: epgsearchsetup.c:425
 msgid "Limit channels from 1 to"
 msgstr "Näytettävien kanavien rajoitus"
 
-#: epgsearchsetup.c:426
 msgid "Help$If you have a large channel set you can speed up things when you limit the displayed channels with this setting. Use '0' to disable the limit."
 msgstr "Voit nopeuttaa toimintoja rajoittamalla näytettävien kanavien lukumäärää tällä asetuksella. Poistat rajoituksen asettamalla arvoksi nollan."
 
-#: epgsearchsetup.c:427
 msgid "'One press' timer creation"
 msgstr "Luo ajastimet yhdellä painalluksella"
 
-#: epgsearchsetup.c:428
 msgid "Help$When a timer is created with 'Record' you can choose between an immediate creation of the timer or the display of the timer edit menu."
 msgstr "Valitsee oletustoiminnon ajastimen luonnille. Voit luoda ajastimen joko automaattisesti yhdellä painalluksella tai vaihtoehtoisesti avata ajastinvalikon."
 
-#: epgsearchsetup.c:429
 msgid "Show channels without EPG"
 msgstr "Näytä ohjelmaoppaattomat kanavat"
 
-#: epgsearchsetup.c:430
 msgid "Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."
 msgstr "Näyttää tämänhetkisessä yleiskatsauksessa myöskin kanavat, joilta ei löydy ohjelmatietoja. Voit vaihtaa tälläiselle kanavalle 'OK' näppäimellä."
 
-#: epgsearchsetup.c:431
 msgid "Time interval for FRew/FFwd [min]"
 msgstr "Oletusaikasiirtymä [min]"
 
-#: epgsearchsetup.c:432
 msgid ""
 "Help$Choose here the time interval which should be used for jumping through the EPG by pressing FRew/FFwd.\n"
 "\n"
@@ -351,19 +260,15 @@ msgstr ""
 "\n"
 "Jos sinulla ei ole kyseisiä näppäimiä käytössäsi, voit asettaa kyseiset toiminnot vihreälle ja keltaiselle näppäimelle painamalla '0' näppäintä."
 
-#: epgsearchsetup.c:433
 msgid "Toggle Green/Yellow"
 msgstr "Käytä aikasiirtymää värinäppäimillä"
 
-#: epgsearchsetup.c:434
 msgid "Help$Specify if green and yellow shall also be switched when pressing '0'."
 msgstr "Määrittelee vaihdetaanko vihreän ja keltaisen näppäimen toimintoja painamalla '0' näppäintä."
 
-#: epgsearchsetup.c:436
 msgid "Show favorites menu"
 msgstr "Näytä suosikkivalikko"
 
-#: epgsearchsetup.c:437
 msgid ""
 "Help$A favorites menu can display a list of your favorite broadcasts. Enable this if you want an additional menu besides 'Now' and 'Next'\n"
 "Any search can be used as a favorite. You only have to set the option 'Use in favorites menu' when editing a search."
@@ -371,49 +276,33 @@ msgstr ""
 "Suosikkivalikossa listataan suosikiksi merkityt ohjelmat. Jos tämä valinta on aktiivinen, suosikkivalikko löytyy 'Nyt'- ja 'Seuraavaksi'-valikkojen rinnalta. \n"
 "Mikä tahansa haku voidaan merkitä suosikiksi aktivoimalla 'Käytä suosikkina'-valinta."
 
-#: epgsearchsetup.c:440
 msgid "for the next ... hours"
 msgstr "seuraaville ... tunnille"
 
-#: epgsearchsetup.c:441
 msgid "Help$This value controls the timespan used to display your favorites."
 msgstr "Tämä arvo määrittelee käytetyn ajanjakson suosikkien näyttämiselle."
 
-#: epgsearchsetup.c:469 epgsearchsetup.c:481 epgsearchsetup.c:493
-#: epgsearchsetup.c:505
 msgid "Use user-defined time"
 msgstr "Määrittele ajankohta"
 
-#: epgsearchsetup.c:471 epgsearchsetup.c:483 epgsearchsetup.c:495
-#: epgsearchsetup.c:507
 msgid "Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."
 msgstr "Määrittelee käyttäjän muokattavissa olevat ajankohdat 'Nyt' ja 'Seuraavaksi' näyttöjen rinnalle ohjelmaoppaan yleiskatsaukseen."
 
-#: epgsearchsetup.c:474 epgsearchsetup.c:486 epgsearchsetup.c:498
-#: epgsearchsetup.c:510
 msgid "Description"
 msgstr "Kuvaus"
 
-#: epgsearchsetup.c:475 epgsearchsetup.c:487 epgsearchsetup.c:499
-#: epgsearchsetup.c:511
 msgid "Help$This is the description for your user-defined time as it will appear as label on the green button."
 msgstr "Asettaa kuvauksen vihreään näppäimeen käyttäjän muokkaamalle ajankohdalle."
 
-#: epgsearchsetup.c:476 epgsearchsetup.c:488 epgsearchsetup.c:500
-#: epgsearchsetup.c:512
 msgid "Time"
 msgstr "Kellonaika"
 
-#: epgsearchsetup.c:477 epgsearchsetup.c:489 epgsearchsetup.c:501
-#: epgsearchsetup.c:513
 msgid "Help$Specify the user-defined time here in 'HH:MM'."
 msgstr "Asettaa kellonajan käyttäjän muokkaamalle ajankohdalle."
 
-#: epgsearchsetup.c:566
 msgid "Use VDR's timer edit menu"
 msgstr "Käytä alkuperäistä ajastinvalikkoa"
 
-#: epgsearchsetup.c:567
 msgid ""
 "Help$This plugin has it's own timer edit menu extending the original one with some extra functionality like\n"
 "- an addtional directory entry\n"
@@ -428,20 +317,15 @@ msgstr ""
 "- jakson nimen täydennys\n"
 "- erilaisten EPG-muuttujien tuki (kts. MANUAL-tiedostosta)"
 
-#: epgsearchsetup.c:568 epgsearchsetup.c:585 epgsearchsetup.c:587
-#: epgsearchsetup.c:606
 msgid "Default recording dir"
 msgstr "Oletushakemisto tallenteille"
 
-#: epgsearchsetup.c:569
 msgid "Help$When creating a timer you can specify here a default recording directory."
 msgstr "Määrittelee oletushakemiston tallenteille."
 
-#: epgsearchsetup.c:570
 msgid "Add episode to manual timers"
 msgstr "Lisää jakson nimi norm. ajastimiin"
 
-#: epgsearchsetup.c:571
 msgid ""
 "Help$If you create a timer for a series, you can automatically add the episode name.\n"
 "\n"
@@ -455,12 +339,9 @@ msgstr ""
 "- aina: lisätään aina, jos olemassa\n"
 "- älykkäästi: lisätään vain, jos tapahtuman kesto on alle 80 min"
 
-#: epgsearchsetup.c:572 epgsearchsetup.c:590 epgsearchsetup.c:608
-#: menu_deftimercheckmethod.c:129
 msgid "Default timer check method"
 msgstr "Oletustapa ajastimen valvonnalle"
 
-#: epgsearchsetup.c:573
 msgid ""
 "Help$Manual timers can be checked for EPG changes. Here you can setup the default check method for each channel. Choose between\n"
 "\n"
@@ -474,160 +355,114 @@ msgstr ""
 "- tapahtuman tunniste: ohjelmisto-oppaassa lähetettävän tunnisteen mukaan\n"
 "- kanava ja aika: tapahtuman keston ja ajankohdan mukaan"
 
-#: epgsearchsetup.c:591 epgsearchsetup.c:689 epgsearchsetup.c:691
-#: epgsearchsetup.c:693 menu_blacklistedit.c:325 menu_blacklistedit.c:330
-#: menu_quicksearch.c:223 menu_quicksearch.c:228 menu_quicksearch.c:233
-#: menu_searchedit.c:522 menu_searchedit.c:536 menu_searchedit.c:541
-#: menu_searchedit.c:546 menu_searchedit.c:551 menu_searchedit.c:556
-#: menu_searchedit.c:871 menu_searchresults.c:809 menu_templateedit.c:137
-#: menu_templateedit.c:151 menu_templateedit.c:156 menu_templateedit.c:161
-#: menu_templateedit.c:166 menu_templateedit.c:171
 msgid "Button$Setup"
 msgstr "Asetukset"
 
-#: epgsearchsetup.c:647
 msgid "Use search timers"
 msgstr "Käytä hakuajastimia"
 
-#: epgsearchsetup.c:648
 msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criterions."
 msgstr "Hakuajastimilla luodaan automaattisesti ajastimia hakuehtoihin sopiviin tapahtumiin."
 
-#: epgsearchsetup.c:651
 msgid "  Update interval [min]"
 msgstr "  Päivitysväli [min]"
 
-#: epgsearchsetup.c:652
 msgid "Help$Specify here the time intervall to be used when searching for events in the background."
 msgstr "Määrittelee päivitysvälin hakuajastimien taustapäivitykselle."
 
-#: epgsearchsetup.c:653
 msgid "  SVDRP port"
 msgstr "  SVDRP-portti"
 
-#: epgsearchsetup.c:654
 msgid "Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."
 msgstr "Uusien ajastimien luonti ja olemassa olevien muokkaus on toteutettu SVDRP-protokollan kautta. Suositellaan käytettävän vain oletusarvoa."
 
-#: epgsearchsetup.c:656
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Määrittelee oletusprioriteetin tämän laajennoksen kautta luotaville ajastimille. Prioriteettia voidaan muokata ajastinkohtaisesti."
 
-#: epgsearchsetup.c:658
 msgid "Help$Specify here the default lifetime of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Määrittelee oletuseliniän tämän laajennoksen kautta luotaville ajastimille. Elinaikaa voidaan muokata ajastinkohtaisesti."
 
-#: epgsearchsetup.c:660
 msgid "Help$Specify here the default start recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Määrittelee oletusmarginaalin tallennuksen aloitukselle tämän laajennoksen kautta luotaville ajastimille. Marginaaleja voidaan muokata ajastinkohtaisesti."
 
-#: epgsearchsetup.c:662
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Määrittelee oletusmarginaalin tallennuksen lopetukselle tämän laajennoksen kautta luotaville ajastimille. Marginaaleja voidaan muokata ajastinkohtaisesti."
 
-#: epgsearchsetup.c:663
 msgid "No announcements when replaying"
 msgstr "Älä muistuta toiston aikana"
 
-#: epgsearchsetup.c:664
 msgid "Help$Set this to 'yes' if you don't like to get any announcements of broadcasts if you currently replay anything."
 msgstr "Laittamalla tämän asetuksen päälle et saa ohjelmista muistutuksia toistettaessa tallenteita."
 
-#: epgsearchsetup.c:665
 msgid "Recreate timers after deletion"
 msgstr "Luo ajastimet uudelleen"
 
-#: epgsearchsetup.c:666
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
 msgstr "Laittamalla tämän asetuksen päälle saat luotua ajastimet uudelleen seuraava hakuajastin päivityksen yhteydessä, jos olet poistanut ne."
 
-#: epgsearchsetup.c:669
 msgid "Ignore PayTV channels"
 msgstr "Jätä salatut kanavat huomioimatta"
 
-#: epgsearchsetup.c:670
 msgid "Help$Set this to 'yes' if don't want to see events on PayTV channels when searching for repeats."
 msgstr "Piilottaa salatut kanavat haettaessa uusintoja."
 
-#: epgsearchsetup.c:671 epgsearchsetup.c:690 epgsearchsetup.c:718
-#: menu_searchtemplate.c:104
 msgid "Search templates"
 msgstr "Mallipohjat hakuehdoille"
 
-#: epgsearchsetup.c:672
 msgid "Help$Here you can setup templates for your searches."
 msgstr "Määrittele mallipohjia hakuehdoille."
 
-#: epgsearchsetup.c:673 epgsearchsetup.c:692 epgsearchsetup.c:720
-#: menu_blacklists.c:96
 msgid "Blacklists"
 msgstr "Mustat listat"
 
-#: epgsearchsetup.c:674
 msgid "Help$Here you can setup blacklists which can be used within a search to exclude events you don't like."
 msgstr "Määrittele mustia listoja hakuehdoille. Mustien listojen tapahtumia ei näytetä hakutuloksissa."
 
-#: epgsearchsetup.c:676
 msgid "Help$Here you can setup channel groups which can be used within a search. These are different to VDR channel groups and represent a set of arbitrary channels, e.g. 'FreeTV'."
 msgstr "Määrittele kanavaryhmiä hakuehdoille. Tämän laajennoksen kanavaryhmät eivät ole yhteydessä VDR:n omiin kanavaryhmiin."
 
-#: epgsearchsetup.c:762
 msgid "Ignore below priority"
 msgstr "Sivuuta alhaisemmat prioriteetit"
 
-#: epgsearchsetup.c:763
 msgid "Help$If a timer with priority below the given value will fail it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
 msgstr "Asetusarvoa korkeammalla prioriteetilla olevat ajastimet ovat merkitseviä. Vain merkitsevät päällekkäisyydet aiheuttavat viestin kuvaruutunäytölle automaattisen tarkistuksen yhteydessä."
 
-#: epgsearchsetup.c:764
 msgid "Ignore conflict duration less ... min."
 msgstr "Sivuuta alle ... min. päällekkäisyydet"
 
-#: epgsearchsetup.c:765
 msgid "Help$If a conflicts duration is less then the given number of minutes it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
 msgstr "Jos ajastimien päällekkäisyys on alle asetetun minuuttimäärän, sitä ei pidetä merkitsevänä. Vain merkitsevät päällekkäisyydet aiheuttavat viestin kuvaruutunäytölle tarkistuksen yhteydessä."
 
-#: epgsearchsetup.c:766
 msgid "Only check within next ... days"
 msgstr "Tarkista vain seuraavat ... päivää"
 
-#: epgsearchsetup.c:767
 msgid "Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."
 msgstr "Asettaa ajanjakson päivinä päällekkäisyyksien tarkistukselle. Muita päällekkäisyyksiä ei pidetä vielä merkitsevinä."
 
-#: epgsearchsetup.c:769
 msgid "--- Automatic checking ---"
 msgstr "--- Automaattinen tarkistus ---"
 
-#: epgsearchsetup.c:774
 msgid "After each timer programming"
 msgstr "Jokaisen ajastimen luonnin jälkeen"
 
-#: epgsearchsetup.c:775
 msgid "Help$Set this to 'yes' if the conflict check should be performed after each manual timer programming. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if this timer is involved in any conflict."
 msgstr "Päällekkäisten ajastimien tarkistus suoritaan aina jokaisen ajastimen luonnin jälkeen. Jos luodulle ajastimelle löydetään päällekkäisyyksiä, niin siitä tiedotetaan käyttäjälle heti."
 
-#: epgsearchsetup.c:776
 msgid "When a recording starts"
 msgstr "Tallennuksen alkaessa"
 
-#: epgsearchsetup.c:777
 msgid "Help$Set this to 'yes' if the conflict check should be performed when a recording starts. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if the conflict is within the next 2 hours."
 msgstr "Päällekkäisten ajastimien tarkistus suoritaan aina tallennuksen alkaessa. Jos luodulle ajastimelle löydetään päällekkäisyyksiä seuraavan kahden tunnin aikana, niin siitä tiedotetaan käyttäjälle heti."
 
-#: epgsearchsetup.c:779
 msgid "After each search timer update"
 msgstr "Päivitettäessä hakuajastimia"
 
-#: epgsearchsetup.c:780
 msgid "Help$Set this to 'yes' if the conflict check should be performed after each search timer update."
 msgstr "Suorittaa päällekkäisyyksien tarkistuksen jokaisen hakuajastimen päivityksen yhteydessä."
 
-#: epgsearchsetup.c:783 epgsearchsetup.c:789
 msgid "every ... minutes"
 msgstr "joka ... minuutti"
 
-#: epgsearchsetup.c:784
 msgid ""
 "Help$Specify here the time intervall to be used for an automatic conflict check in the background.\n"
 "('0' disables an automatic check)"
@@ -635,51 +470,39 @@ msgstr ""
 "Määrittää aikajakson taustalla tehtävälle automaattiselle päällekkäisyyksien tarkistukselle.\n"
 "Arvolla '0' saat asetettua automaattisen tarkistuksen pois päältä"
 
-#: epgsearchsetup.c:785
 msgid "if conflicts within next ... minutes"
 msgstr "jos päällekkäisyys ... min. kuluessa"
 
-#: epgsearchsetup.c:786 epgsearchsetup.c:790
 msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."
 msgstr "Jos seuraava päällekkäisyys esiintyy asetetun ajan kuluessa, tällä asetuksella pystyt määrittämään lyhyemmän tarkistusvälin saadaksesi tarkempia kuvaruutuviestejä."
 
-#: epgsearchsetup.c:793
 msgid "Avoid notification when replaying"
 msgstr "Älä näytä ilmoituksia toiston aikana"
 
-#: epgsearchsetup.c:794
 msgid "Help$Set this to 'yes' if the don't want to get OSD messages about conflicts if you currently replay something. Nevertheless messages will be displayed if the first upcoming conflict is within the next 2 hours."
 msgstr "Laittamalla tämän asetuksen päälle saat estettyä kuvaruutuviestit päällekkäisistä ajastimista toiston aikana. Kuvaruutuviesti näytetään kuitenkin aina, jos päällekkäinen ajastin on alle kahden tunnin kuluttua."
 
-#: epgsearchsetup.c:843
 msgid "Search timer notification"
 msgstr "Ilmoitukset hakuajastimista"
 
-#: epgsearchsetup.c:844
 msgid "Help$Set this to 'yes' if you want to get an email notification about the search timers that where programmed automatically in the background."
 msgstr "Tällä asetuksella saat ilmoitukset automaattisesti lisätyistä hakuajastimista sähköpostiisi."
 
-#: epgsearchsetup.c:846
 msgid "Timer conflict notification"
 msgstr "Ilmoitukset päällekkäisistä ajastimista"
 
-#: epgsearchsetup.c:847
 msgid "Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."
 msgstr "Tällä asetuksella saat ilmoitukset päällekkäisistä ajastimista sähköpostiisi."
 
-#: epgsearchsetup.c:849
 msgid "Send to"
 msgstr "Vastaanottaja"
 
-#: epgsearchsetup.c:850
 msgid "Help$Specify the email adress where notifications should be sent to."
 msgstr "Määrittelee sähköpostiosoitteen, jonne ilmoitukset lähetetään."
 
-#: epgsearchsetup.c:852
 msgid "Mail method"
 msgstr "Lähetystapa"
 
-#: epgsearchsetup.c:853
 msgid ""
 "Help$Specify here the method to use when sending mails.\n"
 "You can choose between\n"
@@ -691,659 +514,469 @@ msgstr ""
 " - 'sendmail': vaatii oikein konfiguroidun sähköpostisysteemin\n"
 " - 'SendEmail.pl': yksinkertainen skriptitiedosto sähköpostin lähetykseen"
 
-#: epgsearchsetup.c:857
 msgid "--- Email account ---"
 msgstr "--- Sähköposti ---"
 
-#: epgsearchsetup.c:862 epgsearchsetup.c:904 epgsearchsetup.c:906
 msgid "Email adress"
 msgstr "Sähköpostiosoite"
 
-#: epgsearchsetup.c:863
 msgid "Help$Specify the email adress where notifications should be sent from."
 msgstr "Määrittelee sähköpostiosoitteen, josta ilmoitukset lähetetään."
 
-#: epgsearchsetup.c:865 epgsearchsetup.c:909 epgsearchsetup.c:911
 msgid "SMTP server"
 msgstr "SMTP-palvelin"
 
-#: epgsearchsetup.c:866
 msgid "Help$Specify the SMTP server that should deliver the notifications. If it's using a port different from the default(25) append the port with \":port\"."
 msgstr "Määrittelee käytettävän SMTP-palvelimen. Portti voidaan määritellä erikseen lisäämällä palvelimen osoitteen loppuun \":portti\", jos se eroaa oletuksesta (25)."
 
-#: epgsearchsetup.c:867 epgsearchsetup.c:914
 msgid "Use SMTP authentication"
 msgstr "Käytä SMTP-autentikointia"
 
-#: epgsearchsetup.c:868
 msgid "Help$Set this to 'yes' if your account needs authentication to send mails."
 msgstr "Asettaa SMTP-autentikoinnin päälle sähköpostin lähetystä varten."
 
-#: epgsearchsetup.c:872 epgsearchsetup.c:916 epgsearchsetup.c:918
 msgid "Auth user"
 msgstr "SMTP-käyttäjätunnus"
 
-#: epgsearchsetup.c:873
 msgid "Help$Specify the auth user, if this account needs authentication for SMTP."
 msgstr "Määrittelee käyttäjätunnuksen, jos SMTP-palvelimelle pitää autentikoida."
 
-#: epgsearchsetup.c:874 epgsearchsetup.c:921 epgsearchsetup.c:923
-#: epgsearchsetup.c:938 epgsearchsetup.c:939 epgsearchsetup.c:945
-#: epgsearchsetup.c:946
 msgid "Auth password"
 msgstr "SMTP-salasana"
 
-#: epgsearchsetup.c:875
 msgid "Help$Specify the auth password, if this account needs authentication for SMTP."
 msgstr "Määrittelee salasanan, jos SMTP-palvelimelle pitää autentikoida."
 
-#: epgsearchsetup.c:893
 msgid "Mail account check failed!"
 msgstr "Sähköpostilaatikon tarkistus epäonnistui!"
 
-#: epgsearchsetup.c:907 epgsearchsetup.c:912 epgsearchsetup.c:915
-#: epgsearchsetup.c:919 epgsearchsetup.c:924
 msgid "Button$Test"
 msgstr "Testaa"
 
-#: epgsearchtools.c:47
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 msgstr " abcdefghijklmnopqrstuvwxyzåäö0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
-#: mail.c:313
 msgid "No new timers were added."
 msgstr "Yhtään uutta ajastinta ei lisätty."
 
-#: mail.c:324
 msgid "No timers were modified."
 msgstr "Yhtään ajastinta ei muokattu."
 
-#: mail.c:335
 msgid "No timers were deleted."
 msgstr "Yhtään ajastinta ei poistettu."
 
-#: mainmenushortcut.c:126
 msgid "This version of EPGSearch does not support this service!"
 msgstr "EPGSearch-laajennos ei tarjoa vaadittavaa palvelua!"
 
-#: mainmenushortcut.c:133
 msgid "EPGSearch does not exist!"
 msgstr "EPGSearch-laajennosta ei löydy!"
 
-#: menu_announcelist.c:33
 #, c-format
 msgid "%d new broadcast"
 msgstr "%d uutta lähetystä"
 
-#: menu_announcelist.c:53 menu_announcelist.c:55 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839
-msgid "Button$Episode"
-msgstr "Jaksot"
-
-#: menu_announcelist.c:53 menu_announcelist.c:55 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839
-msgid "Button$Title"
-msgstr "Nimet"
-
-#: menu_announcelist.c:53 menu_announcelist.c:55 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839
 msgid "Button$by channel"
 msgstr "Kanavat"
 
-#: menu_announcelist.c:53 menu_announcelist.c:55 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839
 msgid "Button$by time"
 msgstr "Kellonajat"
 
-#: menu_announcelist.c:95
+msgid "Button$Episode"
+msgstr "Jaksot"
+
+msgid "Button$Title"
+msgstr "Nimet"
+
 msgid "announce details"
 msgstr "Muistutuksen tiedot"
 
-#: menu_announcelist.c:129
 msgid "announce again"
 msgstr "Muistuta uudelleen"
 
-#: menu_announcelist.c:132
 msgid "with next update"
 msgstr "Seuraavassa päivityksessä"
 
-#: menu_announcelist.c:134
 msgid "again from"
 msgstr "Alkaen taas"
 
-#: menu_announcelist.c:146 menu_myedittimer.c:160
 msgid "Search timer"
 msgstr "Hakuajastin"
 
-#: menu_blacklistedit.c:43
 msgid "Edit blacklist"
 msgstr "Muokkaa mustaa listaa"
 
-#: menu_blacklistedit.c:45 menu_searchedit.c:53 menu_searchedit.c:1024
 msgid "phrase"
 msgstr "fraasi"
 
-#: menu_blacklistedit.c:46 menu_searchedit.c:54 menu_searchedit.c:1026
 msgid "all words"
 msgstr "kaikki sanat"
 
-#: menu_blacklistedit.c:47 menu_searchedit.c:55 menu_searchedit.c:1028
 msgid "at least one word"
 msgstr "yksi sana"
 
-#: menu_blacklistedit.c:48 menu_searchedit.c:56 menu_searchedit.c:1030
 msgid "match exactly"
 msgstr "täsmällinen"
 
-#: menu_blacklistedit.c:49 menu_searchedit.c:57 menu_searchedit.c:1032
 msgid "regular expression"
 msgstr "säännöllinen lauseke"
 
-#: menu_blacklistedit.c:50 menu_searchedit.c:58
 msgid "fuzzy"
 msgstr "sumea"
 
-#: menu_blacklistedit.c:59 menu_searchedit.c:67 menu_searchedit.c:88
 msgid "user-defined"
 msgstr "valitut"
 
-#: menu_blacklistedit.c:62 menu_searchedit.c:70
 msgid "interval"
 msgstr "kyllä"
 
-#: menu_blacklistedit.c:63 menu_searchedit.c:71
 msgid "channel group"
 msgstr "kanavaryhmä"
 
-#: menu_blacklistedit.c:64 menu_searchedit.c:72
 msgid "only FTA"
 msgstr "vapaat kanavat"
 
-#: menu_blacklistedit.c:141 menu_blacklistedit.c:305 menu_blacklistedit.c:307
-#: menu_blacklistedit.c:339 menu_quicksearch.c:50 menu_quicksearch.c:204
-#: menu_quicksearch.c:206 menu_quicksearch.c:241 menu_searchedit.c:196
-#: menu_searchedit.c:500 menu_searchedit.c:502 menu_searchedit.c:565
 msgid "Search term"
 msgstr "Hakutermi"
 
-#: menu_blacklistedit.c:142 menu_quicksearch.c:53 menu_searchedit.c:200
-#: menu_searchedit.c:1022
 msgid "Search mode"
 msgstr "Hakutapa"
 
-#: menu_blacklistedit.c:144 menu_quicksearch.c:55 menu_searchedit.c:205
 msgid "Tolerance"
 msgstr "Toleranssi"
 
-#: menu_blacklistedit.c:145 menu_quicksearch.c:57 menu_searchedit.c:209
 msgid "Match case"
 msgstr "Huomioi kirjainkoko"
 
-#: menu_blacklistedit.c:146 menu_quicksearch.c:58 menu_searchedit.c:211
 msgid "Use title"
 msgstr "Käytä ohjelmanimeä"
 
-#: menu_blacklistedit.c:147 menu_quicksearch.c:59 menu_searchedit.c:213
 msgid "Use subtitle"
 msgstr "Käytä lyhyttä ohjelmakuvausta"
 
-#: menu_blacklistedit.c:148 menu_quicksearch.c:60 menu_searchedit.c:215
 msgid "Use description"
 msgstr "Käytä ohjelmakuvausta"
 
-#: menu_blacklistedit.c:153 menu_quicksearch.c:66 menu_searchedit.c:221
 msgid "Use extended EPG info"
 msgstr "Käytä laajennettua ohjelmaopasta"
 
-#: menu_blacklistedit.c:168 menu_searchedit.c:238
 msgid "Ignore missing categories"
 msgstr "Jätä puuttuvat kategoriat huomioimatta"
 
-#: menu_blacklistedit.c:171 menu_blacklistedit.c:323 menu_quicksearch.c:80
-#: menu_quicksearch.c:221 menu_searchedit.c:242 menu_searchedit.c:534
-#: menu_templateedit.c:149
 msgid "Use channel"
 msgstr "Käytä kanavaa"
 
-#: menu_blacklistedit.c:174 menu_blacklistedit.c:268 menu_quicksearch.c:83
-#: menu_quicksearch.c:167 menu_searchedit.c:245 menu_searchedit.c:457
-#: menu_templateedit.c:82
 msgid "  from channel"
 msgstr "  Kanavasta"
 
-#: menu_blacklistedit.c:175 menu_quicksearch.c:84 menu_searchedit.c:246
 msgid "  to channel"
 msgstr "  Kanavaan"
 
-#: menu_blacklistedit.c:193 menu_blacklistedit.c:328 menu_quicksearch.c:102
-#: menu_quicksearch.c:226 menu_searchedit.c:264 menu_searchedit.c:539
-#: menu_templateedit.c:154
 msgid "Channel group"
 msgstr "Kanavaryhmä"
 
-#: menu_blacklistedit.c:196 menu_quicksearch.c:105 menu_searchedit.c:267
 msgid "Use time"
 msgstr "Käytä aloitusaikaa"
 
-#: menu_blacklistedit.c:199 menu_quicksearch.c:108 menu_searchedit.c:270
 msgid "  Start after"
 msgstr "  Aloitusaika aikaisintaan"
 
-#: menu_blacklistedit.c:200 menu_quicksearch.c:109 menu_searchedit.c:271
 msgid "  Start before"
 msgstr "  Aloitusaika viimeistään"
 
-#: menu_blacklistedit.c:202 menu_quicksearch.c:111 menu_searchedit.c:273
 msgid "Use duration"
 msgstr "Käytä kestoaikaa"
 
-#: menu_blacklistedit.c:205 menu_quicksearch.c:114 menu_searchedit.c:276
 msgid "  Min. duration"
 msgstr "  Kestoaika vähintään"
 
-#: menu_blacklistedit.c:206 menu_quicksearch.c:115 menu_searchedit.c:277
 msgid "  Max. duration"
 msgstr "  Kestoaika enintään"
 
-#: menu_blacklistedit.c:208 menu_quicksearch.c:117 menu_searchedit.c:279
 msgid "Use day of week"
 msgstr "Käytä viikonpäivää"
 
-#: menu_blacklistedit.c:216 menu_blacklistedit.c:313 menu_quicksearch.c:125
-#: menu_quicksearch.c:211 menu_searchedit.c:287 menu_searchedit.c:508
-#: menu_templateedit.c:123
 msgid "Day of week"
 msgstr "Viikonpäivä"
 
-#: menu_blacklistedit.c:309 menu_searchedit.c:108 menu_searchedit.c:504
 msgid "Button$Templates"
 msgstr "Mallipohjat"
 
-#: menu_blacklistedit.c:354 menu_blacklistedit.c:362 menu_myedittimer.c:333
-#: menu_quicksearch.c:256 menu_quicksearch.c:264 menu_searchedit.c:580
-#: menu_searchedit.c:588 menu_templateedit.c:195 menu_templateedit.c:203
 msgid "*** Invalid Channel ***"
 msgstr "*** Virheellinen kanavavalinta ***"
 
-#: menu_blacklistedit.c:367 menu_quicksearch.c:269 menu_searchedit.c:593
-#: menu_templateedit.c:208
 msgid "Please check channel criteria!"
 msgstr "Tarkasta hakuehdot!"
 
-#: menu_blacklists.c:129
 msgid "Edit$Delete blacklist?"
 msgstr "Poistetaanko musta lista?"
 
-#: menu_commands.c:54
 msgid "Repeats"
 msgstr "Toistuvat"
 
-#: menu_commands.c:57
 msgid "Create search"
 msgstr "Luo haku"
 
-#: menu_commands.c:58
 msgid "Search in recordings"
 msgstr "Etsi tallenteista"
 
-#: menu_commands.c:59 menu_commands.c:191
 msgid "Mark as 'already recorded'?"
 msgstr "Merkitse tallennetuksi"
 
-#: menu_commands.c:60
 msgid "Add/Remove to/from switch list?"
 msgstr "Lisää/poista kanavanvaihtolistalle"
 
-#: menu_commands.c:61
 msgid "Create blacklist"
 msgstr "Lisää mustalle listalle"
 
-#: menu_commands.c:67 menu_conflictcheck.c:251 menu_conflictcheck.c:382
-#: menu_event.c:142 menu_main.c:242 menu_main.c:368 menu_searchresults.c:270
-#: menu_searchresults.c:309 menu_whatson.c:553 menu_whatson.c:687
 msgid "EPG Commands"
 msgstr "Komennot"
 
-#: menu_commands.c:115 menu_main.c:226 menu_searchresults.c:259
-#: menu_whatson.c:444
 msgid "Can't switch channel!"
 msgstr "Kanavan vaihtaminen ei mahdollista!"
 
-#: menu_commands.c:208
 msgid "Already running!"
 msgstr "Nyt menossa!"
 
-#: menu_commands.c:214
 msgid "Add to switch list?"
 msgstr "Lisätäänkö kanavanvaihtolistalle?"
 
-#: menu_commands.c:223
 msgid "Delete from switch list?"
 msgstr "Poistetaanko kanavanvaihtolistalta?"
 
-#: menu_conflictcheck.c:76 menu_conflictcheck.c:78 menu_conflictcheck.c:80
 msgid "Button$Details"
 msgstr "Lisätiedot"
 
-#: menu_conflictcheck.c:78
 msgid "Button$Filter"
 msgstr "Suodata"
 
-#: menu_conflictcheck.c:80 menu_recsdone.c:91 menu_timersdone.c:94
 msgid "Button$Show all"
 msgstr "Näytä kaikki"
 
-#: menu_conflictcheck.c:89
 msgid "conflicts"
 msgstr "päällekkäisyyttä"
 
-#: menu_conflictcheck.c:116
 msgid "no conflicts!"
 msgstr "ei päällekkäisyyksiä!"
 
-#: menu_conflictcheck.c:116
 msgid "no important conflicts!"
 msgstr "ei merkitseviä päällekkäisyyksiä!"
 
-#: menu_conflictcheck.c:185
 msgid "C"
 msgstr "C"
 
-#: menu_conflictcheck.c:234
 msgid "Button$Repeats"
 msgstr "Toistuvat"
 
-#: menu_conflictcheck.c:284 menu_myedittimer.c:239
 msgid "Delete timer?"
 msgstr "Poistetaanko ajastin?"
 
-#: menu_conflictcheck.c:286 menu_myedittimer.c:241
 msgid "Timer still recording - really delete?"
 msgstr "Ajastettu tallennus käynnissä - poistetaanko silti?"
 
-#: menu_deftimercheckmethod.c:131 menu_myedittimer.c:42
 msgid "no check"
 msgstr "ei valvontaa"
 
-#: menu_deftimercheckmethod.c:132 menu_myedittimer.c:43
 msgid "by channel and time"
 msgstr "kanava ja aika"
 
-#: menu_deftimercheckmethod.c:133 menu_myedittimer.c:44
 msgid "by event ID"
 msgstr "tapahtuman tunniste"
 
-#: menu_dirselect.c:64
 msgid "Select directory"
 msgstr "Valitse hakemisto"
 
-#: menu_dirselect.c:224
 msgid "Button$Level"
 msgstr "Taso"
 
-#: menu_event.c:33
 msgid "Event"
 msgstr "Tapahtuma"
 
-#: menu_favorites.c:77
 msgid "Favorites"
 msgstr "Suosikit"
 
-#: menu_favorites.c:77 menu_searchresults.c:467
 msgid "Search results"
 msgstr "Hakutulokset"
 
-#: menu_main.c:84
 msgid "Schedule"
 msgstr "Ohjelmisto"
 
-#: menu_main.c:513 menu_searchresults.c:410 menu_whatson.c:794
 msgid "Timer conflict! Show?"
 msgstr "Päällekkäisiä ajastimia! Näytetäänkö?"
 
-#: menu_myedittimer.c:40
 msgid "Edit timer"
 msgstr "Muokkaa ajastinta"
 
-#: menu_myedittimer.c:126 menu_myedittimer.c:129
 msgid "Channel"
 msgstr "Kanava"
 
-#: menu_myedittimer.c:147 menu_myedittimer.c:150
 msgid "Childlock"
 msgstr "Lapsilukko"
 
-#: menu_myedittimer.c:156 menu_myedittimer.c:287 menu_myedittimer.c:289
-#: menu_myedittimer.c:313 menu_myedittimer.c:447 menu_myedittimer.c:461
-#: menu_searchedit.c:312 menu_searchedit.c:528 menu_searchedit.c:530
-#: menu_searchedit.c:672 menu_templateedit.c:143 menu_templateedit.c:145
-#: menu_templateedit.c:276
 msgid "Directory"
 msgstr "Hakemisto"
 
-#: menu_myedittimer.c:173
 msgid "Timer check"
 msgstr "Valvontatapa"
 
-#: menu_myedittimer.c:183
 msgid "recording with device"
 msgstr "Tallennetaan laitteella"
 
-#: menu_myedittimer.c:207 menu_myedittimer.c:209 menu_myedittimer.c:293
-#: menu_myedittimer.c:295 menu_myedittimer.c:314
 msgid "File"
 msgstr "Tiedosto"
 
-#: menu_myedittimer.c:218 menu_myedittimer.c:302
 msgid "Button$With subtitle"
 msgstr "Kuvaus"
 
-#: menu_myedittimer.c:224 menu_myedittimer.c:300
 msgid "Button$Without subtitle"
 msgstr "Ei kuvausta"
 
-#: menu_myedittimer.c:277
 msgid "Day"
 msgstr "Päivä"
 
-#: menu_quicksearch.c:34
 msgid "Button$Extended"
 msgstr "Laaja"
 
-#: menu_quicksearch.c:34
 msgid "Button$Simple"
 msgstr "Suppea"
 
-#: menu_quicksearch.c:127 menu_quicksearch.c:231 menu_searchedit.c:289
-#: menu_searchedit.c:544 menu_templateedit.c:159
 msgid "Use blacklists"
 msgstr "Käytä mustia listoja"
 
-#: menu_quicksearch.c:278 menu_searchedit.c:602
 msgid "Edit$Search text too short - use anyway?"
 msgstr "Liian suppea hakuehto - etsitäänkö silti?"
 
-#: menu_recsdone.c:91 menu_switchtimers.c:158 menu_timersdone.c:94
-msgid "Button$Delete all"
-msgstr "Poista kaikki"
-
-#: menu_recsdone.c:91 menu_timersdone.c:94
-msgid "Button$by date"
-msgstr "Päivämäärä"
-
-#: menu_recsdone.c:91 menu_timersdone.c:94
 msgid "Button$by name"
 msgstr "Nimi"
 
-#: menu_recsdone.c:104
+msgid "Button$by date"
+msgstr "Päivämäärä"
+
+msgid "Button$Delete all"
+msgstr "Poista kaikki"
+
 msgid "Recordings"
 msgstr "Tallenteet"
 
-#: menu_recsdone.c:114 menu_switchtimers.c:174 menu_timersdone.c:143
 msgid "Edit$Delete entry?"
 msgstr "Poista hakutermi"
 
-#: menu_recsdone.c:129 menu_switchtimers.c:187 menu_timersdone.c:158
 msgid "Edit$Delete all entries?"
 msgstr "Poista kaikki hakutermit"
 
-#: menu_recsdone.c:153 menu_switchtimers.c:205
 msgid "Summary"
 msgstr "Yhteenveto"
 
-#: menu_recsdone.c:197
 msgid "Auxiliary info"
 msgstr "Lisätiedot"
 
-#: menu_recsdone.c:210
 msgid "Button$Aux info"
 msgstr "Lisätiedot"
 
-#: menu_search.c:116
-msgid "Button$Actions"
-msgstr "Komennot"
-
-#: menu_search.c:132
-msgid "Search entries"
-msgstr "Hakutermit"
-
-#: menu_search.c:132
-msgid "active"
-msgstr "aktiivista"
-
-#: menu_search.c:158
-msgid "Edit$Delete search?"
-msgstr "Poistetaanko haku?"
-
-#: menu_search.c:160 menu_searchactions.c:164
-msgid "Delete all timers created from this search?"
-msgstr "Poistetaanko kaikki tällä haulla luodut ajastimet?"
-
-#: menu_searchactions.c:49
 msgid "Search actions"
 msgstr "Hakukomennot"
 
-#: menu_searchactions.c:56
 msgid "Execute search"
 msgstr "Suorita haku"
 
-#: menu_searchactions.c:57
 msgid "Use as search timer on/off"
 msgstr "Aseta/poista hakuajastintoiminto"
 
-#: menu_searchactions.c:58
 msgid "Trigger search timer update"
 msgstr "Päivitä hakuajastimet"
 
-#: menu_searchactions.c:59
 msgid "Show recordings done"
 msgstr "Näytä tehdyt tallennukset"
 
-#: menu_searchactions.c:60
 msgid "Show timers created"
 msgstr "Näytä luodut ajastimet"
 
-#: menu_searchactions.c:61
 msgid "Create a copy"
 msgstr "Kopioi"
 
-#: menu_searchactions.c:62
 msgid "Use as template"
 msgstr "Käytä mallipohjana"
 
-#: menu_searchactions.c:63
 msgid "Show switch list"
 msgstr "Näytä kanavanvaihtolista"
 
-#: menu_searchactions.c:64
 msgid "Show blacklists"
 msgstr "Näytä mustat listat"
 
-#: menu_searchactions.c:65
 msgid "Delete created timers?"
 msgstr "Poista haulla luodut ajastimet"
 
-#: menu_searchactions.c:66
 msgid "Timer conflict check"
 msgstr "Tarkista päällekkäiset ajastimet"
 
-#: menu_searchactions.c:90
 msgid "Disable associated timers too?"
 msgstr "Poistetaanko käytöstä myös assosioidut ajastimet?"
 
-#: menu_searchactions.c:92
 msgid "Activate associated timers too?"
 msgstr "Otetaanko käyttöön myös assosioidut ajastimet?"
 
-#: menu_searchactions.c:98 menu_searchactions.c:121 menu_searchedit.c:659
 msgid "Search timers activated in setup."
 msgstr "Hakuajastimet aktivoitu asetuksista"
 
-#: menu_searchactions.c:123
 msgid "Run search timer update?"
 msgstr "Päivitetäänkö hakuajastimet?"
 
-#: menu_searchactions.c:133
 msgid "Copy this entry?"
 msgstr "Kopioidaanko tämä hakuajastin?"
 
-#: menu_searchactions.c:137
 msgid "Copy"
 msgstr "Kopio"
 
-#: menu_searchactions.c:147
 msgid "Copy this entry to templates?"
 msgstr "Kopioidaanko hakutermi mallipohjaksi?"
 
-#: menu_searchedit.c:49
+msgid "Delete all timers created from this search?"
+msgstr "Poistetaanko kaikki tällä haulla luodut ajastimet?"
+
+msgid "Button$Actions"
+msgstr "Komennot"
+
+msgid "Search entries"
+msgstr "Hakutermit"
+
+msgid "active"
+msgstr "aktiivista"
+
+msgid "Edit$Delete search?"
+msgstr "Poistetaanko haku?"
+
 msgid "Edit search"
 msgstr "Muokkaa hakua"
 
-#: menu_searchedit.c:74
 msgid "Record"
 msgstr "Tallenna"
 
-#: menu_searchedit.c:75 menu_switchtimers.c:63
 msgid "Announce only"
 msgstr "muistutus"
 
-#: menu_searchedit.c:76
 msgid "Switch only"
 msgstr "kanavanvaihto"
 
-#: menu_searchedit.c:79
 msgid "Selection"
 msgstr "valittu"
 
-#: menu_searchedit.c:80
 msgid "all"
 msgstr "kaikki"
 
-#: menu_searchedit.c:83
 msgid "count recordings"
 msgstr "lukumäärän mukaan"
 
-#: menu_searchedit.c:84
 msgid "count days"
 msgstr "päivien mukaan"
 
-#: menu_searchedit.c:191 menu_templateedit.c:180
 msgid "Template name"
 msgstr "Mallipohjan nimi"
 
-#: menu_searchedit.c:192
 msgid "Help$Specify the name of the template."
 msgstr "Määrittelee mallipohjan nimen."
 
-#: menu_searchedit.c:197
 msgid "Help$Specify here the term to search for."
 msgstr "Määrittelee käytettävän hakutermin."
 
-#: menu_searchedit.c:201
 msgid ""
 "Help$The following search modes exist:\n"
 "\n"
@@ -1363,283 +996,213 @@ msgstr ""
 "- säännöllinen lauseke: määritellyn säännöllisen lausekkeen pitää löytyä\n"
 "- sumea: samankaltaisia pitää löytyä määriteltyyn ehtoon nähden"
 
-#: menu_searchedit.c:206
 msgid "Help$This sets the tolerance of fuzzy searching. The value represents the allowed errors."
 msgstr "Määrittelee toleranssin sumealle haulle. Arvo kertoo sallittujen virheiden lukumäärän."
 
-#: menu_searchedit.c:210
 msgid "Help$Set this to 'Yes' if your search should match the case."
 msgstr "Tällä asetuksella pystyt huomioimaan kirjainkoon vaikutuksen hakutulokseen."
 
-#: menu_searchedit.c:212
 msgid "Help$Set this to 'Yes' if you like to search in the title of an event."
 msgstr "Tällä asetuksella pystyt etsimään ohjelmanimestä."
 
-#: menu_searchedit.c:214
 msgid "Help$Set this to 'Yes' if you like to search in the episode of an event."
 msgstr "Tällä asetuksella pystyt etsimään lyhyestä ohjelmakuvauksesta."
 
-#: menu_searchedit.c:216
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Tällä asetuksella pystyt etsimään ohjelmakuvauksesta."
 
-#: menu_searchedit.c:222
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "Ohjelmakuvaus voi sisältää ohjelmaoppaan kategoriatietoja ('lajityyppi', 'kategoria', 'valmistumisvuosi', ...), joita ulkoiset ohjelmaoppaat voivat tuottaa. Tällä asetuksella voit hakea myös niiden perusteella."
 
-#: menu_searchedit.c:233
 msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
 msgstr "Tiedosto 'epgsearchcats.conf' määrittelee käytettävät hakutavat ja voit viitata niihin joko tekstinä tai pelkällä luvulla. Lisäksi pystyt myöskin muokkaamaan määriteltyjen kategorioiden listaa."
 
-#: menu_searchedit.c:239
 msgid "Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."
 msgstr "Jos valittua kategoriaa ei löydy ohjelmakuvauksesta, ei ohjelmaa normaalisti myöskään löydy hakutuloksista. Tällä asetuksella voit estää sen, mutta samalla voit saada huomattavan määrän halutuloksia."
 
-#: menu_searchedit.c:292
 msgid "Use in favorites menu"
 msgstr "Käytä suosikkina"
 
-#: menu_searchedit.c:297
 msgid "Result menu layout"
 msgstr "Hakutulosten ulkoasu"
 
-#: menu_searchedit.c:300 menu_searchedit.c:518 menu_templateedit.c:133
 msgid "Use as search timer"
 msgstr "Käytä hakuajastimena"
 
-#: menu_searchedit.c:303
 msgid "Action"
 msgstr "Toiminto"
 
-#: menu_searchedit.c:306 menu_switchtimers.c:56
 msgid "Switch ... minutes before start"
 msgstr "Vaihda ... minuuttia ennen alkua"
 
-#: menu_searchedit.c:307 menu_switchtimers.c:64
 msgid "Unmute sound"
 msgstr ""
 
-#: menu_searchedit.c:311
 msgid "  Series recording"
 msgstr "  Sarjatallennus"
 
-#: menu_searchedit.c:313
 msgid "Delete recordings after ... days"
 msgstr "Poista tallenteet ... päivän jälkeen"
 
-#: menu_searchedit.c:315
 msgid "Keep ... recordings"
 msgstr "Säilytä ... tallennetta"
 
-#: menu_searchedit.c:316
 msgid "Pause when ... recordings exist"
 msgstr "Keskeytä ... tallenteen jälkeen"
 
-#: menu_searchedit.c:317 menu_searchedit.c:549 menu_templateedit.c:164
 msgid "Avoid repeats"
 msgstr "Estä uusinnat"
 
-#: menu_searchedit.c:320
 msgid "Allowed repeats"
 msgstr "Sallittujen uusintojen lukumäärä"
 
-#: menu_searchedit.c:322
 msgid "Only repeats within ... days"
 msgstr "Vain uusinnat ... päivän sisällä"
 
-#: menu_searchedit.c:323
 msgid "Compare title"
 msgstr "Vertaa nimeä"
 
-#: menu_searchedit.c:324
 msgid "Compare subtitle"
 msgstr "Vertaa jakson nimeä"
 
-#: menu_searchedit.c:325
 msgid "Compare summary"
 msgstr "Vertaa kuvausta"
 
-#: menu_searchedit.c:341 menu_searchedit.c:554 menu_searchedit.c:798
-#: menu_templateedit.c:169
 msgid "Compare categories"
 msgstr "Vertaa kategorioita"
 
-#: menu_searchedit.c:351
 msgid "VPS"
 msgstr "VPS"
 
-#: menu_searchedit.c:355
 msgid "Auto delete"
 msgstr "Poista automaattisesti"
 
-#: menu_searchedit.c:357
 msgid "after ... recordings"
 msgstr "... tallenteen jälkeen"
 
-#: menu_searchedit.c:359
 msgid "after ... days after first rec."
 msgstr "... päivän jälkeen ensimmäisestä"
 
-#: menu_searchedit.c:754
 msgid "Edit user-defined days of week"
 msgstr "Muokkaa valittuja viikonpäiviä"
 
-#: menu_searchedit.c:808
 msgid "Compare"
 msgstr "Vertaa"
 
-#: menu_searchedit.c:847
 msgid "Select blacklists"
 msgstr "Valitse mustat listat"
 
-#: menu_searchedit.c:989 menu_searchedit.c:1063
 msgid "Values for EPG category"
 msgstr "Valinnat ohjelmaoppaan kategorioille"
 
-#: menu_searchedit.c:1013
 msgid "Button$Apply"
 msgstr "Käytä"
 
-#: menu_searchedit.c:1034
 msgid "less"
 msgstr "pienempi"
 
-#: menu_searchedit.c:1036
 msgid "less or equal"
 msgstr "pienempi tai yhtäsuuri"
 
-#: menu_searchedit.c:1038
 msgid "greater"
 msgstr "suurempi"
 
-#: menu_searchedit.c:1040
 msgid "greater or equal"
 msgstr "suurempi tai yhtäsuuri"
 
-#: menu_searchedit.c:1042
 msgid "equal"
 msgstr "yhtäsuuri"
 
-#: menu_searchedit.c:1044
 msgid "not equal"
 msgstr "erisuuri"
 
-#: menu_searchedit.c:1120
 msgid "Activation of search timer"
 msgstr "Hakuajastimien aktivointi"
 
-#: menu_searchedit.c:1125
 msgid "First day"
 msgstr "Aloituspäivä"
 
-#: menu_searchedit.c:1126
 msgid "Last day"
 msgstr "Lopetuspäivä"
 
-#: menu_searchresults.c:421 menu_searchresults.c:545
 msgid "Button$all channels"
 msgstr "Kaikki"
 
-#: menu_searchresults.c:422 menu_searchresults.c:546
 msgid "Button$only FTA"
 msgstr "Vapaat"
 
-#: menu_searchresults.c:423 menu_searchresults.c:547
 msgid "Button$Timer preview"
 msgstr "Esikatselu"
 
-#: menu_searchresults.c:583
 msgid "Blacklist results"
 msgstr "Mustan listan tulokset"
 
-#: menu_searchresults.c:694
 msgid "found recordings"
 msgstr "löydetyt tallenteet"
 
-#: menu_searchresults.c:768
 msgid "Error while accessing recording!"
 msgstr "Tallenteen toistaminen epäonnistui!"
 
-#: menu_searchtemplate.c:115
 msgid "Button$Default"
 msgstr "Oletus"
 
-#: menu_searchtemplate.c:138
 msgid "Edit$Delete template?"
 msgstr "Poistetaanko mallipohja?"
 
-#: menu_searchtemplate.c:197 menu_searchtemplate.c:207
 msgid "Overwrite existing entries?"
 msgstr "Kirjoitetaanko olemassaolevan päälle?"
 
-#: menu_switchtimers.c:40
 msgid "Edit entry"
 msgstr "Muokkaa valintaa"
 
-#: menu_switchtimers.c:58
 msgid "action at"
 msgstr "Kellonaika kanavanvaihdolle"
 
-#: menu_switchtimers.c:141
 msgid "Switch list"
 msgstr "Kanavanvaihtolista"
 
-#: menu_templateedit.c:42
 msgid "Edit template"
 msgstr "Muokkaa mallipohjaa"
 
-#: menu_timersdone.c:133
 msgid "Timers"
 msgstr "Ajastimet"
 
-#: menu_whatson.c:146
 msgid ">>> no info! <<<"
 msgstr ">>> ei tietoja! <<<"
 
-#: menu_whatson.c:276 menu_whatson.c:278 menu_whatson.c:288 menu_whatson.c:291
 msgid "Overview"
 msgstr "Yleiskatsaus"
 
-#: menu_whatson.c:415
 msgid "Button$Favorites"
 msgstr "Suosikit"
 
-#: quickepgsearch.c:32
 msgid "Quick search for broadcasts"
 msgstr "Pikahaku ohjelmaoppaalle"
 
-#: quickepgsearch.c:33
 msgid "Quick search"
 msgstr "Pikahaku"
 
-#: quickepgsearch.c:34
 msgid "Show in main menu"
 msgstr "Näytä valinta päävalikossa"
 
-#: searchtimer_thread.c:451
 #, c-format
 msgid "%d new broadcast(s) found! Show them?"
 msgstr "Löydettiin %d uutta lähetystä! Näytetäänkö?"
 
-#: searchtimer_thread.c:503
 msgid "Search timer update done!"
 msgstr "Hakuajastimet päivitetty!"
 
-#: timer_thread.c:95
 msgid "Programming timer failed!"
 msgstr "Ajastimen ohjelmointi epäonnistui!"
 
-#: uservars.h:240
 #, c-format
 msgid "in %02ldd"
 msgstr "%02ldd"
 
-#: uservars.h:250
 #, c-format
 msgid "in %02ldh"
 msgstr "%02ldh"
 
-#: uservars.h:260
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"

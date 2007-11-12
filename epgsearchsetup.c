@@ -412,7 +412,11 @@ void cMenuSetupEPGMenus::Set()
     Add(new cMenuEditStraItem(tr("Blue key"), &data->bluekeymode, 2, BlueKeyMode));
     AddHelp(tr("Help$Choose which standard function ('Switch'/'Info' or 'Search') you like to have on the blue key.\n(Can be toggled with key '0')"));
 
+#if VDRVERSNUM < 10503
     Add(new cMenuEditStraItem(tr("Show progress in 'Now'"), &data->showProgress, 3, ProgressbarMode));
+#else
+    Add(new cMenuEditBoolItem(tr("Show progress in 'Now'"), &data->showProgress, trVDR("no"), trVDR("yes")));
+#endif
     AddHelp(tr("Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event.\nDepending on your selected skin you can choose between 'Pipes' or 'graphical' to get the best look."));
     Add(new cMenuEditBoolItem(  tr("Show channel numbers"), &data->showChannelNr,       trVDR("no"),      trVDR("yes")));
     AddHelp(tr("Help$Display channel numbers in 'Overview - Now'.\n\n(To completely define your own menu look please inspect the MANUAL)"));

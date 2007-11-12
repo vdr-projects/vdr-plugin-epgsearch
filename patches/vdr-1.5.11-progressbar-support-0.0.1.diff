@@ -1,0 +1,113 @@
+diff -Nru vdr-1.5.11-orig/skinclassic.c vdr-1.5.11-progressbar/skinclassic.c
+--- vdr-1.5.11-orig/skinclassic.c	2007-07-29 14:35:03.000000000 +0200
++++ vdr-1.5.11-progressbar/skinclassic.c	2007-11-12 18:46:54.000000000 +0100
+@@ -295,13 +295,51 @@
+   const cFont *font = cFont::GetFont(fontOsd);
+   for (int i = 0; i < MaxTabs; i++) {
+       const char *s = GetTabbedText(Text, i);
++      
+       if (s) {
+-         int xt = x0 + Tab(i);
+-         osd->DrawText(xt, y, s, ColorFg, ColorBg, font, x1 - xt);
+-         }
+-      if (!Tab(i + 1))
+-         break;
++	bool isprogressbar = false;
++	int now = 0, total = 0;
++	// check if progress bar: "[|||||||   ]"
++	if ((strlen(s) > 5 && s[0] == '[' && s[strlen(s) - 1] == ']')) {
++	  const char *p = s + 1;
++	  // update status
++	  isprogressbar = true;
++	  for (; *p != ']'; ++p) {
++	    // check if progressbar characters
++	    if (*p == ' ' || *p == '|') {
++	      // update counters
++	      ++total;
++	      if (*p == '|')
++		++now;
++	    } else {
++	      // wrong character detected; not a progressbar
++	      isprogressbar = false;
++	      break;
++	    }
++	  }
++	}
++	int xt = x0 + Tab(i);
++	if (isprogressbar) {
++	  // define x coordinates of progressbar
++	  int px0 = xt;
++	  int px1 = (Tab(i + 1)?Tab(i+1):x1) - 5;
++	  int px = px0 + max((int)((float) now * (float) (px1 - px0) / (float) total), 1);
++	  // define y coordinates of progressbar
++	  int py0 = y + 4;
++	  int py1 = y + lineHeight - 4;
++	  // draw background
++	  osd->DrawRectangle(px0, y, (Tab(i + 1)?Tab(i+1):x1) - 1, y + lineHeight - 1, ColorBg);
++	  // draw progressbar
++	  osd->DrawRectangle(px0,    py0, px,  py1, ColorFg);
++	  osd->DrawRectangle(px + 1, py0, px1, py0 + 1, ColorFg);
++	  osd->DrawRectangle(px + 1, py1 - 1, px1, py1, ColorFg);
++	  osd->DrawRectangle(px1 - 1, py0, px1, py1, ColorFg);	  
++	} else
++	  osd->DrawText(xt, y, s, ColorFg, ColorBg, font, x1 - xt);
+       }
++      if (!Tab(i + 1))
++	break;
++  }
+   SetEditableWidth(x1 - x0 - Tab(1));
+ }
+ 
+diff -Nru vdr-1.5.11-orig/skinsttng.c vdr-1.5.11-progressbar/skinsttng.c
+--- vdr-1.5.11-orig/skinsttng.c	2007-06-17 15:51:56.000000000 +0200
++++ vdr-1.5.11-progressbar/skinsttng.c	2007-11-12 18:47:01.000000000 +0100
+@@ -545,9 +545,46 @@
+   for (int i = 0; i < MaxTabs; i++) {
+       const char *s = GetTabbedText(Text, i);
+       if (s) {
+-         int xt = x3 + 5 + Tab(i);
+-         osd->DrawText(xt, y, s, ColorFg, ColorBg, font, x4 - xt);
+-         }
++	bool isprogressbar = false;
++	int now = 0, total = 0;
++	// check if progress bar: "[|||||||   ]"
++	if ((strlen(s) > 5 && s[0] == '[' && s[strlen(s) - 1] == ']')) {
++	  const char *p = s + 1;
++	  // update status
++	  isprogressbar = true;
++	  for (; *p != ']'; ++p) {
++	    // check if progressbar characters
++	    if (*p == ' ' || *p == '|') {
++	      // update counters
++	      ++total;
++	      if (*p == '|')
++		++now;
++	    } else {
++	      // wrong character detected; not a progressbar
++	      isprogressbar = false;
++	      break;
++	    }
++	  }
++	}
++	int xt = x3 + 5 + Tab(i);
++	if (isprogressbar) {
++	  // define x coordinates of progressbar
++	  int px0 = xt;
++	  int px1 = x3 + (Tab(i + 1)?Tab(i + 1):x4-x3-5) - 1;
++	  int px = px0 + max((int)((float) now * (float) (px1 - px0) / (float) total), 1);
++	  // define y coordinates of progressbar
++	  int py0 = y + 4;
++	  int py1 = y + lineHeight - 4;
++	  // draw background
++	  osd->DrawRectangle(px0, y, (Tab(i + 1)?Tab(i + 1):x4-x3-5) - 1, y + lineHeight - 1, ColorBg);
++	  // draw progressbar
++	  osd->DrawRectangle(px0,    py0, px,  py1, ColorFg);
++	  osd->DrawRectangle(px + 1, py0, px1, py0 + 1, ColorFg);
++	  osd->DrawRectangle(px + 1, py1 - 1, px1, py1, ColorFg);
++	  osd->DrawRectangle(px1 - 1, py0, px1, py1, ColorFg);	  
++	} else
++	  osd->DrawText(xt, y, s, ColorFg, ColorBg, font, x4 - xt);
++      }
+       if (!Tab(i + 1))
+          break;
+       }

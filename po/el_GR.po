@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-11-07 13:27+0100\n"
+"POT-Creation-Date: 2007-11-12 19:20+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Dimitrios Dimitrakos <mail@dimitrios.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -15,387 +15,276 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-7\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: changrp.c:305 epgsearchsetup.c:675 epgsearchsetup.c:688
-#: epgsearchsetup.c:722
 msgid "Channel groups"
 msgstr ""
 
-#: changrp.c:322 epgsearchsetup.c:588 menu_blacklistedit.c:337
-#: menu_dirselect.c:225 menu_myedittimer.c:290 menu_quicksearch.c:239
-#: menu_searchedit.c:531 menu_searchedit.c:563 menu_templateedit.c:146
-#: menu_templateedit.c:178
 msgid "Button$Select"
 msgstr ""
 
-#: changrp.c:350
 msgid "Channel group used by:"
 msgstr ""
 
-#: changrp.c:355
 msgid "Edit$Delete group?"
 msgstr ""
 
-#: changrp.c:409
 msgid "Edit channel group"
 msgstr ""
 
-#: changrp.c:429 changrp.c:452 changrp.c:454
 msgid "Group name"
 msgstr ""
 
-#: changrp.c:453 menu_searchedit.c:871
-msgid "Button$All no"
-msgstr ""
-
-#: changrp.c:453 menu_searchedit.c:871
-msgid "Button$All yes"
-msgstr ""
-
-#: changrp.c:453 menu_searchedit.c:871
 msgid "Button$Invert selection"
 msgstr ""
 
-#: changrp.c:462
+msgid "Button$All yes"
+msgstr ""
+
+msgid "Button$All no"
+msgstr ""
+
 msgid "Group name is empty!"
 msgstr ""
 
-#: changrp.c:467
 msgid "Group name already exists!"
 msgstr ""
 
-#: conflictcheck_thread.c:114 searchtimer_thread.c:478
+msgid "Direct access to epgsearch's conflict check menu"
+msgstr ""
+
+msgid "Timer conflicts"
+msgstr ""
+
+msgid "Conflict info in main menu"
+msgstr ""
+
+msgid "next"
+msgstr ""
+
 #, c-format
 msgid "%d timer conflict(s)! First at %s. Show them?"
 msgstr ""
 
-#: conflictcheckonly.c:35
-msgid "Direct access to epgsearch's conflict check menu"
-msgstr ""
-
-#: conflictcheckonly.c:36 menu_conflictcheck.c:86 menu_conflictcheck.c:198
-msgid "Timer conflicts"
-msgstr ""
-
-#: conflictcheckonly.c:37
-msgid "Conflict info in main menu"
-msgstr ""
-
-#: conflictcheckonly.c:207
-msgid "next"
-msgstr ""
-
-#: epgsearch.c:68
 msgid "search the EPG for repeats and more"
 msgstr ""
 
-#: epgsearch.c:128 epgsearchsetup.c:136 epgsearchsetup.c:177
 msgid "Program guide"
 msgstr ""
 
-#: epgsearchonly.c:35
 msgid "Direct access to epgsearch's search menu"
 msgstr ""
 
-#: epgsearchonly.c:36
 msgid "Search"
 msgstr ""
 
-#: epgsearchonly.c:37
 msgid "EpgSearch-Search in main menu"
 msgstr ""
 
-#: epgsearchsetup.c:89 epgsearchsetup.c:365 epgsearchsetup.c:451
-#: epgsearchsetup.c:519 epgsearchsetup.c:588 epgsearchsetup.c:591
-#: epgsearchsetup.c:593 epgsearchsetup.c:689 epgsearchsetup.c:691
-#: epgsearchsetup.c:693 epgsearchsetup.c:695 epgsearchsetup.c:798
-#: epgsearchsetup.c:907 epgsearchsetup.c:912 epgsearchsetup.c:915
-#: epgsearchsetup.c:919 epgsearchsetup.c:924 epgsearchsetup.c:927
-#: menu_searchedit.c:108 menu_searchedit.c:402 menu_searchedit.c:504
-#: menu_searchedit.c:516 menu_searchedit.c:522 menu_searchedit.c:526
-#: menu_searchedit.c:531 menu_searchedit.c:536 menu_searchedit.c:541
-#: menu_searchedit.c:546 menu_searchedit.c:551 menu_searchedit.c:556
-#: menu_searchedit.c:563 menu_searchedit.c:566
 msgid "Button$Help"
 msgstr ""
 
-#: epgsearchsetup.c:105 epgsearchsetup.c:108 templatefile.c:292
 msgid "Standard"
 msgstr ""
 
-#: epgsearchsetup.c:106 menu_announcelist.c:53 menu_announcelist.c:55
-#: menu_conflictcheck.c:234 menu_favorites.c:185 menu_favorites.c:187
-#: menu_main.c:276 menu_main.c:282 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839 menu_whatson.c:586
-#: menu_whatson.c:591
 #, fuzzy
 msgid "Button$Commands"
 msgstr "Εγγραφή"
 
-#: epgsearchsetup.c:109 menu_main.c:276 menu_main.c:282 menu_whatson.c:589
-#: menu_whatson.c:594
 msgid "Button$Search"
 msgstr ""
 
-#: epgsearchsetup.c:112
 msgid "pipes"
 msgstr ""
 
-#: epgsearchsetup.c:113
 msgid "graphical"
 msgstr ""
 
-#: epgsearchsetup.c:118
 msgid "never"
 msgstr ""
 
-#: epgsearchsetup.c:119
 msgid "always"
 msgstr ""
 
-#: epgsearchsetup.c:120
 msgid "smart"
 msgstr ""
 
-#: epgsearchsetup.c:123
 msgid "before user-def. times"
 msgstr ""
 
-#: epgsearchsetup.c:124
 msgid "after user-def. times"
 msgstr ""
 
-#: epgsearchsetup.c:147 epgsearchsetup.c:295 epgsearchsetup.c:340
 msgid "General"
 msgstr ""
 
-#: epgsearchsetup.c:148 epgsearchsetup.c:297 epgsearchsetup.c:396
 msgid "EPG menus"
 msgstr ""
 
-#: epgsearchsetup.c:149 epgsearchsetup.c:299 epgsearchsetup.c:457
 msgid "User-defined EPG times"
 msgstr ""
 
-#: epgsearchsetup.c:150 epgsearchsetup.c:301 epgsearchsetup.c:555
 msgid "Timer programming"
 msgstr ""
 
-#: epgsearchsetup.c:151 epgsearchsetup.c:303 epgsearchsetup.c:636
 msgid "Search and search timers"
 msgstr ""
 
-#: epgsearchsetup.c:152 epgsearchsetup.c:305 epgsearchsetup.c:751
 msgid "Timer conflict checking"
 msgstr ""
 
-#: epgsearchsetup.c:153 epgsearchsetup.c:307 epgsearchsetup.c:830
 msgid "Email notification"
 msgstr ""
 
-#: epgsearchsetup.c:351
 msgid "Hide main menu entry"
 msgstr ""
 
-#: epgsearchsetup.c:352
 msgid "Help$Hides the main menu entry and may be useful if this plugin is used to replace the original 'Schedule' entry."
 msgstr ""
 
-#: epgsearchsetup.c:355
 msgid "Main menu entry"
 msgstr ""
 
-#: epgsearchsetup.c:356
 msgid "Help$The name of the main menu entry which defaults to 'Programm guide'."
 msgstr ""
 
-#: epgsearchsetup.c:358
 msgid "Replace original schedule"
 msgstr ""
 
-#: epgsearchsetup.c:359
 msgid "Help$When VDR is patched to allow this plugin to replace the original 'Schedule' entry, you can de/activate this replacement here."
 msgstr ""
 
-#: epgsearchsetup.c:360
 msgid "Start menu"
 msgstr ""
 
-#: epgsearchsetup.c:361
 msgid "Help$Choose between 'Overview - Now' and 'Schedule' as start menu when this plugin is called."
 msgstr ""
 
-#: epgsearchsetup.c:407
 msgid "Ok key"
 msgstr ""
 
-#: epgsearchsetup.c:408
 msgid ""
 "Help$Choose here the behaviour of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
 "Note: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."
 msgstr ""
 
-#: epgsearchsetup.c:410
 msgid "Red key"
 msgstr ""
 
-#: epgsearchsetup.c:411
 msgid ""
 "Help$Choose which standard function ('Record' or 'Commands') you like to have on the red key.\n"
 "(Can be toggled with key '0')"
 msgstr ""
 
-#: epgsearchsetup.c:412
 msgid "Blue key"
 msgstr ""
 
-#: epgsearchsetup.c:413
 msgid ""
 "Help$Choose which standard function ('Switch'/'Info' or 'Search') you like to have on the blue key.\n"
 "(Can be toggled with key '0')"
 msgstr ""
 
-#: epgsearchsetup.c:415
 msgid "Show progress in 'Now'"
 msgstr ""
 
-#: epgsearchsetup.c:416
 msgid ""
 "Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event.\n"
 "Depending on your selected skin you can choose between 'Pipes' or 'graphical' to get the best look."
 msgstr ""
 
-#: epgsearchsetup.c:417
 msgid "Show channel numbers"
 msgstr ""
 
-#: epgsearchsetup.c:418
 msgid ""
 "Help$Display channel numbers in 'Overview - Now'.\n"
 "\n"
 "(To completely define your own menu look please inspect the MANUAL)"
 msgstr ""
 
-#: epgsearchsetup.c:419
 msgid "Show channel separators"
 msgstr ""
 
-#: epgsearchsetup.c:420
 msgid "Help$Display VDR channel groups as separators between your channels in 'Overview - Now'."
 msgstr ""
 
-#: epgsearchsetup.c:421
 msgid "Show day separators"
 msgstr ""
 
-#: epgsearchsetup.c:422
 msgid "Help$Display a separator line at day break in 'Schedule'."
 msgstr ""
 
-#: epgsearchsetup.c:423
 msgid "Show radio channels"
 msgstr ""
 
-#: epgsearchsetup.c:424
 msgid "Help$Show also radio channels."
 msgstr ""
 
-#: epgsearchsetup.c:425
 msgid "Limit channels from 1 to"
 msgstr ""
 
-#: epgsearchsetup.c:426
 msgid "Help$If you have a large channel set you can speed up things when you limit the displayed channels with this setting. Use '0' to disable the limit."
 msgstr ""
 
-#: epgsearchsetup.c:427
 msgid "'One press' timer creation"
 msgstr ""
 
-#: epgsearchsetup.c:428
 msgid "Help$When a timer is created with 'Record' you can choose between an immediate creation of the timer or the display of the timer edit menu."
 msgstr ""
 
-#: epgsearchsetup.c:429
 msgid "Show channels without EPG"
 msgstr ""
 
-#: epgsearchsetup.c:430
 msgid "Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."
 msgstr ""
 
-#: epgsearchsetup.c:431
 msgid "Time interval for FRew/FFwd [min]"
 msgstr ""
 
-#: epgsearchsetup.c:432
 msgid ""
 "Help$Choose here the time interval which should be used for jumping through the EPG by pressing FRew/FFwd.\n"
 "\n"
 "(If you don't have those keys, you can toggle to this functionality pressing '0' and get '<<' and '>>' on the keys green and yellow)"
 msgstr ""
 
-#: epgsearchsetup.c:433
 msgid "Toggle Green/Yellow"
 msgstr ""
 
-#: epgsearchsetup.c:434
 msgid "Help$Specify if green and yellow shall also be switched when pressing '0'."
 msgstr ""
 
-#: epgsearchsetup.c:436
 msgid "Show favorites menu"
 msgstr ""
 
-#: epgsearchsetup.c:437
 msgid ""
 "Help$A favorites menu can display a list of your favorite broadcasts. Enable this if you want an additional menu besides 'Now' and 'Next'\n"
 "Any search can be used as a favorite. You only have to set the option 'Use in favorites menu' when editing a search."
 msgstr ""
 
-#: epgsearchsetup.c:440
 msgid "for the next ... hours"
 msgstr ""
 
-#: epgsearchsetup.c:441
 msgid "Help$This value controls the timespan used to display your favorites."
 msgstr ""
 
-#: epgsearchsetup.c:469 epgsearchsetup.c:481 epgsearchsetup.c:493
-#: epgsearchsetup.c:505
 msgid "Use user-defined time"
 msgstr ""
 
-#: epgsearchsetup.c:471 epgsearchsetup.c:483 epgsearchsetup.c:495
-#: epgsearchsetup.c:507
 msgid "Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."
 msgstr ""
 
-#: epgsearchsetup.c:474 epgsearchsetup.c:486 epgsearchsetup.c:498
-#: epgsearchsetup.c:510
 msgid "Description"
 msgstr ""
 
-#: epgsearchsetup.c:475 epgsearchsetup.c:487 epgsearchsetup.c:499
-#: epgsearchsetup.c:511
 msgid "Help$This is the description for your user-defined time as it will appear as label on the green button."
 msgstr ""
 
-#: epgsearchsetup.c:476 epgsearchsetup.c:488 epgsearchsetup.c:500
-#: epgsearchsetup.c:512
 msgid "Time"
 msgstr ""
 
-#: epgsearchsetup.c:477 epgsearchsetup.c:489 epgsearchsetup.c:501
-#: epgsearchsetup.c:513
 msgid "Help$Specify the user-defined time here in 'HH:MM'."
 msgstr ""
 
-#: epgsearchsetup.c:566
 msgid "Use VDR's timer edit menu"
 msgstr ""
 
-#: epgsearchsetup.c:567
 msgid ""
 "Help$This plugin has it's own timer edit menu extending the original one with some extra functionality like\n"
 "- an addtional directory entry\n"
@@ -404,20 +293,15 @@ msgid ""
 "- support for EPG variables (see MANUAL)"
 msgstr ""
 
-#: epgsearchsetup.c:568 epgsearchsetup.c:585 epgsearchsetup.c:587
-#: epgsearchsetup.c:606
 msgid "Default recording dir"
 msgstr ""
 
-#: epgsearchsetup.c:569
 msgid "Help$When creating a timer you can specify here a default recording directory."
 msgstr ""
 
-#: epgsearchsetup.c:570
 msgid "Add episode to manual timers"
 msgstr ""
 
-#: epgsearchsetup.c:571
 msgid ""
 "Help$If you create a timer for a series, you can automatically add the episode name.\n"
 "\n"
@@ -426,12 +310,9 @@ msgid ""
 "- smart: add only if event lasts less than 80 mins."
 msgstr ""
 
-#: epgsearchsetup.c:572 epgsearchsetup.c:590 epgsearchsetup.c:608
-#: menu_deftimercheckmethod.c:129
 msgid "Default timer check method"
 msgstr ""
 
-#: epgsearchsetup.c:573
 msgid ""
 "Help$Manual timers can be checked for EPG changes. Here you can setup the default check method for each channel. Choose between\n"
 "\n"
@@ -440,210 +321,152 @@ msgid ""
 "- by channel and time: check by the duration match."
 msgstr ""
 
-#: epgsearchsetup.c:591 epgsearchsetup.c:689 epgsearchsetup.c:691
-#: epgsearchsetup.c:693 menu_blacklistedit.c:325 menu_blacklistedit.c:330
-#: menu_quicksearch.c:223 menu_quicksearch.c:228 menu_quicksearch.c:233
-#: menu_searchedit.c:522 menu_searchedit.c:536 menu_searchedit.c:541
-#: menu_searchedit.c:546 menu_searchedit.c:551 menu_searchedit.c:556
-#: menu_searchedit.c:871 menu_searchresults.c:809 menu_templateedit.c:137
-#: menu_templateedit.c:151 menu_templateedit.c:156 menu_templateedit.c:161
-#: menu_templateedit.c:166 menu_templateedit.c:171
 msgid "Button$Setup"
 msgstr "Ρυθμισεις"
 
-#: epgsearchsetup.c:647
 msgid "Use search timers"
 msgstr ""
 
-#: epgsearchsetup.c:648
 msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criterions."
 msgstr ""
 
-#: epgsearchsetup.c:651
 msgid "  Update interval [min]"
 msgstr ""
 
-#: epgsearchsetup.c:652
 msgid "Help$Specify here the time intervall to be used when searching for events in the background."
 msgstr ""
 
-#: epgsearchsetup.c:653
 msgid "  SVDRP port"
 msgstr ""
 
-#: epgsearchsetup.c:654
 msgid "Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."
 msgstr ""
 
-#: epgsearchsetup.c:656
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
 msgstr ""
 
-#: epgsearchsetup.c:658
 msgid "Help$Specify here the default lifetime of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr ""
 
-#: epgsearchsetup.c:660
 msgid "Help$Specify here the default start recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr ""
 
-#: epgsearchsetup.c:662
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr ""
 
-#: epgsearchsetup.c:663
 msgid "No announcements when replaying"
 msgstr ""
 
-#: epgsearchsetup.c:664
 msgid "Help$Set this to 'yes' if you don't like to get any announcements of broadcasts if you currently replay anything."
 msgstr ""
 
-#: epgsearchsetup.c:665
 msgid "Recreate timers after deletion"
 msgstr ""
 
-#: epgsearchsetup.c:666
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
 msgstr ""
 
-#: epgsearchsetup.c:669
 msgid "Ignore PayTV channels"
 msgstr ""
 
-#: epgsearchsetup.c:670
 msgid "Help$Set this to 'yes' if don't want to see events on PayTV channels when searching for repeats."
 msgstr ""
 
-#: epgsearchsetup.c:671 epgsearchsetup.c:690 epgsearchsetup.c:718
-#: menu_searchtemplate.c:104
 msgid "Search templates"
 msgstr ""
 
-#: epgsearchsetup.c:672
 msgid "Help$Here you can setup templates for your searches."
 msgstr ""
 
-#: epgsearchsetup.c:673 epgsearchsetup.c:692 epgsearchsetup.c:720
-#: menu_blacklists.c:96
 msgid "Blacklists"
 msgstr ""
 
-#: epgsearchsetup.c:674
 msgid "Help$Here you can setup blacklists which can be used within a search to exclude events you don't like."
 msgstr ""
 
-#: epgsearchsetup.c:676
 msgid "Help$Here you can setup channel groups which can be used within a search. These are different to VDR channel groups and represent a set of arbitrary channels, e.g. 'FreeTV'."
 msgstr ""
 
-#: epgsearchsetup.c:762
 msgid "Ignore below priority"
 msgstr ""
 
-#: epgsearchsetup.c:763
 msgid "Help$If a timer with priority below the given value will fail it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
 msgstr ""
 
-#: epgsearchsetup.c:764
 msgid "Ignore conflict duration less ... min."
 msgstr ""
 
-#: epgsearchsetup.c:765
 msgid "Help$If a conflicts duration is less then the given number of minutes it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
 msgstr ""
 
-#: epgsearchsetup.c:766
 msgid "Only check within next ... days"
 msgstr ""
 
-#: epgsearchsetup.c:767
 msgid "Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."
 msgstr ""
 
-#: epgsearchsetup.c:769
 msgid "--- Automatic checking ---"
 msgstr ""
 
-#: epgsearchsetup.c:774
 msgid "After each timer programming"
 msgstr ""
 
-#: epgsearchsetup.c:775
 msgid "Help$Set this to 'yes' if the conflict check should be performed after each manual timer programming. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if this timer is involved in any conflict."
 msgstr ""
 
-#: epgsearchsetup.c:776
 msgid "When a recording starts"
 msgstr ""
 
-#: epgsearchsetup.c:777
 msgid "Help$Set this to 'yes' if the conflict check should be performed when a recording starts. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if the conflict is within the next 2 hours."
 msgstr ""
 
-#: epgsearchsetup.c:779
 msgid "After each search timer update"
 msgstr ""
 
-#: epgsearchsetup.c:780
 msgid "Help$Set this to 'yes' if the conflict check should be performed after each search timer update."
 msgstr ""
 
-#: epgsearchsetup.c:783 epgsearchsetup.c:789
 msgid "every ... minutes"
 msgstr ""
 
-#: epgsearchsetup.c:784
 msgid ""
 "Help$Specify here the time intervall to be used for an automatic conflict check in the background.\n"
 "('0' disables an automatic check)"
 msgstr ""
 
-#: epgsearchsetup.c:785
 msgid "if conflicts within next ... minutes"
 msgstr ""
 
-#: epgsearchsetup.c:786 epgsearchsetup.c:790
 msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."
 msgstr ""
 
-#: epgsearchsetup.c:793
 msgid "Avoid notification when replaying"
 msgstr ""
 
-#: epgsearchsetup.c:794
 msgid "Help$Set this to 'yes' if the don't want to get OSD messages about conflicts if you currently replay something. Nevertheless messages will be displayed if the first upcoming conflict is within the next 2 hours."
 msgstr ""
 
-#: epgsearchsetup.c:843
 msgid "Search timer notification"
 msgstr ""
 
-#: epgsearchsetup.c:844
 msgid "Help$Set this to 'yes' if you want to get an email notification about the search timers that where programmed automatically in the background."
 msgstr ""
 
-#: epgsearchsetup.c:846
 msgid "Timer conflict notification"
 msgstr ""
 
-#: epgsearchsetup.c:847
 msgid "Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."
 msgstr ""
 
-#: epgsearchsetup.c:849
 msgid "Send to"
 msgstr ""
 
-#: epgsearchsetup.c:850
 msgid "Help$Specify the email adress where notifications should be sent to."
 msgstr ""
 
-#: epgsearchsetup.c:852
 msgid "Mail method"
 msgstr ""
 
-#: epgsearchsetup.c:853
 msgid ""
 "Help$Specify here the method to use when sending mails.\n"
 "You can choose between\n"
@@ -651,659 +474,469 @@ msgid ""
 " - 'SendEmail.pl': simple script for mail delivery"
 msgstr ""
 
-#: epgsearchsetup.c:857
 msgid "--- Email account ---"
 msgstr ""
 
-#: epgsearchsetup.c:862 epgsearchsetup.c:904 epgsearchsetup.c:906
 msgid "Email adress"
 msgstr ""
 
-#: epgsearchsetup.c:863
 msgid "Help$Specify the email adress where notifications should be sent from."
 msgstr ""
 
-#: epgsearchsetup.c:865 epgsearchsetup.c:909 epgsearchsetup.c:911
 msgid "SMTP server"
 msgstr ""
 
-#: epgsearchsetup.c:866
 msgid "Help$Specify the SMTP server that should deliver the notifications. If it's using a port different from the default(25) append the port with \":port\"."
 msgstr ""
 
-#: epgsearchsetup.c:867 epgsearchsetup.c:914
 msgid "Use SMTP authentication"
 msgstr ""
 
-#: epgsearchsetup.c:868
 msgid "Help$Set this to 'yes' if your account needs authentication to send mails."
 msgstr ""
 
-#: epgsearchsetup.c:872 epgsearchsetup.c:916 epgsearchsetup.c:918
 msgid "Auth user"
 msgstr ""
 
-#: epgsearchsetup.c:873
 msgid "Help$Specify the auth user, if this account needs authentication for SMTP."
 msgstr ""
 
-#: epgsearchsetup.c:874 epgsearchsetup.c:921 epgsearchsetup.c:923
-#: epgsearchsetup.c:938 epgsearchsetup.c:939 epgsearchsetup.c:945
-#: epgsearchsetup.c:946
 msgid "Auth password"
 msgstr ""
 
-#: epgsearchsetup.c:875
 msgid "Help$Specify the auth password, if this account needs authentication for SMTP."
 msgstr ""
 
-#: epgsearchsetup.c:893
 msgid "Mail account check failed!"
 msgstr ""
 
-#: epgsearchsetup.c:907 epgsearchsetup.c:912 epgsearchsetup.c:915
-#: epgsearchsetup.c:919 epgsearchsetup.c:924
 msgid "Button$Test"
 msgstr ""
 
-#: epgsearchtools.c:47
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 msgstr ""
 
-#: mail.c:313
 msgid "No new timers were added."
 msgstr ""
 
-#: mail.c:324
 msgid "No timers were modified."
 msgstr ""
 
-#: mail.c:335
 msgid "No timers were deleted."
 msgstr ""
 
-#: mainmenushortcut.c:126
 msgid "This version of EPGSearch does not support this service!"
 msgstr ""
 
-#: mainmenushortcut.c:133
 msgid "EPGSearch does not exist!"
 msgstr ""
 
-#: menu_announcelist.c:33
 #, c-format
 msgid "%d new broadcast"
 msgstr ""
 
-#: menu_announcelist.c:53 menu_announcelist.c:55 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839
-msgid "Button$Episode"
-msgstr ""
-
-#: menu_announcelist.c:53 menu_announcelist.c:55 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839
-msgid "Button$Title"
-msgstr ""
-
-#: menu_announcelist.c:53 menu_announcelist.c:55 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839
 msgid "Button$by channel"
 msgstr ""
 
-#: menu_announcelist.c:53 menu_announcelist.c:55 menu_searchresults.c:497
-#: menu_searchresults.c:499 menu_searchresults.c:639 menu_searchresults.c:641
-#: menu_searchresults.c:837 menu_searchresults.c:839
 msgid "Button$by time"
 msgstr ""
 
-#: menu_announcelist.c:95
+msgid "Button$Episode"
+msgstr ""
+
+msgid "Button$Title"
+msgstr ""
+
 msgid "announce details"
 msgstr ""
 
-#: menu_announcelist.c:129
 msgid "announce again"
 msgstr ""
 
-#: menu_announcelist.c:132
 msgid "with next update"
 msgstr ""
 
-#: menu_announcelist.c:134
 msgid "again from"
 msgstr ""
 
-#: menu_announcelist.c:146 menu_myedittimer.c:160
 msgid "Search timer"
 msgstr ""
 
-#: menu_blacklistedit.c:43
 msgid "Edit blacklist"
 msgstr ""
 
-#: menu_blacklistedit.c:45 menu_searchedit.c:53 menu_searchedit.c:1024
 msgid "phrase"
 msgstr ""
 
-#: menu_blacklistedit.c:46 menu_searchedit.c:54 menu_searchedit.c:1026
 msgid "all words"
 msgstr ""
 
-#: menu_blacklistedit.c:47 menu_searchedit.c:55 menu_searchedit.c:1028
 msgid "at least one word"
 msgstr ""
 
-#: menu_blacklistedit.c:48 menu_searchedit.c:56 menu_searchedit.c:1030
 msgid "match exactly"
 msgstr ""
 
-#: menu_blacklistedit.c:49 menu_searchedit.c:57 menu_searchedit.c:1032
 msgid "regular expression"
 msgstr ""
 
-#: menu_blacklistedit.c:50 menu_searchedit.c:58
 msgid "fuzzy"
 msgstr ""
 
-#: menu_blacklistedit.c:59 menu_searchedit.c:67 menu_searchedit.c:88
 msgid "user-defined"
 msgstr ""
 
-#: menu_blacklistedit.c:62 menu_searchedit.c:70
 msgid "interval"
 msgstr ""
 
-#: menu_blacklistedit.c:63 menu_searchedit.c:71
 msgid "channel group"
 msgstr ""
 
-#: menu_blacklistedit.c:64 menu_searchedit.c:72
 msgid "only FTA"
 msgstr ""
 
-#: menu_blacklistedit.c:141 menu_blacklistedit.c:305 menu_blacklistedit.c:307
-#: menu_blacklistedit.c:339 menu_quicksearch.c:50 menu_quicksearch.c:204
-#: menu_quicksearch.c:206 menu_quicksearch.c:241 menu_searchedit.c:196
-#: menu_searchedit.c:500 menu_searchedit.c:502 menu_searchedit.c:565
 msgid "Search term"
 msgstr ""
 
-#: menu_blacklistedit.c:142 menu_quicksearch.c:53 menu_searchedit.c:200
-#: menu_searchedit.c:1022
 msgid "Search mode"
 msgstr ""
 
-#: menu_blacklistedit.c:144 menu_quicksearch.c:55 menu_searchedit.c:205
 msgid "Tolerance"
 msgstr ""
 
-#: menu_blacklistedit.c:145 menu_quicksearch.c:57 menu_searchedit.c:209
 msgid "Match case"
 msgstr ""
 
-#: menu_blacklistedit.c:146 menu_quicksearch.c:58 menu_searchedit.c:211
 msgid "Use title"
 msgstr ""
 
-#: menu_blacklistedit.c:147 menu_quicksearch.c:59 menu_searchedit.c:213
 msgid "Use subtitle"
 msgstr ""
 
-#: menu_blacklistedit.c:148 menu_quicksearch.c:60 menu_searchedit.c:215
 msgid "Use description"
 msgstr ""
 
-#: menu_blacklistedit.c:153 menu_quicksearch.c:66 menu_searchedit.c:221
 msgid "Use extended EPG info"
 msgstr ""
 
-#: menu_blacklistedit.c:168 menu_searchedit.c:238
 msgid "Ignore missing categories"
 msgstr ""
 
-#: menu_blacklistedit.c:171 menu_blacklistedit.c:323 menu_quicksearch.c:80
-#: menu_quicksearch.c:221 menu_searchedit.c:242 menu_searchedit.c:534
-#: menu_templateedit.c:149
 msgid "Use channel"
 msgstr ""
 
-#: menu_blacklistedit.c:174 menu_blacklistedit.c:268 menu_quicksearch.c:83
-#: menu_quicksearch.c:167 menu_searchedit.c:245 menu_searchedit.c:457
-#: menu_templateedit.c:82
 msgid "  from channel"
 msgstr ""
 
-#: menu_blacklistedit.c:175 menu_quicksearch.c:84 menu_searchedit.c:246
 msgid "  to channel"
 msgstr ""
 
-#: menu_blacklistedit.c:193 menu_blacklistedit.c:328 menu_quicksearch.c:102
-#: menu_quicksearch.c:226 menu_searchedit.c:264 menu_searchedit.c:539
-#: menu_templateedit.c:154
 msgid "Channel group"
 msgstr ""
 
-#: menu_blacklistedit.c:196 menu_quicksearch.c:105 menu_searchedit.c:267
 msgid "Use time"
 msgstr ""
 
-#: menu_blacklistedit.c:199 menu_quicksearch.c:108 menu_searchedit.c:270
 msgid "  Start after"
 msgstr ""
 
-#: menu_blacklistedit.c:200 menu_quicksearch.c:109 menu_searchedit.c:271
 msgid "  Start before"
 msgstr ""
 
-#: menu_blacklistedit.c:202 menu_quicksearch.c:111 menu_searchedit.c:273
 msgid "Use duration"
 msgstr ""
 
-#: menu_blacklistedit.c:205 menu_quicksearch.c:114 menu_searchedit.c:276
 msgid "  Min. duration"
 msgstr ""
 
-#: menu_blacklistedit.c:206 menu_quicksearch.c:115 menu_searchedit.c:277
 msgid "  Max. duration"
 msgstr ""
 
-#: menu_blacklistedit.c:208 menu_quicksearch.c:117 menu_searchedit.c:279
 msgid "Use day of week"
 msgstr ""
 
-#: menu_blacklistedit.c:216 menu_blacklistedit.c:313 menu_quicksearch.c:125
-#: menu_quicksearch.c:211 menu_searchedit.c:287 menu_searchedit.c:508
-#: menu_templateedit.c:123
 msgid "Day of week"
 msgstr ""
 
-#: menu_blacklistedit.c:309 menu_searchedit.c:108 menu_searchedit.c:504
 msgid "Button$Templates"
 msgstr ""
 
-#: menu_blacklistedit.c:354 menu_blacklistedit.c:362 menu_myedittimer.c:333
-#: menu_quicksearch.c:256 menu_quicksearch.c:264 menu_searchedit.c:580
-#: menu_searchedit.c:588 menu_templateedit.c:195 menu_templateedit.c:203
 msgid "*** Invalid Channel ***"
 msgstr ""
 
-#: menu_blacklistedit.c:367 menu_quicksearch.c:269 menu_searchedit.c:593
-#: menu_templateedit.c:208
 msgid "Please check channel criteria!"
 msgstr ""
 
-#: menu_blacklists.c:129
 msgid "Edit$Delete blacklist?"
 msgstr ""
 
-#: menu_commands.c:54
 msgid "Repeats"
 msgstr ""
 
-#: menu_commands.c:57
 msgid "Create search"
 msgstr ""
 
-#: menu_commands.c:58
 msgid "Search in recordings"
 msgstr ""
 
-#: menu_commands.c:59 menu_commands.c:191
 msgid "Mark as 'already recorded'?"
 msgstr ""
 
-#: menu_commands.c:60
 msgid "Add/Remove to/from switch list?"
 msgstr ""
 
-#: menu_commands.c:61
 msgid "Create blacklist"
 msgstr ""
 
-#: menu_commands.c:67 menu_conflictcheck.c:251 menu_conflictcheck.c:382
-#: menu_event.c:142 menu_main.c:242 menu_main.c:368 menu_searchresults.c:270
-#: menu_searchresults.c:309 menu_whatson.c:553 menu_whatson.c:687
 msgid "EPG Commands"
 msgstr ""
 
-#: menu_commands.c:115 menu_main.c:226 menu_searchresults.c:259
-#: menu_whatson.c:444
 msgid "Can't switch channel!"
 msgstr ""
 
-#: menu_commands.c:208
 msgid "Already running!"
 msgstr ""
 
-#: menu_commands.c:214
 msgid "Add to switch list?"
 msgstr ""
 
-#: menu_commands.c:223
 msgid "Delete from switch list?"
 msgstr ""
 
-#: menu_conflictcheck.c:76 menu_conflictcheck.c:78 menu_conflictcheck.c:80
 msgid "Button$Details"
 msgstr ""
 
-#: menu_conflictcheck.c:78
 msgid "Button$Filter"
 msgstr ""
 
-#: menu_conflictcheck.c:80 menu_recsdone.c:91 menu_timersdone.c:94
 msgid "Button$Show all"
 msgstr ""
 
-#: menu_conflictcheck.c:89
 msgid "conflicts"
 msgstr ""
 
-#: menu_conflictcheck.c:116
 msgid "no conflicts!"
 msgstr ""
 
-#: menu_conflictcheck.c:116
 msgid "no important conflicts!"
 msgstr ""
 
-#: menu_conflictcheck.c:185
 msgid "C"
 msgstr "C"
 
-#: menu_conflictcheck.c:234
 msgid "Button$Repeats"
 msgstr ""
 
-#: menu_conflictcheck.c:284 menu_myedittimer.c:239
 msgid "Delete timer?"
 msgstr ""
 
-#: menu_conflictcheck.c:286 menu_myedittimer.c:241
 msgid "Timer still recording - really delete?"
 msgstr ""
 
-#: menu_deftimercheckmethod.c:131 menu_myedittimer.c:42
 msgid "no check"
 msgstr ""
 
-#: menu_deftimercheckmethod.c:132 menu_myedittimer.c:43
 msgid "by channel and time"
 msgstr ""
 
-#: menu_deftimercheckmethod.c:133 menu_myedittimer.c:44
 msgid "by event ID"
 msgstr ""
 
-#: menu_dirselect.c:64
 msgid "Select directory"
 msgstr ""
 
-#: menu_dirselect.c:224
 msgid "Button$Level"
 msgstr ""
 
-#: menu_event.c:33
 msgid "Event"
 msgstr ""
 
-#: menu_favorites.c:77
 msgid "Favorites"
 msgstr ""
 
-#: menu_favorites.c:77 menu_searchresults.c:467
 msgid "Search results"
 msgstr ""
 
-#: menu_main.c:84
 msgid "Schedule"
 msgstr ""
 
-#: menu_main.c:513 menu_searchresults.c:410 menu_whatson.c:794
 msgid "Timer conflict! Show?"
 msgstr ""
 
-#: menu_myedittimer.c:40
 msgid "Edit timer"
 msgstr ""
 
-#: menu_myedittimer.c:126 menu_myedittimer.c:129
 msgid "Channel"
 msgstr ""
 
-#: menu_myedittimer.c:147 menu_myedittimer.c:150
 msgid "Childlock"
 msgstr ""
 
-#: menu_myedittimer.c:156 menu_myedittimer.c:287 menu_myedittimer.c:289
-#: menu_myedittimer.c:313 menu_myedittimer.c:447 menu_myedittimer.c:461
-#: menu_searchedit.c:312 menu_searchedit.c:528 menu_searchedit.c:530
-#: menu_searchedit.c:672 menu_templateedit.c:143 menu_templateedit.c:145
-#: menu_templateedit.c:276
 msgid "Directory"
 msgstr ""
 
-#: menu_myedittimer.c:173
 msgid "Timer check"
 msgstr ""
 
-#: menu_myedittimer.c:183
 msgid "recording with device"
 msgstr ""
 
-#: menu_myedittimer.c:207 menu_myedittimer.c:209 menu_myedittimer.c:293
-#: menu_myedittimer.c:295 menu_myedittimer.c:314
 msgid "File"
 msgstr ""
 
-#: menu_myedittimer.c:218 menu_myedittimer.c:302
 msgid "Button$With subtitle"
 msgstr ""
 
-#: menu_myedittimer.c:224 menu_myedittimer.c:300
 msgid "Button$Without subtitle"
 msgstr ""
 
-#: menu_myedittimer.c:277
 msgid "Day"
 msgstr ""
 
-#: menu_quicksearch.c:34
 msgid "Button$Extended"
 msgstr ""
 
-#: menu_quicksearch.c:34
 msgid "Button$Simple"
 msgstr ""
 
-#: menu_quicksearch.c:127 menu_quicksearch.c:231 menu_searchedit.c:289
-#: menu_searchedit.c:544 menu_templateedit.c:159
 msgid "Use blacklists"
 msgstr ""
 
-#: menu_quicksearch.c:278 menu_searchedit.c:602
 msgid "Edit$Search text too short - use anyway?"
 msgstr ""
 
-#: menu_recsdone.c:91 menu_switchtimers.c:158 menu_timersdone.c:94
-msgid "Button$Delete all"
-msgstr ""
-
-#: menu_recsdone.c:91 menu_timersdone.c:94
-msgid "Button$by date"
-msgstr ""
-
-#: menu_recsdone.c:91 menu_timersdone.c:94
 msgid "Button$by name"
 msgstr ""
 
-#: menu_recsdone.c:104
+msgid "Button$by date"
+msgstr ""
+
+msgid "Button$Delete all"
+msgstr ""
+
 msgid "Recordings"
 msgstr ""
 
-#: menu_recsdone.c:114 menu_switchtimers.c:174 menu_timersdone.c:143
 msgid "Edit$Delete entry?"
 msgstr ""
 
-#: menu_recsdone.c:129 menu_switchtimers.c:187 menu_timersdone.c:158
 msgid "Edit$Delete all entries?"
 msgstr ""
 
-#: menu_recsdone.c:153 menu_switchtimers.c:205
 msgid "Summary"
 msgstr ""
 
-#: menu_recsdone.c:197
 msgid "Auxiliary info"
 msgstr ""
 
-#: menu_recsdone.c:210
 msgid "Button$Aux info"
 msgstr ""
 
-#: menu_search.c:116
-msgid "Button$Actions"
-msgstr ""
-
-#: menu_search.c:132
-msgid "Search entries"
-msgstr ""
-
-#: menu_search.c:132
-msgid "active"
-msgstr ""
-
-#: menu_search.c:158
-msgid "Edit$Delete search?"
-msgstr ""
-
-#: menu_search.c:160 menu_searchactions.c:164
-msgid "Delete all timers created from this search?"
-msgstr ""
-
-#: menu_searchactions.c:49
 msgid "Search actions"
 msgstr ""
 
-#: menu_searchactions.c:56
 msgid "Execute search"
 msgstr ""
 
-#: menu_searchactions.c:57
 msgid "Use as search timer on/off"
 msgstr ""
 
-#: menu_searchactions.c:58
 msgid "Trigger search timer update"
 msgstr ""
 
-#: menu_searchactions.c:59
 msgid "Show recordings done"
 msgstr ""
 
-#: menu_searchactions.c:60
 msgid "Show timers created"
 msgstr ""
 
-#: menu_searchactions.c:61
 msgid "Create a copy"
 msgstr ""
 
-#: menu_searchactions.c:62
 msgid "Use as template"
 msgstr ""
 
-#: menu_searchactions.c:63
 msgid "Show switch list"
 msgstr ""
 
-#: menu_searchactions.c:64
 msgid "Show blacklists"
 msgstr ""
 
-#: menu_searchactions.c:65
 msgid "Delete created timers?"
 msgstr ""
 
-#: menu_searchactions.c:66
 msgid "Timer conflict check"
 msgstr ""
 
-#: menu_searchactions.c:90
 msgid "Disable associated timers too?"
 msgstr ""
 
-#: menu_searchactions.c:92
 msgid "Activate associated timers too?"
 msgstr ""
 
-#: menu_searchactions.c:98 menu_searchactions.c:121 menu_searchedit.c:659
 msgid "Search timers activated in setup."
 msgstr ""
 
-#: menu_searchactions.c:123
 msgid "Run search timer update?"
 msgstr ""
 
-#: menu_searchactions.c:133
 msgid "Copy this entry?"
 msgstr ""
 
-#: menu_searchactions.c:137
 msgid "Copy"
 msgstr ""
 
-#: menu_searchactions.c:147
 msgid "Copy this entry to templates?"
 msgstr ""
 
-#: menu_searchedit.c:49
+msgid "Delete all timers created from this search?"
+msgstr ""
+
+msgid "Button$Actions"
+msgstr ""
+
+msgid "Search entries"
+msgstr ""
+
+msgid "active"
+msgstr ""
+
+msgid "Edit$Delete search?"
+msgstr ""
+
 msgid "Edit search"
 msgstr ""
 
-#: menu_searchedit.c:74
 msgid "Record"
 msgstr "Εγγραφή"
 
-#: menu_searchedit.c:75 menu_switchtimers.c:63
 msgid "Announce only"
 msgstr ""
 
-#: menu_searchedit.c:76
 msgid "Switch only"
 msgstr ""
 
-#: menu_searchedit.c:79
 msgid "Selection"
 msgstr ""
 
-#: menu_searchedit.c:80
 msgid "all"
 msgstr ""
 
-#: menu_searchedit.c:83
 msgid "count recordings"
 msgstr ""
 
-#: menu_searchedit.c:84
 msgid "count days"
 msgstr ""
 
-#: menu_searchedit.c:191 menu_templateedit.c:180
 msgid "Template name"
 msgstr ""
 
-#: menu_searchedit.c:192
 msgid "Help$Specify the name of the template."
 msgstr ""
 
-#: menu_searchedit.c:197
 msgid "Help$Specify here the term to search for."
 msgstr ""
 
-#: menu_searchedit.c:201
 msgid ""
 "Help$The following search modes exist:\n"
 "\n"
@@ -1315,283 +948,213 @@ msgid ""
 "- fuzzy searching: searches approximately"
 msgstr ""
 
-#: menu_searchedit.c:206
 msgid "Help$This sets the tolerance of fuzzy searching. The value represents the allowed errors."
 msgstr ""
 
-#: menu_searchedit.c:210
 msgid "Help$Set this to 'Yes' if your search should match the case."
 msgstr ""
 
-#: menu_searchedit.c:212
 msgid "Help$Set this to 'Yes' if you like to search in the title of an event."
 msgstr ""
 
-#: menu_searchedit.c:214
 msgid "Help$Set this to 'Yes' if you like to search in the episode of an event."
 msgstr ""
 
-#: menu_searchedit.c:216
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr ""
 
-#: menu_searchedit.c:222
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr ""
 
-#: menu_searchedit.c:233
 msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
 msgstr ""
 
-#: menu_searchedit.c:239
 msgid "Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."
 msgstr ""
 
-#: menu_searchedit.c:292
 msgid "Use in favorites menu"
 msgstr ""
 
-#: menu_searchedit.c:297
 msgid "Result menu layout"
 msgstr ""
 
-#: menu_searchedit.c:300 menu_searchedit.c:518 menu_templateedit.c:133
 msgid "Use as search timer"
 msgstr ""
 
-#: menu_searchedit.c:303
 msgid "Action"
 msgstr ""
 
-#: menu_searchedit.c:306 menu_switchtimers.c:56
 msgid "Switch ... minutes before start"
 msgstr ""
 
-#: menu_searchedit.c:307 menu_switchtimers.c:64
 msgid "Unmute sound"
 msgstr ""
 
-#: menu_searchedit.c:311
 msgid "  Series recording"
 msgstr ""
 
-#: menu_searchedit.c:313
 msgid "Delete recordings after ... days"
 msgstr ""
 
-#: menu_searchedit.c:315
 msgid "Keep ... recordings"
 msgstr ""
 
-#: menu_searchedit.c:316
 msgid "Pause when ... recordings exist"
 msgstr ""
 
-#: menu_searchedit.c:317 menu_searchedit.c:549 menu_templateedit.c:164
 msgid "Avoid repeats"
 msgstr ""
 
-#: menu_searchedit.c:320
 msgid "Allowed repeats"
 msgstr ""
 
-#: menu_searchedit.c:322
 msgid "Only repeats within ... days"
 msgstr ""
 
-#: menu_searchedit.c:323
 msgid "Compare title"
 msgstr ""
 
-#: menu_searchedit.c:324
 msgid "Compare subtitle"
 msgstr ""
 
-#: menu_searchedit.c:325
 msgid "Compare summary"
 msgstr ""
 
-#: menu_searchedit.c:341 menu_searchedit.c:554 menu_searchedit.c:798
-#: menu_templateedit.c:169
 msgid "Compare categories"
 msgstr ""
 
-#: menu_searchedit.c:351
 msgid "VPS"
 msgstr ""
 
-#: menu_searchedit.c:355
 msgid "Auto delete"
 msgstr ""
 
-#: menu_searchedit.c:357
 msgid "after ... recordings"
 msgstr ""
 
-#: menu_searchedit.c:359
 msgid "after ... days after first rec."
 msgstr ""
 
-#: menu_searchedit.c:754
 msgid "Edit user-defined days of week"
 msgstr ""
 
-#: menu_searchedit.c:808
 msgid "Compare"
 msgstr ""
 
-#: menu_searchedit.c:847
 msgid "Select blacklists"
 msgstr ""
 
-#: menu_searchedit.c:989 menu_searchedit.c:1063
 msgid "Values for EPG category"
 msgstr ""
 
-#: menu_searchedit.c:1013
 msgid "Button$Apply"
 msgstr ""
 
-#: menu_searchedit.c:1034
 msgid "less"
 msgstr ""
 
-#: menu_searchedit.c:1036
 msgid "less or equal"
 msgstr ""
 
-#: menu_searchedit.c:1038
 msgid "greater"
 msgstr ""
 
-#: menu_searchedit.c:1040
 msgid "greater or equal"
 msgstr ""
 
-#: menu_searchedit.c:1042
 msgid "equal"
 msgstr ""
 
-#: menu_searchedit.c:1044
 msgid "not equal"
 msgstr ""
 
-#: menu_searchedit.c:1120
 msgid "Activation of search timer"
 msgstr ""
 
-#: menu_searchedit.c:1125
 msgid "First day"
 msgstr ""
 
-#: menu_searchedit.c:1126
 msgid "Last day"
 msgstr ""
 
-#: menu_searchresults.c:421 menu_searchresults.c:545
 msgid "Button$all channels"
 msgstr ""
 
-#: menu_searchresults.c:422 menu_searchresults.c:546
 msgid "Button$only FTA"
 msgstr ""
 
-#: menu_searchresults.c:423 menu_searchresults.c:547
 msgid "Button$Timer preview"
 msgstr ""
 
-#: menu_searchresults.c:583
 msgid "Blacklist results"
 msgstr ""
 
-#: menu_searchresults.c:694
 msgid "found recordings"
 msgstr ""
 
-#: menu_searchresults.c:768
 msgid "Error while accessing recording!"
 msgstr ""
 
-#: menu_searchtemplate.c:115
 msgid "Button$Default"
 msgstr ""
 
-#: menu_searchtemplate.c:138
 msgid "Edit$Delete template?"
 msgstr ""
 
-#: menu_searchtemplate.c:197 menu_searchtemplate.c:207
 msgid "Overwrite existing entries?"
 msgstr ""
 
-#: menu_switchtimers.c:40
 msgid "Edit entry"
 msgstr ""
 
-#: menu_switchtimers.c:58
 msgid "action at"
 msgstr ""
 
-#: menu_switchtimers.c:141
 msgid "Switch list"
 msgstr ""
 
-#: menu_templateedit.c:42
 msgid "Edit template"
 msgstr ""
 
-#: menu_timersdone.c:133
 msgid "Timers"
 msgstr ""
 
-#: menu_whatson.c:146
 msgid ">>> no info! <<<"
 msgstr ""
 
-#: menu_whatson.c:276 menu_whatson.c:278 menu_whatson.c:288 menu_whatson.c:291
 msgid "Overview"
 msgstr ""
 
-#: menu_whatson.c:415
 msgid "Button$Favorites"
 msgstr ""
 
-#: quickepgsearch.c:32
 msgid "Quick search for broadcasts"
 msgstr ""
 
-#: quickepgsearch.c:33
 msgid "Quick search"
 msgstr ""
 
-#: quickepgsearch.c:34
 msgid "Show in main menu"
 msgstr ""
 
-#: searchtimer_thread.c:451
 #, c-format
 msgid "%d new broadcast(s) found! Show them?"
 msgstr ""
 
-#: searchtimer_thread.c:503
 msgid "Search timer update done!"
 msgstr ""
 
-#: timer_thread.c:95
 msgid "Programming timer failed!"
 msgstr ""
 
-#: uservars.h:240
 #, c-format
 msgid "in %02ldd"
 msgstr ""
 
-#: uservars.h:250
 #, c-format
 msgid "in %02ldh"
 msgstr ""
 
-#: uservars.h:260
 #, c-format
 msgid "in %02ldm"
 msgstr ""

@@ -12,6 +12,9 @@ neu:
   Option 'Ton anschalten', wodurch der Ton beim Umschalten aktiviert wird, falls 
   er aus war, vorgeschlagen von Michael Brückner
 - Die Suche und damit das Suchtimer-Update sind nun etwa 25% schneller
+- Neuer Patch für VDR (vdr-1.5.11-progressbar-support-0.0.1.diff), der die Unter-
+  stützung eines grafischen Fortschrittsbalkens in den Skins classic und st:tng
+  einbaut.
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine

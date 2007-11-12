@@ -10,6 +10,8 @@ new:
   option 'unmute sound' which unmutes audio at the event, if it was off, suggested 
   by Michael Brückner
 - speedup in searching and search timer updates (about 25%)
+- new patch against VDR (vdr-1.5.11-progressbar-support-0.0.1.diff) that adds support 
+  for graphical progressbars in skins classic and st:tng
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 

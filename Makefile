@@ -152,10 +152,10 @@ endif
 	msgfmt -c -o $@ $<
 
 $(I18Npot): $(wildcard *.[ch])
-	xgettext -C -cTRANSLATORS --no-wrap -F -k -ktr -ktrNOOP --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ $(wildcard *.[ch])
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ $(wildcard *.[ch])
 
 $(I18Npo): $(I18Npot)
-	msgmerge -U --no-wrap -F --backup=none -q $@ $<
+	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<
 
 i18n: $(I18Nmo)
 	@mkdir -p $(LOCALEDIR)
