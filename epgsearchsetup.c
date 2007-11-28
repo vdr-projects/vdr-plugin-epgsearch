@@ -39,11 +39,11 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 const char *OkKeyMode[2];
 const char *RedKeyMode[2];
 const char *BlueKeyMode[2];
-const char *ProgressbarMode[4];
+const char *ProgressbarMode[3];
 const char *StartMenuMode[2];
 const char *AddSubtitleMode[3];
 const char *FavoritesMenuMode[3];
-const char *MailMethod[3];
+const char *MailMethod[2];
 
 const char *cMenuSetupMailNotification::HostNameChars    = " abcdefghijklmnopqrstuvwxyz0123456789-._~:";
 const char *cMenuSetupMailNotification::UserNameChars    = " abcdefghijklmnopqrstuvwxyz0123456789-+.,:;?!$&#@~{}[]()_/";
@@ -989,3 +989,4 @@ eOSState cMenuSetupMailNotification::ProcessKey(eKeys Key)
    
    return state;
 }
+
