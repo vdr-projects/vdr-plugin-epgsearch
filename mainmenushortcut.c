@@ -33,106 +33,100 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 static const char SETUPENTRY[] = "MainMenuEntryEnabled";
 
 #if APIVERSNUM < 10507
-const tI18nPhrase Phrases[] =
-{
-    {
-        "This version of EPGSearch does not support this service!",
-        "Diese Version von EPGSearch unterstützt diesen Dienst nicht!",
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "EPGSearch-laajennos ei tarjoa vaadittavaa palvelua!",
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "", // Eesti
-        "", // Dansk
-        "", // Czech
-    },
-    {
-        "EPGSearch does not exist!",
-        "EPGSearch nicht vorhanden!",
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "EPGSearch-laajennosta ei löydy!",
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "",// TODO
-        "", // Eesti
-        "", // Dansk
-        "", // Czech
-    },
-    { NULL }
+const tI18nPhrase Phrases[] = {
+  {
+   "This version of EPGSearch does not support this service!",
+   "Diese Version von EPGSearch unterstützt diesen Dienst nicht!",
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "EPGSearch-laajennos ei tarjoa vaadittavaa palvelua!",
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// Eesti
+   "",				// Dansk
+   "",				// Czech
+   },
+  {
+   "EPGSearch does not exist!",
+   "EPGSearch nicht vorhanden!",
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "EPGSearch-laajennosta ei löydy!",
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// TODO
+   "",				// Eesti
+   "",				// Dansk
+   "",				// Czech
+   },
+  {NULL}
 };
 #endif
 
-cMainMenuShortcutSetupPage::cMainMenuShortcutSetupPage(const char* setupText, const char* setupEntry,
-  int* const setupValue)
+cMainMenuShortcutSetupPage::cMainMenuShortcutSetupPage(const char *setupText,
+						       const char *setupEntry,
+						       int *const setupValue)
 :_setupEntry(setupEntry), _setupValue(setupValue)
 {
-    Add(new cMenuEditBoolItem(setupText, _setupValue, trVDR("no"), trVDR("yes")));
-};
-  
+  Add(new cMenuEditBoolItem(setupText, _setupValue, trVDR("no"), trVDR("yes")));
+}
+
 void cMainMenuShortcutSetupPage::Store()
 {
-    SetupStore(_setupEntry, *_setupValue);
+  SetupStore(_setupEntry, *_setupValue);
 }
 
 cMainMenuShortcut::cMainMenuShortcut()
-:_mainMenuEntryEnabled(1)
+:  _mainMenuEntryEnabled(1)
 {
 }
 
 cMainMenuShortcut::~cMainMenuShortcut()
 {
 #if APIVERSNUM < 10507
-    I18nRegister(NULL, PLUGIN_NAME_I18N);
+  I18nRegister(NULL, PLUGIN_NAME_I18N);
 #endif
 }
 
-cOsdMenu* cMainMenuShortcut::GetEpgSearchMenu(const char* serviceName)
+cOsdMenu *cMainMenuShortcut::GetEpgSearchMenu(const char *serviceName)
 {
-    cOsdMenu* menu = NULL;
-    cPlugin *epgSearchPlugin = cPluginManager::GetPlugin("epgsearch");
-    if (epgSearchPlugin)
-    {
-        EpgSearchMenu_v1_0* serviceData = new EpgSearchMenu_v1_0;
- 
-        if (epgSearchPlugin->Service(serviceName, serviceData))
-        {
-            menu = serviceData->Menu;
-        }
-        else
-        {
-            Skins.Message(mtError, tr("This version of EPGSearch does not support this service!"));
-        }
-	
-        delete serviceData;
+  cOsdMenu *menu = NULL;
+  cPlugin *epgSearchPlugin = cPluginManager::GetPlugin("epgsearch");
+  if (epgSearchPlugin) {
+    EpgSearchMenu_v1_0 *serviceData = new EpgSearchMenu_v1_0;
+
+    if (epgSearchPlugin->Service(serviceName, serviceData)) {
+      menu = serviceData->Menu;
+    } else {
+      Skins.Message(mtError, tr("This version of EPGSearch does not support this service!"));
     }
-    else
-    {
-        Skins.Message(mtError, tr("EPGSearch does not exist!"));
-    }
-    return menu;
+
+    delete serviceData;
+  } else {
+    Skins.Message(mtError, tr("EPGSearch does not exist!"));
+  }
+  return menu;
 }
 
 bool cMainMenuShortcut::Initialize()
@@ -140,31 +134,27 @@ bool cMainMenuShortcut::Initialize()
 #if APIVERSNUM < 10507
   I18nRegister(Phrases, PLUGIN_NAME_I18N);
 #endif
-    return true;
+  return true;
 }
 
 bool cMainMenuShortcut::SetupParse(const char *Name, const char *Value)
 {
-    if (!strcasecmp(Name, SETUPENTRY))
-    {
-        _mainMenuEntryEnabled = atoi(Value);
-    }
-    return true;
+  if (!strcasecmp(Name, SETUPENTRY)) {
+    _mainMenuEntryEnabled = atoi(Value);
+  }
+  return true;
 }
 
-cMenuSetupPage* cMainMenuShortcut::SetupMenu()
+cMenuSetupPage *cMainMenuShortcut::SetupMenu()
 {
-    return new cMainMenuShortcutSetupPage(SetupText(), SETUPENTRY, &_mainMenuEntryEnabled);
+  return new cMainMenuShortcutSetupPage(SetupText(), SETUPENTRY, &_mainMenuEntryEnabled);
 }
 
-const char* cMainMenuShortcut::MainMenuEntry()
+const char *cMainMenuShortcut::MainMenuEntry()
 {
-    if (_mainMenuEntryEnabled)
-    {
-        return (const char*) MainMenuText();
-    }
-    else
-    {
-        return NULL;
-    }
+  if (_mainMenuEntryEnabled) {
+    return (const char *) MainMenuText();
+  } else {
+    return NULL;
+  }
 }
