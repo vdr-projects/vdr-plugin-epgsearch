@@ -103,6 +103,9 @@ protected:
 public:
   cMenuEventSearch(const cEvent* Event, cEventObjects& EventObjects, MenuEventSurfMode SurfMode = SurfModeUnknown);
   ~cMenuEventSearch();
+#ifdef USE_GRAPHTFT
+      const char* MenuKind() { return "MenuEvent"; }
+#endif
 };
 
 class cMenuEventSearchSimple : public cMenuEventSearch {
