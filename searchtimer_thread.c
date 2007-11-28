@@ -221,7 +221,7 @@ void cSearchTimerThread::Action(void)
          cSearchExt *searchExt = localSearchExts->First();
          // reset announcelist
          announceList.Clear();
-         while (searchExt) 
+         while (searchExt && m_Active) 
          {
 	   if (!searchExt->IsActiveAt(now))
             {

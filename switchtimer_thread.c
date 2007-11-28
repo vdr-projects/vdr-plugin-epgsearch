@@ -81,7 +81,7 @@ void cSwitchTimerThread::Action(void)
          cMutexLock SwitchTimersLock(&SwitchTimers);
          LogFile.Log(3,"switch timer check started");
          cSwitchTimer* switchTimer = SwitchTimers.First();
-         while (switchTimer) 
+         while (switchTimer && m_Active) 
          {
             const cEvent* event = switchTimer->event;
             if (event && event->StartTime() - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
