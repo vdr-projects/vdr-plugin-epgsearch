@@ -61,7 +61,6 @@ class cVarParser
     bool ParseCondExp(const string& input);
     bool ParseEquality(const string& input);
     bool ParseVar(const string& input);
-    string Strip(const string& input);
 };
 
 #endif
