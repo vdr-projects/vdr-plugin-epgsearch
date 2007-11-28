@@ -86,86 +86,99 @@ bool cMenuMyScheduleItem::Update(bool Force)
    {
       char szProgressPart[12] = "";
       char szProgressPartT2S[12] = "";
+      time_t now = time(NULL);
       if (channel)
       {
          if (event)
          {
-	   if ((time(NULL) - event->StartTime()) >= 0 || strstr(menutemplate, "%time%") != NULL)
+	   time_t startTime = event->StartTime();
+	   if ((now - event->StartTime()) >= 0 || strstr(menutemplate, "%time%") != NULL)
             {
-               int frac = 0;
-               if (mode == showNow)
-                  frac = (int)roundf( (float)(time(NULL) - event->StartTime()) / (float)(event->Duration()) * 8.0 );
-               if (mode == showNext)
-                  frac = (int)roundf( (float)(1 - min(float(30*60), float(event->StartTime() - time(NULL))) / (30*60)) * 8.0 );
-               frac = min(8,max(0, frac));
-
-               char szProgressT2S[9] = "";
-               for(int i = 0; i < frac; i++) szProgressT2S[i] = '|';
-               szProgressT2S[frac]=0;
-               sprintf(szProgressPartT2S, "%c%-8s%c", '[', szProgressT2S, ']');
-
-               char szProgress[9] = {130,131,131,131,131,131,131,132,0};
-               for(int i = 0; i < frac; i++) szProgress[i] = 127;
-               sprintf(szProgressPart, "%-8s", szProgress);
+	      int frac = 0;
+	      if (mode == showNow)
+		{
+		  int dur = event->Duration();
+		  frac = ((now - startTime) * 8 + (dur >> 1)) / dur;
+		}
+	      if (mode == showNext)
+		frac = (  ( 30*60 - min((long int)30*60, startTime - now) ) * 8 + 15*60  ) / (30*60);
+	      
+	      frac = min(8,max(0, frac));
+	      
+	      szProgressPartT2S[0] = '[';
+	      memset(szProgressPartT2S + 1,'|',frac);
+	      memset(szProgressPartT2S + 1 + frac ,' ', 8 - frac);
+	      szProgressPartT2S[9] = ']';
+	      szProgressPartT2S[10] = 0;
+	      
+	      szProgressPart[0] = 130;
+	      memset(szProgressPart + 1, 131, 6);
+	      szProgressPart[7] = 132;
+	      szProgressPart[8] = 0;
+	      memset(szProgressPart, 127, frac);
             }
             else
             {
-               sprintf(szProgressPart, "%s", *event->GetTimeString());
-               sprintf(szProgressPartT2S, "%s", szProgressPart);
+	      strncpy(szProgressPart, *event->GetTimeString(), 12);
+	      szProgressPart[11] = 0;
+	      memcpy(szProgressPartT2S, szProgressPart, 12);
             }
          }
       }
       
-      char t[2]="",v[2]="",r[2]="";
-      char szStatus[4] = "";
+      char t[2],v[2],r[2];
+      char szStatus[4];
+      szStatus[3] = 0;
+      t[1]=v[1]=r[1] = 0; 
+
       if (EPGSearchConfig.WarEagle)
       {
-         sprintf(t, "%c", event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?249:253) : 't' : ' ');
-         sprintf(v, "%c", event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ');
-         sprintf(r, "%c", event && event->IsRunning() ? 251 : ' ');
+	t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?249:253) : 't' : ' ';
+	v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ';
+	r[0] = event && event->IsRunning() ? 251 : ' ';
       }
       else
       {
-         sprintf(t, "%c", event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?'R':'T') : 't' : ' ');
-         sprintf(v, "%c", event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ');
-         sprintf(r, "%c", event && event->IsRunning() ? '*' : ' ');
+	t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?'R':'T') : 't' : ' ';
+	v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ';
+	r[0] = event && event->IsRunning() ? '*' : ' ';
       }
 
       if (event && inSwitchList)
       {
          cSwitchTimer* s = SwitchTimers.InSwitchList(event);
-         sprintf(t, "%c", (s && s->announceOnly)?'s':'S');
+	 t[0] = (s && s->announceOnly)?'s':'S';
       }
-      sprintf(szStatus, "%s%s%s", t,v,r);
+      szStatus[0] = t[0];
+      szStatus[1] = v[0];
+      szStatus[2] = r[0];
+
 
       char* buffer = strdup(menutemplate);
-      char* tmp = strreplaceall(buffer, '|', "\t");
-      free(buffer);
-      buffer = tmp;
+      strreplace(buffer, '|', '\t');
 
       buffer = strreplacei(buffer, "%title%", event?event->Title():tr(">>> no info! <<<"));
       if (channel)
       {
          char szChannelNr[6] = "";
-         if (channel)
-            sprintf(szChannelNr, "%d", channel->Number());
+	 sprintf(szChannelNr, "%d", channel->Number());
          buffer = strreplacei(buffer, "%chnr%", szChannelNr);
-         buffer = strreplacei(buffer, "%chsh%", channel?channel->ShortName(true):"");
-         buffer = strreplacei(buffer, "%chlng%", channel?channel->Name():"");
+         buffer = strreplacei(buffer, "%chsh%", channel->ShortName(true));
+         buffer = strreplacei(buffer, "%chlng%", channel->Name());
          buffer = strreplacei(buffer, "%progr%", szProgressPart);
          buffer = strreplacei(buffer, "%progrT2S%", szProgressPartT2S);
       }
 
       // parse the epxression and evaluate it
       cVarExpr varExpr(buffer);
-      tmp = strdup(varExpr.Evaluate(event).c_str());
+      char* tmp = strdup(varExpr.Evaluate(event).c_str());
       free(buffer);
       buffer = tmp;
-
-      buffer = strreplacei(buffer, "%status%", szStatus);
-      buffer = strreplacei(buffer, "%t_status%", t);
-      buffer = strreplacei(buffer, "%v_status%", v);
-      buffer = strreplacei(buffer, "%r_status%", r);
+      
+      buffer = strreplacei(buffer, "$status$", szStatus);
+      buffer = strreplacei(buffer, "$t_status$", t);
+      buffer = strreplacei(buffer, "$v_status$", v);
+      buffer = strreplacei(buffer, "$r_status$", r);
 
 
       buffer = FixSeparators(buffer, '~');
