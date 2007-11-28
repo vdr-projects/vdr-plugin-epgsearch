@@ -79,6 +79,13 @@ bool cMenuTemplate::PrepareTemplate(const char* templateLine)
 	strcpy(menuTemplate, stripped);
 	free(stripped);
     }
+
+    // the status variables are handled in menu_whatson.c itself
+    // to speedup the var-parser we 'hide' them here in renaming them
+    strcpy(menuTemplate, strreplacei(menuTemplate, "%status%", "$status$"));
+    strcpy(menuTemplate, strreplacei(menuTemplate, "%t_status%", "$t_status$"));
+    strcpy(menuTemplate, strreplacei(menuTemplate, "%v_status%", "$v_status$"));
+    strcpy(menuTemplate, strreplacei(menuTemplate, "%r_status%", "$r_status$"));
     return true;
 }
 
@@ -211,7 +218,7 @@ void cTemplFile::PrepareDefaultTemplates()
     }
     if (WhatsOnNow && strlen(WhatsOnNow->MenuTemplate()) == 0)
     {
-	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%s%s%%status%%:3|%%title%% ~ %%subtitle%%:30", 
+	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%s%s$status$:3|%%title%% ~ %%subtitle%%:30", 
 		EPGSearchConfig.showChannelNr?channelnr:"",
 		EPGSearchConfig.showProgress==0?"":(EPGSearchConfig.showProgress==1?"%progrT2S%:4|":"%progr%:5|"),
 		text2skin?" ":"");
@@ -219,7 +226,7 @@ void cTemplFile::PrepareDefaultTemplates()
     }
 	
     // What's on next and else
-    sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:7|%%status%%:4|%%title%% ~ %%subtitle%%:30", 
+    sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:7|$status$:4|%%title%% ~ %%subtitle%%:30", 
 	    EPGSearchConfig.showChannelNr?channelnr:"");
     cMenuTemplate* WhatsOnNext = GetTemplateByName("MenuWhatsOnNext");
     if (!WhatsOnNext)
@@ -247,8 +254,8 @@ void cTemplFile::PrepareDefaultTemplates()
     }
     if (Schedule && strlen(Schedule->MenuTemplate()) == 0)
     {
-	strcpy(menutemplate, "%time_w% %time_d%:7|%time%:6|%status%:4|%title% ~ %subtitle%:30");
-	Schedule->PrepareTemplate(menutemplate);
+      strcpy(menutemplate, "%time_w% %time_d%:7|%time%:6|$status$:4|%title% ~ %subtitle%:30");
+      Schedule->PrepareTemplate(menutemplate);
     }
 
     // Search results
@@ -260,7 +267,7 @@ void cTemplFile::PrepareDefaultTemplates()
     }
     if (SearchResults && strlen(SearchResults->MenuTemplate()) == 0)
     {
-	sprintf(menutemplate, "%s%%chsh%%:12|%%datesh%%:6|%%time%%:6|%%status%%:3|%%title%% ~ %%subtitle%%:30", 
+	sprintf(menutemplate, "%s%%chsh%%:12|%%datesh%%:6|%%time%%:6|$status$:3|%%title%% ~ %%subtitle%%:30", 
 		EPGSearchConfig.showChannelNr?channelnr:"");
 	SearchResults->PrepareTemplate(menutemplate);
     }
@@ -274,7 +281,7 @@ void cTemplFile::PrepareDefaultTemplates()
     }
     if (Favorites && strlen(Favorites->MenuTemplate()) == 0)
     {
-	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%%timespan%%:7|%%status%%:3|%%title%% ~ %%subtitle%%:30", 
+	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%%timespan%%:7|$status$:3|%%title%% ~ %%subtitle%%:30", 
 		EPGSearchConfig.showChannelNr?channelnr:"");
 	Favorites->PrepareTemplate(menutemplate);
     }

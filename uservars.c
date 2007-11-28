@@ -40,8 +40,8 @@ cUserVar::cUserVar()
 
 string cUserVar::Evaluate(const cEvent* e, bool escapeStrings)
 {
-   if (oldEvent && oldEvent == e && oldescapeStrings == escapeStrings)
-      return oldResult;
+  if (oldEvent && oldEvent == e && oldescapeStrings == escapeStrings)
+    return oldResult;
    usedVars.clear();
    string result;
    if (IsShellCmd())
@@ -100,22 +100,20 @@ string cUserVar::EvaluateCondExpr(const cEvent* e, bool escapeStrings)
 
    if (condresult != "")
    {
-      LogFile.Log(3, "using case 'true'");
-      return condVarTrue->Evaluate(e, escapeStrings);
+     LogFile.Log(3, "using case 'true'");
+     return condVarTrue->Evaluate(e, escapeStrings);
    }
    else
    {
-      LogFile.Log(3, "using case 'false'");
-      return condVarFalse->Evaluate(e, escapeStrings);
+     LogFile.Log(3, "using case 'false'");
+     return condVarFalse->Evaluate(e, escapeStrings);
    }
 }
 
 string cUserVar::EvaluateCompExpr(const cEvent* e, bool escapeStrings)
 {
    string expr = varparser.compExpr;
-
-   string compExprLower = expr;
-   std::transform(compExprLower.begin(), compExprLower.end(), compExprLower.begin(), tolower);
+   if (expr.find('%') == string::npos) return expr;
 
    // handle internal vars like title and subtitle
    expr = EvaluateInternalVars(expr, e, escapeStrings);
@@ -132,6 +130,7 @@ string cUserVar::EvaluateCompExpr(const cEvent* e, bool escapeStrings)
 string cUserVar::EvaluateInternalVars(const string& Expr, const cEvent* e, bool escapeStrings)
 {
    string expr = Expr;
+   if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cInternalVar*>::iterator it;
    for (it = UserVars.internalVars.begin(); it != UserVars.internalVars.end(); it++) 
@@ -150,6 +149,7 @@ string cUserVar::EvaluateInternalVars(const string& Expr, const cEvent* e, bool 
 string cUserVar::EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool escapeStrings)
 {
    string expr = Expr;
+   if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cExtEPGVar*>::iterator evar;
    for (evar = UserVars.extEPGVars.begin(); evar != UserVars.extEPGVars.end(); evar++) 
@@ -168,6 +168,7 @@ string cUserVar::EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool es
 string cUserVar::EvaluateUserVars(const string& Expr, const cEvent* e, bool escapeStrings)
 {
    string expr = Expr;
+   if (expr.find('%') == string::npos) return expr;
 
    std::set<cUserVar*>::iterator it;
    for (it = UserVars.userVars.begin(); it != UserVars.userVars.end(); it++) 
@@ -186,6 +187,7 @@ string cUserVar::EvaluateUserVars(const string& Expr, const cEvent* e, bool esca
 string cUserVar::EvaluateInternalTimerVars(const string& Expr, const cTimer* t)
 {
    string expr = Expr;
+   if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cTimerVar*>::iterator tvar;
    for (tvar = UserVars.internalTimerVars.begin(); tvar != UserVars.internalTimerVars.end(); tvar++) 
@@ -203,6 +205,7 @@ string cUserVar::EvaluateInternalTimerVars(const string& Expr, const cTimer* t)
 string cUserVar::EvaluateInternalSearchVars(const string& Expr, const cSearchExt* s)
 {
    string expr = Expr;
+   if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cSearchVar*>::iterator svar;
    for (svar = UserVars.internalSearchVars.begin(); svar != UserVars.internalSearchVars.end(); svar++) 

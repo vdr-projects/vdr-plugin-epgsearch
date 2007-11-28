@@ -24,6 +24,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "varparser.h"
 #include <vdr/plugin.h>
 #include "log.h"
+#include "epgsearchtools.h"
 
 bool cVarParser::Parse(const string& input)
 {
@@ -55,16 +56,19 @@ bool cVarParser::ParseExp(const string& input)
       return ParseShellCmd(input);
    // conditional expression?
    int varPos = Strip(input).find("%");
-   int queryPos = input.find("?");
-   int colonPos = input.find(":");
-   if (varPos == 0 && queryPos >= 0 && colonPos > queryPos)
-      return ParseCondExp(input);
-   else
-   {
-      // composed expression
-      compExpr = input;
-      return true; 
-   }
+   if (varPos == 0)
+     {
+       int queryPos = input.find("?");
+       if (queryPos >= 0)
+	 {
+	   int colonPos = input.find(":");
+	   if (colonPos > queryPos)
+	     return ParseCondExp(input);
+	 }
+     }
+   // composed expression
+   compExpr = input;
+   return true; 
 }
 
 bool cVarParser::ParseShellCmd(const string& input)
@@ -160,17 +164,9 @@ bool cVarParser::ParseEquality(const string& input)
 bool cVarParser::ParseVar(const string& input)
 {   
    string str = Strip(input);
-   if (str[0] == '%' && str[str.size()-1] == '%' && str.size() > 2)
+   if (str.size() > 2 && str[0] == '%' && str[str.size()-1] == '%')
       return true;
    return false;
-}
-
-string cVarParser::Strip(const string& input)
-{
-   string str = input;
-   while(str[0] == ' ') str.replace(0,1, "");
-   while(str[str.size()-1] == ' ') str.replace(str.size()-1,1, "");
-   return str;
 }
 
 bool cVarParser::IsCondExpr()
