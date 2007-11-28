@@ -64,7 +64,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_quicksearch.h"
 #include "menu_announcelist.h"
 
-static const char VERSION[]        = "0.9.24.beta10";
+static const char VERSION[]        = "0.9.24.beta14";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -398,7 +398,6 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
       serviceData->handler = autoHandler;
       return true;
    }
-
    return false;
 }
 
