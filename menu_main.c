@@ -56,9 +56,14 @@ cMenuSearchMain::cMenuSearchMain(void)
   schedules = cSchedules::Schedules(schedulesLock);
   if (channel) {
     cMenuWhatsOnSearch::SetCurrentChannel(channel->Number());
-    PrepareSchedule(channel);
+    if (EPGSearchConfig.StartMenu == 0)
+      PrepareSchedule(channel);
     SetHelpKeys();
     cMenuWhatsOnSearch::currentShowMode = showNow;
+    //    timeb tnow;
+    //ftime(&tnow);
+    //isyslog("duration epgs sched:  %d", tnow.millitm - gl_time.millitm + ((tnow.millitm - gl_time.millitm<0)?1000:0));
+
   }
   if (EPGSearchConfig.StartMenu == 1)
     {
@@ -81,7 +86,7 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
 {
     Clear();
     char *buffer = NULL;
-    asprintf(&buffer, "%s - %s", tr("Schedule"), Channel->Name());
+    asprintf(&buffer, "%s - %s", trVDR("Schedule"), Channel->Name());
     SetTitle(buffer);
     free(buffer);
 
@@ -94,12 +99,15 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
 	if (Schedule && Schedule->Events()->First()) 
 	{
 	    const cEvent *PresentEvent = Schedule->GetPresentEvent();
-	    time_t now;
+	    time_t now = time(NULL);
 	    if (shiftTime == 0)
-		now = time(NULL) - Setup.EPGLinger * 60;
+		now -= Setup.EPGLinger * 60;
 	    else
-		now = time(NULL) + shiftTime * 60;
+		now += shiftTime * 60;
 	    time_t lastEventDate = Schedule->Events()->First()->StartTime();
+
+	    //	        timeb tstart;
+	    // ftime(&tstart);
 	    for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
 		if (Event->EndTime() > now || (shiftTime==0 && Event == PresentEvent))
 		{
@@ -122,9 +130,12 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
 			lastEventDate = EventDate;
 		    }
 		    Add(new cMenuMyScheduleItem(Event, NULL, showNow, ScheduleTemplate), Event == PresentEvent);
-            eventObjects.Add(Event);
+		    eventObjects.Add(Event);
 		}
             }
+	    //	    	    timeb tnow;
+		    //	    ftime(&tnow);
+		    //	    isyslog("duration epgs prepsched:  %d (%d)", tnow.millitm - tstart.millitm + ((tnow.millitm - tstart.millitm<0)?1000:0), Count());
         }
     }
     if (shiftTime)
