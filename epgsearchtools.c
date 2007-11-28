@@ -528,7 +528,7 @@ char *strreplacei(char *s, const char *s1, const char *s2)
          s = (char *)realloc(s, strlen(s) + l2 - l1 + 1);
       if (l2 != l1)
          memmove(s + of + l2, s + of + l1, l - of - l1 + 1);
-      strncpy(s + of, s2, l2);
+      memcpy(s + of, s2, l2);
    }
    return s;
 }
@@ -546,6 +546,7 @@ unsigned int strcharcount(char* source, char ch)
 char *strreplaceall(char* source, char ch, const char* replacement)
 {
    int		replen;
+   int		srclen;
    unsigned int	chnum;
    register char	*sptr, *nptr;
    char		*newval;
@@ -554,19 +555,20 @@ char *strreplaceall(char* source, char ch, const char* replacement)
     
    if (chnum == 0)
       return (NULL);
-    
+  
+   srclen = strlen(source);
    replen = strlen(replacement);
-   newval = (char*) malloc(strlen(source) + (chnum * replen) + 1);
+   newval = (char*) malloc(srclen + (chnum * replen) + 1);
    nptr = newval;
-   for (sptr = source; *sptr; sptr++)
+   for (sptr = source; chnum > 0; sptr++)
       if (*sptr == ch) {
-         strcpy(nptr, replacement);
+         memcpy(nptr, replacement, replen);
          nptr += replen;
+         chnum--;        
       }
       else
          *nptr++ = *sptr;
-   *nptr = '\0';
-    
+   memcpy(nptr, sptr, srclen - (sptr - source) + 1);
    return (newval);
 }
 
@@ -712,7 +714,7 @@ const cEvent* GetEvent(cTimer* timer)
       }
       if (seconds == 0)
          LogFile.Log(2,"waiting for EPG info...");
-      sleep(1);
+      sleepSec(1);
    }
    LogFile.Log(1,"no EPG info available");
    return NULL;
@@ -927,12 +929,10 @@ string NumToString(long num)
 
 int FindIgnoreCase(const string& expr, const string& query)
 {
-   string exprLower = expr;
-   std::transform(exprLower.begin(), exprLower.end(), exprLower.begin(), tolower);
-   string queryLower = query;
-   std::transform(queryLower.begin(), queryLower.end(), queryLower.begin(), tolower);
-   int pos = exprLower.find(queryLower);
-   return pos;
+  icstring exprIC(expr.c_str());
+  icstring queryIC(query.c_str());
+  int pos = exprIC.find(queryIC);
+  return pos;
 }
 
 bool EqualsNoCase(const string& a, const string& b)
@@ -942,10 +942,15 @@ bool EqualsNoCase(const string& a, const string& b)
 
 string Strip(const string& input)
 {
-   string str = input;
-   while(str[0] == ' ') str.replace(0,1, "");
-   while(str[str.size()-1] == ' ') str.replace(str.size()-1,1, "");
-   return str;
+  string str = input;
+  string::size_type pos = str.find_last_not_of(' ');
+  if(pos != string::npos) {
+    str.erase(pos + 1);
+    pos = str.find_first_not_of(' ');
+    if(pos != string::npos) str.erase(0, pos);
+  }
+  else str.erase(str.begin(), str.end());
+  return str;
 }
 
 string GetAlNum(const string& s)
