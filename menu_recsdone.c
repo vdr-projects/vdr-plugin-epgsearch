@@ -26,13 +26,14 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 int sortModeRecDone = 0;
 
-cMenuRecDoneItem::cMenuRecDoneItem(cRecDone* RecDone)
+cMenuRecDoneItem::cMenuRecDoneItem(cRecDone* RecDone, bool ShowEpisodeOnly)
 {
   recDone = RecDone;
+  showEpisodeOnly = ShowEpisodeOnly;
   Set();
 }
 
-void cMenuRecDoneItem::Set(void)
+void cMenuRecDoneItem::Set()
 {
     if (!recDone)
 	return;
@@ -43,7 +44,8 @@ void cMenuRecDoneItem::Set(void)
     tm *tm = localtime_r(&recDone->startTime, &tm_r);
     strftime(buf, sizeof(buf), "%d.%m.%y %H:%M", tm);
 
-    asprintf(&buffer, "%s\t%s~%s", buf, recDone->title?recDone->title:"", recDone->shortText?recDone->shortText:"");
+    asprintf(&buffer, "%s\t%s~%s", buf, recDone->title && !showEpisodeOnly?recDone->title:"", 
+	     recDone->shortText?recDone->shortText:"");
     SetText(buffer, false);
 }
 
@@ -67,10 +69,11 @@ int cMenuRecDoneItem::Compare(const cListObject &ListObject) const
 
 // --- cMenuRecsDone ----------------------------------------------------------
 cMenuRecsDone::cMenuRecsDone(cSearchExt* Search)
-:cOsdMenu("", 15)
+:cOsdMenu("", 16)
 {
     search = Search;
     showAll = true;
+    showEpisodeOnly = false;
     sortModeRecDone = 0;
     if (search) showAll = false;
     Set();
@@ -84,7 +87,7 @@ void cMenuRecsDone::Set()
     cRecDone* recDone = RecsDone.First();
     while (recDone) {
 	if (showAll || (!showAll && search && recDone->searchID == search->ID))
-	    Add(new cMenuRecDoneItem(recDone));
+	  Add(new cMenuRecDoneItem(recDone, showEpisodeOnly));
 	recDone = RecsDone.Next(recDone);
     }
     UpdateTitle();
@@ -159,32 +162,36 @@ eOSState cMenuRecsDone::ProcessKey(eKeys Key)
   eOSState state = cOsdMenu::ProcessKey(Key);
   if (state == osUnknown) {
     switch (Key) {
-	case kOk:
-	    state = Summary();
-	    break;
-	case kGreen:
-	    state = DeleteAll();
-	    break;
-	case kYellow:
-	    state = Delete();
-	    break;
-	case kBlue:
-	    showAll = !showAll;
-	    Set();
-	    Display();
-	    break;
-	case k0:
-	case kRed:
-	    sortModeRecDone = 1-sortModeRecDone;
-	    Set();
-	    Display();
-	    break;
-	case k8:
-	    return osContinue;
-      default: break;
+    case kOk:
+      state = Summary();
+      break;
+    case kGreen:
+      state = DeleteAll();
+      break;
+    case kYellow:
+      state = Delete();
+      break;
+    case kBlue:
+      showAll = !showAll;
+      Set();
+      Display();
+      break;
+    case k0:
+      showEpisodeOnly = !showEpisodeOnly;
+      Set();
+      Display();
+      break;
+    case kRed:
+      sortModeRecDone = 1-sortModeRecDone;
+      Set();
+      Display();
+      break;
+    case k8:
+      return osContinue;
+    default: break;
     }
   }
-
+  
   return state;
 }
 
