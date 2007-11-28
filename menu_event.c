@@ -126,6 +126,9 @@ cMenuEventSearch::~cMenuEventSearch()
 void cMenuEventSearch::Display(void)
 {
   cOsdMenu::Display();
+#ifdef USE_GRAPHTFT
+  cStatus::MsgOsdSetEvent(event);
+#endif
   if (event)
   {
       DisplayMenu()->SetEvent(event);
