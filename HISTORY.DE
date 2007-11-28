@@ -16,6 +16,13 @@ neu:
   stützung eines grafischen Fortschrittsbalkens in den Skins classic und st:tng
   einbaut.
 - Schnellere EPG-Menüs, danke an die Patch-Authoren von http://www.open7x0.org
+- '0' im Menü der erledigten Aufnahmen schaltet nun die Anzeige zwischen
+  '~Episode' und 'Titel~Episode' um.
+- Update der finnischen Übersetzung, Danke an Rolf Ahrenberg
+- Spanische Übersetzung, vielen Dank an agusmir, dragondefuego, GenaroL, lopezm und
+  nachofr von todopvr.com, und ein besonderer Dank an bittor
+- Änderungen für den eingebauten graphtft-patch (bei Verwendung von 
+  VDR-extension-patch ist > v.37 notwendig)
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine
@@ -37,6 +44,8 @@ fixes:
   signalisiert wird.
 - Kanalgruppen-Separatoren in 'Übersicht Jetzt/Nächste/...' werden nun ausgeblendet,
   wenn sie leer sind, wie in ':@30', Danke an Ulf Kiener für einen entspr. Patch.
+- Absturz beim Aufruf des Setups der Addon-Plugins behoben, wenn VDR mit dem ext-Patch
+  und aktivem LIEMIKUUTIO versehen wurde.
 
 
 2007-09-02: Version 0.9.23

@@ -13,6 +13,11 @@ new:
 - new patch against VDR (vdr-1.5.11-progressbar-support-0.0.1.diff) that adds support 
   for graphical progressbars in skins classic and st:tng
 - speedup in EPG menues, thanks to patch authors from http://www.open7x0.org
+- '0' in the menu of done recordings now toggles the display of the episode name only
+- update of finnish translation, thanks to Rolf Ahrenberg
+- full spanish translation, many thanks to agusmir, dragondefuego, GenaroL, lopezm and
+  nachofr from todopvr.com, and especially to bittor
+- changes for builtin graphtft-patch (when using VDR-extension-patch you need > v.37)
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 
@@ -32,6 +37,9 @@ fixes:
 - fixed a crash, when SIGINT is signaled while background threads startup
 - channel group separators in 'Overview Now/Next/...' are now hidden if they are 
   empty like in ':@30', thanks to Ulf Kiener for providing a patch
+- fixed a crash in the setup of the addon plugins when VDR is patched with the ext-patch
+  and active LIEMIKUUTIO
+
 
 2007-09-02: Version 0.9.23
 new: 
