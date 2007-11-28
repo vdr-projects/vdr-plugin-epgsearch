@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-11-12 19:20+0100\n"
+"POT-Creation-Date: 2007-11-16 16:11+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -797,9 +797,6 @@ msgstr "Suosikit"
 msgid "Search results"
 msgstr "Hakutulokset"
 
-msgid "Schedule"
-msgstr "Ohjelmisto"
-
 msgid "Timer conflict! Show?"
 msgstr "P‰‰llekk‰isi‰ ajastimia! N‰ytet‰‰nkˆ?"
 
@@ -1036,7 +1033,7 @@ msgid "Switch ... minutes before start"
 msgstr "Vaihda ... minuuttia ennen alkua"
 
 msgid "Unmute sound"
-msgstr ""
+msgstr "Ota mykistys pois p‰‰lt‰"
 
 msgid "  Series recording"
 msgstr "  Sarjatallennus"
@@ -1206,3 +1203,4 @@ msgstr "%02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"
+

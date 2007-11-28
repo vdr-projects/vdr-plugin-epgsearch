@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-11-12 19:20+0100\n"
+"POT-Creation-Date: 2007-11-16 16:11+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -757,9 +757,6 @@ msgstr ""
 
 msgid "Search results"
 msgstr "Zoek resultaten"
-
-msgid "Schedule"
-msgstr ""
 
 msgid "Timer conflict! Show?"
 msgstr ""
