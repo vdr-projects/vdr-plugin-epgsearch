@@ -112,10 +112,10 @@ bool cMenuSearchResultsItem::Update(bool Force)
       free(buffer);
       buffer = tmp;
 
-      buffer = strreplacei(buffer, "%status%", szStatus);
-      buffer = strreplacei(buffer, "%t_status%", t);
-      buffer = strreplacei(buffer, "%v_status%", v);
-      buffer = strreplacei(buffer, "%r_status%", r);
+      buffer = strreplacei(buffer, "$status$", szStatus);
+      buffer = strreplacei(buffer, "$t_status$", t);
+      buffer = strreplacei(buffer, "$v_status$", v);
+      buffer = strreplacei(buffer, "$r_status$", r);
 
       buffer = FixSeparators(buffer, '~');
       buffer = FixSeparators(buffer, ':');
@@ -713,8 +713,10 @@ bool cMenuSearchResultsForRecs::BuildList()
    Clear();
    for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
      const cRecordingInfo *recInfo = recording->Info();
+     if (!recInfo) continue;
      string s1 = (recInfo && recInfo->Title())?recInfo->Title():"";
      string s2 = searchExt->search;
+     if (s1.empty() || s2.empty()) continue;
 
      // tolerance for fuzzy searching: 90% of the shorter text lenght, but atleast 1
      int tolerance = std::max(1, (int)std::min(s1.size(), s2.size()) / 10); 
