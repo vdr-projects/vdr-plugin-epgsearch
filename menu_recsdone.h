@@ -33,8 +33,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cMenuRecDoneItem : public cOsdItem {
  public:
     cRecDone* recDone;
-    cMenuRecDoneItem(cRecDone* RecDone);
-    void Set(void);
+    bool showEpisodeOnly;
+    cMenuRecDoneItem(cRecDone* RecDone, bool ShowEpisodeOnly = false);
+    void Set();
     int Compare(const cListObject &ListObject) const;
 };
 
@@ -46,6 +47,7 @@ class cMenuRecsDone : public cOsdMenu {
     eOSState Delete(void);
     eOSState DeleteAll(void);
     bool showAll;
+    bool showEpisodeOnly;
   protected:
     void Set();
     virtual eOSState ProcessKey(eKeys Key);
