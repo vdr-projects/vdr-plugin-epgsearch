@@ -1134,7 +1134,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
       cRecDone* firstRec = NULL;
       LogFile.Log(3,"get count recordings");
       records = RecsDone.GetCountRecordings(pEvent, this, &firstRec);
-      LogFile.Log(3,"rec  ordings: %d", records);	
+      LogFile.Log(3,"recordings: %d", records);	
       
       if (records > allowedRepeats) // already recorded
       {
@@ -1239,7 +1239,11 @@ void cSearchExt::CheckExistingRecordings(cSearchResults* pResults)
    int remain = pauseOnNrRecordings - num;
    for (pResultObj = pResults->First(); pResultObj; pResultObj = pResults->Next(pResultObj), remain--)
    {
-      if (!pResultObj->needsTimer) continue; // maybe already disabled because of done feature
+      if (!pResultObj->needsTimer) 
+	{
+	  remain++;
+	  continue; // maybe already disabled because of done feature
+	}
       pResultObj->needsTimer = (remain > 0); 		
       if (remain <= 0)	    
       {
