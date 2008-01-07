@@ -37,7 +37,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 const char *cMenuMyEditTimer::CheckModes[3];
 
 cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event, const cChannel* forcechannel)
-:cOsdMenu(tr("Edit timer"), 14)
+:cOsdMenu(trVDR("Edit timer"), 14)
 {
     CheckModes[0] = tr("no check");
     CheckModes[UPD_CHDUR] = tr("by channel and time");
@@ -236,7 +236,7 @@ eOSState cMenuMyEditTimer::DeleteTimer()
 {
     // Check if this timer is active:
     if (timer) {
-	if (Interface->Confirm(tr("Delete timer?"))) {
+	if (Interface->Confirm(trVDR("Delete timer?"))) {
 	    if (timer->Recording()) {
 		if (Interface->Confirm(tr("Timer still recording - really delete?"))) {
 		    timer->Skip();

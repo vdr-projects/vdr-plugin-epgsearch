@@ -281,7 +281,7 @@ eOSState cMenuConflictCheckDetails::DeleteTimer(cConflictCheckTimerObj* TimerObj
     cTimer* timer = TimerObj->timer;
     // Check if this timer is active:
     if (timer) {
-	if (Interface->Confirm(tr("Delete timer?"))) {
+	if (Interface->Confirm(trVDR("Delete timer?"))) {
 	    if (timer->Recording()) {
 		if (Interface->Confirm(tr("Timer still recording - really delete?"))) {
 		    timer->Skip();
