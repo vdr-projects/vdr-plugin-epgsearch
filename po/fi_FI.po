@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-11-16 16:11+0100\n"
+"POT-Creation-Date: 2008-01-07 10:18+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -767,9 +767,6 @@ msgstr "C"
 msgid "Button$Repeats"
 msgstr "Toistuvat"
 
-msgid "Delete timer?"
-msgstr "Poistetaanko ajastin?"
-
 msgid "Timer still recording - really delete?"
 msgstr "Ajastettu tallennus käynnissä - poistetaanko silti?"
 
@@ -799,9 +796,6 @@ msgstr "Hakutulokset"
 
 msgid "Timer conflict! Show?"
 msgstr "Päällekkäisiä ajastimia! Näytetäänkö?"
-
-msgid "Edit timer"
-msgstr "Muokkaa ajastinta"
 
 msgid "Channel"
 msgstr "Kanava"
@@ -1204,3 +1198,8 @@ msgstr "%02ldh"
 msgid "in %02ldm"
 msgstr "%02ldm"
 
+#~ msgid "Edit timer"
+#~ msgstr "Muokkaa ajastinta"
+
+#~ msgid "Delete timer?"
+#~ msgstr "Poistetaanko ajastin?"

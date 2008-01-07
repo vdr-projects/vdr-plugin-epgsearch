@@ -21,8 +21,11 @@ neu:
 - Update der finnischen Übersetzung, Danke an Rolf Ahrenberg
 - Spanische Übersetzung, vielen Dank an agusmir, dragondefuego, GenaroL, lopezm und
   nachofr von todopvr.com, und ein besonderer Dank an bittor
+- Update der italienischen Übersetzung, Danke an Diego von vdr-italia.phpbb24.com
 - Änderungen für den eingebauten graphtft-patch (bei Verwendung von 
   VDR-extension-patch ist > v.37 notwendig)
+- Update des timercmd-patches für vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
+- Neue Datei patches/README.patches für eine Beschreibung der vorhandenen Patches
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine
@@ -46,6 +49,8 @@ fixes:
   wenn sie leer sind, wie in ':@30', Danke an Ulf Kiener für einen entspr. Patch.
 - Absturz beim Aufruf des Setups der Addon-Plugins behoben, wenn VDR mit dem ext-Patch
   und aktivem LIEMIKUUTIO versehen wurde.
+- 'Wiederholung vermeiden' kombiniert mit 'Pause, wenn ... Aufnahmen existieren' hat
+  zu wenige Timer erzeugt, Danke an spockele@vdrportal für den Hinweis
 
 
 2007-09-02: Version 0.9.23

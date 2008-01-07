@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-11-16 16:11+0100\n"
+"POT-Creation-Date: 2008-01-07 10:18+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Nicolas Huillard <nhuillard@e-dition.fr>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -762,9 +762,6 @@ msgstr "C"
 msgid "Button$Repeats"
 msgstr "Répétitions"
 
-msgid "Delete timer?"
-msgstr ""
-
 msgid "Timer still recording - really delete?"
 msgstr ""
 
@@ -794,9 +791,6 @@ msgstr "Résultat de recherche"
 
 msgid "Timer conflict! Show?"
 msgstr "Afficher les conflits de programmation?"
-
-msgid "Edit timer"
-msgstr ""
 
 msgid "Channel"
 msgstr ""
