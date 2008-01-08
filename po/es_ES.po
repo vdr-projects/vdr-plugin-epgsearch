@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-01-07 10:18+0100\n"
+"POT-Creation-Date: 2008-01-08 13:18+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -727,9 +727,6 @@ msgstr "Crear lista negra"
 msgid "EPG Commands"
 msgstr "Órdenes EPG"
 
-msgid "Can't switch channel!"
-msgstr "¡No se puede cambiar de canal!"
-
 msgid "Already running!"
 msgstr "¡Ya se está ejecutando!"
 
@@ -1193,6 +1190,9 @@ msgstr "en %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "en %02ldm"
+
+#~ msgid "Can't switch channel!"
+#~ msgstr "¡No se puede cambiar de canal!"
 
 #~ msgid "Edit timer"
 #~ msgstr "Editar programación"

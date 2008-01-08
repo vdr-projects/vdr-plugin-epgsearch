@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-01-07 10:18+0100\n"
+"POT-Creation-Date: 2008-01-08 13:18+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -731,9 +731,6 @@ msgstr "Lis‰‰ mustalle listalle"
 msgid "EPG Commands"
 msgstr "Komennot"
 
-msgid "Can't switch channel!"
-msgstr "Kanavan vaihtaminen ei mahdollista!"
-
 msgid "Already running!"
 msgstr "Nyt menossa!"
 
@@ -1197,6 +1194,9 @@ msgstr "%02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"
+
+#~ msgid "Can't switch channel!"
+#~ msgstr "Kanavan vaihtaminen ei mahdollista!"
 
 #~ msgid "Edit timer"
 #~ msgstr "Muokkaa ajastinta"

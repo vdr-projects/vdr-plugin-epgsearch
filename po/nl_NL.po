@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-01-07 10:18+0100\n"
+"POT-Creation-Date: 2008-01-08 13:18+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -691,9 +691,6 @@ msgstr ""
 
 msgid "EPG Commands"
 msgstr "EPG kommando's"
-
-msgid "Can't switch channel!"
-msgstr ""
 
 msgid "Already running!"
 msgstr ""

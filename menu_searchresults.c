@@ -101,7 +101,8 @@ bool cMenuSearchResultsItem::Update(bool Force)
       free(buffer);
       buffer = tmp;
 
-      if (!strcasestr(buffer, "%subtitle%")) // make sure, there is a subtitle
+      if (!strcasestr(buffer, "%subtitle%") && cTemplFile::GetTemplateByName("MenuFavorites") != menuTemplate) 
+	// make sure, there is a subtitle
          buffer = strreplacei(buffer, "%title%", "%title% ~ %subtitle%");
       if (episodeOnly)
          buffer = strreplacei(buffer, "%title%", "");
