@@ -112,7 +112,7 @@ eOSState cMenuSearchCommands::Switch(void)
       return osEnd;
    else
    {
-      Skins.Message(mtInfo, tr("Can't switch channel!")); 
+      Skins.Message(mtInfo, trVDR("Can't switch channel!")); 
       return osContinue;
    }
 }
