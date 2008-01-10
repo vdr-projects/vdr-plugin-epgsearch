@@ -310,8 +310,8 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 	    SetHelp(addIfConfirmed?NULL:trVDR("Button$Delete"), NULL, NULL, NULL);
     }
     
-    if ((Key == kYellow) && (iOnDirectoryItem && !InEditMode(ItemText, tr("Directory"), directory) ||
-			     iOnFileItem && !InEditMode(ItemText, tr("File"), file)))
+    if ((Key == kYellow) && ((iOnDirectoryItem && !InEditMode(ItemText, tr("Directory"), directory)) ||
+			     (iOnFileItem && !InEditMode(ItemText, tr("File"), file))))
     {
 	if (iOnDirectoryItem)
 	    strcpy(directory, "");

@@ -871,7 +871,7 @@ void cSearchTimerThread::CheckManualTimers()
                   }
                }
                LogFile.Log(3,"selected candidate is '%s~%s' (%s - %s)", event->Title(), event->ShortText()?event->ShortText():"", GETDATESTRING(event), GETTIMESTRING(event));
-               if (maxweight > 0 && event->StartTime() - bstart != ti->StartTime() || event->EndTime() + bstop != ti->StopTime())
+               if ((maxweight > 0 && event->StartTime() - bstart != ti->StartTime()) || (event->EndTime() + bstop != ti->StopTime()))
                   ModifyManualTimer(event, ti, bstart, bstop);		    
 	       else if (maxweight == 0)
 		 LogFile.Log(3,"selected candidate is too bad");

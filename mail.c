@@ -74,10 +74,12 @@ bool cMailTimerNotification::operator< (const cMailTimerNotification &N) const
     const cEvent* event = GetEvent();
     const cEvent* eventOther = N.GetEvent();
     if (event && eventOther) // sort event by start time and channel
+      {
 	if (event->StartTime() == eventOther->StartTime())
 	    return channel->Number() < channelOther->Number();
 	else
 	    return event->StartTime() < eventOther->StartTime();
+      }
     return false;
 }
 

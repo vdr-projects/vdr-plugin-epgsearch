@@ -44,6 +44,7 @@ fixes:
   and active LIEMIKUUTIO
 - 'avoid repeats' combined with 'pause on ... recordings' created to less timers, thanks 
   to spockele@vdrportal for reporting
+- fixed some compiler warnings with g++ 4.3
 
 2007-09-02: Version 0.9.23
 new: 

@@ -56,10 +56,12 @@ void cMenuSearchTemplateItem::Set(void)
   ostringstream line;
 
   if (searchExt->useAsSearchTimer)
-    if (searchExt->IsActiveAt(time(NULL)))
-      line << ">";
-    else
-      line << "!";
+    {
+      if (searchExt->IsActiveAt(time(NULL)))
+	line << ">";
+      else
+	line << "!";
+    }
 
   line << "\t";
   if (searchExt->search && strlen(searchExt->search) > 0)

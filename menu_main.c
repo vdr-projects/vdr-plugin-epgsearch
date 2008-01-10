@@ -166,10 +166,12 @@ eOSState cMenuSearchMain::Record(void)
 	  int tm = tmNone;
 	  cTimer *timer = Timers.GetMatch(item->event, &tm);
 	  if (timer)
+	    {
 	      if (EPGSearchConfig.useVDRTimerEditMenu)
 		  return AddSubMenu(new cMenuEditTimer(timer));
 	      else
 		  return AddSubMenu(new cMenuMyEditTimer(timer, false, item->event, item->channel));
+	    }
       }
 
      cTimer *timer = new cTimer(item->event);

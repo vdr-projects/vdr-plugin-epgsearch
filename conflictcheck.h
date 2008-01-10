@@ -153,7 +153,7 @@ class cConflictCheckDevice
 		{
 		    if (IsTunedTo(Channel)) 
 		    {
-			if (Channel->Vpid() && !HasPid(Channel->Vpid()) || Channel->Apid(0) && ! HasPid(Channel->Apid(0))) 
+		      if ((Channel->Vpid() && !HasPid(Channel->Vpid())) || (Channel->Apid(0) && ! HasPid(Channel->Apid(0)))) 
 			{
 #ifdef DO_MULTIPLE_RECORDINGS
 #ifndef DO_MULTIPLE_CA_CHANNELS
@@ -242,7 +242,7 @@ class cConflictCheckDevice
 		result = hasPriority;
 		if (Priority >= 0 && Receiving()) {
 		    if (IsTunedTo(Channel)) {
-			if (Channel->Vpid() && !HasPid(Channel->Vpid()) || Channel->Apid(0) && !HasPid(Channel->Apid(0))) {
+		      if ((Channel->Vpid() && !HasPid(Channel->Vpid())) || (Channel->Apid(0) && !HasPid(Channel->Apid(0)))) {
 #ifdef DO_MULTIPLE_RECORDINGS
 			    if (CamSlot() && Channel->Ca() >= CA_ENCRYPTED_MIN) {
 				if (CamSlot()->CanDecrypt(Channel))
