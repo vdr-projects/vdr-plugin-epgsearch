@@ -75,17 +75,15 @@ bool cMenuTemplate::PrepareTemplate(const char* templateLine)
     if (iToken>0) menuTabs[iToken-1] = 0;
 
     if (stripped)
-    {
-	strcpy(menuTemplate, stripped);
-	free(stripped);
-    }
-
-    // the status variables are handled in menu_whatson.c itself
-    // to speedup the var-parser we 'hide' them here in renaming them
-    strcpy(menuTemplate, strreplacei(menuTemplate, "%status%", "$status$"));
-    strcpy(menuTemplate, strreplacei(menuTemplate, "%t_status%", "$t_status$"));
-    strcpy(menuTemplate, strreplacei(menuTemplate, "%v_status%", "$v_status$"));
-    strcpy(menuTemplate, strreplacei(menuTemplate, "%r_status%", "$r_status$"));
+      {
+	menuTemplate = stripped;
+	// the status variables are handled in menu_whatson.c itself
+	// to speedup the var-parser we 'hide' them here in renaming them
+	menuTemplate = strreplacei(menuTemplate, "%status%", "$status$");
+	menuTemplate = strreplacei(menuTemplate, "%t_status%", "$t_status$");
+	menuTemplate = strreplacei(menuTemplate, "%v_status%", "$v_status$");
+	menuTemplate = strreplacei(menuTemplate, "%r_status%", "$r_status$");
+      }
     return true;
 }
 
@@ -216,7 +214,7 @@ void cTemplFile::PrepareDefaultTemplates()
 	WhatsOnNow = new cMenuTemplate("MenuWhatsOnNow");
 	menuTemplates.insert(WhatsOnNow);
     }
-    if (WhatsOnNow && strlen(WhatsOnNow->MenuTemplate()) == 0)
+    if (WhatsOnNow && WhatsOnNow->MenuTemplate() == 0)
     {
 	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%s%s$status$:3|%%title%% ~ %%subtitle%%:30", 
 		EPGSearchConfig.showChannelNr?channelnr:"",
@@ -234,7 +232,7 @@ void cTemplFile::PrepareDefaultTemplates()
 	WhatsOnNext = new cMenuTemplate("MenuWhatsOnNext");
 	menuTemplates.insert(WhatsOnNext);
     }
-    if (WhatsOnNext && strlen(WhatsOnNext->MenuTemplate()) == 0)
+    if (WhatsOnNext && WhatsOnNext->MenuTemplate() == 0)
 	WhatsOnNext->PrepareTemplate(menutemplate);
     cMenuTemplate* WhatsOnElse = GetTemplateByName("MenuWhatsOnElse");
     if (!WhatsOnElse) 
@@ -242,7 +240,7 @@ void cTemplFile::PrepareDefaultTemplates()
 	WhatsOnElse = new cMenuTemplate("MenuWhatsOnElse");
 	menuTemplates.insert(WhatsOnElse);
     }
-    if (WhatsOnElse && strlen(WhatsOnElse->MenuTemplate()) == 0)
+    if (WhatsOnElse && WhatsOnElse->MenuTemplate() == 0)
 	WhatsOnElse->PrepareTemplate(menutemplate);
 
     // Schedule
@@ -252,7 +250,7 @@ void cTemplFile::PrepareDefaultTemplates()
 	Schedule = new cMenuTemplate("MenuSchedule");
 	menuTemplates.insert(Schedule);
     }
-    if (Schedule && strlen(Schedule->MenuTemplate()) == 0)
+    if (Schedule && Schedule->MenuTemplate() == 0)
     {
       strcpy(menutemplate, "%time_w% %time_d%:7|%time%:6|$status$:4|%title% ~ %subtitle%:30");
       Schedule->PrepareTemplate(menutemplate);
@@ -265,7 +263,7 @@ void cTemplFile::PrepareDefaultTemplates()
 	SearchResults = new cMenuTemplate("MenuSearchResults");
 	menuTemplates.insert(SearchResults);
     }
-    if (SearchResults && strlen(SearchResults->MenuTemplate()) == 0)
+    if (SearchResults && SearchResults->MenuTemplate() == 0)
     {
 	sprintf(menutemplate, "%s%%chsh%%:12|%%datesh%%:6|%%time%%:6|$status$:3|%%title%% ~ %%subtitle%%:30", 
 		EPGSearchConfig.showChannelNr?channelnr:"");
@@ -279,7 +277,7 @@ void cTemplFile::PrepareDefaultTemplates()
 	Favorites = new cMenuTemplate("MenuFavorites");
 	menuTemplates.insert(Favorites);
     }
-    if (Favorites && strlen(Favorites->MenuTemplate()) == 0)
+    if (Favorites && Favorites->MenuTemplate() == 0)
     {
 	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%%timespan%%:7|$status$:3|%%title%% ~ %%subtitle%%:30", 
 		EPGSearchConfig.showChannelNr?channelnr:"");

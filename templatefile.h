@@ -36,14 +36,18 @@ class cMenuTemplate
 {
  private:
     char name[MAXTEMPLLEN];
-    char menuTemplate[MAXTEMPLLEN];
+    char* menuTemplate;
     int  menuTabs[cSkinDisplayMenu::MaxTabs];    
  public:
     cMenuTemplate(const char* Name) 
       {
 	strcpy(name, Name); 
-	menuTemplate[0] = 0;
+	menuTemplate = 0;
 	for(int i=0; i<cSkinDisplayMenu::MaxTabs; i++) menuTabs[i] = 0;
+      }
+    ~cMenuTemplate() 
+      {
+	if (menuTemplate) free(menuTemplate);
       }
     const char* Name(void) {return name;}
     const char* MenuTemplate(void) {return menuTemplate;}
