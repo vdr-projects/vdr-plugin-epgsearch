@@ -64,7 +64,8 @@ eOSState cMenuSetupSubMenu::ProcessKey(eKeys Key)
 
     if (state == osUnknown) {
 	switch (Key) {
-	    case kYellow:
+	case kInfo:
+	case kYellow:
 		state = Help();
 		break;
 	    default: break;
