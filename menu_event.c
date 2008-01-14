@@ -172,6 +172,7 @@ eOSState cMenuEventSearch::ProcessKey(eKeys Key)
             else
                return osContinue;
             break;
+      case kInfo: return osBack;
          default: break;
       }
    }
@@ -206,7 +207,7 @@ eOSState cMenuEventSearch::ProcessKey(eKeys Key)
             }
             state = osContinue;
          }
-         break;
+	 break;
          default: break;
       }
    }

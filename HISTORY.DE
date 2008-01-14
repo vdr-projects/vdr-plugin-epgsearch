@@ -26,6 +26,7 @@ neu:
   VDR-extension-patch ist > v.37 notwendig)
 - Update des timercmd-patches für vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
 - Neue Datei patches/README.patches für eine Beschreibung der vorhandenen Patches
+- Unterstützung für das neue Info-Key-Verhalten in vdr-1.5.13
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine

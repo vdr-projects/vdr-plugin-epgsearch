@@ -695,7 +695,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
 	   state = osContinue;
 	   break;
       case kYellow:
-      case kHelp:
+      case kInfo:
 	state = Help();
 	break;
       default: break;

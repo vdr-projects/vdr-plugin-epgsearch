@@ -490,7 +490,8 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 	     else
 		 return ExtendedSearch();
 	     break;
-       case kOk: 
+	case kInfo:
+	case kOk: 
 	   if (Count())
 	       return ShowSummary();
 	   break;

@@ -380,6 +380,7 @@ eOSState cMenuSearchResults::ProcessKey(eKeys Key)
             state = OnYellow();
             break;
          case kOk:
+      case kInfo:
             if(HasSubMenu()) 
             {
                state = cOsdMenu::ProcessKey(Key);

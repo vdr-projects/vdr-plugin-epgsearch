@@ -787,7 +787,10 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                return EPGSearchConfig.useOkForSwitch?Switch():ShowSummary();
          }
          break;
-         default:      break;
+      case kInfo:
+	return ShowSummary();
+	break;
+      default:      break;
       }
    }
    if (!HasSubMenu()) 

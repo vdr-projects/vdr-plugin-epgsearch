@@ -21,6 +21,7 @@ new:
 - changes for builtin graphtft-patch (when using VDR-extension-patch you need > v.37)
 - updated the timercmd-patch for vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
 - added patches/README.patches to describe the existing patches
+- support for new info key behaviour in vdr-1.5.13
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 
