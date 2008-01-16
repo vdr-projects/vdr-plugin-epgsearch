@@ -18,6 +18,7 @@ new:
 - full spanish translation, many thanks to agusmir, dragondefuego, GenaroL, lopezm and
   nachofr from todopvr.com, and especially to bittor
 - update of italian translation, thanks to Diego from vdr-italia.phpbb24.com 
+- update of dutch translation, thanks to carel@bugtracker
 - changes for builtin graphtft-patch (when using VDR-extension-patch you need > v.37)
 - updated the timercmd-patch for vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
 - added patches/README.patches to describe the existing patches

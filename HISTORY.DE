@@ -22,6 +22,7 @@ neu:
 - Spanische Übersetzung, vielen Dank an agusmir, dragondefuego, GenaroL, lopezm und
   nachofr von todopvr.com, und ein besonderer Dank an bittor
 - Update der italienischen Übersetzung, Danke an Diego von vdr-italia.phpbb24.com
+- Update der niederländischen Übersetzung, Danke an carel@bugtracker
 - Änderungen für den eingebauten graphtft-patch (bei Verwendung von 
   VDR-extension-patch ist > v.37 notwendig)
 - Update des timercmd-patches für vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
