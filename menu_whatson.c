@@ -206,6 +206,8 @@ showMode cMenuWhatsOnSearch::currentShowMode = showNow;
 cChannel *cMenuWhatsOnSearch::scheduleChannel = NULL;
 extern const char *ShowModes[];
 cList<cShowMode> cMenuWhatsOnSearch::showModes;
+time_t cMenuWhatsOnSearch::seekTime = 0;
+int cMenuWhatsOnSearch::shiftTime = 0;
 
 cMenuWhatsOnSearch::cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentChannelNr)
    :cOsdMenu("", GetTab(1), GetTab(2), GetTab(3), GetTab(4), GetTab(5))
@@ -264,29 +266,29 @@ void cMenuWhatsOnSearch::LoadSchedules()
    Clear();
    eventObjects.Clear();
    
-   time_t SeekTime;
+   //   time_t SeekTime;
    char* szTitle = NULL;
    cShowMode* mode = GetShowMode(currentShowMode);
 
    if (shiftTime != 0)
    {
       if (currentShowMode == showNow || currentShowMode == showNext)
-         SeekTime = time(NULL);
+         seekTime = time(NULL);
       else
       {
          if (mode)
-            SeekTime = GetTimeT(mode->GetTime());
-         if (SeekTime < time(NULL)) SeekTime += HOURS2SECS(24);	
+            seekTime = GetTimeT(mode->GetTime());
+         if (seekTime < time(NULL)) seekTime += HOURS2SECS(24);	
       }
-      SeekTime += shiftTime*60;
+      seekTime += shiftTime*60;
 	
       struct tm tm_r;
       time_t now = time(NULL);
 
-      tm tm_seek = *localtime_r(&SeekTime, &tm_r);
+      tm tm_seek = *localtime_r(&seekTime, &tm_r);
       tm tm_now = *localtime_r(&now, &tm_r);
       if (tm_seek.tm_mday != tm_now.tm_mday)
-         asprintf(&szTitle, "%s - %s", tr("Overview"), DAYDATETIME(SeekTime));
+         asprintf(&szTitle, "%s - %s", tr("Overview"), DAYDATETIME(seekTime));
       else
          asprintf(&szTitle, "%s - %02d:%02d", tr("Overview"), tm_seek.tm_hour, tm_seek.tm_min);
    }
@@ -294,11 +296,11 @@ void cMenuWhatsOnSearch::LoadSchedules()
    {
       if (mode)
       {
-         SeekTime = GetTimeT(mode->GetTime());
-         if (SeekTime < time(NULL) && currentShowMode != showNow && currentShowMode != showNext)
+         seekTime = GetTimeT(mode->GetTime());
+         if (seekTime < time(NULL) && currentShowMode != showNow && currentShowMode != showNext)
          {
-            SeekTime += HOURS2SECS(24);	
-            asprintf(&szTitle, "%s - %s (%s)", tr("Overview"), mode->GetDescription(), *WeekDayName(SeekTime));    
+            seekTime += HOURS2SECS(24);	
+            asprintf(&szTitle, "%s - %s (%s)", tr("Overview"), mode->GetDescription(), *WeekDayName(seekTime));    
          }
          else
             asprintf(&szTitle, "%s - %s", tr("Overview"), mode->GetDescription());    
@@ -332,7 +334,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
          if (Schedule) 
          {		
             if (shiftTime != 0)
-               Event = Schedule->GetEventAround(SeekTime);
+               Event = Schedule->GetEventAround(seekTime);
             else
             {
                switch(currentShowMode)
@@ -348,7 +350,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
                   case showUserMode2:
                   case showUserMode3:
                   case showUserMode4:
-                     Event = Schedule->GetEventAround(SeekTime);
+                     Event = Schedule->GetEventAround(seekTime);
                      break;
                }
             }

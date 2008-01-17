@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-01-08 13:18+0100\n"
+"POT-Creation-Date: 2008-01-17 13:36+0100\n"
 "PO-Revision-Date: 2007-12-30 04:09+0100\n"
 "Last-Translator: Gringo <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -113,6 +113,9 @@ msgstr "prima orari def. da utente"
 
 msgid "after user-def. times"
 msgstr "dopo orari def. da utente"
+
+msgid "before 'next'"
+msgstr ""
 
 msgid "General"
 msgstr "Generale"
@@ -1193,11 +1196,3 @@ msgstr "in %02ldh"
 msgid "in %02ldm"
 msgstr "in %02ldm"
 
-#~ msgid "Can't switch channel!"
-#~ msgstr "Impossibile cambiare canale!"
-
-#~ msgid "Edit timer"
-#~ msgstr "Modifica timer"
-
-#~ msgid "Delete timer?"
-#~ msgstr "Cancellare timer?"

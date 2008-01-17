@@ -49,7 +49,7 @@ const tI18nPhrase PhrasesLocal[] = {
    "",				// TODO 
    "Suoratoiminto EPGSearch-laajennoksen haulle",
    "",				// TODO Polski
-   "",				// TODO Español
+   "Acceso directo al menú de búsqueda EPGSearch",	// Español
    "",				// TODO ÅëëçíéêÜ (Greek)
    "",				// TODO Svenska
    "",				// TODO Romaneste
@@ -72,7 +72,7 @@ const tI18nPhrase PhrasesLocal[] = {
    "",				// TODO
    "Etsi ohjelmaoppaasta",
    "",				// TODO
-   "",				// TODO
+   "Buscar",
    "",				// TODO
    "",				// TODO
    "",				// TODO
@@ -95,7 +95,7 @@ const tI18nPhrase PhrasesLocal[] = {
    "",				// TODO 
    "EpgSearch-laajennoksen hakutoiminto päävalikossa",
    "",				// TODO Polski
-   "",				// TODO Español
+   "Buscar EPG en menú principal",
    "",				// TODO ÅëëçíéêÜ (Greek)
    "",				// TODO Svenska
    "",				// TODO Romaneste

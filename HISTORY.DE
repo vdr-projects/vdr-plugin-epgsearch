@@ -28,6 +28,8 @@ neu:
 - Update des timercmd-patches für vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
 - Neue Datei patches/README.patches für eine Beschreibung der vorhandenen Patches
 - Unterstützung für das neue Info-Key-Verhalten in vdr-1.5.13
+- Das Favoriten-Menü kann jetzt auch per Setup nach 'Übersicht - Jetzt' angezeigt 
+  werden, vorgeschlagen von Bittor Corl
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine

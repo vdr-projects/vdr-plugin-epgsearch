@@ -56,7 +56,8 @@ private:
   static cChannel *scheduleChannel;
   static cList<cShowMode> showModes;
   static showMode currentShowMode;
-  int shiftTime;
+  static int shiftTime;
+  static time_t seekTime;
   time_t GetTimeT(int iTime);
   static showMode GetNextMode();
   cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentChannelNr);

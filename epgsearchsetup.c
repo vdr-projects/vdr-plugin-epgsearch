@@ -42,7 +42,7 @@ const char *BlueKeyMode[2];
 const char *ProgressbarMode[3];
 const char *StartMenuMode[2];
 const char *AddSubtitleMode[3];
-const char *FavoritesMenuMode[3];
+const char *FavoritesMenuMode[4];
 const char *MailMethod[2];
 
 const char *cMenuSetupMailNotification::HostNameChars    = " abcdefghijklmnopqrstuvwxyz0123456789-._~:";
@@ -123,6 +123,7 @@ cMenuEPGSearchSetup::cMenuEPGSearchSetup(void)
     FavoritesMenuMode[0] = trVDR("no");
     FavoritesMenuMode[1] = tr("before user-def. times");
     FavoritesMenuMode[2] = tr("after user-def. times");
+    FavoritesMenuMode[3] = tr("before 'next'");
 
     MailMethod[0] = "sendmail";
     MailMethod[1] = "sendEmail.pl";
@@ -438,7 +439,7 @@ void cMenuSetupEPGMenus::Set()
     Add(new cMenuEditBoolItem(  tr("Toggle Green/Yellow"), &data->toggleGreenYellow,       trVDR("no"),      trVDR("yes")));
     AddHelp(tr("Help$Specify if green and yellow shall also be switched when pressing '0'."));
 
-    Add(new cMenuEditStraItem(  tr("Show favorites menu"), &data->showFavoritesMenu, 3, FavoritesMenuMode));
+    Add(new cMenuEditStraItem(  tr("Show favorites menu"), &data->showFavoritesMenu, 4, FavoritesMenuMode));
     AddHelp(tr("Help$A favorites menu can display a list of your favorite broadcasts. Enable this if you want an additional menu besides 'Now' and 'Next'\nAny search can be used as a favorite. You only have to set the option 'Use in favorites menu' when editing a search."));
     if (data->showFavoritesMenu)
     {

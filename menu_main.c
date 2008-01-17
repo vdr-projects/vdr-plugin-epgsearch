@@ -100,10 +100,10 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
 	{
 	    const cEvent *PresentEvent = Schedule->GetPresentEvent();
 	    time_t now = time(NULL);
-	    if (shiftTime == 0)
-		now -= Setup.EPGLinger * 60;
-	    else
-		now += shiftTime * 60;
+	    now -= Setup.EPGLinger * 60;
+	    if (shiftTime != 0)
+	      PresentEvent = Schedule->GetEventAround(time(NULL) + shiftTime * 60);
+
 	    time_t lastEventDate = Schedule->Events()->First()->StartTime();
 
 	    //	        timeb tstart;
@@ -141,7 +141,7 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
     if (shiftTime)
     {
 	char *buffer = NULL;
-	asprintf(&buffer, "%s (%s%dh %dm)", Channel->Name(), shiftTime>0?"+":"", shiftTime/60, shiftTime%60);
+	asprintf(&buffer, "%s (%s%dh %dm)", Channel->Name(), shiftTime>0?"+":"", shiftTime/60, abs(shiftTime)%60);
 	SetTitle(buffer);
 	free(buffer);
     }
@@ -504,11 +504,19 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
       InWhatsOnMenu = false;
       InFavoritesMenu = false;
       if (ch) {
-	  PrepareSchedule(ch);
-	  if (ch->Number() != cDevice::CurrentChannel()) {
-	      otherChannel = ch->Number();
+       	if (cMenuWhatsOnSearch::shiftTime)
+	  {
+	    time_t diff = cMenuWhatsOnSearch::seekTime - time(NULL);
+	    shiftTime = (diff + (diff>0?30:-30)) / 60 ;
 	  }
-	  Display();
+	else
+	  shiftTime = 0;
+ 
+	PrepareSchedule(ch);
+	if (ch->Number() != cDevice::CurrentChannel()) {
+	  otherChannel = ch->Number();
+	}
+	Display();
       }
       else if ((HadSubMenu || gl_TimerProgged) && Update())
       {

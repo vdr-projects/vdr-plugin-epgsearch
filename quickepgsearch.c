@@ -47,7 +47,7 @@ const tI18nPhrase PhrasesLocal[] =
         "",// TODO 
         "Pikahaku ohjelmaoppaalle",// suomi
         "",// TODO Polski
-        "",// TODO Español
+        "Búsqueda rápida de emisiones",// Español
         "",// TODO ÅëëçíéêÜ (Greek)
         "",// TODO Svenska
         "",// TODO Romaneste
@@ -70,7 +70,7 @@ const tI18nPhrase PhrasesLocal[] =
         "",// TODO
         "Pikahaku",
         "",// TODO
-        "",// TODO
+        "Búsqueda rápida",
         "",// TODO
         "",// TODO
         "",// TODO
@@ -93,7 +93,7 @@ const tI18nPhrase PhrasesLocal[] =
         "",// TODO
         "Näytä valinta päävalikossa",
         "",// TODO
-        "",// TODO
+        "Mostrar en menú principal",
         "",// TODO
         "",// TODO
         "",// TODO

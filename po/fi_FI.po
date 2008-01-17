@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-01-08 13:18+0100\n"
+"POT-Creation-Date: 2008-01-17 13:36+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -114,6 +114,9 @@ msgstr "ennen ajankohtia"
 
 msgid "after user-def. times"
 msgstr "ajankohtien jälkeen"
+
+msgid "before 'next'"
+msgstr ""
 
 msgid "General"
 msgstr "Yleiset"
@@ -1195,11 +1198,3 @@ msgstr "%02ldh"
 msgid "in %02ldm"
 msgstr "%02ldm"
 
-#~ msgid "Can't switch channel!"
-#~ msgstr "Kanavan vaihtaminen ei mahdollista!"
-
-#~ msgid "Edit timer"
-#~ msgstr "Muokkaa ajastinta"
-
-#~ msgid "Delete timer?"
-#~ msgstr "Poistetaanko ajastin?"

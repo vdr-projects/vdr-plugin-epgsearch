@@ -49,7 +49,7 @@ const tI18nPhrase PhrasesLocal[] = {
    "",				// TODO 
    "Suoratoiminto EPGSearch-laajennoksen ajastimien tarkistukselle",
    "",				// TODO Polski
-   "",				// TODO Español
+   "Acceso directo al menú de conflictos EPGSearch",			// Español
    "",				// TODO ÅëëçíéêÜ (Greek)
    "",				// TODO Svenska
    "",				// TODO Romaneste
@@ -72,7 +72,7 @@ const tI18nPhrase PhrasesLocal[] = {
    "",				// TODO
    "Ajastimien päällekkäisyydet",
    "",				// TODO
-   "",				// TODO
+   "Conflictos de programación",
    "",				// TODO
    "",				// TODO
    "",				// TODO
@@ -95,7 +95,7 @@ const tI18nPhrase PhrasesLocal[] = {
    "",				// TODO
    "seuraava",
    "",				// TODO
-   "",				// TODO
+   "siguiente",
    "",				// TODO
    "",				// TODO
    "",				// TODO
@@ -118,7 +118,7 @@ const tI18nPhrase PhrasesLocal[] = {
    "",				// TODO
    "Näytä päällekkäisyydet päävalikossa",
    "",				// TODO
-   "",				// TODO
+   "Mostrar conflictos en menú principal",
    "",				// TODO
    "",				// TODO
    "",				// TODO

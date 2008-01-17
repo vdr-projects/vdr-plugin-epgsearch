@@ -105,6 +105,19 @@ int cShowMode::Compare(const cListObject &ListObject) const
 	if (mode == showFavorites && p->mode != showFavorites) return 1;
 	if (p->mode == showFavorites && mode != showFavorites) return -1;
     }
+    if (EPGSearchConfig.showFavoritesMenu == 3)
+    {
+	if (mode == showFavorites)
+	{
+	    if (p->mode < showNext) return 1;
+	    else return -1;
+	}
+	if (p->mode == showFavorites)
+	{
+	    if (mode < showNext) return -1;
+	    else return 1;
+	}
+    }
     if (mode > showNext && p->mode > showNext)
 	return seekTime - p->seekTime;
     else
