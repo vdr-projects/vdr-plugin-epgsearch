@@ -113,7 +113,7 @@ msgid "after user-def. times"
 msgstr "después hora-def."
 
 msgid "before 'next'"
-msgstr ""
+msgstr "antes 'Después'"
 
 msgid "General"
 msgstr "General"

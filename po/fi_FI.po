@@ -116,7 +116,7 @@ msgid "after user-def. times"
 msgstr "ajankohtien jälkeen"
 
 msgid "before 'next'"
-msgstr ""
+msgstr "ennen seuraavia"
 
 msgid "General"
 msgstr "Yleiset"

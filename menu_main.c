@@ -504,6 +504,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
       InWhatsOnMenu = false;
       InFavoritesMenu = false;
       if (ch) {
+	// when switch from the other menus to the schedule, try to keep the same time
        	if (cMenuWhatsOnSearch::shiftTime)
 	  {
 	    time_t diff = cMenuWhatsOnSearch::seekTime - time(NULL);
