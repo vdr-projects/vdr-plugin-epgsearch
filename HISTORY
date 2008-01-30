@@ -25,6 +25,8 @@ new:
 - support for new info key behaviour in vdr-1.5.13
 - the favorites menu can now also be displayed after 'Overview - Now' via setup, 
   suggested by Bittor Corl
+- update of 'undoneepgsearch.sh', a script to remove recordings from the done file via 
+  reccmds.conf, thanks to Viking@vdrportal.
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 

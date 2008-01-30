@@ -1,4 +1,5 @@
 #!/bin/sh
+# $Id: undoneepgsearch.sh,v 1.7 2008/01/24 15:29:10 cjac Exp $
 #
 # Created 2007 by Viking / vdr-portal
 #
@@ -35,7 +36,7 @@ SVDRPSEND=svdrpsend.pl
 
 # For some debugging infos, set to yes
 DEBUG=no
-# DEBUG=yes
+## DEBUG=yes
 
 # do not edit below this line
 #------------------------------------------------------------------------------
@@ -49,6 +50,14 @@ TempFile=/tmp/${0##*/}.$$
 EPGSEARCHDONE_WORK=$EPGSEARCHDONE_FILE.work
 Today=$(date +%Y%m%d)
 Undone=false
+
+
+function CleanExit() {
+  [ -e $TempFile ] && rm -f $TempFile
+  [ -e $EPGSEARCHDONE_WORK ] && rm -f $EPGSEARCHDONE_WORK
+  [ -e $EPGSEARCHDONE_WORK.undone ] && rm -f $EPGSEARCHDONE_WORK.undone
+  exit 1
+}
 
 
 # Get "--" options
@@ -146,17 +155,21 @@ else
 	nice -n 19 head -n $FirstLine $EPGSEARCHDONE_WORK | tail -n 1 | grep -q "^r"
 	if [ $? -ne 0 ]; then
 	  printf "\nERROR: something went wrong finding the First line of recording, quitting\n"
-	  exit 1
+	  CleanExit
 	fi
-        let MatchRLine=$(grep -m$Match -n "^r$" $TempFile |tail -n 1| cut -f1 -d ':')
+        let MatchRLine=$(grep -m$Match -n "^r$" $TempFile |head -n 1| cut -f1 -d ':')
 	let LastMatchLine=MatchLine+MatchRLine
+	# Bugfix - if more than one result then results are seperated by a "--" line
+	grep -q "^--$" $TempFile && let LastMatchLine--
         [ $DEBUG = yes ] && printf "Last Matching line : $LastMatchLine\n"
-	nice -n 19 head -n $LastMatchLine $EPGSEARCHDONE_WORK | tail -n 1 | grep -q "^R "
-	if [ $? -ne 0 ]; then
-	  printf "\nERROR: something went wrong finding the Last line of recording, quitting\n"
-	  exit 1
-	fi
+
 	let TailLines=$(wc -l $EPGSEARCHDONE_WORK | cut -f1 -d' ')
+	nice -n 19 head -n $LastMatchLine $EPGSEARCHDONE_WORK | tail -n 1 | grep -q "^R "
+	if [ $? -ne 0 -a $LastMatchLine -lt $TailLines ]; then
+	  printf "\nERROR: something went wrong finding the Last line of recording, quitting\n"
+	  CleanExit
+	fi
+
 	let TailLines=TailLines-LastMatchLine+1
 	[ $DEBUG = yes ] && printf "TailLines = $TailLines\n"
 
@@ -165,6 +178,7 @@ else
 	  nice -n 19 head -n $FirstLine $EPGSEARCHDONE_WORK >$EPGSEARCHDONE_WORK.undone
 	  STATUS=$?
 	  nice -n 19 tail -n $TailLines $EPGSEARCHDONE_WORK >>$EPGSEARCHDONE_WORK.undone
+
 	  if [ $STATUS -eq 0 -a $? -eq 0 ]; then
 	    cp $EPGSEARCHDONE_WORK.undone $EPGSEARCHDONE_WORK
 	    Undone=true
@@ -176,6 +190,10 @@ else
     else
       printf "NO, not undone\n"
       let Match++
+      if [ -z "$Subtitle" ]; then
+	printf "\nEPG DESCRIPTION from done (maybe it helps) :\n\n"
+        grep "^D " $TempFile | cut -c3- | tr '|' '\n'
+      fi
     fi
     let Try++
   done
@@ -192,9 +210,12 @@ else
     else
       printf "\nSomething went wrong with undone\n"
     fi
+  else
+    [ -z "$Subtitle" ] && printf "\n\nYou could try using the option --TitleOnly\n"
   fi
 
   [ -e $TempFile ] && rm -f $TempFile
+  [ -e $EPGSEARCHDONE_WORK ] && rm -f $EPGSEARCHDONE_WORK
 fi
 
 

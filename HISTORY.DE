@@ -30,6 +30,8 @@ neu:
 - Unterstützung für das neue Info-Key-Verhalten in vdr-1.5.13
 - Das Favoriten-Menü kann jetzt auch per Setup nach 'Übersicht - Jetzt' angezeigt 
   werden, vorgeschlagen von Bittor Corl
+- Update von 'undoneepgsearch.sh', einem Skript zum Entfernen einer Aufnahme aus dem
+  done-File über die reccmds.conf, Danke an Viking@vdrportal.
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine
