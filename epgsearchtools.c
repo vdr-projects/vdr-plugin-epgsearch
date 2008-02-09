@@ -686,7 +686,13 @@ bool DescriptionMatches(const char* eDescr, const char* rDescr)
 
    // last try with Levenshtein Distance, only compare the first 1000 chars 
    double fMatch = FuzzyMatch(eDescr, rDescr, 1000);
-   if (fMatch > MATCHLIMIT)
+   double tmp_matchlimit = MATCHLIMIT;
+   if(maxLength - minLength < 5)
+   {
+      tmp_matchlimit = 0.95;
+      LogFile.Log(2,"difference between both descriptions is < 5 setting matchlimit to: %.2f %%", tmp_matchlimit*100);
+   }
+   if (fMatch > tmp_matchlimit)
    {
       LogFile.Log(2,"match is: %.2f %%", fMatch*100);
       return true;

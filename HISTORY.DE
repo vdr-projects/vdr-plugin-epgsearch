@@ -58,6 +58,8 @@ fixes:
 - 'Wiederholung vermeiden' kombiniert mit 'Pause, wenn ... Aufnahmen existieren' hat
   zu wenige Timer erzeugt, Danke an spockele@vdrportal für den Hinweis
 - einige Compilerwarnungen von g++ 4.3 behoben
+- fine-tuning beim fuzzy-Vergleich von Inhaltsangaben, Danke an Alf Fahland für einen
+  Patch
 
 
 2007-09-02: Version 0.9.23
