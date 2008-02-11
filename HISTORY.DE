@@ -60,6 +60,8 @@ fixes:
 - einige Compilerwarnungen von g++ 4.3 behoben
 - fine-tuning beim fuzzy-Vergleich von Inhaltsangaben, Danke an Alf Fahland für einen
   Patch
+- Problem mit Pipes im Suchbegriff einer Blacklist behoben, Danke anAndreas Mair für
+  den Hinweis.
 
 
 2007-09-02: Version 0.9.23

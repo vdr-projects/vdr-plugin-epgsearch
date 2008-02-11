@@ -52,6 +52,8 @@ fixes:
   to spockele@vdrportal for reporting
 - fixed some compiler warnings with g++ 4.3
 - fine-tuning fuzzy matching of descriptions, thanks to Alf Fahland for providing a patch
+- fixed a problem with pipes in the pattern of blacklists, thanks to Andreas Mair for
+  reporting.
 
 
 2007-09-02: Version 0.9.23

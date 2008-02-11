@@ -15,7 +15,7 @@
 #<Configuration>
 
 # Your timers.conf
-TIMERS="/etc/vdr.conf/timers.conf"
+TIMERS="/video/timers.conf"
 
 #</Configuration>
 

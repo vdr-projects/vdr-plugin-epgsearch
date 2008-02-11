@@ -175,14 +175,10 @@ const char *cBlacklist::ToText(void)
   char* tmp_catvalues = NULL;
 
   free(buffer);
-  if (mode < 4 || mode == 5) // not a regular expression
-      asprintf(&tmp_search, "%s", search);
-  else if (mode ==4)
-  {
-      tmp_search = strdup(search);
-      while(strstr(tmp_search, "|"))
-	  tmp_search = strreplace(tmp_search, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression
-  }
+  tmp_search = strdup(search);
+  while(strstr(tmp_search, "|"))
+    tmp_search = strreplace(tmp_search, "|", "!^pipe^!"); // ugly: replace a pipe with something, that should not happen to be part of a regular expression 
+
   strreplace(tmp_search, ':', '|');
 
   if (useTime)
