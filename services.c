@@ -23,6 +23,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <string>
 #include <list>
+#include <sstream>
 #include <vdr/plugin.h>
 #include "epgsearchservices.h"
 #include "epgsearchext.h"
@@ -33,6 +34,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "blacklist.h"
 #include "menu_dirselect.h"
 #include "epgsearchtools.h"
+#include "conflictcheck.h"
 
 std::list<std::string> cEpgsearchServiceHandler::SearchTimerList()
 {
@@ -267,4 +269,47 @@ std::string cEpgsearchServiceHandler::ReadSetupValue(const std::string& entry)
 bool cEpgsearchServiceHandler::WriteSetupValue(const std::string& entry, const std::string& value)
 {
    return true;
+}
+
+std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
+{
+   std::list<std::string> list;
+   cConflictCheck conflictCheck;
+   conflictCheck.Check(); 
+     
+   if ((relOnly && conflictCheck.numConflicts > 0) ||
+       conflictCheck.relevantConflicts > 0)
+     {
+       string sBuffer;
+       cList<cConflictCheckTime>* failedList = conflictCheck.GetFailed();
+       for(cConflictCheckTime* ct = failedList->First(); ct; ct = failedList->Next(ct))
+	 {
+	   if (relOnly && ct->ignore) continue;
+	   
+	   std::ostringstream conflline;
+	   conflline << ct->evaltime << ":";
+	   std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
+	   
+	   std::ostringstream timerparts;
+	   for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++) 
+	     {
+	       if (relOnly && (*it)->ignore) continue;
+	       std::ostringstream timerpart;
+	       int recPart = (*it)->recDuration * 100 / ((*it)->stop - (*it)->start);
+	       timerpart << (*it)->timer->Index()+1 << "|" << recPart << "|";
+	       std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator itcc;
+	       if ((*it)->concurrentTimers)
+		 {
+		   std::ostringstream cctimers;
+		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); itcc++) 
+		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->timer->Index()+1;
+		   timerpart << cctimers.str();
+		 }
+	       timerparts << (timerparts.str().empty()?"":":") << timerpart.str();
+	     }
+	   conflline << timerparts.str();
+	   list.push_back(conflline.str());
+	 }
+     }
+   return list;    
 }
