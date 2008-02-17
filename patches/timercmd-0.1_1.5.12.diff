@@ -1,0 +1,170 @@
+diff -Nru vdr-1.5.12-orig/config.c vdr-1.5.12/config.c
+--- vdr-1.5.12-orig/config.c	2007-10-06 16:28:58.000000000 +0200
++++ vdr-1.5.12/config.c	2007-11-28 21:01:20.000000000 +0100
+@@ -126,6 +126,7 @@
+ 
+ cCommands Commands;
+ cCommands RecordingCommands;
++cCommands TimerCommands;
+ 
+ // -- cSVDRPhosts ------------------------------------------------------------
+ 
+diff -Nru vdr-1.5.12-orig/config.h vdr-1.5.12/config.h
+--- vdr-1.5.12-orig/config.h	2007-11-10 14:38:19.000000000 +0100
++++ vdr-1.5.12/config.h	2007-11-28 21:01:20.000000000 +0100
+@@ -168,6 +168,7 @@
+ 
+ extern cCommands Commands;
+ extern cCommands RecordingCommands;
++extern cCommands TimerCommands;
+ extern cSVDRPhosts SVDRPhosts;
+ 
+ class cSetupLine : public cListObject {
+diff -Nru vdr-1.5.12-orig/menu.c vdr-1.5.12/menu.c
+--- vdr-1.5.12-orig/menu.c	2007-11-03 16:02:00.000000000 +0100
++++ vdr-1.5.12/menu.c	2007-11-28 21:01:20.000000000 +0100
+@@ -738,8 +738,20 @@
+   return state;
+ }
+ 
+-// --- cMenuTimerItem --------------------------------------------------------
++// --- cMenuCommands ---------------------------------------------------------
++// declaration shifted so it can be used in cMenuTimers
++class cMenuCommands : public cOsdMenu {
++private:
++  cCommands *commands;
++  char *parameters;
++  eOSState Execute(void);
++public:
++  cMenuCommands(const char *Title, cCommands *Commands, const char *Parameters = NULL);
++  virtual ~cMenuCommands();
++  virtual eOSState ProcessKey(eKeys Key);
++  };
+ 
++// --- cMenuTimerItem --------------------------------------------------------
+ class cMenuTimerItem : public cOsdItem {
+ private:
+   cTimer *timer;
+@@ -804,6 +816,7 @@
+   eOSState OnOff(void);
+   eOSState Info(void);
+   cTimer *CurrentTimer(void);
++  eOSState Commands(eKeys Key = kNone);
+   void SetHelpKeys(void);
+ public:
+   cMenuTimers(void);
+@@ -920,6 +933,53 @@
+   return osContinue;
+ }
+ 
++#define CHECK_2PTR_NULL(x_,y_) ((x_)? ((y_)? y_:""):"")
++
++eOSState cMenuTimers::Commands(eKeys Key)
++{
++  if (HasSubMenu() || Count() == 0)
++     return osContinue;
++  cTimer *ti = CurrentTimer();
++  if (ti) {
++     char *parameter = NULL;
++     const cEvent *pEvent = ti->Event();
++     int iRecNumber=0;
++
++     if(!pEvent) {
++        Timers.SetEvents();
++        pEvent = ti->Event();
++     }
++     if(pEvent) {
++// create a dummy recording to get the real filename
++        cRecording *rc_dummy = new cRecording(ti, pEvent);
++        Recordings.Load();
++        cRecording *rc = Recordings.GetByName(rc_dummy->FileName());
++     
++        delete rc_dummy;
++        if(rc)
++           iRecNumber=rc->Index() + 1;
++     }
++//Parameter format TimerNumber 'ChannelId' Start Stop 'Titel' 'Subtitel' 'file' RecNumer
++//                 1           2           3     4    5       6          7      8
++     asprintf(&parameter, "%d '%s' %d %d '%s' '%s' '%s' %d", ti->Index(), 
++                                                             *ti->Channel()->GetChannelID().ToString(),
++                                                             (int)ti->StartTime(),
++                                                             (int)ti->StopTime(),
++                                                             CHECK_2PTR_NULL(pEvent, pEvent->Title()),
++                                                             CHECK_2PTR_NULL(pEvent, pEvent->ShortText()),
++                                                             ti->File(),
++                                                             iRecNumber);
++     isyslog("timercmd: %s", parameter);
++     cMenuCommands *menu;
++     eOSState state = AddSubMenu(menu = new cMenuCommands(tr("Timer commands"), &TimerCommands, parameter));
++     free(parameter);
++     if (Key != kNone)
++        state = menu->ProcessKey(Key);
++     return state;
++     }
++  return osContinue;
++}
++
+ eOSState cMenuTimers::ProcessKey(eKeys Key)
+ {
+   int TimerNumber = HasSubMenu() ? Count() : -1;
+@@ -933,6 +993,8 @@
+        case kYellow: state = Delete(); break;
+        case kBlue:   return Info();
+                      break;
++       case k1...k9: return Commands(Key);
++       case k0:      return (TimerCommands.Count()? Commands():osContinue);
+        default: break;
+        }
+      }
+@@ -1517,17 +1579,6 @@
+ 
+ // --- cMenuCommands ---------------------------------------------------------
+ 
+-class cMenuCommands : public cOsdMenu {
+-private:
+-  cCommands *commands;
+-  char *parameters;
+-  eOSState Execute(void);
+-public:
+-  cMenuCommands(const char *Title, cCommands *Commands, const char *Parameters = NULL);
+-  virtual ~cMenuCommands();
+-  virtual eOSState ProcessKey(eKeys Key);
+-  };
+-
+ cMenuCommands::cMenuCommands(const char *Title, cCommands *Commands, const char *Parameters)
+ :cOsdMenu(Title)
+ {
+
+diff -Nru vdr-1.5.12-orig/po/de_DE.po vdr-1.5.12/po/de_DE.po
+--- vdr-1.5.12-orig/po/de_DE.po	2007-11-04 12:37:26.000000000 +0100
++++ vdr-1.5.12/po/de_DE.po	2007-11-28 21:03:00.000000000 +0100
+@@ -7,7 +7,7 @@
+ msgstr ""
+ "Project-Id-Version: VDR 1.5.7\n"
+ "Report-Msgid-Bugs-To: <vdr-bugs@cadsoft.de>\n"
+-"POT-Creation-Date: 2007-10-13 11:29+0200\n"
++"POT-Creation-Date: 2007-11-28 21:02+0100\n"
+ "PO-Revision-Date: 2007-08-12 14:17+0200\n"
+ "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
+ "Language-Team: <vdr@linuxtv.org>\n"
+@@ -375,6 +375,9 @@
+ msgid "Timer still recording - really delete?"
+ msgstr "Timer zeichnet auf - trotzdem löschen?"
+ 
++msgid "Timer commands"
++msgstr "Befehle für Timer"
++
+ msgid "Event"
+ msgstr "Sendung"
+  
+diff -Nru vdr-1.5.12-orig/vdr.c vdr-1.5.12/vdr.c
+--- vdr-1.5.12-orig/vdr.c	2007-11-03 15:46:29.000000000 +0100
++++ vdr-1.5.12/vdr.c	2007-11-28 21:01:20.000000000 +0100
+@@ -550,6 +550,7 @@
+         Timers.Load(AddDirectory(ConfigDirectory, "timers.conf")) &&
+         Commands.Load(AddDirectory(ConfigDirectory, "commands.conf"), true) &&
+         RecordingCommands.Load(AddDirectory(ConfigDirectory, "reccmds.conf"), true) &&
++        TimerCommands.Load(AddDirectory(ConfigDirectory, "timercmds.conf"), true) &&
+         SVDRPhosts.Load(AddDirectory(ConfigDirectory, "svdrphosts.conf"), true) &&
+         Keys.Load(AddDirectory(ConfigDirectory, "remote.conf")) &&
+         KeyMacros.Load(AddDirectory(ConfigDirectory, "keymacros.conf"), true)

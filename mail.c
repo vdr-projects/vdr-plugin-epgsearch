@@ -387,7 +387,12 @@ void cMailConflictNotifier::SendConflictNotifications(cConflictCheck& conflictCh
 	std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
 	for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++) 
 	    if ((*it) && !(*it)->ignore && (*it)->Event())
-		newMailConflicts << (*it)->Event()->EventID() << "|" << (*it)->Event()->ChannelID().ToString();
+	      {
+		std::string channelID = *(*it)->Event()->ChannelID().ToString();
+		newMailConflicts << (*it)->Event()->EventID() 
+				 << "|" 
+				 << channelID;
+	      }
     }
     string newMailConflictsMD5 = MD5(newMailConflicts.str());
     if (newMailConflictsMD5 == EPGSearchConfig.LastMailConflicts)
