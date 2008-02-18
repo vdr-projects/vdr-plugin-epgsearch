@@ -443,7 +443,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 			 }
 			 Display();
 		     }
-		     SetHelpKeys();
+		     SetHelpKeys(true);
 		     return osContinue;
 		 }
 	     }
@@ -474,7 +474,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 			 }
 			 Display();
 		     }
-		     SetHelpKeys();
+		     SetHelpKeys(true);
 		     return osContinue;
 		 }
 	     }

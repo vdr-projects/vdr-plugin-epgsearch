@@ -62,6 +62,8 @@ fixes:
   Patch
 - Problem mit Pipes im Suchbegriff einer Blacklist behoben, Danke anAndreas Mair für
   den Hinweis.
+- Beschriftung der grünen/gelben Taste nach Umschalten im Menü "Schedule" korrigiert.
+  Danke an Andreas Mair für den Hinweis.
 
 
 2007-09-02: Version 0.9.23

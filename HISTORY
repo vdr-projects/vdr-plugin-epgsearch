@@ -54,7 +54,8 @@ fixes:
 - fine-tuning fuzzy matching of descriptions, thanks to Alf Fahland for providing a patch
 - fixed a problem with pipes in the pattern of blacklists, thanks to Andreas Mair for
   reporting.
-
+- fixed labeling the green/yellow color keys after toggling the keys in menu 'Schedule',
+  thanks to Andreas Mair for reporting.
 
 2007-09-02: Version 0.9.23
 new: 
