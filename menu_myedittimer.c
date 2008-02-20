@@ -32,6 +32,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "recstatus.h"
 #include "uservars.h"
 #include "menu_deftimercheckmethod.h"
+#include "timerstatus.h"
 #include <math.h>
 
 const char *cMenuMyEditTimer::CheckModes[3];
@@ -239,6 +240,7 @@ eOSState cMenuMyEditTimer::DeleteTimer()
 	    }
 	    LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
 	    Timers.Del(timer);
+	    gl_timerStatusMonitor->SetConflictCheckAdvised(); 
 	    cOsdMenu::Del(Current());
 	    Timers.SetModified();
 	    Display();

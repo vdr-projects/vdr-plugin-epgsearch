@@ -37,6 +37,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "md5.h"
 #include "afuzzy.h"
 #include "i18n.h"
+#include "timerstatus.h"
 
 #ifdef HAVE_PCREPOSIX
 #include <pcreposix.h>
@@ -889,6 +890,7 @@ void DelTimer(int index)
   cString cmdbuf = cString::sprintf("DELT %d", index);    
   LogFile.Log(2, "delete timer %d", index);
   SendViaSVDRP(cmdbuf);
+  gl_timerStatusMonitor->SetConflictCheckAdvised(); 
 }
 
 char* FixSeparators(char* buffer, char sep)

@@ -35,6 +35,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_dirselect.h"
 #include "epgsearchtools.h"
 #include "conflictcheck.h"
+#include "timerstatus.h"
 
 std::list<std::string> cEpgsearchServiceHandler::SearchTimerList()
 {
@@ -312,3 +313,8 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
      }
    return list;    
 }
+
+bool cEpgsearchServiceHandler::IsConflictCheckAdvised()
+{
+  return gl_timerStatusMonitor?gl_timerStatusMonitor->ConflictCheckAdvised():false;  
+}    

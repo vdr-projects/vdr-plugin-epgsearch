@@ -41,6 +41,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_conflictcheck.h"
 #include "templatefile.h"
 #include "menu_deftimercheckmethod.h"
+#include "timerstatus.h"
 
 #define HOURS(x) ((x)/100)
 #define MINUTES(x) ((x)%100)
@@ -522,6 +523,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
 #endif
          SetAux(timer, fullaux);
          Timers.Add(timer);
+	 gl_timerStatusMonitor->SetConflictCheckAdvised(); 
          timer->Matches();
          Timers.SetModified();
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());

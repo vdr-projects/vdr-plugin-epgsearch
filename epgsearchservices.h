@@ -45,6 +45,7 @@ class cEpgsearchServiceHandler: public cServiceHandler
     virtual std::string ReadSetupValue(const std::string& entry);
     virtual bool WriteSetupValue(const std::string& entry, const std::string& value);
     virtual std::list<std::string> TimerConflictList(bool relOnly=false);    
+    virtual bool IsConflictCheckAdvised();    
 };
 
 #endif

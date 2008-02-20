@@ -37,6 +37,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_conflictcheck.h"
 #include "menu_favorites.h"
 #include "menu_deftimercheckmethod.h"
+#include "timerstatus.h"
 
 int toggleKeys=0;
 int exitToMainMenu = 0;
@@ -209,6 +210,7 @@ eOSState cMenuSearchMain::Record(void)
 
 	 SetAux(timer, fullaux);
 	 Timers.Add(timer);
+	 gl_timerStatusMonitor->SetConflictCheckAdvised(); 
 	 timer->Matches();
 	 Timers.SetModified();
 	 LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());

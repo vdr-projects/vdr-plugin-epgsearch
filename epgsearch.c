@@ -47,6 +47,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "rcfile.h"
 #include "changrp.h"
 #include "recstatus.h"
+#include "timerstatus.h"
 #include "recdone.h"
 #include "blacklist.h"
 #include "menu_search.h"
@@ -64,7 +65,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_quicksearch.h"
 #include "menu_announcelist.h"
 
-static const char VERSION[]        = "0.9.24.beta19";
+static const char VERSION[]        = "0.9.24.beta20";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -85,11 +86,13 @@ cPluginEpgsearch::cPluginEpgsearch(void)
    showConflicts = false;
    showAnnounces = false;
    gl_recStatusMonitor = NULL;
+   gl_timerStatusMonitor = NULL;
 }
 
 cPluginEpgsearch::~cPluginEpgsearch()
 {
    delete gl_recStatusMonitor;
+   delete gl_timerStatusMonitor;
    cSearchTimerThread::Exit();
    cSwitchTimerThread::Exit();
    cConflictCheckThread::Exit();
@@ -422,6 +425,7 @@ bool cPluginEpgsearch::Start(void)
       LogFile.Open(AddDirectory(CONFIGDIR, "epgsearch.log"), Version());
 
    gl_recStatusMonitor = new cRecStatusMonitor;
+   gl_timerStatusMonitor = new cTimerStatusMonitor;
 
    SearchExtCats.Load(AddDirectory(CONFIGDIR, "epgsearchcats.conf"), true);
    ChannelGroups.Load(AddDirectory(CONFIGDIR, "epgsearchchangrps.conf"), true);

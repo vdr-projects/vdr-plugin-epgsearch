@@ -39,6 +39,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "timer_thread.h"
 #include "timerdone.h"
 #include "menu_deftimercheckmethod.h"
+#include "timerstatus.h"
 
 // priority for background thread
 #define SEARCHTIMER_NICE 19
@@ -637,6 +638,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
                tmpSummary?tmpSummary:"");
 
    SendViaSVDRP(cmdbuf);
+   if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(); 
 
    cTimerDone* timerdone = new cTimerDone(start, stop, pEvent, searchExt->ID);
    if (index==0)

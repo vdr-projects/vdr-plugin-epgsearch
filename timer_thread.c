@@ -28,6 +28,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include "services.h"
 #include "svdrpclient.h"
+#include "timerstatus.h"
 
 #include <vdr/tools.h>
 #include <vdr/plugin.h>
@@ -95,7 +96,10 @@ void cTimerThread::Action(void)
 	    delete service_data;
 	}
 	else
+	  {
 	    gl_TimerProgged = 1;
+	    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(); 
+	  }
 	m_Active = false;
     };
 }

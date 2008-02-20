@@ -38,6 +38,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "uservars.h"
 #include "menu_deftimercheckmethod.h"
 #include "afuzzy.h"
+#include "timerstatus.h"
 
 const char* ButtonBlue[3] = {NULL, NULL, NULL};
 extern int gl_InfoConflict;
@@ -235,6 +236,7 @@ eOSState cMenuSearchResults::Record(void)
 
          SetAux(timer, fullaux);
          Timers.Add(timer);
+	 gl_timerStatusMonitor->SetConflictCheckAdvised(); 
          timer->Matches();
          Timers.SetModified();
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());

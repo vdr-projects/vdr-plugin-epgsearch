@@ -28,6 +28,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <libsi/si.h>
 #include "conflictcheck_thread.h"
 #include "recstatus.h"
+#include "timerstatus.h"
 
 #define FULLMATCH 1000
 #define EPGLIMITBEFORE   (1 * 3600) // Time in seconds before a timer's start time and
@@ -215,6 +216,7 @@ void cConflictCheck::Check()
 		LogFile.Log(2,"timer '%s' (%s, channel %s) failed", (*it)->timer->File(), DAYDATETIME((*it)->timer->StartTime()), CHANNELNAME((*it)->timer->Channel()));
 	}
     }
+    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(false);
 }
 
 cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
