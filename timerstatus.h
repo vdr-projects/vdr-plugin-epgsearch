@@ -25,7 +25,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #if APIVERSNUM < 10515
 enum eTimerChange { tcMod, tcAdd, tcDel };
-   RegisterI18n(Phrases);
 #endif
 
 class cTimerStatusMonitor : public cStatus 
