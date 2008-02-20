@@ -39,16 +39,13 @@ public:
     string title;
     string shorttext;
 
-    static char *buffer;
-    
     cTimerDone();
     cTimerDone(const time_t Start, const time_t Stop, const cEvent* pEvent, const int SearchID);
-    ~cTimerDone();
     bool operator== (const cTimerDone &arg) const;
 
     static bool Read(FILE *f);
     bool Parse(const char *s);
-    const char *ToText(void) const;
+    cString ToText(void) const;
     bool Save(FILE *f);
     const cEvent* GetEvent() const;
 };

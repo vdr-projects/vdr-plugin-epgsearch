@@ -37,7 +37,7 @@ public:
     cSwitchTimer(void);
     cSwitchTimer(const cEvent* Event, int SwitchMinsBefore=1, int announceOnly=0, int unmute=0);
     bool Parse(const char *s);
-    const char *ToText(bool& ignore);
+    cString ToText(bool& ignore);
     bool Save(FILE *f);
 };
 

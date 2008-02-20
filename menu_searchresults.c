@@ -467,10 +467,9 @@ bool cMenuSearchResultsForSearch::BuildList()
    if (Count())
       SetCurrent(Get(0));
    SetHelpKeys(true);  
-   char* szTitle = NULL;
-   asprintf(&szTitle, "%d %s - %s", Count(), tr("Search results"), searchExt->search);
+
+   cString szTitle = cString::sprintf("%d %s - %s", Count(), tr("Search results"), searchExt->search);
    SetTitle(szTitle);
-   free(szTitle);
 
    SetCurrent(Get(current));
    Display();
@@ -583,10 +582,8 @@ bool cMenuSearchResultsForBlacklist::BuildList()
    if (Count())
       SetCurrent(Get(0));
    SetHelpKeys();  
-   char* szTitle = NULL;
-   asprintf(&szTitle, "%d %s - %s", Count(), tr("Blacklist results"), blacklist->search);
+   cString szTitle = cString::sprintf("%d %s - %s", Count(), tr("Blacklist results"), blacklist->search);
    SetTitle(szTitle);
-   free(szTitle);
 
    SetCurrent(Get(current));
    Display();
@@ -819,10 +816,8 @@ cMenuSearchResultsForList::cMenuSearchResultsForList(cSearchResults& SearchResul
 
    BuildList();
     
-   char* szTitle = NULL;
-   asprintf(&szTitle, Title, Count());
+   cString szTitle = cString::sprintf(Title, Count());
    SetTitle(szTitle);
-   free(szTitle);
 }
 
 void cMenuSearchResultsForList::SetHelpKeys(bool Force)

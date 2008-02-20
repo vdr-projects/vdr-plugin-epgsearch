@@ -32,6 +32,7 @@ neu:
   werden, vorgeschlagen von Bittor Corl
 - Update von 'undoneepgsearch.sh', einem Skript zum Entfernen einer Aufnahme aus dem
   done-File über die reccmds.conf, Danke an Viking@vdrportal.
+- Im Menü "erledigte Aufnahmen" wird nun beim Datum absteigend sortiert.
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine

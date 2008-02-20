@@ -45,7 +45,7 @@ void cMenuTimerDoneItem::Set(void)
    strftime(buf, sizeof(buf), "%d.%m.%y %H:%M", tm);
 
    const cChannel* ch = Channels.GetByChannelID(timerDone->channelID, true, true);
-   asprintf(&buffer, "%d\t%s\t%s~%s", ch?ch->Number():0, buf, timerDone->title.c_str(), timerDone->shorttext.c_str());
+   msprintf(&buffer, "%d\t%s\t%s~%s", ch?ch->Number():0, buf, timerDone->title.c_str(), timerDone->shorttext.c_str());
    SetText(buffer, false);
 }
 
@@ -56,14 +56,10 @@ int cMenuTimerDoneItem::Compare(const cListObject &ListObject) const
       if (timerDone->start > p->timerDone->start) return 1; else return -1;
    else
    {
-      char* s1 = NULL;
-      char* s2 = NULL;
-      asprintf(&s1, "%s~%s", timerDone->title.c_str(), timerDone->shorttext.c_str());
-      asprintf(&s2, "%s~%s", p->timerDone->title.c_str(), p->timerDone->shorttext.c_str());
-      int res = strcasecmp(s1, s2);
-      free(s1);
-      free(s2);
-      return res;
+     cString s1 = cString::sprintf("%s~%s", timerDone->title.c_str(), timerDone->shorttext.c_str());
+     cString s2 = cString::sprintf("%s~%s", p->timerDone->title.c_str(), p->timerDone->shorttext.c_str());
+     int res = strcasecmp(s1, s2);
+     return res;
    }
 }
 
@@ -129,11 +125,9 @@ cTimerDone *cMenuTimersDone::CurrentTimerDone(void)
 
 void cMenuTimersDone::UpdateTitle()
 {
-   char *buffer = NULL;
-   asprintf(&buffer, "%d %s%s%s", Count(), tr("Timers"), showAll?"":" ", showAll?"":search->search);
-   SetTitle(buffer);
-   Display();
-   free(buffer);
+  cString buffer = cString::sprintf("%d %s%s%s", Count(), tr("Timers"), showAll?"":" ", showAll?"":search->search);
+  SetTitle(buffer);
+  Display();
 }
 
 eOSState cMenuTimersDone::Delete(void)

@@ -95,18 +95,15 @@ void cSwitchTimerThread::Action(void)
                   if (doswitch)
                   {
                      LogFile.Log(1,"switching to channel %d", channel->Number());
-                     char* cmd = NULL;
-                     asprintf(&cmd, "CHAN %d", channel->Number());
+                     cString cmd = cString::sprintf("CHAN %d", channel->Number());
                      SendViaSVDRP(cmd);
-                     free(cmd);
 
 		     if (switchTimer->unmute && cDevice::PrimaryDevice()->IsMute())
 		       cDevice::PrimaryDevice()->ToggleMute();
                   }
-                  char* Message = NULL;
-                  asprintf(&Message, "%s: %s - %s", event->Title(), CHANNELNAME(channel), GETTIMESTRING(event));
+                  cString Message = cString::sprintf("%s: %s - %s", event->Title(), 
+						     CHANNELNAME(channel), GETTIMESTRING(event));
                   SendMsg(Message);
-                  free(Message);
                   sleepSec(MSG_DELAY);			
                }
                SwitchTimers.Save();

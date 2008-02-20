@@ -238,7 +238,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
 		 if (SearchExtCat->searchmode >= 10)
 		   {
 		     if (searchExt->catvalues[index]) free(searchExt->catvalues[index]);
-		     asprintf(&searchExt->catvalues[index], "%d", catvaluesNumeric[index]);
+		     msprintf(&searchExt->catvalues[index], "%d", catvaluesNumeric[index]);
 		   }
 		 SearchExtCat = SearchExtCats.Next(SearchExtCat);
 		 index++;

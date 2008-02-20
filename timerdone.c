@@ -28,12 +28,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 using std::string;
 
 cTimersDone TimersDone;
-char *cTimerDone::buffer = NULL;
 // -- cTimerDone -----------------------------------------------------------------
 cTimerDone::cTimerDone(void)
 {
    start = stop = 0;
-   buffer = NULL;
    searchID = -1;
 }
 
@@ -48,15 +46,6 @@ cTimerDone::cTimerDone(const time_t Start, const time_t Stop, const cEvent* pEve
       shorttext = pEvent->ShortText()?pEvent->ShortText():"";
    }
    searchID = SearchID;
-   buffer = NULL;
-}
-
-cTimerDone::~cTimerDone(void)
-{
-   if (buffer) {
-      free(buffer);
-      buffer = NULL;
-   }
 }
 
 bool cTimerDone::operator== (const cTimerDone &arg) const
@@ -133,13 +122,12 @@ bool cTimerDone::Parse(const char *s)
    return (parameter >= 6) ? true : false;
 }
 
-const char *cTimerDone::ToText(void) const
+cString cTimerDone::ToText(void) const
 {
-   free(buffer);
    cChannel *channel = Channels.GetByChannelID(channelID, true, true);
    string info = string(DAYDATETIME(start)) + " - " + string(channel?channel->Name():"");
 
-   asprintf(&buffer, "%s:%ld:%ld:%d:%s:%s:%s", 
+   cString buffer = cString::sprintf("%s:%ld:%ld:%d:%s:%s:%s", 
             *channelID.ToString(),
             start,
             stop, 
@@ -152,7 +140,7 @@ const char *cTimerDone::ToText(void) const
 
 bool cTimerDone::Save(FILE *f)
 {
-   return fprintf(f, "%s\n", ToText()) > 0;
+   return fprintf(f, "%s\n", *ToText()) > 0;
 }
 
 const cEvent* cTimerDone::GetEvent() const

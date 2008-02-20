@@ -87,7 +87,7 @@ eOSState cMenuSetupSubMenu::Help()
     if(Current() < (int) helpTexts.size())
     {
 	char* title = NULL;
-	asprintf(&title, "%s - %s", tr("Button$Help"), ItemText);
+	msprintf(&title, "%s - %s", tr("Button$Help"), ItemText);
 	if (strchr(title, ':'))
 	    *strchr(title, ':') = 0;
 	state = AddSubMenu(new cMenuText(title, helpTexts[Current()]));
@@ -471,8 +471,7 @@ void cMenuSetupUserdefTimes::Set()
   Clear();
   helpTexts.clear();
 
-  char* szUseUserTime = NULL;
-  asprintf(&szUseUserTime, "%s %d", tr("Use user-defined time"), 1);
+  cString szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 1);
   Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode1].useIt,       trVDR("no"),      trVDR("yes")));
   AddHelp(tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
   if (data->ShowModes[showUserMode1].GetUsage())
@@ -482,9 +481,8 @@ void cMenuSetupUserdefTimes::Set()
       Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode1].itime));
       AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
   } 
-  free(szUseUserTime);
 
-  asprintf(&szUseUserTime, "%s %d", tr("Use user-defined time"), 2);
+  szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 2);
   Add(new cMenuEditBoolItem( szUseUserTime, &data->ShowModes[showUserMode2].useIt,       trVDR("no"),      trVDR("yes")));
   AddHelp(tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
   if (data->ShowModes[showUserMode2].GetUsage())
@@ -494,9 +492,8 @@ void cMenuSetupUserdefTimes::Set()
       Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode2].itime));
       AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
   } 
-  free(szUseUserTime);
 
-  asprintf(&szUseUserTime, "%s %d", tr("Use user-defined time"), 3);
+  szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 3);
   Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode3].useIt,       trVDR("no"),      trVDR("yes")));
   AddHelp(tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
   if (data->ShowModes[showUserMode3].GetUsage())
@@ -506,9 +503,8 @@ void cMenuSetupUserdefTimes::Set()
       Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode3].itime));
       AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
   } 
-  free(szUseUserTime);
 
-  asprintf(&szUseUserTime, "%s %d", tr("Use user-defined time"), 4);
+  szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 4);
   Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode4].useIt,       trVDR("no"),      trVDR("yes")));
   AddHelp(tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
   if (data->ShowModes[showUserMode4].GetUsage())
@@ -518,7 +514,6 @@ void cMenuSetupUserdefTimes::Set()
       Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode4].itime));
       AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
   } 
-  free(szUseUserTime);
 
   SetCurrent(Get(current));
   Display();

@@ -195,9 +195,9 @@ const char *cBlacklist::ToText(void)
   if (useChannel==1)
   {
       if (channelMin->Number() < channelMax->Number())
-	  asprintf(&tmp_chanSel, "%s|%s", CHANNELSTRING(channelMin), CHANNELSTRING(channelMax));
+	  msprintf(&tmp_chanSel, "%s|%s", CHANNELSTRING(channelMin), CHANNELSTRING(channelMax));
       else
-	  asprintf(&tmp_chanSel, "%s", CHANNELSTRING(channelMin));
+	  msprintf(&tmp_chanSel, "%s", CHANNELSTRING(channelMin));
   }
   if (useChannel==2)
   {
@@ -218,18 +218,18 @@ const char *cBlacklist::ToText(void)
       while (SearchExtCat)
       {
 	  char* catvalue = NULL;
-	  asprintf(&catvalue, "%s", catvalues[index]);
+	  msprintf(&catvalue, "%s", catvalues[index]);
 	  while(strstr(catvalue, ":"))
 	      catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part ofa category value
 	  while(strstr(catvalue, "|"))
 	      catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression
 
 	  if (index == 0)
-	      asprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
+	      msprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
 	  else
 	  {
 	      char* temp = tmp_catvalues;
-	      asprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
+	      msprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
 	      free(temp);
 	  }
 	  SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -238,7 +238,7 @@ const char *cBlacklist::ToText(void)
       }
   }
 
-  asprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%s:%d:%d",
+  msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%s:%d:%d",
 	   ID,
 	   tmp_search,
 	   useTime,
@@ -549,7 +549,7 @@ cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedules, const cEven
      if (!p->Title() || strlen(p->Title()) == 0)
 	 continue;
 
-     asprintf(&szTest, "%s%s%s%s%s", (useTitle?p->Title():""), (useSubtitle||useDescription)?"~":"",
+     msprintf(&szTest, "%s%s%s%s%s", (useTitle?p->Title():""), (useSubtitle||useDescription)?"~":"",
 	      (useSubtitle?p->ShortText():""),useDescription?"~":"",
 	      (useDescription?p->Description():""));
 

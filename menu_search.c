@@ -130,11 +130,9 @@ void cMenuEPGSearchExt::UpdateTitle()
 	total++;
     }
 
-    char *buffer = NULL;
-    asprintf(&buffer, "%s (%d/%d %s)", tr("Search entries"), active, total, tr("active"));
+    cString buffer = cString::sprintf("%s (%d/%d %s)", tr("Search entries"), active, total, tr("active"));
     SetTitle(buffer);
     Display();
-    free(buffer);
 }
 
 cSearchExt *cMenuEPGSearchExt::CurrentSearchExt(void)

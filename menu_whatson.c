@@ -267,7 +267,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
    eventObjects.Clear();
    
    //   time_t SeekTime;
-   char* szTitle = NULL;
+   cString szTitle;
    cShowMode* mode = GetShowMode(currentShowMode);
 
    if (shiftTime != 0)
@@ -288,9 +288,9 @@ void cMenuWhatsOnSearch::LoadSchedules()
       tm tm_seek = *localtime_r(&seekTime, &tm_r);
       tm tm_now = *localtime_r(&now, &tm_r);
       if (tm_seek.tm_mday != tm_now.tm_mday)
-         asprintf(&szTitle, "%s - %s", tr("Overview"), DAYDATETIME(seekTime));
+	szTitle = cString::sprintf("%s - %s", tr("Overview"), DAYDATETIME(seekTime));
       else
-         asprintf(&szTitle, "%s - %02d:%02d", tr("Overview"), tm_seek.tm_hour, tm_seek.tm_min);
+	szTitle = cString::sprintf("%s - %02d:%02d", tr("Overview"), tm_seek.tm_hour, tm_seek.tm_min);
    }
    else
    {
@@ -300,14 +300,13 @@ void cMenuWhatsOnSearch::LoadSchedules()
          if (seekTime < time(NULL) && currentShowMode != showNow && currentShowMode != showNext)
          {
             seekTime += HOURS2SECS(24);	
-            asprintf(&szTitle, "%s - %s (%s)", tr("Overview"), mode->GetDescription(), *WeekDayName(seekTime));    
+	    szTitle = cString::sprintf("%s - %s (%s)", tr("Overview"), mode->GetDescription(), *WeekDayName(seekTime));    
          }
          else
-            asprintf(&szTitle, "%s - %s", tr("Overview"), mode->GetDescription());    
+	   szTitle = cString::sprintf("%s - %s", tr("Overview"), mode->GetDescription());    
       }
    }
    SetTitle(szTitle);
-   free(szTitle);
 
    cMenuTemplate* currentTemplate = NULL;
    if (currentShowMode == showNow)
@@ -365,10 +364,8 @@ void cMenuWhatsOnSearch::LoadSchedules()
       {
 	if (EPGSearchConfig.showChannelGroups && strlen(Channel->Name()))
          {
-            char* szGroup = NULL;
-            asprintf(&szGroup, "----------------------------------------\t %s ----------------------------------------------------------------------------------------------", Channel->Name());
+	   cString szGroup = cString::sprintf("----------------------------------------\t %s ----------------------------------------------------------------------------------------------", Channel->Name());
             cOsdItem* pGroupItem = new cOsdItem(szGroup);
-            free(szGroup);
             pGroupItem->SetSelectable(false);
             Add(pGroupItem);
          }

@@ -63,10 +63,8 @@ cMenuSearchCommands::cMenuSearchCommands(const char *Title, const cEvent* Event,
       Add(new cOsdItem(hk(command->Title())));
    if (event)
    {
-      char* szTitle = NULL;
-      asprintf(&szTitle, "%s: %s", tr("EPG Commands"), event->Title());
-      SetTitle(szTitle);
-      free(szTitle);
+     cString szTitle = cString::sprintf("%s: %s", tr("EPG Commands"), event->Title());
+     SetTitle(szTitle);
    }
 }
 
@@ -88,16 +86,13 @@ void cMenuSearchCommands::LoadCommands()
    bool bLoaded = false;
    while(pstrSearchToken) // may contain multiple code, e.g. 'ger,deu'
    {
-      char* cmdFile = NULL;
-      asprintf(&cmdFile, "%s-%s.conf", ADDDIR(CONFIGDIR, "epgsearchcmds"), pstrSearchToken);
+     cString cmdFile = cString::sprintf("%s-%s.conf", ADDDIR(CONFIGDIR, "epgsearchcmds"), pstrSearchToken);
       if (access(cmdFile, F_OK) == 0) 	
       {
          commands.Load(cmdFile, true);
-         free(cmdFile);
          bLoaded = true;
          break;
       }
-      free(cmdFile);
       pstrSearchToken=strtok_r(NULL, ",", &pptr);
    }
    if (!bLoaded)
@@ -274,31 +269,28 @@ eOSState cMenuSearchCommands::Execute(void)
 
    cCommand *command = commands.Get(current-8);
    if (command) {
-      char *buffer = NULL;
+      cString buffer;
       bool confirmed = true;
       if (command->Confirm()) {
-         asprintf(&buffer, "%s?", command->Title());
-         confirmed = Interface->Confirm(buffer);
-         free(buffer);
+	buffer = cString::sprintf("%s?", command->Title());
+	confirmed = Interface->Confirm(buffer);
       }
       if (confirmed) {
-         asprintf(&buffer, "%s...", command->Title());
-         Skins.Message(mtStatus, buffer);
-         free(buffer);
-
-         asprintf(&buffer, "'%s' %ld %ld %d '%s' '%s'", 
-                  EscapeString(event->Title()).c_str(), 
-                  event->StartTime(), 
-                  event->EndTime(), 
-                  ChannelNrFromEvent(event), 
-                  EscapeString(Channels.GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(), 
-                  EscapeString(event->ShortText()?event->ShortText():"").c_str());
-         const char *Result = command->Execute(buffer);
-         free(buffer);
-         Skins.Message(mtStatus, NULL);
-         if (Result)
-            return AddSubMenu(new cMenuText(command->Title(), Result, fontFix));
-         return osBack;
+	buffer = cString::sprintf("%s...", command->Title());
+	Skins.Message(mtStatus, buffer);
+	
+	buffer = cString::sprintf("'%s' %ld %ld %d '%s' '%s'", 
+				  EscapeString(event->Title()).c_str(), 
+				  event->StartTime(), 
+				  event->EndTime(), 
+				  ChannelNrFromEvent(event), 
+				  EscapeString(Channels.GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(), 
+				  EscapeString(event->ShortText()?event->ShortText():"").c_str());
+	const char *Result = command->Execute(buffer);
+	Skins.Message(mtStatus, NULL);
+	if (Result)
+	  return AddSubMenu(new cMenuText(command->Title(), Result, fontFix));
+	return osBack;
       }
    }
    return osContinue;

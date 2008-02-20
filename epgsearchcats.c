@@ -24,6 +24,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <string>
 #include "epgsearchcats.h"
 #include "log.h"
+#include "epgsearchtools.h"
 #include <vdr/tools.h>
 
 using std::string;
@@ -122,7 +123,7 @@ const char *cSearchExtCat::ToText(void)
     for(int i=0; i<nvalues; i++)
 	sValues += string(values[i]) + ((i<nvalues-1)?", ":"");
     
-    asprintf(&buffer, "%d|%s|%s|%s|%d", 
+    msprintf(&buffer, "%d|%s|%s|%s|%d", 
 	     id, name, menuname, sValues.c_str(), searchmode);
     return buffer;
 }

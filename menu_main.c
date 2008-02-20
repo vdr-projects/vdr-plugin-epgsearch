@@ -85,10 +85,8 @@ int cMenuSearchMain::GetTab(int Tab)
 void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
 {
     Clear();
-    char *buffer = NULL;
-    asprintf(&buffer, "%s - %s", trVDR("Schedule"), Channel->Name());
+    cString buffer = cString::sprintf("%s - %s", trVDR("Schedule"), Channel->Name());
     SetTitle(buffer);
-    free(buffer);
 
     cMenuTemplate* ScheduleTemplate = cTemplFile::GetTemplateByName("MenuSchedule");
     eventObjects.Clear();
@@ -120,12 +118,10 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
 			struct tm *t_lastevent = localtime_r(&lastEventDate, &tm_rLastEvent);			
 			if (t_event->tm_mday != t_lastevent->tm_mday)
 			{
-			    char* szSep = NULL;
-			    asprintf(&szSep, "----------------------------------\t %s ----------------------------------------------------------------------------------------------", GETDATESTRING(Event));
-			    cOsdItem* pSepItem = new cOsdItem(szSep);
-			    free(szSep);
-			    pSepItem->SetSelectable(false);
-			    Add(pSepItem);
+			  cString szSep = cString::sprintf("----------------------------------\t %s ----------------------------------------------------------------------------------------------", GETDATESTRING(Event));
+			  cOsdItem* pSepItem = new cOsdItem(szSep);
+			  pSepItem->SetSelectable(false);
+			  Add(pSepItem);
 			}
 			lastEventDate = EventDate;
 		    }
@@ -140,10 +136,9 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
     }
     if (shiftTime)
     {
-	char *buffer = NULL;
-	asprintf(&buffer, "%s (%s%dh %dm)", Channel->Name(), shiftTime>0?"+":"", shiftTime/60, abs(shiftTime)%60);
-	SetTitle(buffer);
-	free(buffer);
+      cString buffer = cString::sprintf("%s (%s%dh %dm)", Channel->Name(), shiftTime>0?"+":"", 
+					shiftTime/60, abs(shiftTime)%60);
+      SetTitle(buffer);
     }
 }
 

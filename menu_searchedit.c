@@ -337,10 +337,8 @@ void cMenuEditSearchExt::Set()
                   index++;
                }
 		    
-               char* itemtext = NULL;
-               asprintf(&itemtext, "%s (%d/%d)", tr("Compare categories"), iUsed, SearchExtCats.Count());
+               cString itemtext = cString::sprintf("%s (%d/%d)", tr("Compare categories"), iUsed, SearchExtCats.Count());
                Add(new cOsdItem(IndentMenuItem(IndentMenuItem(itemtext))));
-               free(itemtext);
             }
          }
 	    
@@ -399,7 +397,7 @@ eOSState cMenuEditSearchExt::Help()
     if(Current() < (int) helpTexts.size())
     {
 	char* title = NULL;
-	asprintf(&title, "%s - %s", tr("Button$Help"), ItemText);
+	msprintf(&title, "%s - %s", tr("Button$Help"), ItemText);
 	if (strchr(title, ':'))
 	    *strchr(title, ':') = 0;
 	state = AddSubMenu(new cMenuText(title, helpTexts[Current()]));
@@ -628,7 +626,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
 		 if (SearchExtCat->searchmode >= 10)
 		   {
 		     if (searchExt->catvalues[index]) free(searchExt->catvalues[index]);
-		     asprintf(&searchExt->catvalues[index], "%d", catvaluesNumeric[index]);
+		     msprintf(&searchExt->catvalues[index], "%d", catvaluesNumeric[index]);
 		   }
 		 SearchExtCat = SearchExtCats.Next(SearchExtCat);
 		 index++;
@@ -805,10 +803,8 @@ cMenuSearchEditCompCats::cMenuSearchEditCompCats(int* catarrayAvoidRepeats)
    while (SearchExtCat) 
    {
       edit_catarrayAvoidRepeats[index] = catarrayAvoidRepeats[index];
-      char* menutext = NULL;
-      asprintf(&menutext, "%s %s", tr("Compare"), SearchExtCat->menuname);
+      cString menutext = cString::sprintf("%s %s", tr("Compare"), SearchExtCat->menuname);
       Add(new cMenuEditBoolItem(menutext, &edit_catarrayAvoidRepeats[index], trVDR("no"), trVDR("yes")));
-      free(menutext);
       SearchExtCat = SearchExtCats.Next(SearchExtCat);
       index++;
    }
@@ -1052,20 +1048,15 @@ void cMenuCatValuesSelect::Set()
    {
       for(int i=0; i<SearchExtCat->nvalues; i++)
       {
-         char* entry = NULL;
-         asprintf(&entry, "%c\t%s", sel_cats[i]?'*':' ',  SearchExtCat->values[i]);
-         if (sel_cats[i]) selCount++;
-         Add(new cOsdItem(entry));
-         free(entry);
+	cString entry = cString::sprintf("%c\t%s", sel_cats[i]?'*':' ',  SearchExtCat->values[i]);
+	if (sel_cats[i]) selCount++;
+	Add(new cOsdItem(entry));
       }
    }
    SetCurrent(Get(current));
-   char *title = NULL;
-   asprintf(&title, "%s (%d/%d)", tr("Values for EPG category"), selCount, SearchExtCat->nvalues);
+   cString title = cString::sprintf("%s (%d/%d)", tr("Values for EPG category"), selCount, SearchExtCat->nvalues);
    SetTitle(title);
    Display();
-   free(title);
-
 }
 
 eOSState cMenuCatValuesSelect::ProcessKey(eKeys Key)

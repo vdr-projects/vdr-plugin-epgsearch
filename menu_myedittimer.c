@@ -76,42 +76,40 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
 
 void cMenuMyEditTimer::SplitFile()
 {
-    char* tmp = strrchr(file, '~');
-    if (tmp) // split file in real file and directory
+  char* tmp = strrchr(file, '~');
+  if (tmp) // split file in real file and directory
     {
-	if (event && !isempty(event->ShortText())) 
+      if (event && !isempty(event->ShortText())) 
 	{
-	    char* eventFile = NULL;
-	    asprintf(&eventFile, "%s~%s", event->Title(), event->ShortText());
-	    char* tmp2 = strstr(file, eventFile); 
-	    free(eventFile);
-	    if (tmp2) // file contains title and subtitle
+	  cString eventFile = cString::sprintf("%s~%s", event->Title(), event->ShortText());
+	  char* tmp2 = strstr(file, eventFile); 
+	  if (tmp2) // file contains title and subtitle
 	    {
-		if (tmp2 > file)
+	      if (tmp2 > file)
 		{
-		    *(tmp2-1) = 0;
-		    strcpy(directory, file);
-		    strcpy(file, tmp2);
+		  *(tmp2-1) = 0;
+		  strcpy(directory, file);
+		  strcpy(file, tmp2);
 		}
-		else
-		    *directory = 0;
+	      else
+		*directory = 0;
 	    }
-	    else
+	  else
 	    {
-		*tmp = 0;
-		strcpy(directory, file);
-		strcpy(file, tmp+1);
+	      *tmp = 0;
+	      strcpy(directory, file);
+	      strcpy(file, tmp+1);
 	    }
 	}
-	else
+      else
 	{
-	    *tmp = 0;
-	    strcpy(directory, file);
-	    strcpy(file, tmp+1);
+	  *tmp = 0;
+	  strcpy(directory, file);
+	  strcpy(file, tmp+1);
 	}
     }
-    else
-	*directory = 0;
+  else
+    *directory = 0;
 }
 
 void cMenuMyEditTimer::Set()
@@ -125,10 +123,8 @@ void cMenuMyEditTimer::Set()
 #ifdef USE_PINPLUGIN
     if (cOsd::pinValid) Add(new cMenuEditChanItem(tr("Channel"), &channel));
     else {
-       char* buf = 0;
-       asprintf(&buf, "%s\t%s", tr("Channel"), Channels.GetByNumber(channel)->Name());
-       Add(new cOsdItem(buf));
-       free(buf);
+      cSting buf = cString::sprintf("%s\t%s", tr("Channel"), Channels.GetByNumber(channel)->Name());
+      Add(new cOsdItem(buf));
     }
 #else
     Add(new cMenuEditChanItem(trVDR("Channel"),      &channel));
@@ -146,10 +142,8 @@ void cMenuMyEditTimer::Set()
 #ifdef USE_PINPLUGIN
     if (cOsd::pinValid || !fskProtection) Add(new cMenuEditBoolItem(tr("Childlock"),&fskProtection));
     else {
-       char* buf = 0;
-       asprintf(&buf, "%s\t%s", tr("Childlock"), fskProtection ? trVDR("yes") : trVDR("no"));
-       Add(new cOsdItem(buf));
-       free(buf);
+      cString buf = cString::sprintf("%s\t%s", tr("Childlock"), fskProtection ? trVDR("yes") : trVDR("no"));
+      Add(new cOsdItem(buf));
     }
 #endif
     Add(new cMenuEditStrItem( trVDR("File"), file, MaxFileName, trVDR(FileNameChars)));
@@ -179,10 +173,8 @@ void cMenuMyEditTimer::Set()
 	cOsdItem* pInfoItem = new cOsdItem("");
 	pInfoItem->SetSelectable(false);
 	Add(pInfoItem);
-	char* info = NULL;
-	asprintf(&info, "%s: %d/%d", tr("recording with device"), deviceNr, cDevice::NumDevices());
+	cString info = cString::sprintf("%s: %d/%d", tr("recording with device"), deviceNr, cDevice::NumDevices());
 	pInfoItem = new cOsdItem(info);
-	free(info);
 	pInfoItem->SetSelectable(false);
 	Add(pInfoItem);
     }
@@ -381,9 +373,9 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		
 		if (timer) 
 		{
-		    char* cmdbuf = NULL;
+		    cString cmdbuf;
 		    if (addIfConfirmed)
-			asprintf(&cmdbuf, "NEWT %d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s", 
+		      cmdbuf = cString::sprintf("NEWT %d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s", 
 				 flags,
 				 ch->Number(),
 #if VDRVERSNUM < 10503
@@ -400,7 +392,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 				 tmpFile,
 				 fullaux.c_str());
 		    else
-			asprintf(&cmdbuf, "MODT %d %d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s", 
+			cmdbuf = cString::sprintf("MODT %d %d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s", 
 				 timer->Index()+1,
 				 flags,
 				 ch->Number(),
@@ -421,7 +413,6 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		    cTimerThread timerThread;
 		    timerThread.Init(cmdbuf);
 		    
-		    free(cmdbuf);
 		    free(tmpFile);
 		    free(tmpDir);
 		    

@@ -40,21 +40,18 @@ cTimerThread::cTimerThread()
 : cThread("EPGSearch: timer")
 {
     m_Active = false;
-    m_cmd = NULL;
 }
 
 cTimerThread::~cTimerThread() {
     if (m_Active) 
 	Stop();
-    if (m_cmd)
-	free(m_cmd);
     cTimerThread::m_Instance = NULL;
 }
 
-void cTimerThread::Init(char* cmd) {
+void cTimerThread::Init(cString cmd) {
     if (m_Instance == NULL) {
 	m_Instance = new cTimerThread;
-	m_Instance->m_cmd = strdup(cmd);
+	m_Instance->m_cmd = cmd;
 	m_Instance->Start();
     }
 }

@@ -385,7 +385,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 			if (SearchExtCat->searchmode >= 10)
 			  {
 			    if (blacklist->catvalues[index]) free(blacklist->catvalues[index]);
-			    asprintf(&blacklist->catvalues[index], "%d", catvaluesNumeric[index]);
+			    msprintf(&blacklist->catvalues[index], "%d", catvaluesNumeric[index]);
 			  }
 			SearchExtCat = SearchExtCats.Next(SearchExtCat);
 			index++;

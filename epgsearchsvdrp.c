@@ -156,14 +156,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             cSearchExt *search = SearchExts.GetSearchFromID(atol(Option));
             if (search)
-            {
-               char* buffer = NULL;
-               asprintf(&buffer, "%s", search->ToText());
-               cString sBuffer = cString(buffer);
-               free(buffer);
-               return sBuffer;
-            }
-
+               return cString(search->ToText());
             else
             {
                ReplyCode = 901;
@@ -405,7 +398,6 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                {
                   const cEvent* pEvent = result->event;
                   cTimer* Timer = new cTimer(pEvent);
-                  char *cmdbuf = NULL;
 
                   static char bufStart[25];
                   static char bufEnd[25];
@@ -426,7 +418,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                   strftime(bufStart, sizeof(bufStart), "%H%M", localtime_r(&start, &tm_r));
                   strftime(bufEnd, sizeof(bufEnd), "%H%M", localtime_r(&stop, &tm_r));
 
-                  asprintf(&cmdbuf, "NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s", 
+		  cString cmdbuf = cString::sprintf("NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s", 
                            Flags,
                            Timer->Channel()->Number(),
 #if VDRVERSNUM < 10503
@@ -443,7 +435,6 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 				 
 		      
                   sBuffer += string(cmdbuf) + string(results->Next(result)?"\n":"");
-                  free(cmdbuf);
                   delete(Timer);
                   result = results->Next(result);
                }
@@ -531,7 +522,6 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             const cEvent* pEvent = result->event;
             cTimer* Timer = new cTimer(pEvent);
-            char *cmdbuf = NULL;
 		
             static char bufStart[25];
             static char bufEnd[25];
@@ -565,7 +555,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             string shorttext = pEvent->ShortText()?ReplaceAll(pEvent->ShortText(), "|", "!^pipe!^"):"";
             shorttext = ReplaceAll(shorttext, ":", "|");
 
-            asprintf(&cmdbuf, "%d:%u:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d", 
+            cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d", 
                      result->search->ID,
                      pEvent->EventID(),
                      title.c_str(),
@@ -579,7 +569,6 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                      timerMode);				 
 		
             sBuffer += string(cmdbuf) + string(pCompleteSearchResults->Next(result)?"\n":"");
-            free(cmdbuf);
             delete(Timer);
             result = pCompleteSearchResults->Next(result);
          }
@@ -628,14 +617,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       {
          cChannelGroup *changrp = ChannelGroups.GetGroupByName(Option);
          if (changrp)
-         {
-            char* buffer = NULL;
-            asprintf(&buffer, "%s", changrp->ToText());
-            cString sBuffer = cString(buffer);
-            free(buffer);
-            return sBuffer;
-         }
-	    
+            return cString(changrp->ToText());	    
          else
          {
             ReplyCode = 901;
@@ -816,14 +798,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             cBlacklist *blacklist = Blacklists.GetBlacklistFromID(atol(Option));
             if (blacklist)
-            {
-               char* buffer = NULL;
-               asprintf(&buffer, "%s", blacklist->ToText());
-               cString sBuffer = cString(buffer);
-               free(buffer);
-               return sBuffer;
-            }
-
+               return cString(blacklist->ToText());
             else
             {
                ReplyCode = 901;
@@ -964,14 +939,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             int index = SearchExtCats.GetIndexFromID(atoi(Option));
             if (index >= 0) SearchExtCat = SearchExtCats.Get(index);
             if (SearchExtCat)
-            {
-               char* buffer = NULL;
-               asprintf(&buffer, "%s", SearchExtCat->ToText());
-               cString sBuffer = cString(buffer);
-               free(buffer);
-               return sBuffer;
-            }
-
+               return cString(SearchExtCat->ToText());
             else
             {
                ReplyCode = 901;
@@ -1093,14 +1061,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             cSearchExt *search = SearchTemplates.GetSearchFromID(atol(Option));
             if (search)
-            {
-               char* buffer = NULL;
-               asprintf(&buffer, "%s", search->ToText());
-               cString sBuffer = cString(buffer);
-               free(buffer);
-               return sBuffer;
-            }
-
+               return cString(search->ToText());
             else
             {
                ReplyCode = 901;

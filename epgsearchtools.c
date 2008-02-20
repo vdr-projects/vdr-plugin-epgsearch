@@ -73,7 +73,7 @@ int CompareEventChannel(const void *p1, const void *p2)
 char* IndentMenuItem(const char* szString)
 {
    char* szIndented = NULL;
-   asprintf(&szIndented, "  %s", szString);
+   msprintf(&szIndented, "  %s", szString);
    return szIndented;
 }
 
@@ -414,7 +414,7 @@ char* GetExtEPGValue(const char* description, const char* catname)
    char* tmp = NULL;
     
    // search the category, must be at beginnig of a line
-   asprintf(&tmp, "\n%s: ", catname);
+   msprintf(&tmp, "\n%s: ", catname);
    char* descr = strdup(description);
    char* cat = NULL;
    if ((cat = strstr(descr, tmp)) == NULL)
@@ -434,7 +434,7 @@ char* GetExtEPGValue(const char* description, const char* catname)
    cat[endpos] = 0;
 
    char* value = NULL;
-   asprintf(&value, "%s", cat + strlen(tmp)-1);
+   msprintf(&value, "%s", cat + strlen(tmp)-1);
    free(descr);
    free(tmp);
 
@@ -473,7 +473,7 @@ char* GetAuxValue(const char* aux, const char* name)
    cat[endpos] = 0;
 	
    char* value = NULL;
-   asprintf(&value, "%s", cat + strlen(name)+2);
+   msprintf(&value, "%s", cat + strlen(name)+2);
    free(descr);
    
    return value;
@@ -582,42 +582,41 @@ void sleepSec(long s)
    sleepMSec(s * 1000);
 }
 
-bool SendViaSVDRP(const char* SVDRPcmd) 
+bool SendViaSVDRP(cString SVDRPcmd) 
 {
    bool bSuccess = true;
-   char *cmdbuf = NULL;
+   cString cmdbuf;
    if (EPGSearchConfig.useExternalSVDRP)
    {
-      asprintf(&cmdbuf, "%s -p %d \"%s\"", 
+     cmdbuf = cString::sprintf("%s -p %d \"%s\"", 
                cSVDRPClient::SVDRPSendCmd,
                EPGSearchConfig.SVDRPPort,
-               SVDRPcmd);
+               *SVDRPcmd);
 
       FILE *p = popen(cmdbuf, "r");
       if (p)
          pclose(p);
       else
       {
-         LogFile.eSysLog("can't open pipe for command '%s'", cmdbuf);
+         LogFile.eSysLog("can't open pipe for command '%s'", *cmdbuf);
          bSuccess = false;
       }
    }
    else
    {
-      asprintf(&cmdbuf, "%s", SVDRPcmd);
+      cmdbuf = SVDRPcmd;
       cSVDRPClient client(EPGSearchConfig.SVDRPPort);
-      if (!client.SendCmd(cmdbuf))
+      if (!client.SendCmd(*cmdbuf))
       {
-         LogFile.eSysLog("command '%s' failed", cmdbuf);
+         LogFile.eSysLog("command '%s' failed", *cmdbuf);
          bSuccess = false;
       }
    }
 	    
-   free(cmdbuf);
    return bSuccess;
 }
 
-int SendMsg(const char* Message, bool confirm, int seconds) 
+int SendMsg(cString Message, bool confirm, int seconds) 
 {
    int Keys = Skins.QueueMessage(mtInfo, Message, seconds, confirm?seconds+2:0);
    return Keys;
@@ -887,12 +886,9 @@ int ChannelNrFromEvent(const cEvent* pEvent)
 
 void DelTimer(int index)
 {
-   char *cmdbuf = NULL;    
-   asprintf(&cmdbuf, "DELT %d", index);    
-   LogFile.Log(2, "delete timer %d", index);
-   SendViaSVDRP(cmdbuf);
-	      
-   free(cmdbuf); 
+  cString cmdbuf = cString::sprintf("DELT %d", index);    
+  LogFile.Log(2, "delete timer %d", index);
+  SendViaSVDRP(cmdbuf);
 }
 
 char* FixSeparators(char* buffer, char sep)
@@ -1024,3 +1020,11 @@ void SetAux(cTimer* timer, string aux)
    timer->Parse(timerText.c_str());
 }
 
+int msprintf(char **strp, const char *fmt, ...)
+{
+  va_list ap;
+  va_start (ap, fmt);
+  int res=vasprintf (strp, fmt, ap);
+  va_end (ap);
+  return res;
+}

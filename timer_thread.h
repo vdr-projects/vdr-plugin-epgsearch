@@ -41,7 +41,7 @@ typedef enum
 class cTimerThread: public cThread {
 private:
         static cTimerThread *m_Instance;
-	char* m_cmd;
+	cString m_cmd;
 	static TimerThreadStatus m_Status;
 protected:
         virtual void Action(void);
@@ -52,7 +52,7 @@ public:
 	void SetStatus(TimerThreadStatus Status) { LogFile.eSysLog("%d", int(Status)); cTimerThread::m_Status = Status; }
         cTimerThread();
         virtual ~cTimerThread();
-        void Init(char*);
+        void Init(cString);
         void Exit(void);
 };
 

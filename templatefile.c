@@ -36,7 +36,7 @@ bool cMenuTemplate::PrepareTemplate(const char* templateLine)
     char *pstrSearchToken, *pptr;
     char *pstrSearch=strdup(templateLine);
     pstrSearchToken=strtok_r(pstrSearch, "|", &pptr);
-    char* stripped = NULL;
+    cString stripped;
     int iToken = 0;
     while(pstrSearchToken) 
     {
@@ -58,14 +58,12 @@ bool cMenuTemplate::PrepareTemplate(const char* templateLine)
 	    return false;
 	}
 	*tmp = 0;
-	if (!stripped)
+	if (isempty(stripped))
 	    stripped = strdup(pstrSearchToken);
 	else
 	{
-	    char* tmp = stripped;
-	    stripped = NULL;
-	    asprintf(&stripped, "%s|%s", tmp, pstrSearchToken);
-	    free(tmp);
+	    cString tmp = stripped;
+	    stripped = cString::sprintf("%s|%s", *tmp, pstrSearchToken);
 	}
 	pstrSearchToken=strtok_r(NULL, "|", &pptr);
     }
@@ -74,9 +72,9 @@ bool cMenuTemplate::PrepareTemplate(const char* templateLine)
     // no limit for the last column
     if (iToken>0) menuTabs[iToken-1] = 0;
 
-    if (stripped)
+    if (!isempty(stripped))
       {
-	menuTemplate = stripped;
+	menuTemplate = strdup(stripped);
 	// the status variables are handled in menu_whatson.c itself
 	// to speedup the var-parser we 'hide' them here in renaming them
 	menuTemplate = strreplacei(menuTemplate, "%status%", "$status$");

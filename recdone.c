@@ -197,7 +197,7 @@ const char *cRecDone::ToText(void)
     if (!channel)
 	LogFile.Log(3,"invalid channel in recs done!");
 
-    asprintf(&buffer, "R %ld %d %d\nC %s\n%s%s%s%s%s%s%s%s%s%s%s%sr", 
+    msprintf(&buffer, "R %ld %d %d\nC %s\n%s%s%s%s%s%s%s%s%s%s%s%sr", 
 	     startTime, duration, searchID, 
 	     channel?CHANNELSTRING(channel):"",
 	     title?"T ":"",title?title:"", title?"\n":"",

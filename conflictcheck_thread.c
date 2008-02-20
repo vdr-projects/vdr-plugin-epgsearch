@@ -110,23 +110,22 @@ void cConflictCheckThread::Action(void)
 	    time_t nextConflict = 0;
 	    if (conflictCheck.relevantConflicts > 0)
 	    {
-		char* msgfmt = NULL;
-		asprintf(&msgfmt, tr("%d timer conflict(s)! First at %s. Show them?"), conflictCheck.relevantConflicts,
-			 *DateTime(conflictCheck.nextRelevantConflictDate));
-        bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 || 
-           !cDevice::PrimaryDevice()->Replaying() || 
-           conflictCheck.nextRelevantConflictDate - now < 2*60*60;
-		if (doMessage && SendMsg(msgfmt, true,7) == kOk)			
+	      cString msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"), 
+						conflictCheck.relevantConflicts,
+						*DateTime(conflictCheck.nextRelevantConflictDate));
+	      bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 || 
+		!cDevice::PrimaryDevice()->Replaying() || 
+		conflictCheck.nextRelevantConflictDate - now < 2*60*60;
+	      if (doMessage && SendMsg(msgfmt, true,7) == kOk)			
 		{
-		    m_plugin->showConflicts = true;
-		    cRemote::CallPlugin("epgsearch");	
+		  m_plugin->showConflicts = true;
+		  cRemote::CallPlugin("epgsearch");	
 		}
-		free(msgfmt);
-
-		if (EPGSearchConfig.sendMailOnConflicts)
+	      
+	      if (EPGSearchConfig.sendMailOnConflicts)
 		{
-		    cMailConflictNotifier mailNotifier;
-		    mailNotifier.SendConflictNotifications(conflictCheck);
+		  cMailConflictNotifier mailNotifier;
+		  mailNotifier.SendConflictNotifications(conflictCheck);
 		}
 	    }
 	    

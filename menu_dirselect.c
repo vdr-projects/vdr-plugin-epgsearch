@@ -221,7 +221,7 @@ void cMenuDirSelect::Load()
 	free(yellow);
 	yellow = NULL;
     }
-    asprintf(&yellow, "%s %d", tr("Button$Level"), (CurLevel==MaxLevel?1:CurLevel+1));
+    msprintf(&yellow, "%s %d", tr("Button$Level"), (CurLevel==MaxLevel?1:CurLevel+1));
     SetHelp(NULL, NULL, MaxLevel==1?NULL:yellow, tr("Button$Select"));
     Display();
 }

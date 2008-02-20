@@ -312,7 +312,7 @@ void cSearchTimerThread::Action(void)
                   }
 
                   char* pFile = NULL; // File is prepared for svdrp, so prepare t->File for comparision too
-                  asprintf(&pFile, "%s", t->File());
+                  msprintf(&pFile, "%s", t->File());
                   pFile = strreplace(pFile, ':', '|');
                   pFile = strreplace(pFile, " ~", "~");
                   pFile = strreplace(pFile, "~ ", "~");
@@ -447,14 +447,12 @@ void cSearchTimerThread::Action(void)
 
          if (announceList.Count() > 0)
          {
-            char* msgfmt = NULL;
-            asprintf(&msgfmt, tr("%d new broadcast(s) found! Show them?"), announceList.Count());
-            if (SendMsg(msgfmt, true,7) == kOk)		   
-            {
-                  m_plugin->showAnnounces = true;
-                  cRemote::CallPlugin("epgsearch");	
-            }
-            free(msgfmt);
+	   cString msgfmt = cString::sprintf(tr("%d new broadcast(s) found! Show them?"), announceList.Count());
+	   if (SendMsg(msgfmt, true,7) == kOk)		   
+	     {
+	       m_plugin->showAnnounces = true;
+	       cRemote::CallPlugin("epgsearch");	
+	     }
          }
 
          LogFile.iSysLog("search timer update finished");
@@ -474,9 +472,9 @@ void cSearchTimerThread::Action(void)
                   mailNotifier.SendConflictNotifications(conflictCheck);
                }
 
-               char* msgfmt = NULL;
-               asprintf(&msgfmt, tr("%d timer conflict(s)! First at %s. Show them?"), conflictCheck.relevantConflicts,
-                        *DateTime(conflictCheck.nextRelevantConflictDate));
+               cString msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"), 
+						 conflictCheck.relevantConflicts,
+						 *DateTime(conflictCheck.nextRelevantConflictDate));
                bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 || 
                   !cDevice::PrimaryDevice()->Replaying() || 
                   conflictCheck.nextRelevantConflictDate - now < 2*60*60;
@@ -485,7 +483,6 @@ void cSearchTimerThread::Action(void)
                   m_plugin->showConflicts = true;
                   cRemote::CallPlugin("epgsearch");	
                }
-               free(msgfmt);
             }
 		
             LogFile.iSysLog("check for timer conflicts - done");	    
@@ -537,7 +534,7 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, cTimer* Timer, 
    time_t stop  = eStop + (UseVPS?0:(searchExt->MarginStop * 60));
 
    char* addSummaryFooter = NULL;
-   asprintf(&addSummaryFooter, "<channel>%d - %s</channel><searchtimer>%s</searchtimer><start>%ld</start><stop>%ld</stop><s-id>%d</s-id><eventid>%ld</eventid>", 
+   msprintf(&addSummaryFooter, "<channel>%d - %s</channel><searchtimer>%s</searchtimer><start>%ld</start><stop>%ld</stop><s-id>%d</s-id><eventid>%ld</eventid>", 
             Timer->Channel()->Number(), CHANNELNAME(Timer->Channel()),
             searchExt->search, 
             start, 
@@ -561,7 +558,7 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, cTimer* Timer, 
    }
 
    char* tmpSummary = NULL;
-   asprintf(&tmpSummary, "<epgsearch>%s</epgsearch>%s", addSummaryFooter, tmpaux?tmpaux:"");
+   msprintf(&tmpSummary, "<epgsearch>%s</epgsearch>%s", addSummaryFooter, tmpaux?tmpaux:"");
    free(addSummaryFooter);
    if (tmpaux) free(tmpaux);
    return tmpSummary;
@@ -608,7 +605,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
       tmpSummary = SummaryExtended(searchExt, Timer, pEvent);
 
    if (index==0)
-      asprintf(&cmdbuf, "NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s", 
+      msprintf(&cmdbuf, "NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s", 
                Flags,
                Timer->Channel()->Number(),
 #if VDRVERSNUM < 10503
@@ -623,7 +620,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
                Timer->File(),
                tmpSummary?tmpSummary:"");
    else
-      asprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s", 
+      msprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s", 
                index,
                Flags,
                Timer->Channel()->Number(),
@@ -680,12 +677,9 @@ void cSearchTimerThread::RemoveTimer(cTimer* t, const cEvent* e)
 
 void cSearchTimerThread::DelRecording(int index)
 {
-   char *cmdbuf = NULL;   // first LSTR required 
-   asprintf(&cmdbuf, "DELR %d", index);    
-   LogFile.Log(2, "delete recording %d", index);
-   SendViaSVDRP(cmdbuf);
-	      
-   free(cmdbuf); 
+  cString cmdbuf = cString::sprintf("DELR %d", index);    
+  LogFile.Log(2, "delete recording %d", index);
+  SendViaSVDRP(cmdbuf);
 }
 
 void cSearchTimerThread::CheckExpiredRecs()
@@ -773,7 +767,7 @@ void cSearchTimerThread::ModifyManualTimer(const cEvent* event, const cTimer* ti
    strftime(stopbuffer, DAYBUFFERSIZE, "%H%M", &tm_r_stop);
     
    char* cmdbuf = NULL;
-   asprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s", 
+   msprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s", 
             timer->Index()+1,
             timer->Flags(),
             timer->Channel()->Number(),

@@ -235,33 +235,30 @@ public:
 	    string res;
 	    if (labs(diff) >= SECSINDAY)
 	    {
-		char* buffer = NULL;
-		if (diff > 0)
-		    asprintf(&buffer, tr("in %02ldd"), long(diff / SECSINDAY));
-		else
-		    asprintf(&buffer, "%02ldd", long(-diff / SECSINDAY));
-		res = buffer;
-		free(buffer);
+	      cString buffer;
+	      if (diff > 0)
+		buffer = cString::sprintf(tr("in %02ldd"), long(diff / SECSINDAY));
+	      else
+		buffer = cString::sprintf("%02ldd", long(-diff / SECSINDAY));
+	      res = buffer;
 	    }
 	    else if (labs(diff) >= (60 * 60))
 	    {
-		char* buffer = NULL;
-		if (diff > 0)
-		    asprintf(&buffer, tr("in %02ldh"), long(diff / (60*60)));
-		else
-		    asprintf(&buffer, "%02ldh", long(-diff / (60*60)));
-		res = buffer;
-		free(buffer);
+	      cString buffer;
+	      if (diff > 0)
+		buffer = cString::sprintf(tr("in %02ldh"), long(diff / (60*60)));
+	      else
+		buffer = cString::sprintf("%02ldh", long(-diff / (60*60)));
+	      res = buffer;
 	    }
 	    else
 	    {
-		char* buffer = NULL;
-		if (diff > 0)
-		    asprintf(&buffer, tr("in %02ldm"), long(diff / 60));
-		else
-		    asprintf(&buffer, "%02ldm", long(-diff / 60));
-		res = buffer;
-		free(buffer);
+	      cString buffer;
+	      if (diff > 0)
+		buffer = cString::sprintf(tr("in %02ldm"), long(diff / 60));
+	      else
+		buffer = cString::sprintf("%02ldm", long(-diff / 60));
+	      res = buffer;
 	    }
 	    if (escapeStrings) return "'" + EscapeString(res) + "'"; else return res;
 	}

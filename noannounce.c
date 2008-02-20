@@ -120,7 +120,7 @@ bool cNoAnnounce::Parse(const char *s)
 const char *cNoAnnounce::ToText(void) const
 {
     free(buffer);
-    asprintf(&buffer, "%s:%s:%s:%ld:%ld", 
+    msprintf(&buffer, "%s:%s:%s:%ld:%ld", 
 	     ReplaceAll(title, ":", "|").c_str(),
 	     ReplaceAll(shortText, ":", "|").c_str(),
 	     *channelID.ToString(),

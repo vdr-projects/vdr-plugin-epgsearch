@@ -91,21 +91,18 @@ public:
 	    }
 	}
 
-    bool SendCmd(char* cmd) 
+    bool SendCmd(const char* cmd) 
 	{
 	    if (!bConnected)
 		return false;
 
-	    char* szCmd = NULL;
-
-	    asprintf(&szCmd, "%s\r\n", cmd);
-	    Send(szCmd);
-	    free(szCmd);
+	    cString szCmd = cString::sprintf("%s\r\n", cmd);
+	    Send(*szCmd);
 	    bool cmdret = (Receive() == CMDSUCCESS);
 
-	    asprintf(&szCmd, "QUIT\r\n");
+	    szCmd = cString::sprintf("QUIT\r\n");
 	    Send(szCmd);
-	    free(szCmd);
+
 	    long rc = 0;
 	    if ((rc = Receive()) != SVDRPDISCONNECT)
 		LogFile.eSysLog("could not disconnect (%ld)!", rc);
@@ -113,7 +110,7 @@ public:
 	    close(sock);
 	    return cmdret;
 	}
-    bool Send(char* szSend) 
+    bool Send(const char* szSend) 
 	{
 	    int length = strlen(szSend);
 	    int sent = 0;
@@ -147,7 +144,7 @@ public:
 			return -1;
 		    }
 		    char* Temp = NULL;
-		    asprintf(&Temp, "%s%c", csResp, ch);
+		    msprintf(&Temp, "%s%c", csResp, ch);
 		    free(csResp);
 		    csResp = Temp;
 		}

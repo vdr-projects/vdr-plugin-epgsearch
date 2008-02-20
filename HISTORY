@@ -27,6 +27,7 @@ new:
   suggested by Bittor Corl
 - update of 'undoneepgsearch.sh', a script to remove recordings from the done file via 
   reccmds.conf, thanks to Viking@vdrportal.
+- menu of recordings done now sorts the date top down
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 

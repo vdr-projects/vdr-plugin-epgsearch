@@ -73,10 +73,8 @@ bool cMenuFavorites::BuildList()
       delete pCompleteSearchResults;
    }
    SetHelpKeys();  
-   char* szTitle = NULL;
-   asprintf(&szTitle, "%s: %d %s", tr("Favorites"), Count(), tr("Search results"));
+   cString szTitle = cString::sprintf("%s: %d %s", tr("Favorites"), Count(), tr("Search results"));
    SetTitle(szTitle);
-   free(szTitle);
    Display();
     
    return true;

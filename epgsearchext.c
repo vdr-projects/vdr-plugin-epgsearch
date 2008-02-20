@@ -252,7 +252,7 @@ const char *cSearchExt::ToText()
    char tmp_Stop[5] = "";
    char tmp_minDuration[5] = "";
    char tmp_maxDuration[5] = "";
-   char* tmp_chanSel = NULL;
+   cString tmp_chanSel;
    char* tmp_search = NULL;
    char* tmp_directory = NULL;
    char* tmp_catvalues = NULL;
@@ -285,9 +285,9 @@ const char *cSearchExt::ToText()
    if (useChannel==1)
    {
       if (channelMin->Number() < channelMax->Number())
-         asprintf(&tmp_chanSel, "%s|%s", CHANNELSTRING(channelMin), CHANNELSTRING(channelMax));
+	tmp_chanSel = cString::sprintf("%s|%s", CHANNELSTRING(channelMin), CHANNELSTRING(channelMax));
       else
-         asprintf(&tmp_chanSel, "%s", CHANNELSTRING(channelMin));
+	tmp_chanSel = cString(CHANNELSTRING(channelMin));
    }
    if (useChannel==2)
    {
@@ -298,7 +298,7 @@ const char *cSearchExt::ToText()
          useChannel = 0;
       }
       else
-         tmp_chanSel = strdup(channelGroup);
+	tmp_chanSel = cString(channelGroup);
    }
 
    if (useExtEPGInfo)
@@ -308,18 +308,18 @@ const char *cSearchExt::ToText()
       while (SearchExtCat) 
       {
          char* catvalue = NULL;
-         asprintf(&catvalue, "%s", catvalues[index]);
+         msprintf(&catvalue, "%s", catvalues[index]);
          while(strstr(catvalue, ":"))
             catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part ofa category value
          while(strstr(catvalue, "|"))
             catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression 
 
          if (index == 0)
-            asprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
+            msprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
          else
          {
             char* temp = tmp_catvalues;	      
-            asprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
+            msprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
             free(temp);
          }
          SearchExtCat = SearchExtCats.Next(SearchExtCat);	 
@@ -335,11 +335,11 @@ const char *cSearchExt::ToText()
       while (blacklistObj) 
       {
          if (index == 0)
-            asprintf(&tmp_blacklists, "%d", blacklistObj->blacklist->ID);
+            msprintf(&tmp_blacklists, "%d", blacklistObj->blacklist->ID);
          else
          {
             char* temp = tmp_blacklists;	      
-            asprintf(&tmp_blacklists, "%s|%d", tmp_blacklists, blacklistObj->blacklist->ID);
+            msprintf(&tmp_blacklists, "%s|%d", tmp_blacklists, blacklistObj->blacklist->ID);
             free(temp);
          }
          blacklistObj = blacklists.Next(blacklistObj);	 
@@ -347,14 +347,14 @@ const char *cSearchExt::ToText()
       }      
    }
 
-   asprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d",
+   msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d",
             ID,
             tmp_search,
             useTime,
             tmp_Start,
             tmp_Stop,
             useChannel,
-            (useChannel>0 && useChannel<3)?tmp_chanSel:"0",
+            (useChannel>0 && useChannel<3)?*tmp_chanSel:"0",
             useCase,
             mode,
             useTitle,
@@ -400,7 +400,6 @@ const char *cSearchExt::ToText()
 	    ignoreMissingEPGCats, 
 	    unmuteSoundOnSwitch);
 
-   if (tmp_chanSel) free(tmp_chanSel);
    if (tmp_search) free(tmp_search);
    if (tmp_directory) free(tmp_directory);
    if (tmp_catvalues) free(tmp_catvalues);
@@ -644,14 +643,12 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
 
    if (useEpisode)
    {
-      char* pFile = NULL;
-      asprintf(&pFile, "%s~%s", pEvent->Title(), Subtitle);
-      if (file) free(file);
-      file = strdup(pFile);
-      free(pFile);
+     cString pFile = cString::sprintf("%s~%s", pEvent->Title(), Subtitle);
+     if (file) free(file);
+     file = strdup(pFile);
    }
-   else
-      asprintf(&file, "%s", pEvent->Title());
+   else if (pEvent->Title())
+     file = strdup(pEvent->Title());
 
    if (!isempty(directory))
    {
@@ -659,10 +656,10 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
 
       cVarExpr varExprDir(directory);
       if (!varExprDir.DependsOnVar("%title%", pEvent) && !varExprDir.DependsOnVar("%subtitle%", pEvent))
-         asprintf(&pFile, "%s~%s", directory, file?file:"");
+         msprintf(&pFile, "%s~%s", directory, file?file:"");
       else
          // ignore existing title and subtitle in file if already used as variables in directory
-         asprintf(&pFile, "%s", directory);
+         msprintf(&pFile, "%s", directory);
 
       // parse the epxression and evaluate it
       cVarExpr varExprFile(pFile);
@@ -880,7 +877,7 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
       if (!p->Title() || !*p->Title())
          continue;
         
-      asprintf(&szTest, "%s%s%s%s%s", (useTitle?(p->Title()?p->Title():""):""), (useSubtitle||useDescription)?"~":"",
+      msprintf(&szTest, "%s%s%s%s%s", (useTitle?(p->Title()?p->Title():""):""), (useSubtitle||useDescription)?"~":"",
                (useSubtitle?(p->ShortText()?p->ShortText():""):""),useDescription?"~":"",
                (useDescription?(p->Description()?p->Description():""):""));     
 	

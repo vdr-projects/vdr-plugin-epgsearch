@@ -89,12 +89,10 @@ cMenuAnnounceDetails::cMenuAnnounceDetails(const cEvent* Event, const cSearchExt
    :cOsdMenu("", 25), event(Event)
 {
    cMenuAnnounceList::showsDetails = true;
-   char* szTitle = NULL;
    if (event && !isempty(event->Title()))
    {
-      asprintf(&szTitle, "%s: %s", tr("announce details"), event->Title());
-      SetTitle(szTitle);
-      free(szTitle);
+     cString szTitle = cString::sprintf("%s: %s", tr("announce details"), event->Title());
+     SetTitle(szTitle);
    }
    search = Search;
 
@@ -142,10 +140,8 @@ void cMenuAnnounceDetails::Set()
       pInfoItem->SetSelectable(false);
       Add(pInfoItem);
       
-      char* info = NULL;
-      asprintf(&info, "%s: %s", tr("Search timer"), search->search);
+      cString info = cString::sprintf("%s: %s", tr("Search timer"), search->search);
       pInfoItem = new cOsdItem(info);
-      free(info);
       pInfoItem->SetSelectable(false);
       Add(pInfoItem);
    }

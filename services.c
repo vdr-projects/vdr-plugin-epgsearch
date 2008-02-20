@@ -124,7 +124,6 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
       {
          const cEvent* pEvent = result->event;
          cTimer* Timer = new cTimer(pEvent);
-         char *cmdbuf = NULL;
 		
          static char bufStart[25];
          static char bufEnd[25];
@@ -160,7 +159,7 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
          std::string description = pEvent->Description()?ReplaceAll(pEvent->Description(), "|", "!^pipe!^"):"";
          description = ReplaceAll(description, ":", "|");
 
-         asprintf(&cmdbuf, "%d:%u:%s:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d", 
+         cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d", 
                   result->search->ID,
                   pEvent->EventID(),
                   title.c_str(),
@@ -174,8 +173,8 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
                   timerMode>0?result->search->BuildFile(pEvent):"",
                   timerMode);				 
 		
-         list.push_back(cmdbuf);
-         free(cmdbuf);
+         list.push_back(*cmdbuf);
+
          delete(Timer);
          result = pCompleteSearchResults->Next(result);
       }

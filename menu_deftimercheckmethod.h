@@ -31,17 +31,14 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define UPD_EVENTID 2
 
 class cDefTimerCheckMode : public cListObject {
- private:
-    static char *buffer;
  public:
     tChannelID channelID;
     int mode;
 
     cDefTimerCheckMode() : mode(0) {}
     cDefTimerCheckMode(tChannelID ChannelID, int Mode) : channelID(ChannelID), mode(Mode) {}
-    ~cDefTimerCheckMode(void);
     bool Parse(const char *s);
-    const char *ToText(void) const;
+    cString ToText(void) const;
     bool Save(FILE *f);
 };
 

@@ -100,8 +100,8 @@ char *strreplacei(char *s, const char *s1, const char *s2);
 char *strreplaceall(char* source, char ch, const char* replacement);
 void sleepMSec(long ms);
 void sleepSec(long s);
-bool SendViaSVDRP(const char* SVDRPcmd);
-int SendMsg(const char* Message, bool confirm = false, int seconds = 0);
+bool SendViaSVDRP(cString SVDRPcmd);
+int SendMsg(cString Message, bool confirm = false, int seconds = 0);
 bool InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue);
 cSearchExt* TriggeredFromSearchTimer(const cTimer* timer);
 int TriggeredFromSearchTimerID(const cTimer* timer);
@@ -128,6 +128,7 @@ string QuoteApostroph(const string& S);
 string MD5(const string& input);
 time_t GetDateTime(time_t day, int start);
 void SetAux(cTimer* timer, string aux);
+int msprintf(char **strp, const char *fmt, ...);
 
 // --- cTimerObj --------------------------------------------------------
 class cTimerObj : public cListObject {

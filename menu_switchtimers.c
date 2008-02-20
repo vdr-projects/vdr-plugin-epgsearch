@@ -54,10 +54,9 @@ void cMenuEditSwitchTimer::Set()
     Clear();
 
     Add(new cMenuEditIntItem(tr("Switch ... minutes before start"), &data.switchMinsBefore, 0, 99));
-    char* info = NULL;
-    asprintf(&info, "%s:\t%s", tr("action at"), TIMESTRING(data.event->StartTime() - 60 * data.switchMinsBefore));
+    cString info = cString::sprintf("%s:\t%s", tr("action at"), 
+				    TIMESTRING(data.event->StartTime() - 60 * data.switchMinsBefore));
     cOsdItem* pInfoItem = new cOsdItem(info);
-    free(info);
     pInfoItem->SetSelectable(false);
     Add(pInfoItem);
     Add(new cMenuEditBoolItem(tr("Announce only"), &data.announceOnly, trVDR("no"), trVDR("yes")));
@@ -123,7 +122,7 @@ void cMenuSwitchTimerItem::Set(void)
 
     cChannel* channel = Channels.GetByChannelID(event->ChannelID(),true,true);
 
-    asprintf(&buffer, "%s\t%d\t%s\t%s\t%d\'\t%s~%s", switchTimer->announceOnly?"":">", channel?channel->Number():-1, datebuf, TIMESTRING(startTime), switchTimer->switchMinsBefore, event->Title()?event->Title():"", event->ShortText()?event->ShortText():"");
+    msprintf(&buffer, "%s\t%d\t%s\t%s\t%d\'\t%s~%s", switchTimer->announceOnly?"":">", channel?channel->Number():-1, datebuf, TIMESTRING(startTime), switchTimer->switchMinsBefore, event->Title()?event->Title():"", event->ShortText()?event->ShortText():"");
     SetText(buffer, false);
 }
 

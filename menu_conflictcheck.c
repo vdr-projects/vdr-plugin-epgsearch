@@ -37,7 +37,7 @@ cMenuConflictCheckItem::cMenuConflictCheckItem(cConflictCheckTime* Ct, cConflict
 {
     checktime = Ct;
     timerObj = TimerObj;
-    char* buffer = NULL;
+    cString buffer;
     if (!TimerObj) // print header
     {
 	struct tm tm_r;
@@ -45,16 +45,16 @@ cMenuConflictCheckItem::cMenuConflictCheckItem(cConflictCheckTime* Ct, cConflict
 	tm *tm = localtime_r(&t, &tm_r);
 	char dateshort[7] = "";
 	strftime(dateshort, sizeof(dateshort), "%d.%m.", tm);
-	asprintf(&buffer, "%s\t%s  %s", WEEKDAYNAME(t), dateshort, TIMESTRING(t));
+	buffer = cString::sprintf("%s\t%s  %s", WEEKDAYNAME(t), dateshort, TIMESTRING(t));
 	SetSelectable(false);
     }
     else
     {
 	cTimer* t = timerObj->timer;
 	int recPart = timerObj->recDuration * 100 / (timerObj->stop - timerObj->start);
-	asprintf(&buffer, "%d\t%s\t%d\t%2d%%\t%s", t->Channel()->Number(), t->Channel()->ShortName(true), t->Priority(), recPart, t->File());
+	buffer = cString::sprintf("%d\t%s\t%d\t%2d%%\t%s", t->Channel()->Number(), t->Channel()->ShortName(true), t->Priority(), recPart, t->File());
     }
-    SetText(buffer, false);    
+    SetText(buffer);    
 }
 
 // --- cMenuConflictCheck -------------------------------------------------------
@@ -82,14 +82,12 @@ void cMenuConflictCheck::Update()
     else
 	SetHelp(NULL, NULL, NULL, NULL);
 
-    char *buffer = NULL;
-    asprintf(&buffer, "%s - %d/%d %s", tr("Timer conflicts"), 
+    cString buffer = cString::sprintf("%s - %d/%d %s", tr("Timer conflicts"), 
 	     showAll?conflictCheck.numConflicts:conflictCheck.relevantConflicts,
 	     conflictCheck.numConflicts,
 	     tr("conflicts"));
     SetTitle(buffer);
     Display();
-    free(buffer);
 }
 
 bool cMenuConflictCheck::BuildList()
@@ -175,7 +173,6 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
     if (Force || hasTimer != oldhasTimer)
     { 	
 	cTimer* timer = timerObj->timer;
-	char* buffer = NULL;
 	char device[2]="";
 	if (hasTimer)
 	{
@@ -185,9 +182,9 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
 		strcpy(device, tr("C"));
 	}
 
-	asprintf(&buffer, "%s\t%d\t%s - %s\t%d\t%s\t%s", hasTimer?">":"", timer->Channel()->Number(), TIMESTRING(timerObj->start), TIMESTRING(timerObj->stop), timer->Priority(), device, timer->File());
+	cString buffer = cString::sprintf("%s\t%d\t%s - %s\t%d\t%s\t%s", hasTimer?">":"", timer->Channel()->Number(), TIMESTRING(timerObj->start), TIMESTRING(timerObj->stop), timer->Priority(), device, timer->File());
 	
-	SetText(buffer, false);    
+	SetText(buffer);    
     }
     return true;
 }

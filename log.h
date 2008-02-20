@@ -63,11 +63,9 @@ class cLogFile: public cFile
 		char timebuf[25];
 		strftime(timebuf, sizeof(timebuf), "%T", localtime_r(&now, &tm_r));
 
-		char* log = NULL;
-		asprintf(&log, "%s %s: %s\n", datebuf, timebuf, buffer);
+		cString log = cString::sprintf("%s %s: %s\n", datebuf, timebuf, buffer);
 		free(buffer);
 		safe_write(*this, log, strlen(log));
-		free(log);
 	    }
 	}
     void eSysLog(const char *text, ...)

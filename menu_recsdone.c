@@ -44,7 +44,7 @@ void cMenuRecDoneItem::Set()
     tm *tm = localtime_r(&recDone->startTime, &tm_r);
     strftime(buf, sizeof(buf), "%d.%m.%y %H:%M", tm);
 
-    asprintf(&buffer, "%s\t%s~%s", buf, recDone->title && !showEpisodeOnly?recDone->title:"", 
+    msprintf(&buffer, "%s\t%s~%s", buf, recDone->title && !showEpisodeOnly?recDone->title:"", 
 	     recDone->shortText?recDone->shortText:"");
     SetText(buffer, false);
 }
@@ -53,17 +53,13 @@ int cMenuRecDoneItem::Compare(const cListObject &ListObject) const
 {
     cMenuRecDoneItem *p = (cMenuRecDoneItem *)&ListObject;
     if (sortModeRecDone == 0) // sort by Date
-	if (recDone->startTime > p->recDone->startTime) return 1; else return -1;
+	if (recDone->startTime < p->recDone->startTime) return 1; else return -1;
     else
     {
-	char* s1 = NULL;
-	char* s2 = NULL;
-	asprintf(&s1, "%s~%s", recDone->title?recDone->title:"", recDone->shortText?recDone->shortText:"");
-	asprintf(&s2, "%s~%s", p->recDone->title?p->recDone->title:"", p->recDone->shortText?p->recDone->shortText:"");
-	int res = strcasecmp(s1, s2);
-	free(s1);
-	free(s2);
-	return res;
+      cString s1 = cString::sprintf("%s~%s", recDone->title?recDone->title:"", recDone->shortText?recDone->shortText:"");
+      cString s2 = cString::sprintf("%s~%s", p->recDone->title?p->recDone->title:"", p->recDone->shortText?p->recDone->shortText:"");
+      int res = strcasecmp(s1, s2);
+      return res;
     }
 }
 
@@ -103,11 +99,9 @@ cRecDone *cMenuRecsDone::CurrentRecDone(void)
 
 void cMenuRecsDone::UpdateTitle()
 {
-    char *buffer = NULL;
-    asprintf(&buffer, "%d %s%s%s", Count(), tr("Recordings"), showAll?"":" ", showAll?"":search->search);
-    SetTitle(buffer);
-    Display();
-    free(buffer);
+  cString buffer = cString::sprintf("%d %s%s%s", Count(), tr("Recordings"), showAll?"":" ", showAll?"":search->search);
+  SetTitle(buffer);
+  Display();
 }
 
 eOSState cMenuRecsDone::Delete(void)

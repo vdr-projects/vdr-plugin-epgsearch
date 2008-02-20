@@ -30,6 +30,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #endif
 #include "services.h"
 #include "mainmenushortcut.h"
+#include "epgsearchtools.h"
 
 static const char VERSION[]       = "0.0.1";
 static const char DESCRIPTION[]   = trNOOP("Direct access to epgsearch's conflict check menu");
@@ -207,7 +208,7 @@ const char *cPluginConflictcheckonly::MainMenuText(void)
     if (epgSearchPlugin->Service("Epgsearch-lastconflictinfo-v1.0", serviceData)) {
       if (serviceData->relevantConflicts > 0) {
 	free(_menuText);
-	asprintf(&_menuText, "%s (%d, %s: %s)", menuText, serviceData->relevantConflicts,
+	msprintf(&_menuText, "%s (%d, %s: %s)", menuText, serviceData->relevantConflicts,
 #if APIVERSNUM < 10507
 		 tr("next"), *DateTime(serviceData->nextConflict));
 #else

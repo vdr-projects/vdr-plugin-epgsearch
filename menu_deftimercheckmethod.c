@@ -27,18 +27,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 const char *cMenuDefTimerCheckMethod::CheckModes[3];
 
 cDefTimerCheckModes DefTimerCheckModes;
-char *cDefTimerCheckMode::buffer = NULL;
 
 // -- cDefTimerCheckMode -----------------------------------------------------------------
-
-cDefTimerCheckMode::~cDefTimerCheckMode(void)
-{
-    if (buffer) {
-	free(buffer);
-	buffer = NULL;
-    }
-}
-
 bool cDefTimerCheckMode::Parse(const char *s)
 {
     char *line;
@@ -85,19 +75,16 @@ bool cDefTimerCheckMode::Parse(const char *s)
     return (parameter >= 2) ? true : false;
 }
 
-const char *cDefTimerCheckMode::ToText(void) const
+cString cDefTimerCheckMode::ToText(void) const
 {
-    free(buffer);
-    asprintf(&buffer, "%s|%d", 
-	     *channelID.ToString(),
-	     mode);
-    return buffer;
+  cString buffer = cString::sprintf("%s|%d", *channelID.ToString(), mode);
+  return buffer;
 }
 
 bool cDefTimerCheckMode::Save(FILE *f)
 {
     if (mode == 0) return true; // don't save the default
-    return fprintf(f, "%s\n", ToText()) > 0;
+    return fprintf(f, "%s\n", *ToText()) > 0;
 }
 
 int cDefTimerCheckModes::GetMode(const cChannel* channel)

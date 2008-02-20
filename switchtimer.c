@@ -117,7 +117,7 @@ bool cSwitchTimer::Parse(const char *s)
   return (parameter >= 3) ? true : false;
 }
 
-const char *cSwitchTimer::ToText(bool& ignore)
+cString cSwitchTimer::ToText(bool& ignore)
 {
     ignore = false;
     if (!event)
@@ -127,17 +127,19 @@ const char *cSwitchTimer::ToText(bool& ignore)
     }
     cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true, true);
     if (!channel) return NULL;
-    char* buffer = NULL;
-    asprintf(&buffer, "%s:%u:%ld:%d:%d:%d", CHANNELSTRING(channel), event->EventID(), event->StartTime(), switchMinsBefore, announceOnly?1:0, unmute?1:0);
+    cString buffer = cString::sprintf("%s:%u:%ld:%d:%d:%d", 
+				      CHANNELSTRING(channel), event->EventID(), 
+				      event->StartTime(), switchMinsBefore, 
+				      announceOnly?1:0, unmute?1:0);
     return buffer;
 }
 
 bool cSwitchTimer::Save(FILE *f)
 {
     bool ignore = false;
-    const char* buffer = ToText(ignore);
+    cString buffer = ToText(ignore);
     if (!ignore)
-	return fprintf(f, "%s\n", buffer) > 0;
+	return fprintf(f, "%s\n", *buffer) > 0;
     return true;
 }
 

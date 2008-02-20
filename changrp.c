@@ -111,13 +111,13 @@ const char *cChannelGroup::ToText(void)
 	else
 	{
 	    char* temp = channelbuffer;	      
-	    asprintf(&channelbuffer, "%s|%s", channelbuffer, CHANNELSTRING(channel));
+	    msprintf(&channelbuffer, "%s|%s", channelbuffer, CHANNELSTRING(channel));
 	    free(temp);
 	}
 	ChannelGroupItem = channels.Next(ChannelGroupItem);
     }	
     char* buffer = NULL;
-    asprintf(&buffer, "%s|%s", name, channelbuffer);
+    msprintf(&buffer, "%s|%s", name, channelbuffer);
     free(channelbuffer);
     return buffer;
 }
@@ -258,7 +258,7 @@ cMenuChannelGroupItem::cMenuChannelGroupItem(cChannelGroup* Group)
 
 void cMenuChannelGroupItem::Set(void)
 {
-    char* channelbuffer = NULL;
+    cString channelbuffer;
 
     cChannelGroupItem* channelInGroup = group->channels.First(); 
     int channelNr, chIntBegin = -1, chIntEnd = -1, chLast = -1;
@@ -276,9 +276,9 @@ void cMenuChannelGroupItem::Set(void)
 	{
 	    chIntEnd = chLast;
 	    if(chIntBegin == chIntEnd)
-		asprintf(&channelbuffer, "%s %d", channelbuffer?channelbuffer:"", chIntBegin);
+	      channelbuffer = cString::sprintf("%s %d", *channelbuffer?*channelbuffer:"", chIntBegin);
 	    else if (chIntEnd != -1)
-		asprintf(&channelbuffer, "%s %d-%d", channelbuffer?channelbuffer:"", chIntBegin, chIntEnd);
+	      channelbuffer = cString::sprintf("%s %d-%d", *channelbuffer?*channelbuffer:"", chIntBegin, chIntEnd);
 	    chIntBegin = chIntEnd = channelNr;
 	}
 
@@ -287,17 +287,13 @@ void cMenuChannelGroupItem::Set(void)
 	if (!channelInGroup)
 	{
 	    if(chLast == chIntBegin)
-		asprintf(&channelbuffer, "%s %d", channelbuffer?channelbuffer:"", chIntBegin);
+	      channelbuffer = cString::sprintf("%s %d", *channelbuffer?*channelbuffer:"", chIntBegin);
 	    else
-		asprintf(&channelbuffer, "%s %d-%d", channelbuffer?channelbuffer:"", chIntBegin, chLast);
+	      channelbuffer = cString::sprintf("%s %d-%d", *channelbuffer?*channelbuffer:"", chIntBegin, chLast);
 	}
     }
 
-    
-    char* buffer = NULL;
-    asprintf(&buffer, "%s\t%s", group->name, channelbuffer?channelbuffer:"");
-    free(channelbuffer);
-    SetText(buffer, false);
+    SetText(cString::sprintf("%s\t%s", group->name, *channelbuffer?*channelbuffer:""));
 }
 
 // --- cMenuChannelGroups ----------------------------------------------------------
@@ -346,10 +342,8 @@ eOSState cMenuChannelGroups::Delete(void)
       cSearchExt* search = ChannelGroups.Used(curGroup);
       if (search)
       {
-	  char* Message = NULL;
-	  asprintf(&Message, "%s %s", tr("Channel group used by:"), search->search);
+	cString Message = cString::sprintf("%s %s", tr("Channel group used by:"), search->search);
 	  Skins.Message(mtInfo, Message);
-	  free(Message);
 	  return osContinue;
       }
       if (Interface->Confirm(tr("Edit$Delete group?"))) {
