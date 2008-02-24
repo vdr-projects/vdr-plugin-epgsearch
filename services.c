@@ -311,6 +311,10 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 	   list.push_back(conflline.str());
 	 }
      }
+   
+   // set advised to false after an external conflict check
+   if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(false);
+
    return list;    
 }
 

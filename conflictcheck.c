@@ -216,7 +216,6 @@ void cConflictCheck::Check()
 		LogFile.Log(2,"timer '%s' (%s, channel %s) failed", (*it)->timer->File(), DAYDATETIME((*it)->timer->StartTime()), CHANNELNAME((*it)->timer->Channel()));
 	}
     }
-    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(false);
 }
 
 cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
