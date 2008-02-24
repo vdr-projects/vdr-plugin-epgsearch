@@ -216,6 +216,8 @@ void cConflictCheck::Check()
 		LogFile.Log(2,"timer '%s' (%s, channel %s) failed", (*it)->timer->File(), DAYDATETIME((*it)->timer->StartTime()), CHANNELNAME((*it)->timer->Channel()));
 	}
     }
+    if (numConflicts > 0 && gl_timerStatusMonitor)
+      gl_timerStatusMonitor->SetConflictCheckAdvised();
 }
 
 cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
@@ -413,6 +415,7 @@ cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictChe
     cConflictCheckThread::m_cacheTotalConflicts = numConflicts;
 
     LogFile.Log(3,"create conflict list - done");
+
     return EvalTimeList;
 }
 
