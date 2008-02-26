@@ -158,7 +158,13 @@ bool cMenuMyScheduleItem::Update(bool Force)
       char* buffer = strdup(menutemplate);
       strreplace(buffer, '|', '\t');
 
-      buffer = strreplacei(buffer, "%title%", event?event->Title():tr(">>> no info! <<<"));
+      char* title = NULL; 
+      msprintf(&title, "%s", event?event->Title():tr(">>> no info! <<<"));
+      title = strreplacei(title, ":", "%colon%"); // asume a title has the form "a?b:c", 
+      // we need to replace the colon to avoid misinterpretation the expression as a condition
+      buffer = strreplacei(buffer, "%title%", title);
+      free(title);
+
       if (channel)
       {
          char szChannelNr[6] = "";
@@ -180,6 +186,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
       buffer = strreplacei(buffer, "$t_status$", t);
       buffer = strreplacei(buffer, "$v_status$", v);
       buffer = strreplacei(buffer, "$r_status$", r);
+
 
 
       buffer = FixSeparators(buffer, '~');
