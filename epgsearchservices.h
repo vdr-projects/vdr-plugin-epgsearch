@@ -28,7 +28,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/tools.h>
 #include "epgsearchext.h"
 
-class cEpgsearchServiceHandler: public cServiceHandler
+class cEpgsearchServiceHandler: public cServiceHandler_v1_1
 {
     virtual std::list<std::string> TranslateResults(cSearchResults* pCompleteSearchResults);
  public:

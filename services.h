@@ -152,16 +152,28 @@ class cServiceHandler
    virtual std::string ReadSetupValue(const std::string& entry) = 0;
    // Write a setup value
    virtual bool WriteSetupValue(const std::string& entry, const std::string& value) = 0;
-   // Get timer conflicts
-   virtual std::list<std::string> TimerConflictList(bool relOnly=false) = 0;    
-   // Check if a conflict check is advised
-   virtual bool IsConflictCheckAdvised() = 0;    
 };
 
 struct Epgsearch_services_v1_0
 {
 // in/out
       std::auto_ptr<cServiceHandler> handler;
+};
+
+// Data structures for service "Epgsearch-services-v1.0"
+class cServiceHandler_v1_1 : public cServiceHandler
+{
+  public:
+   // Get timer conflicts
+   virtual std::list<std::string> TimerConflictList(bool relOnly=false) = 0;    
+   // Check if a conflict check is advised
+   virtual bool IsConflictCheckAdvised() = 0;    
+};
+
+struct Epgsearch_services_v1_1
+{
+// in/out
+      std::auto_ptr<cServiceHandler_v1_1> handler;
 };
 
 #endif
