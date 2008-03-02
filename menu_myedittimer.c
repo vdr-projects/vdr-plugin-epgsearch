@@ -124,7 +124,7 @@ void cMenuMyEditTimer::Set()
 #ifdef USE_PINPLUGIN
     if (cOsd::pinValid) Add(new cMenuEditChanItem(tr("Channel"), &channel));
     else {
-      cSting buf = cString::sprintf("%s\t%s", tr("Channel"), Channels.GetByNumber(channel)->Name());
+      cString buf = cString::sprintf("%s\t%s", tr("Channel"), Channels.GetByNumber(channel)->Name());
       Add(new cOsdItem(buf));
     }
 #else
