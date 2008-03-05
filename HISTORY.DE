@@ -12,9 +12,9 @@ neu:
   Option 'Ton anschalten', wodurch der Ton beim Umschalten aktiviert wird, falls 
   er aus war, vorgeschlagen von Michael Brückner
 - Die Suche und damit das Suchtimer-Update sind nun etwa 25% schneller
-- Neuer Patch für VDR (vdr-1.5.11-progressbar-support-0.0.1.diff), der die Unter-
+- Neuer Patch für VDR (vdr-1.5.17-progressbar-support-0.0.1.diff), der die Unter-
   stützung eines grafischen Fortschrittsbalkens in den Skins classic und st:tng
-  einbaut.
+  einbaut, Danke an zulu@vdrportal.
 - Schnellere EPG-Menüs, danke an die Patch-Authoren von http://www.open7x0.org
 - '0' im Menü der erledigten Aufnahmen schaltet nun die Anzeige zwischen
   '~Episode' und 'Titel~Episode' um.
@@ -33,6 +33,9 @@ neu:
 - Update von 'undoneepgsearch.sh', einem Skript zum Entfernen einer Aufnahme aus dem
   done-File über die reccmds.conf, Danke an Viking@vdrportal.
 - Im Menü "erledigte Aufnahmen" wird nun beim Datum absteigend sortiert.
+- Die Timer-Benachrichtigungsmail unterstützt nun eine weitere Variable 
+  %timer.modreason%, in der im Klartext der Grund einer Timeränderung steht (s.
+  epgsearchupdmail(-html).templ für ein Beispiel)
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine

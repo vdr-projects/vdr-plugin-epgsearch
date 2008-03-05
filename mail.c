@@ -52,6 +52,12 @@ string cMailTimerNotification::Format(const string& templ) const
     cVarExpr varExprTimer(result);
     result =  varExprTimer.Evaluate(pTimer);
     
+    if (timerMod == tmStartStop)
+      result = ReplaceAll(result, "%timer.modreason%", tr("Start/Stop time has changed"));
+    if (timerMod == tmFile)
+      result = ReplaceAll(result, "%timer.modreason%", tr("Title/episode has changed"));
+    else
+      result = ReplaceAll(result, "%timer.modreason%", "");
     return result;
 }
 
@@ -279,10 +285,12 @@ void cMailUpdateNotifier::AddNewTimerNotification(tEventID EventID, tChannelID C
     newTimers.insert(N);
 }
 
-void cMailUpdateNotifier::AddModTimerNotification(tEventID EventID, tChannelID ChannelID)
+void cMailUpdateNotifier::AddModTimerNotification(tEventID EventID, tChannelID ChannelID, uint timerMod)
 {
-    cMailTimerNotification N(EventID, ChannelID);
-    modTimers.insert(N);
+  if (timerMod == tmNoChange || timerMod == tmAuxEventID) // if anything but the eventID has changed
+    return;
+  cMailTimerNotification N(EventID, ChannelID, timerMod);
+  modTimers.insert(N);
 }
 
 void cMailUpdateNotifier::AddRemoveTimerNotification(cTimer* t, const cEvent* e)

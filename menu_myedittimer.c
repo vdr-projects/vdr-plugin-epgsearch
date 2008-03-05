@@ -231,7 +231,7 @@ eOSState cMenuMyEditTimer::DeleteTimer()
     if (timer) {
 	if (Interface->Confirm(trVDR("Delete timer?"))) {
 	    if (timer->Recording()) {
-		if (Interface->Confirm(tr("Timer still recording - really delete?"))) {
+		if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
 		    timer->Skip();
 		    cRecordControls::Process(time(NULL));
 		}

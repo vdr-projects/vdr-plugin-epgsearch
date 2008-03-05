@@ -189,4 +189,8 @@ struct ignorecase_traits : public std::char_traits<char> {
 // define a special type for such strings
 typedef std::basic_string<char,ignorecase_traits> icstring;
 
+
+// --- eTimerMod -------------------------------------------------------------
+enum eTimerMod { tmNoChange=0, tmStartStop=1, tmFile=2, tmAuxEventID=4 };
+
 #endif

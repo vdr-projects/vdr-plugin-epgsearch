@@ -10,8 +10,8 @@ new:
   option 'unmute sound' which unmutes audio at the event, if it was off, suggested 
   by Michael Brückner
 - speedup in searching and search timer updates (about 25%)
-- new patch against VDR (vdr-1.5.11-progressbar-support-0.0.1.diff) that adds support 
-  for graphical progressbars in skins classic and st:tng
+- new patch against VDR (vdr-1.5.17-progressbar-support-0.0.1.diff) that adds support 
+  for graphical progressbars in skins classic and st:tng, thanks to zulu@vdrportal
 - speedup in EPG menues, thanks to patch authors from http://www.open7x0.org
 - '0' in the menu of done recordings now toggles the display of the episode name only
 - update of finnish translation, thanks to Rolf Ahrenberg
@@ -28,6 +28,9 @@ new:
 - update of 'undoneepgsearch.sh', a script to remove recordings from the done file via 
   reccmds.conf, thanks to Viking@vdrportal.
 - menu of recordings done now sorts the date top down
+- the timer update notification mails supports now an additional variable 
+  %timer.modreason%, that holds the reason for a timer update in plain text (see
+  epgsearchupdmail(-html).templ for a sample)
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 

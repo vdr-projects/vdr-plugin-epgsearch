@@ -40,6 +40,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "timerdone.h"
 #include "menu_deftimercheckmethod.h"
 #include "timerstatus.h"
+#include "epgsearch.h"
 
 // priority for background thread
 #define SEARCHTIMER_NICE 19
@@ -273,6 +274,8 @@ void cSearchTimerThread::Action(void)
                cTimer *t = GetTimer(searchExt, pEvent, bTimesMatchExactly);
 
                char* Summary = NULL;
+	       uint timerMod = tmNoChange;
+
                if (t) 
                { // already exists
                   pOutdatedTimers->DelTimer(t);
@@ -331,18 +334,30 @@ void cSearchTimerThread::Action(void)
                   }
                   else
                   {
-                     if (LogFile.Level() >= 3) // output reasons for a timer modification 
-                     { 
-                        if (!bTimesMatchExactly)
-                           LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : start/stop has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
-                        if (strcmp(pFile, timer->File()) != 0)
-                           LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : title and/or episdode has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
-                        if (t->Aux() != NULL && strcmp(t->Aux(), Summary) != 0)
-                           LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : aux info has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
-                     }
-                     index = t->Index()+1;
-                     Priority = t->Priority();
-                     Lifetime = t->Lifetime();
+		    if (!bTimesMatchExactly) timerMod = (uint)timerMod | tmStartStop;
+		    if (strcmp(pFile, timer->File()) != 0) timerMod |= tmFile;
+		    if (t->Aux() != NULL && strcmp(t->Aux(), Summary) != 0)
+		      {
+			char* oldEventID = GetAuxValue(t, "eventid");
+			char* newEventID = GetAuxValue(Summary, "eventid");
+			if (oldEventID && newEventID && strcmp(oldEventID, newEventID) != 0)
+			  timerMod |= tmAuxEventID;
+			free(oldEventID);
+			free(newEventID);
+		      }
+
+		    if (LogFile.Level() >= 3) // output reasons for a timer modification 
+		      { 
+                        if (timerMod & tmStartStop)
+			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : start/stop has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
+                        if (timerMod & tmFile)
+			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : title and/or episdode has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
+                        if (timerMod & tmAuxEventID)
+			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : aux info for event id has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
+		      }
+		    index = t->Index()+1;
+		    Priority = t->Priority();
+		    Lifetime = t->Lifetime();
                   }
                   free(pFile);
 
@@ -400,7 +415,7 @@ void cSearchTimerThread::Action(void)
                   continue;
                }
 			
-               if (AddModTimer(timer, index, searchExt, pEvent, Priority, Lifetime, Summary))
+               if (AddModTimer(timer, index, searchExt, pEvent, Priority, Lifetime, Summary, timerMod))
                {
                   if (index == 0)
                      LogFile.Log(1,"added timer for '%s~%s' (%s - %s); search timer: '%s'", pEvent->Title(), pEvent->ShortText()?pEvent->ShortText():"", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);
@@ -565,7 +580,7 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, cTimer* Timer, 
    return tmpSummary;
 }
 
-bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searchExt, const cEvent* pEvent, int Prio, int Lifetime, char* Summary) 
+bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searchExt, const cEvent* pEvent, int Prio, int Lifetime, char* Summary, uint timerMod) 
 {
    char *cmdbuf = NULL;
 
@@ -651,7 +666,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
       if (index==0) // new
          mailNotifier.AddNewTimerNotification(pEvent->EventID(), pEvent->ChannelID()); 
       else
-         mailNotifier.AddModTimerNotification(pEvent->EventID(), pEvent->ChannelID()); 
+	mailNotifier.AddModTimerNotification(pEvent->EventID(), pEvent->ChannelID(), timerMod); 
    }
    free(cmdbuf);
    if (tmpSummary) free(tmpSummary);

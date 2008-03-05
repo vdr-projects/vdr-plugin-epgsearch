@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-01-17 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 20:06+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -555,6 +555,12 @@ msgstr "Test"
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 msgstr " aäbcdefghijklmnoöpqrsßtuüvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
+msgid "Start/Stop time has changed"
+msgstr "Start/Stop-Zeit hat sich geändert"
+
+msgid "Title/episode has changed"
+msgstr "Titel/Episode hat sich geändert"
+
 msgid "No new timers were added."
 msgstr "Es wurden keine neuen Timer angelegt."
 
@@ -762,9 +768,6 @@ msgstr "K"
 
 msgid "Button$Repeats"
 msgstr "Wiederh."
-
-msgid "Timer still recording - really delete?"
-msgstr ""
 
 msgid "no check"
 msgstr "ohne Überwachung"

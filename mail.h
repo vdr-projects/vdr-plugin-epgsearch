@@ -61,12 +61,13 @@ class cMailTimerNotification
 {
     tEventID eventID;
     tChannelID channelID;
+    uint timerMod;
 
     const cEvent* GetEvent() const;
 
  public:
-    cMailTimerNotification(tEventID EventID, tChannelID ChannelID) 
-	: eventID(EventID), channelID(ChannelID) {}
+ cMailTimerNotification(tEventID EventID, tChannelID ChannelID, uint TimerMod = tmNoChange) 
+   : eventID(EventID), channelID(ChannelID), timerMod(TimerMod) {}
     bool operator< (const cMailTimerNotification &N) const;
     string Format(const string& templ) const;
 };
@@ -92,7 +93,7 @@ class cMailUpdateNotifier : public cMailNotifier
  public:
     cMailUpdateNotifier();
     void AddNewTimerNotification(tEventID EventID, tChannelID ChannelID);
-    void AddModTimerNotification(tEventID EventID, tChannelID ChannelID);
+    void AddModTimerNotification(tEventID EventID, tChannelID ChannelID, uint timerMod = tmNoChange);
     void AddRemoveTimerNotification(cTimer* t, const cEvent* e = NULL);
     void SendUpdateNotifications();
 };

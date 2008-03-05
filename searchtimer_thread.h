@@ -26,8 +26,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <vdr/thread.h>
 #include "epgsearchext.h"
-#include "epgsearch.h"
+#include "epgsearchtools.h"
 #include "mail.h"
+
+class cPluginEpgsearch;
 
 // --- cRecordingObj --------------------------------------------------------
 class cRecordingObj : public cListObject {
@@ -49,7 +51,7 @@ class cSearchTimerThread: public cThread {
 
  protected:
     virtual void Action(void);
-    bool AddModTimer(cTimer* Timer, int, cSearchExt*, const cEvent*, int Prio, int Lifetime, char* Summary = NULL);
+    bool AddModTimer(cTimer* Timer, int, cSearchExt*, const cEvent*, int Prio, int Lifetime, char* Summary = NULL, uint timerMod = tmNoChange);
     void RemoveTimer(cTimer* Timer, const cEvent* Event = NULL);
     void Stop(void);
     bool NeedUpdate();
