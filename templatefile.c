@@ -186,7 +186,7 @@ bool cTemplFile::Parse(const char *Name, const char *Value)
 	    cMenuTemplate* TemplOld = GetTemplateByName(Name);
 	    if (TemplOld)
 	      {
-		LogFile.Log(2, "menu template '%s' gets overwritten", Name);
+		LogFile.Log(1, "menu template '%s' gets overwritten", Name);
 		menuTemplates.erase(TemplOld);
 		delete TemplOld;
 	      }

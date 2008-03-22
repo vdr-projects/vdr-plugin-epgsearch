@@ -569,7 +569,8 @@ void cPluginEpgsearch::LoadConfD()
   string current(".");
   int count = 0;
   while ((e = d.Next())) {
-    if ((current == e->d_name) || (parent == e->d_name)) {
+    string direntry = e->d_name;
+    if ((current == direntry) || (parent == direntry) || (direntry[direntry.size()-1] == '~')) {
       continue;
     }
     /* Check if entry is a directory: I do not rely on e->d_type
