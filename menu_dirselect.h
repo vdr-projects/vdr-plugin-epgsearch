@@ -42,8 +42,10 @@ public:
 };
 
 class cDirExts : public cConfig<cDirExt> {};
+class cConfDDirExts : public cList<cDirExt> {};
 
 extern cDirExts DirExts;
+extern cConfDDirExts ConfDDirExts;
 
 // --- cMenuDirSelect ---------------------------------------------------------
 

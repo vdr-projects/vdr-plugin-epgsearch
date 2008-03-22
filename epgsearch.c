@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2007 Christian Wieninger
+Copyright (C) 2004-2008 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -64,6 +64,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchservices.h"
 #include "menu_quicksearch.h"
 #include "menu_announcelist.h"
+#include "confdloader.h"
 
 static const char VERSION[]        = "0.9.24.beta22";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
@@ -448,6 +449,7 @@ bool cPluginEpgsearch::Start(void)
 
    LoadMenuTemplates();
    LoadUserVars();
+   LoadConfD();
 
    cSearchTimerThread::Init(this);    
    cSwitchTimerThread::Init();    
@@ -554,6 +556,34 @@ void cPluginEpgsearch::LoadUserVars()
    free(userVarFilename);
    UserVars.InitInternalVars();
    UserVars.InitExtEPGVars();
+}
+
+void cPluginEpgsearch::LoadConfD()
+{
+  const string dirPath(AddDirectory(CONFIGDIR, "conf.d"));
+  LogFile.Log(2, "loading entries in %s", dirPath.c_str());
+  cReadDir d(dirPath.c_str());
+  struct dirent* e;
+  string parent("..");
+  string current(".");
+  int count = 0;
+  while ((e = d.Next())) {
+    if ((current == e->d_name) || (parent == e->d_name)) {
+      continue;
+    }
+    /* Check if entry is a directory: I do not rely on e->d_type
+       here because on some systems it is allways DT_UNKNOWN. Also
+       testing for DT_DIR does not take into account symbolic
+       links to directories.
+    */
+    struct stat buf;
+    if ((stat((dirPath + "/" + e->d_name).c_str(), &buf) != 0) || (S_ISDIR(buf.st_mode))) {
+      continue;
+    }
+    cConfDLoader L((dirPath + "/" + e->d_name).c_str());
+    count++;
+  }
+  LogFile.Log(2, "loaded %d entries in %s", count, dirPath.c_str());
 }
 
 cMenuSetupPage *cPluginEpgsearch::SetupMenu(void)

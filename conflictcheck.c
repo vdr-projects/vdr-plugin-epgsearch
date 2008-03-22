@@ -183,7 +183,7 @@ void cConflictCheck::InitDevicesInfo()
 {
     devices = new cConflictCheckDevice[MAXDEVICES];
 #ifdef DEBUG_CONFL
-    numDevices = 2;
+    numDevices = 1;
     for(int i=0; i<numDevices; i++)
     {
 	devices[i].devicenr = i;
@@ -579,10 +579,10 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool *NeedsDetac
          imp <<= 1; imp |= !devices[i].Receiving() || ndr;
          imp <<= 1; imp |= devices[i].Receiving();
          imp <<= 1; //imp |= devices[i] == ActualDevice(); // cannot be handled
-         imp <<= 1; imp |= devices[i].IsPrimaryDevice();
-         imp <<= 1; imp |= devices[i].HasDecoder();
          imp <<= 8; imp |= min(max(devices[i].Priority() + MAXPRIORITY, 0), 0xFF);
          imp <<= 8; imp |= min(max(devices[i].ProvidesCa(Channel), 0), 0xFF);
+         imp <<= 1; imp |= devices[i].IsPrimaryDevice();
+         imp <<= 1; imp |= devices[i].HasDecoder();
          if (imp < Impact) {
             Impact = imp;
 	    selDevice = i;

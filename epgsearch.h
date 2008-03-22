@@ -51,6 +51,7 @@ public:
     virtual const char **SVDRPHelpPages(void);
     virtual cString SVDRPCommand(const char *Cmd, const char *Option, int &ReplyCode);
     void LoadUserVars();
+    void LoadConfD();
 };
 
 #endif

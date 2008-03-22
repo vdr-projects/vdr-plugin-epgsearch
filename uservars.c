@@ -267,8 +267,14 @@ bool cUserVarLine::Parse(char *s)
       cUserVar* userVar = new cUserVar;
       if (userVar->varparser.Parse(s))
       {
-         UserVars.userVars.insert(userVar);
-         return true;
+	cUserVar* oldVar = UserVars.GetFromName(userVar->Name());
+	if (oldVar) // allow redefintion of existing vars
+	  {
+	    UserVars.userVars.erase(oldVar);
+	    delete oldVar;
+	  }
+	UserVars.userVars.insert(userVar);
+	return true;
       }
    }
    return false;

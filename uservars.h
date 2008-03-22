@@ -677,7 +677,7 @@ extern cUserVars UserVars;
 
 class cUserVarLine : public cListObject {
 public:
-  bool Parse(char *s);
+  static bool Parse(char *s);
 };
 
 

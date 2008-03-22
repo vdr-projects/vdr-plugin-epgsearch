@@ -29,6 +29,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 set<string> cMenuDirSelect::directorySet;
 
 cDirExts DirExts;
+cConfDDirExts ConfDDirExts;
 
 // --- cMenuDirItem ---------------------------------------------------------
 class cMenuDirItem : public cOsdItem 
@@ -187,6 +188,13 @@ void cMenuDirSelect::CreateDirSet()
     {
 	directorySet.insert(DirExt->Name());	
 	DirExt = DirExts.Next(DirExt);
+    }
+    // add distinct directories from conf.d files
+    DirExt = ConfDDirExts.First();
+    while (DirExt) 
+    {
+	directorySet.insert(DirExt->Name());	
+	DirExt = ConfDDirExts.Next(DirExt);
     }
 }
 
