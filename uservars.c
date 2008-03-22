@@ -267,9 +267,10 @@ bool cUserVarLine::Parse(char *s)
       cUserVar* userVar = new cUserVar;
       if (userVar->varparser.Parse(s))
       {
-	cUserVar* oldVar = UserVars.GetFromName(userVar->Name());
+	cUserVar* oldVar = UserVars.GetFromName(userVar->Name(), false);
 	if (oldVar) // allow redefintion of existing vars
 	  {
+	    LogFile.Log(2, "variable '%s' gets overwritten", oldVar->Name());
 	    UserVars.userVars.erase(oldVar);
 	    delete oldVar;
 	  }
@@ -281,7 +282,7 @@ bool cUserVarLine::Parse(char *s)
 }
 
 // cUserVars
-cUserVar* cUserVars::GetFromName(const string& varName)
+cUserVar* cUserVars::GetFromName(const string& varName, bool log)
 {
    string VarName = Strip(varName);
    std::transform(VarName.begin(), VarName.end(), VarName.begin(), tolower);
@@ -299,7 +300,8 @@ cUserVar* cUserVars::GetFromName(const string& varName)
    if (evar != extEPGVars.end()) 
       return evar->second;
 
-   LogFile.eSysLog("var '%s' not defined!", VarName.c_str());
+   if (log)
+     LogFile.eSysLog("var '%s' not defined!", VarName.c_str());
    return NULL;
 }
 

@@ -132,7 +132,7 @@ cSearchExt::~cSearchExt(void)
    {
       cSearchExtCat *SearchExtCat = SearchExtCats.First();
       int index = 0;
-      while (SearchExtCat) 
+      while (SearchExtCat && index < (int)(sizeof(catvalues)/sizeof(char*))) 
       {
          free(catvalues[index]);
          SearchExtCat = SearchExtCats.Next(SearchExtCat);

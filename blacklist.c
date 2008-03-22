@@ -71,7 +71,7 @@ cBlacklist::cBlacklist(void)
     catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
     int index = 0;
-    while (SearchExtCat)
+    while (SearchExtCat) 
     {
 	catvalues[index] = (char*)malloc(MaxFileName);
 	*catvalues[index] = 0;
@@ -92,7 +92,7 @@ cBlacklist::~cBlacklist(void)
   {
       cSearchExtCat *SearchExtCat = SearchExtCats.First();
       int index = 0;
-      while (SearchExtCat)
+      while (SearchExtCat && index < (int)(sizeof(catvalues)/sizeof(char*))) 
       {
 	  free(catvalues[index]);
 	  SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -109,7 +109,7 @@ cBlacklist& cBlacklist::operator= (const cBlacklist &Blacklist)
   catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
-  while (SearchExtCat)
+  while (SearchExtCat) 
   {
       catvalues[index] = (char*)malloc(MaxFileName);
       *catvalues[index] = 0;
@@ -141,7 +141,7 @@ void cBlacklist::CopyFromTemplate(const cSearchExt* templ)
 
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
-  while (SearchExtCat)
+  while (SearchExtCat) 
   {
       strcpy(catvalues[index], templ->catvalues[index]);
       SearchExtCat = SearchExtCats.Next(SearchExtCat);

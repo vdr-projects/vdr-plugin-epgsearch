@@ -670,7 +670,7 @@ class cUserVars : public cList<cUserVar> {
 		delete (*uvar);
 	    userVars.clear();
 	}
-    cUserVar* GetFromName(const string& varName);
+    cUserVar* GetFromName(const string& varName, bool log = true);
 };
 
 extern cUserVars UserVars;

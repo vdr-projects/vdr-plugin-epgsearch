@@ -24,6 +24,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "uservars.h"
 #include "menu_dirselect.h"
 #include "templatefile.h"
+#include "epgsearchcats.h"
 
 class cConfDLoader {  
  public:
@@ -64,7 +65,14 @@ class cConfDLoader {
 		  if (T.Parse(s))
 		    cTemplFile::Parse(T.Name(), T.Value());
 		}
-
+	      if (EqualsNoCase(section, "[epgsearchcats]"))
+		{
+		  cSearchExtCat* cat = new cSearchExtCat;
+		  if (cat && cat->Parse(s))
+		    SearchExtCats.Add(cat);
+		  else
+		    delete cat;
+		}
 	    }
 	  }
 	}

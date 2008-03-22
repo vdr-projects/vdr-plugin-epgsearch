@@ -437,6 +437,11 @@ bool cPluginEpgsearch::Start(void)
    gl_timerStatusMonitor = new cTimerStatusMonitor;
 
    SearchExtCats.Load(AddDirectory(CONFIGDIR, "epgsearchcats.conf"), true);
+
+   LoadMenuTemplates();
+   LoadUserVars();
+   LoadConfD();
+
    ChannelGroups.Load(AddDirectory(CONFIGDIR, "epgsearchchangrps.conf"), true);
    Blacklists.Load(AddDirectory(CONFIGDIR, "epgsearchblacklists.conf"));
    SearchExts.Load(AddDirectory(CONFIGDIR, "epgsearch.conf"));
@@ -446,10 +451,6 @@ bool cPluginEpgsearch::Start(void)
    NoAnnounces.Load(AddDirectory(CONFIGDIR, "noannounce.conf"));
    DefTimerCheckModes.Load(AddDirectory(CONFIGDIR, "deftimerchkmodes.conf"));
    TimersDone.Load(AddDirectory(CONFIGDIR, "timersdone.conf"));
-
-   LoadMenuTemplates();
-   LoadUserVars();
-   LoadConfD();
 
    cSearchTimerThread::Init(this);    
    cSwitchTimerThread::Init();    
