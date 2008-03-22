@@ -71,11 +71,11 @@ public:
 
 class cTemplFile : public cConfig<cTemplLine> 
 {
-    bool Parse(const char *Name, const char *Value);
 public:
     static set<cMenuTemplate*> menuTemplates; // the set of all templates
     static char** SearchTemplates; // an array thats stores the name of all search results templates
     cTemplFile();
+    static bool Parse(const char *Name, const char *Value);
     bool Load(const char *FileName);
     static void PrepareDefaultTemplates();
     static void Reset();

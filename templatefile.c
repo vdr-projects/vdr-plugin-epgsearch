@@ -183,6 +183,12 @@ bool cTemplFile::Parse(const char *Name, const char *Value)
 	if (menuTemplate->PrepareTemplate(Value))
 	{
 	    LogFile.Log(3, "loaded menu template: %s", Name);      	    
+	    cMenuTemplate* TemplOld = GetTemplateByName(Name);
+	    if (TemplOld)
+	      {
+		menuTemplates.erase(TemplOld);
+		delete TemplOld;
+	      }
 	    menuTemplates.insert(menuTemplate);
 	    return true;
 	}
