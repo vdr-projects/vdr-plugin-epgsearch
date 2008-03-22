@@ -270,7 +270,7 @@ bool cUserVarLine::Parse(char *s)
 	cUserVar* oldVar = UserVars.GetFromName(userVar->Name(), false);
 	if (oldVar) // allow redefintion of existing vars
 	  {
-	    LogFile.Log(2, "variable '%s' gets overwritten", oldVar->Name());
+	    LogFile.Log(2, "variable '%s' gets overwritten", oldVar->Name().c_str());
 	    UserVars.userVars.erase(oldVar);
 	    delete oldVar;
 	  }

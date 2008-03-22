@@ -32,7 +32,7 @@ class cConfDLoader {
   bool Load(const char *FileName)
   {
     if (FileName && access(FileName, F_OK) == 0) {
-      LogFile.Log(2, "loading %s", FileName);
+      LogFile.Log(1, "loading %s", FileName);
       FILE *f = fopen(FileName, "r");
       if (f) {
 	char *s;
