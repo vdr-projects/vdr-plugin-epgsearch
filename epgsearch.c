@@ -561,31 +561,8 @@ void cPluginEpgsearch::LoadUserVars()
 
 void cPluginEpgsearch::LoadConfD()
 {
-  const string dirPath(AddDirectory(CONFIGDIR, "conf.d"));
-  LogFile.Log(2, "loading entries in %s", dirPath.c_str());
-  cReadDir d(dirPath.c_str());
-  struct dirent* e;
-  string parent("..");
-  string current(".");
-  int count = 0;
-  while ((e = d.Next())) {
-    string direntry = e->d_name;
-    if ((current == direntry) || (parent == direntry) || (direntry[direntry.size()-1] == '~')) {
-      continue;
-    }
-    /* Check if entry is a directory: I do not rely on e->d_type
-       here because on some systems it is allways DT_UNKNOWN. Also
-       testing for DT_DIR does not take into account symbolic
-       links to directories.
-    */
-    struct stat buf;
-    if ((stat((dirPath + "/" + e->d_name).c_str(), &buf) != 0) || (S_ISDIR(buf.st_mode))) {
-      continue;
-    }
-    cConfDLoader L((dirPath + "/" + e->d_name).c_str());
-    count++;
-  }
-  LogFile.Log(2, "loaded %d entries in %s", count, dirPath.c_str());
+  cConfDLoader D;
+  D.Load();
 }
 
 cMenuSetupPage *cPluginEpgsearch::SetupMenu(void)
