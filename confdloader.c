@@ -30,6 +30,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchcats.h"
 
 
+// ---------------------------
+// Loads all files in the conf.d subdirectory of <plugin-config-directory> and
+// applies found settings.
+// ---------------------------
 bool cConfDLoader::Load()
 {
   const string dirPath(AddDirectory(CONFIGDIR, "conf.d"));
@@ -61,6 +65,24 @@ bool cConfDLoader::Load()
   return success;
 }
 
+// ---------------------------
+// Each file has the form
+//
+// [<section>]
+// <setting>
+// ...
+// [<section>]
+// ...
+//
+// where section is one:
+//
+// epgsearchuservars
+// epgsearchdirs
+// epgsearchmenu
+// epgsearchcats
+//
+// <setting> corresponds to the entries in the related conf files.
+// ---------------------------
 bool cConfDLoader::LoadFile(const char *FileName)
 {
   if (FileName && access(FileName, F_OK) == 0) {

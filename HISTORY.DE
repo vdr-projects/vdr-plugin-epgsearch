@@ -36,6 +36,8 @@ neu:
 - Die Timer-Benachrichtigungsmail unterstützt nun eine weitere Variable 
   %timer.modreason%, in der im Klartext der Grund einer Timeränderung steht (s.
   epgsearchupdmail(-html).templ für ein Beispiel)
+- Unterstützung für einen conf.d-Mechanismus (s. MANUAL -> 14. The conf.d subdirectory), 
+  vorgeschlagen von Mike Constabel
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine

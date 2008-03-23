@@ -31,6 +31,8 @@ new:
 - the timer update notification mails supports now an additional variable 
   %timer.modreason%, that holds the reason for a timer update in plain text (see
   epgsearchupdmail(-html).templ for a sample)
+- support for a conf.d mechanism (s. MANUAL -> 14. The conf.d subdirectory), suggested
+  by Mike Constabel.
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 
