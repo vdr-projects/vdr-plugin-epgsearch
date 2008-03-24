@@ -62,6 +62,7 @@ fixes:
   reporting.
 - fixed labeling the green/yellow color keys after toggling the keys in menu 'Schedule',
   thanks to Andreas Mair for reporting.
+- fixed evaluation of compiler flags like WITHOUT_EPGSEARCHONLY,...
 
 2007-09-02: Version 0.9.23
 new: 

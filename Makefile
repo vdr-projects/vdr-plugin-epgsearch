@@ -111,7 +111,7 @@ LIBS4    =
 
 ### The main target:
 
-all: libvdr-$(PLUGIN).so libvdr-$(PLUGIN2).so libvdr-$(PLUGIN3).so libvdr-$(PLUGIN4).so createcats i18n
+all: $(ALL) i18n
 
 ### Implicit rules:
 
