@@ -152,7 +152,7 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
 	 catvaluesNumeric = (int*) malloc(SearchExtCats.Count() * sizeof(int));
          cSearchExtCat *SearchExtCat = SearchExtCats.First();
          int index = 0;
-         while (SearchExtCat && index < (int)(sizeof(SearchExt->catvalues)/sizeof(char*))) 	    
+         while (SearchExtCat) 	    
          {
             catarrayAvoidRepeats[index] = (SearchExt->catvaluesAvoidRepeat & (1<<index))?1:0;
 	    catvaluesNumeric[index] = atol(SearchExt->catvalues[index]);
