@@ -560,10 +560,10 @@ msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 msgstr " abcdefghijklmnopqrstuvwxyzåäö0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
 msgid "Start/Stop time has changed"
-msgstr ""
+msgstr "Ohjelman aloitus/lopetusaika muuttunut"
 
 msgid "Title/episode has changed"
-msgstr ""
+msgstr "Ohjelman nimi/kuvaus muuttunut"
 
 msgid "No new timers were added."
 msgstr "Yhtään uutta ajastinta ei lisätty."
