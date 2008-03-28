@@ -151,7 +151,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                   // trigger a search timer update
                   updateForced = 1;			
                }
-               else
+               else if (tiR->lastBreak == 0) // store first break
                   tiR->lastBreak = now;
             }
             if (tiR->lastBreak == 0 || (now - tiR->lastBreak) > ALLOWED_BREAK_INSECS) 
