@@ -183,7 +183,7 @@ void cConflictCheck::InitDevicesInfo()
 {
     devices = new cConflictCheckDevice[MAXDEVICES];
 #ifdef DEBUG_CONFL
-    numDevices = 1;
+    numDevices = 4;
     for(int i=0; i<numDevices; i++)
     {
 	devices[i].devicenr = i;
@@ -432,7 +432,7 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
     for (it = checkTime->stoppingTimers.begin(); it != checkTime->stoppingTimers.end(); it++)
 	if ((*it) && (*it)->device >= 0)
 	{
-	    LogFile.Log(3,"detach device %d from  timer '%s' (%s, channel %s) at %s", (*it)->device, (*it)->timer->File(), DAYDATETIME((*it)->start), CHANNELNAME((*it)->timer->Channel()), DAYDATETIME(checkTime->evaltime));
+	  LogFile.Log(3,"detach device %d from  timer '%s' (%s, channel %s) at %s", ((*it)->device)+1, (*it)->timer->File(), DAYDATETIME((*it)->start), CHANNELNAME((*it)->timer->Channel()), DAYDATETIME(checkTime->evaltime));
 	    devices[(*it)->device].recTimers.erase(*it);
 	    (*it)->lastRecStop = checkTime->evaltime;
 	    if ((*it)->lastRecStart > 0 && (*it)->lastRecStart < (*it)->lastRecStop)
@@ -468,7 +468,7 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 		std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it2 = devices[device].recTimers.begin();
 		for(; it2 != devices[device].recTimers.end(); it2++)
 		{
-		    LogFile.Log(3,"stopping timer '%s' (%s, channel %s) at %s on device %d because of higher priority", (*it2)->timer->File(), DAYDATETIME((*it2)->start), CHANNELNAME((*it2)->timer->Channel()), DAYDATETIME(checkTime->evaltime), device);
+		    LogFile.Log(3,"stopping timer '%s' (%s, channel %s) at %s on device %d because of higher priority", (*it2)->timer->File(), DAYDATETIME((*it2)->start), CHANNELNAME((*it2)->timer->Channel()), DAYDATETIME(checkTime->evaltime), device+1);
 		    AddConflict((*it2), checkTime, pendingTimers);
 		    devices[device].recTimers.erase(*it2);
 		    Conflicts++;
@@ -478,7 +478,7 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 	    (*it)->device = device;
 	    (*it)->lastRecStart = checkTime->evaltime;
 
-	    LogFile.Log(3,"recording  timer '%s' (%s, channel %s) at %s on device %d", (*it)->timer->File(), DAYDATETIME((*it)->start), CHANNELNAME((*it)->timer->Channel()), DAYDATETIME(checkTime->evaltime), device);
+	    LogFile.Log(3,"recording  timer '%s' (%s, channel %s) at %s on device %d", (*it)->timer->File(), DAYDATETIME((*it)->start), CHANNELNAME((*it)->timer->Channel()), DAYDATETIME(checkTime->evaltime), device+1);
 	}
 	else
 	{
@@ -491,7 +491,7 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 }
 
 #if APIVERSNUM >= 10500
-int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool*)
+int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetachReceivers)
 {
     int Priority = TimerObj->timer->Priority();
     const cChannel* Channel = TimerObj->timer->Channel();
@@ -520,7 +520,8 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool*)
 	    return selDevice; // no CAM is able to decrypt this channel
      }
 
-  bool NeedsDetachReceivers = false;
+    if (NeedsDetachReceivers)
+      *NeedsDetachReceivers = false;
 
   uint32_t Impact = 0xFFFFFFFF; // we're looking for a device with the least impact
   for (int j = 0; j < NumCamSlots || !NumUsableSlots; j++) {
@@ -542,20 +543,32 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool*)
              // to their individual severity, where the one listed first will make the most
              // difference, because it results in the most significant bit of the result.
              uint32_t imp = 0;
-             imp <<= 1; imp |= 0;                                  // prefer the primary device for live viewing if we don't need to detach existing receivers
-             imp <<= 1; imp |= !devices[i].Receiving() || ndr;                                                       // use receiving devices if we don't need to detach existing receivers
-             imp <<= 1; imp |= devices[i].Receiving();                                                               // avoid devices that are receiving
-             imp <<= 8; imp |= min(max(devices[i].Priority() + MAXPRIORITY, 0), 0xFF);                               // use the device with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
-             imp <<= 8; imp |= min(max((NumUsableSlots ? SlotPriority[j] : 0) + MAXPRIORITY, 0), 0xFF);              // use the CAM slot with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
-             imp <<= 1; imp |= ndr;                                                                                  // avoid devices if we need to detach existing receivers
-             imp <<= 1; imp |= devices[i].IsPrimaryDevice();                                                         // avoid the primary device
-             imp <<= 1; imp |= devices[i].HasDecoder();                                                              // avoid full featured cards
-             imp <<= 1; imp |= NumUsableSlots ? !ChannelCamRelations.CamDecrypt(Channel->GetChannelID(), j + 1) : 0; // prefer CAMs that are known to decrypt this channel
+	     // prefer the primary device for live viewing if we don't need to detach existing receivers
+             imp <<= 1; ;                                  
+             // use receiving devices if we don't need to detach existing receivers
+             imp <<= 1; imp |= !devices[i].Receiving() || ndr;                     
+	     // avoid devices that are receiving                     
+             imp <<= 1; imp |= devices[i].Receiving();                             
+	     // use the device with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
+             imp <<= 8; imp |= min(max(devices[i].Priority() + MAXPRIORITY, 0), 0xFF);
+	     // use the CAM slot with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
+             imp <<= 8; imp |= min(max((NumUsableSlots ? SlotPriority[j] : 0) + MAXPRIORITY, 0), 0xFF);  
+	     // avoid devices if we need to detach existing receivers
+             imp <<= 1; imp |= ndr;                                  
+	     // avoid the primary device                                             
+             imp <<= 1; imp |= devices[i].IsPrimaryDevice();
+	     // avoid cards with Common Interface for FTA channels         
+	     imp <<= 1; imp |= NumUsableSlots ? 0 : devices[i].HasCi();                                  
+	     // avoid full featured cards
+             imp <<= 1; imp |= devices[i].HasDecoder();              
+	     // prefer CAMs that are known to decrypt this channel
+             imp <<= 1; imp |= NumUsableSlots ? !ChannelCamRelations.CamDecrypt(Channel->GetChannelID(), j + 1) : 0;
              if (imp < Impact) {
                 // This device has less impact than any previous one, so we take it.
                 Impact = imp;
 		selDevice = i;
-                NeedsDetachReceivers = ndr;
+		if (NeedsDetachReceivers)
+		  *NeedsDetachReceivers = ndr;
                 }
              }
           }
