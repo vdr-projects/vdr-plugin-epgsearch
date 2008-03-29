@@ -38,7 +38,7 @@ fixes:
   'Overview - Now' instead of a progressbar, if there's not already a start time 
   in the menu template ('%time%') as in the default template, 
   thanks to Getty@vdrportal for reporting
-- fixed some issues regarding GPL, thanks to Thomas G�nther for reporting 
+- fixed some issues regarding GPL, thanks to Thomas Günther for reporting 
 - fixed a crash when no EPG is present, thanks to Petri Helin for providing a patch
 - the default value for maximum duration is now '23:59' to avoid problems with 
   external tools, thanks to ralf-naujokat@bugtracker for reporting (bug-id #371)
@@ -91,7 +91,7 @@ new:
   Only complete recordings are counted. The deletion of the search timer is executed
   directly after the end of the corresponding recording
 - new action "Create a copy" in menu Search/Actions to create and edit a copy of the 
-  current search, suggested by Michael Br�ckner.
+  current search, suggested by Michael Brückner.
 - the option "use as search timer" has now a third value 'user defined' besides 'yes' 
   and 'no', that allows specifying a time margin where the search timer is active, 
   suggested by jo01@vdrportal
@@ -114,7 +114,7 @@ fixes:
 - Label "Record" or "Timer" in menu summary fixed with respect to existing timer.
 - fixed switch timers in the case when EPG has changed, thanks to Juergen Urban 
   for providing a patch
-- fixed some compiler warnings in g++-4.2, thanks to Michael Br�ckner for reporting
+- fixed some compiler warnings in g++-4.2, thanks to Michael Brückner for reporting
 - added "," to the allowed characters for a search timer, thanks to Mike Constabel for
   reporting.
 
