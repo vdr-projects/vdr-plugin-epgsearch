@@ -558,7 +558,9 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
 	     // avoid the primary device                                             
              imp <<= 1; imp |= devices[i].IsPrimaryDevice();
 	     // avoid cards with Common Interface for FTA channels         
+#if APIVERSNUM >= 10501
 	     imp <<= 1; imp |= NumUsableSlots ? 0 : devices[i].HasCi();                                  
+#endif
 	     // avoid full featured cards
              imp <<= 1; imp |= devices[i].HasDecoder();              
 	     // prefer CAMs that are known to decrypt this channel

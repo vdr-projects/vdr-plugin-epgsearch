@@ -115,7 +115,6 @@ class cConflictCheckDevice
 	    return false;
 	}
     bool HasDecoder() const { if (device) return device->HasDecoder(); else return (devicenr == 3); }
-    bool HasCi() const { if (device) return device->HasCi(); else return (devicenr == 3); }
     bool IsPrimaryDevice() const { if (device) return device->IsPrimaryDevice(); else return (devicenr == 3); }
     bool ProvidesSource(int Source) const 
 	{ 
