@@ -394,7 +394,7 @@ msgid "Help$Set this to 'yes' if you don't like to get any announcements of broa
 msgstr "Establecer a 'sí' cuando no desee recibir ningún aviso de emisiones durante una reproducción."
 
 msgid "Recreate timers after deletion"
-msgstr "Recrear programaciones tras borrado"
+msgstr "Recrear programaciones tras borrar"
 
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
 msgstr "Establecer a 'sí' cuando desee que las programaciones se creen de nuevo con la siguiente actualización de programación por búsqueda después de borrarlas."
@@ -556,10 +556,10 @@ msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 msgstr " aábcdeéfghiíjklmnñoópqrstuúvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
 msgid "Start/Stop time has changed"
-msgstr ""
+msgstr "Ha cambiado el tiempo inicial/final"
 
 msgid "Title/episode has changed"
-msgstr ""
+msgstr "Ha cambiado el título/episodio"
 
 msgid "No new timers were added."
 msgstr "No se añadieron nuevas programaciones."

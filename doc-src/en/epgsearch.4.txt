@@ -549,7 +549,8 @@ for the 'Whats on...' and 'Search results' menu there are also:
  %chsh%           - the short channel name (>=vdr-1.3.15)
  %chlng%          - the 'normal' channel name
  %chdata%         - VDR's internal channel representation (e.g. 'S19.2E-1-1101-28106')
- %progr%          - graphical progress bar (not for menu 'Search results')
+ %progr%          - graphical progress bar (not for menu 'Search results'), 
+                    requires VDRSymbols font for vdr>=1.5.3
  %progrT2S%       - progress bar in text2skin style (not for menu 'Search results')
 
 some indepent variables:
@@ -586,7 +587,9 @@ To enable icons from WarEagleIcon-Patch simply put the line
 
  WarEagleIcons=1
 
-to F<epgsearchmenu.conf>.
+to F<epgsearchmenu.conf>. This also works for vdr>=1.5.3, which uses true type fonts, 
+if you have installed and selected the font VDRSymbols.ttf (available at 
+http://andreas.vdr-developer.org/enigmang/download)
 
 NOTE: As long as there is a file epgsearchmenu.conf with an entry for a special
 menu, all setup settings regarding the look of this menu are ignored.

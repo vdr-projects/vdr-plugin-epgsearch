@@ -66,13 +66,14 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_announcelist.h"
 #include "confdloader.h"
 
-static const char VERSION[]        = "0.9.24.beta25";
+static const char VERSION[]        = "0.9.24.beta26";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
 char *ConfigDir = NULL;
 bool reloadMenuConf = false;
 int updateForced = 0;
+bool isUTF8 = false;
 
 // LogFile declaration and statics
 cLogFile LogFile;
@@ -456,7 +457,28 @@ bool cPluginEpgsearch::Start(void)
    cSwitchTimerThread::Init();    
    cConflictCheckThread::Init(this);    
 
+   CheckUTF8();
+
    return true;
+}
+
+void cPluginEpgsearch::CheckUTF8()
+{
+   // Taken from VDR's vdr.c
+   char *CodeSet = NULL;
+   if (setlocale(LC_CTYPE, ""))
+     CodeSet = nl_langinfo(CODESET);
+   else {
+     char *LangEnv = getenv("LANG"); // last resort in case locale stuff isn't installed
+     if (LangEnv) {
+       CodeSet = strchr(LangEnv, '.');
+       if (CodeSet)
+	 CodeSet++; // skip the dot
+     }
+   }
+   
+   if (CodeSet && strcasestr(CodeSet, "UTF-8") != 0)
+     isUTF8=true;
 }
 
 void cPluginEpgsearch::Stop(void)

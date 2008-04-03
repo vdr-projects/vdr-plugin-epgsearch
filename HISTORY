@@ -1,7 +1,9 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
-2007-xx-xx: Version 0.9.24
+2008-xx-xx: Version 0.9.24
 new:
+- support for vdr-1.6.x
+- support for VDRSymbols font (activate it with 'WarEagle=1' in epgsearchmenu.conf)
 - new SVDRP command 'LSCC' that returns the results of a timer conflict 
   check. See the MANUAL for details about the format of the result list.
 - the EPG command 'Search in recordings' now evaluates the info.vdr instead of the

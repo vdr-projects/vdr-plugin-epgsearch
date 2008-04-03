@@ -42,6 +42,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 const char* ButtonBlue[3] = {NULL, NULL, NULL};
 extern int gl_InfoConflict;
+extern bool isUTF8;
 
 static int CompareRecording(const void *p1, const void *p2)
 {
@@ -78,13 +79,22 @@ bool cMenuSearchResultsItem::Update(bool Force)
     
    if (Force || timerMatch != OldTimerMatch) 
    {
-      char t[2]="",v[2]="",r[2]="";
-      char szStatus[4] = "";
+     char t[Utf8BufSize(2)]="",v[Utf8BufSize(2)]="",r[Utf8BufSize(2)]="";
+     char szStatus[Utf8BufSize(4)] = "";
       if (EPGSearchConfig.WarEagle)
       {
-         sprintf(t, "%c", event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?249:253) : 't' : ' ');
-         sprintf(v, "%c", event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ');
-         sprintf(r, "%c", event && event->IsRunning() ? 251 : ' ');
+	if (!isUTF8)
+	  {
+	    sprintf(t, "%c", event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC:ICON_CLOCK) : ICON_CLOCK_HALF : ' ');
+	    sprintf(v, "%c", event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS : ' ');
+	    sprintf(r, "%c", event && event->IsRunning() ? ICON_RUNNING : ' ');
+	  }
+	else
+	  {
+	    sprintf(t, "%s", (event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC_UTF8:ICON_CLOCK_UTF8) : ICON_CLOCK_HALF_UTF8 : " "));
+	    sprintf(v, "%s", event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS_UTF8 : " ");
+	    sprintf(r, "%s", (event && event->IsRunning() ? ICON_RUNNING_UTF8 : " "));
+	  }
       }
       else
       {

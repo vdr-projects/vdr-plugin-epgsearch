@@ -76,6 +76,33 @@ using std::string;
 
 #define ISRADIO(x) ((x)->Vpid()==0||(x)->Vpid()==1||(x)->Vpid()==0x1fff)
 
+// Icons used in WarEagle and VDRSymbols-Font
+#define ICON_REC               0xF9
+#define ICON_RUNNING           0xFB
+#define ICON_CLOCK             0xFD
+#define ICON_CLOCK_HALF        0x74
+#define ICON_BAR_OPEN          0x82
+#define ICON_BAR_FULL          0xFF
+#define ICON_BAR_EMPTY         0x83
+#define ICON_BAR_CLOSE         0x84
+#define ICON_VPS               0x56
+
+
+// UTF-8 Icons
+#define ICON_BAR_OPEN_UTF8     "\uE007"
+#define ICON_BAR_FULL_UTF8     "\uE008"
+#define ICON_BAR_EMPTY_UTF8    "\uE009"
+#define ICON_BAR_CLOSE_UTF8    "\uE00A"
+#define ICON_REC_UTF8          "\uE00B"
+#define ICON_CLOCK_UTF8        "\uE00C"
+#define ICON_CLOCK_HALF_UTF8   "t"
+#define ICON_RUNNING_UTF8      "\uE012"
+#define ICON_VPS_UTF8          "V"
+
+#if APIVERSNUM < 10503 
+#define Utf8BufSize(s) ((s) * 4)
+#endif
+
 extern const char AllowedChars[];
 
 extern char* ConfigDir;

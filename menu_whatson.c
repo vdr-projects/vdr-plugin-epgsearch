@@ -22,6 +22,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 */
 
 #include <vector>
+#include <iostream>
+#include <sstream>
 #include <string>
 #include "uservars.h"
 #include "menu_whatson.h"
@@ -50,6 +52,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define HOURS2SECS(x) (x*60*60)
 
 extern int exitToMainMenu;
+extern bool isUTF8;
 int gl_InfoConflict = 0;
 
 // --- cMenuMyScheduleItem ------------------------------------------------------
@@ -85,7 +88,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
     
    if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList) 
    {
-      char szProgressPart[12] = "";
+     char szProgressPart[Utf8BufSize(12)] = "";
       char szProgressPartT2S[12] = "";
       time_t now = time(NULL);
       if (channel)
@@ -112,11 +115,24 @@ bool cMenuMyScheduleItem::Update(bool Force)
 	      szProgressPartT2S[9] = ']';
 	      szProgressPartT2S[10] = 0;
 	      
-	      szProgressPart[0] = 130;
-	      memset(szProgressPart + 1, 131, 6);
-	      szProgressPart[7] = 132;
-	      szProgressPart[8] = 0;
-	      memset(szProgressPart, 127, frac);
+	      if (!isUTF8)
+		{
+		  szProgressPart[0] = ICON_BAR_OPEN;
+		  memset(szProgressPart + 1, ICON_BAR_EMPTY, 6);
+		  szProgressPart[7] = ICON_BAR_CLOSE;
+		  szProgressPart[8] = 0;
+		  memset(szProgressPart, ICON_BAR_FULL, frac);
+		}
+	      else
+		{
+		  std::stringstream buffer;
+		  buffer << ICON_BAR_OPEN_UTF8;
+		  for(int i=0;i<8;i++) buffer << (i<frac?ICON_BAR_FULL_UTF8:ICON_BAR_EMPTY_UTF8);
+		  buffer << ICON_BAR_CLOSE_UTF8;
+		  char* temp = strdup(buffer.str().c_str());
+		  sprintf(szProgressPart, "%s", temp);
+		  free(temp);
+		}
             }
             else
             {
@@ -127,16 +143,25 @@ bool cMenuMyScheduleItem::Update(bool Force)
          }
       }
       
-      char t[2],v[2],r[2];
-      char szStatus[4];
+      char t[Utf8BufSize(2)],v[Utf8BufSize(2)],r[Utf8BufSize(2)];
+      char szStatus[Utf8BufSize(4)];
       szStatus[3] = 0;
       t[1]=v[1]=r[1] = 0; 
 
       if (EPGSearchConfig.WarEagle)
       {
-	t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?249:253) : 't' : ' ';
-	v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ';
-	r[0] = event && event->IsRunning() ? 251 : ' ';
+	if (!isUTF8)
+	  {
+	    t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC:ICON_CLOCK) : ICON_CLOCK_HALF : ' ';
+	    v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS : ' ';
+	    r[0] = event && event->IsRunning() ? ICON_RUNNING : ' ';
+	  }
+	else
+	  {
+	    sprintf(t, "%s", (event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC_UTF8:ICON_CLOCK_UTF8) : ICON_CLOCK_HALF_UTF8 : " "));
+	    sprintf(v, "%s", event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS_UTF8 : " ");
+	    sprintf(r, "%s", (event && event->IsRunning() ? ICON_RUNNING_UTF8 : " "));
+	  }
       }
       else
       {
@@ -150,10 +175,20 @@ bool cMenuMyScheduleItem::Update(bool Force)
          cSwitchTimer* s = SwitchTimers.InSwitchList(event);
 	 t[0] = (s && s->announceOnly)?'s':'S';
       }
-      szStatus[0] = t[0];
-      szStatus[1] = v[0];
-      szStatus[2] = r[0];
-
+      if (EPGSearchConfig.WarEagle && isUTF8)
+	{
+	  std::stringstream buffer;
+	  buffer << t << v << r;
+	  char* temp = strdup(buffer.str().c_str());
+	  sprintf(szStatus, "%s", temp);
+	  free(temp);
+	}
+      else
+	{
+	  szStatus[0] = t[0];
+	  szStatus[1] = v[0];
+	  szStatus[2] = r[0];
+	}
 
       char* buffer = strdup(menutemplate);
       strreplace(buffer, '|', '\t');

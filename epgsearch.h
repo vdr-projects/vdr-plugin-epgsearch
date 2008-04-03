@@ -52,6 +52,7 @@ public:
     virtual cString SVDRPCommand(const char *Cmd, const char *Option, int &ReplyCode);
     void LoadUserVars();
     void LoadConfD();
+    void CheckUTF8();
 };
 
 #endif
