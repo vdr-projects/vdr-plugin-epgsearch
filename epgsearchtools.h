@@ -97,7 +97,7 @@ using std::string;
 #define ICON_CLOCK_UTF8        "\uE00C"
 #define ICON_CLOCK_HALF_UTF8   "t"
 #define ICON_RUNNING_UTF8      "\uE012"
-#define ICON_VPS_UTF8          "V"
+#define ICON_VPS_UTF8          "\uE013"
 
 #if APIVERSNUM < 10503 
 #define Utf8BufSize(s) ((s) * 4)
