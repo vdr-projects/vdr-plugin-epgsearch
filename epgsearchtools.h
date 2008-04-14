@@ -95,7 +95,7 @@ using std::string;
 #define ICON_BAR_CLOSE_UTF8    "\uE00A"
 #define ICON_REC_UTF8          "\uE00B"
 #define ICON_CLOCK_UTF8        "\uE00C"
-#define ICON_CLOCK_HALF_UTF8   "t"
+#define ICON_CLOCK_HALF_UTF8   "\uE014"
 #define ICON_RUNNING_UTF8      "\uE012"
 #define ICON_VPS_UTF8          "\uE013"
 
