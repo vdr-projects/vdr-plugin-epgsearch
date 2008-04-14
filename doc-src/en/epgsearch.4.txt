@@ -589,7 +589,7 @@ To enable icons from WarEagleIcon-Patch simply put the line
 
 to F<epgsearchmenu.conf>. This also works for vdr>=1.5.3, which uses true type fonts, 
 if you have installed and selected the font VDRSymbols.ttf (available at 
-http://andreas.vdr-developer.org/enigmang/download)
+http://andreas.vdr-developer.org/fonts/download.html)
 
 NOTE: As long as there is a file epgsearchmenu.conf with an entry for a special
 menu, all setup settings regarding the look of this menu are ignored.
