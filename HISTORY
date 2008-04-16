@@ -3,38 +3,39 @@ VDR Plugin 'epgsearch' Revision History
 2008-xx-xx: Version 0.9.24
 new:
 - support for vdr-1.6.x
+- speedup in searching and search timer updates (about 25%)
+- speedup in EPG menues, thanks to patch authors from http://www.open7x0.org
 - support for VDRSymbols font (activate it with 'WarEagle=1' in epgsearchmenu.conf)
-- new SVDRP command 'LSCC' that returns the results of a timer conflict 
-  check. See the MANUAL for details about the format of the result list.
 - the EPG command 'Search in recordings' now evaluates the info.vdr instead of the
   recordings path name and also does fuzzy searching, suggested by Mase@vdrportal
 - search timers with action 'switch only' and switch timers now have an additional 
   option 'unmute sound' which unmutes audio at the event, if it was off, suggested 
   by Michael Brückner
-- speedup in searching and search timer updates (about 25%)
-- new patch against VDR (vdr-1.5.17-progressbar-support-0.0.1.diff) that adds support 
-  for graphical progressbars in skins classic and st:tng, thanks to zulu@vdrportal
-- speedup in EPG menues, thanks to patch authors from http://www.open7x0.org
-- '0' in the menu of done recordings now toggles the display of the episode name only
-- update of finnish translation, thanks to Rolf Ahrenberg
-- full spanish translation, many thanks to agusmir, dragondefuego, GenaroL, lopezm and
-  nachofr from todopvr.com, and especially to bittor
-- update of italian translation, thanks to Diego from vdr-italia.phpbb24.com 
-- update of dutch translation, thanks to carel@bugtracker
-- changes for builtin graphtft-patch (when using VDR-extension-patch you need > v.37)
-- updated the timercmd-patch for vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
-- added patches/README.patches to describe the existing patches
-- support for new info key behaviour in vdr-1.5.13
-- the favorites menu can now also be displayed after 'Overview - Now' via setup, 
-  suggested by Bittor Corl
-- update of 'undoneepgsearch.sh', a script to remove recordings from the done file via 
-  reccmds.conf, thanks to Viking@vdrportal.
-- menu of recordings done now sorts the date top down
 - the timer update notification mails supports now an additional variable 
   %timer.modreason%, that holds the reason for a timer update in plain text (see
   epgsearchupdmail(-html).templ for a sample)
 - support for a conf.d mechanism (s. MANUAL -> 14. The conf.d subdirectory), suggested
   by Mike Constabel.
+- new SVDRP command 'LSCC' that returns the results of a timer conflict 
+  check. See the MANUAL for details about the format of the result list.
+- new patch against VDR (vdr-1.5.17-progressbar-support-0.0.1.diff) that adds support 
+  for graphical progressbars in skins classic and st:tng, thanks to zulu@vdrportal
+- '0' in the menu of done recordings now toggles the display of the episode name only
+- the favorites menu can now also be displayed after 'Overview - Now' via setup, 
+  suggested by Bittor Corl
+- menu of recordings done now sorts the date top down
+- support for new info key behaviour in vdr-1.5.13
+- changes for builtin graphtft-patch (when using VDR-extension-patch you need > v.37)
+- updated the timercmd-patch for vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
+- added patches/README.patches to describe the existing patches
+- update of 'undoneepgsearch.sh', a script to remove recordings from the done file via 
+  reccmds.conf, thanks to Viking@vdrportal.
+- update of finnish translation, thanks to Rolf Ahrenberg
+- full spanish translation, many thanks to agusmir, dragondefuego, GenaroL, lopezm and
+  nachofr from todopvr.com, and especially to bittor
+- update of italian translation, thanks to Diego from vdr-italia.phpbb24.com 
+- update of dutch translation, thanks to carel@bugtracker
+
 fixes: 
 - shifting the time display: the start time now only gets displayed in 
   'Overview - Now' instead of a progressbar, if there's not already a start time 

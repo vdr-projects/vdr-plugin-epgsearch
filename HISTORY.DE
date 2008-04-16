@@ -4,42 +4,43 @@ VDR Plugin 'epgsearch' Revision History
 2008-xx-xx: Version 0.9.24
 neu:
 - Unterstützung von vdr-1.6.x
+- Die Suche und damit das Suchtimer-Update sind nun etwa 25% schneller
+- Schnellere EPG-Menüs, danke an die Patch-Authoren von http://www.open7x0.org
 - Unterstützung des VDRSymbols-Font (aktivieren mit 'WarEagle=1' in epgsearchmenu.conf)
-- neuer SVDRP-Befehl 'LSCC', der das Ergebnis einer Timerkonfliktprüfung 
-  zurückgibt. Zum Format der Ergebnisliste bitte ins MANUAL schauen.
 - der EPG-Befehl 'Suche in Aufnahmen' wertet nun die info.vdr anstelle des 
   Aufnahmepfades aus und macht zusätzlich eine fuzzy-Suche, vorgeschlagen von
   Mase@vdrportal
 - Suchtimer mit Aktion 'Nur umschalten' und Switchtimer haben jetzt eine weitere 
   Option 'Ton anschalten', wodurch der Ton beim Umschalten aktiviert wird, falls 
   er aus war, vorgeschlagen von Michael Brückner
-- Die Suche und damit das Suchtimer-Update sind nun etwa 25% schneller
-- Neuer Patch für VDR (vdr-1.5.17-progressbar-support-0.0.1.diff), der die Unter-
-  stützung eines grafischen Fortschrittsbalkens in den Skins classic und st:tng
-  einbaut, Danke an zulu@vdrportal.
-- Schnellere EPG-Menüs, danke an die Patch-Authoren von http://www.open7x0.org
-- '0' im Menü der erledigten Aufnahmen schaltet nun die Anzeige zwischen
-  '~Episode' und 'Titel~Episode' um.
-- Update der finnischen Übersetzung, Danke an Rolf Ahrenberg
-- Spanische Übersetzung, vielen Dank an agusmir, dragondefuego, GenaroL, lopezm und
-  nachofr von todopvr.com, und ein besonderer Dank an bittor
-- Update der italienischen Übersetzung, Danke an Diego von vdr-italia.phpbb24.com
-- Update der niederländischen Übersetzung, Danke an carel@bugtracker
-- Änderungen für den eingebauten graphtft-patch (bei Verwendung von 
-  VDR-extension-patch ist > v.37 notwendig)
-- Update des timercmd-patches für vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
-- Neue Datei patches/README.patches für eine Beschreibung der vorhandenen Patches
-- Unterstützung für das neue Info-Key-Verhalten in vdr-1.5.13
-- Das Favoriten-Menü kann jetzt auch per Setup nach 'Übersicht - Jetzt' angezeigt 
-  werden, vorgeschlagen von Bittor Corl
-- Update von 'undoneepgsearch.sh', einem Skript zum Entfernen einer Aufnahme aus dem
-  done-File über die reccmds.conf, Danke an Viking@vdrportal.
-- Im Menü "erledigte Aufnahmen" wird nun beim Datum absteigend sortiert.
 - Die Timer-Benachrichtigungsmail unterstützt nun eine weitere Variable 
   %timer.modreason%, in der im Klartext der Grund einer Timeränderung steht (s.
   epgsearchupdmail(-html).templ für ein Beispiel)
 - Unterstützung für einen conf.d-Mechanismus (s. MANUAL -> 14. The conf.d subdirectory), 
   vorgeschlagen von Mike Constabel
+- neuer SVDRP-Befehl 'LSCC', der das Ergebnis einer Timerkonfliktprüfung 
+  zurückgibt. Zum Format der Ergebnisliste bitte ins MANUAL schauen.
+- Neuer Patch für VDR (vdr-1.5.17-progressbar-support-0.0.1.diff), der die Unter-
+  stützung eines grafischen Fortschrittsbalkens in den Skins classic und st:tng
+  einbaut, Danke an zulu@vdrportal.
+- '0' im Menü der erledigten Aufnahmen schaltet nun die Anzeige zwischen
+  '~Episode' und 'Titel~Episode' um.
+- Das Favoriten-Menü kann jetzt auch per Setup nach 'Übersicht - Jetzt' angezeigt 
+  werden, vorgeschlagen von Bittor Corl
+- Im Menü "erledigte Aufnahmen" wird nun beim Datum absteigend sortiert.
+- Unterstützung für das neue Info-Key-Verhalten in vdr-1.5.13
+- Änderungen für den eingebauten graphtft-patch (bei Verwendung von 
+  VDR-extension-patch ist > v.37 notwendig)
+- Update des timercmd-patches für vdr-1.5.12 (patches/timercmd-0.1_1.5.12.diff)
+- Neue Datei patches/README.patches für eine Beschreibung der vorhandenen Patches
+- Update von 'undoneepgsearch.sh', einem Skript zum Entfernen einer Aufnahme aus dem
+  done-File über die reccmds.conf, Danke an Viking@vdrportal.
+- Update der finnischen Übersetzung, Danke an Rolf Ahrenberg
+- Spanische Übersetzung, vielen Dank an agusmir, dragondefuego, GenaroL, lopezm und
+  nachofr von todopvr.com, und ein besonderer Dank an bittor
+- Update der italienischen Übersetzung, Danke an Diego von vdr-italia.phpbb24.com
+- Update der niederländischen Übersetzung, Danke an carel@bugtracker
+
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 
   Fortschrittsbalken angezeigt, wenn in der Menüvorlage nicht bereits eine
