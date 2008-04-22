@@ -125,6 +125,8 @@ bool cMenuMyScheduleItem::Update(bool Force)
 		}
 	      else
 		{
+#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96 
+#else
 		  std::stringstream buffer;
 		  buffer << ICON_BAR_OPEN_UTF8;
 		  for(int i=0;i<8;i++) buffer << (i<frac?ICON_BAR_FULL_UTF8:ICON_BAR_EMPTY_UTF8);
@@ -132,6 +134,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
 		  char* temp = strdup(buffer.str().c_str());
 		  sprintf(szProgressPart, "%s", temp);
 		  free(temp);
+#endif
 		}
             }
             else
@@ -158,9 +161,12 @@ bool cMenuMyScheduleItem::Update(bool Force)
 	  }
 	else
 	  {
+#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96 
+#else
 	    sprintf(t, "%s", (event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC_UTF8:ICON_CLOCK_UTF8) : ICON_CLOCK_HALF_UTF8 : " "));
 	    sprintf(v, "%s", event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS_UTF8 : " ");
 	    sprintf(r, "%s", (event && event->IsRunning() ? ICON_RUNNING_UTF8 : " "));
+#endif
 	  }
       }
       else

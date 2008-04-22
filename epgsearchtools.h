@@ -77,6 +77,7 @@ using std::string;
 #define ISRADIO(x) ((x)->Vpid()==0||(x)->Vpid()==1||(x)->Vpid()==0x1fff)
 
 // Icons used in VDRSymbols-Font
+
 #define ICON_REC               0x8B
 #define ICON_RUNNING           0x92
 #define ICON_CLOCK             0x8C
@@ -87,7 +88,8 @@ using std::string;
 #define ICON_BAR_CLOSE         0x8A
 #define ICON_VPS               0x93
 
-/* previous WAREAGLE icons
+/*
+// previous WAREAGLE icons
 #define ICON_REC               0xF9
 #define ICON_RUNNING           0xFB
 #define ICON_CLOCK             0xFD
@@ -192,8 +194,13 @@ public:
 
 // --- icstring ------------------------------------------
 // a case-insensitive string class
-
-struct ignorecase_traits : public std::char_traits<char> {
+struct ignorecase_traits : public std::
+#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96
+string_char_traits<char>
+#else
+char_traits<char>
+#endif
+{
     // return whether c1 and c2 are equal
     static bool eq(const char& c1, const char& c2) {
       return (c1==c2 || std::toupper(c1)==std::toupper(c2));

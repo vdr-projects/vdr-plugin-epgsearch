@@ -21,6 +21,7 @@ The author can be reached at cwieninger@gmx.de
 The project's page is at http://winni.vdr-developer.org/epgsearch
 */
 
+#include <string>
 #include <vdr/plugin.h>
 #include "confdloader.h"
 #include "log.h"
@@ -29,6 +30,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "templatefile.h"
 #include "epgsearchcats.h"
 
+using std::string;
 
 // ---------------------------
 // Loads all files in the conf.d subdirectory of <plugin-config-directory> and
