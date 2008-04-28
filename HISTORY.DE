@@ -3,7 +3,7 @@ VDR Plugin 'epgsearch' Revision History
 
 2008-xx-xx: Version 0.9.24
 neu:
-- Unterstützung von vdr-1.6.x
+- Unterstützung von vdr-1.6.x/1.7.x
 - Die Suche und damit das Suchtimer-Update sind nun etwa 25% schneller
 - Schnellere EPG-Menüs, danke an die Patch-Authoren von http://www.open7x0.org
 - Unterstützung des VDRSymbols-Font (aktivieren mit 'WarEagle=1' in epgsearchmenu.conf)
@@ -40,6 +40,8 @@ neu:
   nachofr von todopvr.com, und ein besonderer Dank an bittor
 - Update der italienischen Übersetzung, Danke an Diego von vdr-italia.phpbb24.com
 - Update der niederländischen Übersetzung, Danke an carel@bugtracker
+- Die Setup-Option "Keine Ankündigungen bei Wiedergabe" wird jetzt ignoriert, wenn das
+  Suchtimer-Update manuell gestartet wurde, vorgeschlagen von Andreas Mair.
 
 fixes:
 - Shiften der Uhrzeit: die Startzeit wird jetzt nur noch dann anstelle des 

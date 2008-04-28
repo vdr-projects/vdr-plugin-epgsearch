@@ -2,7 +2,7 @@ VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 2008-xx-xx: Version 0.9.24
 new:
-- support for vdr-1.6.x
+- support for vdr-1.6.x/1.7.x
 - speedup in searching and search timer updates (about 25%)
 - speedup in EPG menues, thanks to patch authors from http://www.open7x0.org
 - support for VDRSymbols font (activate it with 'WarEagle=1' in epgsearchmenu.conf)
@@ -35,6 +35,8 @@ new:
   nachofr from todopvr.com, and especially to bittor
 - update of italian translation, thanks to Diego from vdr-italia.phpbb24.com 
 - update of dutch translation, thanks to carel@bugtracker
+- the setup option "No announcements when replaying" is now ignored, if the search timer
+  update was triggered manually, suggested by Andreas Mair.
 
 fixes: 
 - shifting the time display: the start time now only gets displayed in 

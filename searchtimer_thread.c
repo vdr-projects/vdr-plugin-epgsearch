@@ -382,7 +382,7 @@ void cSearchTimerThread::Action(void)
                {
                   if (t || // timer already exists or
                       NoAnnounces.InList(pEvent) || // announcement not wanted anymore or
-                      (EPGSearchConfig.noAnnounceWhileReplay && cDevice::PrimaryDevice()->Replaying()) // no announce while replay
+                      (EPGSearchConfig.noAnnounceWhileReplay && cDevice::PrimaryDevice()->Replaying() && updateForced != 2)  // no announce while replay within automatic updates
                      ) 
                   {
                      if (Summary) free(Summary);
@@ -493,7 +493,8 @@ void cSearchTimerThread::Action(void)
 						 *DateTime(conflictCheck.nextRelevantConflictDate));
                bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 || 
                   !cDevice::PrimaryDevice()->Replaying() || 
-                  conflictCheck.nextRelevantConflictDate - now < 2*60*60;
+                  conflictCheck.nextRelevantConflictDate - now < 2*60*60 ||
+		 updateForced == 2;
                if (doMessage && SendMsg(msgfmt, true,7) == kOk)			
                {
                   m_plugin->showConflicts = true;
