@@ -1,6 +1,6 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
-2008-xx-xx: Version 0.9.24
+2008-04-29: Version 0.9.24
 new:
 - support for vdr-1.6.x/1.7.x
 - speedup in searching and search timer updates (about 25%)
