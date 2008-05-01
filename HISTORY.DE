@@ -1,6 +1,10 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
+2008-xx-xx; Version 0.9.25
+neu:
+- Update der französischen Übersetzung, Danke an Patrice Staudt
+
 2008-04-29: Version 0.9.24
 neu:
 - Unterstützung von vdr-1.6.x/1.7.x

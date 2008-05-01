@@ -4,15 +4,15 @@
 # Jean-Claude Repetto <jc@repetto.org>, 2001
 # Olivier Jacques <jacquesolivier@hotmail.com>, 2003
 # Gregoire Favre <greg@magma.unil.ch>, 2003
-# Nicolas Huillard <nhuillard@e-dition.fr>, 2005
-#
+# Nicolas Huillard <nhuillard@e-dition.fr>, 2005 , 2007
+# Patrice Staudt <patrice.staudt@laposte.net>, 2008
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-04-17 18:22+0200\n"
-"PO-Revision-Date: 2007-08-14 20:21+0200\n"
-"Last-Translator: Nicolas Huillard <nhuillard@e-dition.fr>\n"
+"POT-Creation-Date: 2008-05-01 10:00+0200\n"
+"PO-Revision-Date: 2008-04-30 08:36+0200\n"
+"Last-Translator: Patrice Staudt <patrice.staudt@laposte.net>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -51,6 +51,10 @@ msgstr "Le nom est vide"
 msgid "Group name already exists!"
 msgstr "Le groupe existe déjà!"
 
+#, c-format
+msgid "%d timer conflict(s)! First at %s. Show them?"
+msgstr "%d de conflits de programmation! Le premier le %s. Afficher?"
+
 msgid "Direct access to epgsearch's conflict check menu"
 msgstr ""
 
@@ -58,14 +62,10 @@ msgid "Timer conflicts"
 msgstr "Conflits de programmation"
 
 msgid "Conflict info in main menu"
-msgstr ""
+msgstr "Conflits infos dans le menu principale"
 
 msgid "next"
-msgstr ""
-
-#, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
-msgstr "%d de conflits de programmation! Le premier le %s. Afficher?"
+msgstr "prochain"
 
 msgid "search the EPG for repeats and more"
 msgstr "Recherche de répétition dans EPG"
@@ -74,13 +74,13 @@ msgid "Program guide"
 msgstr "Guide du programme"
 
 msgid "Direct access to epgsearch's search menu"
-msgstr ""
+msgstr "Accès direct dans epgsearch dans le menu recherche"
 
 msgid "Search"
 msgstr "Recherche"
 
 msgid "EpgSearch-Search in main menu"
-msgstr ""
+msgstr "EpgSearch-Recherche dans le menu proncipale"
 
 msgid "Button$Help"
 msgstr "Aide"
@@ -116,7 +116,7 @@ msgid "after user-def. times"
 msgstr "après le temp utilisateur"
 
 msgid "before 'next'"
-msgstr ""
+msgstr "avant 'le prochain'"
 
 msgid "General"
 msgstr "Général"
@@ -152,7 +152,7 @@ msgid "Help$The name of the main menu entry which defaults to 'Programm guide'."
 msgstr "Le nom dans le menu principale. La prédéfinition est 'Guide du programme'. "
 
 msgid "Replace original schedule"
-msgstr ""
+msgstr "Remplace le menu d'origine programme"
 
 msgid "Help$When VDR is patched to allow this plugin to replace the original 'Schedule' entry, you can de/activate this replacement here."
 msgstr "Lorsque le VDR est muni du patch pour autoriser le remplacement du menu original 'Programme' , vous pouvez activer ou déactiver celui-ci."
@@ -497,13 +497,13 @@ msgid "Help$Set this to 'yes' if you want to get an email notification about the
 msgstr "Mettez 'oui',si les conflits de programmation doivent être notifiés."
 
 msgid "Send to"
-msgstr ""
+msgstr "Envoyer à"
 
 msgid "Help$Specify the email adress where notifications should be sent to."
 msgstr "Ici vous indiquez l'adresse mail, a laquelle les notifications sont envoyées."
 
 msgid "Mail method"
-msgstr ""
+msgstr "Méthode de couriel"
 
 msgid ""
 "Help$Specify here the method to use when sending mails.\n"
@@ -513,13 +513,13 @@ msgid ""
 msgstr ""
 
 msgid "--- Email account ---"
-msgstr "--- Compte mail ---"
+msgstr "--- Compte courriel ---"
 
 msgid "Email adress"
-msgstr "Adresse Mail"
+msgstr "Adresse courriel"
 
 msgid "Help$Specify the email adress where notifications should be sent from."
-msgstr ""
+msgstr "Préciser l'adresse courriel de l'envoyeur des notifications"
 
 msgid "SMTP server"
 msgstr "Serveur SMTP"
@@ -555,10 +555,10 @@ msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 msgstr " aàbcçdeéèêfghiîjklmnoôpqrstuùûvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
 msgid "Start/Stop time has changed"
-msgstr ""
+msgstr "Start/Stop date a changé"
 
 msgid "Title/episode has changed"
-msgstr ""
+msgstr "Titre/épisode a changé"
 
 msgid "No new timers were added."
 msgstr "Il n'y a pas eu de nouvelle programmation."
@@ -570,10 +570,10 @@ msgid "No timers were deleted."
 msgstr "Aucune programmation n'a été effacée."
 
 msgid "This version of EPGSearch does not support this service!"
-msgstr ""
+msgstr "Cette version de EPGSearch ne supporte pas ce service!"
 
 msgid "EPGSearch does not exist!"
-msgstr ""
+msgstr "EPGSearch n'existe pas!"
 
 #, c-format
 msgid "%d new broadcast"
@@ -592,7 +592,7 @@ msgid "Button$Title"
 msgstr "Titre"
 
 msgid "announce details"
-msgstr ""
+msgstr "annoncer les détails"
 
 msgid "announce again"
 msgstr "Annoncer à nouveau"
@@ -664,7 +664,7 @@ msgid "Use extended EPG info"
 msgstr "Utiliser les infos EPG avancées"
 
 msgid "Ignore missing categories"
-msgstr ""
+msgstr "Ignorer les catégories indisponible"
 
 msgid "Use channel"
 msgstr "Utiliser les chaînes"
@@ -706,7 +706,7 @@ msgid "Button$Templates"
 msgstr "Modéles"
 
 msgid "*** Invalid Channel ***"
-msgstr ""
+msgstr "*** Chaîne indisponible ***"
 
 msgid "Please check channel criteria!"
 msgstr "Vérifier le critère de la chaîne!"
@@ -748,7 +748,7 @@ msgid "Button$Details"
 msgstr "Détails"
 
 msgid "Button$Filter"
-msgstr ""
+msgstr "Filtre"
 
 msgid "Button$Show all"
 msgstr "Montrer tous"
@@ -784,7 +784,7 @@ msgid "Button$Level"
 msgstr "Niveau"
 
 msgid "Event"
-msgstr ""
+msgstr "Événement"
 
 msgid "Favorites"
 msgstr "Favoris"
@@ -796,7 +796,7 @@ msgid "Timer conflict! Show?"
 msgstr "Afficher les conflits de programmation?"
 
 msgid "Channel"
-msgstr ""
+msgstr "Chaîne"
 
 msgid "Childlock"
 msgstr "Adulte"
@@ -811,7 +811,7 @@ msgid "recording with device"
 msgstr "Enregistrement avec appareil"
 
 msgid "File"
-msgstr ""
+msgstr "Fichier"
 
 msgid "Button$With subtitle"
 msgstr "Avec les sous-titres"
@@ -820,7 +820,7 @@ msgid "Button$Without subtitle"
 msgstr "Sans sous-titres"
 
 msgid "Day"
-msgstr ""
+msgstr "Jour"
 
 msgid "Button$Extended"
 msgstr "Extention"
@@ -844,7 +844,7 @@ msgid "Button$Delete all"
 msgstr "Effacer toutes"
 
 msgid "Recordings"
-msgstr ""
+msgstr "Enregistrement"
 
 msgid "Edit$Delete entry?"
 msgstr "Effacer l'entrée"
@@ -860,6 +860,21 @@ msgstr "Informations supplémentaires"
 
 msgid "Button$Aux info"
 msgstr "Infos supplémentaires"
+
+msgid "Button$Actions"
+msgstr "Actions"
+
+msgid "Search entries"
+msgstr "Entrée de recherche"
+
+msgid "active"
+msgstr "actif"
+
+msgid "Edit$Delete search?"
+msgstr "Effacer la recherche"
+
+msgid "Delete all timers created from this search?"
+msgstr "Effacer les programmations issues de cette recherche?"
 
 msgid "Search actions"
 msgstr "Actions de recherche"
@@ -880,7 +895,7 @@ msgid "Show timers created"
 msgstr "Afficher la programmation effectuée"
 
 msgid "Create a copy"
-msgstr ""
+msgstr "Créer une copie"
 
 msgid "Use as template"
 msgstr "Utiliser comme modèles"
@@ -910,28 +925,13 @@ msgid "Run search timer update?"
 msgstr "Mise à jours programmation de recherche?"
 
 msgid "Copy this entry?"
-msgstr ""
+msgstr "Copier cette entrée"
 
 msgid "Copy"
-msgstr ""
+msgstr "Copier"
 
 msgid "Copy this entry to templates?"
 msgstr "Copier cette entrée dans modèles?"
-
-msgid "Delete all timers created from this search?"
-msgstr "Effacer les programmations issues de cette recherche?"
-
-msgid "Button$Actions"
-msgstr "Actions"
-
-msgid "Search entries"
-msgstr "Entrée de recherche"
-
-msgid "active"
-msgstr "actif"
-
-msgid "Edit$Delete search?"
-msgstr "Effacer la recherche"
 
 msgid "Edit search"
 msgstr "Edition recherche"
@@ -952,19 +952,19 @@ msgid "all"
 msgstr "tous"
 
 msgid "count recordings"
-msgstr ""
+msgstr "compter enregistrements"
 
 msgid "count days"
-msgstr ""
+msgstr "compter jours"
 
 msgid "Template name"
 msgstr "Nom du modèle"
 
 msgid "Help$Specify the name of the template."
-msgstr ""
+msgstr "Spécifier le nom du modèle."
 
 msgid "Help$Specify here the term to search for."
-msgstr ""
+msgstr "Spécifier ici le term de la recherche."
 
 msgid ""
 "Help$The following search modes exist:\n"
@@ -1017,7 +1017,7 @@ msgid "Switch ... minutes before start"
 msgstr "Changer ... minutes avant le début"
 
 msgid "Unmute sound"
-msgstr ""
+msgstr "Remettre le son"
 
 msgid "  Series recording"
 msgstr "  Enregistrement de serie"
@@ -1053,16 +1053,16 @@ msgid "Compare categories"
 msgstr "Comparer categories"
 
 msgid "VPS"
-msgstr ""
+msgstr "iVPS"
 
 msgid "Auto delete"
-msgstr ""
+msgstr "Auto effacement"
 
 msgid "after ... recordings"
-msgstr ""
+msgstr "après ... enregistrements"
 
 msgid "after ... days after first rec."
-msgstr ""
+msgstr "après ... jours du premier enregistrement"
 
 msgid "Edit user-defined days of week"
 msgstr "Edition des journées définit par l'utilisateur"
@@ -1080,31 +1080,31 @@ msgid "Button$Apply"
 msgstr "Appliquer"
 
 msgid "less"
-msgstr ""
+msgstr "plus petit"
 
 msgid "less or equal"
-msgstr ""
+msgstr "plus petit ou égale"
 
 msgid "greater"
-msgstr ""
+msgstr "plus grand"
 
 msgid "greater or equal"
-msgstr ""
+msgstr "plus grand ou égale"
 
 msgid "equal"
-msgstr ""
+msgstr "égale"
 
 msgid "not equal"
-msgstr ""
+msgstr "pas égale"
 
 msgid "Activation of search timer"
-msgstr ""
+msgstr "Activation de la recherche de programmation"
 
 msgid "First day"
-msgstr ""
+msgstr "Premier jour"
 
 msgid "Last day"
-msgstr ""
+msgstr "Dernier jour"
 
 msgid "Button$all channels"
 msgstr "avec TV-Payante"
@@ -1122,7 +1122,7 @@ msgid "found recordings"
 msgstr "Enregistrements trouvées"
 
 msgid "Error while accessing recording!"
-msgstr ""
+msgstr "Erreur lors de l'accès à l'enregistrement"
 
 msgid "Button$Default"
 msgstr "Standart"
@@ -1146,7 +1146,7 @@ msgid "Edit template"
 msgstr "Editer modèles"
 
 msgid "Timers"
-msgstr ""
+msgstr "Programmations"
 
 msgid ">>> no info! <<<"
 msgstr ">>> Pas d'information! <<<"
@@ -1158,13 +1158,13 @@ msgid "Button$Favorites"
 msgstr "Favoris"
 
 msgid "Quick search for broadcasts"
-msgstr ""
+msgstr "Recherche rapide pour les radios"
 
 msgid "Quick search"
 msgstr "Recherche rapide"
 
 msgid "Show in main menu"
-msgstr ""
+msgstr "Visible dans le menu principale"
 
 #, c-format
 msgid "%d new broadcast(s) found! Show them?"

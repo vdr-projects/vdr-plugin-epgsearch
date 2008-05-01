@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-04-17 18:22+0200\n"
+"POT-Creation-Date: 2008-05-01 10:00+0200\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -48,6 +48,10 @@ msgstr "¡Nombre del grupo vacío!"
 msgid "Group name already exists!"
 msgstr "¡Ya existe el nombre del grupo!"
 
+#, c-format
+msgid "%d timer conflict(s)! First at %s. Show them?"
+msgstr "¡%d conflicto(s) de programación! El 1º a las %s. ¿Mostrarlos?"
+
 msgid "Direct access to epgsearch's conflict check menu"
 msgstr "Acceso directo al menú de conflictos EPGSearch"
 
@@ -59,10 +63,6 @@ msgstr "Mostrar conflictos en menú principal"
 
 msgid "next"
 msgstr "siguiente"
-
-#, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
-msgstr "¡%d conflicto(s) de programación! El 1º a las %s. ¿Mostrarlos?"
 
 msgid "search the EPG for repeats and more"
 msgstr "Buscar repeticiones en la EPG"
@@ -862,6 +862,21 @@ msgstr "Más información"
 msgid "Button$Aux info"
 msgstr "Más info"
 
+msgid "Button$Actions"
+msgstr "Acciones"
+
+msgid "Search entries"
+msgstr "Entradas de búsqueda"
+
+msgid "active"
+msgstr "activa"
+
+msgid "Edit$Delete search?"
+msgstr "¿Borrar la búsqueda?"
+
+msgid "Delete all timers created from this search?"
+msgstr "¿Borrar las programaciones creadas por esta búsqueda?"
+
 msgid "Search actions"
 msgstr "Acciones de búsqueda"
 
@@ -918,21 +933,6 @@ msgstr "Copiar"
 
 msgid "Copy this entry to templates?"
 msgstr "¿Copiar esta entrada a plantillas?"
-
-msgid "Delete all timers created from this search?"
-msgstr "¿Borrar las programaciones creadas por esta búsqueda?"
-
-msgid "Button$Actions"
-msgstr "Acciones"
-
-msgid "Search entries"
-msgstr "Entradas de búsqueda"
-
-msgid "active"
-msgstr "activa"
-
-msgid "Edit$Delete search?"
-msgstr "¿Borrar la búsqueda?"
 
 msgid "Edit search"
 msgstr "Editar búsqueda"
@@ -1196,4 +1196,3 @@ msgstr "en %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "en %02ldm"
-

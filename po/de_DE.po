@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-04-17 18:22+0200\n"
+"POT-Creation-Date: 2008-05-01 10:00+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -48,6 +48,10 @@ msgstr "Gruppenname ist leer!"
 msgid "Group name already exists!"
 msgstr "Gruppe existiert bereits!"
 
+#, c-format
+msgid "%d timer conflict(s)! First at %s. Show them?"
+msgstr "%d Timer-Konflikt(e)! Erster am %s. Anzeigen?"
+
 msgid "Direct access to epgsearch's conflict check menu"
 msgstr "Direkter Zugriff auf epgsearch's Konflikt-Prüfungs-Menü"
 
@@ -59,10 +63,6 @@ msgstr "Konflikt-Info im Hauptmenü"
 
 msgid "next"
 msgstr "nächster"
-
-#, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
-msgstr "%d Timer-Konflikt(e)! Erster am %s. Anzeigen?"
 
 msgid "search the EPG for repeats and more"
 msgstr "Suche im EPG nach Wiederholungen und anderem"
@@ -862,6 +862,21 @@ msgstr "Zusatzinfo"
 msgid "Button$Aux info"
 msgstr "Zusatzinfo"
 
+msgid "Button$Actions"
+msgstr "Aktionen"
+
+msgid "Search entries"
+msgstr "Sucheinträge"
+
+msgid "active"
+msgstr "aktiv"
+
+msgid "Edit$Delete search?"
+msgstr "Suche löschen?"
+
+msgid "Delete all timers created from this search?"
+msgstr "Alle Timer löschen, die von dieser Suche erzeugt wurden?"
+
 msgid "Search actions"
 msgstr "Suchaktionen"
 
@@ -918,21 +933,6 @@ msgstr "Kopie"
 
 msgid "Copy this entry to templates?"
 msgstr "Diesen Eintrag in Vorlagen kopieren?"
-
-msgid "Delete all timers created from this search?"
-msgstr "Alle Timer löschen, die von dieser Suche erzeugt wurden?"
-
-msgid "Button$Actions"
-msgstr "Aktionen"
-
-msgid "Search entries"
-msgstr "Sucheinträge"
-
-msgid "active"
-msgstr "aktiv"
-
-msgid "Edit$Delete search?"
-msgstr "Suche löschen?"
 
 msgid "Edit search"
 msgstr "Suche editieren"

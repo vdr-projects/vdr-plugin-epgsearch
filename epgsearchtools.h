@@ -76,8 +76,9 @@ using std::string;
 
 #define ISRADIO(x) ((x)->Vpid()==0||(x)->Vpid()==1||(x)->Vpid()==0x1fff)
 
-// Icons used in VDRSymbols-Font
 
+#if APIVERSNUM >= 10503 
+// Icons used in VDRSymbols-Font
 #define ICON_REC               0x8B
 #define ICON_RUNNING           0x92
 #define ICON_CLOCK             0x8C
@@ -87,8 +88,7 @@ using std::string;
 #define ICON_BAR_EMPTY         0x89
 #define ICON_BAR_CLOSE         0x8A
 #define ICON_VPS               0x93
-
-/*
+#else
 // previous WAREAGLE icons
 #define ICON_REC               0xF9
 #define ICON_RUNNING           0xFB
@@ -99,7 +99,7 @@ using std::string;
 #define ICON_BAR_EMPTY         0x83
 #define ICON_BAR_CLOSE         0x84
 #define ICON_VPS               0x56
-*/
+#endif
 
 // UTF-8 Icons
 #define ICON_BAR_OPEN_UTF8     "\uE007"
