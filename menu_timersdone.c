@@ -202,9 +202,12 @@ eOSState cMenuTimersDone::ProcessKey(eKeys Key)
          case kOk:
          {
             cTimerDone *TimerDone = CurrentTimerDone();
-            const cEvent* Event = TimerDone->GetEvent();
-            if (!Event) break;
-            return AddSubMenu(new cMenuEventSearchSimple(Event, eventObjects));
+	    if (TimerDone)
+	      {
+		const cEvent* Event = TimerDone->GetEvent();
+		if (!Event) break;
+		return AddSubMenu(new cMenuEventSearchSimple(Event, eventObjects));
+	      }
          }
          default: break;
       }

@@ -5,6 +5,8 @@ VDR Plugin 'epgsearch' Revision History
 new:
 - french translation update, thanks to Patrice Staudt
 
+fixes:
+- fixed a crash when pressing 'Ok' in an empty timers done menu
 
 2008-04-29: Version 0.9.24
 new:

@@ -5,6 +5,10 @@ VDR Plugin 'epgsearch' Revision History
 neu:
 - Update der französischen Übersetzung, Danke an Patrice Staudt
 
+fixes:
+- Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
+
+
 2008-04-29: Version 0.9.24
 neu:
 - Unterstützung von vdr-1.6.x/1.7.x

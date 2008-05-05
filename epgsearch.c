@@ -65,6 +65,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_quicksearch.h"
 #include "menu_announcelist.h"
 #include "confdloader.h"
+#if APIVERSNUM >= 10503 
+#include <langinfo.h>
+#endif
 
 static const char VERSION[]        = "0.9.25.beta1";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");

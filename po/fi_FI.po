@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-05-01 10:00+0200\n"
+"POT-Creation-Date: 2008-05-01 14:37+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -51,10 +51,6 @@ msgstr "Kanavaryhm‰lt‰ puuttuu nimi!"
 msgid "Group name already exists!"
 msgstr "Samanniminen kanavaryhm‰ on jo olemassa!"
 
-#, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
-msgstr "P‰‰llekk‰isi‰ ajastimia (%d kpl %s)! N‰ytet‰‰nkˆ?"
-
 msgid "Direct access to epgsearch's conflict check menu"
 msgstr "Suoratoiminto EPGSearch-laajennoksen ajastimien tarkistukselle"
 
@@ -66,6 +62,10 @@ msgstr "N‰yt‰ p‰‰llekk‰isyydet p‰‰valikossa"
 
 msgid "next"
 msgstr "seuraava"
+
+#, c-format
+msgid "%d timer conflict(s)! First at %s. Show them?"
+msgstr "P‰‰llekk‰isi‰ ajastimia (%d kpl %s)! N‰ytet‰‰nkˆ?"
 
 msgid "search the EPG for repeats and more"
 msgstr "Monipuolinen ohjelmaopas hakutoiminnolla"
@@ -866,21 +866,6 @@ msgstr "Lis‰tiedot"
 msgid "Button$Aux info"
 msgstr "Lis‰tiedot"
 
-msgid "Button$Actions"
-msgstr "Komennot"
-
-msgid "Search entries"
-msgstr "Hakutermit"
-
-msgid "active"
-msgstr "aktiivista"
-
-msgid "Edit$Delete search?"
-msgstr "Poistetaanko haku?"
-
-msgid "Delete all timers created from this search?"
-msgstr "Poistetaanko kaikki t‰ll‰ haulla luodut ajastimet?"
-
 msgid "Search actions"
 msgstr "Hakukomennot"
 
@@ -937,6 +922,21 @@ msgstr "Kopio"
 
 msgid "Copy this entry to templates?"
 msgstr "Kopioidaanko hakutermi mallipohjaksi?"
+
+msgid "Delete all timers created from this search?"
+msgstr "Poistetaanko kaikki t‰ll‰ haulla luodut ajastimet?"
+
+msgid "Button$Actions"
+msgstr "Komennot"
+
+msgid "Search entries"
+msgstr "Hakutermit"
+
+msgid "active"
+msgstr "aktiivista"
+
+msgid "Edit$Delete search?"
+msgstr "Poistetaanko haku?"
 
 msgid "Edit search"
 msgstr "Muokkaa hakua"

@@ -95,7 +95,7 @@ using std::string;
 #define ICON_CLOCK             0xFD
 #define ICON_CLOCK_HALF        0x74
 #define ICON_BAR_OPEN          0x82
-#define ICON_BAR_FULL          0xFF
+#define ICON_BAR_FULL          0x7F
 #define ICON_BAR_EMPTY         0x83
 #define ICON_BAR_CLOSE         0x84
 #define ICON_VPS               0x56
