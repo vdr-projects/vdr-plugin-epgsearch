@@ -523,6 +523,9 @@ The following variables exist:
  %timeend%        - end time in format HH:MM
  %date%           - start date in format TT.MM.YY
  %datesh%         - start date in format TT.MM.
+ %year%           - year with century
+ %month%          - month (1-12)
+ %day%            - day (1-31)
  %time_w%         - weekday name
  %time_d%         - start day in format TT
  %time_lng%       - start time in seconds since 1970-01-01 00:00

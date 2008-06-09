@@ -102,7 +102,8 @@ bool cMenuMyScheduleItem::Update(bool Force)
 	      if (mode == showNow)
 		{
 		  int dur = event->Duration();
-		  frac = ((now - startTime) * 8 + (dur >> 1)) / dur;
+		  if (dur != 0)
+		    frac = ((now - startTime) * 8 + (dur >> 1)) / dur;
 		}
 	      if (mode == showNext)
 		frac = (  ( 30*60 - min((long int)30*60, startTime - now) ) * 8 + 15*60  ) / (30*60);

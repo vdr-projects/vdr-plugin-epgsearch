@@ -3,10 +3,16 @@ VDR Plugin 'epgsearch' Revision History
 
 2008-xx-xx; Version 0.9.25
 new:
+- new internal variables:
+  * %day%, %month% and %year% which return the numeric day, month and year
+    (with century) of an event
+  * %chgrp% returns the VDR channel group name corresponding to an event    
 - french translation update, thanks to Patrice Staudt
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
+- fixed a crash when using the progressbar and events with 0 duration exist, thanks 
+  to egal@vdrportal
 
 2008-04-29: Version 0.9.24
 new:

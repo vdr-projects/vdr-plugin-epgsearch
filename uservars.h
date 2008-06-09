@@ -303,6 +303,51 @@ public:
 	}
 };
 
+class cYearVar : public cInternalVar {
+public:
+    cYearVar() : cInternalVar("%year%") {}
+    string Evaluate(const cEvent* e, bool escapeStrings = false) 
+	{ 
+	    if (!e) return "";
+	    char year[5] = "";
+	    struct tm tm_r;
+	    const time_t t = e->StartTime();
+	    tm *tm = localtime_r(&t, &tm_r);
+	    strftime(year, sizeof(year), "%Y", tm);
+	    if (escapeStrings) return "'" + EscapeString(year) + "'"; else return year;
+	}
+};
+
+class cMonthVar : public cInternalVar {
+public:
+    cMonthVar() : cInternalVar("%year%") {}
+    string Evaluate(const cEvent* e, bool escapeStrings = false) 
+	{ 
+	    if (!e) return "";
+	    char month[3] = "";
+	    struct tm tm_r;
+	    const time_t t = e->StartTime();
+	    tm *tm = localtime_r(&t, &tm_r);
+	    strftime(month, sizeof(month), "%m", tm);
+	    if (escapeStrings) return "'" + EscapeString(month) + "'"; else return month;
+	}
+};
+
+class cDayVar : public cInternalVar {
+public:
+    cDayVar() : cInternalVar("%day%") {}
+    string Evaluate(const cEvent* e, bool escapeStrings = false) 
+	{ 
+	    if (!e) return "";
+	    char day[3] = "";
+	    struct tm tm_r;
+	    const time_t t = e->StartTime();
+	    tm *tm = localtime_r(&t, &tm_r);
+	    strftime(day, sizeof(day), "%d", tm);
+	    if (escapeStrings) return "'" + EscapeString(day) + "'"; else return day;
+	}
+};
+
 class cChannelNrVar : public cInternalVar {
 public:
     cChannelNrVar() : cInternalVar("%chnr%") {}
@@ -346,6 +391,22 @@ class cChannelDataVar : public cInternalVar {
 	    if (!e) return "";
 	    cChannel *channel = Channels.GetByChannelID(e->ChannelID(), true);
 	    return channel?CHANNELSTRING(channel):"";
+	}
+};
+
+class cChannelGroupVar : public cInternalVar {
+public:
+    cChannelGroupVar() : cInternalVar("%chgrp%") {}
+    string Evaluate(const cEvent* e, bool escapeStrings = false) 
+	{ 
+	    if (!e) return "";
+	    ostringstream os;
+	    cChannel *channel = Channels.GetByChannelID(e->ChannelID(), true);
+	    while(channel && !channel->GroupSep())
+	      channel = Channels.Prev(channel);
+	    if (!channel || !channel->Name()) return "";
+	    string grpName = channel->Name();
+	    if (escapeStrings) return "'" + EscapeString(grpName) + "'"; else return grpName;
 	}
 };
 
@@ -565,10 +626,14 @@ class cUserVars : public cList<cUserVar> {
     cLength_Var length_Var;
     cDateVar dateVar;
     cDateShortVar dateShortVar;
+    cYearVar yearVar;
+    cMonthVar monthVar;
+    cDayVar dayVar;
     cChannelNrVar chnrVar;
     cChannelShortVar chShortVar;
     cChannelLongVar chLongVar;
     cChannelDataVar chDataVar;
+    cChannelGroupVar chGroupVar;
     cSearchQueryVar searchQueryVar;
 
     cColonVar colonVar;
@@ -611,10 +676,14 @@ class cUserVars : public cList<cUserVar> {
 	    internalVars[length_Var.Name()] = &length_Var;
 	    internalVars[dateVar.Name()] = &dateVar;
 	    internalVars[dateShortVar.Name()] = &dateShortVar;
+	    internalVars[yearVar.Name()] = &yearVar;
+	    internalVars[monthVar.Name()] = &monthVar;
+	    internalVars[dayVar.Name()] = &dayVar;
 	    internalVars[chnrVar.Name()] = &chnrVar;
 	    internalVars[chShortVar.Name()] = &chShortVar;
 	    internalVars[chLongVar.Name()] = &chLongVar;
 	    internalVars[chDataVar.Name()] = &chDataVar;
+	    internalVars[chGroupVar.Name()] = &chGroupVar;
 
 	    internalVars[colonVar.Name()] = &colonVar;
 	    internalVars[dateNowVar.Name()] = &dateNowVar;

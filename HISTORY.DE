@@ -3,10 +3,16 @@ VDR Plugin 'epgsearch' Revision History
 
 2008-xx-xx; Version 0.9.25
 neu:
+- neue interne Variablen:
+  * %day%, %month% und %year% liefern den numerische Tag, das Monat und das
+    Jahr (mit Jahrhundert) einer Sendung
+  * %chgrp% liefert die VDR Kanalgruppe einer Sendung
 - Update der französischen Übersetzung, Danke an Patrice Staudt
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
+- Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen
+  der Länge 0 behoben. Danke an egal@vdrportal
 
 
 2008-04-29: Version 0.9.24
