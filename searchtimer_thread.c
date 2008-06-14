@@ -382,7 +382,9 @@ void cSearchTimerThread::Action(void)
                {
                   if (t || // timer already exists or
                       NoAnnounces.InList(pEvent) || // announcement not wanted anymore or
-                      (EPGSearchConfig.noAnnounceWhileReplay && cDevice::PrimaryDevice()->Replaying() && updateForced != 2)  // no announce while replay within automatic updates
+                      (EPGSearchConfig.noAnnounceWhileReplay && 
+		       cDevice::PrimaryDevice()->Replaying() && cDevice::PrimaryDevice()->Transferring() && 
+		       updateForced != 2)  // no announce while replay within automatic updates
                      ) 
                   {
                      if (Summary) free(Summary);
