@@ -8,6 +8,7 @@ neu:
     Jahr (mit Jahrhundert) einer Sendung
   * %chgrp% liefert die VDR Kanalgruppe einer Sendung
 - Update der französischen Übersetzung, Danke an Patrice Staudt
+- Update der italienischen Übersetzung, Danke an Diego Pierotto
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
@@ -52,7 +53,7 @@ neu:
 - Update der finnischen Übersetzung, Danke an Rolf Ahrenberg
 - Spanische Übersetzung, vielen Dank an agusmir, dragondefuego, GenaroL, lopezm und
   nachofr von todopvr.com, und ein besonderer Dank an bittor
-- Update der italienischen Übersetzung, Danke an Diego von vdr-italia.phpbb24.com
+- Update der italienischen Übersetzung, Danke an Diego Pierotto
 - Update der niederländischen Übersetzung, Danke an carel@bugtracker
 - Die Setup-Option "Keine Ankündigungen bei Wiedergabe" wird jetzt ignoriert, wenn das
   Suchtimer-Update manuell gestartet wurde, vorgeschlagen von Andreas Mair.

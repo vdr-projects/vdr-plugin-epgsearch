@@ -8,6 +8,7 @@ new:
     (with century) of an event
   * %chgrp% returns the VDR channel group name corresponding to an event    
 - french translation update, thanks to Patrice Staudt
+- italian translation update, thanks to Diego Pierotto
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
@@ -47,7 +48,7 @@ new:
 - update of finnish translation, thanks to Rolf Ahrenberg
 - full spanish translation, many thanks to agusmir, dragondefuego, GenaroL, lopezm and
   nachofr from todopvr.com, and especially to bittor
-- update of italian translation, thanks to Diego from vdr-italia.phpbb24.com 
+- update of italian translation, thanks to Diego Pierotto 
 - update of dutch translation, thanks to carel@bugtracker
 - the setup option "No announcements when replaying" is now ignored, if the search timer
   update was triggered manually, suggested by Andreas Mair.
