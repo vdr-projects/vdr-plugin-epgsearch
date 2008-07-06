@@ -872,6 +872,9 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
          free(szTest);
          szTest = NULL;
       }
+      
+      if (skipRunningEvents && tNow > p->StartTime())
+	continue;
 
       // ignore events without title
       if (!p->Title() || !*p->Title())
@@ -1071,6 +1074,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
       CheckRepeatTimers(pSearchResults);
    }
 
+   skipRunningEvents = false;
    return pSearchResults;
 }
 

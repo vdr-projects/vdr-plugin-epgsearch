@@ -163,6 +163,7 @@ public:
   int      ignoreMissingEPGCats;
   int      unmuteSoundOnSwitch;
 
+  bool     skipRunningEvents;
   static char *buffer;
 public:
   cSearchExt(void);

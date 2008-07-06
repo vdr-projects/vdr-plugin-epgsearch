@@ -148,7 +148,8 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                   // check for search timers to delete automatically
                   SearchExts.CheckForAutoDelete(search);
 
-                  // trigger a search timer update
+                  // trigger a search timer update (skip running events)
+		  search->skipRunningEvents = true;
                   updateForced = 1;			
                }
                else if (tiR->lastBreak == 0) // store first break
