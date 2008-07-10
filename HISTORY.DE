@@ -14,6 +14,9 @@ fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen
   der Länge 0 behoben. Danke an egal@vdrportal
+- Wenn eine unvollständige Aufnahme ein Suchtimer-Update für einen Suchtimer mit
+  'Wiederholung vermeiden' auslöst, werden nun bereits laufende Sendungen als Wieder-
+  holung ignoriert.
 
 
 2008-04-29: Version 0.9.24

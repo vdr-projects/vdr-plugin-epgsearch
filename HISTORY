@@ -14,6 +14,8 @@ fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 
   to egal@vdrportal
+- when an incomplete recording triggers a search timer update for a search timer 
+  with 'avoid repeats' now running events are ignored for the repeats.
 
 2008-04-29: Version 0.9.24
 new:
