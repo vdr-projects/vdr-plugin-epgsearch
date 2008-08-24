@@ -31,6 +31,7 @@ class cSwitchTimerThread: public cThread {
  private:
     bool m_Active;
     time_t m_lastUpdate;
+    cCondWait Wait;
  protected:
     virtual void Action(void);
     void Stop(void);

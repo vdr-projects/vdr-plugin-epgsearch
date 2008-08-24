@@ -77,6 +77,7 @@ void cConflictCheckThread::Exit(void) {
 
 void cConflictCheckThread::Stop(void) {
     m_Active = false;
+    Wait.Signal();
     Cancel(6);
 }
 
@@ -86,9 +87,9 @@ void cConflictCheckThread::Action(void)
 
     m_Active = true;
     // let VDR do its startup
-    if (!m_runOnce)   
+    if (!m_runOnce)
       for(int wait = 0; wait < CONFLCHECK_WAIT && m_Active; wait++)
-	sleepSec(1);
+	Wait.Wait(1000);
 
     time_t nextUpdate = time(NULL);
     while (m_Active) 
@@ -96,16 +97,16 @@ void cConflictCheckThread::Action(void)
 	time_t now = time(NULL);
 	if (now >= nextUpdate || m_forceUpdate)
 	{
-        m_forceUpdate = false;
-	    if (Timers.BeingEdited()) 		
+	    m_forceUpdate = false;
+	    if (Timers.BeingEdited())
 	    {
-		sleepSec(1);
+		Wait.Wait(1000);
 		continue;
 	    }
 	    LogFile.iSysLog("timer conflict check started");
 
-	    cConflictCheck conflictCheck;   
-	    conflictCheck.Check(); 
+	    cConflictCheck conflictCheck;
+	    conflictCheck.Check();
 
 	    time_t nextConflict = 0;
 	    if (conflictCheck.relevantConflicts > 0)
@@ -138,18 +139,20 @@ void cConflictCheckThread::Action(void)
 
 	    m_lastUpdate = time(NULL);
 	    int Intervall = EPGSearchConfig.conflictCheckIntervall;
-	    if (nextConflict > 0 && EPGSearchConfig.conflictCheckWithinLimit > 0 && 
+	    if (nextConflict > 0 && EPGSearchConfig.conflictCheckWithinLimit > 0 &&
 		nextConflict - time(NULL) < EPGSearchConfig.conflictCheckWithinLimit * 60)
 		Intervall = EPGSearchConfig.conflictCheckIntervall2;
 
 	    nextUpdate = long(m_lastUpdate/60)*60 + (Intervall * 60);
 	}
-	sleepSec(2); // to avoid high system load if time%30==0 
+	if (m_Active)
+	    Wait.Wait(2000); // to avoid high system load if time%30==0 ?????????????????????
+	// no waiting in the while loop if m_runOnce is true
 	while (m_Active && time(NULL)%30 != 0 && !m_runOnce) // sync heart beat to a multiple of 5secs
-	    sleepSec(1);
+	    Wait.Wait(1000);
     };
 
-    m_Active = false;
+    m_Active = false;	// always false at this point
     LogFile.iSysLog("Leaving conflict check thread");
 }
 

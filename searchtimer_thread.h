@@ -48,6 +48,7 @@ class cSearchTimerThread: public cThread {
     time_t m_lastUpdate;
     cPluginEpgsearch* m_plugin;
     cMailUpdateNotifier mailNotifier;
+    cCondWait Wait;
 
  protected:
     virtual void Action(void);

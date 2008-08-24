@@ -16,6 +16,8 @@ fixes:
   to egal@vdrportal
 - when an incomplete recording triggers a search timer update for a search timer 
   with 'avoid repeats' now running events are ignored for the repeats.
+- now using cCondWait::Wait instead of cCondWait:SleepMs to avoid shutdown problems,
+  thanks to e9hack@vdrportal for providing a patch
 
 2008-04-29: Version 0.9.24
 new:

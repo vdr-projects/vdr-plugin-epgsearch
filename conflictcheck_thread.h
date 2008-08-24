@@ -35,6 +35,7 @@ class cConflictCheckThread: public cThread {
     cPluginEpgsearch* m_plugin;
     static bool m_runOnce; 
     static bool m_forceUpdate;
+    cCondWait Wait;
  protected:
     virtual void Action(void);
     void Stop(void);

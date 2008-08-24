@@ -60,6 +60,7 @@ void cSwitchTimerThread::Exit(void) {
 
 void cSwitchTimerThread::Stop(void) {
    m_Active = false;
+   Wait.Signal();
    Cancel(6);
 }
 
@@ -69,7 +70,7 @@ void cSwitchTimerThread::Action(void)
   
   // let VDR do its startup
   for(int wait = 0; wait < SWITCHTIMER_WAIT && m_Active; wait++)
-    sleepSec(1);
+    Wait.Wait(1000);
 
    time_t nextUpdate = time(NULL);
    while (m_Active) 
@@ -104,7 +105,8 @@ void cSwitchTimerThread::Action(void)
                   cString Message = cString::sprintf("%s: %s - %s", event->Title(), 
 						     CHANNELNAME(channel), GETTIMESTRING(event));
                   SendMsg(Message);
-                  sleepSec(MSG_DELAY);			
+                  if (m_Active)
+		    Wait.Wait(1000 * MSG_DELAY);
                }
                SwitchTimers.Save();
                break;
@@ -112,15 +114,16 @@ void cSwitchTimerThread::Action(void)
             switchTimer = SwitchTimers.Next(switchTimer);
          }
          LogFile.Log(3,"switch timer check finished");
-         sleepSec(MSG_DELAY);
+         if (m_Active)
+	    Wait.Wait(1000 * MSG_DELAY);
          m_lastUpdate = time(NULL);
          nextUpdate = long(m_lastUpdate/60)*60+ 60 - MSG_DELAY ; // check at each full minute minus 5sec
          if (SwitchTimers.Count() == 0)
             m_Active = false;
       }
       while (m_Active && time(NULL)%MSG_DELAY != 0) // sync heart beat to MSG_DELAY
-         sleepSec(1);
-      sleepSec(1);
+	Wait.Wait(1000);
+      Wait.Wait(1000);
    };
    m_Instance = NULL;
 }

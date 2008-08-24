@@ -17,6 +17,8 @@ fixes:
 - Wenn eine unvollständige Aufnahme ein Suchtimer-Update für einen Suchtimer mit
   'Wiederholung vermeiden' auslöst, werden nun bereits laufende Sendungen als Wieder-
   holung ignoriert.
+- Es wird nun cCondWait::Wait anstelle von cCondWait:SleepMs verwendet um Probleme beim
+  Beenden zu vermeiden, danke e9hack@vdrportal für den Patch
 
 
 2008-04-29: Version 0.9.24

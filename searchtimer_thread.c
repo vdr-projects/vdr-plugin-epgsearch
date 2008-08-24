@@ -91,6 +91,7 @@ void cSearchTimerThread::Exit(void) {
 
 void cSearchTimerThread::Stop(void) {
    m_Active = false;
+   Wait.Signal();
    Cancel(6);
 }
 
@@ -198,7 +199,7 @@ void cSearchTimerThread::Action(void)
    m_Active = true;
    // let VDR do its startup
    for(int wait = 0; wait < SEARCHTIMER_WAIT && m_Active; wait++)
-      sleepSec(1);
+      Wait.Wait(1000);
 
    time_t nextUpdate = time(NULL);
    while (m_Active) 
@@ -209,7 +210,7 @@ void cSearchTimerThread::Action(void)
       {
          if (Timers.BeingEdited()) 		
          {
-            sleepSec(1);
+            Wait.Wait(1000);
             continue;
          }
          LogFile.iSysLog("search timer update started");
@@ -524,9 +525,10 @@ void cSearchTimerThread::Action(void)
          m_lastUpdate = time(NULL);
          nextUpdate = long(m_lastUpdate/60)*60 + (EPGSearchConfig.UpdateIntervall * 60);
       }
-      sleepSec(2); // to avoid high system load if time%30==0 
+      if (m_Active)
+	Wait.Wait(2000); // to avoid high system load if time%30==0 
       while (m_Active && !NeedUpdate() && time(NULL)%30 != 0) // sync heart beat to a multiple of 5secs
-         sleepSec(1);
+         Wait.Wait(1000);
    };
    LogFile.iSysLog("Leaving search timer thread");
 }
