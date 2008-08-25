@@ -97,7 +97,8 @@ void cSwitchTimerThread::Action(void)
                   {
                      LogFile.Log(1,"switching to channel %d", channel->Number());
                      cString cmd = cString::sprintf("CHAN %d", channel->Number());
-                     SendViaSVDRP(cmd);
+		     if (cDevice::CurrentChannel() != channel->Number())
+		       SendViaSVDRP(cmd);
 
 		     if (switchTimer->unmute && cDevice::PrimaryDevice()->IsMute())
 		       cDevice::PrimaryDevice()->ToggleMute();
