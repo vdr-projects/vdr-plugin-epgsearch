@@ -9,6 +9,8 @@ neu:
   * %chgrp% liefert die VDR Kanalgruppe einer Sendung
 - Update der französischen Übersetzung, Danke an Patrice Staudt
 - Update der italienischen Übersetzung, Danke an Diego Pierotto
+- neues SVDRP-Kommando 'MENU [NOW|PRG|SUM]' zum Aufruf eines der OSD-Hauptmenüs
+  oder der Inhaltsangabe der aktuellen Sendung.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben

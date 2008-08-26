@@ -38,6 +38,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_dirselect.h"
 #include "menu_deftimercheckmethod.h"
 #include "conflictcheck.h"
+#include "menu_main.h"
 
 using std::string;
 using std::set;
@@ -127,6 +128,9 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
       "LSCC [ REL ]\n"
       "    Returns the current timer conflicts. With the option\n"
       "    'REL' only relevant conflicts are listed",
+      "MENU [ NOW|PRG|SUM ]\n"
+      "    Calls one of the main menus of epgsearch or the summary\n"
+      "    of the current event",
       NULL
    };
    return HelpPages;
@@ -1262,6 +1266,25 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          return cString("no conflicts found");	    	
        }
    }
-
+   else if (strcasecmp(Command, "MENU") == 0) 
+     {
+       if (*Option)
+	 {
+	   if (strcasecmp(Option, "PRG") == 0)
+	     cMenuSearchMain::forceMenu = 2;
+	   else if (strcasecmp(Option, "NOW") == 0)
+	     cMenuSearchMain::forceMenu = 1;
+	   else if (strcasecmp(Option, "SUM") == 0)
+	     cMenuSearchMain::forceMenu = 3;
+	   else
+	     {
+	       ReplyCode = 901;
+	       return cString::sprintf("unknown option '%s'", Option);
+	     }
+	 } 
+       cRemote::CallPlugin("epgsearch");
+       return "menu called";
+     }
+   
    return NULL;
 }

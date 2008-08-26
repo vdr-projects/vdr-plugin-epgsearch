@@ -43,6 +43,8 @@ int toggleKeys=0;
 int exitToMainMenu = 0;
 extern int gl_InfoConflict;
 
+int cMenuSearchMain::forceMenu = 0; // 1 = now, 2 = schedule, 3 = summary
+
 // --- cMenuSearchMain ---------------------------------------------------------
 cMenuSearchMain::cMenuSearchMain(void)
 :cOsdMenu("", GetTab(1), GetTab(2), GetTab(3), GetTab(4), GetTab(5))
@@ -57,7 +59,7 @@ cMenuSearchMain::cMenuSearchMain(void)
   schedules = cSchedules::Schedules(schedulesLock);
   if (channel) {
     cMenuWhatsOnSearch::SetCurrentChannel(channel->Number());
-    if (EPGSearchConfig.StartMenu == 0)
+    if (EPGSearchConfig.StartMenu == 0 || forceMenu != 0)
       PrepareSchedule(channel);
     SetHelpKeys();
     cMenuWhatsOnSearch::currentShowMode = showNow;
@@ -66,11 +68,16 @@ cMenuSearchMain::cMenuSearchMain(void)
     //isyslog("duration epgs sched:  %d", tnow.millitm - gl_time.millitm + ((tnow.millitm - gl_time.millitm<0)?1000:0));
 
   }
-  if (EPGSearchConfig.StartMenu == 1)
+  if ((EPGSearchConfig.StartMenu == 1 || forceMenu == 1) && forceMenu != 2)
     {
       InWhatsOnMenu = true;
       AddSubMenu(new cMenuWhatsOnSearch(schedules, cDevice::CurrentChannel()));
     }
+  if (forceMenu == 3)
+    {
+      ShowSummary();
+    }
+  forceMenu = 0;
 }
 
 cMenuSearchMain::~cMenuSearchMain()

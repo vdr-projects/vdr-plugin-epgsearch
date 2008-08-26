@@ -9,6 +9,8 @@ new:
   * %chgrp% returns the VDR channel group name corresponding to an event    
 - french translation update, thanks to Patrice Staudt
 - italian translation update, thanks to Diego Pierotto
+- new SVDRP command 'MENU [NOW|PRG|SUM]' to call one of the main OSD menus or 
+  the summary of the current event
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu

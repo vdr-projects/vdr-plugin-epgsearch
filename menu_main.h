@@ -58,6 +58,8 @@ class cMenuSearchMain : public cOsdMenu {
 #ifdef USE_GRAPHTFT
   virtual const char* MenuKind() { return "MenuEpgsSchedule"; }
 #endif
+
+  static int forceMenu;
 };
 
 #endif
