@@ -74,15 +74,13 @@ cMenuSearchMain::cMenuSearchMain(void)
       AddSubMenu(new cMenuWhatsOnSearch(schedules, cDevice::CurrentChannel()));
     }
   if (forceMenu == 3)
-    {
       ShowSummary();
-    }
-  forceMenu = 0;
 }
 
 cMenuSearchMain::~cMenuSearchMain()
 {
     cMenuWhatsOnSearch::ScheduleChannel(); // makes sure any posted data is cleared
+    forceMenu = 0;
 }
 
 int cMenuSearchMain::GetTab(int Tab)

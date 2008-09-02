@@ -410,6 +410,8 @@ the following commands are available:
  * 'QRYF [hours]' to get the results for the favorites menu, see QRYS for
    result format. The optional parameter specifies the number of hours to
    evaluate and defaults to 24h. 
+ * 'MENU [PRG|NOW|SUM]' calls one of the main menus of epgsearch or the summary
+   of the current event.
 
 =head2 channel group management:
 

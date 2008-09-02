@@ -46,6 +46,7 @@ using std::set;
 template< class Iter > Iter advance_copy( Iter it, std::size_t count = 1) { using std::advance; advance( it, count ); return it; }
 
 extern int updateForced;
+extern int exitToMainMenu;
 
 const char **cPluginEpgsearch::SVDRPHelpPages(void)
 {
@@ -1270,20 +1271,29 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
      {
        if (*Option)
 	 {
-	   if (strcasecmp(Option, "PRG") == 0)
-	     cMenuSearchMain::forceMenu = 2;
-	   else if (strcasecmp(Option, "NOW") == 0)
-	     cMenuSearchMain::forceMenu = 1;
-	   else if (strcasecmp(Option, "SUM") == 0)
-	     cMenuSearchMain::forceMenu = 3;
+	   if (cMenuSearchMain::forceMenu == 0)
+	     {
+	       if (strcasecmp(Option, "PRG") == 0)
+		 cMenuSearchMain::forceMenu = 2;
+	       else if (strcasecmp(Option, "NOW") == 0)
+		 cMenuSearchMain::forceMenu = 1;
+	       else if (strcasecmp(Option, "SUM") == 0)
+		 cMenuSearchMain::forceMenu = 3;
+	       else
+		 {
+		   ReplyCode = 901;
+		   return cString::sprintf("unknown option '%s'", Option);
+		 }
+	       cRemote::CallPlugin("epgsearch");
+	       return "menu called";
+	     }
 	   else
 	     {
-	       ReplyCode = 901;
-	       return cString::sprintf("unknown option '%s'", Option);
+	       cRemote::Put(kBack);
+	       exitToMainMenu = 1;
+	       return "menu closed";
 	     }
 	 } 
-       cRemote::CallPlugin("epgsearch");
-       return "menu called";
      }
    
    return NULL;
