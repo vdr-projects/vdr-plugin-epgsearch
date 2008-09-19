@@ -46,7 +46,7 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   checkTimerConflictsAfterUpdate = 0;
   checkMinPriority = 0;
   checkMinDuration = 0;
-  checkMaxDays = 99;
+  checkMaxDays = 14;
   ignorePayTV     = 0;
   useExternalSVDRP = 0;
   ignorePrimary = 0;

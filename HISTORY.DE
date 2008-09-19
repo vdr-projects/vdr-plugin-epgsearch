@@ -12,7 +12,8 @@ neu:
 - neues SVDRP-Kommando 'MENU [NOW|PRG|SUM]' zum Aufruf eines der OSD-Hauptmenüs
   oder der Inhaltsangabe der aktuellen Sendung. Falls irgendein epgsearch-Menü 
   geöffnet ist, schließt ein weiteres SVDRP-Kommando dieses wieder.
-
+- Die maximale Anzahl von Tagen für eine Timerkonfliktprüfung ist nun von 99 auf 
+  14 geändert.
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen

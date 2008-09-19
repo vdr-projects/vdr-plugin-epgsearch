@@ -764,7 +764,7 @@ void cMenuSetupTimerConflicts::Set()
   AddHelp(tr("Help$If a timer with priority below the given value will fail it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."));
   Add(new cMenuEditIntItem(tr("Ignore conflict duration less ... min."), &data->checkMinDuration, 0, 999));
   AddHelp(tr("Help$If a conflicts duration is less then the given number of minutes it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."));
-  Add(new cMenuEditIntItem(tr("Only check within next ... days"), &data->checkMaxDays, 1, 99));
+  Add(new cMenuEditIntItem(tr("Only check within next ... days"), &data->checkMaxDays, 1, 14));
   AddHelp(tr("Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."));
 
   cOsdItem* sep = new cOsdItem(tr("--- Automatic checking ---"));

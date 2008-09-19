@@ -248,7 +248,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     }
 
     // collect repeating timers from now until the date of the timer with tMax
-    time_t maxCheck = time(NULL) + EPGSearchConfig.checkMaxDays * SECSINDAY;
+    time_t maxCheck = time(NULL) + min(14,EPGSearchConfig.checkMaxDays) * SECSINDAY;
     tMax = max(tMax, maxCheck);
     for (ti = Timers.First(); ti; ti = Timers.Next(ti))
     {
@@ -359,7 +359,7 @@ cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictChe
     LogFile.Log(3,"create conflict list");
     relevantConflicts = 0;
     numConflicts = 0;
-    maxCheck = time(NULL) + EPGSearchConfig.checkMaxDays * SECSINDAY;
+    maxCheck = time(NULL) + min(14, EPGSearchConfig.checkMaxDays) * SECSINDAY;
 
     // check each time
     for(cConflictCheckTime* checkTime = EvalTimeList->First(); checkTime; checkTime = EvalTimeList->Next(checkTime))
