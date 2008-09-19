@@ -21,6 +21,9 @@ fixes:
   with 'avoid repeats' now running events are ignored for the repeats.
 - now using cCondWait::Wait instead of cCondWait:SleepMs to avoid shutdown problems,
   thanks to e9hack@vdrportal for providing a patch
+- fixed line breaks in SVDRP command LSTT, thanks to Andreas Mair for providing a 
+  patch
+
 
 2008-04-29: Version 0.9.24
 new:

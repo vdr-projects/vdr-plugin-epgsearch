@@ -1087,7 +1087,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             cSearchExt* search = SearchTemplates.Get(i);
             if (search)
-               sBuffer += string(search->ToText()) + string((i<SearchExts.Count()-1)?"\n":"");
+               sBuffer += string(search->ToText()) + string((i<SearchTemplates.Count()-1)?"\n":"");
          }
          return sBuffer.c_str();
       }
