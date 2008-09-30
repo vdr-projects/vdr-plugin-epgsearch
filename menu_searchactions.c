@@ -167,7 +167,7 @@ eOSState cMenuSearchActions::Execute()
 	 return osBack;
      }
      if (current == 10)	 
-	 return AddSubMenu(new cMenuConflictCheck());
+       return AddSubMenu(new cMenuConflictCheck());
   }
   return osContinue;
 }

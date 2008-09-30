@@ -57,6 +57,7 @@ class cMenuSearchMain : public cOsdMenu {
   void UpdateCurrent();
 #ifdef USE_GRAPHTFT
   virtual const char* MenuKind() { return "MenuEpgsSchedule"; }
+  virtual void Display(void);
 #endif
 
   static int forceMenu;

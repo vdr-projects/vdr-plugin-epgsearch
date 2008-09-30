@@ -77,6 +77,23 @@ cMenuSearchMain::cMenuSearchMain(void)
       ShowSummary();
 }
 
+#ifdef USE_GRAPHTFT
+void cMenuSearchMain::Display(void)
+{
+   cOsdMenu::Display();
+   
+   if (Count() > 0) 
+   {
+      int i = 0;
+
+      for (cOsdItem *item = First(); item; item = Next(item)) 
+         cStatus::MsgOsdEventItem(!item->Selectable() ? 0 : 
+                                  ((cMenuMyScheduleItem*)item)->event, 
+                                  item->Text(), i++, Count());
+   }
+}
+#endif /* GRAPHTFT */
+
 cMenuSearchMain::~cMenuSearchMain()
 {
     cMenuWhatsOnSearch::ScheduleChannel(); // makes sure any posted data is cleared

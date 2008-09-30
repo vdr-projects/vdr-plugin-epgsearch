@@ -297,7 +297,22 @@ const char* cMenuWhatsOnSearch::MenuKind()
    if (currentShowMode > showNext)  return "MenuEpgsWhatsOnElse";
    else return "MenuWhatsOnElse";
 }
-#endif
+
+void cMenuWhatsOnSearch::Display(void)
+{
+   cOsdMenu::Display();
+   
+   if (Count() > 0) 
+   {
+      int i = 0;
+
+      for (cOsdItem *item = First(); item; item = Next(item)) 
+         cStatus::MsgOsdEventItem(!item->Selectable() ? 0 : 
+                                  ((cMenuMyScheduleItem*)item)->event, 
+                                  item->Text(), i++, Count());
+   }
+}
+#endif /* GRAPHTFT */
 
 int cMenuWhatsOnSearch::GetTab(int Tab)
 {

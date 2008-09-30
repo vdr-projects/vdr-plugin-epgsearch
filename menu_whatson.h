@@ -79,6 +79,7 @@ private:
   void UpdateCurrent();
 #ifdef USE_GRAPHTFT
   virtual const char* MenuKind();
+  virtual void Display(void);
 #endif
 };
 
