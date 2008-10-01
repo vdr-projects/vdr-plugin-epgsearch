@@ -13,7 +13,10 @@ new:
   the summary of the current event. If any epgsearch menu is open a subsequent
   SVDRP call will close it again.
 - changed the maximum number of days for a timer conflict check from 99 to 14
-
+- patch by Jörg Wendel for new graphtft patch
+- Two events with both empty episode names are now handled different within the 
+  feature 'Avoid repeats'. This will result in more recordings, but ensures not to 
+  miss one only because of a buggy EPG.
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 

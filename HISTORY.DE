@@ -14,6 +14,10 @@ neu:
   geöffnet ist, schließt ein weiteres SVDRP-Kommando dieses wieder.
 - Die maximale Anzahl von Tagen für eine Timerkonfliktprüfung ist nun von 99 auf 
   14 geändert.
+- Patch von Jörg Wendel für neuen graphtft-Patch
+- Zwei Episoden mit leerem Untertitel innerhalb 'Vermeide Wiederholung' werden
+  jetzt als unterschiedlich gewertet. Damit ergeben sich mehr Aufnahmen, aber es
+  wird verhindert, dass man eine Folge nur wegen eines fehlerhaften EPGs verpasst.
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen

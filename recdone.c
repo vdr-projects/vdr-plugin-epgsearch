@@ -295,7 +295,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, bool c
       }
 
       if ((!compareTitle || rTitle == eTitle) &&
-          (!compareSubtitle || rSubtitle == eSubtitle) &&
+          (!compareSubtitle || (rSubtitle == eSubtitle && rSubtitle !="")) &&
           (!compareSummary || DescriptionMatches(eRawDescr.c_str(), rRawDescr.c_str())))
       {
          if (catvaluesAvoidRepeat != 0) // check categories
