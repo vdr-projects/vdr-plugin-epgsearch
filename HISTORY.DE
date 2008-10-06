@@ -28,6 +28,7 @@ fixes:
 - Es wird nun cCondWait::Wait anstelle von cCondWait:SleepMs verwendet um Probleme beim
   Beenden zu vermeiden, danke e9hack@vdrportal für den Patch
 - Zeilenumbrüche im SVDRP-Befehl LSTT korrigiert, Danke an Andreas Mair für einen Patch
+- Antwortzeit beim Abbruch des Suchtimer-Threads verbessert
 
 
 2008-04-29: Version 0.9.24

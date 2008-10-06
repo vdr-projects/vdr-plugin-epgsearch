@@ -27,6 +27,7 @@ fixes:
   thanks to e9hack@vdrportal for providing a patch
 - fixed line breaks in SVDRP command LSTT, thanks to Andreas Mair for providing a 
   patch
+- improved response time when canceling the search timer thread
 
 
 2008-04-29: Version 0.9.24

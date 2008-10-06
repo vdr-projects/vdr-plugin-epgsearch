@@ -44,7 +44,7 @@ directory entries could look like this:
  Childrens Movies~%category%
  %CATEGORY%~%genre%
 
-There are also three other variables: %Title%, %Subtitle% and %Channel%.
+There are also three other variables: %Title%, %Subtitle% and %chlng%.
 If you don't use %Title%, the title is always automatically
 appended to the directory entry, when a timer will be created. If you
 set 'serial recording' to 'yes' in your search timer then also the
@@ -57,7 +57,7 @@ is the same as
  %Category%~%Genre%
  (with 'serial recording' set to 'yes').
 
-The %Channel% variable gets replaced with the name of the channel.
+The %chnlng% variable gets replaced with the name of the channel.
 
 Attention: Automatically appending title and subtitle will not be
 done, if you use the variables %Title% or %Subtitle% in the directory

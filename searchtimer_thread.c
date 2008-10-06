@@ -477,7 +477,7 @@ void cSearchTimerThread::Action(void)
          LogFile.iSysLog("search timer update finished");
 
          // check for conflicts
-         if (EPGSearchConfig.checkTimerConflictsAfterUpdate)
+         if (EPGSearchConfig.checkTimerConflictsAfterUpdate && m_Active)
          {
             LogFile.iSysLog("check for timer conflicts");
             cConflictCheck conflictCheck;   
@@ -514,9 +514,10 @@ void cSearchTimerThread::Action(void)
          // check for updates for manual timers
          CheckManualTimers();
 
-         mailNotifier.SendUpdateNotifications();
+	 if (m_Active)
+	   mailNotifier.SendUpdateNotifications();
 
-         if (updateForced == 2)
+         if (updateForced == 2 && m_Active)
             SendMsg(tr("Search timer update done!"));
 
          // reset service call flag
@@ -709,7 +710,7 @@ void cSearchTimerThread::CheckExpiredRecs()
    LogFile.Log(1, "check for expired recordings started");
    cThreadLock RecordingsLock(&Recordings);
    cList<cRecordingObj> DelRecordings;
-   for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording)) 
+   for (cRecording *recording = Recordings.First(); recording && m_Active; recording = Recordings.Next(recording)) 
    {
       LogFile.Log(3, "check recording %s from %s for expiration", recording->Name(), DAYDATETIME(recording->start));
       if (recording->start == 0)
@@ -747,7 +748,7 @@ void cSearchTimerThread::CheckExpiredRecs()
       else
          LogFile.Log(3, "recording will expire in %d days, search timer %s", search->delAfterDays - daysBetween, search->search);
    }    
-   for (cRecordingObj *recordingObj = DelRecordings.First(); recordingObj; recordingObj = DelRecordings.Next(recordingObj)) 
+   for (cRecordingObj *recordingObj = DelRecordings.First(); recordingObj && m_Active; recordingObj = DelRecordings.Next(recordingObj)) 
    {
       cRecording* recording = recordingObj->recording;
       cSearchExt* search = recordingObj->search;
@@ -817,7 +818,7 @@ void cSearchTimerThread::CheckManualTimers()
    const cSchedules *schedules;
    schedules = cSchedules::Schedules(schedulesLock);
 
-   for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti)) 
+   for (cTimer *ti = Timers.First(); ti && m_Active; ti = Timers.Next(ti)) 
    {
       if (TriggeredFromSearchTimerID(ti) != -1) continue; // manual timer?
         
