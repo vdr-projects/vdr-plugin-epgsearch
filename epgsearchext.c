@@ -119,6 +119,7 @@ cSearchExt::cSearchExt(void)
    useAsSearchTimerTil = 0;
    ignoreMissingEPGCats = 0;
    unmuteSoundOnSwitch = 0;
+   skipRunningEvents = false;
 }
 
 cSearchExt::~cSearchExt(void)

@@ -160,7 +160,7 @@ struct Epgsearch_services_v1_0
       std::auto_ptr<cServiceHandler> handler;
 };
 
-// Data structures for service "Epgsearch-services-v1.0"
+// Data structures for service "Epgsearch-services-v1.1"
 class cServiceHandler_v1_1 : public cServiceHandler
 {
   public:
@@ -174,6 +174,22 @@ struct Epgsearch_services_v1_1
 {
 // in/out
       std::auto_ptr<cServiceHandler_v1_1> handler;
+};
+
+// Data structures for service "Epgsearch-services-v1.2"
+class cServiceHandler_v1_2 : public cServiceHandler_v1_1
+{
+  public:
+  // List of all recording directories used in recordings, timers (and optionally search timers or in epgsearchdirs.conf)
+  virtual std::set<std::string> ShortDirectoryList() = 0;
+  // Evaluate an expression against an event
+  virtual std::string Evaluate(const std::string& expr, const cEvent* event) = 0;    
+};
+
+struct Epgsearch_services_v1_2
+{
+// in/out
+      std::auto_ptr<cServiceHandler_v1_2> handler;
 };
 
 #endif

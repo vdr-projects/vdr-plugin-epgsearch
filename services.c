@@ -36,6 +36,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include "conflictcheck.h"
 #include "timerstatus.h"
+#include "uservars.h"
 
 std::list<std::string> cEpgsearchServiceHandler::SearchTimerList()
 {
@@ -322,3 +323,16 @@ bool cEpgsearchServiceHandler::IsConflictCheckAdvised()
 {
   return gl_timerStatusMonitor?gl_timerStatusMonitor->ConflictCheckAdvised():false;  
 }    
+
+std::set<std::string> cEpgsearchServiceHandler::ShortDirectoryList()
+{
+  cMenuDirSelect::CreateDirSet(false);
+   return cMenuDirSelect::directorySet;
+}
+
+std::string cEpgsearchServiceHandler::Evaluate(const std::string& expr, const cEvent* event)
+{
+  if (!event) return expr;
+  cVarExpr varExpr(expr);
+  return varExpr.Evaluate(event);
+}

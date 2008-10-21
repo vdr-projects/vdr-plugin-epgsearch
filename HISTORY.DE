@@ -18,6 +18,8 @@ neu:
 - Zwei Episoden mit leerem Untertitel innerhalb 'Vermeide Wiederholung' werden
   jetzt als unterschiedlich gewertet. Damit ergeben sich mehr Aufnahmen, aber es
   wird verhindert, dass man eine Folge nur wegen eines fehlerhaften EPGs verpasst.
+- Suchtimer: Falls der Datei-Eintrag eines Timers leer ist oder "!^invalid^!" enthält,
+  wird er für die Programmierung übersprungen.
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen

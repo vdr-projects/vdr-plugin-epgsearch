@@ -67,7 +67,7 @@ private:
     int Level(const char* szDir);
     void ReplaceDirVars();
 
-    static void CreateDirSet();
+    static void CreateDirSet(bool extraDirs=true);
   };
 
 #endif

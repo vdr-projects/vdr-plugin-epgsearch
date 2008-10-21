@@ -264,6 +264,15 @@ void cSearchTimerThread::Action(void)
                if ((file = searchExt->BuildFile(pEvent)) != NULL)
                {
                   while(strstr(file, "!^pipe^!")) file = strreplace(file, "!^pipe^!", "|"); // revert the translation of '|' in BuildFile 
+                  if (strstr(file, "!^invalid^!") || strlen(file) == 0)
+                  {
+                     LogFile.eSysLog("Skipping timer due to invalid or empty filename");
+                     if (time(NULL) <= timer->StopTime())
+                        pOutdatedTimers->DelTimer(timer);
+                     delete timer;
+                     free(file);
+                     continue;
+                  }
                   timer->SetFile(file);
                   free(file);
                }

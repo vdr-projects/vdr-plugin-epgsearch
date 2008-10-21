@@ -123,7 +123,7 @@ void cMenuDirSelect::AddDistinct(const char* szText)
     Add(new cMenuDirItem(hk(szText)));
 }
 
-void cMenuDirSelect::CreateDirSet()
+void cMenuDirSelect::CreateDirSet(bool extraDirs)
 {
     directorySet.clear();
 
@@ -172,30 +172,34 @@ void cMenuDirSelect::CreateDirSet()
 	}
 	free(dir);
     }
-    cMutexLock SearchExtsLock(&SearchExts);
-    cSearchExt *searchExt = SearchExts.First();
-    // add distinct directories from existing search timers
-    while (searchExt) 
-    {
-	if (strlen(searchExt->directory) > 0)
-	    directorySet.insert(searchExt->directory);
-	searchExt = SearchExts.Next(searchExt);
-    }
-    // add distinct directories from epgsearchdirs.conf
-    DirExts.Load(AddDirectory(CONFIGDIR, "epgsearchdirs.conf"), true);
-    cDirExt* DirExt = DirExts.First();
-    while (DirExt) 
-    {
-	directorySet.insert(DirExt->Name());	
-	DirExt = DirExts.Next(DirExt);
-    }
-    // add distinct directories from conf.d files
-    DirExt = ConfDDirExts.First();
-    while (DirExt) 
-    {
-	directorySet.insert(DirExt->Name());	
-	DirExt = ConfDDirExts.Next(DirExt);
-    }
+
+    if (extraDirs)
+      {
+	cMutexLock SearchExtsLock(&SearchExts);
+	cSearchExt *searchExt = SearchExts.First();
+	// add distinct directories from existing search timers
+	while (searchExt) 
+	  {
+	    if (strlen(searchExt->directory) > 0)
+	      directorySet.insert(searchExt->directory);
+	    searchExt = SearchExts.Next(searchExt);
+	  }
+	// add distinct directories from epgsearchdirs.conf
+	DirExts.Load(AddDirectory(CONFIGDIR, "epgsearchdirs.conf"), true);
+	cDirExt* DirExt = DirExts.First();
+	while (DirExt) 
+	  {
+	    directorySet.insert(DirExt->Name());	
+	    DirExt = DirExts.Next(DirExt);
+	  }
+	// add distinct directories from conf.d files
+	DirExt = ConfDDirExts.First();
+	while (DirExt) 
+	  {
+	    directorySet.insert(DirExt->Name());	
+	    DirExt = ConfDDirExts.Next(DirExt);
+	  }
+      }
 }
 
 

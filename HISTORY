@@ -17,6 +17,8 @@ new:
 - Two events with both empty episode names are now handled different within the 
   feature 'Avoid repeats'. This will result in more recordings, but ensures not to 
   miss one only because of a buggy EPG.
+- searchtimers: if a timers filename results in an empty string or contains 
+  "!^invalid^!" it will be skipped for programming now.
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 
