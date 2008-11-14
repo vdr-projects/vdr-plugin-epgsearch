@@ -30,6 +30,8 @@ fixes:
 - fixed line breaks in SVDRP command LSTT, thanks to Andreas Mair for providing a 
   patch
 - improved response time when canceling the search timer thread
+- fixed a segfault occurring when navigating to a userdefined epg menu that has expired
+  in the meantime, thanks to Mike Constabel for reporting
 
 
 2008-04-29: Version 0.9.24

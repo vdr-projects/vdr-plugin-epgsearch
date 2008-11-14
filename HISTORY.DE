@@ -31,6 +31,8 @@ fixes:
   Beenden zu vermeiden, danke e9hack@vdrportal für den Patch
 - Zeilenumbrüche im SVDRP-Befehl LSTT korrigiert, Danke an Andreas Mair für einen Patch
 - Antwortzeit beim Abbruch des Suchtimer-Threads verbessert
+- Absturz beim Navigieren zu benutzerdef. EPG-Menüs behoben, die zwischenzeitlich schon
+  in der Vergangenheit lagen, Danke an Mike Constabel für den Hinweis
 
 
 2008-04-29: Version 0.9.24

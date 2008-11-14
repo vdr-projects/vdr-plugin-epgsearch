@@ -334,6 +334,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
    //   time_t SeekTime;
    cString szTitle;
    cShowMode* mode = GetShowMode(currentShowMode);
+   if (!mode) return;
 
    if (shiftTime != 0)
    {
@@ -359,17 +360,14 @@ void cMenuWhatsOnSearch::LoadSchedules()
    }
    else
    {
-      if (mode)
-      {
-         seekTime = GetTimeT(mode->GetTime());
-         if (seekTime < time(NULL) && currentShowMode != showNow && currentShowMode != showNext)
-         {
-            seekTime += HOURS2SECS(24);	
-	    szTitle = cString::sprintf("%s - %s (%s)", tr("Overview"), mode->GetDescription(), *WeekDayName(seekTime));    
-         }
-         else
-	   szTitle = cString::sprintf("%s - %s", tr("Overview"), mode->GetDescription());    
-      }
+      seekTime = GetTimeT(mode->GetTime());
+      if (seekTime < time(NULL) && currentShowMode != showNow && currentShowMode != showNext)
+	{
+	  seekTime += HOURS2SECS(24);	
+	  szTitle = cString::sprintf("%s - %s (%s)", tr("Overview"), mode->GetDescription(), *WeekDayName(seekTime));    
+	}
+      else
+	szTitle = cString::sprintf("%s - %s", tr("Overview"), mode->GetDescription());    
    }
    SetTitle(szTitle);
 
@@ -460,6 +458,8 @@ showMode cMenuWhatsOnSearch::GetNextMode()
       else
          nextShowMode = ModeNext->GetMode();
    }
+   else // no mode found? fall back to 'now'
+     nextShowMode = showNow;
    return nextShowMode;
 }
 
