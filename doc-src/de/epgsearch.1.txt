@@ -336,9 +336,12 @@ Titel verglichen werden soll.
 =item - B<Vergleiche Untertitel>
 
 Einstellung, ob beim Test, ob eine Sendung identisch ist, auch der
-Untertitel verglichen werden soll. Hat eine Sendung keinen
-Untertitel wird sie als abweichend gewertet und ist damit nicht
-gleich einer anderen Sendung mit oder ohne Untertitel.
+Untertitel verglichen werden soll. Neben 'nein' und 'ja' existiert noch
+'falls vorhanden'. Damit stuft epgsearch zwei Sendungen nur dann als 
+identisch ein, wenn die Episodennamen gleich sind und nicht leer. Vorsicht: Wenn die 
+EPG-Daten keine Untertitel für unterschiedliche Folgen enthalten, sollte diese Option
+nicht verwendet werden. 'ja' ist in diesem Fall besser, selbst wenn dadurch doppelt 
+aufgezeichnet werden kann.
 
 =item - B<Vergleiche Beschreibung>
 

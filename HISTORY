@@ -19,6 +19,11 @@ new:
   miss one only because of a buggy EPG.
 - searchtimers: if a timers filename results in an empty string or contains 
   "!^invalid^!" it will be skipped for programming now.
+- Avoid repeats: 'Compare subtitle' has now a third value 'if present' besides 'no'
+  and 'yes'. With this setting epgsearch will classify two events only as equal if 
+  their episode names match and are not empty. Caution: if your EPG data has no episode 
+  names for different episodes don't use this option! 'yes' will then be the better
+  choice even if this results in double recordings.
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 

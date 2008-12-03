@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-09-20 14:00+0200\n"
+"POT-Creation-Date: 2008-12-03 18:23+0100\n"
 "PO-Revision-Date: 2008-06-29 03:25+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -959,6 +959,9 @@ msgstr "conteggia registrazioni"
 
 msgid "count days"
 msgstr "conteggia giorni"
+
+msgid "if present"
+msgstr ""
 
 msgid "Template name"
 msgstr "Nome modello"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-09-20 14:00+0200\n"
+"POT-Creation-Date: 2008-12-03 18:23+0100\n"
 "PO-Revision-Date: 2008-04-30 08:36+0200\n"
 "Last-Translator: Patrice Staudt <patrice.staudt@laposte.net>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -956,6 +956,9 @@ msgstr "compter enregistrements"
 
 msgid "count days"
 msgstr "compter jours"
+
+msgid "if present"
+msgstr ""
 
 msgid "Template name"
 msgstr "Nom du modèle"

@@ -63,7 +63,10 @@ is B<':'>:
  29 - avoid repeats? 0/1
  30 - allowed repeats
  31 - compare title when testing for a repeat? 0/1        
- 32 - compare subtitle when testing for a repeat? 0/1     
+ 32 - compare subtitle when testing for a repeat? 0/1/2
+      0 - no
+      1 - yes
+      2 - yes, if present     
  33 - compare description when testing for a repeat? 0/1  
  34 - compare extended EPG info when testing for a repeat?
       This entry is a bit field of the category IDs.

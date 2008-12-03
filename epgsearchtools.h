@@ -152,7 +152,7 @@ char* GetRawDescription(const char* descr);
 void PrepareTimerFile(const cEvent* event, cTimer* timer);
 int CompareEventTime(const void *p1, const void *p2);
 int CompareEventChannel(const void *p1, const void *p2);
-bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, bool compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat);
+bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat);
 int ChannelNrFromEvent(const cEvent* pEvent);
 void DelTimer(int index);
 char* FixSeparators(char* buffer, char sep);

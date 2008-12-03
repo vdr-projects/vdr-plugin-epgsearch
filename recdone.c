@@ -232,7 +232,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, cSearchExt* search, cRecD
     return GetCountRecordings(event, search->compareTitle, search->compareSubtitle, search->compareSummary, search->catvaluesAvoidRepeat, first);
 }
 
-int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, bool compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, cRecDone** first)
+int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, cRecDone** first)
 {
    if (first)
       *first = NULL;
@@ -295,7 +295,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, bool c
       }
 
       if ((!compareTitle || rTitle == eTitle) &&
-          (!compareSubtitle || (rSubtitle == eSubtitle && rSubtitle !="")) &&
+          (!compareSubtitle || (rSubtitle == eSubtitle && (compareSubtitle==1 || rSubtitle !=""))) &&
           (!compareSummary || DescriptionMatches(eRawDescr.c_str(), rRawDescr.c_str())))
       {
          if (catvaluesAvoidRepeat != 0) // check categories

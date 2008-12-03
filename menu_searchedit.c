@@ -87,6 +87,10 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
    SearchActiveModes[1] = strdup(trVDR("yes"));
    SearchActiveModes[2] = strdup(tr("user-defined"));
 
+   CompareSubtitleModes[0] = strdup(trVDR("no"));
+   CompareSubtitleModes[1] = strdup(trVDR("yes"));
+   CompareSubtitleModes[2] = strdup(tr("if present"));
+
    if (!templateMode && New)
    {
       cSearchExt* SearchTempl = NULL; // copy the default settings, if we have a default template	
@@ -321,7 +325,7 @@ void cMenuEditSearchExt::Set()
             if (data.allowedRepeats > 0)
                Add(new cMenuEditIntItem(IndentMenuItem(IndentMenuItem(tr("Only repeats within ... days"))), &data.repeatsWithinDays, 0, 999));
             Add(new cMenuEditBoolItem(IndentMenuItem(IndentMenuItem(tr("Compare title"))), &data.compareTitle, trVDR("no"), trVDR("yes")));
-            Add(new cMenuEditBoolItem(IndentMenuItem(IndentMenuItem(tr("Compare subtitle"))), &data.compareSubtitle, trVDR("no"), trVDR("yes")));
+            Add(new cMenuEditStraItem(IndentMenuItem(IndentMenuItem(tr("Compare subtitle"))), &data.compareSubtitle, 3, CompareSubtitleModes));
             Add(new cMenuEditBoolItem(IndentMenuItem(IndentMenuItem(tr("Compare summary"))), &data.compareSummary, trVDR("no"), trVDR("yes")));
             // show 'Compare categories' only if we have them
             if (SearchExtCats.Count() > 0)
@@ -388,6 +392,8 @@ cMenuEditSearchExt::~cMenuEditSearchExt()
       free(DelModes[i]);
    for(i=0; i<=2; i++)
       free(SearchActiveModes[i]);
+   for(i=0; i<=2; i++)
+      free(CompareSubtitleModes[i]);
 }
 
 eOSState cMenuEditSearchExt::Help()

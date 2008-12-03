@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-09-20 14:00+0200\n"
+"POT-Creation-Date: 2008-12-03 18:23+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Istvan Koenigsberger <istvnko@hotmail.com>, Guido Josten <guido.josten@t-online.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -920,6 +920,9 @@ msgid "count recordings"
 msgstr ""
 
 msgid "count days"
+msgstr ""
+
+msgid "if present"
 msgstr ""
 
 msgid "Template name"

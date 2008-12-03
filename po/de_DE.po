@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-09-20 14:00+0200\n"
+"POT-Creation-Date: 2008-12-03 18:23+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -958,6 +958,9 @@ msgstr "Anzahl Aufnahmen"
 msgid "count days"
 msgstr "Anzahl Tage"
 
+msgid "if present"
+msgstr "wenn vorhanden"
+
 msgid "Template name"
 msgstr "Vorlagenname"
 
@@ -1002,7 +1005,7 @@ msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Auf 'Ja' setzen, wenn die Suche in der Zusammenfassung einer Sendung stattfinden soll."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
-msgstr "Die Zusammenfassung einer Sendung kann Zusatz-Informationen wie 'Genre', 'Kategorie', 'Jahr', ... enthalten, welche in EPGSearch 'EPG-Kategorien' genannt werden. Externe EPG-Anbieter liefern diese Infomationen häufig mit aus. Damit läßt sich eine Suche verfeinern und auch andere Dinge, wie die Suche nach dem Tagestipp, sind möglich. Zur Verwendung auf 'Ja' setzen."
+msgstr "Die Zusammenfassung einer Sendung kann Zusatz-Informationen wie 'Genre', 'Kategorie', 'Jahr', ... enthalten, welche in EPGSearch 'EPG-Kategorien' genannt werden. Externe EPG-Anbieter liefern diese Informationen häufig mit aus. Damit läßt sich eine Suche verfeinern und auch andere Dinge, wie die Suche nach dem Tagestipp, sind möglich. Zur Verwendung auf 'Ja' setzen."
 
 msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
 msgstr "In der Datei epgsearchcats.conf kann der Suchmodus für diesen Eintrag festgelegt werden. Man kann textuell oder numerisch suchen. Ausserdem kann in dieser Datei eine Liste vordefinierter Werte angegeben werden, die hier zur Auswahl stehen."
