@@ -53,6 +53,7 @@ public:
     void LoadUserVars();
     void LoadConfD();
     void CheckUTF8();
+    virtual cString Active(void);
 };
 
 #endif

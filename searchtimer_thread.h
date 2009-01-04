@@ -62,6 +62,7 @@ class cSearchTimerThread: public cThread {
     static char* SummaryExtended(cSearchExt* searchExt, cTimer* Timer, const cEvent* pEvent);
     static cSearchTimerThread *m_Instance;
     static cTimer* GetTimer(cSearchExt *searchExt, const cEvent *pEvent, bool& bTimesMatchExactly);
+    static bool justRunning;
 
     cSearchTimerThread(cPluginEpgsearch* thePlugin);
     virtual ~cSearchTimerThread();

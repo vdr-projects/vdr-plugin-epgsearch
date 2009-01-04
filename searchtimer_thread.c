@@ -53,6 +53,7 @@ extern int updateForced;
 
 cSearchTimerThread *cSearchTimerThread::m_Instance = NULL;
 cSearchResults cSearchTimerThread::announceList;
+bool cSearchTimerThread::justRunning = false;
 
 cSearchTimerThread::cSearchTimerThread(cPluginEpgsearch* thePlugin)
    : cThread("EPGSearch: searchtimer")
@@ -208,6 +209,7 @@ void cSearchTimerThread::Action(void)
       bool needUpdate = NeedUpdate();
       if (now >= nextUpdate || needUpdate)
       {
+	 justRunning = true;
          if (Timers.BeingEdited()) 		
          {
             Wait.Wait(1000);
@@ -394,7 +396,7 @@ void cSearchTimerThread::Action(void)
                       NoAnnounces.InList(pEvent) || // announcement not wanted anymore or
                       (EPGSearchConfig.noAnnounceWhileReplay && 
 		       cDevice::PrimaryDevice()->Replaying() && cDevice::PrimaryDevice()->Transferring() && 
-		       updateForced != 2)  // no announce while replay within automatic updates
+		       !(updateForced & UPDS_WITH_OSD))  // no announce while replay within automatic updates
                      ) 
                   {
                      if (Summary) free(Summary);
@@ -506,7 +508,7 @@ void cSearchTimerThread::Action(void)
                bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 || 
                   !cDevice::PrimaryDevice()->Replaying() || 
                   conflictCheck.nextRelevantConflictDate - now < 2*60*60 ||
-		 updateForced == 2;
+		 (updateForced & UPDS_WITH_OSD);
                if (doMessage && SendMsg(msgfmt, true,7) == kOk)			
                {
                   m_plugin->showConflicts = true;
@@ -526,7 +528,7 @@ void cSearchTimerThread::Action(void)
 	 if (m_Active)
 	   mailNotifier.SendUpdateNotifications();
 
-         if (updateForced == 2 && m_Active)
+         if ((updateForced & UPDS_WITH_OSD) && m_Active)
             SendMsg(tr("Search timer update done!"));
 
          // reset service call flag
@@ -534,6 +536,7 @@ void cSearchTimerThread::Action(void)
 
          m_lastUpdate = time(NULL);
          nextUpdate = long(m_lastUpdate/60)*60 + (EPGSearchConfig.UpdateIntervall * 60);
+	 justRunning = false;
       }
       if (m_Active)
 	Wait.Wait(2000); // to avoid high system load if time%30==0 

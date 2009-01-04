@@ -26,6 +26,8 @@ neu:
   EPG-Daten keine Untertitel für unterschiedliche Folgen enthalten, sollte diese Option
   nicht verwendet werden. 'ja' ist in diesem Fall besser, selbst wenn dadurch doppelt 
   aufgezeichnet werden kann.
+- epgsearch verwendet nun den shutdown handler (eingeführt in vdr 1.5.1) um die Unter-
+  brechung eines Suchtimerupdates zu verhindern.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben

@@ -121,7 +121,7 @@ eOSState cMenuSearchActions::Execute()
             Skins.Message(mtInfo, tr("Search timers activated in setup."));			
          }
          if (Interface->Confirm(tr("Run search timer update?")))
-            updateForced = 2; // with message about completion
+            updateForced = 3; // with message about completion
          return osBack;
       }	
       if (current == 3)

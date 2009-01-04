@@ -66,7 +66,7 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
       "UPDS [ OSD ]\n"
       "    Update search timers.\n"
       "    If the optional keyword 'OSD' is passed, an OSD message\n"
-      "    will inform about update completion.",  
+      "    will inform about update completion.",
       "UPDD\n"
       "    Reload epgsearchdone.data",
       "SETS <ON|OFF>\n"
@@ -141,8 +141,21 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 {
    if (strcasecmp(Command, "UPDS") == 0) 
    {
-      updateForced = (Option && strcasecmp(Option, "OSD") == 0)?2:1;
-      return cString("update triggered");
+     updateForced = 1;
+     if (Option)
+       {
+	 char *pstrOptionToken, *pptr;
+	 char *pstrOptions=strdup(Option);
+	 pstrOptionToken=strtok_r(pstrOptions, " ", &pptr);     
+	 while(pstrOptionToken) 
+	   {
+	     if (strcasecmp(Option, "OSD")==0)
+	       updateForced |= UPDS_WITH_OSD;
+	     pstrOptionToken=strtok_r(NULL, "|", &pptr);
+	   }
+	 free(pstrOptions);
+       }
+     return cString("update triggered");
    }
    else if (strcasecmp(Command, "UPDD") == 0) 
    {

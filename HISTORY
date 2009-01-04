@@ -24,6 +24,8 @@ new:
   their episode names match and are not empty. Caution: if your EPG data has no episode 
   names for different episodes don't use this option! 'yes' will then be the better
   choice even if this results in double recordings.
+- epgsearch now uses the shutdown handler (introduced in vdr 1.5.1) to prevent a 
+  search timer update to be interrupted.
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 

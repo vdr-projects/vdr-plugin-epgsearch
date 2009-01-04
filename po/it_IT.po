@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-12-03 18:23+0100\n"
+"POT-Creation-Date: 2009-01-03 20:30+0100\n"
 "PO-Revision-Date: 2008-06-29 03:25+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -71,6 +71,10 @@ msgstr "Cerca nella guida EPG: per parole, repliche e altro"
 
 msgid "Program guide"
 msgstr "Guida programmi"
+
+#, fuzzy
+msgid "search timer update running"
+msgstr "Aggiornamento timer ricerca completato!"
 
 msgid "Direct access to epgsearch's search menu"
 msgstr "Accesso diretto al menu di ricerca di epgsearch"

@@ -46,7 +46,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 cSearchExts SearchExts;
 cSearchExts SearchTemplates;
-extern bool updateForced;
 
 #define MAX_SUBTITLE_LENGTH 40
 

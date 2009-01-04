@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-12-03 18:23+0100\n"
+"POT-Creation-Date: 2009-01-03 20:30+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -72,6 +72,10 @@ msgstr "Monipuolinen ohjelmaopas hakutoiminnolla"
 
 msgid "Program guide"
 msgstr "Ohjelmaopas"
+
+#, fuzzy
+msgid "search timer update running"
+msgstr "Hakuajastimet päivitetty!"
 
 msgid "Direct access to epgsearch's search menu"
 msgstr "Suoratoiminto EPGSearch-laajennoksen haulle"

@@ -69,7 +69,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <langinfo.h>
 #endif
 
-static const char VERSION[]        = "0.9.25.beta7";
+static const char VERSION[]        = "0.9.25.beta8";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -263,7 +263,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
       else
       {
          Epgsearch_updatesearchtimers_v1_0* serviceData = (Epgsearch_updatesearchtimers_v1_0*) Data;
-         updateForced = serviceData->showMessage?2:1;
+         updateForced = serviceData->showMessage?3:1;
       }
       return true;
    }
@@ -689,6 +689,11 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
    if      (!strcasecmp(Name, "LastMailConflicts")) strcpy(EPGSearchConfig.LastMailConflicts, Value);
 
    return true;
+}
+
+cString cPluginEpgsearch::Active(void)
+{
+  return cSearchTimerThread::justRunning?tr("search timer update running"):NULL;
 }
 
 VDRPLUGINCREATOR(cPluginEpgsearch); // Don't touch this!
