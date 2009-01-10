@@ -41,6 +41,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_deftimercheckmethod.h"
 #include "timerstatus.h"
 #include "epgsearch.h"
+#include <vdr/eitscan.h>
 
 // priority for background thread
 #define SEARCHTIMER_NICE 19
@@ -210,6 +211,17 @@ void cSearchTimerThread::Action(void)
       if (now >= nextUpdate || needUpdate)
       {
 	 justRunning = true;
+
+	 if (updateForced & UPDS_WITH_EPGSCAN)
+	 {
+  	    LogFile.Log(1,"starting EPG scan before search timer update");
+	    do
+	    {
+	       Wait.Wait(1000);
+	    }
+	    while(EITScanner.Active() && m_Active);
+  	    LogFile.Log(1,"EPG scan finished");
+	 }
          if (Timers.BeingEdited()) 		
          {
             Wait.Wait(1000);

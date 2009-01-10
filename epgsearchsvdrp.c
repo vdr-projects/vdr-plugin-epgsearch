@@ -63,10 +63,11 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
       "    Edit an existing search\n",
       "MODS ID ON|OFF\n"
       "    Turn on/off 'Use as search timer'\n",
-      "UPDS [ OSD ]\n"
+      "UPDS [ OSD ] [ SCAN ]\n"
       "    Update search timers.\n"
       "    If the optional keyword 'OSD' is passed, an OSD message\n"
-      "    will inform about update completion.",
+      "    will inform about update completion. With 'SCAN' you can\n"
+      "    trigger an EPG scan before the searchtimer udpate.",
       "UPDD\n"
       "    Reload epgsearchdone.data",
       "SETS <ON|OFF>\n"
@@ -151,6 +152,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 	   {
 	     if (strcasecmp(Option, "OSD")==0)
 	       updateForced |= UPDS_WITH_OSD;
+	     if (strcasecmp(Option, "SCAN")==0)
+	       updateForced |= UPDS_WITH_EPGSCAN;
 	     pstrOptionToken=strtok_r(NULL, "|", &pptr);
 	   }
 	 free(pstrOptions);

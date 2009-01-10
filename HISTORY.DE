@@ -28,7 +28,8 @@ neu:
   aufgezeichnet werden kann.
 - epgsearch verwendet nun den shutdown handler (eingeführt in vdr 1.5.1) um die Unter-
   brechung eines Suchtimerupdates zu verhindern.
-
+- das SVDRP-Kommando UPDS zum Auslösen von Suchtimer-Updates hat nun eine neue Option
+  'SCAN' mit der vor dem eigentlichen Update noch ein EPG-Scan ausgeführt wird.
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen

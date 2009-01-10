@@ -78,7 +78,6 @@ using std::string;
 
 #define UPDS_WITH_OSD (1<<1)
 #define UPDS_WITH_EPGSCAN (1<<2)
-#define UPDS_WITH_NOBREAK (1<<3)
 
 #if APIVERSNUM >= 10503 
 // Icons used in VDRSymbols-Font
