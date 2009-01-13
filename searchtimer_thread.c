@@ -476,6 +476,7 @@ void cSearchTimerThread::Action(void)
                   if (TimerWasModified(t)) continue;
                   if (!t->Event()) continue; // if there is no event, we keep the timer, since EPG could have been cleared
                   if (time(NULL) > t->StopTime()) continue; // if this timer has (just) finished, let VDR do the cleanup
+                  if (t->Recording()) continue; // do not remove recording timers
                   LogFile.Log(1,"delete timer for '%s' (%s, channel %s)", t->File(), DAYDATETIME(t->StartTime()), CHANNELNAME(t->Channel()));
                   RemoveTimer(t, t->Event());
                }
