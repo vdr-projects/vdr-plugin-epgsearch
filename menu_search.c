@@ -32,6 +32,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "recdone.h"
 #include "menu_searchedit.h"
 #include "menu_searchactions.h"
+#include "timerdone.h"
 
 using namespace std;
 
@@ -164,6 +165,7 @@ eOSState cMenuEPGSearchExt::Delete(void)
 	    SearchExts.Del(curSearchExt);
 	    SearchExts.Save();
 	    RecsDone.RemoveSearchID(DelID);
+	    TimersDone.RemoveEntriesOfSearch(DelID);
 	    cOsdMenu::Del(Current());
 	    Display();
 	    UpdateTitle();

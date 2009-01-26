@@ -30,6 +30,8 @@ neu:
   brechung eines Suchtimerupdates zu verhindern.
 - das SVDRP-Kommando UPDS zum Auslösen von Suchtimer-Updates hat nun eine neue Option
   'SCAN' mit der vor dem eigentlichen Update noch ein EPG-Scan ausgeführt wird.
+- beim Löschen eines Suchtimers wird nun auch dessen Liste erstellter Timer gelöscht, 
+  vorgeschlagen von Sundararaj Reel
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen

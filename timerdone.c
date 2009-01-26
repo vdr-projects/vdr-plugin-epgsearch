@@ -197,3 +197,15 @@ void cTimersDone::Update(const time_t Start, const time_t Stop, const cEvent* pE
    else
       Add(Timerdone);
 }
+
+void cTimersDone::RemoveEntriesOfSearch(const int SearchID)
+{
+   cTimerDone* timerdone = First();
+   while (timerdone) 
+   {
+      cTimerDone* timerdoneNext = Next(timerdone);
+      if (timerdone->searchID == SearchID)
+	Del(timerdone);
+      timerdone = timerdoneNext;
+   }	
+}

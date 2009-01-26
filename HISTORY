@@ -28,6 +28,8 @@ new:
   search timer update to be interrupted.
 - the SVDRP command UPDS for triggering search timer updates has now a new option 
   'SCAN' that will execute an EPG scan before the search timer update actually starts.
+- when deleting a search timer now its list of created timers is also cleared, 
+  suggested by Sundararaj Reel
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 

@@ -55,6 +55,7 @@ class cTimersDone : public cConfig<cTimerDone>, public cMutex {
     cTimerDone* InList(const time_t Start, const time_t Stop, const cEvent* pEvent, const int SearchID);
     void Update(const time_t Start, const time_t Stop, const cEvent* pEvent, const int SearchID, cTimerDone* timerdone);
     void ClearOutdated(void);
+    void RemoveEntriesOfSearch(const int SearchID);
 };
 
 extern cTimersDone TimersDone;
