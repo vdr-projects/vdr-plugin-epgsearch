@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -422,15 +422,18 @@ void cSearchTimerThread::Action(void)
                   continue;
                }
 
-               if (searchExt->action == searchTimerActionSwitchOnly) // add to switch list
+               if (searchExt->action == searchTimerActionSwitchOnly || searchExt->action == searchTimerActionAnnounceAndSwitch) // add to switch list
                {
                   time_t now = time(NULL);
                   if (now < pEvent->StartTime())
                   {
                      if (!SwitchTimers.InSwitchList(pEvent))
                      {			
-                        cMutexLock SwitchTimersLock(&SwitchTimers);	
-                        SwitchTimers.Add(new cSwitchTimer(pEvent, searchExt->switchMinsBefore, 0, 
+                        cMutexLock SwitchTimersLock(&SwitchTimers);
+			int mode = 0;
+			if (searchExt->action == searchTimerActionAnnounceAndSwitch)
+			  mode = 2;
+                        SwitchTimers.Add(new cSwitchTimer(pEvent, searchExt->switchMinsBefore, mode, 
 							  searchExt->unmuteSoundOnSwitch));
                         SwitchTimers.Save();
                         cSwitchTimerThread::Init(); 

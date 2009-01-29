@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,11 +31,11 @@ class cSwitchTimer : public cListObject
 public:
     const cEvent* event;
     int switchMinsBefore;
-    int announceOnly;
+    int mode; // 0 = switch, 1 = announce only, 2 = ask for switch
     int unmute;
 
     cSwitchTimer(void);
-    cSwitchTimer(const cEvent* Event, int SwitchMinsBefore=1, int announceOnly=0, int unmute=0);
+    cSwitchTimer(const cEvent* Event, int SwitchMinsBefore=1, int mode=0, int unmute=0);
     bool Parse(const char *s);
     cString ToText(bool& ignore);
     bool Save(FILE *f);

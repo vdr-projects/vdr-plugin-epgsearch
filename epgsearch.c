@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -69,7 +69,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <langinfo.h>
 #endif
 
-static const char VERSION[]        = "0.9.25.beta8";
+static const char VERSION[]        = "0.9.25.beta9";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -353,7 +353,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
                cSwitchTimer *lTimer = SwitchTimers.InSwitchList(serviceData->event);
                if (lTimer) {
                   serviceData->switchMinsBefore = lTimer->switchMinsBefore;
-                  serviceData->announceOnly     = lTimer->announceOnly;
+                  serviceData->mode             = lTimer->mode;
                } // if
                serviceData->success=lTimer!=NULL;
                break;
@@ -362,10 +362,10 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
                cSwitchTimer *lTimer = SwitchTimers.InSwitchList(serviceData->event);
                if (lTimer) {
                   lTimer->switchMinsBefore = serviceData->switchMinsBefore;
-                  lTimer->announceOnly     = serviceData->announceOnly;
+                  lTimer->mode             = serviceData->mode;
                } else {
                   cMutexLock SwitchTimersLock(&SwitchTimers);	
-                  SwitchTimers.Add(new cSwitchTimer(serviceData->event,serviceData->switchMinsBefore,serviceData->announceOnly));  
+                  SwitchTimers.Add(new cSwitchTimer(serviceData->event,serviceData->switchMinsBefore,serviceData->mode));  
                   SwitchTimers.Save(); 
                   cSwitchTimerThread::Init();
                } // if

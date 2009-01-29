@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -49,7 +49,8 @@ typedef enum
 {
     searchTimerActionRecord=0,
     searchTimerActionAnnounceOnly,
-    searchTimerActionSwitchOnly
+    searchTimerActionSwitchOnly,
+    searchTimerActionAnnounceAndSwitch
 } searchTimerAction;
 
 class cSearchExt;

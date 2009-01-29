@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-01-03 20:30+0100\n"
+"POT-Creation-Date: 2009-01-29 18:55+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Oktay Yolgeçen <oktay_73@yahoo.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -912,6 +912,9 @@ msgstr ""
 msgid "Switch only"
 msgstr ""
 
+msgid "Announce and switch"
+msgstr ""
+
 msgid "Selection"
 msgstr ""
 
@@ -987,6 +990,9 @@ msgid "Switch ... minutes before start"
 msgstr ""
 
 msgid "Unmute sound"
+msgstr ""
+
+msgid "Ask ... minutes before start"
 msgstr ""
 
 msgid "  Series recording"
@@ -1106,6 +1112,12 @@ msgstr ""
 msgid "Edit entry"
 msgstr ""
 
+msgid "Switch"
+msgstr ""
+
+msgid "Announce ... minutes before start"
+msgstr ""
+
 msgid "action at"
 msgstr ""
 
@@ -1141,6 +1153,10 @@ msgid "%d new broadcast(s) found! Show them?"
 msgstr ""
 
 msgid "Search timer update done!"
+msgstr ""
+
+#, c-format
+msgid "%s starts: switch to?"
 msgstr ""
 
 msgid "Programming timer failed!"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-01-03 20:30+0100\n"
+"POT-Creation-Date: 2009-01-29 18:55+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -950,6 +950,10 @@ msgstr "Sólo avisar"
 msgid "Switch only"
 msgstr "Cambiar de canal"
 
+#, fuzzy
+msgid "Announce and switch"
+msgstr "Sólo avisar"
+
 msgid "Selection"
 msgstr "selección"
 
@@ -1034,6 +1038,10 @@ msgstr "Cambiar ... minutos antes del inicio"
 
 msgid "Unmute sound"
 msgstr "Sonido quitar silencio"
+
+#, fuzzy
+msgid "Ask ... minutes before start"
+msgstr "Cambiar ... minutos antes del inicio"
 
 msgid "  Series recording"
 msgstr "  Grabación en serie"
@@ -1152,6 +1160,14 @@ msgstr "¿Sobrescribir las entradas existentes?"
 msgid "Edit entry"
 msgstr "Editar entrada"
 
+#, fuzzy
+msgid "Switch"
+msgstr "Cambiar de canal"
+
+#, fuzzy
+msgid "Announce ... minutes before start"
+msgstr "Cambiar ... minutos antes del inicio"
+
 msgid "action at"
 msgstr "ejecutar a las"
 
@@ -1189,6 +1205,10 @@ msgstr "¡%d nuevas emisiones encontradas! ¿Mostrarlas?"
 msgid "Search timer update done!"
 msgstr "¡Programación por búsqueda actualizada!"
 
+#, fuzzy, c-format
+msgid "%s starts: switch to?"
+msgstr "¿Añadir a la lista de cambio?"
+
 msgid "Programming timer failed!"
 msgstr "¡La programación ha fallado!"
 
@@ -1203,3 +1223,7 @@ msgstr "en %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "en %02ldm"
+
+#, fuzzy
+#~ msgid "Ask for switching"
+#~ msgstr "¿Añadir a la lista de cambio?"

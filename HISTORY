@@ -3,6 +3,9 @@ VDR Plugin 'epgsearch' Revision History
 
 2008-xx-xx; Version 0.9.25
 new:
+- Search timers now have a new action "Ask for switching". This announces the
+  event via OSD right before it starts and lets you switch to its channel with 'Ok'.
+  Switch timers now have the same option.
 - new internal variables:
   * %day%, %month% and %year% which return the numeric day, month and year
     (with century) of an event

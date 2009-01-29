@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 // --- cMenuEditSwitchTimer --------------------------------------------------------
 class cMenuEditSwitchTimer : public cOsdMenu {
 private:
+  char *SwitchModes[3];
   cSwitchTimer *switchTimer;
   cSwitchTimer data;
   bool addIfConfirmed;
@@ -39,12 +40,16 @@ public:
 cMenuEditSwitchTimer::cMenuEditSwitchTimer(cSwitchTimer* SwitchTimer, bool New)
 :cOsdMenu(tr("Edit entry"),30)
 {
-    switchTimer = SwitchTimer;
-    addIfConfirmed = New;
-    if (switchTimer) 
+  SwitchModes[0] = strdup(tr("Switch"));
+  SwitchModes[1] = strdup(tr("Announce only"));
+  SwitchModes[2] = strdup(tr("Announce and switch"));
+
+  switchTimer = SwitchTimer;
+  addIfConfirmed = New;
+  if (switchTimer) 
     {
-	data = *switchTimer;
-	Set();
+      data = *switchTimer;
+      Set();
     }
 }
 
@@ -53,13 +58,19 @@ void cMenuEditSwitchTimer::Set()
     int current = Current();
     Clear();
 
-    Add(new cMenuEditIntItem(tr("Switch ... minutes before start"), &data.switchMinsBefore, 0, 99));
+    Add(new cMenuEditStraItem(tr("Action"), &data.mode, 3, SwitchModes));
+    if (data.mode == 0) // always switch
+      Add(new cMenuEditIntItem(tr("Switch ... minutes before start"), &data.switchMinsBefore, 0, 99));
+    if (data.mode == 1) // only announce
+      Add(new cMenuEditIntItem(tr("Announce ... minutes before start"), &data.switchMinsBefore, 0, 99));
+    if (data.mode == 2) // ask for switching
+      Add(new cMenuEditIntItem(tr("Ask ... minutes before start"), &data.switchMinsBefore, 0, 99));
+
     cString info = cString::sprintf("%s:\t%s", tr("action at"), 
 				    TIMESTRING(data.event->StartTime() - 60 * data.switchMinsBefore));
     cOsdItem* pInfoItem = new cOsdItem(info);
     pInfoItem->SetSelectable(false);
     Add(pInfoItem);
-    Add(new cMenuEditBoolItem(tr("Announce only"), &data.announceOnly, trVDR("no"), trVDR("yes")));
     Add(new cMenuEditBoolItem(tr("Unmute sound"), &data.unmute, trVDR("no"), trVDR("yes")));    
     SetCurrent(Get(current));
 }
@@ -67,9 +78,11 @@ void cMenuEditSwitchTimer::Set()
 eOSState cMenuEditSwitchTimer::ProcessKey(eKeys Key)
 {
     int iOldMinsBefore = data.switchMinsBefore;
+    int iOldMode = data.mode;
     eOSState state = cOsdMenu::ProcessKey(Key);
 
-    if (iOldMinsBefore != data.switchMinsBefore)
+    if (iOldMinsBefore != data.switchMinsBefore ||
+	iOldMode != data.mode)
     {
 	time_t now = time(NULL);
 	if (data.event->StartTime() - 60 * data.switchMinsBefore < now)
@@ -122,7 +135,7 @@ void cMenuSwitchTimerItem::Set(void)
 
     cChannel* channel = Channels.GetByChannelID(event->ChannelID(),true,true);
 
-    msprintf(&buffer, "%s\t%d\t%s\t%s\t%d\'\t%s~%s", switchTimer->announceOnly?"":">", channel?channel->Number():-1, datebuf, TIMESTRING(startTime), switchTimer->switchMinsBefore, event->Title()?event->Title():"", event->ShortText()?event->ShortText():"");
+    msprintf(&buffer, "%s\t%d\t%s\t%s\t%d\'\t%s~%s", switchTimer->mode==1?"":">", channel?channel->Number():-1, datebuf, TIMESTRING(startTime), switchTimer->switchMinsBefore, event->Title()?event->Title():"", event->ShortText()?event->ShortText():"");
     SetText(buffer, false);
 }
 
@@ -231,7 +244,7 @@ eOSState cMenuSwitchTimers::ProcessKey(eKeys Key)
 	    if (CurrentSwitchTimer())
 	    {
 		cSwitchTimer* switchTimer = CurrentSwitchTimer();
-	        switchTimer->announceOnly = 1 - switchTimer->announceOnly;
+	        switchTimer->mode = switchTimer->mode==1?2:1;
 		cMutexLock SwitchTimersLock(&SwitchTimers);
 		SwitchTimers.Save();
 		RefreshCurrent();

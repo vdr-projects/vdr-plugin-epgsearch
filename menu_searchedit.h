@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -48,7 +48,7 @@ protected:
   char *SearchModes[6];
   char *DaysOfWeek[8];
   char *UseChannelSel[4];
-  char *SearchTimerModes[3];
+  char *SearchTimerModes[4];
   char *BlacklistModes[3];
   char *DelModes[3];
   char *SearchActiveModes[3];

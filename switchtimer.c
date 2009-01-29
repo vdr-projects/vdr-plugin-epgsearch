@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,15 +31,15 @@ cSwitchTimer::cSwitchTimer(void)
 {
     event = NULL;
     switchMinsBefore = 1;
-    announceOnly = false;
+    mode = 0;
     unmute = 0;
 }
 
-cSwitchTimer::cSwitchTimer(const cEvent* Event, int SwitchMinsBefore, int AnnounceOnly, int Unmute)
+cSwitchTimer::cSwitchTimer(const cEvent* Event, int SwitchMinsBefore, int Mode, int Unmute)
 {
     event = Event;
     switchMinsBefore = SwitchMinsBefore;
-    announceOnly = AnnounceOnly;
+    mode = Mode;
     unmute = Unmute;
 }
 
@@ -87,7 +87,7 @@ bool cSwitchTimer::Parse(const char *s)
 		switchMinsBefore = atoi(value);
 		break;
 	    case 5:
-		announceOnly = atoi(value);
+		mode = atoi(value);
 		break;
 	    case 6:
 		unmute = atoi(value);
@@ -130,7 +130,7 @@ cString cSwitchTimer::ToText(bool& ignore)
     cString buffer = cString::sprintf("%s:%u:%ld:%d:%d:%d", 
 				      CHANNELSTRING(channel), event->EventID(), 
 				      event->StartTime(), switchMinsBefore, 
-				      announceOnly?1:0, unmute?1:0);
+				      mode, unmute?1:0);
     return buffer;
 }
 

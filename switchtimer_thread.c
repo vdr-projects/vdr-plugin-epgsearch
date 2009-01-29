@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -88,24 +88,44 @@ void cSwitchTimerThread::Action(void)
             if (event && event->StartTime() - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
             {
                cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true, true);
-               bool doswitch = (switchTimer->announceOnly == 0);
+               bool doSwitch = (switchTimer->mode == 0);
+               bool doAsk = (switchTimer->mode == 2);
+	       bool doUnmute = switchTimer->unmute;
                SwitchTimers.Del(switchTimer);
+	       
                if (channel && (event->EndTime() >= now))
                {
-                  // announce and switch
-                  if (doswitch)
-                  {
-                     LogFile.Log(1,"switching to channel %d", channel->Number());
-                     cString cmd = cString::sprintf("CHAN %d", channel->Number());
-		     if (cDevice::CurrentChannel() != channel->Number())
-		       SendViaSVDRP(cmd);
-
-		     if (switchTimer->unmute && cDevice::PrimaryDevice()->IsMute())
-		       cDevice::PrimaryDevice()->ToggleMute();
-                  }
                   cString Message = cString::sprintf("%s: %s - %s", event->Title(), 
 						     CHANNELNAME(channel), GETTIMESTRING(event));
-                  SendMsg(Message);
+		  cString SwitchCmd = cString::sprintf("CHAN %d", channel->Number());
+                  // switch
+                  if (doSwitch)
+                  {
+                     LogFile.Log(1,"switching to channel %d", channel->Number());
+		     if (cDevice::CurrentChannel() != channel->Number())
+		       SendViaSVDRP(SwitchCmd);
+
+		     if (doUnmute && cDevice::PrimaryDevice()->IsMute())
+		       cDevice::PrimaryDevice()->ToggleMute();
+                  }
+		  if (!doAsk)
+		    SendMsg(Message);
+
+		  if (doAsk)
+		    {
+		      cString Message = cString::sprintf(tr("%s starts: switch to?"), event->Title());
+		      if(SendMsg(Message, true,7) == kOk)
+			{
+			  LogFile.Log(1,"switching to channel %d", channel->Number());
+			  if (cDevice::CurrentChannel() != channel->Number())
+			    SendViaSVDRP(SwitchCmd);
+			  
+			  if (doUnmute && cDevice::PrimaryDevice()->IsMute())
+			    cDevice::PrimaryDevice()->ToggleMute();
+
+			}
+		    }			
+		
                   if (m_Active)
 		    Wait.Wait(1000 * MSG_DELAY);
                }

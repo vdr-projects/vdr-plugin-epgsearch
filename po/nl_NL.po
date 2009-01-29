@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-01-03 20:30+0100\n"
+"POT-Creation-Date: 2009-01-29 18:55+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -947,6 +947,10 @@ msgstr "Alleen aankondigen (geen timer)"
 msgid "Switch only"
 msgstr "Alleen schakelen"
 
+#, fuzzy
+msgid "Announce and switch"
+msgstr "Alleen aankondigen (geen timer)"
+
 msgid "Selection"
 msgstr "Selectie"
 
@@ -1029,6 +1033,10 @@ msgstr "Schakel ... minuten voor start"
 
 msgid "Unmute sound"
 msgstr ""
+
+#, fuzzy
+msgid "Ask ... minutes before start"
+msgstr "Schakel ... minuten voor start"
 
 msgid "  Series recording"
 msgstr "  Serie's opnemen"
@@ -1147,6 +1155,14 @@ msgstr "Overschrijf bestaande invoer?"
 msgid "Edit entry"
 msgstr "Wijzig invoer"
 
+#, fuzzy
+msgid "Switch"
+msgstr "Alleen schakelen"
+
+#, fuzzy
+msgid "Announce ... minutes before start"
+msgstr "Schakel ... minuten voor start"
+
 msgid "action at"
 msgstr "actie op"
 
@@ -1184,6 +1200,10 @@ msgstr "%d nieuwe uitzending(en) gevonden! Tonen?"
 msgid "Search timer update done!"
 msgstr "Verversen zoektimer gereed!"
 
+#, fuzzy, c-format
+msgid "%s starts: switch to?"
+msgstr "Voeg toe aan schakellijst?"
+
 msgid "Programming timer failed!"
 msgstr "Programmeren timer mislukt!"
 
@@ -1198,3 +1218,7 @@ msgstr "in %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "in %02ldm"
+
+#, fuzzy
+#~ msgid "Ask for switching"
+#~ msgstr "Voeg toe aan schakellijst?"

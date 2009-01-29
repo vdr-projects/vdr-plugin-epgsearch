@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -180,7 +180,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
       if (event && inSwitchList)
       {
          cSwitchTimer* s = SwitchTimers.InSwitchList(event);
-	 t[0] = (s && s->announceOnly)?'s':'S';
+	 t[0] = (s && s->mode==1)?'s':'S';
       }
       if (EPGSearchConfig.WarEagle && isUTF8)
 	{

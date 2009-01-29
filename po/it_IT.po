@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-01-03 20:30+0100\n"
+"POT-Creation-Date: 2009-01-29 18:55+0100\n"
 "PO-Revision-Date: 2008-06-29 03:25+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -952,6 +952,10 @@ msgstr "Solo annuncio"
 msgid "Switch only"
 msgstr "Cambia soltanto"
 
+#, fuzzy
+msgid "Announce and switch"
+msgstr "Solo annuncio"
+
 msgid "Selection"
 msgstr "Selezione"
 
@@ -1036,6 +1040,10 @@ msgstr "Cambia ... minuti prima dell'avvio"
 
 msgid "Unmute sound"
 msgstr "Togli suono muto"
+
+#, fuzzy
+msgid "Ask ... minutes before start"
+msgstr "Cambia ... minuti prima dell'avvio"
 
 msgid "  Series recording"
 msgstr "  Registrazione di serie"
@@ -1154,6 +1162,14 @@ msgstr "Sovrascrivere valori esistenti?"
 msgid "Edit entry"
 msgstr "Modifica valore"
 
+#, fuzzy
+msgid "Switch"
+msgstr "Cambia soltanto"
+
+#, fuzzy
+msgid "Announce ... minutes before start"
+msgstr "Cambia ... minuti prima dell'avvio"
+
 msgid "action at"
 msgstr "azione alle"
 
@@ -1191,6 +1207,10 @@ msgstr "%d nuove emittenti trovate! Mostrarle?"
 msgid "Search timer update done!"
 msgstr "Aggiornamento timer ricerca completato!"
 
+#, fuzzy, c-format
+msgid "%s starts: switch to?"
+msgstr "Aggiungere alla lista modifiche?"
+
 msgid "Programming timer failed!"
 msgstr "Programmazione timer fallito!"
 
@@ -1205,3 +1225,7 @@ msgstr "in %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "in %02ldm"
+
+#, fuzzy
+#~ msgid "Ask for switching"
+#~ msgstr "Aggiungere alla lista modifiche?"

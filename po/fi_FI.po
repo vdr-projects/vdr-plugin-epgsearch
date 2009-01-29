@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-01-03 20:30+0100\n"
+"POT-Creation-Date: 2009-01-29 18:55+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -954,6 +954,10 @@ msgstr "muistutus"
 msgid "Switch only"
 msgstr "kanavanvaihto"
 
+#, fuzzy
+msgid "Announce and switch"
+msgstr "muistutus"
+
 msgid "Selection"
 msgstr "valittu"
 
@@ -1038,6 +1042,10 @@ msgstr "Vaihda ... minuuttia ennen alkua"
 
 msgid "Unmute sound"
 msgstr "Ota mykistys pois päältä"
+
+#, fuzzy
+msgid "Ask ... minutes before start"
+msgstr "Vaihda ... minuuttia ennen alkua"
 
 msgid "  Series recording"
 msgstr "  Sarjatallennus"
@@ -1156,6 +1164,14 @@ msgstr "Kirjoitetaanko olemassaolevan päälle?"
 msgid "Edit entry"
 msgstr "Muokkaa valintaa"
 
+#, fuzzy
+msgid "Switch"
+msgstr "kanavanvaihto"
+
+#, fuzzy
+msgid "Announce ... minutes before start"
+msgstr "Vaihda ... minuuttia ennen alkua"
+
 msgid "action at"
 msgstr "Kellonaika kanavanvaihdolle"
 
@@ -1193,6 +1209,10 @@ msgstr "Löydettiin %d uutta lähetystä! Näytetäänkö?"
 msgid "Search timer update done!"
 msgstr "Hakuajastimet päivitetty!"
 
+#, fuzzy, c-format
+msgid "%s starts: switch to?"
+msgstr "Lisätäänkö kanavanvaihtolistalle?"
+
 msgid "Programming timer failed!"
 msgstr "Ajastimen ohjelmointi epäonnistui!"
 
@@ -1207,3 +1227,7 @@ msgstr "%02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"
+
+#, fuzzy
+#~ msgid "Ask for switching"
+#~ msgstr "Lisätäänkö kanavanvaihtolistalle?"

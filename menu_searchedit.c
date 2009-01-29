@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -74,6 +74,7 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
    SearchTimerModes[0] = strdup(tr("Record"));
    SearchTimerModes[1] = strdup(tr("Announce only"));
    SearchTimerModes[2] = strdup(tr("Switch only"));
+   SearchTimerModes[3] = strdup(tr("Announce and switch"));
 
    BlacklistModes[0] = strdup(trVDR("no"));
    BlacklistModes[1] = strdup(tr("Selection"));
@@ -304,10 +305,15 @@ void cMenuEditSearchExt::Set()
    Add(new cMenuEditStraItem( tr("Use as search timer"), &data.useAsSearchTimer, 3, SearchActiveModes));
    if (data.useAsSearchTimer)
    {
-      Add(new cMenuEditStraItem(IndentMenuItem(tr("Action")), &data.action, 3, SearchTimerModes));
+      Add(new cMenuEditStraItem(IndentMenuItem(tr("Action")), &data.action, 4, SearchTimerModes));
       if (data.action == searchTimerActionSwitchOnly)
       {
          Add(new cMenuEditIntItem(IndentMenuItem(tr("Switch ... minutes before start")), &data.switchMinsBefore, 0, 99));
+         Add(new cMenuEditBoolItem(IndentMenuItem(tr("Unmute sound")), &data.unmuteSoundOnSwitch, trVDR("no"), trVDR("yes")));
+      }
+      if (data.action ==  searchTimerActionAnnounceAndSwitch)
+      {
+         Add(new cMenuEditIntItem(IndentMenuItem(tr("Ask ... minutes before start")), &data.switchMinsBefore, 0, 99));
          Add(new cMenuEditBoolItem(IndentMenuItem(tr("Unmute sound")), &data.unmuteSoundOnSwitch, trVDR("no"), trVDR("yes")));
       }
       if (data.action == searchTimerActionRecord)

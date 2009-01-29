@@ -271,9 +271,11 @@ aktiv sein soll.
 
 Standard ist 'Aufnehmen', also das Erzeugen eines Timers für das
 Suchergebnis. Man kann aber auch wählen, dass nur eine Ankündigung
-der Sendung per OSD vorgenommen werden soll. Eine weitere
-Möglichkeit ist 'nur umschalten'. Dadurch wird automatisch eine
-Minute vor Beginn der Sendung auf deren Kanal gewechselt.
+der Sendung per OSD vorgenommen werden soll, sobald diese gefunden wird. 
+Eine weitere Möglichkeit ist 'nur umschalten'. Dadurch wird automatisch eine
+Minute vor Beginn der Sendung auf deren Kanal gewechselt. Ebenso kann
+mit 'Ankündigen und Umschalten' die Sendung vor ihrem Beginn angekündigt werden
+und mit 'Ok' zum entsprechenden Kanal gewechselt werden.
 
 =item - B<Serienaufnahme:>
 
@@ -1159,7 +1161,7 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LIZENZ
 
-Copyright © 2004-2008 Christian Wieninger
+Copyright © 2004-2009 Christian Wieninger
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation 

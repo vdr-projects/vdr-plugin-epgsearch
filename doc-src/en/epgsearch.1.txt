@@ -270,8 +270,10 @@ or not.
 =item - B<Action:>
 
 Default action is creating a timer for the search results. But you can
-also choose to simply announce the found event via OSD or to switch
-to the event one minute before it starts. 
+also choose to simply announce the found event via OSD as soon as it is found
+or to automatically switch to the event before it starts. It's also possible to 
+get an announcement via OSD before the event starts and to switch to its channel 
+with 'Ok'.
 
 =item - B<Serial recording:>
 
@@ -1095,7 +1097,7 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LICENSE
 
-Copyright (C) 2004-2008 Christian Wieninger
+Copyright (C) 2004-2009 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
