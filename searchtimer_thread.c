@@ -181,7 +181,7 @@ bool cSearchTimerThread::TimerWasModified(cTimer* t)
    {
       time_t StartTime = time_t(atol(start));
       time_t StopTime = time_t(atol(stop));
-      if (t->StartTime() != StartTime || t->StopTime() != StopTime)
+      if (abs(t->StartTime() - StartTime) >= 60 || abs(t->StopTime() -StopTime) >= 60)
          bMod = true;
    }
    if (start) free(start);

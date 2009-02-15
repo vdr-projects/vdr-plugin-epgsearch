@@ -3,7 +3,7 @@ VDR Plugin 'epgsearch' Revision History
 
 2008-xx-xx; Version 0.9.25
 neu:
-- Suchtimer haben nun eine neue Aktion "Umschalten erfragen". Damit wird eine Sendung 
+- Suchtimer haben nun eine neue Aktion "Ankündigen und Umschalten". Damit wird eine Sendung 
   via OSD kurz vor ihrem Start angekündigt. Mit 'Ok' kann zum entsprechenden Kanal
   gewechselt werden. Umschalttimer haben die gleiche Option erhalten.
 - neue interne Variablen:
