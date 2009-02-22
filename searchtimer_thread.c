@@ -407,7 +407,7 @@ void cSearchTimerThread::Action(void)
                   if (t || // timer already exists or
                       NoAnnounces.InList(pEvent) || // announcement not wanted anymore or
                       (EPGSearchConfig.noAnnounceWhileReplay && 
-		       cDevice::PrimaryDevice()->Replaying() && cDevice::PrimaryDevice()->Transferring() && 
+		       cDevice::PrimaryDevice()->Replaying() && 
 		       !(updateForced & UPDS_WITH_OSD))  // no announce while replay within automatic updates
                      ) 
                   {
