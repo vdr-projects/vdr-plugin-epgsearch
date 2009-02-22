@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-01-29 18:55+0100\n"
+"POT-Creation-Date: 2009-02-22 10:57+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -1205,9 +1205,9 @@ msgstr "¡%d nuevas emisiones encontradas! ¿Mostrarlas?"
 msgid "Search timer update done!"
 msgstr "¡Programación por búsqueda actualizada!"
 
-#, fuzzy, c-format
-msgid "%s starts: switch to?"
-msgstr "¿Añadir a la lista de cambio?"
+#, c-format
+msgid "Switch to (%d) '%s'?"
+msgstr ""
 
 msgid "Programming timer failed!"
 msgstr "¡La programación ha fallado!"
@@ -1223,6 +1223,10 @@ msgstr "en %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "en %02ldm"
+
+#, fuzzy
+#~ msgid "%s starts: switch to?"
+#~ msgstr "¿Añadir a la lista de cambio?"
 
 #, fuzzy
 #~ msgid "Ask for switching"

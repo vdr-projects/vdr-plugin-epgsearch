@@ -27,7 +27,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/tools.h>
 #include <vdr/plugin.h>
 
-#define MSG_DELAY 5
+#define MSG_DELAY 7
 #define SWITCHTIMER_WAIT 20
 
 cSwitchTimerThread *cSwitchTimerThread::m_Instance = NULL;
@@ -113,8 +113,8 @@ void cSwitchTimerThread::Action(void)
 
 		  if (doAsk)
 		    {
-		      cString Message = cString::sprintf(tr("%s starts: switch to?"), event->Title());
-		      if(SendMsg(Message, true,7) == kOk)
+		      cString Message = cString::sprintf(tr("Switch to (%d) '%s'?"), channel->Number(), event->Title());
+		      if(SendMsg(Message, true, MSG_DELAY) == kOk)
 			{
 			  LogFile.Log(1,"switching to channel %d", channel->Number());
 			  if (cDevice::CurrentChannel() != channel->Number())
