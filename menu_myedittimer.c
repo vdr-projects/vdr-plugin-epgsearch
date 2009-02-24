@@ -120,6 +120,8 @@ void cMenuMyEditTimer::Set()
 
     cSearchExt* search = TriggeredFromSearchTimer(timer);    
 
+    Add(new cMenuEditStrItem( trVDR("File"), file, MaxFileName, trVDR(FileNameChars)));
+    Add(new cMenuEditStrItem( tr("Directory"), directory, MaxFileName, tr(AllowedChars)));
     Add(new cMenuEditBitItem( trVDR("Active"),       &flags, tfActive));
 #ifdef USE_PINPLUGIN
     if (cOsd::pinValid) Add(new cMenuEditChanItem(tr("Channel"), &channel));
@@ -147,8 +149,6 @@ void cMenuMyEditTimer::Set()
       Add(new cOsdItem(buf));
     }
 #endif
-    Add(new cMenuEditStrItem( trVDR("File"), file, MaxFileName, trVDR(FileNameChars)));
-    Add(new cMenuEditStrItem( tr("Directory"), directory, MaxFileName, tr(AllowedChars)));
 
     if (search)
     {

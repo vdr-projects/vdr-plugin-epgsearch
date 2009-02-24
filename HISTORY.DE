@@ -35,6 +35,9 @@ neu:
   'SCAN' mit der vor dem eigentlichen Update noch ein EPG-Scan ausgeführt wird.
 - beim Löschen eines Suchtimers wird nun auch dessen Liste erstellter Timer gelöscht, 
   vorgeschlagen von Sundararaj Reel
+- 'Datei' und 'Verzeichnis' an den Anfang des Timeredit-Menüs verlegt, da es zumindest bei 
+  mir das am meisten editierte Feld ist, z.B. bei wegen der Auswahl eines Ordners für die 
+  Aufnahme.
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen

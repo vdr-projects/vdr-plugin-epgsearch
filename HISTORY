@@ -33,6 +33,8 @@ new:
   'SCAN' that will execute an EPG scan before the search timer update actually starts.
 - when deleting a search timer now its list of created timers is also cleared, 
   suggested by Sundararaj Reel
+- moved 'file' and 'directory' to the top in the timer edit menu, since at least in 
+  my case its the most common entry to change, e.g. to select a folder for the recording.
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 

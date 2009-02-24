@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-02-22 10:57+0100\n"
+"POT-Creation-Date: 2009-02-24 18:29+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -800,14 +800,14 @@ msgstr "Resultados de la búsqueda"
 msgid "Timer conflict! Show?"
 msgstr "¿Mostrar conflicto de programación?"
 
+msgid "Directory"
+msgstr "Directorio"
+
 msgid "Channel"
 msgstr "Canal"
 
 msgid "Childlock"
 msgstr "Bloqueo niños"
-
-msgid "Directory"
-msgstr "Directorio"
 
 msgid "Timer check"
 msgstr "Comprobación"

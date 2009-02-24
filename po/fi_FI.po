@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-02-22 10:57+0100\n"
+"POT-Creation-Date: 2009-02-24 18:29+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -804,14 +804,14 @@ msgstr "Hakutulokset"
 msgid "Timer conflict! Show?"
 msgstr "Päällekkäisiä ajastimia! Näytetäänkö?"
 
+msgid "Directory"
+msgstr "Hakemisto"
+
 msgid "Channel"
 msgstr "Kanava"
 
 msgid "Childlock"
 msgstr "Lapsilukko"
-
-msgid "Directory"
-msgstr "Hakemisto"
 
 msgid "Timer check"
 msgstr "Valvontatapa"
