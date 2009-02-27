@@ -48,7 +48,8 @@ class cLogFile: public cFile
 		char* buffer = NULL;
 		va_list Arg; 
 		va_start(Arg,text); 
-		vasprintf(&buffer, text, Arg); 
+		if (vasprintf(&buffer, text, Arg) < 0)
+		   esyslog("EPGSearch: vasprintf error");
 		va_end(Arg);
 		time_t now = time(NULL);
 
@@ -73,7 +74,8 @@ class cLogFile: public cFile
 	    char* buffer = NULL;
 	    va_list Arg; 
 	    va_start(Arg,text); 
-	    vasprintf(&buffer, text, Arg); 
+	    if (vasprintf(&buffer, text, Arg) < 0)
+	       esyslog("EPGSearch: vasprintf error");
 	    va_end(Arg);
 	    esyslog("EPGSearch: %s", buffer);
 	    Log(1, "%s", buffer);
@@ -84,7 +86,8 @@ class cLogFile: public cFile
 	    char* buffer = NULL;
 	    va_list Arg; 
 	    va_start(Arg,text); 
-	    vasprintf(&buffer, text, Arg); 
+	    if (vasprintf(&buffer, text, Arg) < 0)
+	       esyslog("EPGSearch: vasprintf error");
 	    va_end(Arg);
 	    isyslog("EPGSearch: %s", buffer);
 	    Log(1, "%s", buffer);

@@ -122,7 +122,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
 		  memset(szProgressPart + 1, ICON_BAR_EMPTY, 6);
 		  szProgressPart[7] = ICON_BAR_CLOSE;
 		  szProgressPart[8] = 0;
-		  memset(szProgressPart, ICON_BAR_FULL, frac);
+		  memset(szProgressPart, ICON_BAR_FULL, frac?frac:sizeof(szProgressPart));
 		}
 	      else
 		{
