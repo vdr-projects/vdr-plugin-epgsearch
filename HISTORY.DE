@@ -10,8 +10,9 @@ neu:
   * %day%, %month% und %year% liefern den numerische Tag, das Monat und das
     Jahr (mit Jahrhundert) einer Sendung
   * %chgrp% liefert die VDR Kanalgruppe einer Sendung
-- Update der französischen Übersetzung, Danke an Patrice Staudt
+- Im Gedenken an pat: Update der französischen Übersetzung, Danke an Patrice Staudt
 - Update der italienischen Übersetzung, Danke an Diego Pierotto
+- Update der finnischen Übersetzung, Danke an Rolf Ahrenberg
 - neues SVDRP-Kommando 'MENU [NOW|PRG|SUM]' zum Aufruf eines der OSD-Hauptmenüs
   oder der Inhaltsangabe der aktuellen Sendung. Falls irgendein epgsearch-Menü 
   geöffnet ist, schließt ein weiteres SVDRP-Kommando dieses wieder.
