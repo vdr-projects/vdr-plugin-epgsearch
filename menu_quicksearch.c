@@ -35,7 +35,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 // --- cMenuQuickSearch --------------------------------------------------------
 cMenuQuickSearch::cMenuQuickSearch(cSearchExt* Quicksearch)
-:cMenuEditSearchExt(Quicksearch, true, false)
+:cMenuEditSearchExt(Quicksearch, true, true)
 {
     editmode = QUICKSEARCHSIMPLE;
     Set();
