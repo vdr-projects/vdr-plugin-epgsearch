@@ -39,6 +39,9 @@ neu:
 - 'Datei' und 'Verzeichnis' an den Anfang des Timeredit-Menüs verlegt, da es zumindest bei 
   mir das am meisten editierte Feld ist, z.B. bei wegen der Auswahl eines Ordners für die 
   Aufnahme.
+- Wareagle Icons werden bei Verwendung des VDRSymbols-Font nun automatisch aktiv (kann aber
+  mit WarEagleIcons=0 in epgsearchmenu.conf überschrieben werden), vorgeschlagen von 
+  Ronny Kornexl
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen

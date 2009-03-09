@@ -36,6 +36,8 @@ new:
   suggested by Sundararaj Reel
 - moved 'file' and 'directory' to the top in the timer edit menu, since at least in 
   my case its the most common entry to change, e.g. to select a folder for the recording.
+- auto enable Wareagle icons if VDRSymbols font is used (can be overwritten with
+  WarEagleIcons=0 in epgsearchmenu.conf), suggested by Ronny Kornexl
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 
