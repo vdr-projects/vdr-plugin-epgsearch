@@ -38,6 +38,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "afuzzy.h"
 #include "i18n.h"
 #include "timerstatus.h"
+#if APIVERSNUM >= 10503 
+#include <langinfo.h>
+#endif
 
 #ifdef HAVE_PCREPOSIX
 #include <pcreposix.h>
@@ -1029,4 +1032,28 @@ int msprintf(char **strp, const char *fmt, ...)
   int res=vasprintf (strp, fmt, ap);
   va_end (ap);
   return res;
+}
+
+std::string GetCodeset()
+{
+#if APIVERSNUM >= 10503 
+   // Taken from VDR's vdr.c
+   char *CodeSet = NULL;
+   if (setlocale(LC_CTYPE, ""))
+     CodeSet = nl_langinfo(CODESET);
+   else {
+     char *LangEnv = getenv("LANG"); // last resort in case locale stuff isn't installed
+     if (LangEnv) {
+       CodeSet = strchr(LangEnv, '.');
+       if (CodeSet)
+	 CodeSet++; // skip the dot
+     }
+   }
+   if (CodeSet)
+     return std::string(CodeSet);
+   else
+     return "ISO-8859-15";
+#else
+   return "ISO-8859-15";
+#endif
 }

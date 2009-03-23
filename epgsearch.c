@@ -65,11 +65,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_quicksearch.h"
 #include "menu_announcelist.h"
 #include "confdloader.h"
-#if APIVERSNUM >= 10503 
-#include <langinfo.h>
-#endif
 
-static const char VERSION[]        = "0.9.25.beta11";
+static const char VERSION[]        = "0.9.25.beta12";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -467,23 +464,8 @@ bool cPluginEpgsearch::Start(void)
 
 void cPluginEpgsearch::CheckUTF8()
 {
-#if APIVERSNUM >= 10503 
-   // Taken from VDR's vdr.c
-   char *CodeSet = NULL;
-   if (setlocale(LC_CTYPE, ""))
-     CodeSet = nl_langinfo(CODESET);
-   else {
-     char *LangEnv = getenv("LANG"); // last resort in case locale stuff isn't installed
-     if (LangEnv) {
-       CodeSet = strchr(LangEnv, '.');
-       if (CodeSet)
-	 CodeSet++; // skip the dot
-     }
-   }
-   
-   if (CodeSet && strcasestr(CodeSet, "UTF-8") != 0)
-     isUTF8=true;
-#endif
+  std::string CodeSet = GetCodeset();
+  isUTF8 = EqualsNoCase(CodeSet, "UTF-8");
 }
 
 void cPluginEpgsearch::Stop(void)

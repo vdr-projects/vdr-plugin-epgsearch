@@ -42,6 +42,10 @@ neu:
 - Wareagle Icons werden bei Verwendung des VDRSymbols-Font nun automatisch aktiv (kann aber
   mit WarEagleIcons=0 in epgsearchmenu.conf überschrieben werden), vorgeschlagen von 
   Ronny Kornexl
+- Das korrekte Encoding für Email-Benachrichtigungen wird nun automatisch erkannt.
+- Es wird nun automatisch erkannt, ob Pin-Plugin oder Graphtft installiert sind, ebenso die
+  optionalen Libs libpcre und libtre (läßt sich im Makefile mit Kommentieren von AUTOCONFIG 
+  abschalten)
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen

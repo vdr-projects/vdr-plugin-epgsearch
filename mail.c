@@ -31,6 +31,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include "uservars.h"
 
+extern bool isUTF8;
 using namespace std;
 
 string cMailNotifier::MailCmd = "sendEmail.pl";
@@ -143,9 +144,9 @@ bool cMailNotifier::SendMailViaSendmail()
     fprintf(mail, "To: %s\n", to.c_str());
     fprintf(mail, "Subject: %s\n", subject.c_str());
     if (FindIgnoreCase(body, "<html>") >= 0)
-	fprintf(mail, "Content-Type: text/html; charset=ISO-8859-15\n");
+      fprintf(mail, "Content-Type: text/html; charset=%s\n", GetCodeset().c_str());
     else
-	fprintf(mail, "Content-Type: text/plain; charset=ISO-8859-15\n");
+      fprintf(mail, "Content-Type: text/plain; charset=%s\n", GetCodeset().c_str());
 
     fprintf(mail, "\n");
     
@@ -172,15 +173,16 @@ bool cMailNotifier::SendMailViaScript()
     string AuthUser = EPGSearchConfig.MailAuthUser;
     string AuthPass = EPGSearchConfig.MailAuthPass;
     string cmdArgs =  
-	string(" -f \"VDR <") + EPGSearchConfig.MailAddress + ">\"" +
-	" -t " + EPGSearchConfig.MailAddressTo +
-	" -s " + EPGSearchConfig.MailServer +
-	" -u \"" + subject + "\""+ 
-	(EPGSearchConfig.MailUseAuth?
-	 (AuthUser != "" ?(" -xu " + AuthUser):"") +
-	 (AuthPass != "" ?(" -xp " + AuthPass):"")
-	 :"") +
-        " -o message-file=" + filename;
+      string(" -f \"VDR <") + EPGSearchConfig.MailAddress + ">\"" +
+      " -t " + EPGSearchConfig.MailAddressTo +
+      " -s " + EPGSearchConfig.MailServer +
+      " -u \"" + subject + "\""+ 
+      (EPGSearchConfig.MailUseAuth?
+       (AuthUser != "" ?(" -xu " + AuthUser):"") +
+       (AuthPass != "" ?(" -xp " + AuthPass):"")
+       :"") +
+      " -o message-charset=" + GetCodeset() + 
+      " -o message-file=" + filename;
 
     bool success = ExecuteMailScript(cmdArgs);
 
@@ -201,6 +203,7 @@ bool cMailNotifier::SendMail()
 bool cMailNotifier::ExecuteMailScript(string ScriptArgs)
 {
     string mailCmd = MailCmd;
+    LogFile.Log(3, "starting mail script: %s with parameters: %s", mailCmd.c_str(), ScriptArgs.c_str());
     if (mailCmd == "sendEmail.pl") // beautify output for standard script
 	ScriptArgs += " | cut -d\" \" -f 6-";
 

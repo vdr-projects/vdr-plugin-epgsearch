@@ -4,24 +4,54 @@
 # Christian Wieninger cwieninger at gmx.de
 #
 
-### uncomment one of these lines, if you don't want the addon epgsearchonly, conflictcheckonly
+### ------------
+### CONFIG START
+### 
+### to comment an option just place a '#' at the beginning of the line
+### to uncomment an option please remove the leading '#'
+
+### uncomment one of these lines, if you don't want the addon epgsearchonly, 
+### conflictcheckonly or quickepgsearch
+
 #WITHOUT_EPGSEARCHONLY=1
 #WITHOUT_CONFLICTCHECKONLY=1
 #WITHOUT_QUICKSEARCH=1
+
+### comment this if you don't want epgsearch to auto config itself
+AUTOCONFIG=1
+
+### if AUTOCONFIG is not active (i.e. commented) you can manually enable the 
+### optional modules or patches for other plugins
+ifndef AUTOCONFIG
+# uncomment this if you want to use Perl compatible regular expressions (PCRE),
+# also have a look at INSTALL for further notes on this
+
+#HAVE_PCREPOSIX=1
+
+# uncomment this if you want to use libtre for unlimited fuzzy searching,
+# also have a look at INSTALL for further notes on this
+
+#HAVE_LIBTRE=1
+
+# uncomment this to enable support for the pin plugin.
+
+#USE_PINPLUGIN = 1
+
+# uncomment this to enable support for the graphtft plugin.
+#USE_GRAPHTFT = 1
+
+endif
+
+###
+### CONFIG END
+### do not edit below this line if you don't know what you do ;-)
+### -------------------------------------------------------------
 
 PLUGIN = epgsearch
 MAINMENUSHORTCUT = epgsearchmainmenushortcut
 PLUGIN2 = epgsearchonly
 PLUGIN3 = conflictcheckonly
 PLUGIN4 = quickepgsearch
-
-# uncomment this if you want to use Perl compatible regular expressions (PCRE),
-# also have a look at INSTALL for further notes on this
-#HAVE_PCREPOSIX=1
-
-# uncomment this if you want to use libtre for unlimited fuzzy searching,
-# also have a look at INSTALL for further notes on this
-#HAVE_LIBTRE=1
 
 ### The version number of this plugin (taken from the main source file):
 
@@ -38,6 +68,22 @@ DVBDIR = ../../../../DVB
 VDRDIR = ../../..
 LIBDIR = ../../lib
 TMPDIR = /tmp
+
+### auto configuring modules
+ifdef AUTOCONFIG
+	ifeq (exists, $(shell pkg-config libpcre && echo exists))
+		HAVE_PCREPOSIX = 1
+	endif
+	ifeq (exists, $(shell pkg-config tre && echo exists))
+		HAVE_LIBTRE = 1
+	endif
+	ifeq (exists, $(shell test -e ../pin && echo exists))
+		USE_PINPLUGIN = 1
+	endif
+	ifeq (exists, $(shell test -e ../graphtft && echo exists))
+		USE_GRAPHTFT = 1
+	endif
+endif
 
 ### Allow user defined options to overwrite defaults:
 
@@ -83,14 +129,25 @@ DEFINES4 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN4)"'
 OBJS = afuzzy.o blacklist.o changrp.o confdloader.o conflictcheck.o conflictcheck_thread.o distance.o $(PLUGIN).o epgsearchcats.o epgsearchcfg.o epgsearchext.o epgsearchsetup.o  epgsearchsvdrp.o epgsearchtools.o i18n.o mail.o md5.o menu_announcelist.o menu_blacklistedit.o menu_blacklists.o menu_commands.o menu_conflictcheck.o menu_deftimercheckmethod.o menu_dirselect.o menu_event.o menu_favorites.o menu_main.o menu_myedittimer.o menu_quicksearch.o menu_recsdone.o menu_search.o menu_searchactions.o menu_searchedit.o menu_searchresults.o menu_searchtemplate.o menu_switchtimers.o menu_templateedit.o menu_timersdone.o menu_whatson.o noannounce.o rcfile.o  recdone.o recstatus.o searchtimer_thread.o services.o switchtimer.o switchtimer_thread.o templatefile.o timer_thread.o timerdone.o timerstatus.o uservars.o varparser.o  
 
 ifdef HAVE_PCREPOSIX
-LIBS += -L/usr/lib -lpcreposix -lpcre
+LIBS += $(shell pcre-config --libs-posix)
+#LIBS += -L/usr/lib -lpcreposix -lpcre
+INCLUDE += $(shell pcre-config --cflags)
 DEFINES += -DHAVE_PCREPOSIX
 endif
 
-#ifdef HAVE_LIBTRE
+ifdef HAVE_LIBTRE
+LIBS += -L$(shell pkg-config --variable=libdir tre) $(shell pkg-config --libs tre)
 #LIBS += -L/usr/lib -ltre
-#DEFINES += -DHAVE_LIBTRE
-#endif
+DEFINES += -DHAVE_LIBTRE
+endif
+
+ifdef USE_PINPLUGIN
+DEFINES += -DUSE_PINPLUGIN
+endif
+
+ifdef USE_GRAPHTFT
+DEFINES += -DUSE_GRAPHTFT
+endif
 
 ifdef CFLC 
 DEFINES += -DCFLC

@@ -171,6 +171,7 @@ string MD5(const string& input);
 time_t GetDateTime(time_t day, int start);
 void SetAux(cTimer* timer, string aux);
 int msprintf(char **strp, const char *fmt, ...);
+std::string GetCodeset();
 
 // --- cTimerObj --------------------------------------------------------
 class cTimerObj : public cListObject {
