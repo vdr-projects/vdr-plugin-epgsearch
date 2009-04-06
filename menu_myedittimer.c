@@ -268,7 +268,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
     const char* ItemText = Get(Current())->Text();
     if (!HasSubMenu() && ItemText && strlen(ItemText)>0)
     {
-	if (strstr(ItemText, tr("Day")) == ItemText)
+	if (strstr(ItemText, trVDR("Day")) == ItemText)
 	{
 	    if (!IsSingleEvent())
 	    {
@@ -284,9 +284,9 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		SetHelp(addIfConfirmed?NULL:trVDR("Button$Delete"), NULL, trVDR("Button$Reset"), tr("Button$Select"));
 	    iOnDirectoryItem = 1;
 	}
-	else if (strstr(ItemText, tr("File")) == ItemText)
+	else if (strstr(ItemText, trVDR("File")) == ItemText)
 	{
-	    if (!InEditMode(ItemText, tr("File"), file))
+	    if (!InEditMode(ItemText, trVDR("File"), file))
 	    {
 		if (event && event->ShortText())
 		{

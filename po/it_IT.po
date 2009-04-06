@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-02-24 18:29+0100\n"
+"POT-Creation-Date: 2009-04-06 23:03+0200\n"
 "PO-Revision-Date: 2008-06-29 03:25+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -826,9 +826,6 @@ msgstr "Con sottotitoli"
 msgid "Button$Without subtitle"
 msgstr "Senza sottotitoli"
 
-msgid "Day"
-msgstr "Giorno"
-
 msgid "Button$Extended"
 msgstr "Esteso"
 
@@ -1225,6 +1222,9 @@ msgstr "in %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "in %02ldm"
+
+#~ msgid "Day"
+#~ msgstr "Giorno"
 
 #, fuzzy
 #~ msgid "%s starts: switch to?"

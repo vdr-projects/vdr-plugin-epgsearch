@@ -59,7 +59,7 @@ fixes:
 - Antwortzeit beim Abbruch des Suchtimer-Threads verbessert
 - Absturz beim Navigieren zu benutzerdef. EPG-Menüs behoben, die zwischenzeitlich schon
   in der Vergangenheit lagen, Danke an Mike Constabel für den Hinweis
-
+- Im Timer-Edit-Menu war das Menu zur Tagesauswahl nicht mehr sichtbar
 
 2008-04-29: Version 0.9.24
 neu:
