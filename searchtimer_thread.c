@@ -215,6 +215,7 @@ void cSearchTimerThread::Action(void)
 	 if (updateForced & UPDS_WITH_EPGSCAN)
 	 {
   	    LogFile.Log(1,"starting EPG scan before search timer update");
+	    EITScanner.ForceScan();
 	    do
 	    {
 	       Wait.Wait(1000);
