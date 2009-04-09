@@ -7,11 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-<<<<<<< HEAD:po/el_GR.po
 "POT-Creation-Date: 2009-04-09 19:51+0200\n"
-=======
-"POT-Creation-Date: 2009-04-06 23:03+0200\n"
->>>>>>> 47f9a76b9e8c6611c218f24361b5afcac4ab3052:po/el_GR.po
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Dimitrios Dimitrakos <mail@dimitrios.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"

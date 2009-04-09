@@ -10,11 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-<<<<<<< HEAD:po/fr_FR.po
 "POT-Creation-Date: 2009-04-09 19:51+0200\n"
-=======
-"POT-Creation-Date: 2009-04-06 23:03+0200\n"
->>>>>>> 47f9a76b9e8c6611c218f24361b5afcac4ab3052:po/fr_FR.po
 "PO-Revision-Date: 2008-04-30 08:36+0200\n"
 "Last-Translator: Patrice Staudt <patrice.staudt@laposte.net>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -1213,19 +1209,3 @@ msgstr "en %02ldh"
 msgid "in %02ldm"
 msgstr "en %02ldm"
 
-<<<<<<< HEAD:po/fr_FR.po
-#~ msgid "File"
-#~ msgstr "Fichier"
-
-=======
->>>>>>> 47f9a76b9e8c6611c218f24361b5afcac4ab3052:po/fr_FR.po
-#~ msgid "Day"
-#~ msgstr "Jour"
-
-#, fuzzy
-#~ msgid "%s starts: switch to?"
-#~ msgstr "Ajouter à la liste de changement de chaine?"
-
-#, fuzzy
-#~ msgid "Ask for switching"
-#~ msgstr "Ajouter à la liste de changement de chaine?"
