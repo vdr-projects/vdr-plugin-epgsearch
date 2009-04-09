@@ -9,7 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
+<<<<<<< HEAD:po/it_IT.po
 "POT-Creation-Date: 2009-04-09 19:51+0200\n"
+=======
+"POT-Creation-Date: 2009-04-06 23:03+0200\n"
+>>>>>>> 47f9a76b9e8c6611c218f24361b5afcac4ab3052:po/it_IT.po
 "PO-Revision-Date: 2008-06-29 03:25+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -1220,9 +1224,12 @@ msgstr "in %02ldh"
 msgid "in %02ldm"
 msgstr "in %02ldm"
 
+<<<<<<< HEAD:po/it_IT.po
 #~ msgid "File"
 #~ msgstr "File"
 
+=======
+>>>>>>> 47f9a76b9e8c6611c218f24361b5afcac4ab3052:po/it_IT.po
 #~ msgid "Day"
 #~ msgstr "Giorno"
 
