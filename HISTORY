@@ -54,7 +54,7 @@ fixes:
 - improved response time when canceling the search timer thread
 - fixed a segfault occurring when navigating to a userdefined epg menu that has expired
   in the meantime, thanks to Mike Constabel for reporting
-
+- the day selection menu in the timer edit menu was hidden
 
 2008-04-29: Version 0.9.24
 new:

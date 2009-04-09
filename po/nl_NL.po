@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-02-24 18:29+0100\n"
+"POT-Creation-Date: 2009-04-09 19:51+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -812,17 +812,11 @@ msgstr "Timercontrole"
 msgid "recording with device"
 msgstr "neemt op met kaart"
 
-msgid "File"
-msgstr "Bestand"
-
 msgid "Button$With subtitle"
 msgstr "Met ondertitel"
 
 msgid "Button$Without subtitle"
 msgstr "Zonder ondertitel"
-
-msgid "Day"
-msgstr "Dag"
 
 msgid "Button$Extended"
 msgstr "Uitgebreid"
@@ -1218,6 +1212,12 @@ msgstr "in %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "in %02ldm"
+
+#~ msgid "File"
+#~ msgstr "Bestand"
+
+#~ msgid "Day"
+#~ msgstr "Dag"
 
 #, fuzzy
 #~ msgid "%s starts: switch to?"
