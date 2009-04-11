@@ -41,6 +41,9 @@ new:
 - the correct content encoding for mail notifications is now automatically detected
 - epgsearch now autodetects an installed pin plugin or graphtft, also the optional libraries
   libpcre und libtre (can be turned off by commenting AUTOCONFIG in the Makefile)
+- new patch vdr.epgsearch-exttimeredit.diff:
+  this patch against VDR integrates epgsearch's timer edit menu to VDR's timer menu, thanks 
+  S:oren@vdr-portal for providing it.
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 

@@ -1,0 +1,26 @@
+--- menu.c.orig	2009-04-11 14:47:08.000000000 +0200
++++ menu.c	2009-04-11 15:13:30.000000000 +0200
+@@ -985,6 +985,23 @@ eOSState cMenuTimers::Edit(void)
+   if (HasSubMenu() || Count() == 0)
+      return osContinue;
+   isyslog("editing timer %s", *CurrentTimer()->ToDescr());
++
++  // Data structure for service "Epgsearch-exttimeredit-v1.0"
++  struct Epgsearch_exttimeredit_v1_0
++  {
++    // in
++    cTimer* timer;          // pointer to the timer to edit
++    bool bNew;              // flag that indicates, if this is a new timer or an existing one
++    const cEvent* event;    // pointer to the event corresponding to this timer (may be NULL)
++    // out
++    cOsdMenu* pTimerMenu;   // pointer to the menu of results
++  } exttimeredit;
++  exttimeredit.timer = CurrentTimer();
++  exttimeredit.bNew = false;
++  exttimeredit.event = NULL;
++  if (cPluginManager::CallFirstService("Epgsearch-exttimeredit-v1.0", &exttimeredit))
++    return AddSubMenu(exttimeredit.pTimerMenu);
++
+   return AddSubMenu(new cMenuEditTimer(CurrentTimer()));
+ }
+ 

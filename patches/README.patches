@@ -11,3 +11,5 @@ Description of patches
   It can be used e.g. to search for repeats of a timer.
 - vdr-1.5.11-progressbar-support-0.0.1.diff:
   this patch adds progressbar support to VDR's skins 'classic' and 'st:tng'
+- vdr.epgsearch-exttimeredit.diff:
+  this patch against VDR integrates epgsearch's timer edit menu to VDR's timer menu.

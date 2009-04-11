@@ -46,6 +46,9 @@ neu:
 - Es wird nun automatisch erkannt, ob Pin-Plugin oder Graphtft installiert sind, ebenso die
   optionalen Libs libpcre und libtre (läßt sich im Makefile mit Kommentieren von AUTOCONFIG 
   abschalten)
+- neuer Patch vdr.epgsearch-exttimeredit.diff:
+  Dieser VDR-Patch integriert epgsearch's Timer-Edit-Menü in VDR's Timer-Menü, Danke dafür 
+  an S:oren@vdr-portal.
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
 - Absturz bei Verwendung des Fortschrittsbalkens in Verbindung mit Sendungen
