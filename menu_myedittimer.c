@@ -73,6 +73,7 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
 	Set();
 	SetHelp(addIfConfirmed?NULL:trVDR("Button$Delete"), NULL, NULL, NULL);
     }
+  Timers.IncBeingEdited();
 }
 
 void cMenuMyEditTimer::SplitFile()
@@ -192,6 +193,7 @@ cMenuMyEditTimer::~cMenuMyEditTimer()
 {
   if (timer && addIfConfirmed)
      delete timer; // apparently it wasn't confirmed
+  Timers.DecBeingEdited();
 }
 
 void cMenuMyEditTimer::HandleSubtitle()
@@ -228,7 +230,7 @@ bool cMenuMyEditTimer::IsSingleEvent(void) const
 eOSState cMenuMyEditTimer::DeleteTimer()
 {
     // Check if this timer is active:
-    if (timer) {
+    if (timer && !addIfConfirmed) {
 	if (Interface->Confirm(trVDR("Delete timer?"))) {
 	    if (timer->Recording()) {
 		if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
@@ -240,10 +242,8 @@ eOSState cMenuMyEditTimer::DeleteTimer()
 	    }
 	    LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
 	    Timers.Del(timer);
-	    gl_timerStatusMonitor->SetConflictCheckAdvised(); 
-	    cOsdMenu::Del(Current());
+	    gl_timerStatusMonitor->SetConflictCheckAdvised();
 	    Timers.SetModified();
-	    Display();
 	    return osBack;
         }
     }
@@ -373,53 +373,39 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		if (strlen(tmpFile) == 0)
 		    tmpFile = strdup(CHANNELNAME(ch));
 		
-		if (timer) 
-		{
-		    cString cmdbuf;
-		    if (addIfConfirmed)
-		      cmdbuf = cString::sprintf("NEWT %d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s", 
-				 flags,
-				 ch->Number(),
+                if (timer)
+                {
+                    cString cmdbuf;
+                    cmdbuf = cString::sprintf("%d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s",
+                       flags,
+                       ch->Number(),
 #if VDRVERSNUM < 10503
-                 PRINTDAY(day, weekdays),
+		       PRINTDAY(day, weekdays),
 #else
-                 PRINTDAY(day, weekdays, true),
+                       PRINTDAY(day, weekdays, true),
 #endif
-				 start,
-				 stop,
-				 priority, 
-				 lifetime, 
-				 strlen(tmpDir)>0?tmpDir:"",
-				 (strlen(tmpDir)>0 && strlen(tmpFile)>0)?"~":"",
-				 tmpFile,
-				 fullaux.c_str());
-		    else
-			cmdbuf = cString::sprintf("MODT %d %d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s", 
-				 timer->Index()+1,
-				 flags,
-				 ch->Number(),
-#if VDRVERSNUM < 10503
-                 PRINTDAY(day, weekdays),
-#else
-                 PRINTDAY(day, weekdays, true),
-#endif
-				 start,
-				 stop,
-				 priority, 
-				 lifetime, 
-				 strlen(tmpDir)>0?tmpDir:"",
-				 (strlen(tmpDir)>0 && strlen(tmpFile)>0)?"~":"",
-				 tmpFile,
-				 fullaux.c_str());
-		    
-		    cTimerThread timerThread;
-		    timerThread.Init(cmdbuf);
-		    
-		    free(tmpFile);
-		    free(tmpDir);
-		    
-		    addIfConfirmed = false;
-		}
+                       start,
+                       stop,
+                       priority,
+                       lifetime,
+                       strlen(tmpDir)>0?tmpDir:"",
+                       (strlen(tmpDir)>0 && strlen(tmpFile)>0)?"~":"",
+                       tmpFile,
+                       fullaux.c_str());
+
+                    timer->Parse(cmdbuf);
+
+                    free(tmpFile);
+                    free(tmpDir);
+
+                    if (addIfConfirmed)
+                      Timers.Add(timer);
+                    timer->SetEventFromSchedule();
+                    timer->Matches();
+                    gl_timerStatusMonitor->SetConflictCheckAdvised();
+                    Timers.SetModified();
+                    addIfConfirmed = false;
+                }
 	    }
 	    return osBack;
 	    case kRed:

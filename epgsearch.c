@@ -245,7 +245,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
 
       return true;
    }
-   if (strcmp(Id, "Epgsearch-exttimeredit-v1.0") == 0) {
+   if (strcmp(Id, "Epgsearch-exttimeredit-v1.0") == 0 && !EPGSearchConfig.useVDRTimerEditMenu) {
       if (Data == NULL)
          return true;
       
