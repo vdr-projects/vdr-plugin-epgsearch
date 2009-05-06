@@ -85,9 +85,13 @@ bool cMenuSearchResultsItem::Update(bool Force)
       {
 	if (!isUTF8)
 	  {
-	    sprintf(t, "%c", event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC:ICON_CLOCK) : ICON_CLOCK_HALF : ' ');
-	    sprintf(v, "%c", event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS : ' ');
-	    sprintf(r, "%c", event && event->IsRunning() ? ICON_RUNNING : ' ');
+	    t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC:ICON_CLOCK) : ICON_CLOCK_HALF : ' ';
+	    t[1] = '\0';
+	    v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS : ' ';
+	    v[1] = '\0';
+	    r[0] = event && event->IsRunning() ? ICON_RUNNING : ' ';
+	    r[1] = '\0';
+
 	  }
 	else
 	  {
@@ -101,19 +105,22 @@ bool cMenuSearchResultsItem::Update(bool Force)
       }
       else
       {
-         sprintf(t, "%c", event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?'R':'T') : 't' : ' ');
-         sprintf(v, "%c", event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ');
-         sprintf(r, "%c", event && event->IsRunning() ? '*' : ' ');
+         t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?'R':'T') : 't' : ' ';
+         t[1] = '\0';
+         v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ';
+         v[1] = '\0';
+         r[0] = event && event->IsRunning() ? '*' : ' ';
+         r[1] = '\0';
       }
       if (t[0] != 'T' && previewTimer)
          t[0] = 'P';
 	
-      sprintf(szStatus, "%s%s%s", t,v,r);
+      strcpy(szStatus, t);
+      strcat(szStatus, v);
+      strcat(szStatus, r);
 	
       char* buffer = strdup(menuTemplate->MenuTemplate());
-      char* tmp = strreplaceall(buffer, '|', "\t");
-      free(buffer);
-      buffer = tmp;
+      strreplace(buffer, '|', '\t');
 
       if (!strcasestr(buffer, "%subtitle%") && cTemplFile::GetTemplateByName("MenuFavorites") != menuTemplate) 
 	// make sure, there is a subtitle
@@ -123,7 +130,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
 	    
       // parse the epxression and evaluate it
       cVarExpr varExpr(buffer);
-      tmp = strdup(varExpr.Evaluate(event).c_str());
+      char* tmp = strdup(varExpr.Evaluate(event).c_str());
       free(buffer);
       buffer = tmp;
 

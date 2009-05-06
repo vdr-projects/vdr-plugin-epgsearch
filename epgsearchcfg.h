@@ -60,15 +60,15 @@ class cShowMode: public cListObject
 	    else
 		sprintf(description, "%02d:%02d", iTime/100, iTime%100);
 	}
-    char* GetDescription() { return description; }
-    int GetTime() { return itime; }
-    bool GetUsage() { return useIt; }
+    const char* GetDescription() { return description; }
+    int GetTime() const { return itime; }
+    bool GetUsage() const { return useIt; }
 
     void SetDescription(const char* szD) { if (szD)  strcpy(description, szD); }
     void SetTime(int iT) { itime = iT; }
     void SetUsage(bool bU) { useIt = bU; }
     int Compare(const cListObject &ListObject) const;
-    showMode GetMode() { return mode; }
+    showMode GetMode() const { return mode; }
 };
 
 

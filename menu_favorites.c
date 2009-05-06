@@ -175,7 +175,7 @@ void cMenuFavorites::SetHelpKeys(bool Force)
     { 
       showMode nextShowMode = cMenuWhatsOnSearch::GetNextMode();    
       cShowMode* mode = cMenuWhatsOnSearch::GetShowMode(nextShowMode);
-      char* szButtonGreen = NULL;
+      const char* szButtonGreen = NULL;
       if (mode) 
 	szButtonGreen = mode->GetDescription();
       

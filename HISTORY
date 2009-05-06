@@ -44,6 +44,8 @@ new:
 - new patch vdr.epgsearch-exttimeredit.diff:
   this patch against VDR integrates epgsearch's timer edit menu to VDR's timer menu, thanks 
   S:oren@vdr-portal for providing it.
+- some speed enhancements, thanks to Tobias Bratfisch for providing patches
+
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
 - fixed a crash when using the progressbar and events with 0 duration exist, thanks 

@@ -537,45 +537,6 @@ char *strreplacei(char *s, const char *s1, const char *s2)
    return s;
 }
 
-unsigned int strcharcount(char* source, char ch)
-{
-   unsigned int count;
-    
-   for (count = 0; *source; source++)
-      if (*source == ch)
-         count++;
-   return (count);
-}
-
-char *strreplaceall(char* source, char ch, const char* replacement)
-{
-   int		replen;
-   int		srclen;
-   unsigned int	chnum;
-   register char	*sptr, *nptr;
-   char		*newval;
-    
-   chnum = strcharcount(source, ch);
-    
-   if (chnum == 0)
-      return (NULL);
-  
-   srclen = strlen(source);
-   replen = strlen(replacement);
-   newval = (char*) malloc(srclen + (chnum * replen) + 1);
-   nptr = newval;
-   for (sptr = source; chnum > 0; sptr++)
-      if (*sptr == ch) {
-         memcpy(nptr, replacement, replen);
-         nptr += replen;
-         chnum--;        
-      }
-      else
-         *nptr++ = *sptr;
-   memcpy(nptr, sptr, srclen - (sptr - source) + 1);
-   return (newval);
-}
-
 void sleepMSec(long ms)
 {
    cCondWait::SleepMs(ms);
@@ -898,22 +859,26 @@ void DelTimer(int index)
 
 char* FixSeparators(char* buffer, char sep)
 {
-   char tmp[5];
-   sprintf(tmp, "%c\t", sep);
-   buffer = strreplacei(buffer, tmp, "\t");
-   sprintf(tmp, "%c \t", sep);
-   buffer = strreplacei(buffer, tmp, "\t");
-   sprintf(tmp, "%c ", sep);
-   if (strstr(buffer, tmp) == buffer + strlen(buffer) - 2) buffer[strlen(buffer) - 2] = 0;
-   if (buffer[strlen(buffer)-1] == sep) buffer[strlen(buffer) - 1] = 0;
-
-   sprintf(tmp, "\t%c", sep);
-   buffer = strreplacei(buffer, tmp, "\t");
-   sprintf(tmp, "\t %c", sep);
-   buffer = strreplacei(buffer, tmp, "\t");
-   sprintf(tmp, "\t  %c", sep);
-   buffer = strreplacei(buffer, tmp, "\t");
-   return buffer;
+  char tmp[5];
+  tmp[0] = sep; tmp[1] = '\t'; tmp[2] = '\0';
+  buffer = strreplacei(buffer, tmp, '\t');
+  tmp[0] = sep; tmp[1] = ' '; tmp[2] = '\t'; tmp[3] = '\0';
+  buffer = strreplacei(buffer, tmp, '\t');
+  tmp[0] = sep; tmp[1] = ' '; tmp[2] = '\0';
+  
+  unsigned int len = strlen(buffer);
+  if (strstr(buffer, tmp) == buffer + len - 2)
+    buffer[len-2] = '\0';
+  if (buffer[len-1] == sep)
+    buffer[len-1] = '\0';
+  
+  tmp[0] = '\t'; tmp[1] = sep; tmp[2] = '\0';
+  buffer = strreplacei(buffer, tmp, '\t');
+  tmp[0] = '\t'; tmp[1] = ' '; tmp[2] = sep; tmp[3] = '\0';
+  buffer = strreplacei(buffer, tmp, '\t');
+  tmp[0] = '\t'; tmp[1] = ' '; tmp[2] = ' '; tmp[3] = sep; tmp[4] = '\0';
+  buffer = strreplacei(buffer, tmp, '\t');
+  return buffer;
 }
 
 cString DateTime(time_t t)

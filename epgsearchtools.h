@@ -139,7 +139,21 @@ string UpdateAuxValue(string aux, string section, string value);
 string UpdateAuxValue(string aux, string section, long num);
 void ToLower(char* szText);
 char *strreplacei(char *s, const char *s1, const char *s2);
-char *strreplaceall(char* source, char ch, const char* replacement);
+
+// replace s1 with s2 in s ignoring the case of s1
+inline char *strreplacei(char *s, const char *s1, const char s2)
+{
+   char *p = strcasestr(s, s1);
+   if (p) {
+      int offset = p - s;
+      int l  = strlen(s);
+      int l1 = strlen(s1);
+      memmove(s + offset + 1, s + offset + l1, l - offset - l1 + 1);
+      s[offset] =  s2;
+   }
+   return s;
+}
+
 void sleepMSec(long ms);
 void sleepSec(long s);
 bool SendViaSVDRP(cString SVDRPcmd);

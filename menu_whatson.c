@@ -210,7 +210,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
       if (channel)
       {
          char szChannelNr[6] = "";
-	 sprintf(szChannelNr, "%d", channel->Number());
+	 snprintf(szChannelNr, 6, "%d", channel->Number());
          buffer = strreplacei(buffer, "%chnr%", szChannelNr);
          buffer = strreplacei(buffer, "%chsh%", channel->ShortName(true));
          buffer = strreplacei(buffer, "%chlng%", channel->Name());
@@ -659,7 +659,7 @@ void cMenuWhatsOnSearch::SetHelpKeys(bool Force)
     { 
       showMode nextShowMode = GetNextMode();    
       cShowMode* mode = GetShowMode(nextShowMode);
-      char* szButtonGreen = NULL;
+      const char* szButtonGreen = NULL;
       if (mode) 
 	szButtonGreen = mode->GetDescription();
       if (toggleKeys==0)
