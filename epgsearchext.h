@@ -63,6 +63,7 @@ class cSearchResult : public cListObject {
     const cBlacklist* blacklist;
     bool needsTimer;
     cSearchResult(const cEvent* Event, const cSearchExt* Search) : event(Event), search(Search), blacklist(NULL), needsTimer(true) {}
+    cSearchResult(const cEvent* Event, int searchID);
     cSearchResult(const cEvent* Event, const cBlacklist* Blacklist) : event(Event), search(NULL), blacklist(Blacklist), needsTimer(true) {}
 };
 

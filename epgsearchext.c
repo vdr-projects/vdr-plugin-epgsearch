@@ -1562,3 +1562,8 @@ bool cSearchExts::CheckForAutoDelete(cSearchExt* SearchExt)
    }
    return delSearch;
 }
+
+cSearchResult::cSearchResult(const cEvent* Event, int searchID) : event(Event), blacklist(NULL), needsTimer(true) 
+{
+  search = SearchExts.GetSearchFromID(searchID);
+}

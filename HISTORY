@@ -62,7 +62,8 @@ fixes:
 - the day selection menu in the timer edit menu was hidden
 - if an event was matched by multiple search timers with 'announce only' setting, it was
   also listed more than once. Thanks to Andreas Mair for reporting.
-
+- fixed a bug in search timer announcements concerning the display of the corresponding
+  search timer
 
 2008-04-29: Version 0.9.24
 new:
