@@ -416,7 +416,8 @@ void cSearchTimerThread::Action(void)
                      delete timer;
                      continue;
                   }
-                  announceList.Add(new cSearchResult(pEvent, searchExt));
+		  if (!announceList.Lookup(pEvent))
+		    announceList.Add(new cSearchResult(pEvent, searchExt));
 
                   if (Summary) free(Summary);
                   delete timer;
