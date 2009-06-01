@@ -769,6 +769,8 @@ void cSearchTimerThread::CheckExpiredRecs()
          if (searchName) free(searchName);
          continue;
       }
+      free(searchID);
+      free(searchName);
       LogFile.Log(3, "recording triggered from search timer %s", search->search);
       if (search->delAfterDays == 0) continue;
       time_t now = time(NULL);

@@ -173,7 +173,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
       else
       {
 	t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?'R':'T') : 't' : ' ';
-	v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ';
+	v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : 'v';
 	r[0] = event && event->IsRunning() ? '*' : ' ';
       }
 
@@ -201,7 +201,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
       strreplace(buffer, '|', '\t');
 
       char* title = NULL; 
-      msprintf(&title, "%s", event?event->Title():tr(">>> no info! <<<"));
+      title = strdup(event?event->Title():tr(">>> no info! <<<"));
       title = strreplacei(title, ":", "%colon%"); // asume a title has the form "a?b:c", 
       // we need to replace the colon to avoid misinterpretation the expression as a condition
       buffer = strreplacei(buffer, "%title%", title);
@@ -228,8 +228,6 @@ bool cMenuMyScheduleItem::Update(bool Force)
       buffer = strreplacei(buffer, "$t_status$", t);
       buffer = strreplacei(buffer, "$v_status$", v);
       buffer = strreplacei(buffer, "$r_status$", r);
-
-
 
       buffer = FixSeparators(buffer, '~');
       buffer = FixSeparators(buffer, ':');

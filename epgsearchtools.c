@@ -453,33 +453,44 @@ char* GetAuxValue(const char* aux, const char* name)
    char* descr = strdup(aux);
    char* beginaux = strstr(descr, "<epgsearch>");
    char* endaux = strstr(descr, "</epgsearch>");
-   if (!beginaux || !endaux) return NULL;
-   strn0cpy(descr, beginaux + strlen("<epgsearch>"), endaux - (beginaux + strlen("<epgsearch>")) + 1);
-   if (strcmp(name, "epgsearch") == 0) return descr; // full aux
+   if (!beginaux || !endaux) {
+      free(descr);
+      return NULL;
+      }
+   
+   beginaux +=  11;  // strlen("<epgsearch>");
+   endaux[0] = 0;
+   memmove(descr, beginaux, endaux - beginaux + 1);
+   
+   if (strcmp(name, "epgsearch") == 0) 
+      return descr; // full aux
 
+   int namelen = strlen(name);
    char catname[100] = "";
-   sprintf(catname, "<%s>", name);
+   catname[0] = '<';
+   memcpy(catname + 1, name, namelen);
+   catname[1 + namelen] = '>';
+   catname[2 + namelen] = 0;
 
-   char* cat = NULL;
-   int iPosCat = FindIgnoreCase(descr, catname);
-   if (iPosCat < 0) return NULL;
-   cat = descr + iPosCat;
-
+   char* cat = strcasestr(descr, catname);
+   if (!cat) {
+      free(descr);
+      return NULL;
+      }
+      
+   cat += namelen + 2;
    char* end = strstr(cat, "</");
-   int endpos = strlen(cat);
-   if (end)
-      endpos = end - cat;
-   else
-   {
+   if (!end) {
       free(descr);	
       return NULL;
-   }
-   cat[endpos] = 0;
-	
-   char* value = NULL;
-   msprintf(&value, "%s", cat + strlen(name)+2);
-   free(descr);
+      }
+   end[0] = 0;
    
+   int catlen = end - cat + 1;
+   char* value = (char *) malloc(catlen);
+   memcpy(value, cat, catlen);
+   
+   free(descr);
    return value;
 }
 
@@ -519,17 +530,13 @@ char *strreplacei(char *s, const char *s1, const char *s2)
    char *p = strcasestr(s, s1);
    if (p) {
       int of = p - s;
-      int l  = 0;
-      if (s)
-        l = strlen(s);
-      int l1 = 0;
-      if (s1)
-        l1 = strlen(s1);
+      int l = strlen(s);
+      int l1 = strlen(s1);
       int l2 = 0;
       if (s2)
         l2 = strlen(s2);
       if (l2 > l1)
-         s = (char *)realloc(s, strlen(s) + l2 - l1 + 1);
+         s = (char *)realloc(s, l + l2 - l1 + 1);
       if (l2 != l1)
          memmove(s + of + l2, s + of + l1, l - of - l1 + 1);
       memcpy(s + of, s2, l2);
@@ -859,25 +866,40 @@ void DelTimer(int index)
 
 char* FixSeparators(char* buffer, char sep)
 {
-  char tmp[5];
-  tmp[0] = sep; tmp[1] = '\t'; tmp[2] = '\0';
-  buffer = strreplacei(buffer, tmp, '\t');
-  tmp[0] = sep; tmp[1] = ' '; tmp[2] = '\t'; tmp[3] = '\0';
-  buffer = strreplacei(buffer, tmp, '\t');
-  tmp[0] = sep; tmp[1] = ' '; tmp[2] = '\0';
-  
-  unsigned int len = strlen(buffer);
-  if (strstr(buffer, tmp) == buffer + len - 2)
-    buffer[len-2] = '\0';
-  if (buffer[len-1] == sep)
-    buffer[len-1] = '\0';
-  
-  tmp[0] = '\t'; tmp[1] = sep; tmp[2] = '\0';
-  buffer = strreplacei(buffer, tmp, '\t');
-  tmp[0] = '\t'; tmp[1] = ' '; tmp[2] = sep; tmp[3] = '\0';
-  buffer = strreplacei(buffer, tmp, '\t');
-  tmp[0] = '\t'; tmp[1] = ' '; tmp[2] = ' '; tmp[3] = sep; tmp[4] = '\0';
-  buffer = strreplacei(buffer, tmp, '\t');
+  int l = strlen(buffer);
+  char *dest = buffer;
+  for (int i = 0; i < l; i ++) {
+    char c = buffer[i];
+    int j = i;
+    if (c == sep) {
+      for (j = i + 1; (j < l) & (buffer[j] == ' '); j++)
+	;
+      
+      if ((j < l) | (i + 1 < j)) {
+	switch (buffer[j]) {
+	case '\t':
+	  i = j;
+	  c = '\t';
+	  break;
+	case 0:
+	  i = j;
+	  c = 0;
+	  break;
+	}
+      }
+    }
+    if (c == '\t') {
+      for (; (j < l) & (buffer[j] == ' '); j++)
+	;
+      if (j < l && buffer[j] == sep) {
+	buffer[j] = '\t';
+	i = j - 1;
+	continue;
+      }
+    }
+    *dest++ = c;
+  }
+  *dest = 0;
   return buffer;
 }
 
@@ -901,15 +923,17 @@ string NumToString(long num)
 
 int FindIgnoreCase(const string& expr, const string& query)
 {
-  icstring exprIC(expr.c_str());
-  icstring queryIC(query.c_str());
-  int pos = exprIC.find(queryIC);
-  return pos;
+  const char *p = expr.c_str();
+  const char *r = strcasestr(p, query.c_str());
+
+  if (!r)
+     return string::npos;
+  return r - p;
 }
 
 bool EqualsNoCase(const string& a, const string& b)
 {
-   return (FindIgnoreCase(a,b) == 0 && a.size() == b.size());
+   return strcasecmp(a.c_str(), b.c_str()) == 0;
 }
 
 string Strip(const string& input)

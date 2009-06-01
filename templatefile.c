@@ -145,9 +145,11 @@ cMenuTemplate* cTemplFile::GetTemplateByName(const char* Name)
 
 bool cTemplFile::Load(const char *FileName)
 {
+#if APIVERSNUM >= 10503
   // auto-enable WarEagle-Icons if VDRSymbols font is used
   if (strstr(Setup.FontOsd, "VDRSymbols") == Setup.FontOsd)
     EPGSearchConfig.WarEagle = 1;
+#endif
 
   if (cConfig<cTemplLine>::Load(FileName, true)) 
   {

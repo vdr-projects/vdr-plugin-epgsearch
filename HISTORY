@@ -45,6 +45,8 @@ new:
   this patch against VDR integrates epgsearch's timer edit menu to VDR's timer menu, thanks 
   S:oren@vdr-portal for providing it.
 - some speed enhancements, thanks to Tobias Bratfisch for providing patches
+- if the VPS time differs from the start time of an event the VPS marker is now  'v' 
+  instead of 'V'
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu
@@ -64,6 +66,7 @@ fixes:
   also listed more than once. Thanks to Andreas Mair for reporting.
 - fixed a bug in search timer announcements concerning the display of the corresponding
   search timer
+- fixed some memory leaks, thanks to Bittor Corl for providing a patch
 
 2008-04-29: Version 0.9.24
 new:

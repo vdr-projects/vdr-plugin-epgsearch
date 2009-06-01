@@ -68,20 +68,19 @@ msgid "search the EPG for repeats and more"
 msgstr "Buscar repeticiones en la EPG"
 
 msgid "Program guide"
-msgstr "Guía de Programación"
+msgstr "Guía de programación"
 
-#, fuzzy
 msgid "search timer update running"
-msgstr "¡Programación por búsqueda actualizada!"
+msgstr "Actualizando programación por búsqueda"
 
 msgid "Direct access to epgsearch's search menu"
-msgstr "Acceso directo al menú de búsqueda EPGSearch"
+msgstr "Acceso directo al menú de búsquedas en EPG"
 
 msgid "Search"
-msgstr "Buscar"
+msgstr "Búsquedas en EPG"
 
 msgid "EpgSearch-Search in main menu"
-msgstr "Buscar EPG en menú principal"
+msgstr "Búsquedas en EPG en menú principal"
 
 msgid "Button$Help"
 msgstr "Ayuda"
@@ -117,7 +116,7 @@ msgid "after user-def. times"
 msgstr "después hora-def."
 
 msgid "before 'next'"
-msgstr "antes 'Después'"
+msgstr "antes de 'Después'"
 
 msgid "General"
 msgstr "General"
@@ -144,25 +143,25 @@ msgid "Hide main menu entry"
 msgstr "Ocultar entrada del menú principal"
 
 msgid "Help$Hides the main menu entry and may be useful if this plugin is used to replace the original 'Schedule' entry."
-msgstr "Oculta la entrada del menú principal y puede ser útil si este plugin sustituye a la entrada 'Guía de Programación' original."
+msgstr "Oculta la entrada del menú principal y puede ser útil si este plugin sustituye a la entrada 'Guía de programación' original."
 
 msgid "Main menu entry"
 msgstr "Entrada en el menú principal"
 
 msgid "Help$The name of the main menu entry which defaults to 'Programm guide'."
-msgstr "El nombre de la entrada para el menú principal, que por defecto es 'Guía de Programación'."
+msgstr "El nombre de la entrada para el menú principal, que por defecto es 'Guía de programación'."
 
 msgid "Replace original schedule"
 msgstr "Sustituir guía de prog. original"
 
 msgid "Help$When VDR is patched to allow this plugin to replace the original 'Schedule' entry, you can de/activate this replacement here."
-msgstr "Aquí puede des/activar que éste plugin sustituya la entrada original 'Guía de Programación', pero sólo funciona cuando el VDR está parcheado para permitirlo."
+msgstr "Aquí puede des/activar que éste plugin sustituya la entrada original 'Guía de programación', pero sólo funciona cuando el VDR está parcheado para permitirlo."
 
 msgid "Start menu"
 msgstr "Menú de inicio"
 
 msgid "Help$Choose between 'Overview - Now' and 'Schedule' as start menu when this plugin is called."
-msgstr "Elija entre 'Ahora' y 'Guía de Programación' como menú inicial cuando se llama a este plugin."
+msgstr "Elija entre 'Ahora' y 'Guía de programación' como menú inicial cuando se llama a este plugin."
 
 msgid "Ok key"
 msgstr "Botón OK"
@@ -226,7 +225,7 @@ msgid "Show day separators"
 msgstr "Mostrar separadores de día"
 
 msgid "Help$Display a separator line at day break in 'Schedule'."
-msgstr "Muestra una línea de separación al cambiar de día en la 'Guía de Programación'."
+msgstr "Muestra una línea de separación al cambiar de día en la 'Guía de programación'."
 
 msgid "Show radio channels"
 msgstr "Mostrar los canales de radio"
@@ -542,13 +541,13 @@ msgid "Auth user"
 msgstr "Usuario"
 
 msgid "Help$Specify the auth user, if this account needs authentication for SMTP."
-msgstr "Si ésta cuenta necesita autenticación SMTP, especifique el usuario."
+msgstr "Si esta cuenta necesita autenticación SMTP, especifique el usuario."
 
 msgid "Auth password"
 msgstr "Contraseña"
 
 msgid "Help$Specify the auth password, if this account needs authentication for SMTP."
-msgstr "Si ésta cuenta necesita autenticación SMTP, especifique la contraseña."
+msgstr "Si esta cuenta necesita autenticación SMTP, especifique la contraseña."
 
 msgid "Mail account check failed!"
 msgstr "¡Falló la prueba de cuenta de correo!"
@@ -557,7 +556,7 @@ msgid "Button$Test"
 msgstr "Probar"
 
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
-msgstr " aábcdeéfghiíjklmnñoópqrstuúvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+msgstr " aábcçdeéfghiíjklmnñoópqrstuúüvwxyz0123456789-_.,#~\\^$[]|()*+?{}/:%@&"
 
 msgid "Start/Stop time has changed"
 msgstr "Ha cambiado el tiempo inicial/final"
@@ -642,7 +641,7 @@ msgid "channel group"
 msgstr "grupo de canales"
 
 msgid "only FTA"
-msgstr "sin encriptar"
+msgstr "sólo en abierto"
 
 msgid "Search term"
 msgstr "Buscar palabra"
@@ -944,9 +943,8 @@ msgstr "Sólo avisar"
 msgid "Switch only"
 msgstr "Cambiar de canal"
 
-#, fuzzy
 msgid "Announce and switch"
-msgstr "Sólo avisar"
+msgstr "Avisar y cambiar"
 
 msgid "Selection"
 msgstr "selección"
@@ -961,7 +959,7 @@ msgid "count days"
 msgstr "incluir días"
 
 msgid "if present"
-msgstr ""
+msgstr "si existe"
 
 msgid "Template name"
 msgstr "Nombre de la plantilla"
@@ -1007,13 +1005,13 @@ msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Establecer a 'Sí' cuando desee buscar en el resumen de una emisión."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
-msgstr "El resumen de una emisión puede contener información adicional como 'Género', 'Categoría', 'Año', ... llamada 'categorías EPG' en el EPGSearch. A menudo los proveedores EPG externos ofrecen esta información. Ésto permite refinar una búsqueda y otras funcionalidades atractivas, como buscar por el 'consejo del día'. Para usarlo, establecer a 'Sí'."
+msgstr "El resumen de una emisión puede contener información adicional como 'Género', 'Categoría', 'Año', ... llamada 'categorías EPG' en el EPGSearch. A menudo los proveedores EPG externos ofrecen esta información. Esto permite refinar una búsqueda y otras funcionalidades atractivas, como buscar por el 'consejo del día'. Para usarlo, establecer a 'Sí'."
 
 msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
 msgstr "El archivo epgsearchcats.conf especifica el modo de búsqueda de esta entrada. Se puede buscar por texto o por valor. También puede editar una lista de valores predefinidos en este archivo que puede seleccionar aquí."
 
 msgid "Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."
-msgstr "Si una categoría seleccionada no es parte del resumen de una emisión, normalmente esta no incluye ese evento en los resultados de la búsqueda. Para evitarlo establezca esta opción a 'Sí', pero maneje esto con cuidado para evitar una gran cantidad de resultados."
+msgstr "Si una categoría seleccionada no es parte del resumen de una emisión, normalmente ésta no incluye ese evento en los resultados de la búsqueda. Para evitarlo establezca esta opción a 'Sí', pero maneje esto con cuidado para evitar una gran cantidad de resultados."
 
 msgid "Use in favorites menu"
 msgstr "Usar en el menú favoritos"
@@ -1033,9 +1031,8 @@ msgstr "Cambiar ... minutos antes del inicio"
 msgid "Unmute sound"
 msgstr "Sonido quitar silencio"
 
-#, fuzzy
 msgid "Ask ... minutes before start"
-msgstr "Cambiar ... minutos antes del inicio"
+msgstr "Preguntar ... minutos antes del inicio"
 
 msgid "  Series recording"
 msgstr "  Grabación en serie"
@@ -1128,7 +1125,7 @@ msgid "Button$all channels"
 msgstr "todos los canales"
 
 msgid "Button$only FTA"
-msgstr "sin encriptar"
+msgstr "sólo en abierto"
 
 msgid "Button$Timer preview"
 msgstr "Previsualizar programación"
@@ -1154,13 +1151,11 @@ msgstr "¿Sobrescribir las entradas existentes?"
 msgid "Edit entry"
 msgstr "Editar entrada"
 
-#, fuzzy
 msgid "Switch"
-msgstr "Cambiar de canal"
+msgstr "Cambiar"
 
-#, fuzzy
 msgid "Announce ... minutes before start"
-msgstr "Cambiar ... minutos antes del inicio"
+msgstr "Avisar ... minutos antes del inicio"
 
 msgid "action at"
 msgstr "ejecutar a las"
@@ -1175,7 +1170,7 @@ msgid "Timers"
 msgstr "Programaciones"
 
 msgid ">>> no info! <<<"
-msgstr ">>> ¡sin información! <<<"
+msgstr "   «sin información»  "
 
 msgid "Overview"
 msgstr "Resumen"
@@ -1201,7 +1196,7 @@ msgstr "¡Programación por búsqueda actualizada!"
 
 #, c-format
 msgid "Switch to (%d) '%s'?"
-msgstr ""
+msgstr "¿Cambiar a (%d) '%s'?"
 
 msgid "Programming timer failed!"
 msgstr "¡La programación ha fallado!"

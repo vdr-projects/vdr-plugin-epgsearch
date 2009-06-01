@@ -50,6 +50,8 @@ neu:
   Dieser VDR-Patch integriert epgsearch's Timer-Edit-Menü in VDR's Timer-Menü, Danke dafür 
   an S:oren@vdr-portal.
 - einige Geschwindigkeitsverbesserungen, Danke an Tobias Bratfisch für die Patches
+- falls die VPS-Zeit von der Startzeit einer Sendung abweicht, wird die VPS-Kennung nun mit
+  'v' statt 'V' angezeigt.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
@@ -69,7 +71,7 @@ fixes:
   mehrfach gelistet, Danke an Andreas Mair für den Hinweis.
 - Fehler bei "Nur ankündigen"-Suchtimer im Zusammenhang mit der Anzeige des zugehörigen Such-
   timernamens korrigiert.
-
+- Einige Speicherlecks korrigiert, Danke an Bittor Corl für einen Patch
 
 2008-04-29: Version 0.9.24
 neu:
