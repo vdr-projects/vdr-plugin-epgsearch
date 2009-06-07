@@ -688,25 +688,27 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
                Timer->File(),
                tmpSummary?tmpSummary:"");
 
-   SendViaSVDRP(cmdbuf);
+   if (!SendViaSVDRP(cmdbuf))
+     return false;
+   
    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(); 
-
+   
    cTimerDone* timerdone = new cTimerDone(start, stop, pEvent, searchExt->ID);
    if (index==0)
-      TimersDone.Add(timerdone);
+     TimersDone.Add(timerdone);
    else
-      TimersDone.Update(start, stop, pEvent, searchExt->ID, timerdone);
-
+     TimersDone.Update(start, stop, pEvent, searchExt->ID, timerdone);
+   
    if (EPGSearchConfig.sendMailOnSearchtimers)
-   {
-      if (index==0) // new
+     {
+       if (index==0) // new
          mailNotifier.AddNewTimerNotification(pEvent->EventID(), pEvent->ChannelID()); 
-      else
-	mailNotifier.AddModTimerNotification(pEvent->EventID(), pEvent->ChannelID(), timerMod); 
-   }
+       else
+	 mailNotifier.AddModTimerNotification(pEvent->EventID(), pEvent->ChannelID(), timerMod); 
+     }
    free(cmdbuf);
    if (tmpSummary) free(tmpSummary);
-
+   
    return true;
 }
 
