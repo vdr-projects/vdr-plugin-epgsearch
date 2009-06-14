@@ -25,9 +25,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "conflictcheck_thread.h"
 #include "epgsearchcfg.h"
 #include "mail.h"
+#include "epgsearch.h"
 
 #define CONFLICTCHECK_NICE 19
-#define CONFLCHECK_WAIT 20
 
 cConflictCheckThread *cConflictCheckThread::m_Instance = NULL;
 time_t cConflictCheckThread::m_cacheNextConflict = 0;
@@ -88,8 +88,12 @@ void cConflictCheckThread::Action(void)
     m_Active = true;
     // let VDR do its startup
     if (!m_runOnce)
-      for(int wait = 0; wait < CONFLCHECK_WAIT && m_Active; wait++)
-	Wait.Wait(1000);
+      {
+	if (!cPluginEpgsearch::VDR_readyafterStartup)
+	  LogFile.Log(2, "ConflictCheckThread: waiting for VDR to become ready...");
+	while(m_Active && !cPluginEpgsearch::VDR_readyafterStartup)
+	  Wait.Wait(1000);
+      }
 
     time_t nextUpdate = time(NULL);
     while (m_Active) 

@@ -47,6 +47,9 @@ new:
 - some speed enhancements, thanks to Tobias Bratfisch for providing patches
 - if the VPS time differs from the start time of an event the VPS marker is now  'v' 
   instead of 'V'
+- the first run of the background threads (searchtimer, switchtimer, conflict check) is now
+  triggered by the first call to cPlugin::MainThreadHook instead of waiting 20s after
+  VDRs startup.
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu

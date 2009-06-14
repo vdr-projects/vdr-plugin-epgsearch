@@ -30,6 +30,7 @@ class cPluginEpgsearch : public cPlugin {
 public:
     bool showConflicts;
     bool showAnnounces;
+    static bool VDR_readyafterStartup;
 
     cPluginEpgsearch(void);
     virtual ~cPluginEpgsearch();
@@ -40,7 +41,7 @@ public:
     virtual bool Initialize(void);
     virtual bool Start(void);
     virtual void Stop(void);
-    virtual void Housekeeping(void);
+    virtual void MainThreadHook(void);
     virtual const char *MainMenuEntry(void);
     virtual cOsdObject *MainMenuAction(void);
     virtual cMenuSetupPage *SetupMenu(void);

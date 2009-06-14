@@ -45,8 +45,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 // priority for background thread
 #define SEARCHTIMER_NICE 19
-// delay before first thread activity
-#define SEARCHTIMER_WAIT 20
 
 #define DAYBUFFERSIZE 32
 
@@ -200,7 +198,9 @@ void cSearchTimerThread::Action(void)
 
    m_Active = true;
    // let VDR do its startup
-   for(int wait = 0; wait < SEARCHTIMER_WAIT && m_Active; wait++)
+   if (!cPluginEpgsearch::VDR_readyafterStartup)
+     LogFile.Log(2, "SearchTimerThread: waiting for VDR to become ready...");
+   while(m_Active && !cPluginEpgsearch::VDR_readyafterStartup)
       Wait.Wait(1000);
 
    time_t nextUpdate = time(NULL);
