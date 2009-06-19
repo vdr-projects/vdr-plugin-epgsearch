@@ -55,7 +55,9 @@ void cMenuSearchTemplateItem::Set(void)
 {
   ostringstream line;
 
-  if (searchExt->useAsSearchTimer)
+  if (searchExt->ID == EPGSearchConfig.DefSearchTemplateID)
+	line << "*";
+  else if (searchExt->useAsSearchTimer)
     {
       if (searchExt->IsActiveAt(time(NULL)))
 	line << ">";
