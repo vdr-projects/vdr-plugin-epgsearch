@@ -192,7 +192,7 @@ class cTimerObj : public cListObject {
 public:
     cTimer* timer;
     cTimerObj(cTimer* Timer) : timer(Timer) {}
-    ~cTimerObj() { timer = NULL;  } // do not delete anything!
+    virtual ~cTimerObj() { timer = NULL;  } // do not delete anything!
 };
 
 // --- cTimerObjList --------------------------------------------------------

@@ -232,7 +232,8 @@ eOSState cMenuSearchCommands::CreateSearchTimer(void)
 
    cSearchExt* pNew = new cSearchExt;
    strcpy(pNew->search, event->Title());
-   return AddSubMenu(new cMenuEditSearchExt(pNew, true));
+   pNew->channelMin = pNew->channelMax = Channels.GetByChannelID(event->ChannelID());
+   return AddSubMenu(new cMenuEditSearchExt(pNew, true, false, true));
 }
 
 eOSState cMenuSearchCommands::CreateBlacklist(void)

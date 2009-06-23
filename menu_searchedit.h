@@ -59,7 +59,7 @@ protected:
   void AddHelp(const char* helpText);
 
 public:
-  cMenuEditSearchExt(cSearchExt *SearchExt, bool New = false, bool Template = false);
+  cMenuEditSearchExt(cSearchExt *SearchExt, bool New = false, bool Template = false, bool FromEPG = false);
   virtual ~cMenuEditSearchExt();
   virtual void Set();
   virtual eOSState ProcessKey(eKeys Key);

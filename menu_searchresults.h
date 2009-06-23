@@ -102,6 +102,7 @@ class cMenuSearchResultsForSearch : public cMenuSearchResults {
     eOSState ProcessKey(eKeys Key);
   public:
     cMenuSearchResultsForSearch(cSearchExt*, cMenuTemplate* MenuTemplate);
+    virtual ~cMenuSearchResultsForSearch() {}
 };
 
 class cBlacklist;

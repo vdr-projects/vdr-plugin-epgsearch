@@ -163,13 +163,14 @@ cSearchExt& cSearchExt::operator= (const cSearchExt &SearchExt)
    return *this;
 }
 
-void cSearchExt::CopyFromTemplate(const cSearchExt* templ)
+  void cSearchExt::CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSettings)
 {
    options = templ->options;
    useTime = templ->useTime;
    startTime = templ->startTime;
    stopTime = templ->stopTime;
-   useChannel = templ->useChannel;
+   if (!ignoreChannelSettings)
+     useChannel = templ->useChannel;
    useCase = templ->useCase;
    mode = templ->mode;
    useTitle = templ->useTitle;
@@ -202,15 +203,18 @@ void cSearchExt::CopyFromTemplate(const cSearchExt* templ)
       index++;
    }
   
-   channelMin = templ->channelMin;
-   channelMax = templ->channelMax;
-   if (channelGroup)
-   {
-      free(channelGroup);
-      channelGroup = NULL;
-   }
-   if (templ->channelGroup)
-      channelGroup = strdup(templ->channelGroup);
+   if (!ignoreChannelSettings)
+     {
+       channelMin = templ->channelMin;
+       channelMax = templ->channelMax;
+       if (channelGroup)
+	 {
+	   free(channelGroup);
+	   channelGroup = NULL;
+	 }
+       if (templ->channelGroup)
+	 channelGroup = strdup(templ->channelGroup);
+     }
    avoidRepeats = templ->avoidRepeats;
    compareTitle = templ->compareTitle;
    compareSubtitle = templ->compareSubtitle;

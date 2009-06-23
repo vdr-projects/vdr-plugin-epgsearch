@@ -192,7 +192,7 @@ public:
   cSearchResults* Run(int PayTVMode = -1, bool inspectTimerMargin = false, int evalLimitMins = 0, cSearchResults* pPrevResults = NULL, bool suppressRepeatCheck = false); 
   void CheckRepeatTimers(cSearchResults* pResults);
   void CheckExistingRecordings(cSearchResults* pResults);
-  void CopyFromTemplate(const cSearchExt* templ);
+  void CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSettings = false);
   cSearchResults* GetBlacklistEvents(int MarginStop = 0);
   void OnOffTimers(bool);
   void DeleteAllTimers();

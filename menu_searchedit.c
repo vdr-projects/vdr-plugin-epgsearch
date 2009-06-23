@@ -45,7 +45,7 @@ cChannelGroups ChannelGroups;
 cSearchExtCats SearchExtCats;
 
 // --- cMenuEditSearchExt --------------------------------------------------------
-cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Template)
+cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Template, bool FromEPG)
    :cOsdMenu(tr("Edit search"),32)
 {
    templateMode = Template;
@@ -104,7 +104,7 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
          SearchExtTempl = SearchTemplates.Next(SearchExtTempl);
       }    
       if (SearchTempl)
-         SearchExt->CopyFromTemplate(SearchTempl);
+	SearchExt->CopyFromTemplate(SearchTempl, FromEPG);
    }
 
    searchExt = SearchExt;
@@ -127,11 +127,11 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
 
       channelMin = channelMax = cDevice::CurrentChannel();
       channelGroupNr = 0;  
-      if (data.useChannel==1)
-      {
+      if (data.channelMin)
          channelMin = data.channelMin->Number();
+      if (data.channelMax)
          channelMax = data.channelMax->Number();
-      }
+
       if (data.useChannel==2)
       {
          channelGroupNr = ChannelGroups.GetIndex(data.channelGroup);
