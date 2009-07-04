@@ -714,7 +714,7 @@ char* GetRawDescription(const char* descr)
    while(tmp)
    {
       // extract a single line
-      char* lf = strchr(tmp, '\n');
+      const char* lf = strchr(tmp, '\n');
       char* line = NULL;
       if (lf)
 	line = strndup(tmp, lf-tmp);

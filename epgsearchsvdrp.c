@@ -761,45 +761,50 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
    }
    else if (strcasecmp(Command, "RENC") == 0) 
    {
-      if (*Option) 
-      {
-         char* pipePos = strchr(Option, '|');
+     if (*Option) 
+       {
+         const char* pipePos = strchr(Option, '|');
          if (pipePos)
-         {
-            *pipePos = 0;
-            const char* oldName = Option;
-            const char* newName = pipePos+1;
-            if (strlen(oldName) > 0 && strlen(newName) > 0)
-            {
-               cChannelGroup *changrp = ChannelGroups.GetGroupByName(Option);
-               if (changrp)
-               {
-                  strcpy(changrp->name, newName);
-                  cMutexLock SearchExtsLock(&SearchExts);
-                  cSearchExt *SearchExt = SearchExts.First();
-                  while (SearchExt) 
-                  {
-                     if (SearchExt->useChannel == 2 && 
-                         SearchExt->channelGroup && 
-                         strcmp(SearchExt->channelGroup, oldName) == 0)
-                     {
-                        free(SearchExt->channelGroup);
-                        SearchExt->channelGroup = strdup(newName);
-                     }
-                     SearchExt = SearchExts.Next(SearchExt);
-                  }
-                  ChannelGroups.Save();
-                  SearchExts.Save();
-                  return cString::sprintf("renamed channel group '%s' to '%s'", oldName, newName);
-
-               }		    
-               else
-               {
-                  ReplyCode = 901;
-                  return cString::sprintf("channel group '%s' not defined", Option);
-               }
-            }
-         }
+	   {
+	     int index = pipePos - Option;
+	     char* oldName = strdup(Option);
+	     *(oldName + index) = 0;
+	     const char* newName = oldName + index + 1;
+	     if (strlen(oldName) > 0 && strlen(newName) > 0)
+	       {
+		 cChannelGroup *changrp = ChannelGroups.GetGroupByName(oldName);
+		 if (changrp)
+		   {
+		     strcpy(changrp->name, newName);
+		     cMutexLock SearchExtsLock(&SearchExts);
+		     cSearchExt *SearchExt = SearchExts.First();
+		     while (SearchExt) 
+		       {
+			 if (SearchExt->useChannel == 2 && 
+			     SearchExt->channelGroup && 
+			     strcmp(SearchExt->channelGroup, oldName) == 0)
+			   {
+			     free(SearchExt->channelGroup);
+			     SearchExt->channelGroup = strdup(newName);
+			   }
+			 SearchExt = SearchExts.Next(SearchExt);
+		       }
+		     ChannelGroups.Save();
+		     SearchExts.Save();
+		     cString strReturn = cString::sprintf("renamed channel group '%s' to '%s'", oldName, newName);
+		     free(oldName);
+		     return strReturn;
+		     
+		   }		    
+		 else
+		   {
+		     free(oldName);
+		     ReplyCode = 901;
+		     return cString::sprintf("channel group '%s' not defined", Option);
+		   }
+	       }
+	     free(oldName);
+	   }
          ReplyCode = 901;
          return cString("Error in channel group parameters");	
       }

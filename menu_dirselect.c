@@ -83,7 +83,7 @@ int cMenuDirSelect::Level(const char* szDir)
 	return 1;
     do
     {
-	char* pos = strchr(szDir, '~');
+	const char* pos = strchr(szDir, '~');
 	if (pos)
 	{
 	    iLevel++;

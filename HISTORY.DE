@@ -74,6 +74,9 @@ fixes:
 - Fehler bei "Nur ankündigen"-Suchtimer im Zusammenhang mit der Anzeige des zugehörigen Such-
   timernamens korrigiert.
 - Einige Speicherlecks korrigiert, Danke an Bittor Corl für einen Patch
+- Einige Korrekturen damit es mit gcc-4.4 compiliert, Danke an firefly@vdrportal für einen 
+  Patch.
+
 
 2008-04-29: Version 0.9.24
 neu:

@@ -600,8 +600,8 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, cTimer* Timer, 
    if (!isempty(aux))
    {
       tmpaux = strdup(aux);
-      char* begin = strstr(aux, "<epgsearch>");
-      char* end = strstr(aux, "</epgsearch>");
+      const char* begin = strstr(aux, "<epgsearch>");
+      const char* end = strstr(aux, "</epgsearch>");
       if (begin && end)
       {
          if (begin == aux) strcpy(tmpaux, ""); else strn0cpy(tmpaux, aux, begin-aux+1);
