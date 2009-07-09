@@ -50,6 +50,8 @@ new:
 - the first run of the background threads (searchtimer, switchtimer, conflict check) is now
   triggered by the first call to cPlugin::MainThreadHook instead of waiting 20s after
   VDRs startup.
+- The update check for manual timers does now ignore timers whose start or stop time was edited 
+  by the user. 
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu

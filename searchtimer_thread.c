@@ -855,7 +855,13 @@ void cSearchTimerThread::CheckManualTimers()
    for (cTimer *ti = Timers.First(); ti && m_Active; ti = Timers.Next(ti)) 
    {
       if (TriggeredFromSearchTimerID(ti) != -1) continue; // manual timer?
-        
+
+      if (TimerWasModified(ti))
+      {
+	LogFile.Log(2,"timer for '%s' (%s, channel %s) modified by user - won't be touched", ti->File(), DAYDATETIME(ti->StartTime()), CHANNELNAME(ti->Channel()));
+	continue; // don't update timers modified by user
+      }
+
       char* szbstart = GetAuxValue(ti, "bstart");
       int bstart = szbstart? atoi(szbstart) : 0;
       free(szbstart);

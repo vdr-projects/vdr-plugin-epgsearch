@@ -357,6 +357,11 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		    aux = UpdateAuxValue(aux, "eventid", event->EventID());
 		    aux = UpdateAuxValue(aux, "bstart", bstart);
 		    aux = UpdateAuxValue(aux, "bstop", bstop);
+		    if (addIfConfirmed) // do not update start and stop time in aux if this is an existing timer, we need this to detect manual editing
+		      {
+			aux = UpdateAuxValue(aux, "start", startTime);
+			aux = UpdateAuxValue(aux, "stop", stopTime);
+		      }
 		    fullaux = UpdateAuxValue(fullaux, "epgsearch", aux);
 		}
 		

@@ -54,6 +54,8 @@ neu:
   'v' statt 'V' angezeigt.
 - Der erste Lauf der Hintergrund-Threads (Suchtimer, Umschalttimer, Konfliktprüfung) wird nun
   durch den ersten Aufruf von cPlugin::MainThreadHook ausgelöst, anstatt 20s nach dem VDR-Start.
+- Die Überwachung manueller Timer ignoriert nun Timer, deren Start- oder Stopzeit vom Anwender
+  geändert wurde.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
