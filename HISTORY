@@ -1,7 +1,7 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2008-xx-xx; Version 0.9.25
+2009-xx-xx; Version 0.9.25
 new:
 - Search timers now have a new action "Announce and switching". This announces the
   event via OSD right before it starts and lets you switch to its channel with 'Ok'.

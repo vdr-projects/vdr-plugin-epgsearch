@@ -9,13 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-04-09 19:51+0200\n"
-"PO-Revision-Date: 2008-06-29 03:25+0100\n"
+"POT-Creation-Date: 2009-07-17 13:15+0200\n"
+"PO-Revision-Date: 2009-07-15 23:30+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Channel groups"
 msgstr "Gruppi canali"
@@ -39,16 +42,16 @@ msgid "Button$Invert selection"
 msgstr "Inverti sel."
 
 msgid "Button$All yes"
-msgstr "Tutti sÏ"
+msgstr "Tutti s√¨"
 
 msgid "Button$All no"
 msgstr "Tutti no"
 
 msgid "Group name is empty!"
-msgstr "Il nome gruppo Ë vuoto!"
+msgstr "Il nome gruppo √® vuoto!"
 
 msgid "Group name already exists!"
-msgstr "Nome gruppo gi‡ esistente!"
+msgstr "Nome gruppo gi√† esistente!"
 
 msgid "Direct access to epgsearch's conflict check menu"
 msgstr "Accesso diretto al menu di verifica conflitti di epgsearch"
@@ -146,7 +149,7 @@ msgid "Hide main menu entry"
 msgstr "Nascondi voce menu principale"
 
 msgid "Help$Hides the main menu entry and may be useful if this plugin is used to replace the original 'Schedule' entry."
-msgstr "Nascondere la voce nel menu puÚ essere utile se questo plugin Ë usato per sostituire la voce originale 'Programmi'"
+msgstr "Nascondere la voce nel menu pu√≤ essere utile se questo plugin √® usato per sostituire la voce originale 'Programmi'"
 
 msgid "Main menu entry"
 msgstr "Voce nel menu principale"
@@ -158,13 +161,13 @@ msgid "Replace original schedule"
 msgstr "Sostituisci Programmi originale"
 
 msgid "Help$When VDR is patched to allow this plugin to replace the original 'Schedule' entry, you can de/activate this replacement here."
-msgstr "Quando VDR Ë patchato per permettere a questo plugin di sostituire la voce originale 'Programmi', puoi dis/attivare qui la sostituzione."
+msgstr "Quando VDR √® patchato per permettere a questo plugin di sostituire la voce originale 'Programmi', puoi dis/attivare qui la sostituzione."
 
 msgid "Start menu"
 msgstr "Menu avvio"
 
 msgid "Help$Choose between 'Overview - Now' and 'Schedule' as start menu when this plugin is called."
-msgstr "Scegli tra 'Sommario - Adesso' e 'Programmi' come menu iniziale quando questo plugin Ë chiamato."
+msgstr "Scegli tra 'Sommario - Adesso' e 'Programmi' come menu iniziale quando questo plugin √® chiamato."
 
 msgid "Ok key"
 msgstr "Tasto Ok"
@@ -174,7 +177,7 @@ msgid ""
 "Note: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."
 msgstr ""
 "Scegli il comportamento del tasto 'Ok'. Puoi usarlo per vedere il sommario o cambiare il canale corrispondente.\n"
-"Nota: la funzionalit‡ del tasto 'blu' (Cambia/Info/Cerca) dipende da questa impostazione."
+"Nota: la funzionalit√† del tasto 'blu' (Cambia/Info/Cerca) dipende da questa impostazione."
 
 msgid "Red key"
 msgstr "Tasto rosso"
@@ -184,7 +187,7 @@ msgid ""
 "(Can be toggled with key '0')"
 msgstr ""
 "Scegli quale funzione standard ('Registrazione' o 'Comandi') vuoi avere nel tasto rosso.\n"
-"(PuÚ essere impostata con il tasto '0')"
+"(Pu√≤ essere impostata con il tasto '0')"
 
 msgid "Blue key"
 msgstr "Tasto blu"
@@ -194,7 +197,7 @@ msgid ""
 "(Can be toggled with key '0')"
 msgstr ""
 "Scegli quale funzione standard ('Cambia'/'Info' o 'Cerca') vuoi avere nel tasto blu.\n"
-"(PuÚ essere impostata con il tasto '0')"
+"(Pu√≤ essere impostata con il tasto '0')"
 
 msgid "Show progress in 'Now'"
 msgstr "Visualizza progresso in 'Adesso'"
@@ -246,13 +249,13 @@ msgid "'One press' timer creation"
 msgstr "Crea timer ad 'una pressione'"
 
 msgid "Help$When a timer is created with 'Record' you can choose between an immediate creation of the timer or the display of the timer edit menu."
-msgstr "Quando un timer Ë creato con 'Registra' puoi selezionare tra una creazione immediata del timer o la visualizzazione del menu modifica timer."
+msgstr "Quando un timer √® creato con 'Registra' puoi selezionare tra una creazione immediata del timer o la visualizzazione del menu modifica timer."
 
 msgid "Show channels without EPG"
 msgstr "Mostra canali senza EPG"
 
 msgid "Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."
-msgstr "Scegli 'sÏ' se vuoi vedere i canali senza EPG in 'Sommario - Adesso'. 'Ok' in questi valori cambia il canale."
+msgstr "Scegli 's√¨' se vuoi vedere i canali senza EPG in 'Sommario - Adesso'. 'Ok' in questi valori cambia il canale."
 
 msgid "Time interval for FRew/FFwd [min]"
 msgstr "Intervallo tempo FRew/FFwd [min]"
@@ -279,8 +282,8 @@ msgid ""
 "Help$A favorites menu can display a list of your favorite broadcasts. Enable this if you want an additional menu besides 'Now' and 'Next'\n"
 "Any search can be used as a favorite. You only have to set the option 'Use in favorites menu' when editing a search."
 msgstr ""
-"Un menu preferiti puÚ mostrare un elenco delle tue trasmissioni preferite. Abilitalo se vuoi un menu supplementare in 'Adesso' e 'Prossimi'\n"
-"Qualsiasi ricerca puÚ essere usata come preferita. Devi solo impostare l'opzione 'Utilizza nel menu preferiti' quando modifichi una ricerca."
+"Un menu preferiti pu√≤ mostrare un elenco delle tue trasmissioni preferite. Abilitalo se vuoi un menu supplementare in 'Adesso' e 'Prossimi'\n"
+"Qualsiasi ricerca pu√≤ essere usata come preferita. Devi solo impostare l'opzione 'Utilizza nel menu preferiti' quando modifichi una ricerca."
 
 msgid "for the next ... hours"
 msgstr "per le prossime ... ore"
@@ -292,13 +295,13 @@ msgid "Use user-defined time"
 msgstr "Utilizza ora utente"
 
 msgid "Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."
-msgstr "All'interno di 'Adesso' e 'Prossimi' puoi specificare fino ad altre 4 ore nell'EPG che puÚ essere usato ripetutamente premendo il tasto verde, esempio 'prima serata', 'tarda sera',..."
+msgstr "All'interno di 'Adesso' e 'Prossimi' puoi specificare fino ad altre 4 ore nell'EPG che pu√≤ essere usato ripetutamente premendo il tasto verde, esempio 'prima serata', 'tarda sera',..."
 
 msgid "Description"
 msgstr "Descrizione"
 
 msgid "Help$This is the description for your user-defined time as it will appear as label on the green button."
-msgstr "Questa Ë la descrizione dell'ora definita dall'utente che apparir‡ come etichetta nel pulsante verde."
+msgstr "Questa √® la descrizione dell'ora definita dall'utente che apparir√† come etichetta nel pulsante verde."
 
 msgid "Time"
 msgstr "Orario"
@@ -316,7 +319,7 @@ msgid ""
 "- adding an episode name\n"
 "- support for EPG variables (see MANUAL)"
 msgstr ""
-"Questo plugin ha il suo menu modifica timer che estende quello originale con alcune funzionalit‡ extra come:\n"
+"Questo plugin ha il suo menu modifica timer che estende quello originale con alcune funzionalit√† extra come:\n"
 "- un voce directory supplementare\n"
 "- giorni della settimana definiti dall'utente per i timer ripetuti\n"
 "- aggiunta nome episodio\n"
@@ -367,7 +370,7 @@ msgid "Use search timers"
 msgstr "Utilizza timer di ricerca"
 
 msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criterions."
-msgstr "'Cerca timer' puÚ essere usato per creare automaticamente timer per eventi che corrispondano a criteri di ricerca."
+msgstr "'Cerca timer' pu√≤ essere usato per creare automaticamente timer per eventi che corrispondano a criteri di ricerca."
 
 msgid "  Update interval [min]"
 msgstr "  Intervallo aggiorn. [min]"
@@ -382,34 +385,34 @@ msgid "Help$Programming of new timers or timer changes is done with SVDRP. The d
 msgstr "La programmazione di nuovi timer o la modifica dei timer viene fatta con SVDRP. Il valore predefinito dovrebbe essere corretto, quindi cambialo solo se sai cosa stai facendo."
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
-msgstr "Specifica qui la priorit‡ predefinita dei timer creati con questo plugin. Questo valore puÚ anche essere adattato per ciascuna ricerca."
+msgstr "Specifica qui la priorit√† predefinita dei timer creati con questo plugin. Questo valore pu√≤ anche essere adattato per ciascuna ricerca."
 
 msgid "Help$Specify here the default lifetime of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
-msgstr "Specifica qui la durata predefinita dei timer/registrazioni creati con questo plugin. Questo valore puÚ anche essere adattato per ciascuna ricerca."
+msgstr "Specifica qui la durata predefinita dei timer/registrazioni creati con questo plugin. Questo valore pu√≤ anche essere adattato per ciascuna ricerca."
 
 msgid "Help$Specify here the default start recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
-msgstr "Specifica qui il margine predefinito di inizio della registrazione dei timer/registrazioni creati con questo plugin. Questo valore puÚ anche essere adattato per ciascuna ricerca."
+msgstr "Specifica qui il margine predefinito di inizio della registrazione dei timer/registrazioni creati con questo plugin. Questo valore pu√≤ anche essere adattato per ciascuna ricerca."
 
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
-msgstr "Specifica qui il margine predefinito di fine registrazione dei timer/registrazioni creati con questo plugin. Questo valore puÚ anche essere adattato per ciascuna ricerca."
+msgstr "Specifica qui il margine predefinito di fine registrazione dei timer/registrazioni creati con questo plugin. Questo valore pu√≤ anche essere adattato per ciascuna ricerca."
 
 msgid "No announcements when replaying"
 msgstr "Nessun annuncio durante riproduzione"
 
 msgid "Help$Set this to 'yes' if you don't like to get any announcements of broadcasts if you currently replay anything."
-msgstr "Imposta 'sÏ' se non ti piace avere degli annunci dalle emittenti se stai attualmente riproducendo qualcosa."
+msgstr "Imposta 's√¨' se non ti piace avere degli annunci dalle emittenti se stai attualmente riproducendo qualcosa."
 
 msgid "Recreate timers after deletion"
 msgstr "Ricrea timer dopo eliminazione"
 
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
-msgstr "Imposta 'sÏ' se vuoi ricreare i timer con la successiva ricerca di aggiornamento timer dopo la loro eliminazione."
+msgstr "Imposta 's√¨' se vuoi ricreare i timer con la successiva ricerca di aggiornamento timer dopo la loro eliminazione."
 
 msgid "Ignore PayTV channels"
 msgstr "Ignora i canali a pagamento"
 
 msgid "Help$Set this to 'yes' if don't want to see events on PayTV channels when searching for repeats."
-msgstr "Imposta 'sÏ' se non vuoi vedere gli eventi dei canali a pagamento durante la ricerca delle repliche."
+msgstr "Imposta 's√¨' se non vuoi vedere gli eventi dei canali a pagamento durante la ricerca delle repliche."
 
 msgid "Search templates"
 msgstr "Cerca modelli"
@@ -427,16 +430,16 @@ msgid "Help$Here you can setup channel groups which can be used within a search.
 msgstr "Qui puoi impostare i gruppi di canali che possono essere usati all'interno di una ricerca. Questi sono diversi dai gruppi canali di VDR e rappresentano un insieme arbitrario di canali, ad esempio 'Gratuiti'."
 
 msgid "Ignore below priority"
-msgstr "Ignora priorit‡ bassa"
+msgstr "Ignora priorit√† bassa"
 
 msgid "Help$If a timer with priority below the given value will fail it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
-msgstr "Se un timer con priorit‡ pi˘ bassa di un dato valore fallir‡ esso non sar‡ classificato come importante. Solo i conflitti importanti genereranno un messaggio OSD sul conflitto dopo una verifica automatica del conflitto."
+msgstr "Se un timer con priorit√† pi√π bassa di un dato valore fallir√† esso non sar√† classificato come importante. Solo i conflitti importanti genereranno un messaggio OSD sul conflitto dopo una verifica automatica del conflitto."
 
 msgid "Ignore conflict duration less ... min."
 msgstr "Ignora durata conflitto minore ... min."
 
 msgid "Help$If a conflicts duration is less then the given number of minutes it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
-msgstr "Se la durata di un conflitto Ë inferiore al numero di minuti dati non sar‡ classificato come importante. Solo i conflitti importanti genereranno un messaggio OSD sul conflitto dopo la verifica automatica di ciascun conflitto."
+msgstr "Se la durata di un conflitto √® inferiore al numero di minuti dati non sar√† classificato come importante. Solo i conflitti importanti genereranno un messaggio OSD sul conflitto dopo la verifica automatica di ciascun conflitto."
 
 msgid "Only check within next ... days"
 msgstr "Verifica solo entro i prossimi ... giorni"
@@ -451,19 +454,19 @@ msgid "After each timer programming"
 msgstr "Dopo program. di ciascun timer"
 
 msgid "Help$Set this to 'yes' if the conflict check should be performed after each manual timer programming. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if this timer is involved in any conflict."
-msgstr "Imposta 'sÏ' se il controllo di conflitto dovrebbe essere eseguito dopo la programmazione di ciascun timer manuale. Nel caso di un conflitto avrai immediatamente un messaggio che ti informa di questo. Il messaggio viene visualizzato solo se questo timer Ë coinvolto in qualche conflitto."
+msgstr "Imposta 's√¨' se il controllo di conflitto dovrebbe essere eseguito dopo la programmazione di ciascun timer manuale. Nel caso di un conflitto avrai immediatamente un messaggio che ti informa di questo. Il messaggio viene visualizzato solo se questo timer √® coinvolto in qualche conflitto."
 
 msgid "When a recording starts"
 msgstr "Quando inizia una reg."
 
 msgid "Help$Set this to 'yes' if the conflict check should be performed when a recording starts. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if the conflict is within the next 2 hours."
-msgstr "Imposta 'sÏ' se il controllo di conflitto dovrebbe essere eseguito dopo l'inizio di una registrazione. Nel caso di un conflitto avrai immediatamente un messaggio che ti informa di questo. Il messaggio viene visualizzato solo se questo conflitto avviene nelle prossime 2 ore."
+msgstr "Imposta 's√¨' se il controllo di conflitto dovrebbe essere eseguito dopo l'inizio di una registrazione. Nel caso di un conflitto avrai immediatamente un messaggio che ti informa di questo. Il messaggio viene visualizzato solo se questo conflitto avviene nelle prossime 2 ore."
 
 msgid "After each search timer update"
 msgstr "Dopo ogni aggiorn. timer ricerca"
 
 msgid "Help$Set this to 'yes' if the conflict check should be performed after each search timer update."
-msgstr "Imposta 'sÏ' se la verifica del conflitto dovrebbe essere eseguita dopo ciascun aggiornamento del timer di ricerca."
+msgstr "Imposta 's√¨' se la verifica del conflitto dovrebbe essere eseguita dopo ciascun aggiornamento del timer di ricerca."
 
 msgid "every ... minutes"
 msgstr "ogni ... minuti"
@@ -479,25 +482,25 @@ msgid "if conflicts within next ... minutes"
 msgstr "in conflitto entro i prossimi ... minuti"
 
 msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."
-msgstr "Se il prossimo conflitto comparir‡ nel numero dato di minuti puoi specificare qui un intervallo di verifica pi˘ breve per avere pi˘ notifiche OSD su di esso."
+msgstr "Se il prossimo conflitto comparir√† nel numero dato di minuti puoi specificare qui un intervallo di verifica pi√π breve per avere pi√π notifiche OSD su di esso."
 
 msgid "Avoid notification when replaying"
 msgstr "Evita notifiche durante riprod."
 
 msgid "Help$Set this to 'yes' if the don't want to get OSD messages about conflicts if you currently replay something. Nevertheless messages will be displayed if the first upcoming conflict is within the next 2 hours."
-msgstr "Imposta 'sÏ' se non vuoi avere messaggi OSD sui conflitti se stai riproducendo qualcosa. Tuttavia i messaggi saranno visualizzati se il primo conflitto avviene entro le prossime 2 ore."
+msgstr "Imposta 's√¨' se non vuoi avere messaggi OSD sui conflitti se stai riproducendo qualcosa. Tuttavia i messaggi saranno visualizzati se il primo conflitto avviene entro le prossime 2 ore."
 
 msgid "Search timer notification"
 msgstr "Notifica timer di ricerca"
 
 msgid "Help$Set this to 'yes' if you want to get an email notification about the search timers that where programmed automatically in the background."
-msgstr "Imposta 'sÏ' se vuoi avere una email di notifica sui timer di ricerca che sono stati programmati automaticamente dal sistema."
+msgstr "Imposta 's√¨' se vuoi avere una email di notifica sui timer di ricerca che sono stati programmati automaticamente dal sistema."
 
 msgid "Timer conflict notification"
 msgstr "Notifica timer in conflitto"
 
 msgid "Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."
-msgstr "Imposta 'sÏ' se vuoi avere una notifica email sui timer in conflitto."
+msgstr "Imposta 's√¨' se vuoi avere una notifica email sui timer in conflitto."
 
 msgid "Send to"
 msgstr "Invia a"
@@ -538,7 +541,7 @@ msgid "Use SMTP authentication"
 msgstr "Utilizza autenticazione SMTP"
 
 msgid "Help$Set this to 'yes' if your account needs authentication to send mails."
-msgstr "Imposta 'sÏ' se il tuo account ha bisogno di autenticazione per inviare email."
+msgstr "Imposta 's√¨' se il tuo account ha bisogno di autenticazione per inviare email."
 
 msgid "Auth user"
 msgstr "Autenticazione utente"
@@ -559,13 +562,13 @@ msgid "Button$Test"
 msgstr "Prova"
 
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
-msgstr " a‡bcdeÈËfghiÓÏjklmnoÚpqrstu˘vwxyz0123456789-.#~\\^$[]|()*+?{}/:%"
+msgstr " a√†bcde√©√®fghi√Æ√¨jklmno√≤pqrstu√πvwxyz0123456789-.#~\\^$[]|()*+?{}/:%"
 
 msgid "Start/Stop time has changed"
-msgstr "L'orario di Inizio/Fine Ë cambiato"
+msgstr "L'orario di Inizio/Fine √® cambiato"
 
 msgid "Title/episode has changed"
-msgstr "Il Titolo/episodio Ë cambiato"
+msgstr "Il Titolo/episodio √® cambiato"
 
 msgid "No new timers were added."
 msgstr "Nessun nuovo timer aggiunto."
@@ -650,7 +653,7 @@ msgid "Search term"
 msgstr "Termine ricerca"
 
 msgid "Search mode"
-msgstr "Modalit‡ di ricerca"
+msgstr "Modalit√† di ricerca"
 
 msgid "Tolerance"
 msgstr "Tolleranza"
@@ -731,7 +734,7 @@ msgid "Search in recordings"
 msgstr "Cerca nelle registrazioni"
 
 msgid "Mark as 'already recorded'?"
-msgstr "Segnare come 'gi‡ registrato'?"
+msgstr "Segnare come 'gi√† registrato'?"
 
 msgid "Add/Remove to/from switch list?"
 msgstr "Aggiungere/Rimuovere a/dalla lista modifiche?"
@@ -833,7 +836,7 @@ msgid "Use blacklists"
 msgstr "Utilizza lista esclusioni"
 
 msgid "Edit$Search text too short - use anyway?"
-msgstr "Il testo da cercare Ë troppo corto - continuare?"
+msgstr "Il testo da cercare √® troppo corto - continuare?"
 
 msgid "Button$by name"
 msgstr "Per nome"
@@ -857,10 +860,10 @@ msgid "Summary"
 msgstr "Sommario"
 
 msgid "Auxiliary info"
-msgstr "Informazioni ausiliari"
+msgstr "Informazioni ausiliarie"
 
 msgid "Button$Aux info"
-msgstr "Info ausiliari"
+msgstr "Info ausiliarie"
 
 msgid "Search actions"
 msgstr "Azioni ricerca"
@@ -997,25 +1000,25 @@ msgid "Help$This sets the tolerance of fuzzy searching. The value represents the
 msgstr "Questo imposta la tolleranza della ricerca imprecisa. Il valore rappresenta gli errori ammessi."
 
 msgid "Help$Set this to 'Yes' if your search should match the case."
-msgstr "Imposta 'SÏ' nel caso la ricerca dovesse corrispondere."
+msgstr "Imposta 'S√¨' nel caso la ricerca dovesse corrispondere."
 
 msgid "Help$Set this to 'Yes' if you like to search in the title of an event."
-msgstr "Imposta 'SÏ' se vuoi cercare il titolo di un evento."
+msgstr "Imposta 'S√¨' se vuoi cercare il titolo di un evento."
 
 msgid "Help$Set this to 'Yes' if you like to search in the episode of an event."
-msgstr "Imposta 'SÏ' se vuoi cercare l'episodio di un evento."
+msgstr "Imposta 'S√¨' se vuoi cercare l'episodio di un evento."
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
-msgstr "Imposta 'SÏ' se vuoi cercare il sommario di un evento."
+msgstr "Imposta 'S√¨' se vuoi cercare il sommario di un evento."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
-msgstr "Il sommario di un evento, puÚ contenere informazione addizionale come 'Genere', 'Categoria', 'Anno',... chiamata 'Categorie EPG' all'interno di EPGSearch. I fornitori di EPG esterni spesso inviano questa informazione. Questo ti permette di rifinire una ricerca e altre cosette, come la ricerca per il 'consiglio del giorno'. Per usarlo imposta 'SÏ'."
+msgstr "Il sommario di un evento, pu√≤ contenere informazione addizionale come 'Genere', 'Categoria', 'Anno',... chiamata 'Categorie EPG' all'interno di EPGSearch. I fornitori di EPG esterni spesso inviano questa informazione. Questo ti permette di rifinire una ricerca e altre cosette, come la ricerca per il 'consiglio del giorno'. Per usarlo imposta 'S√¨'."
 
 msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
-msgstr "Il file epgsearchcats.conf specifica la modalit‡ di ricerca per questo valore. Uno puÚ cercare per testo o per valore. Puoi anche modificare un elenco di valori predefiniti in questo file che puÚ essere qui selezionato."
+msgstr "Il file epgsearchcats.conf specifica la modalit√† di ricerca per questo valore. Uno pu√≤ cercare per testo o per valore. Puoi anche modificare un elenco di valori predefiniti in questo file che pu√≤ essere qui selezionato."
 
 msgid "Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."
-msgstr "Se una categoria selezionata non Ë parte del sommario di un evento questo normalmente esclude questo evento dai risultati di ricerca. Per evitare ciÚ, imposta 'SÏ' come opzione, ma gestiscilo con attenzione per evitare una grande quantit‡ di risultati."
+msgstr "Se una categoria selezionata non √® parte del sommario di un evento questo normalmente esclude questo evento dai risultati di ricerca. Per evitare ci√≤, imposta 'S√¨' come opzione, ma gestiscilo con attenzione per evitare una grande quantit√† di risultati."
 
 msgid "Use in favorites menu"
 msgstr "Utilizza nel menu preferiti"
@@ -1220,4 +1223,8 @@ msgstr "in %02ldh"
 msgid "in %02ldm"
 msgstr "in %02ldm"
 
+#~ msgid "File"
+#~ msgstr "File"
 
+#~ msgid "Day"
+#~ msgstr "Giorno"
