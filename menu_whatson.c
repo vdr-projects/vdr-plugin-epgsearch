@@ -173,7 +173,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
       else
       {
 	t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?'R':'T') : 't' : ' ';
-	v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : 'v';
+	v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ';
 	r[0] = event && event->IsRunning() ? '*' : ' ';
       }
 
