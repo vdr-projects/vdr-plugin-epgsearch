@@ -75,6 +75,7 @@ fixes:
   search timer
 - fixed some memory leaks, thanks to Bittor Corl for providing a patch
 - some fixes to compile with gcc-4.4, thanks to firefly@vdrportal for providing a patch
+- fixed wrong man section of some man pages, thanks to Ville Skyttä for providing a patch
 
 
 2008-04-29: Version 0.9.24

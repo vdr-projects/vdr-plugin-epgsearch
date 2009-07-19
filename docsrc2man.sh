@@ -26,7 +26,9 @@ for LANGUAGE in $(ls "$DOCSRC"/); do
 
 	for i in "$DOCSRC"/$LANGUAGE/*.txt; do
 		echo -ne "create man page: ($LANGUAGE) $(basename "$i" ".txt")..."
-		pod2man -c "Epgsearch Version $VERSION" -n "$(echo "$(basename "$i")" | sed -e 's/\.[0-9]\..*$//')" --section=5 "$i" >"man/$LANGUAGE/$(basename "$i" ".txt")"
+		name=$(echo "$(basename "$i")" | sed -e 's/\.[0-9]\..*$//')
+		sect=$(echo "$i" | sed -e 's/.*\.\([0-9]\)\.txt/\1/')
+		pod2man -c "Epgsearch Version $VERSION" -n "$name" --section="$sect" "$i" >"man/$LANGUAGE/$(basename "$i" ".txt")"
 		if [ $? -eq 0 ]; then
 			echo " done."
 		else
