@@ -42,6 +42,10 @@ ifndef AUTOCONFIG
 
 endif
 
+### the sendmail executable to use when epgsearch is configured to use the
+### sendmail method for sending mail
+SENDMAIL = /usr/sbin/sendmail
+
 ###
 ### CONFIG END
 ### do not edit below this line if you don't know what you do ;-)
@@ -118,11 +122,15 @@ PACKAGE = vdr-$(ARCHIVE)
 INCLUDES += -I$(VDRDIR)/include -I$(DVBDIR)/include
 #INCLUDES += -I$(VDRDIR)/include
 
-DEFINES += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
-DEFINES1 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(MAINMENUSHORTCUT)"'
-DEFINES2 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN2)"'
-DEFINES3 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN3)"'
-DEFINES4 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN4)"'
+EPGSEARCH_DEFINES += -D_GNU_SOURCE
+ifneq ($(SENDMAIL),)
+EPGSEARCH_DEFINES += -DSENDMAIL='"$(SENDMAIL)"'
+endif
+DEFINES += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+DEFINES1 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(MAINMENUSHORTCUT)"'
+DEFINES2 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN2)"'
+DEFINES3 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN3)"'
+DEFINES4 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"'
 
 ### The object files (add further files here):
 

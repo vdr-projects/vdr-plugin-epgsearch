@@ -31,6 +31,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include "uservars.h"
 
+#ifndef SENDMAIL
+#define SENDMAIL "/usr/sbin/sendmail"
+#endif
+
 extern bool isUTF8;
 using namespace std;
 
@@ -130,7 +134,7 @@ bool cMailNotifier::SendMailViaSendmail()
 {
     char mailcmd[256];
     const char* mailargs = "%s -i -FVDR -oem  %s";
-    const char* mailproc = "/usr/lib/sendmail";
+    const char* mailproc = SENDMAIL;
     FILE* mail;
     
     string to = EPGSearchConfig.MailAddressTo; 

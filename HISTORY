@@ -52,6 +52,8 @@ new:
   VDRs startup.
 - The update check for manual timers does now ignore timers whose start or stop time was edited 
   by the user. 
+- default path to sendmail is now '/usr/sbin/sendmail' and can be configured in the Makefile,
+  thanks to Ville Skyttä for providing a patch.
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu

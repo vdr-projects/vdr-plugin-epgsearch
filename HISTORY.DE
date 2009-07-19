@@ -56,6 +56,8 @@ neu:
   durch den ersten Aufruf von cPlugin::MainThreadHook ausgelöst, anstatt 20s nach dem VDR-Start.
 - Die Überwachung manueller Timer ignoriert nun Timer, deren Start- oder Stopzeit vom Anwender
   geändert wurde.
+- Der Default-Pfad zu sendmail ist nun '/usr/sbin/sendmail' und kann per Makefile konfiguriert 
+  werden, Danke an Ville Skyttä für den Patch.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
