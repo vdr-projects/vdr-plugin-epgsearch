@@ -32,11 +32,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_searchedit.h"
 #include "menu_searchresults.h"
 #include <math.h>
-#ifdef HAVE_PCREPOSIX
-#include <pcreposix.h>
-#else
-#include <regex.h>
-#endif
 
 cBlacklists Blacklists;
 

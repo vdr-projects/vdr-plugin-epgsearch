@@ -44,6 +44,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #ifdef HAVE_PCREPOSIX
 #include <pcreposix.h>
+#elif defined(HAVE_LIBTRE)
+#include <tre/regex.h>
 #else
 #include <regex.h>
 #endif

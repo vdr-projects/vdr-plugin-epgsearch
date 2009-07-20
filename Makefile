@@ -147,6 +147,7 @@ ifdef HAVE_LIBTRE
 LIBS += -L$(shell pkg-config --variable=libdir tre) $(shell pkg-config --libs tre)
 #LIBS += -L/usr/lib -ltre
 DEFINES += -DHAVE_LIBTRE
+INCLUDE += $(shell pkg-config --cflags tre)
 endif
 
 ifdef USE_PINPLUGIN

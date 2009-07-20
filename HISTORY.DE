@@ -81,6 +81,7 @@ fixes:
 - Einige Korrekturen damit es mit gcc-4.4 compiliert, Danke an firefly@vdrportal für einen 
   Patch.
 - Falsche Man-Sektion einiger Man-Pages korrigiert, Danke an Ville Skyttä für den Patch.
+- Einige Korrekturen bzgl. libtre-Includes, Danke an Ville Skyttä für den Patch.
 
 
 2008-04-29: Version 0.9.24
