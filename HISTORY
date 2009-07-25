@@ -3,6 +3,16 @@ VDR Plugin 'epgsearch' Revision History
 
 2009-xx-xx; Version 0.9.25
 new:
+- there is now an official git repository for epgsearch, that contains the latest 
+  development. 
+  First usage: 
+    git clone git://projects.vdr-developer.org/vdr-plugin-epgsearch.git	
+  Keep up-to-date with:
+    git pull
+  Web-git:
+    http://projects.vdr-developer.org/git/?p=vdr-plugin-epgsearch.git
+  many thanks to the maintainers of projects.vdr-developer.org, especially Tobias 
+  Grimm
 - Search timers now have a new action "Announce and switching". This announces the
   event via OSD right before it starts and lets you switch to its channel with 'Ok'.
   Switch timers now have the same option.

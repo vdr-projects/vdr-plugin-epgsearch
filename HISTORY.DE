@@ -3,6 +3,15 @@ VDR Plugin 'epgsearch' Revision History
 
 2009-xx-xx; Version 0.9.25
 neu:
+- Es gibt nun ein offizielles git repository für epgsearch, das die neueste Entwicklung
+  enthält. 
+  Zuerst: 
+    git clone git://projects.vdr-developer.org/vdr-plugin-epgsearch.git	
+  Auf den aktuellen Stand kommt man einfach mit:
+    git pull
+  Web-git:
+    http://projects.vdr-developer.org/git/?p=vdr-plugin-epgsearch.git
+  Vielen Dank an die Leute von projects.vdr-developer.org, besonders an Tobias Grimm
 - Suchtimer haben nun eine neue Aktion "Ankündigen und Umschalten". Damit wird eine Sendung 
   via OSD kurz vor ihrem Start angekündigt. Mit 'Ok' kann zum entsprechenden Kanal
   gewechselt werden. Umschalttimer haben die gleiche Option erhalten.
