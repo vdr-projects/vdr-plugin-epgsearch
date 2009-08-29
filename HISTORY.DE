@@ -91,6 +91,8 @@ fixes:
   Patch.
 - Falsche Man-Sektion einiger Man-Pages korrigiert, Danke an Ville Skyttä für den Patch.
 - Einige Korrekturen bzgl. libtre-Includes, Danke an Ville Skyttä für den Patch.
+- Korrektur beim UTF8-Zeichensatz-Handling bei Timer-Filenamen, Danke an Rolf Ahrenberg für
+  den Patch.
 
 
 2008-04-29: Version 0.9.24

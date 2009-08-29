@@ -628,15 +628,16 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
       return file;
     
    const char *Subtitle = pEvent ? pEvent->ShortText() : NULL;
-   char SubtitleBuffer[MAX_SUBTITLE_LENGTH];
+   char SubtitleBuffer[Utf8BufSize(MAX_SUBTITLE_LENGTH)];
    if (isempty(Subtitle))
    {
       sprintf(SubtitleBuffer, "%s-%s", GETDATESTRING(pEvent), GETTIMESTRING(pEvent));
       Subtitle = SubtitleBuffer;
    }
-   else if (strlen(Subtitle) > MAX_SUBTITLE_LENGTH) 
+   else if (Utf8StrLen(Subtitle) > MAX_SUBTITLE_LENGTH) 
    {
-      strn0cpy(SubtitleBuffer, Subtitle, MAX_SUBTITLE_LENGTH);
+      Utf8Strn0Cpy(SubtitleBuffer, Subtitle, sizeof(SubtitleBuffer));
+      SubtitleBuffer[Utf8SymChars(SubtitleBuffer, MAX_SUBTITLE_LENGTH)] = 0;
       Subtitle = SubtitleBuffer;
    }
 

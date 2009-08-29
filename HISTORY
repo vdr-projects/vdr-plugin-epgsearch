@@ -87,6 +87,9 @@ fixes:
 - some fixes to compile with gcc-4.4, thanks to firefly@vdrportal for providing a patch
 - fixed wrong man section of some man pages, thanks to Ville Skyttä for providing a patch
 - some fixes regarding libtre includes, thanks to Ville Skyttä for providing a patch
+- fix UTF8-character handling in timer file names, thanks to Rolf Ahrenberg for providing
+  a patch
+
 
 2008-04-29: Version 0.9.24
 new:
