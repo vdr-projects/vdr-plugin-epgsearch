@@ -64,6 +64,8 @@ new:
   by the user. 
 - default path to sendmail is now '/usr/sbin/sendmail' and can be configured in the Makefile,
   thanks to Ville Skyttä for providing a patch.
+- externally triggered search timer updates (via service interface or SVDRP) will now 
+  automatically activate the setting "Use search timers" in the setup.
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu

@@ -67,6 +67,8 @@ neu:
   geändert wurde.
 - Der Default-Pfad zu sendmail ist nun '/usr/sbin/sendmail' und kann per Makefile konfiguriert 
   werden, Danke an Ville Skyttä für den Patch.
+- Externe Suchtimer-Updates (via service interface oder SVDRP) aktivieren nun automatisch die
+  Option "Suchtimer verw." im Setup.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben

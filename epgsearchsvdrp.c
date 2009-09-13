@@ -142,6 +142,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 {
    if (strcasecmp(Command, "UPDS") == 0) 
    {
+     if (!EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
+       cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
      updateForced = 1;
      if (Option)
        {

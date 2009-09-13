@@ -261,6 +261,8 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
       else
       {
          Epgsearch_updatesearchtimers_v1_0* serviceData = (Epgsearch_updatesearchtimers_v1_0*) Data;
+         if (!EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
+            cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
          updateForced = serviceData->showMessage?3:1;
       }
       return true;
