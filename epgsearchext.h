@@ -48,9 +48,10 @@ typedef enum
 typedef enum
 {
     searchTimerActionRecord=0,
-    searchTimerActionAnnounceOnly,
+    searchTimerActionAnnounceViaOSD,
     searchTimerActionSwitchOnly,
-    searchTimerActionAnnounceAndSwitch
+    searchTimerActionAnnounceAndSwitch,
+    searchTimerActionAnnounceViaMail
 } searchTimerAction;
 
 class cSearchExt;

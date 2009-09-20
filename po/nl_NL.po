@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-04-09 19:51+0200\n"
+"POT-Creation-Date: 2009-09-20 09:51+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -571,6 +571,9 @@ msgstr "Er zijn geen timers aangepast"
 msgid "No timers were deleted."
 msgstr "Er zijn geen timers gewist"
 
+msgid "No new events to announce."
+msgstr ""
+
 msgid "This version of EPGSearch does not support this service!"
 msgstr "Deze versie van EPGSearch ondersteunt deze mogelijkheid niet!"
 
@@ -935,7 +938,8 @@ msgstr "Bewerk zoekcriteria"
 msgid "Record"
 msgstr "Opnemen"
 
-msgid "Announce only"
+#, fuzzy
+msgid "Announce by OSD"
 msgstr "Alleen aankondigen (geen timer)"
 
 msgid "Switch only"
@@ -943,6 +947,10 @@ msgstr "Alleen schakelen"
 
 #, fuzzy
 msgid "Announce and switch"
+msgstr "Alleen aankondigen (geen timer)"
+
+#, fuzzy
+msgid "Announce by mail"
 msgstr "Alleen aankondigen (geen timer)"
 
 msgid "Selection"
@@ -1153,6 +1161,9 @@ msgstr "Wijzig invoer"
 msgid "Switch"
 msgstr "Alleen schakelen"
 
+msgid "Announce only"
+msgstr "Alleen aankondigen (geen timer)"
+
 #, fuzzy
 msgid "Announce ... minutes before start"
 msgstr "Schakel ... minuten voor start"
@@ -1212,4 +1223,3 @@ msgstr "in %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "in %02ldm"
-

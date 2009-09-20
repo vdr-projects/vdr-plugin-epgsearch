@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-04-09 19:51+0200\n"
+"POT-Creation-Date: 2009-09-20 09:51+0200\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -573,6 +573,9 @@ msgstr "No se modificaron programaciones."
 msgid "No timers were deleted."
 msgstr "No se borraron programaciones."
 
+msgid "No new events to announce."
+msgstr ""
+
 msgid "This version of EPGSearch does not support this service!"
 msgstr "¡Esta versión de EPGSearch no soporta este servicio!"
 
@@ -937,7 +940,8 @@ msgstr "Editar búsqueda"
 msgid "Record"
 msgstr "Grabar"
 
-msgid "Announce only"
+#, fuzzy
+msgid "Announce by OSD"
 msgstr "Sólo avisar"
 
 msgid "Switch only"
@@ -945,6 +949,10 @@ msgstr "Cambiar de canal"
 
 msgid "Announce and switch"
 msgstr "Avisar y cambiar"
+
+#, fuzzy
+msgid "Announce by mail"
+msgstr "Sólo avisar"
 
 msgid "Selection"
 msgstr "selección"
@@ -1154,6 +1162,9 @@ msgstr "Editar entrada"
 msgid "Switch"
 msgstr "Cambiar"
 
+msgid "Announce only"
+msgstr "Sólo avisar"
+
 msgid "Announce ... minutes before start"
 msgstr "Avisar ... minutos antes del inicio"
 
@@ -1212,5 +1223,3 @@ msgstr "en %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "en %02ldm"
-
-

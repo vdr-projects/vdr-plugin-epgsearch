@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-04-09 19:51+0200\n"
+"POT-Creation-Date: 2009-09-20 09:51+0200\n"
 "PO-Revision-Date: 2009-07-19 23:22+0200\n"
 "Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -577,6 +577,9 @@ msgstr "Yhtään ajastinta ei muokattu."
 msgid "No timers were deleted."
 msgstr "Yhtään ajastinta ei poistettu."
 
+msgid "No new events to announce."
+msgstr ""
+
 msgid "This version of EPGSearch does not support this service!"
 msgstr "EPGSearch-laajennos ei tarjoa vaadittavaa palvelua!"
 
@@ -941,7 +944,8 @@ msgstr "Muokkaa hakua"
 msgid "Record"
 msgstr "Tallenna"
 
-msgid "Announce only"
+#, fuzzy
+msgid "Announce by OSD"
 msgstr "muistutus"
 
 msgid "Switch only"
@@ -949,6 +953,10 @@ msgstr "kanavanvaihto"
 
 msgid "Announce and switch"
 msgstr "muistutus ja kanavanvaihto"
+
+#, fuzzy
+msgid "Announce by mail"
+msgstr "muistutus"
 
 msgid "Selection"
 msgstr "valittu"
@@ -1158,6 +1166,9 @@ msgstr "Muokkaa valintaa"
 msgid "Switch"
 msgstr "kanavanvaihto"
 
+msgid "Announce only"
+msgstr "muistutus"
+
 msgid "Announce ... minutes before start"
 msgstr "Muistuta ... minuuttia ennen alkua"
 
@@ -1216,4 +1227,3 @@ msgstr "%02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"
-

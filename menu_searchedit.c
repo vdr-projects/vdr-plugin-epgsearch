@@ -72,9 +72,10 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
    UseChannelSel[3] = strdup(tr("only FTA"));
 
    SearchTimerModes[0] = strdup(tr("Record"));
-   SearchTimerModes[1] = strdup(tr("Announce only"));
+   SearchTimerModes[1] = strdup(tr("Announce by OSD"));
    SearchTimerModes[2] = strdup(tr("Switch only"));
    SearchTimerModes[3] = strdup(tr("Announce and switch"));
+   SearchTimerModes[4] = strdup(tr("Announce by mail"));
 
    BlacklistModes[0] = strdup(trVDR("no"));
    BlacklistModes[1] = strdup(tr("Selection"));
@@ -305,7 +306,7 @@ void cMenuEditSearchExt::Set()
    Add(new cMenuEditStraItem( tr("Use as search timer"), &data.useAsSearchTimer, 3, SearchActiveModes));
    if (data.useAsSearchTimer)
    {
-      Add(new cMenuEditStraItem(IndentMenuItem(tr("Action")), &data.action, 4, SearchTimerModes));
+      Add(new cMenuEditStraItem(IndentMenuItem(tr("Action")), &data.action, 5, SearchTimerModes));
       if (data.action == searchTimerActionSwitchOnly)
       {
          Add(new cMenuEditIntItem(IndentMenuItem(tr("Switch ... minutes before start")), &data.switchMinsBefore, 0, 99));

@@ -7,16 +7,22 @@
 #  - "subject" to be used as mail subject
 #  - "mailbody" the body of the mail:
 #    put %update.newtimers% in the place where the list of new timers should
-#    appear. The same for %update.modtimers% and %update.deltimers% for the
-#    list of changed or deleted timers.
-#  - "timer" the description of one timer. This section is used to display one
-#    timer within a timer list, e.g. in %update.newtimers%
+#    appear. The same for %update.modtimers%, %update.deltimers% and 
+#    %update.newevents& for the list of changed or deleted timers and event
+#    announcements.
+#  - "timer" the description of one timer and "event" with the description of
+#    one event. This section is used to display one timer within a timer list, 
+#    e.g. in %update.newtimers%. The same for "event".
 #
-# close each section with the corresponding end tag!
+# All sections are optional, e.g. if you don't use event announcements you
+# can drop "%update.newevents%" in the mailbody and the "event" section. But
+# of course you should have at least a mailbody ;-)
+#
+# close each section with the correspondig end tag!
 # Please have a look at the MANUAL for the available variables.
 #########################################################################
 #
-# Version: 0.3    Date: 24.09.2006
+# Version: 0.4    Date: 20.09.2009
 #
 #  Author: Mike Constabel      <vejoun @ vdrportal>
 #          Christian Wieninger <winni  @ vdrportal>
@@ -26,7 +32,7 @@
 #########################################################################
 # here's the mail's subject definition (no CR!)
 #########################################################################
-<subject>[epgsearch] update info: %update.countnewtimers% new / %update.countmodtimers% modified / %update.countdeltimers% deleted timers</subject>
+<subject>[epgsearch] update info: %update.countnewtimers% new / %update.countmodtimers% modified / %update.countdeltimers% deleted timers / %update.countnewevents% new events /</subject>
 
 
 #########################################################################
@@ -82,6 +88,18 @@ th.timer {
 	font-weight: normal;
 	}
 
+/* design of each event table inside the main tables */
+table.event {
+	width: 100%;
+	}
+table.event, tr.event {
+	border-style: none;
+	}
+th.event {
+	background-color: #ffb3a4;
+	font-weight: normal;
+	}
+
 /* space between the timer tables */
 p.smallspace {
 	line-height: 20px;
@@ -107,6 +125,7 @@ a.rightspace {
 <tr><td><a href="#new">new timers:</a></td><td>%update.countnewtimers%</td></tr>
 <tr><td><a href="#mod">modified timers:</a></td><td>%update.countmodtimers%</td></tr>
 <tr><td><a href="#del">deleted timers:</a></td><td>%update.countdeltimers%</td></tr>
+<tr><td><a href="#events">new events to report:</a></td><td>%update.countnewevents%</td></tr>
 </table>
 
 <p class="bigspace"></p>
@@ -128,6 +147,13 @@ a.rightspace {
 <table class="main">
 <tr><th colspan="2"><a href="#info" class="rightspace">Top</a> <a name="del"></a>Deleted timers</th></tr>
 <tr><td>%update.deltimers%</td></tr>
+</table>
+
+<p class="bigspace"></p>
+
+<table class="main">
+<tr><th colspan="2"><a href="#info" class="rightspace">Top</a> <a name="events"></a>New events to report</th></tr>
+<tr><td>%update.newevents%</td></tr>
 </table>
 
 <p class="bigspace"></p>
@@ -156,3 +182,21 @@ a.rightspace {
 </table>
 <p class="smallspace"></p>
 </timer>
+
+##############################################################################
+# here's the event definition, which is used to display information about 
+# an event in the announcement list. You can use any variables that refer
+# to an event. You can also use 'user defined' variables from 
+# epgsearchuservars.conf.
+##############################################################################
+<event>
+<table class="event">
+<tr class="event"><th class="timer">Title:</th><th class="timer">%title%</th></tr>
+<tr class="event"><td>Subtitle:</td><td>%subtitle%</td></tr>
+<tr class="event"><td>Start/End:</td><td>%time_w% %date% %time%-%timeend%</td></tr>
+<tr class="event"><td>Channel:</td><td>%chlng% (%chnr%)</td></tr>
+<tr class="timer"><td>Search:</td><td>%search% (%searchid%)</td></tr>
+<tr class="timer"><td valign="top">Summary:</td><td>%htmlsummary%</td></tr>
+</table>
+<p class="smallspace"></p>
+</event>

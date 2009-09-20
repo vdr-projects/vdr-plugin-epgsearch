@@ -771,13 +771,18 @@ mail you have to define the following sections:
 
   - "subject" to be used as mail subject
   - "mailbody" the body of the mail:
-    put '%update.newtimers%' in the place where the list of new timers should
-    appear. The same for %update.modtimers% and %update.deltimers% for the
-    list of changed or deleted timers.
-  - "timer" the description of one timer. This section is used to display one
-    timer within a timer list, e.g. in %update.newtimers%
+    put %update.newtimers% in the place where the list of new timers should
+    appear. The same for %update.modtimers%, %update.deltimers% and 
+    %update.newevents& for the list of changed or deleted timers and event
+    announcements.
+  - "timer" the description of one timer and "event" with the description of
+    one event. This section is used to display one timer within a timer list, 
+    e.g. in %update.newtimers%. The same for "event".
 
-each section is enclosed in a pseudo XML tag.
+All sections are optional, e.g. if you don't use event announcements you
+can drop "%update.newevents%" in the mailbody and the "event" section. But
+of course you should have at least a mailbody ;-)
+Each section is enclosed in a pseudo XML tag.
 
 The following variables can be used in the section <mailbody>:
 
@@ -794,6 +799,12 @@ The following variables can be used in the section <mailbody>:
                               within the timer section will be substituted to
                               an empty string.)
   - %update.countdeltimers% - the number of deleted timers
+  - %update.newevents%      - will be replaced with the list of events to 
+                              announce. These events are the search result of
+                              search timers with the action "announce by mail".
+                              The events are displayed as defined in the section
+                              '<event>'
+  - %update.countnewevents% - the number of new events
   - %colon%                 - the sign ':'
   - %datenow%               - current date in format TT.MM.YY
   - %dateshnow%             - current date in format TT.MM.
@@ -812,6 +823,15 @@ The following variables can be used in the section <timer>:
   - %timer.searchid%        - id of the search timer, that created the timer
   - %timer.modreason%       - the reason for a timer modification in plain text
   - any event variable (as in '10. Customizing the EPG menus')
+  - any extended EPG variable as defined in epgsearchcats.conf
+  - any user variable (as in '12. User defined variables')
+
+The following variables can be used in the section <event>:
+
+  - any event variable (as in '10. Customizing the EPG menus')
+  - %search%                - the name of the search timer that triggered
+                              this event
+  - %searchid%              - the ID of the corresponding search timer
   - any extended EPG variable as defined in epgsearchcats.conf
   - any user variable (as in '12. User defined variables')
 

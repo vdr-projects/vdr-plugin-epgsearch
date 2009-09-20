@@ -48,7 +48,7 @@ protected:
   char *SearchModes[6];
   char *DaysOfWeek[8];
   char *UseChannelSel[4];
-  char *SearchTimerModes[4];
+  char *SearchTimerModes[5];
   char *BlacklistModes[3];
   char *DelModes[3];
   char *SearchActiveModes[3];

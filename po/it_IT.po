@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-07-17 13:15+0200\n"
+"POT-Creation-Date: 2009-09-20 09:51+0200\n"
 "PO-Revision-Date: 2009-07-15 23:30+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -579,6 +579,9 @@ msgstr "Nessun timer modificato."
 msgid "No timers were deleted."
 msgstr "Nessun timer eliminato."
 
+msgid "No new events to announce."
+msgstr ""
+
 msgid "This version of EPGSearch does not support this service!"
 msgstr "Questa versione di EPGSearch non supporta questo servizio!"
 
@@ -943,7 +946,8 @@ msgstr "Modifica ricerca"
 msgid "Record"
 msgstr "Registra"
 
-msgid "Announce only"
+#, fuzzy
+msgid "Announce by OSD"
 msgstr "Solo annuncio"
 
 msgid "Switch only"
@@ -951,6 +955,10 @@ msgstr "Cambia soltanto"
 
 #, fuzzy
 msgid "Announce and switch"
+msgstr "Solo annuncio"
+
+#, fuzzy
+msgid "Announce by mail"
 msgstr "Solo annuncio"
 
 msgid "Selection"
@@ -1162,6 +1170,9 @@ msgstr "Modifica valore"
 #, fuzzy
 msgid "Switch"
 msgstr "Cambia soltanto"
+
+msgid "Announce only"
+msgstr "Solo annuncio"
 
 #, fuzzy
 msgid "Announce ... minutes before start"

@@ -53,6 +53,8 @@ is B<':'>:
       0 = create a timer
       1 = announce only via OSD (no timer)
       2 = switch only (no timer)
+      3 = announce via OSD and switch (no timer)
+      4 = announce via mail
  27 - use extended EPG info? 0/1
  28 - extended EPG info values. This entry has the following format
       (delimiter is '|' for each category, '#' separates id and value):

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-04-09 19:51+0200\n"
+"POT-Creation-Date: 2009-09-20 09:51+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -573,6 +573,9 @@ msgstr "Es wurden keine Timer geändert."
 msgid "No timers were deleted."
 msgstr "Es wurden keine Timer gelöscht."
 
+msgid "No new events to announce."
+msgstr "Keine neuen Sendungen anzukündigen."
+
 msgid "This version of EPGSearch does not support this service!"
 msgstr ""
 
@@ -937,14 +940,17 @@ msgstr "Suche editieren"
 msgid "Record"
 msgstr "Aufnehmen"
 
-msgid "Announce only"
-msgstr "Nur ankündigen"
+msgid "Announce by OSD"
+msgstr "per OSD ankündigen"
 
 msgid "Switch only"
 msgstr "Nur umschalten"
 
 msgid "Announce and switch"
 msgstr "Ankündigen und Umschalten"
+
+msgid "Announce by mail"
+msgstr "per Mail ankündigen"
 
 msgid "Selection"
 msgstr "Auswahl"
@@ -1153,6 +1159,9 @@ msgstr "Eintrag editieren"
 
 msgid "Switch"
 msgstr "Nur umschalten"
+
+msgid "Announce only"
+msgstr "Nur ankündigen"
 
 msgid "Announce ... minutes before start"
 msgstr "Ankündigen ... Minuten vor Start"

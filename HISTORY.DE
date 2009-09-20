@@ -15,6 +15,10 @@ neu:
 - Suchtimer haben nun eine neue Aktion "Ankündigen und Umschalten". Damit wird eine Sendung 
   via OSD kurz vor ihrem Start angekündigt. Mit 'Ok' kann zum entsprechenden Kanal
   gewechselt werden. Umschalttimer haben die gleiche Option erhalten.
+- Zusätzlich zur Ankündigung per OSD können neue Sendungen nun auch per Mail bekannt-
+  gegeben werden. Dazu gibt es eine neue Suchtimeraktion "Per Mail ankündigen". Man muss 
+  ausserdem das Mail-Templatefile epgsearchupdmail.templ anpassen (s. Beispiel im conf-
+  Verzeichnis bzw. MANUAL '13. Email notification').
 - neue interne Variablen:
   * %day%, %month% und %year% liefern den numerische Tag, das Monat und das
     Jahr (mit Jahrhundert) einer Sendung

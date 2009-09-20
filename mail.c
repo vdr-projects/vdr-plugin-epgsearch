@@ -30,6 +30,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "log.h"
 #include "epgsearchtools.h"
 #include "uservars.h"
+#include "noannounce.h"
 
 #ifndef SENDMAIL
 #define SENDMAIL "/usr/sbin/sendmail"
@@ -120,6 +121,24 @@ bool cMailDelTimerNotification::operator< (const cMailDelTimerNotification &N) c
 	return channel->Number() < channelOther->Number();
     else
 	return (start < N.start);
+}
+
+// ----------------------
+// cMailAnnounceEventNotification
+string cMailAnnounceEventNotification::Format(const string& templ) const
+{
+    const cEvent* pEvent = GetEvent();
+    if (!pEvent) return "";
+
+    string result = templ;
+    cVarExpr varExprEvent(result);
+    result =  varExprEvent.Evaluate(pEvent);
+
+    result = ReplaceAll(result, "%searchid%", NumToString(searchextID));
+    cSearchExt* search = SearchExts.GetSearchFromID(searchextID);
+    if (search)
+	result = ReplaceAll(result, "%search%", search->search);
+    return result;
 }
 
 // -------------
@@ -307,11 +326,18 @@ void cMailUpdateNotifier::AddRemoveTimerNotification(cTimer* t, const cEvent* e)
     delTimers.insert(N);
 }
 
+void cMailUpdateNotifier::AddAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID)
+{
+  cMailAnnounceEventNotification N(EventID, ChannelID, SearchExtID);
+  announceEvents.insert(N);
+}
+
 void cMailUpdateNotifier::SendUpdateNotifications()
 {
     if (newTimers.size() == 0 && 
 	modTimers.size() == 0 && 
-	delTimers.size() == 0)
+	delTimers.size() == 0 &&
+	announceEvents.size() == 0)
 	return;
 
     // extract single templates
@@ -323,6 +349,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     string templSubject = GetTemplValue(mailTemplate, "subject");
     string templBody = GetTemplValue(mailTemplate, "mailbody");
     string templTimer = GetTemplValue(mailTemplate, "timer");
+    string templEvent = GetTemplValue(mailTemplate, "event");
 
     // create the timer list for new timers
     string newtimers;
@@ -357,31 +384,59 @@ void cMailUpdateNotifier::SendUpdateNotifications()
 	if (message != "") deltimers += message;
     }
 
+    // create the list of events to announce
+    string announceevents;
+    if (announceEvents.size() == 0)
+	announceevents = tr("No new events to announce.");
+    std::set<cMailAnnounceEventNotification>::iterator itae;
+    for (itae = announceEvents.begin(); itae != announceEvents.end(); itae++) 
+    {
+	string message = (*itae).Format(templEvent);
+	if (message != "") announceevents += message;
+    }
+
     // evaluate variables
     cVarExpr varExprSubj(templSubject);
     subject =  varExprSubj.Evaluate();
     subject = ReplaceAll(subject, "%update.countnewtimers%", NumToString((long)newTimers.size()));
     subject = ReplaceAll(subject, "%update.countmodtimers%", NumToString((long)modTimers.size()));
     subject = ReplaceAll(subject, "%update.countdeltimers%", NumToString((long)delTimers.size()));
+    subject = ReplaceAll(subject, "%update.countnewevents%", NumToString((long)announceEvents.size()));
 
     newtimers = ReplaceAll(newtimers, "%update.countnewtimers%", NumToString((long)newTimers.size()));
     modtimers = ReplaceAll(modtimers, "%update.countmodtimers%", NumToString((long)modTimers.size()));
     deltimers = ReplaceAll(deltimers, "%update.countdeltimers%", NumToString((long)delTimers.size()));
+    announceevents = ReplaceAll(announceevents, "%update.countnewevents%", NumToString((long)announceEvents.size()));
 
     cVarExpr varExprBody(templBody);
     body =  varExprBody.Evaluate();
     body = ReplaceAll(body, "%update.countnewtimers%", NumToString((long)newTimers.size()));
     body = ReplaceAll(body, "%update.countmodtimers%", NumToString((long)modTimers.size()));
     body = ReplaceAll(body, "%update.countdeltimers%", NumToString((long)delTimers.size()));
+    body = ReplaceAll(body, "%update.countnewevents%", NumToString((long)announceEvents.size()));
     body = ReplaceAll(body, "%update.newtimers%", newtimers);
     body = ReplaceAll(body, "%update.modtimers%", modtimers);
     body = ReplaceAll(body, "%update.deltimers%", deltimers);
+    body = ReplaceAll(body, "%update.newevents%", announceevents);
 
     SendMail();
 
     newTimers.clear();
     modTimers.clear();
     delTimers.clear();
+    // Add announced events to the "no announce" list
+    for (itae = announceEvents.begin(); itae != announceEvents.end(); itae++) 
+    {
+      cNoAnnounce* noAnnounce = new cNoAnnounce(itae->GetEvent());             
+      NoAnnounces.Add(noAnnounce);
+    }
+    if (announceEvents.size() > 0)
+    {
+      NoAnnounces.ClearOutdated();
+      NoAnnounces.Save();
+    }
+
+    announceEvents.clear();
 }
 
 // ---------------------

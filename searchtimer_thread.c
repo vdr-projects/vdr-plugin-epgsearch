@@ -403,7 +403,7 @@ void cSearchTimerThread::Action(void)
                   }
                }
 		
-               if (searchExt->action == searchTimerActionAnnounceOnly) 
+               if (searchExt->action == searchTimerActionAnnounceViaOSD) 
                {
                   if (t || // timer already exists or
                       NoAnnounces.InList(pEvent) || // announcement not wanted anymore or
@@ -424,7 +424,24 @@ void cSearchTimerThread::Action(void)
                   continue;
                }
 
-               if (searchExt->action == searchTimerActionSwitchOnly || searchExt->action == searchTimerActionAnnounceAndSwitch) // add to switch list
+               if (searchExt->action == searchTimerActionAnnounceViaMail) 
+               {
+                  if (t || // timer already exists or
+                      NoAnnounces.InList(pEvent) ||
+		      pEvent->StartTime() < time(NULL)) // already started? 
+                  {
+                     if (Summary) free(Summary);
+                     delete timer;
+                     continue;
+                  }
+		  mailNotifier.AddAnnounceEventNotification(pEvent->EventID(), pEvent->ChannelID(), searchExt->ID); 
+
+                  if (Summary) free(Summary);
+                  delete timer;
+                  continue;
+               }
+               if (searchExt->action == searchTimerActionSwitchOnly || 
+		   searchExt->action == searchTimerActionAnnounceAndSwitch) // add to switch list
                {
                   time_t now = time(NULL);
                   if (now < pEvent->StartTime())

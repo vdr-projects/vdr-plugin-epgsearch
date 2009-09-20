@@ -13,9 +13,13 @@ new:
     http://projects.vdr-developer.org/git/?p=vdr-plugin-epgsearch.git
   many thanks to the maintainers of projects.vdr-developer.org, especially Tobias 
   Grimm
-- Search timers now have a new action "Announce and switching". This announces the
+- Search timers now have a new action "Announce and switch". This announces the
   event via OSD right before it starts and lets you switch to its channel with 'Ok'.
   Switch timers now have the same option.
+- in addition to the announcements via OSD new events can now also be reported by mail.
+  To do so, there's a new search timer action "Announce by mail". You also have to update 
+  your mail template file epgsearchupdmail.templ (s. the updated sample in the conf directory 
+  and/or read the MANUAL '13. Email notification').
 - new internal variables:
   * %day%, %month% and %year% which return the numeric day, month and year
     (with century) of an event
