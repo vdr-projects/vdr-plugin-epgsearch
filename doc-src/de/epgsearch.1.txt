@@ -768,6 +768,12 @@ der Suchtimer-Hintergrund-Thread
 
 (Dazu muss ebenfalls die Option 'Verwende Suchtimer' im Suchtimer-Setup aktiv sein.)
 
+=item - B<Zeit zwischen Mails [h]:>
+
+Für Benachrichtigungen zu Suchtimern kann hier angegeben werden, welchen Mindestabstand in Stunden
+die Mails haben sollen. Sobald die entsprechende Zeit verstrichen ist, wird eine Mail nach dem nächsten Suchtimer-Update
+versandt. Der Wert '0' bedeutet keine Verzögerung und bewirkt einen sofortigen Mailversand.
+
 =item - B<Timer-Konflikt-Benachrichtigung:>
 
 Diese Option aktivieren, wenn man eine Email-Benachrichtigung bei

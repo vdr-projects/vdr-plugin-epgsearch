@@ -251,6 +251,7 @@ void cMenuEPGSearchSetup::Store(void)
     SetupStore("AddSubtitleToTimerMode",  EPGSearchConfig.addSubtitleToTimer);
 
     SetupStore("MailNotificationSearchtimers",  EPGSearchConfig.sendMailOnSearchtimers);
+    SetupStore("MailNotificationSearchtimersHours",  EPGSearchConfig.sendMailOnSearchtimerHours);
     SetupStore("MailNotificationConflicts",  EPGSearchConfig.sendMailOnConflicts);
     SetupStore("MailAddress",  EPGSearchConfig.MailAddress);
     SetupStore("MailAddressTo",  EPGSearchConfig.MailAddressTo);
@@ -844,6 +845,11 @@ void cMenuSetupMailNotification::Set()
   Add(new cMenuEditBoolItem(tr("Search timer notification"), &data->sendMailOnSearchtimers, trVDR("no"), trVDR("yes")));
   AddHelp(tr("Help$Set this to 'yes' if you want to get an email notification about the search timers that where programmed automatically in the background."));
 
+  if (data->sendMailOnSearchtimers)
+  {
+    Add(new cMenuEditIntItem(IndentMenuItem(tr("Time between mails [h]")), &data->sendMailOnSearchtimerHours,  0, 999999, ""));   
+    AddHelp(tr("Help$Specifiy how much time in [h] you would\nlike to have atleast between two mails.\nWith '0' you get a new mail after each\nsearch timer update with new results.")); 
+  }
   Add(new cMenuEditBoolItem(tr("Timer conflict notification"), &data->sendMailOnConflicts, trVDR("no"), trVDR("yes")));
   AddHelp(tr("Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."));
 
@@ -932,6 +938,7 @@ void cMenuSetupMailNotification::SetHelpKeys()
 eOSState cMenuSetupMailNotification::ProcessKey(eKeys Key)
 {
    int iTemp_MailUseAuth = data->MailUseAuth;
+   int iTemp_sendMailOnSearchtimers = data->sendMailOnSearchtimers;
    int iTemp_mailViaScript = data->mailViaScript;
    
    const char* ItemText = Get(Current())->Text();
@@ -963,7 +970,8 @@ eOSState cMenuSetupMailNotification::ProcessKey(eKeys Key)
    }
 
    if (iTemp_MailUseAuth != data->MailUseAuth ||
-       iTemp_mailViaScript != data->mailViaScript)
+       iTemp_mailViaScript != data->mailViaScript ||
+       iTemp_sendMailOnSearchtimers != data->sendMailOnSearchtimers)
    {
       Set();
       Display();

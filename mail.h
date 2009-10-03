@@ -76,17 +76,21 @@ class cMailTimerNotification
 
 class cMailDelTimerNotification
 {
-    tChannelID channelID;
+  friend class cMailUpdateNotifier;
     time_t start;
+    tChannelID channelID;
  public:
     string formatted;
 
     cMailDelTimerNotification(cTimer* t, const cEvent* pEvent, const string& templ); 
+    cMailDelTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start);
     bool operator< (const cMailDelTimerNotification &N) const;
+    string Format(const string& templ) const { return formatted; }
 };
 
 class cMailAnnounceEventNotification : public cMailTimerNotification
 {
+  friend class cMailUpdateNotifier;
   int searchextID;
  public:
  cMailAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID) 
@@ -107,6 +111,7 @@ class cMailUpdateNotifier : public cMailNotifier
     void AddNewTimerNotification(tEventID EventID, tChannelID ChannelID);
     void AddModTimerNotification(tEventID EventID, tChannelID ChannelID, uint timerMod = tmNoChange);
     void AddRemoveTimerNotification(cTimer* t, const cEvent* e = NULL);
+    void AddRemoveTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start);
     void AddAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID);
     void SendUpdateNotifications();
 };

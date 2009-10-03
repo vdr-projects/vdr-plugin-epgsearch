@@ -82,6 +82,8 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   TimerProgRepeat = 0;
   maxChannelMenuNow = 0;
   noConflMsgWhileReplay = 0;
+  sendMailOnSearchtimerHours = 0;
+  lastMailOnSearchtimerAt = 0;
 }
 
 int cShowMode::Compare(const cListObject &ListObject) const

@@ -141,6 +141,9 @@ cEPGSearchConfig(void);
     int TimerProgRepeat;
     int maxChannelMenuNow;
     int noConflMsgWhileReplay;
+    int sendMailOnSearchtimerHours;
+
+    time_t lastMailOnSearchtimerAt;
 };
 
 extern cEPGSearchConfig EPGSearchConfig;

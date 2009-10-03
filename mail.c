@@ -31,6 +31,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include "uservars.h"
 #include "noannounce.h"
+#include "pending_notifications.h"
 
 #ifndef SENDMAIL
 #define SENDMAIL "/usr/sbin/sendmail"
@@ -109,6 +110,13 @@ cMailDelTimerNotification::cMailDelTimerNotification(cTimer* pTimer, const cEven
     result =  varExprEvent.Evaluate(pEvent);
     cVarExpr varExprTimer(result);
     formatted =  varExprTimer.Evaluate(pTimer);
+}
+
+cMailDelTimerNotification::cMailDelTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start)
+{
+    formatted = Formatted;
+    channelID = ChannelID;
+    start = Start;
 }
 
 bool cMailDelTimerNotification::operator< (const cMailDelTimerNotification &N) const
@@ -217,10 +225,20 @@ bool cMailNotifier::SendMailViaScript()
 
 bool cMailNotifier::SendMail()
 {
-    if (!EPGSearchConfig.mailViaScript)
+  time_t nextMailDelivery = EPGSearchConfig.lastMailOnSearchtimerAt + EPGSearchConfig.sendMailOnSearchtimerHours*60*60;
+  if (time(NULL) > nextMailDelivery)
+    {
+      if (!EPGSearchConfig.mailViaScript)
 	return SendMailViaSendmail();
-    else
+      else
 	return SendMailViaScript();
+    }
+  else
+    {
+      
+      LogFile.Log(2, "mail delivery delayed until %s", DAYDATETIME(nextMailDelivery));
+      return false;
+    }
 }
 
 bool cMailNotifier::ExecuteMailScript(string ScriptArgs)
@@ -326,6 +344,12 @@ void cMailUpdateNotifier::AddRemoveTimerNotification(cTimer* t, const cEvent* e)
     delTimers.insert(N);
 }
 
+void cMailUpdateNotifier::AddRemoveTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start)
+{
+    cMailDelTimerNotification N(Formatted, ChannelID, Start);
+    delTimers.insert(N);
+}
+
 void cMailUpdateNotifier::AddAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID)
 {
   cMailAnnounceEventNotification N(EventID, ChannelID, SearchExtID);
@@ -334,6 +358,21 @@ void cMailUpdateNotifier::AddAnnounceEventNotification(tEventID EventID, tChanne
 
 void cMailUpdateNotifier::SendUpdateNotifications()
 {
+    // insert pending notifications
+    cPendingNotification* p = PendingNotifications.First();
+    while (p) 
+    {
+      if (p->type == 0) 
+	AddNewTimerNotification(p->eventID, p->channelID);
+      else if (p->type == 1)
+	AddModTimerNotification(p->eventID, p->channelID, p->timerMod);
+      else if (p->type == 2)
+	AddRemoveTimerNotification(p->formatted, p->channelID, p->start);
+      else if (p->type == 3)
+	AddAnnounceEventNotification(p->eventID, p->channelID, p->searchID);
+      p = PendingNotifications.Next(p);
+    }	    
+
     if (newTimers.size() == 0 && 
 	modTimers.size() == 0 && 
 	delTimers.size() == 0 &&
@@ -380,7 +419,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     std::set<cMailDelTimerNotification>::iterator itdt;
     for (itdt = delTimers.begin(); itdt != delTimers.end(); itdt++) 
     {
-	string message = (*itdt).formatted;
+      string message = (*itdt).Format("");
 	if (message != "") deltimers += message;
     }
 
@@ -419,8 +458,29 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     body = ReplaceAll(body, "%update.deltimers%", deltimers);
     body = ReplaceAll(body, "%update.newevents%", announceevents);
 
-    SendMail();
-
+    if (SendMail())
+    {
+      EPGSearchConfig.lastMailOnSearchtimerAt = time(NULL);
+      cPluginManager::GetPlugin("epgsearch")->SetupStore("MailNotificationSearchtimersLastAt",  
+							 EPGSearchConfig.lastMailOnSearchtimerAt);
+      // remove pending notifications
+      while((p = PendingNotifications.First()) != NULL)
+	PendingNotifications.Del(p);
+    }
+    else
+    {
+      // add current notifications to pending ones
+      for (itnt = newTimers.begin(); itnt != newTimers.end(); itnt++) 
+	PendingNotifications.Add(new cPendingNotification(0, itnt->eventID, itnt->channelID, -1));
+      for (itmt = modTimers.begin(); itmt != modTimers.end(); itmt++) 
+	PendingNotifications.Add(new cPendingNotification(1, itmt->eventID, itmt->channelID, -1, itmt->timerMod));
+      for (itdt = delTimers.begin(); itdt != delTimers.end(); itdt++) 
+	PendingNotifications.Add(new cPendingNotification(2, -1, itdt->channelID, itdt->start, -1, -1, itdt->formatted));
+      for (itae = announceEvents.begin(); itae != announceEvents.end(); itae++) 
+ 	PendingNotifications.Add(new cPendingNotification(3, itae->eventID, itae->channelID, -1, -1, itae->searchextID));     
+    } 
+    PendingNotifications.Save();
+    
     newTimers.clear();
     modTimers.clear();
     delTimers.clear();

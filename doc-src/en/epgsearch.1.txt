@@ -748,6 +748,12 @@ background thread has
 
 (Also requires 'Use search timers' in the search timer setup to be activated.)
 
+=item - B<Time between mails [h]:>
+
+For search timer notifications one can set the minimum distance in hours between the mails.
+As soon as this time has elapsed a new mail is sent after the next search timer update.
+A value of '0' means no delay and will cause immediate mail delivery.
+
 =item - B<Timer conflict notification:>
 
 Enable this, if you want to get an email notification about timer

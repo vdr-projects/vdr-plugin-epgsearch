@@ -65,8 +65,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_quicksearch.h"
 #include "menu_announcelist.h"
 #include "confdloader.h"
+#include "pending_notifications.h"
 
-static const char VERSION[]        = "0.9.25.beta14";
+static const char VERSION[]        = "0.9.25.beta15";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -455,6 +456,7 @@ bool cPluginEpgsearch::Start(void)
    NoAnnounces.Load(AddDirectory(CONFIGDIR, "noannounce.conf"));
    DefTimerCheckModes.Load(AddDirectory(CONFIGDIR, "deftimerchkmodes.conf"));
    TimersDone.Load(AddDirectory(CONFIGDIR, "timersdone.conf"));
+   PendingNotifications.Load(AddDirectory(CONFIGDIR, "pendingnotifications.conf"));
 
    cSearchTimerThread::Init(this);    
    cSwitchTimerThread::Init();    
@@ -664,6 +666,8 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
   
    if      (!strcasecmp(Name, "MailViaScript"))  EPGSearchConfig.mailViaScript = atoi(Value); 
    if      (!strcasecmp(Name, "MailNotificationSearchtimers"))  EPGSearchConfig.sendMailOnSearchtimers = atoi(Value); 
+   if      (!strcasecmp(Name, "MailNotificationSearchtimersHours")) EPGSearchConfig.sendMailOnSearchtimerHours = atoi(Value);
+   if      (!strcasecmp(Name, "MailNotificationSearchtimersLastAt")) EPGSearchConfig.lastMailOnSearchtimerAt = atol(Value);
    if      (!strcasecmp(Name, "MailNotificationConflicts"))  EPGSearchConfig.sendMailOnConflicts = atoi(Value); 
    if      (!strcasecmp(Name, "MailAddress")) strcpy(EPGSearchConfig.MailAddress, Value);
    if      (!strcasecmp(Name, "MailAddressTo")) strcpy(EPGSearchConfig.MailAddressTo, Value);
@@ -677,6 +681,7 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
    if      (!strcasecmp(Name, "MailAuthPass")) strcpy(EPGSearchConfig.MailAuthPass, Value);
 
    if      (!strcasecmp(Name, "LastMailConflicts")) strcpy(EPGSearchConfig.LastMailConflicts, Value);
+
 
    return true;
 }
