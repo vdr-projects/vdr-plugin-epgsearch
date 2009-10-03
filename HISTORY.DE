@@ -99,6 +99,8 @@ fixes:
 - Einige Korrekturen bzgl. libtre-Includes, Danke an Ville Skyttä für den Patch.
 - Korrektur beim UTF8-Zeichensatz-Handling bei Timer-Filenamen, Danke an Rolf Ahrenberg für
   den Patch.
+- Absturz beim Hinzufügen sehr langer Episodentexte zum Verzeichnis eines Timers behoben, 
+  Danke an Lari Tuononen für den Hinweis.
 
 
 2008-04-29: Version 0.9.24

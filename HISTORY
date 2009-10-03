@@ -95,7 +95,8 @@ fixes:
 - some fixes regarding libtre includes, thanks to Ville Skyttä for providing a patch
 - fix UTF8-character handling in timer file names, thanks to Rolf Ahrenberg for providing
   a patch
-
+- fixed a crash when adding huge episode names to the timer's file name, thanks to Lari 
+  Tuononen for reporting
 
 2008-04-29: Version 0.9.24
 new:

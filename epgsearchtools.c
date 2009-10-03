@@ -751,7 +751,7 @@ void PrepareTimerFile(const cEvent* event, cTimer* timer)
       if (addSubtitle)
       {
          char tmp[MaxFileName] = "";
-         sprintf(tmp, "%s~%s", event->Title(), event->ShortText());
+         snprintf(tmp, MaxFileName, "%s~%s", event->Title(), event->ShortText());
          timer->SetFile(tmp);
       }
    }
