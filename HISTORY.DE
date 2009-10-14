@@ -23,6 +23,8 @@ neu:
   * %day%, %month% und %year% liefern den numerische Tag, das Monat und das
     Jahr (mit Jahrhundert) einer Sendung
   * %chgrp% liefert die VDR Kanalgruppe einer Sendung
+  * %liveeventid% liefert die kodierte Event-ID wie sie im Frontend 'live' benutzt wird.
+    Damit können nun z.B. in den Searchtimer-Mails direkte Links angegeben werden.
 - Im Gedenken an pat: Update der französischen Übersetzung, Danke an Patrice Staudt
 - Update der italienischen Übersetzung, Danke an Diego Pierotto
 - Update der finnischen Übersetzung, Danke an Rolf Ahrenberg

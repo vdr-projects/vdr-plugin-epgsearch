@@ -539,6 +539,7 @@ The following variables exist:
  %summary%        - summary
  %htmlsummary%    - summary, where all CR are replaced with '<br />'
  %eventid%        - numeric event ID
+ %liveeventid%    - encoded event ID as used in the frontend 'live'
  %t_status%       - timer status ('T', 't', 'R')
  %v_status%       - VPS status
  %r_status%       - running status

@@ -24,6 +24,8 @@ new:
   * %day%, %month% and %year% which return the numeric day, month and year
     (with century) of an event
   * %chgrp% returns the VDR channel group name corresponding to an event    
+  * %liveeventid% returns the encoded event ID as used in the frontend 'live' to add
+    direct links e.g. in the search timer mails.
 - in memory to pat: french translation update, thanks to Patrice Staudt
 - italian translation update, thanks to Diego Pierotto
 - finnish translation update, thanks to Rolf Ahrenberg

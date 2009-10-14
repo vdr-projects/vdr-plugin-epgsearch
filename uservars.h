@@ -168,6 +168,24 @@ public:
       else return ""; }
 };
 
+class cLiveEventIDVar : public cInternalVar {
+public:
+    cLiveEventIDVar() : cInternalVar("%liveeventid%") {}
+    string Evaluate(const cEvent* e, bool escapeStrings = false) 
+	{ 
+	    if (!e) return "";
+	    cChannel *channel = Channels.GetByChannelID(e->ChannelID(), true);
+	    if (!channel) return "";
+	    
+	    string res(channel->GetChannelID().ToString());
+	    res = "event_" + res;
+	    res = ReplaceAll(res, ".", "p");
+	    res = ReplaceAll(res, "-", "m");
+	    res += "_" + NumToString(e->EventID());
+	    if (escapeStrings) return "'" + EscapeString(res) + "'"; else return res;
+	}
+};
+
 class cTimeVar : public cInternalVar {
 public:
     cTimeVar() : cInternalVar("%time%") {}
@@ -617,6 +635,7 @@ class cUserVars : public cList<cUserVar> {
     cSummaryVar summaryVar;
     cHTMLSummaryVar htmlsummaryVar;
     cEventIDVar eventIDVar;
+    cLiveEventIDVar liveeventIDVar;
     cTimeVar timeVar;
     cTimeEndVar timeEndVar;
     cTime_wVar time_wVar;
@@ -667,6 +686,7 @@ class cUserVars : public cList<cUserVar> {
 	    internalVars[summaryVar.Name()] = &summaryVar;
 	    internalVars[htmlsummaryVar.Name()] = &htmlsummaryVar;
 	    internalVars[eventIDVar.Name()] = &eventIDVar;
+	    internalVars[liveeventIDVar.Name()] = &liveeventIDVar;
 	    internalVars[timeVar.Name()] = &timeVar;
 	    internalVars[timeEndVar.Name()] = &timeEndVar;
 	    internalVars[time_wVar.Name()] = &time_wVar;
