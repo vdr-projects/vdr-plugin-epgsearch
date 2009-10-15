@@ -823,6 +823,7 @@ The following variables can be used in the section <timer>:
   - %timer.search%          - name of the search timer, that created the timer
   - %timer.searchid%        - id of the search timer, that created the timer
   - %timer.modreason%       - the reason for a timer modification in plain text
+  - %timer.liveid%    	    - encoded timer ID as used in the frontend 'live'
   - any event variable (as in '10. Customizing the EPG menus')
   - any extended EPG variable as defined in epgsearchcats.conf
   - any user variable (as in '12. User defined variables')

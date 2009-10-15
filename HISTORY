@@ -20,11 +20,16 @@ new:
   To do so, there's a new search timer action "Announce by mail". You also have to update 
   your mail template file epgsearchupdmail.templ (s. the updated sample in the conf directory 
   and/or read the MANUAL '13. Email notification').
+- The time in hours between the search timer mails can now be configured in the 
+  setup to avoid flooding your inbox. epgsearch buffers the contents of the pending mails
+  in the new file pendingnotifications.conf.
 - new internal variables:
   * %day%, %month% and %year% which return the numeric day, month and year
     (with century) of an event
   * %chgrp% returns the VDR channel group name corresponding to an event    
   * %liveeventid% returns the encoded event ID as used in the frontend 'live' to add
+    direct links e.g. in the search timer mails (see sample conf/epgsearchupdmail-html.templ).
+  * %timer.liveid% returns the encoded timer ID as used in the frontend 'live' to add
     direct links e.g. in the search timer mails.
 - in memory to pat: french translation update, thanks to Patrice Staudt
 - italian translation update, thanks to Diego Pierotto

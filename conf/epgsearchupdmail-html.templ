@@ -171,7 +171,11 @@ a.rightspace {
 ##############################################################################
 <timer>
 <table class="timer">
-<tr class="timer"><th class="timer">Title:</th><th class="timer">%title%</th></tr>
+<tr class="timer"><th class="timer">Title:</th><th class="timer">
+    <div style='float:left'><a href="http://localhost:8008/edit_timer.html?timerid=%timer.liveid%">%title%</a></div>
+    <div style='float:right'><a href="http://akas.imdb.com/Tsearch?title=%title%">IMDb</a></div>
+    </th>
+</tr>
 <tr class="timer"><td>Subtitle:</td><td>%subtitle%</td></tr>
 <tr class="timer"><td>Start/End:</td><td>%time_w% %date% %time%-%timeend% (Timer: %timer.start%-%timer.stop%)</td></tr>
 <tr class="timer"><td>Channel:</td><td>%timer.chlng% (%timer.chnr%)</td></tr>
@@ -191,8 +195,11 @@ a.rightspace {
 ##############################################################################
 <event>
 <table class="event">
-<tr class="event"><th class="timer">Title:</th>
-    <th class="timer"><a href="http://localhost:8008/edit_timer.html?epgid=%liveeventid%">%title%</a></th></tr>
+<tr class="event"><th class="timer">Title:</th><th class="timer">
+    <div style='float:left'><a href="http://localhost:8008/edit_timer.html?epgid=%liveeventid%">%title%</a></div>
+    <div style='float:right'><a href="http://akas.imdb.com/Tsearch?title=%title%">IMDb</a></div>
+    </th>
+</tr>
 <tr class="event"><td>Subtitle:</td><td>%subtitle%</td></tr>
 <tr class="event"><td>Start/End:</td><td>%time_w% %date% %time%-%timeend%</td></tr>
 <tr class="event"><td>Channel:</td><td>%chlng% (%chnr%)</td></tr>

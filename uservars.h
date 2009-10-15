@@ -608,6 +608,24 @@ class cTimerSearchIDVar : public cTimerVar {
 	}
 };
 
+class cTimerLiveIDVar : public cTimerVar {
+public:
+    cTimerLiveIDVar() : cTimerVar("%timer.liveid%") {}
+    string Evaluate(const cTimer* t) 
+	{ 
+	    if (!t || !t->Channel()) return "";
+	    ostringstream builder;
+	    builder << *(t->Channel()->GetChannelID().ToString()) << ":" << t->WeekDays() << ":"
+				<< t->Day() << ":" << t->Start() << ":" << t->Stop();	    
+	    string res = builder.str();
+	    res = "timer_" + res;
+	    res = ReplaceAll(res, ".", "p");
+	    res = ReplaceAll(res, "-", "m");
+	    res = ReplaceAll(res, ":", "c");
+	    return res;
+	}
+};
+
 // search variables
 class cSearchVar {
     const string name;
@@ -672,6 +690,7 @@ class cUserVars : public cList<cUserVar> {
     cTimerChannelLongVar timerChLongVar;
     cTimerSearchVar timerSearchVar; 
     cTimerSearchIDVar timerSearchIDVar; 
+    cTimerLiveIDVar timerLiveIDVar;
 
     map<string, cExtEPGVar*> extEPGVars;
     set<cUserVar*> userVars;
@@ -722,6 +741,7 @@ class cUserVars : public cList<cUserVar> {
 	    internalTimerVars[timerChLongVar.Name()] = &timerChLongVar;
 	    internalTimerVars[timerSearchVar.Name()] = &timerSearchVar;
 	    internalTimerVars[timerSearchIDVar.Name()] = &timerSearchIDVar;
+	    internalTimerVars[timerLiveIDVar.Name()] = &timerLiveIDVar;
 
 	    internalSearchVars[searchQueryVar.Name()] = &searchQueryVar;
 	}
