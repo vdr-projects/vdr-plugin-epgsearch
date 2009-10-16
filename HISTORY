@@ -106,6 +106,9 @@ fixes:
   Tuononen for reporting
 - make sure only one regular expression library is linked against epgsearch, thanks to 
   Ville Skyttä for providing a patch.
+- some providers have strange EPG time changes only by some seconds. epgsearch now ignores 
+  changes less than 60s and does not touch the corresponding timer or report by mail, 
+  thanks to cmichel@mantis for reporting
 
 2008-04-29: Version 0.9.24
 new:

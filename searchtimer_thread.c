@@ -158,8 +158,10 @@ cTimer *cSearchTimerThread::GetTimer(cSearchExt *searchExt, const cEvent *pEvent
          if (tmStartEv->tm_mday != tmStartTi->tm_mday)
             continue;
 	    
-         bTimesMatchExactly = (tStart == eStart && tStop == eStop);
-	
+	 // some providers change EPG times only for a few seconds
+	 // ignore this to avoid search timer mails because of such changes
+         bTimesMatchExactly = (abs(tStart -eStart) < 60 && abs(tStop - eStop) < 60);
+
          if (abs(tStart - eStart) < AllowedDiff * 60 && abs(tStop - eStop) < AllowedDiff * 60) // accept a difference of max 10 min., but only if the event duration is more than 10 minutes
             return ti;
       }
@@ -599,6 +601,10 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, cTimer* Timer, 
       eStop = pEvent->EndTime();
    else
       eStop = pEvent->Vps() + pEvent->Duration();
+   // make sure that eStart and eStop represent a full minute
+   eStart = (eStart / 60) * 60;
+   eStop = (eStop / 60) * 60;
+
    time_t start = eStart - (UseVPS?0:(searchExt->MarginStart * 60));
    time_t stop  = eStop + (UseVPS?0:(searchExt->MarginStop * 60));
 

@@ -111,6 +111,10 @@ fixes:
   Danke an Lari Tuononen für den Hinweis.
 - Sichergestellt, dass nur noch ein Library für reguläre Ausdrücke von epgsearch benutzt 
   wird, Danke an Ville Skyttä für den Patch.
+- Einige Provider haben seltsame Änderungen in den EPG-Zeiten von nur wenigen Sekunden.
+  epgsearch ignoriert nun Änderungen von weniger als 60s und ändert den zugehörigen Timer 
+  nicht. Es erfolgt auch keine Emailbenachrichtigung. Danke an cmichel@mantis für den 
+  Hinweis.
 
 
 2008-04-29: Version 0.9.24
