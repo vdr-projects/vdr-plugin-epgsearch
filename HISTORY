@@ -33,7 +33,7 @@ new:
     direct links e.g. in the search timer mails.
 - in memory to pat: french translation update, thanks to Patrice Staudt
 - italian translation update, thanks to Diego Pierotto
-- finnish translation update, thanks to Rolf Ahrenberg
+- finnish translation update, thanks to Rolf Ahrenberg and Ville Skyttä
 - new SVDRP command 'MENU [NOW|PRG|SUM]' to call one of the main OSD menus or 
   the summary of the current event. If any epgsearch menu is open a subsequent
   SVDRP call will close it again.
@@ -104,6 +104,8 @@ fixes:
   a patch
 - fixed a crash when adding huge episode names to the timer's file name, thanks to Lari 
   Tuononen for reporting
+- make sure only one regular expression library is linked against epgsearch, thanks to 
+  Ville Skyttä for providing a patch.
 
 2008-04-29: Version 0.9.24
 new:

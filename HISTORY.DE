@@ -33,7 +33,7 @@ neu:
     Damit können nun z.B. in den Suchtimer-Mails direkte Links angegeben werden.
 - Im Gedenken an pat: Update der französischen Übersetzung, Danke an Patrice Staudt
 - Update der italienischen Übersetzung, Danke an Diego Pierotto
-- Update der finnischen Übersetzung, Danke an Rolf Ahrenberg
+- Update der finnischen Übersetzung, Danke an Rolf Ahrenberg und Ville Skyttä
 - neues SVDRP-Kommando 'MENU [NOW|PRG|SUM]' zum Aufruf eines der OSD-Hauptmenüs
   oder der Inhaltsangabe der aktuellen Sendung. Falls irgendein epgsearch-Menü 
   geöffnet ist, schließt ein weiteres SVDRP-Kommando dieses wieder.
@@ -109,6 +109,8 @@ fixes:
   den Patch.
 - Absturz beim Hinzufügen sehr langer Episodentexte zum Verzeichnis eines Timers behoben, 
   Danke an Lari Tuononen für den Hinweis.
+- Sichergestellt, dass nur noch ein Library für reguläre Ausdrücke von epgsearch benutzt 
+  wird, Danke an Ville Skyttä für den Patch.
 
 
 2008-04-29: Version 0.9.24

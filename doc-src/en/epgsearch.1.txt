@@ -208,8 +208,8 @@ With 'Regular expression' you can setup a regular expression as
 search term. You don't need a leading and trailing '/' in the
 expression. By default these are POSIX extended regular expressions.
 If you like to have Herl compatible regular expression, simply edit
-the plugins Makefile and uncomment #HAVE_PCREPOSIX=1 to
-HAVE_PCREPOSIX=1 (you will need pcreposix installed, comes with
+the plugins Makefile and uncomment '#REGEXLIB = pcre' to
+'REGEXLIB = pcre' (you will need pcreposix installed, comes with
 libpcre from www.pcre.org, but it's already part of most distributions).
 
 See also C<epgsearch(4)> 'Description of the search process'.

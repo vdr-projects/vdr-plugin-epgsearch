@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: 2009-09-21 19:28+0200\n"
-"PO-Revision-Date: 2009-07-19 23:22+0200\n"
+"PO-Revision-Date: 2009-10-15 20:52+0200\n"
 "Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
 "MIME-Version: 1.0\n"
@@ -495,7 +495,7 @@ msgid "Help$Set this to 'yes' if you want to get an email notification about the
 msgstr "Tällä asetuksella saat ilmoitukset automaattisesti lisätyistä hakuajastimista sähköpostiisi."
 
 msgid "Time between mails [h]"
-msgstr ""
+msgstr "Sähköpostin lähetysväli [h]"
 
 msgid ""
 "Help$Specifiy how much time in [h] you would\n"
@@ -503,6 +503,10 @@ msgid ""
 "With '0' you get a new mail after each\n"
 "search timer update with new results."
 msgstr ""
+"Vähimmäisväliaika tunteina sähköpostien\n"
+"lähetykselle. Mikäli 0, uusi sähköposti\n"
+"lähetetään aina hakuajastimen päivittyessä\n"
+"uusilla tuloksilla."
 
 msgid "Timer conflict notification"
 msgstr "Ilmoitukset päällekkäisistä ajastimista"
@@ -588,7 +592,7 @@ msgid "No timers were deleted."
 msgstr "Yhtään ajastinta ei poistettu."
 
 msgid "No new events to announce."
-msgstr ""
+msgstr "Ei uusia ilmoitettavia tapahtumia."
 
 msgid "This version of EPGSearch does not support this service!"
 msgstr "EPGSearch-laajennos ei tarjoa vaadittavaa palvelua!"
@@ -954,9 +958,8 @@ msgstr "Muokkaa hakua"
 msgid "Record"
 msgstr "Tallenna"
 
-#, fuzzy
 msgid "Announce by OSD"
-msgstr "muistutus"
+msgstr "muistutus kuvaruutunäytölle"
 
 msgid "Switch only"
 msgstr "kanavanvaihto"
@@ -964,9 +967,8 @@ msgstr "kanavanvaihto"
 msgid "Announce and switch"
 msgstr "muistutus ja kanavanvaihto"
 
-#, fuzzy
 msgid "Announce by mail"
-msgstr "muistutus"
+msgstr "muistutus sähköpostitse"
 
 msgid "Selection"
 msgstr "valittu"
@@ -1237,3 +1239,4 @@ msgstr "%02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"
+
