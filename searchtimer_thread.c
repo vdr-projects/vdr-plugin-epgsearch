@@ -378,7 +378,7 @@ void cSearchTimerThread::Action(void)
                         if (timerMod & tmStartStop)
 			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : start/stop has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                         if (timerMod & tmFile)
-			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : title and/or episdode has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
+			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : title and/or episdode has changed (old: %s, new: %s", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), timer?timer->File():"", pFile);
                         if (timerMod & tmAuxEventID)
 			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : aux info for event id has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
 		      }
