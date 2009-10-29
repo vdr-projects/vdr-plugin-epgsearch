@@ -47,17 +47,23 @@ class cVarParser
     string condvarTrue;
     string condvarFalse;
     string compExpr;
+
     cCommand* cmd;
     string cmdArgs;
 
-    cVarParser() : cmd(NULL) {}
+    string connectAddr;
+    int connectPort;    
+
+ cVarParser() : cmd(NULL), connectPort(-1) {}
     bool Parse(const string& input);
     bool ParseExp(const string& input);
     bool IsCondExpr();
     bool IsShellCmd();
+    bool IsConnectCmd();
  private:
     bool ParseAssign(const string& input);
     bool ParseShellCmd(const string& input);
+    bool ParseConnectCmd(const string& input);
     bool ParseCondExp(const string& input);
     bool ParseEquality(const string& input);
     bool ParseVar(const string& input);

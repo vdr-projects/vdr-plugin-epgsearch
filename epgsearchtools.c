@@ -26,6 +26,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <fstream>
 #include <iostream>
 #include <ctype.h>
+#include <netdb.h>
+#include <arpa/inet.h>
 
 #include "uservars.h"
 #include "epgsearchtools.h"
@@ -579,7 +581,7 @@ bool SendViaSVDRP(cString SVDRPcmd)
    else
    {
       cmdbuf = SVDRPcmd;
-      cSVDRPClient client(EPGSearchConfig.SVDRPPort);
+      cSVDRPClient client;
       if (!client.SendCmd(*cmdbuf))
       {
          LogFile.eSysLog("command '%s' failed", *cmdbuf);
@@ -1047,4 +1049,85 @@ std::string GetCodeset()
 #else
    return "ISO-8859-15";
 #endif
+}
+
+/*  Read a line from a socket  */
+ssize_t Readline(int sockd, char *vptr, size_t maxlen) {
+    size_t n, rc;
+    char    c, *buffer;
+
+    buffer = vptr;
+
+    for ( n = 1; n < maxlen; n++ ) {
+	
+	if ( (rc = read(sockd, &c, 1)) == 1 ) {
+	    *buffer++ = c;
+	    if ( c == '\n' )
+		break;
+	}
+	else if ( rc == 0 ) {
+	    if ( n == 1 )
+		return 0;
+	    else
+		break;
+	}
+	else {
+	    if ( errno == EINTR )
+		continue;
+	    return -1;
+	}
+    }
+
+    *buffer = 0;
+    return n;
+}
+
+/*  Write a line to a socket  */
+ssize_t Writeline(int sockd, const char *vptr, size_t n) {
+    size_t      nleft;
+    size_t     nwritten;
+    const char *buffer;
+
+    buffer = vptr;
+    nleft  = n;
+
+    while ( nleft > 0 ) {
+	if ( (nwritten = write(sockd, buffer, nleft)) <= 0 ) {
+	    if ( errno == EINTR )
+		nwritten = 0;
+	    else
+		return -1;
+	}
+	nleft  -= nwritten;
+	buffer += nwritten;
+    }
+
+    return n;
+}
+
+long getAddrFromString(const char* hostnameOrIp, struct sockaddr_in* addr)
+{
+  unsigned long ip;
+  
+  struct hostent * he;
+  
+  if(hostnameOrIp==NULL || addr==NULL)
+    return -1;
+  
+  ip=inet_addr(hostnameOrIp);
+  
+  if(ip!=INADDR_NONE)
+    {
+      addr->sin_addr.s_addr=ip;		
+      return 0;
+    }
+  else
+    {
+      he=gethostbyname(hostnameOrIp);
+      if(he==NULL)
+	return -1;
+      else
+	memcpy(&(addr->sin_addr),he->h_addr_list[0],4);
+      return 0;
+    }
 }

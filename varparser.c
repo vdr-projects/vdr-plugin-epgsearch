@@ -25,6 +25,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/plugin.h>
 #include "log.h"
 #include "epgsearchtools.h"
+#include <sstream>
 
 bool cVarParser::Parse(const string& input)
 {
@@ -54,6 +55,10 @@ bool cVarParser::ParseExp(const string& input)
    int sysPos = input.find("system");
    if (sysPos == 0)
       return ParseShellCmd(input);
+   // connect command?
+   int conPos = input.find("connect");
+   if (conPos == 0)
+      return ParseConnectCmd(input);
    // conditional expression?
    int varPos = Strip(input).find("%");
    if (varPos == 0)
@@ -92,6 +97,32 @@ bool cVarParser::ParseShellCmd(const string& input)
       delete cmd;
       cmd = NULL;
       return false;
+   }
+   return true;
+}
+
+bool cVarParser::ParseConnectCmd(const string& input)
+{
+   int startCon = input.find("(");
+   int endCon = input.find(")");
+   if (startCon == -1 || endCon == -1) return false;
+   string connect(input.begin() + startCon + 1, input.begin() + endCon);
+   std::stringstream ss(connect);
+   std::string item;
+   if (std::getline(ss, item, ','))
+     connectAddr = item;
+   if (std::getline(ss, item, ','))
+     connectPort = atoi(item.c_str());
+   if (std::getline(ss, item))
+     cmdArgs = item;
+
+   connectAddr = Strip(connectAddr);
+   cmdArgs = Strip(cmdArgs);
+
+   if (connectAddr.size() == 0 || connectPort == -1)
+   {
+     LogFile.eSysLog("error parsing command: %s", input.c_str());
+     return false;
    }
    return true;
 }
@@ -177,4 +208,9 @@ bool cVarParser::IsCondExpr()
 bool cVarParser::IsShellCmd()
 {
    return (cmd != NULL);
+}
+
+bool cVarParser::IsConnectCmd()
+{
+   return (connectAddr != "" && connectPort != -1);
 }

@@ -26,6 +26,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchcats.h"
 #include "epgsearchtools.h"
 #include "log.h"
+#include <sys/socket.h>
+#include <netdb.h>
 
 cUserVars UserVars;
 
@@ -46,6 +48,8 @@ string cUserVar::Evaluate(const cEvent* e, bool escapeStrings)
    string result;
    if (IsShellCmd())
       result = EvaluateShellCmd(e);
+   else if (IsConnectCmd())
+     result = EvaluateConnectCmd(e);
    else if (IsCondExpr())
       result = EvaluateCondExpr(e);
    else
@@ -79,6 +83,45 @@ string cUserVar::EvaluateShellCmd(const cEvent* e)
       result.replace(crPos, 1, ""); 
     
    return result;
+}
+
+#define MAX_LINE 1000
+string cUserVar::EvaluateConnectCmd(const cEvent* e)
+{
+   if (varparser.connectAddr == "") return "";
+
+   int       conn_s;                /*  connection socket         */
+   struct    sockaddr_in servaddr;  /*  socket address structure  */
+   char      buffer[MAX_LINE];      /*  character buffer          */
+ 
+   if ( (conn_s = socket(AF_INET, SOCK_STREAM, 0)) < 0 ) 
+   {
+     LogFile.eSysLog("Error creating listening socket");
+     return "";
+   }
+
+   memset(&servaddr, 0, sizeof(varparser.connectAddr.c_str()));
+   servaddr.sin_family      = AF_INET;
+   servaddr.sin_port        = htons(varparser.connectPort);
+
+   if (getAddrFromString(varparser.connectAddr.c_str(), &servaddr) != 0)
+   {
+     LogFile.eSysLog("Invalid remote address");
+     return "";
+   }
+
+   if ( connect(conn_s, (struct sockaddr *) &servaddr, sizeof(servaddr) ) < 0 ) 
+   {
+     LogFile.eSysLog("Error calling connect()");
+     return "";
+   }
+
+   sprintf(buffer, "%s\n", varparser.cmdArgs.c_str());
+   Writeline(conn_s, buffer, strlen(buffer));
+   Readline(conn_s, buffer, MAX_LINE-1);
+
+   close(conn_s);
+   return buffer;
 }
 
 string cUserVar::EvaluateCondExpr(const cEvent* e, bool escapeStrings)

@@ -186,6 +186,9 @@ time_t GetDateTime(time_t day, int start);
 void SetAux(cTimer* timer, string aux);
 int msprintf(char **strp, const char *fmt, ...);
 std::string GetCodeset();
+ssize_t Readline(int sockd, char *vptr, size_t maxlen);
+ssize_t Writeline(int sockd, const char *vptr, size_t n);
+long getAddrFromString(const char* hostnameOrIp, struct sockaddr_in* addr);
 
 // --- cTimerObj --------------------------------------------------------
 class cTimerObj : public cListObject {

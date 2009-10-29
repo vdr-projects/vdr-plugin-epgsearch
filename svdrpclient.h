@@ -25,8 +25,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define __SVDRPCLIENT_H
 
 #include <sys/socket.h>
-#include <netdb.h>
-#include <arpa/inet.h>
 #include "log.h"
 
 #define SVDRPCONNECT 220
@@ -39,7 +37,7 @@ class cSVDRPClient {
 public:
     bool bConnected;
 
-    cSVDRPClient(int Port)
+    cSVDRPClient()
 	{
 	    bConnected = false;
 	    sock  = socket(PF_INET, SOCK_STREAM, 0);
@@ -62,33 +60,6 @@ public:
 	    bConnected = (Receive() == SVDRPCONNECT);
 	    if (!bConnected)
 		LogFile.eSysLog("EPGSearch: could not connect to VDR!");
-	}
-
-    long getAddrFromString(char* hostnameOrIp, struct sockaddr_in* addr)
-	{
-	    unsigned long ip;
-
-	    struct hostent * he;
-
-	    if(hostnameOrIp==NULL || addr==NULL)
-		return -1;
-
-	    ip=inet_addr(hostnameOrIp);
-
-	    if(ip!=INADDR_NONE)
-	    {
-		addr->sin_addr.s_addr=ip;		
-		return 0;
-	    }
-	    else
-	    {
-		he=gethostbyname(hostnameOrIp);
-		if(he==NULL)
-		    return -1;
-		else
-		    memcpy(&(addr->sin_addr),he->h_addr_list[0],4);
-		return 0;
-	    }
 	}
 
     bool SendCmd(const char* cmd) 

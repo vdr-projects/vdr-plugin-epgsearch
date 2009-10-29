@@ -18,8 +18,8 @@ new:
   Switch timers now have the same option.
 - in addition to the announcements via OSD new events can now also be reported by mail.
   To do so, there's a new search timer action "Announce by mail". You also have to update 
-  your mail template file epgsearchupdmail.templ (s. the updated sample in the conf directory 
-  and/or read the MANUAL '13. Email notification').
+  your mail template file epgsearchupdmail.templ (s. the updated html sample in the conf 
+  directory and/or read the MANUAL '13. Email notification').
 - The time in hours between the search timer mails can now be configured in the 
   setup to avoid flooding your inbox. epgsearch buffers the contents of the pending mails
   in the new file pendingnotifications.conf.
@@ -31,6 +31,9 @@ new:
     direct links e.g. in the search timer mails (see sample conf/epgsearchupdmail-html.templ).
   * %timer.liveid% returns the encoded timer ID as used in the frontend 'live' to add
     direct links e.g. in the search timer mails.
+- new command 'connect' within internal variables: with this command you can connect to
+  a TCP service, pass data and assign the result to a variable. See the MANUAL for 
+  details.
 - in memory to pat: french translation update, thanks to Patrice Staudt
 - italian translation update, thanks to Diego Pierotto
 - finnish translation update, thanks to Rolf Ahrenberg and Ville Skyttä

@@ -17,8 +17,8 @@ neu:
   gewechselt werden. Umschalttimer haben die gleiche Option erhalten.
 - Zusätzlich zur Ankündigung per OSD können neue Sendungen nun auch per Mail bekannt-
   gegeben werden. Dazu gibt es eine neue Suchtimeraktion "Per Mail ankündigen". Man muss 
-  ausserdem das Mail-Templatefile epgsearchupdmail.templ anpassen (s. Beispiel im conf-
-  Verzeichnis bzw. MANUAL '13. Email notification').
+  ausserdem das Mail-Templatefile epgsearchupdmail.templ anpassen (s. aktualisiertes 
+  HTML-Beispiel im conf-Verzeichnis bzw. MANUAL '13. Email notification').
 - Die Zeit in Stunden zwischen den Suchtimer-Emails kann nun im Setup eingestellt werden
   um eine Überflutung des Posteingangs zu vermeiden. epgsearch puffert den Inhalt ausstehender
   Mails in der neuen Datei pendingnotifications.conf.
@@ -31,6 +31,9 @@ neu:
     conf/epgsearchupdmail-html.templ)
   * %timer.liveid% liefert die kodierte Timer-ID wie sie im Frontend 'live' benutzt wird.
     Damit können nun z.B. in den Suchtimer-Mails direkte Links angegeben werden.
+- neues Kommando 'connect' innerhalb interner Variablen: damit kann eine Verbindung zu einem
+  TCP-Dienst aufgebaut werden, Daten übergeben und das Ergebnis einer Variable zugewiesen
+  werden. S. MANUAL für Details.
 - Im Gedenken an pat: Update der französischen Übersetzung, Danke an Patrice Staudt
 - Update der italienischen Übersetzung, Danke an Diego Pierotto
 - Update der finnischen Übersetzung, Danke an Rolf Ahrenberg und Ville Skyttä

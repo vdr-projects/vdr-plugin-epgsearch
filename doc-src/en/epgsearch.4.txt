@@ -728,6 +728,16 @@ The script must return a string B<without> line break!
 If the script returns nothing, an empty string will be assigned to the
 Variable %Result%.
 
+=head2 Calling a TCP service
+
+You can call a TCP service with the following syntax:
+
+ %uservar%=connect(<addr>, <port>, [<data>]) 
+
+This will connect to <addr> through the given port and pass the optional given
+data. <addr> can be an IP address or the domain name of the TCP service. The result 
+returned by the service must be terminated with a line feed. 
+
 =head2 Possible variables
 
 for a list of already builtin variables refer to the section "Customizing the EPG menus"
