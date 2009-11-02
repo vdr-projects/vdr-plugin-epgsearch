@@ -37,6 +37,7 @@ neu:
 - Im Gedenken an pat: Update der französischen Übersetzung, Danke an Patrice Staudt
 - Update der italienischen Übersetzung, Danke an Diego Pierotto
 - Update der finnischen Übersetzung, Danke an Rolf Ahrenberg und Ville Skyttä
+- Neue slowakische Übersetzung, Danke an Milan Hrala
 - neues SVDRP-Kommando 'MENU [NOW|PRG|SUM]' zum Aufruf eines der OSD-Hauptmenüs
   oder der Inhaltsangabe der aktuellen Sendung. Falls irgendein epgsearch-Menü 
   geöffnet ist, schließt ein weiteres SVDRP-Kommando dieses wieder.

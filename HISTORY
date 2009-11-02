@@ -37,6 +37,7 @@ new:
 - in memory to pat: french translation update, thanks to Patrice Staudt
 - italian translation update, thanks to Diego Pierotto
 - finnish translation update, thanks to Rolf Ahrenberg and Ville Skyttä
+- new slovak translation, thanks to Milan Hrala
 - new SVDRP command 'MENU [NOW|PRG|SUM]' to call one of the main OSD menus or 
   the summary of the current event. If any epgsearch menu is open a subsequent
   SVDRP call will close it again.
