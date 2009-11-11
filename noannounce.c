@@ -42,11 +42,14 @@ cNoAnnounce::cNoAnnounce(const cEvent* e, time_t NextAnnounce)
    title = shortText = "";
    startTime = 0;
    buffer = NULL;
-   if (e->Title()) title = e->Title();
-   if (e->ShortText()) shortText = e->ShortText();
-   channelID = e->ChannelID();
-   startTime = e->StartTime();
-   nextAnnounce = NextAnnounce;
+   if (e)
+   { 
+     if (e->Title()) title = e->Title();
+     if (e->ShortText()) shortText = e->ShortText();
+     channelID = e->ChannelID();
+     startTime = e->StartTime();
+     nextAnnounce = NextAnnounce;
+   }
 }
 
 cNoAnnounce::~cNoAnnounce(void)

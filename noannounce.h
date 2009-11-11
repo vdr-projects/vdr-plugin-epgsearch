@@ -50,6 +50,7 @@ public:
     bool Parse(const char *s);
     const char *ToText(void) const;
     bool Save(FILE *f);
+    bool Valid() { return startTime > 0; }
 };
 
 class cNoAnnounces : public cConfig<cNoAnnounce> {
