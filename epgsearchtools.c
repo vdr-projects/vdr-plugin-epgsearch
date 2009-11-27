@@ -358,7 +358,7 @@ bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, con
       {
          regex_t re;
 
-         if ( 0 == regcomp(&re, searchText, REG_EXTENDED) )
+         if ( 0 == regcomp(&re, searchText, REG_EXTENDED | REG_NOSUB) )
          {
             int status = regexec( &re, szTest, 0, NULL, 0);
             regfree(&re);

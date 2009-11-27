@@ -113,6 +113,9 @@ fixes:
 - some providers have strange EPG time changes only by some seconds. epgsearch now ignores 
   changes less than 60s and does not touch the corresponding timer or report by mail, 
   thanks to cmichel@mantis for reporting
+- possible fix of the old problem with a crash in libpcre, thanks to Andreas Cz. for the
+  patch and to Stefan Bauer for pointing me to it.
+
 
 2008-04-29: Version 0.9.24
 new:

@@ -119,6 +119,8 @@ fixes:
   epgsearch ignoriert nun Änderungen von weniger als 60s und ändert den zugehörigen Timer 
   nicht. Es erfolgt auch keine Emailbenachrichtigung. Danke an cmichel@mantis für den 
   Hinweis.
+- möglicher Fix für das alte Problem mit dem crash in libpcre, Danke an Andreas Cz. für 
+  den Patch und an Stefan Bauer für den Hinweis darauf.
 
 
 2008-04-29: Version 0.9.24
