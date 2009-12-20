@@ -523,8 +523,9 @@ The following variables exist:
 
  %time%           - start time in format HH:MM
  %timeend%        - end time in format HH:MM
- %date%           - start date in format TT.MM.YY
- %datesh%         - start date in format TT.MM.
+ %date%           - start date in format DD.MM.YY
+ %datesh%         - start date in format DD.MM.
+ %date_iso%       - start date in format YYYY-MM-DD.
  %year%           - year with century
  %month%          - month (1-12)
  %day%            - day (1-31)
@@ -562,8 +563,9 @@ for the 'Whats on...' and 'Search results' menu there are also:
 some indepent variables:
 
  %colon%          - the sign ':'
- %datenow%        - current date in format TT.MM.YY
- %dateshnow%      - current date in format TT.MM.
+ %datenow%        - current date in format DD.MM.YY
+ %dateshnow%      - current date in format DD.MM.
+ %date_iso_now%   - current date in format YYYY-MM-DD
  %timenow%        - current time in format HH:MM
  %videodir%       - VDR video directory (e.g. /video)
  %plugconfdir%    - VDR plugin config directory (e.g. /etc/vdr/plugins)

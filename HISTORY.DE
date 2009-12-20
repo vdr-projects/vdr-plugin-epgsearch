@@ -31,6 +31,8 @@ neu:
     conf/epgsearchupdmail-html.templ)
   * %timer.liveid% liefert die kodierte Timer-ID wie sie im Frontend 'live' benutzt wird.
     Damit können nun z.B. in den Suchtimer-Mails direkte Links angegeben werden.
+  * %date_iso% und %date_iso_now% ergeben das (aktuelle) Datum im Format 'YYYY-MM-DD', 
+    vorgeschlagen von Andreas Mair.
 - neues Kommando 'connect' innerhalb interner Variablen: damit kann eine Verbindung zu einem
   TCP-Dienst aufgebaut werden, Daten übergeben und das Ergebnis einer Variable zugewiesen
   werden. S. MANUAL für Details.

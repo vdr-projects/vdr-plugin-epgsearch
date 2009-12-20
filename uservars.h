@@ -323,6 +323,21 @@ public:
 	}
 };
 
+class cDateISOVar : public cInternalVar {
+public:
+    cDateISOVar() : cInternalVar("%date_iso%") {}
+    string Evaluate(const cEvent* e, bool escapeStrings = false) 
+	{ 
+	    if (!e) return "";
+	    char dateISO[11] = "";
+	    struct tm tm_r;
+	    const time_t t = e->StartTime();
+	    tm *tm = localtime_r(&t, &tm_r);
+	    strftime(dateISO, sizeof(dateISO), "%Y-%m-%d", tm);
+	    if (escapeStrings) return "'" + EscapeString(dateISO) + "'"; else return dateISO;
+	}
+};
+
 class cYearVar : public cInternalVar {
 public:
     cYearVar() : cInternalVar("%year%") {}
@@ -465,6 +480,20 @@ public:
 	    tm *tm = localtime_r(&t, &tm_r);
 	    strftime(dateshort, sizeof(dateshort), "%d.%m.", tm);
 	    if (escapeStrings) return "'" + EscapeString(dateshort) + "'"; else return dateshort;
+	}
+};
+
+class cDateISONowVar : public cInternalVar {
+public:
+    cDateISONowVar() : cInternalVar("%date_iso_now%") {}
+    string Evaluate(const cEvent*, bool escapeStrings = false) 
+	{ 
+	    char dateISO[11] = "";
+	    struct tm tm_r;
+	    const time_t t = time(NULL);
+	    tm *tm = localtime_r(&t, &tm_r);
+	    strftime(dateISO, sizeof(dateISO), "%Y-%m-%d", tm);
+	    if (escapeStrings) return "'" + EscapeString(dateISO) + "'"; else return dateISO;
 	}
 };
 
@@ -665,6 +694,7 @@ class cUserVars : public cList<cUserVar> {
     cLength_Var length_Var;
     cDateVar dateVar;
     cDateShortVar dateShortVar;
+    cDateISOVar dateISOVar;
     cYearVar yearVar;
     cMonthVar monthVar;
     cDayVar dayVar;
@@ -678,6 +708,7 @@ class cUserVars : public cList<cUserVar> {
     cColonVar colonVar;
     cDateNowVar dateNowVar;
     cDateShortNowVar dateShortNowVar;
+    cDateISONowVar dateISONowVar;
     cTimeNowVar timeNowVar;
     cVideodirVar videodirVar;
     cPlugconfdirVar plugconfdirVar;
@@ -717,6 +748,7 @@ class cUserVars : public cList<cUserVar> {
 	    internalVars[length_Var.Name()] = &length_Var;
 	    internalVars[dateVar.Name()] = &dateVar;
 	    internalVars[dateShortVar.Name()] = &dateShortVar;
+	    internalVars[dateISOVar.Name()] = &dateISOVar;
 	    internalVars[yearVar.Name()] = &yearVar;
 	    internalVars[monthVar.Name()] = &monthVar;
 	    internalVars[dayVar.Name()] = &dayVar;
@@ -729,6 +761,7 @@ class cUserVars : public cList<cUserVar> {
 	    internalVars[colonVar.Name()] = &colonVar;
 	    internalVars[dateNowVar.Name()] = &dateNowVar;
 	    internalVars[dateShortNowVar.Name()] = &dateShortNowVar;
+	    internalVars[dateISONowVar.Name()] = &dateISONowVar;
 	    internalVars[timeNowVar.Name()] = &timeNowVar;
 	    internalVars[videodirVar.Name()] = &videodirVar;
 	    internalVars[plugconfdirVar.Name()] = &plugconfdirVar;
