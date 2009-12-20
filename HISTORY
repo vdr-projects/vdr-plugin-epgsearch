@@ -31,6 +31,8 @@ new:
     direct links e.g. in the search timer mails (see sample conf/epgsearchupdmail-html.templ).
   * %timer.liveid% returns the encoded timer ID as used in the frontend 'live' to add
     direct links e.g. in the search timer mails.
+  * %date_iso% and %date_iso_now% return the (current) date in 'YYYY-MM-DD' format, 
+    suggested by Andreas Mair.
 - new command 'connect' within internal variables: with this command you can connect to
   a TCP service, pass data and assign the result to a variable. See the MANUAL for 
   details.
