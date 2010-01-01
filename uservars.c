@@ -116,8 +116,8 @@ string cUserVar::EvaluateConnectCmd(const cEvent* e)
      return "";
    }
 
-   cVarExpr exp(varparser.cmdArgs);
-   string resexp = exp.Evaluate(e);
+   varparser.compExpr = varparser.cmdArgs;
+   string resexp = EvaluateCompExpr(e, true);
    sprintf(buffer, "%s\n", resexp.c_str());
    Writeline(conn_s, buffer, strlen(buffer));
    Readline(conn_s, buffer, MAX_LINE-1);
