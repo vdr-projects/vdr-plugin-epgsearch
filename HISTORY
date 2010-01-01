@@ -33,6 +33,8 @@ new:
     direct links e.g. in the search timer mails.
   * %date_iso% and %date_iso_now% return the (current) date in 'YYYY-MM-DD' format, 
     suggested by Andreas Mair.
+  * %search.series% returns 1 or 0 depending on the flag "series recording" of a search and
+    can be used in the directory entry of a search or it's depending variables.
 - new command 'connect' within internal variables: with this command you can connect to
   a TCP service, pass data and assign the result to a variable. See the MANUAL for 
   details.

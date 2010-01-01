@@ -677,6 +677,16 @@ public:
 	}
 };
 
+class cSearchSeriesVar : public cSearchVar {
+public:
+    cSearchSeriesVar() : cSearchVar("%search.series%") {}
+    string Evaluate(const cSearchExt* s) 
+	{ 
+	    if (!s) return "";
+	    return NumToString(s->useEpisode);
+	}
+};
+
 class cUserVars : public cList<cUserVar> {
  public:
     cTitleVar titleVar;
@@ -704,6 +714,7 @@ class cUserVars : public cList<cUserVar> {
     cChannelDataVar chDataVar;
     cChannelGroupVar chGroupVar;
     cSearchQueryVar searchQueryVar;
+    cSearchSeriesVar searchSeriesVar;
 
     cColonVar colonVar;
     cDateNowVar dateNowVar;
@@ -779,6 +790,7 @@ class cUserVars : public cList<cUserVar> {
 	    internalTimerVars[timerLiveIDVar.Name()] = &timerLiveIDVar;
 
 	    internalSearchVars[searchQueryVar.Name()] = &searchQueryVar;
+	    internalSearchVars[searchSeriesVar.Name()] = &searchSeriesVar;
 	}
 
     void InitExtEPGVars()

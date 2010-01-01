@@ -65,8 +65,10 @@ entry. This allows to form directory entries like this one:
 
  %Category%~%Genre%~%Title%~%Episode%~%Subtitle%
 
-There is also another variable %search.query% that will be replaced with the
-query of the search timer.
+There are also the following search variables:
+
+ %search.query% that will be replaced with the query of the search timer
+ %search.series% that is '1', if the search has it's 'Series recording' flag set, else '0'.
 
 See also C<epgsearchuservars.conf(5)>.
 
