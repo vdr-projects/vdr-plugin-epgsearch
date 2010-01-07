@@ -35,7 +35,7 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LICENSE
 
-Copyright (C) 2004-2009 Christian Wieninger
+Copyright (C) 2004-2010 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
