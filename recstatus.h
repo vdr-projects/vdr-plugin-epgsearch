@@ -44,6 +44,8 @@ protected:
  public:
     cRecStatusMonitor();
     int TimerRecDevice(cTimer*);
+    bool IsPesRecording(cRecording *pRecording);
+    int RecLengthInMins(cRecording *pRecording);
 };
 
 extern cRecStatusMonitor* gl_recStatusMonitor;

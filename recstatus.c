@@ -39,7 +39,7 @@ cRecStatusMonitor::cRecStatusMonitor()
 {
 }
 
-void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const char*, bool On) 
+void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const char* Filename, bool On) 
 {
    time_t now = time(NULL);
    // insert new timers currently recording in TimersRecording
@@ -128,6 +128,14 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                // check if recording has ended before timer end
 
                bool complete = true;
+	       cRecording *pRecording = Recordings.GetByName(Filename);
+	       long timerLengthMins = (tiR->timer->StopTime()-tiR->timer->StartTime())/60;
+	       if (pRecording && timerLengthMins)
+	       {
+		  int recLen = RecLengthInMins(pRecording);
+                  LogFile.Log(2,"recorded %ld of %ld minutes %.0f", recLen, timerLengthMins, recLen * 100 / timerLengthMins);		  
+	       }
+
                if (now < tiR->timer->StopTime())
                {
                   complete = false;
@@ -185,3 +193,67 @@ int cRecStatusMonitor::TimerRecDevice(cTimer* timer)
       if (tiR->timer == timer && timer->Recording()) return tiR->deviceNr+1;
    return 0;
 }
+
+bool cRecStatusMonitor::IsPesRecording(cRecording *pRecording)
+{
+#if VDRVERSNUM < 10703
+  return true;
+#else
+  return pRecording && pRecording->IsPesRecording();
+#endif
+}
+
+#define LOC_INDEXFILESUFFIX     "/index"
+
+#if VDRVERSNUM < 10703
+
+int cRecStatusMonitor::RecLengthInMins(cRecording *pRecording)
+{
+  struct stat buf;
+  cString fullname = cString::sprintf("%s%s", pRecording->FileName(), "/index.vdr");
+  if (stat(fullname, &buf) == 0) 
+  {      
+    struct tIndex { int offset; uchar type; uchar number; short reserved; };
+    int delta = buf.st_size % sizeof(tIndex);
+    if (delta) 
+    {
+      delta = sizeof(tIndex) - delta;
+      esyslog("ERROR: invalid file size (%ld) in '%s'", buf.st_size, *fullname);
+    }
+    return (buf.st_size + delta) / sizeof(tIndex) / SecondsToFrames(60);
+  }
+  else 
+    return -1;
+}
+
+#else
+
+struct tIndexTs {
+  uint64_t offset:40; // up to 1TB per file (not using off_t here - must definitely be exactly 64 bit!)
+  int reserved:7;     // reserved for future use
+  int independent:1;  // marks frames that can be displayed by themselves (for trick modes)
+  uint16_t number:16; // up to 64K files per recording
+  tIndexTs(off_t Offset, bool Independent, uint16_t Number)
+  {
+    offset = Offset;
+    reserved = 0;
+    independent = Independent;
+    number = Number;
+  }
+  };
+
+int cRecStatusMonitor::RecLengthInMins(cRecording *pRecording)
+{
+  struct stat buf;
+  cString fullname = cString::sprintf("%s%s", pRecording->FileName(), IsPesRecording(pRecording) ? LOC_INDEXFILESUFFIX ".vdr" : LOC_INDEXFILESUFFIX);
+  if (pRecording->FileName() && *fullname && access(fullname, R_OK) == 0 && stat(fullname, &buf) == 0)
+    {
+      double frames = buf.st_size ? (buf.st_size - 1) / sizeof(tIndexTs) + 1 : 0;
+      double Seconds = 0;
+      modf((frames + 0.5) / pRecording->FramesPerSecond(), &Seconds);
+      return Seconds / 60;
+    }
+  return -1;
+}
+#endif
+
