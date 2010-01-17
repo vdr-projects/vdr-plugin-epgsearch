@@ -90,6 +90,8 @@ neu:
   werden, Danke an Ville Skyttä für den Patch.
 - Externe Suchtimer-Updates (via service interface oder SVDRP) aktivieren nun automatisch die
   Option "Suchtimer verw." im Setup.
+- epgsearch prüft nun neben korrekter Start- und Stopzeit des Timers auch die Aufnahmelänge 
+  bei der Prüfung auf vollständige Aufnahmen. 98% und mehr gelten als vollständig.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben

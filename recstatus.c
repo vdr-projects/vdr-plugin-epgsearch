@@ -130,19 +130,24 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                bool complete = true;
 	       cRecording *pRecording = Recordings.GetByName(Filename);
 	       long timerLengthMins = (tiR->timer->StopTime()-tiR->timer->StartTime())/60;
+	       int recFraction = 100;
 	       if (pRecording && timerLengthMins)
 	       {
 		  int recLen = RecLengthInMins(pRecording);
-                  LogFile.Log(2,"recorded %ld of %ld minutes %.0f", recLen, timerLengthMins, recLen * 100 / timerLengthMins);		  
+		  recFraction = double(recLen) * 100 / timerLengthMins;
 	       }
 
-               if (now < tiR->timer->StopTime())
+               if (now < tiR->timer->StopTime() || recFraction < 98) // assure timer has reached its end or at least 98% were recorded
                {
                   complete = false;
-                  LogFile.Log(1,"finished: '%s' (not complete!); search timer: '%s'", tiR->timer->File(), search->search);
+                  LogFile.Log(1,"finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'", tiR->timer->File(), recFraction, search->search);
                }
                else
+	       {
                   LogFile.Log(1,"finished: '%s'; search timer: '%s'", tiR->timer->File(), search->search);
+		  if (recFraction < 100)
+		    LogFile.Log(2,"recorded %d%%'", recFraction);
+	       }
                if (complete)
                {
                   RecsDone.Add(tiR->recDone);
