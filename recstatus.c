@@ -129,12 +129,12 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
 
                bool complete = true;
 	       cRecording *pRecording = Recordings.GetByName(Filename);
-	       long timerLengthMins = (tiR->timer->StopTime()-tiR->timer->StartTime())/60;
+	       long timerLengthSecs = tiR->timer->StopTime()-tiR->timer->StartTime();
 	       int recFraction = 100;
-	       if (pRecording && timerLengthMins)
+	       if (pRecording && timerLengthSecs)
 	       {
-		  int recLen = RecLengthInMins(pRecording);
-		  recFraction = double(recLen) * 100 / timerLengthMins;
+		  int recLen = RecLengthInSecs(pRecording);
+		  recFraction = double(recLen) * 100 / timerLengthSecs;
 	       }
 
                if (now < tiR->timer->StopTime() || recFraction < 98) // assure timer has reached its end or at least 98% were recorded
@@ -212,7 +212,7 @@ bool cRecStatusMonitor::IsPesRecording(cRecording *pRecording)
 
 #if VDRVERSNUM < 10703
 
-int cRecStatusMonitor::RecLengthInMins(cRecording *pRecording)
+int cRecStatusMonitor::RecLengthInSecs(cRecording *pRecording)
 {
   struct stat buf;
   cString fullname = cString::sprintf("%s%s", pRecording->FileName(), "/index.vdr");
@@ -225,7 +225,7 @@ int cRecStatusMonitor::RecLengthInMins(cRecording *pRecording)
       delta = sizeof(tIndex) - delta;
       esyslog("ERROR: invalid file size (%ld) in '%s'", buf.st_size, *fullname);
     }
-    return (buf.st_size + delta) / sizeof(tIndex) / SecondsToFrames(60);
+    return (buf.st_size + delta) / sizeof(tIndex) / SecondsToFrames(1);
   }
   else 
     return -1;
@@ -247,7 +247,7 @@ struct tIndexTs {
   }
   };
 
-int cRecStatusMonitor::RecLengthInMins(cRecording *pRecording)
+int cRecStatusMonitor::RecLengthInSecs(cRecording *pRecording)
 {
   struct stat buf;
   cString fullname = cString::sprintf("%s%s", pRecording->FileName(), IsPesRecording(pRecording) ? LOC_INDEXFILESUFFIX ".vdr" : LOC_INDEXFILESUFFIX);
@@ -256,7 +256,7 @@ int cRecStatusMonitor::RecLengthInMins(cRecording *pRecording)
       double frames = buf.st_size ? (buf.st_size - 1) / sizeof(tIndexTs) + 1 : 0;
       double Seconds = 0;
       modf((frames + 0.5) / pRecording->FramesPerSecond(), &Seconds);
-      return Seconds / 60;
+      return Seconds;
     }
   return -1;
 }
