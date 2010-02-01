@@ -3,6 +3,7 @@ VDR Plugin 'epgsearch' Revision History
 
 2010-xx-xx; Version 0.9.25
 neu:
+- Unterstützung für vdr-1.7.12
 - Es gibt nun ein offizielles git repository für epgsearch, das die neueste Entwicklung
   enthält. 
   Zuerst: 

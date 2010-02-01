@@ -27,6 +27,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <string>
 #include <vector>
 #include <vdr/config.h>
+#include "epgsearchtools.h"
 
 using std::string;
 using std::vector;

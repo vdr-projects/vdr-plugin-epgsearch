@@ -258,4 +258,24 @@ typedef std::basic_string<char,ignorecase_traits> icstring;
 // --- eTimerMod -------------------------------------------------------------
 enum eTimerMod { tmNoChange=0, tmStartStop=1, tmFile=2, tmAuxEventID=4 };
 
+#if VDRVERSNUM >= 10712
+// --- cCommands -------------------------------------------------------------------
+class cCommand : public cListObject {
+private:
+  char *title;
+  char *command;
+  bool confirm;
+  static char *result;
+public:
+  cCommand(void);
+  virtual ~cCommand();
+  bool Parse(const char *s);
+  const char *Title(void) { return title; }
+  bool Confirm(void) { return confirm; }
+  const char *Execute(const char *Parameters = NULL);
+  };
+
+class cCommands : public cConfig<cCommand> {};
+#endif
+
 #endif
