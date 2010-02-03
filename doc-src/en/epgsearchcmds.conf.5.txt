@@ -4,8 +4,9 @@ F<epgsearchcmds.conf> - EPG Commands
 
 =head1 DESCRIPTION
 
-This file contains, like the file commands.conf or reccmds.conf, commands, which
-can be applied to the in the program menu selected event.
+This file contains commands, like the file commands.conf or reccmds.conf, which
+can be applied to the selected event in one of the EPG menues. (It does not support
+the nested commands as introduced in vdr-1.7.12)
 
 Internal epgsearch has 8 not changeable commands.
 
