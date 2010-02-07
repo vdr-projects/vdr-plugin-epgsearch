@@ -26,6 +26,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "recdone.h"
 #include "conflictcheck_thread.h"
 #include "epgsearchcfg.h"
+#include <math.h>
 
 #define ALLOWED_BREAK_INSECS 2
 
