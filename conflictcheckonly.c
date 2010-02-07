@@ -207,13 +207,13 @@ const char *cPluginConflictcheckonly::MainMenuText(void)
     if (epgSearchPlugin->Service("Epgsearch-lastconflictinfo-v1.0", serviceData)) {
       if (serviceData->relevantConflicts > 0) {
 	free(_menuText);
-	asprintf(&_menuText, "%s (%d, %s: %s)", menuText, serviceData->relevantConflicts,
+	if (asprintf(&_menuText, "%s (%d, %s: %s)", menuText, serviceData->relevantConflicts,
 #if APIVERSNUM < 10507
-		 tr("next"), *DateTime(serviceData->nextConflict));
+		     tr("next"), *DateTime(serviceData->nextConflict)))
 #else
-		 I18nTranslate("next", I18nEpgsearch), *DateTime(serviceData->nextConflict));
-#endif
-	menuText = _menuText;
+	    I18nTranslate("next", I18nEpgsearch), *DateTime(serviceData->nextConflict)))
+#endif	
+            menuText = _menuText;
       }
     }
     delete serviceData;
