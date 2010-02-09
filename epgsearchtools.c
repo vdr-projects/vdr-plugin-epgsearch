@@ -879,7 +879,7 @@ char* FixSeparators(char* buffer, char sep)
       for (j = i + 1; (j < l) & (buffer[j] == ' '); j++)
 	;
       
-      if ((j < l) | (i + 1 < j)) {
+      if ((j <= l) | (i + 1 < j)) {
 	switch (buffer[j]) {
 	case '\t':
 	  i = j;
