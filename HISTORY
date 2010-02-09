@@ -89,6 +89,7 @@ new:
   automatically activate the setting "Use search timers" in the setup.
 - epgsearch now also checks the recordings length among the correct start and stop time of a timer
   when testing for complete recordings. 98% and more are handled as complete. 
+- switch timers are now also visible in all search results EPG menus
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu

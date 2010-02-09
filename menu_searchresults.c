@@ -39,6 +39,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_deftimercheckmethod.h"
 #include "afuzzy.h"
 #include "timerstatus.h"
+#include "switchtimer.h"
 
 const char* ButtonBlue[3] = {NULL, NULL, NULL};
 extern int gl_InfoConflict;
@@ -61,6 +62,7 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(const cEvent *EventInfo, bool Epi
    previewTimer = PreviewTimer;
    menuTemplate = MenuTemplate?MenuTemplate:cTemplFile::GetTemplateByName("MenuSearchResults");
    search = Search;
+   inSwitchList = false;
    Update(true);
 }
 
@@ -72,12 +74,14 @@ bool cMenuSearchResultsItem::Update(bool Force)
    bool result = false;
 
    int OldTimerMatch = timerMatch;
+   bool OldInSwitchList = inSwitchList;
    bool hasMatch = false; 
    cTimer* timer = NULL;
    if (event) timer = Timers.GetMatch(event, &timerMatch);
+   if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
     
-   if (Force || timerMatch != OldTimerMatch) 
+   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList)  
    {
      char t[Utf8BufSize(2)]="",v[Utf8BufSize(2)]="",r[Utf8BufSize(2)]="";
      char szStatus[Utf8BufSize(4)] = "";
@@ -111,6 +115,11 @@ bool cMenuSearchResultsItem::Update(bool Force)
          v[1] = '\0';
          r[0] = event && event->IsRunning() ? '*' : ' ';
          r[1] = '\0';
+      }
+      if (event && inSwitchList)
+      {
+         cSwitchTimer* s = SwitchTimers.InSwitchList(event);
+	 t[0] = (s && s->mode==1)?'s':'S';
       }
       if (t[0] != 'T' && previewTimer)
          t[0] = 'P';

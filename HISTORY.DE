@@ -93,6 +93,7 @@ neu:
   Option "Suchtimer verw." im Setup.
 - epgsearch prüft nun neben korrekter Start- und Stopzeit des Timers auch die Aufnahmelänge 
   bei der Prüfung auf vollständige Aufnahmen. 98% und mehr gelten als vollständig.
+- Umschalttimer sind nun ebenfalls in alle EPG-Menüs mit Suchergebnissen sichtbar.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
