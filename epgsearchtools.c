@@ -54,8 +54,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 const char AllowedChars[] = trNOOP("$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&");
 
-#define MATCHLIMIT 0.9
-
 int CompareEventTime(const void *p1, const void *p2)
 {
    time_t time1 = (*(cSearchResult **)p1)->event->StartTime();
@@ -78,10 +76,10 @@ int CompareEventChannel(const void *p1, const void *p2)
       return ch1 - ch2;
 }
 
-char* IndentMenuItem(const char* szString)
+char* IndentMenuItem(const char* szString, int indentions)
 {
    char* szIndented = NULL;
-   msprintf(&szIndented, "  %s", szString);
+   msprintf(&szIndented, "%*s", strlen(szString)+indentions*2, szString);
    return szIndented;
 }
 
@@ -643,7 +641,7 @@ double FuzzyMatch(const char* s1, const char* s2, int maxLength)
    return (fMaxLength - dist)/fMaxLength;
 }
 
-bool DescriptionMatches(const char* eDescr, const char* rDescr)
+bool DescriptionMatches(const char* eDescr, const char* rDescr, int matchLimit)
 {
    if (eDescr == NULL && rDescr == NULL) return true;
    if (eDescr == NULL && rDescr != NULL) return false;
@@ -653,15 +651,15 @@ bool DescriptionMatches(const char* eDescr, const char* rDescr)
    if (l_eDescr == l_rDescr && strcmp(eDescr, rDescr) == 0) return true;
 
    // partial match:
-   // first check the length, should only be different at MATCHLIMIT
+   // first check the length, should only be different at match limit
    int minLength = min(l_eDescr, l_rDescr);
    int maxLength = max(l_eDescr, l_rDescr);
-   if (double(minLength)/double(maxLength) < MATCHLIMIT)
+   if (100*double(minLength)/double(maxLength) < matchLimit)
       return false;
 
    // last try with Levenshtein Distance, only compare the first 1000 chars 
    double fMatch = FuzzyMatch(eDescr, rDescr, 1000);
-   double tmp_matchlimit = MATCHLIMIT;
+   double tmp_matchlimit = matchLimit/100.0;
    if(maxLength - minLength < 5)
    {
       tmp_matchlimit = 0.95;
@@ -775,7 +773,7 @@ void PrepareTimerFile(const cEvent* event, cTimer* timer)
    }
 }
 
-bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat)
+bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, int matchLimit)
 {
    if (!event1 || !event2) return false;
    if (event1 == event2) return true;
@@ -814,7 +812,7 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
       {
          char* rawDescr1 = GetRawDescription(Descr1);
          char* rawDescr2 = GetRawDescription(Descr2);
-         match = DescriptionMatches(rawDescr1, rawDescr2);
+         match = DescriptionMatches(rawDescr1, rawDescr2, matchLimit);
          free(rawDescr1);
          free(rawDescr2);
          if (!match) return false;

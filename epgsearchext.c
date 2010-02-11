@@ -94,6 +94,7 @@ cSearchExt::cSearchExt(void)
    compareTitle = 1;
    compareSubtitle = 1;
    compareSummary = 1;
+   compareSummaryMatchInPercent = 90;
    allowedRepeats = 0;
    catvaluesAvoidRepeat = 0;
    repeatsWithinDays = 0;
@@ -214,6 +215,7 @@ cSearchExt& cSearchExt::operator= (const cSearchExt &SearchExt)
    compareTitle = templ->compareTitle;
    compareSubtitle = templ->compareSubtitle;
    compareSummary = templ->compareSummary;
+   compareSummaryMatchInPercent = templ->compareSummaryMatchInPercent;
    allowedRepeats = templ->allowedRepeats;
    catvaluesAvoidRepeat = templ->catvaluesAvoidRepeat;
    repeatsWithinDays = templ->repeatsWithinDays;
@@ -346,7 +348,7 @@ const char *cSearchExt::ToText()
       }      
    }
 
-   msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d",
+   msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d",
             ID,
             tmp_search,
             useTime,
@@ -397,7 +399,8 @@ const char *cSearchExt::ToText()
 	    useAsSearchTimerFrom,
 	    useAsSearchTimerTil,
 	    ignoreMissingEPGCats, 
-	    unmuteSoundOnSwitch);
+	    unmuteSoundOnSwitch,
+	    compareSummaryMatchInPercent);
 
    if (tmp_search) free(tmp_search);
    if (tmp_directory) free(tmp_directory);
@@ -595,6 +598,9 @@ bool cSearchExt::Parse(const char *s)
 	      break;
 	    case 51:
 	      unmuteSoundOnSwitch = atoi(value);
+	      break;
+	    case 52:
+	      compareSummaryMatchInPercent = atoi(value);
 	      break;
             } //switch
          }
@@ -1133,8 +1139,8 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
       // check if this event was already recorded
       int records = 0;
       cRecDone* firstRec = NULL;
-      LogFile.Log(3,"get count recordings");
-      records = RecsDone.GetCountRecordings(pEvent, this, &firstRec);
+      LogFile.Log(3,"get count recordings with %d%% match", compareSummaryMatchInPercent);
+      records = RecsDone.GetCountRecordings(pEvent, this, &firstRec, compareSummaryMatchInPercent);
       LogFile.Log(3,"recordings: %d", records);	
       
       if (records > allowedRepeats) // already recorded

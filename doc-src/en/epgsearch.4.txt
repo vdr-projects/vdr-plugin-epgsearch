@@ -154,6 +154,7 @@ is B<':'>:
  49 - last day where the search timer is active (see parameter 16)
  50 - ignore missing EPG categories? 0/1
  51 - unmute sound if off when used as switch timer
+ 52 - the minimum required match in percent when descriptions are compared to avoid repeats (-> 33)
 
 A ':' in the search term or the directory entry will be translated in
 a '|'. If a '|' exists in the search term, e.g. when using regular

@@ -350,9 +350,13 @@ aufgezeichnet werden kann.
 Einstellung, ob beim Test, ob eine Sendung identisch ist, auch die
 Inhaltsbeschreibung verglichen werden soll. Dabei wird zunächst
 alles aus dem Inhalt entfernt, das einer Kategorienangabe
-gleicht. Der verbleibende Text wird dann verglichen. Ist dieser zu
-90% ähnlich (im Sinne des Levinshtein-Distance-Algorithmus) wird er
-als gleich behandelt.
+gleicht. Der verbleibende Text wird dann verglichen. Ist dieser zum 
+Prozentsatz der folgenden Option ähnlich (im Sinne des Levinshtein-Distance-Algorithmus) 
+wird er als gleich behandelt.
+
+=item - C<Min. Übereinstimmung in %>
+
+Die notwendige Übereinstimmung zweier Beschreibung in %.
 
 =item - B<Vergl. Kategorien>
 

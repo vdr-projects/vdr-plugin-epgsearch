@@ -346,8 +346,12 @@ be compared.
 
 For comparison all parts of the description, that look like a
 category value, are removed first. The remaining text will be
-compared. If this is similar at 90% (regarding the
-Levinshtein-Distance algorithm) then it will be accepted as equal.
+compared. If this is similar at the value of the next option 
+(regarding the Levinshtein-Distance algorithm) then it will be accepted as equal.
+
+=item - C<Min. match in %:>
+
+The needed minimum match of descriptions in percent. 
 
 =item - B<Compare categories:>
 

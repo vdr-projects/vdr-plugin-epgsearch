@@ -68,8 +68,8 @@ class cRecsDone : public cList<cRecDone>, public cMutex {
 	    cList<cRecDone>::Clear();
 	}
     cRecsDone(void) {}
-    int GetCountRecordings(const cEvent* event, cSearchExt* search, cRecDone** first = NULL);
-    int GetCountRecordings(const cEvent*, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long, cRecDone** first = NULL);
+    int GetCountRecordings(const cEvent* event, cSearchExt* search, cRecDone** first = NULL, int matchLimit = 90);
+    int GetCountRecordings(const cEvent*, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long, cRecDone** first = NULL, int matchLimit = 90);
     int GetTotalCountRecordings(cSearchExt* search, cRecDone** first);
     void RemoveSearchID(int ID);
     bool Load(const char *FileName = NULL);

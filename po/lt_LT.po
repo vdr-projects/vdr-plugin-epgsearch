@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.10\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-12-14 19:20+0100\n"
+"POT-Creation-Date: 2010-02-10 20:29+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: Lietuvių\n"
@@ -1084,6 +1084,10 @@ msgstr "Palyginti aprašą"
 
 msgid "Compare summary"
 msgstr "Palyginti santrauką"
+
+#, fuzzy
+msgid "Min. match in %"
+msgstr "  Min. trukmė"
 
 msgid "Compare categories"
 msgstr "Palyginti kategorijas"

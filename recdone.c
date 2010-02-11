@@ -227,12 +227,12 @@ int cRecDone::ChannelNr()
 }
 
 // -- cRecsDone -----------------------------------------------------------------
-int cRecsDone::GetCountRecordings(const cEvent* event, cSearchExt* search, cRecDone** first)
+int cRecsDone::GetCountRecordings(const cEvent* event, cSearchExt* search, cRecDone** first, int matchLimit)
 {
-    return GetCountRecordings(event, search->compareTitle, search->compareSubtitle, search->compareSummary, search->catvaluesAvoidRepeat, first);
+  return GetCountRecordings(event, search->compareTitle, search->compareSubtitle, search->compareSummary, search->catvaluesAvoidRepeat, first, matchLimit);
 }
 
-int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, cRecDone** first)
+int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, cRecDone** first, int matchLimit)
 {
    if (first)
       *first = NULL;
@@ -296,7 +296,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
 
       if ((!compareTitle || rTitle == eTitle) &&
           (!compareSubtitle || (rSubtitle == eSubtitle && (compareSubtitle==2 || rSubtitle !=""))) &&
-          (!compareSummary || DescriptionMatches(eRawDescr.c_str(), rRawDescr.c_str())))
+          (!compareSummary || DescriptionMatches(eRawDescr.c_str(), rRawDescr.c_str(), matchLimit)))
       {
          if (catvaluesAvoidRepeat != 0) // check categories
          {

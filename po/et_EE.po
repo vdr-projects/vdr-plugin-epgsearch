@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-09-21 19:28+0200\n"
+"POT-Creation-Date: 2010-02-10 20:29+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Arthur Konovalov <kasjas@hot.ee>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -1034,6 +1034,9 @@ msgid "Compare subtitle"
 msgstr ""
 
 msgid "Compare summary"
+msgstr ""
+
+msgid "Min. match in %"
 msgstr ""
 
 msgid "Compare categories"

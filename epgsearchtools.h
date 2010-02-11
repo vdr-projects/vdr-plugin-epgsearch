@@ -127,7 +127,7 @@ class cSearchExt;
 class cSearchExtCat;
 class cEvent;
 
-char* IndentMenuItem(const char*);
+char* IndentMenuItem(const char*, int indentions=1);
 void PatchFont(eDvbFont);
 bool MatchesSearchMode(const char* test, const char* values, int searchmode, const char* delim, int tolerance);
 char* GetExtEPGValue(const cEvent* e, cSearchExtCat* SearchExtCat);
@@ -162,13 +162,13 @@ bool InEditMode(const char* ItemText, const char* ItemName, const char* ItemValu
 cSearchExt* TriggeredFromSearchTimer(const cTimer* timer);
 int TriggeredFromSearchTimerID(const cTimer* timer);
 double FuzzyMatch(const char* s1, const char* s2, int maxLength);
-bool DescriptionMatches(const char* eDescr, const char* rDescr);
+bool DescriptionMatches(const char* eDescr, const char* rDescr, int matchLimit = 90);
 const cEvent* GetEvent(cTimer* timer);
 char* GetRawDescription(const char* descr);
 void PrepareTimerFile(const cEvent* event, cTimer* timer);
 int CompareEventTime(const void *p1, const void *p2);
 int CompareEventChannel(const void *p1, const void *p2);
-bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat);
+bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, int matchLimit=90);
 int ChannelNrFromEvent(const cEvent* pEvent);
 void DelTimer(int index);
 char* FixSeparators(char* buffer, char sep);

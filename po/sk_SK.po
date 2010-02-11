@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2009-11-02 18:44+0100\n"
+"POT-Creation-Date: 2010-02-10 20:29+0100\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: SLovak <hrala.milan@gmail.com>\n"
@@ -1083,6 +1083,10 @@ msgstr "porovna» titulky"
 
 msgid "Compare summary"
 msgstr "porovna» celkovo"
+
+#, fuzzy
+msgid "Min. match in %"
+msgstr " Min. doba"
 
 msgid "Compare categories"
 msgstr "porovna» kategórie"

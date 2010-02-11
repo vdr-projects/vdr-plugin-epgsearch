@@ -146,6 +146,7 @@ public:
   int      compareTitle;
   int      compareSubtitle;
   int      compareSummary;
+  int      compareSummaryMatchInPercent;
   int      allowedRepeats;
   unsigned long catvaluesAvoidRepeat;
   int      repeatsWithinDays;
@@ -165,7 +166,6 @@ public:
   time_t   useAsSearchTimerTil;
   int      ignoreMissingEPGCats;
   int      unmuteSoundOnSwitch;
-
   bool     skipRunningEvents;
   static char *buffer;
 public:

@@ -94,6 +94,8 @@ neu:
 - epgsearch prüft nun neben korrekter Start- und Stopzeit des Timers auch die Aufnahmelänge 
   bei der Prüfung auf vollständige Aufnahmen. 98% und mehr gelten als vollständig.
 - Umschalttimer sind nun ebenfalls in alle EPG-Menüs mit Suchergebnissen sichtbar.
+- Vermeide Wiederholung: Bei 'Vergleiche Beschreibung' kann nun angegeben werden wie hoch 
+  die Übereinstimmung sein muss, Default ist 90%.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben
