@@ -72,6 +72,7 @@ class cSearchTimerThread: public cThread {
     void DelRecording(int index);
     void CheckManualTimers();
     void ModifyManualTimer(const cEvent* event, const cTimer* timer, int bstart, int bstop);
+    void CheckEPGHours();
 };
 
 #endif 

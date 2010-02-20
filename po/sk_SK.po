@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-10 20:29+0100\n"
+"POT-Creation-Date: 2010-02-20 09:26+0100\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: SLovak <hrala.milan@gmail.com>\n"
@@ -402,6 +402,37 @@ msgstr "Znova vytvori» plán po vymazaní"
 
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
 msgstr "Ak zma¾ete plán nahrávania a nechcete aby bol znova vytvorený po automatickom obnovení vyhµadávaèa plánov, tak nastavte 'áno'"
+
+msgid "Check if EPG exists for ... [h]"
+msgstr ""
+
+#, fuzzy
+msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
+msgstr "Ak kontrola konfliktov by mala by» vykonávaná pri ka¾dom obnovení vyhµadávaèa plánov, tak nastavte 'áno'"
+
+#, fuzzy
+msgid "Warn by OSD"
+msgstr "Iba oznámi»"
+
+#, fuzzy
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
+msgstr "Nastavte áno ak potrebujete oznamova» konflikty plánu na mail"
+
+#, fuzzy
+msgid "Warn by mail"
+msgstr "Iba oznámi»"
+
+#, fuzzy
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
+msgstr "Nastavte Áno, ak vá¹ úèet potrebuje overenie na poslanie mailov"
+
+#, fuzzy
+msgid "Channel group to check"
+msgstr "Skupina kanálov"
+
+#, fuzzy
+msgid "Help$Specify the channel group to check."
+msgstr "Uveïte meno ¹ablony"
 
 msgid "Ignore PayTV channels"
 msgstr "Nev¹íma» si PayTV kanály"
@@ -1222,6 +1253,13 @@ msgstr "%d nové vysielanie(a) nájdené! Zobrazi» ich?"
 
 msgid "Search timer update done!"
 msgstr "Aktualizácia vyhµadávania plánov skonèená!"
+
+#, c-format
+msgid "small EPG content on:%s"
+msgstr ""
+
+msgid "VDR EPG check warning"
+msgstr ""
 
 #, c-format
 msgid "Switch to (%d) '%s'?"

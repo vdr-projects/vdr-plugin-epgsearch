@@ -142,7 +142,10 @@ cEPGSearchConfig(void);
     int maxChannelMenuNow;
     int noConflMsgWhileReplay;
     int sendMailOnSearchtimerHours;
-
+    int checkEPGHours;
+    int checkEPGWarnByOSD;
+    int checkEPGWarnByMail;
+    int checkEPGchannelGroupNr;
     time_t lastMailOnSearchtimerAt;
 };
 

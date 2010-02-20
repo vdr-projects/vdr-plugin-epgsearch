@@ -82,12 +82,14 @@ class cMenuSetupTimers : public cMenuSetupSubMenu
 
 class cMenuSetupSearchtimers : public cMenuSetupSubMenu 
 {
+     char** menuitemsChGr;
  protected:
     virtual eOSState ProcessKey(eKeys Key);
     void Set(void);
     void SetHelpKeys();
  public:
     cMenuSetupSearchtimers(cEPGSearchConfig* Data);
+    ~cMenuSetupSearchtimers();
 };
 
 class cMenuSetupTimerConflicts : public cMenuSetupSubMenu 

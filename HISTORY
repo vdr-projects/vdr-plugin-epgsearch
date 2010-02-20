@@ -24,6 +24,9 @@ new:
 - The time in hours between the search timer mails can now be configured in the 
   setup to avoid flooding your inbox. epgsearch buffers the contents of the pending mails
   in the new file pendingnotifications.conf.
+- New setup option to check if there is EPG content for the next x hours. If not 
+  you get warned by OSD and/or mail (Setup -> Search and search timers), suggested by 
+  Andreas Mair.
 - new internal variables:
   * %day%, %month% and %year% which return the numeric day, month and year
     (with century) of an event

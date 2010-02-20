@@ -67,7 +67,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "confdloader.h"
 #include "pending_notifications.h"
 
-static const char VERSION[]        = "0.9.25.beta16";
+static const char VERSION[]        = "0.9.25.beta17";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -641,6 +641,10 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
    if      (!strcasecmp(Name, "NoConflMsgWhileReplay"))  EPGSearchConfig.noConflMsgWhileReplay = atoi(Value);
    if      (!strcasecmp(Name, "NoAnnounceWhileReplay"))  EPGSearchConfig.noAnnounceWhileReplay = atoi(Value);
    if      (!strcasecmp(Name, "TimerProgRepeat"))  EPGSearchConfig.TimerProgRepeat = atoi(Value);
+   if      (!strcasecmp(Name, "CheckEPGHours"))  EPGSearchConfig.checkEPGHours = atoi(Value);
+   if      (!strcasecmp(Name, "CheckEPGWarnByOSD"))  EPGSearchConfig.checkEPGWarnByOSD = atoi(Value);
+   if      (!strcasecmp(Name, "CheckEPGWarnByMail"))  EPGSearchConfig.checkEPGWarnByMail = atoi(Value);
+   if      (!strcasecmp(Name, "CheckEPGChannelgroup"))  EPGSearchConfig.checkEPGchannelGroupNr = atoi(Value);
 
    if      (!strcasecmp(Name, "TimeIntervallFRFF"))  EPGSearchConfig.timeShiftValue = atoi(Value);
    if      (!strcasecmp(Name, "ToggleGreenYellow"))  EPGSearchConfig.toggleGreenYellow = atoi(Value);

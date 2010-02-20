@@ -23,6 +23,9 @@ neu:
 - Die Zeit in Stunden zwischen den Suchtimer-Emails kann nun im Setup eingestellt werden
   um eine Überflutung des Posteingangs zu vermeiden. epgsearch puffert den Inhalt ausstehender
   Mails in der neuen Datei pendingnotifications.conf.
+- Neue Setup-Option zur Prüfung, ob es EPG für die nächsten x Stunden gibt. Falls nicht, kann
+  man per OSD und/oder Mail gewarnt werden. (Setup -> Suche und Suchtimer), vorgeschlagen von 
+  Andreas Mair.
 - neue interne Variablen:
   * %day%, %month% und %year% liefern den numerische Tag, das Monat und das
     Jahr (mit Jahrhundert) einer Sendung

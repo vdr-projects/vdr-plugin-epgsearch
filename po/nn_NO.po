@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-10 20:29+0100\n"
+"POT-Creation-Date: 2010-02-20 09:26+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Truls Slevigen <truls@slevigen.no>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -370,6 +370,30 @@ msgid "Recreate timers after deletion"
 msgstr ""
 
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
+msgstr ""
+
+msgid "Check if EPG exists for ... [h]"
+msgstr ""
+
+msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
+msgstr ""
+
+msgid "Warn by OSD"
+msgstr ""
+
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
+msgstr ""
+
+msgid "Warn by mail"
+msgstr ""
+
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
+msgstr ""
+
+msgid "Channel group to check"
+msgstr ""
+
+msgid "Help$Specify the channel group to check."
 msgstr ""
 
 msgid "Ignore PayTV channels"
@@ -1170,6 +1194,13 @@ msgid "%d new broadcast(s) found! Show them?"
 msgstr ""
 
 msgid "Search timer update done!"
+msgstr ""
+
+#, c-format
+msgid "small EPG content on:%s"
+msgstr ""
+
+msgid "VDR EPG check warning"
 msgstr ""
 
 #, c-format

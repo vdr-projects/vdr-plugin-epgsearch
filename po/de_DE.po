@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-10 20:29+0100\n"
+"POT-Creation-Date: 2010-02-20 09:26+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -402,6 +402,30 @@ msgstr "Timer nach Löschen neuprogrammieren"
 
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
 msgstr "Hier 'Ja' wählen, wenn gelöschte Timer mit dem nächsten Suchtimer-Update neu programmiert werden sollen."
+
+msgid "Check if EPG exists for ... [h]"
+msgstr "Prüfe ob EPG für ... [h] existiert"
+
+msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
+msgstr "Hier kann angeben werden wie viele Stunden zukünftigen EPGs existieren sollen und andernfalls nach einem Suchtimer Update gewarnt werden."
+
+msgid "Warn by OSD"
+msgstr "per OSD warnen"
+
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
+msgstr "Hier mit 'Ja' auswählen, ob eine Warnung zum EPG Check per OSD gewünscht ist."
+
+msgid "Warn by mail"
+msgstr "per Mail warnen"
+
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
+msgstr "Hier mit 'Ja' auswählen, ob eine Warnung zum EPG Check per Mail gewünscht ist."
+
+msgid "Channel group to check"
+msgstr "zu prüfende Kanalgruppe"
+
+msgid "Help$Specify the channel group to check."
+msgstr "Hier die zu prüfende Kanalgruppe auswählen."
 
 msgid "Ignore PayTV channels"
 msgstr "PayTV-Sender ignorieren"
@@ -1219,6 +1243,13 @@ msgstr "%d neue Sendung(en) gefunden! Anzeigen?"
 
 msgid "Search timer update done!"
 msgstr "Suchtimer-Update durchgeführt!"
+
+#, c-format
+msgid "small EPG content on:%s"
+msgstr "wenig EPG Inhalt für:%s"
+
+msgid "VDR EPG check warning"
+msgstr "VDR EPG Check Warnung"
 
 #, c-format
 msgid "Switch to (%d) '%s'?"

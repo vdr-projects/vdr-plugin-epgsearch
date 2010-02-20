@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-10 20:29+0100\n"
+"POT-Creation-Date: 2010-02-20 09:26+0100\n"
 "PO-Revision-Date: 2009-07-15 23:30+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
@@ -407,6 +407,37 @@ msgstr "Ricrea timer dopo eliminazione"
 
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
 msgstr "Imposta 'sì' se vuoi ricreare i timer con la successiva ricerca di aggiornamento timer dopo la loro eliminazione."
+
+msgid "Check if EPG exists for ... [h]"
+msgstr ""
+
+#, fuzzy
+msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
+msgstr "Imposta 'sì' se la verifica del conflitto dovrebbe essere eseguita dopo ciascun aggiornamento del timer di ricerca."
+
+#, fuzzy
+msgid "Warn by OSD"
+msgstr "Solo annuncio"
+
+#, fuzzy
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
+msgstr "Imposta 'sì' se vuoi avere una notifica email sui timer in conflitto."
+
+#, fuzzy
+msgid "Warn by mail"
+msgstr "Solo annuncio"
+
+#, fuzzy
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
+msgstr "Imposta 'sì' se il tuo account ha bisogno di autenticazione per inviare email."
+
+#, fuzzy
+msgid "Channel group to check"
+msgstr "Gruppo canali"
+
+#, fuzzy
+msgid "Help$Specify the channel group to check."
+msgstr "Specifica il nome del modello."
 
 msgid "Ignore PayTV channels"
 msgstr "Ignora i canali a pagamento"
@@ -1228,6 +1259,13 @@ msgstr "%d nuove emittenti trovate! Mostrarle?"
 
 msgid "Search timer update done!"
 msgstr "Aggiornamento timer ricerca completato!"
+
+#, c-format
+msgid "small EPG content on:%s"
+msgstr ""
+
+msgid "VDR EPG check warning"
+msgstr ""
 
 #, c-format
 msgid "Switch to (%d) '%s'?"

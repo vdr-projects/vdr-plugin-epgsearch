@@ -84,6 +84,10 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   noConflMsgWhileReplay = 0;
   sendMailOnSearchtimerHours = 0;
   lastMailOnSearchtimerAt = 0;
+  checkEPGHours = 6;
+  checkEPGWarnByOSD = 1;
+  checkEPGWarnByMail = 0;
+  checkEPGchannelGroupNr = -1;
 }
 
 int cShowMode::Compare(const cListObject &ListObject) const

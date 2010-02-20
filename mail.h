@@ -43,7 +43,7 @@ class cMailNotifier
 
     bool SendMailViaSendmail();
     bool SendMailViaScript();
-    bool SendMail();
+    bool SendMail(bool force=false);
     bool ExecuteMailScript(string ScriptArgs);
  public:
     string scriptReply;

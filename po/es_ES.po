@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-10 20:29+0100\n"
+"POT-Creation-Date: 2010-02-20 09:26+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -401,6 +401,37 @@ msgstr "Recrear programaciones tras borrar"
 
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
 msgstr "Establecer a 'sí' cuando desee que las programaciones se creen de nuevo con la siguiente actualización de programación por búsqueda después de borrarlas."
+
+msgid "Check if EPG exists for ... [h]"
+msgstr ""
+
+#, fuzzy
+msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
+msgstr "Establecer a 'sí' cuando desee comprobar conflictos después de actualizar cada programación por búsqueda."
+
+#, fuzzy
+msgid "Warn by OSD"
+msgstr "Sólo avisar"
+
+#, fuzzy
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
+msgstr "Establecer a 'sí' cuando desee recibir una notificación por correo sobre los conflictos de programación."
+
+#, fuzzy
+msgid "Warn by mail"
+msgstr "Sólo avisar"
+
+#, fuzzy
+msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
+msgstr "Establecer a 'sí' cuando su cuenta necesite autenticación para enviar correos."
+
+#, fuzzy
+msgid "Channel group to check"
+msgstr "Grupo de canales"
+
+#, fuzzy
+msgid "Help$Specify the channel group to check."
+msgstr "Especifique el nombre de la plantilla."
 
 msgid "Ignore PayTV channels"
 msgstr "Ignorar los canales de pago"
@@ -1218,6 +1249,13 @@ msgstr "¡%d nuevas emisiones encontradas! ¿Mostrarlas?"
 
 msgid "Search timer update done!"
 msgstr "¡Programación por búsqueda actualizada!"
+
+#, c-format
+msgid "small EPG content on:%s"
+msgstr ""
+
+msgid "VDR EPG check warning"
+msgstr ""
 
 #, c-format
 msgid "Switch to (%d) '%s'?"

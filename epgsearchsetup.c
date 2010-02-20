@@ -225,6 +225,10 @@ void cMenuEPGSearchSetup::Store(void)
     SetupStore("CheckConflictsAfterTimerProg",  EPGSearchConfig.checkTimerConflAfterTimerProg);
     SetupStore("CheckConflictsOnRecording",  EPGSearchConfig.checkTimerConflOnRecording);
     SetupStore("NoConflMsgWhileReplay",  EPGSearchConfig.noConflMsgWhileReplay);
+    SetupStore("CheckEPGHours",  EPGSearchConfig.checkEPGHours);
+    SetupStore("CheckEPGWarnByOSD",  EPGSearchConfig.checkEPGWarnByOSD);
+    SetupStore("CheckEPGWarnByMail",  EPGSearchConfig.checkEPGWarnByMail);
+    SetupStore("CheckEPGChannelgroup",  EPGSearchConfig.checkEPGchannelGroupNr);
 
     SetupStore("NoAnnounceWhileReplay",  EPGSearchConfig.noAnnounceWhileReplay);
     SetupStore("TimerProgRepeat",  EPGSearchConfig.TimerProgRepeat);
@@ -637,7 +641,14 @@ eOSState cMenuSetupTimers::ProcessKey(eKeys Key)
 cMenuSetupSearchtimers::cMenuSetupSearchtimers(cEPGSearchConfig* Data)
 : cMenuSetupSubMenu(tr("Search and search timers"), Data)
 {
+    menuitemsChGr = NULL;
     Set();
+}
+
+cMenuSetupSearchtimers::~cMenuSetupSearchtimers()
+{
+   if (menuitemsChGr)
+      free(menuitemsChGr);
 }
 
 void cMenuSetupSearchtimers::Set()
@@ -666,6 +677,21 @@ void cMenuSetupSearchtimers::Set()
       AddHelp(tr("Help$Set this to 'yes' if you don't like to get any announcements of broadcasts if you currently replay anything."));
       Add(new cMenuEditBoolItem(IndentMenuItem(tr("Recreate timers after deletion")), &data->TimerProgRepeat, trVDR("no"), trVDR("yes")));
       AddHelp(tr("Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."));
+      Add(new cMenuEditIntItem(IndentMenuItem(tr("Check if EPG exists for ... [h]")), &data->checkEPGHours, 0, 999));
+      AddHelp(tr("Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."));
+      if (data->checkEPGHours > 0)
+      {
+	Add(new cMenuEditBoolItem(IndentMenuItem(tr("Warn by OSD"),2), &data->checkEPGWarnByOSD, trVDR("no"), trVDR("yes")));
+	AddHelp(tr("Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."));
+	Add(new cMenuEditBoolItem(IndentMenuItem(tr("Warn by mail"),2), &data->checkEPGWarnByMail, trVDR("no"), trVDR("yes")));
+	AddHelp(tr("Help$Set this to 'yes' if you want get warnings from the EPG check by mail."));
+
+	// create the char array for the menu display
+	if (menuitemsChGr) delete [] menuitemsChGr;
+	menuitemsChGr = ChannelGroups.CreateMenuitemsList();
+	Add(new cMenuEditStraItem(IndentMenuItem(tr("Channel group to check"),2), &data->checkEPGchannelGroupNr, ChannelGroups.Count()+1, menuitemsChGr));
+	AddHelp(tr("Help$Specify the channel group to check."));
+      }
   }
 
   Add(new cMenuEditBoolItem(  tr("Ignore PayTV channels"), &data->ignorePayTV, trVDR("no"), trVDR("yes")));  
@@ -701,6 +727,7 @@ void cMenuSetupSearchtimers::SetHelpKeys()
 eOSState cMenuSetupSearchtimers::ProcessKey(eKeys Key)
 {
     int iTemp_useSearchTimers = data->useSearchTimers;
+    int iTemp_checkEPGHours = data->checkEPGHours;
 
     int iOnSearchTemplates = 0;
     int iOnBlacklists = 0;
@@ -708,7 +735,8 @@ eOSState cMenuSetupSearchtimers::ProcessKey(eKeys Key)
 
     eOSState state = cMenuSetupSubMenu::ProcessKey(Key);
 
-    if (iTemp_useSearchTimers != data->useSearchTimers)
+    if (iTemp_useSearchTimers != data->useSearchTimers ||
+	iTemp_checkEPGHours != data->checkEPGHours)
     {
 	Set();
 	Display();

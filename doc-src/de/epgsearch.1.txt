@@ -647,6 +647,27 @@ epgsearch merkt sich standardmäßig welche Timer bereits durch Suchtimer
 angelegt wurden und programmiert diese nicht erneut, wenn sie gelöscht
 wurden. Zum Abschalten dieses Verhaltens bitte 'Ja' wählen.
 
+=item - B<Prüfe ob EPG für ... [h] existiert:>
+
+Falls EPG von externen Anbietern bezogen wird, kann es vorkommenm, dass hier 
+auch mal etwas schiefläuft und somit wegen fehlendem EPG Aufzeichnungen verlorengehen.
+Hiermit kann geprüft werden, ob für die nächsten ... Stunden EPG bei den
+gewünschten Sendern vorhanden ist. Mit '0' wird die Prüfung deaktiviert.
+
+=item - C<per OSD warnen:>
+
+falls ja, erscheint die Warnung als OSD-Einblendung
+
+=item - C<per Mail warnen:>
+
+falls ja, wird die Warnung per Mail versandt. Bitte das Email-Konto unter
+Email-Benachrichtigung konfigurieren.
+
+=item - C<zu prüfende Kanalgruppe:>
+
+hier die Kanalgruppe auswählen, für die die Prüfung durchgeführt werden soll.
+Gegebenefalls zuvor unter Kanalgruppen anlegen.
+
 =item - B<PayTV-Sender ignorieren:>
 
 Auf 'Ja' setzen, wenn man bei der Suche nach Wiederholungen keine Sendungen

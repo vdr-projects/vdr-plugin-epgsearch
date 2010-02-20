@@ -154,7 +154,8 @@ string cMailAnnounceEventNotification::Format(const string& templ) const
 cMailNotifier::cMailNotifier(string Subject, string Body)
 : subject(Subject), body(Body) 
 {
-    SendMail();
+  if (subject.size() > 0)
+    SendMail(true);
 }
 
 bool cMailNotifier::SendMailViaSendmail() 
@@ -223,10 +224,10 @@ bool cMailNotifier::SendMailViaScript()
     return success;
 }
 
-bool cMailNotifier::SendMail()
+bool cMailNotifier::SendMail(bool force)
 {
   time_t nextMailDelivery = EPGSearchConfig.lastMailOnSearchtimerAt + EPGSearchConfig.sendMailOnSearchtimerHours*60*60;
-  if (time(NULL) > nextMailDelivery)
+  if (time(NULL) > nextMailDelivery || force)
     {
       if (!EPGSearchConfig.mailViaScript)
 	return SendMailViaSendmail();

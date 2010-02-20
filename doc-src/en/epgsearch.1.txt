@@ -630,7 +630,24 @@ epgsearch remembers by default which timers where already created by search
 timers and will not recreate them if they were removed. To disable this
 behaviour set this to 'Yes'.
 
-Default margins of generated timers.
+=item - B<Check if EPG exists for ... [h]:>
+
+If you get EPG content from external providers it is possible, that something fails and
+some recordings are skipped because of the missing EPG. With this function one can check if
+EPG content exists for the next ... hours. With '0' the check is disabled.
+
+=item - C<Warn by OSD:>
+
+Set this to 'Yes' to get warned via OSD.
+
+=item - C<Warn by mail:>
+
+Set this to 'Yes' to get warned by email. Please configure the email account in
+'email notification'
+
+=item - C<Channel group to check:>
+
+select hier the channel group to check. Perhaps you have to create it before in 'channel groups'
 
 =item - B<Ignore Pay-TV channels:>
 

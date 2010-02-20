@@ -477,6 +477,7 @@ void cSearchTimerThread::Action(void)
             }
             searchExt = localSearchExts->Next(searchExt);
          }
+
          if (localSearchExts) delete localSearchExts;
 
          if (pOutdatedTimers)
@@ -521,6 +522,8 @@ void cSearchTimerThread::Action(void)
 	       cRemote::CallPlugin("epgsearch");	
 	     }
          }
+
+	 CheckEPGHours();
 
          LogFile.iSysLog("search timer update finished");
 
@@ -965,3 +968,71 @@ void cSearchTimerThread::CheckManualTimers()
    LogFile.Log(1, "manual timer check finished");
 }
 
+// check if EPG is present for the configured hours
+void cSearchTimerThread::CheckEPGHours()
+{
+  if (EPGSearchConfig.checkEPGHours <= 0 || 
+      (EPGSearchConfig.checkEPGWarnByOSD == 0 && EPGSearchConfig.checkEPGWarnByMail == 0) ||
+      EPGSearchConfig.checkEPGchannelGroupNr <= 0)
+    return;
+
+  LogFile.Log(2,"check if relevant EPG exists for the next %d hours", EPGSearchConfig.checkEPGHours);
+  cChannelGroup* channelGroup = ChannelGroups.Get(EPGSearchConfig.checkEPGchannelGroupNr-1); // not zero-based!
+  if (!channelGroup)
+    {
+      LogFile.Log(1,"channel group with index %d does not exist!", EPGSearchConfig.checkEPGchannelGroupNr);
+      return;
+    }
+
+   LogFile.Log(2,"checking channel group '%s'", channelGroup->name);
+
+  time_t checkTime = time(NULL) + EPGSearchConfig.checkEPGHours * 60 * 60;
+  
+  cSchedulesLock schedulesLock;
+  const cSchedules *schedules;
+  schedules = cSchedules::Schedules(schedulesLock);
+  
+  cChannelGroup channelsWithSmallEPG;
+  cChannelGroupItem* channelInGroup = channelGroup->channels.First();
+  while (channelInGroup) 
+    {
+      cChannel* channel = channelInGroup->channel;
+      // get the channels schedule
+      const cSchedule* schedule = schedules->GetSchedule(channel);
+      if (!schedule || !schedule->GetEventAround(checkTime))      
+	{
+	  LogFile.Log(3,"less than %d hours of EPG for channel %s!", EPGSearchConfig.checkEPGHours, channel->Name());
+	  cChannelGroupItem* channelitem = new cChannelGroupItem(channel);
+	  channelsWithSmallEPG.channels.Add(channelitem);
+	}
+      channelInGroup = channelGroup->channels.Next(channelInGroup);
+    }	
+
+  // create a string list of the channels found
+  if (channelsWithSmallEPG.channels.Count() > 0)
+    {
+      string sBuffer;
+      channelInGroup = channelsWithSmallEPG.channels.First();
+      while (channelInGroup) 
+	{
+	  cChannel* channel = channelInGroup->channel;
+	  if (channel)
+	    sBuffer += " " + string(channel->ShortName(true));
+	  channelInGroup = channelsWithSmallEPG.channels.Next(channelInGroup);
+	}	
+      
+      
+      if (EPGSearchConfig.checkEPGWarnByOSD)
+	{
+	  cString msgfmt = cString::sprintf(tr("small EPG content on:%s"), sBuffer.c_str());
+	  SendMsg(msgfmt);		   
+	}
+      if (EPGSearchConfig.checkEPGWarnByMail)
+	{
+	  cString msgfmt = cString::sprintf(tr("small EPG content on:%s"), sBuffer.c_str());
+	  cMailNotifier M(string(tr("VDR EPG check warning")), string(msgfmt));
+	}
+    }
+
+  LogFile.Log(2,"check for relevant EPG finished - %d channels with small EPG content", channelsWithSmallEPG.channels.Count());
+}
