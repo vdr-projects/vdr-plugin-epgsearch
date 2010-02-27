@@ -1,19 +1,17 @@
 # VDR plugin language source file.
 # Copyright (C) 2007 Klaus Schmidinger <kls@cadsoft.de>
 # This file is distributed under the same license as the VDR package.
-# Hannu Savolainen <hannu@opensound.com>, 2002
-# Jaakko Hyvätti <jaakko@hyvatti.iki.fi>, 2002
-# Niko Tarnanen <niko.tarnanen@hut.fi>, 2003
 # Rolf Ahrenberg <rahrenbe@cc.hut.fi>, 2003
+# Ville Skyttä <ville.skytta@iki.fi>, 2009
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VDR 1.5.7\n"
+"Project-Id-Version: EPGSearch 0.9.25\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: 2010-02-20 09:26+0100\n"
 "PO-Revision-Date: 2009-10-15 20:52+0200\n"
-"Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
-"Language-Team:  <vdr@linuxtv.org>\n"
+"Last-Translator: Rolf Ahrenberg\n"
+"Language-Team:  Finnish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -407,35 +405,28 @@ msgid "Help$Set this to 'yes' if you want timers to be recreated with the next s
 msgstr "Laittamalla tämän asetuksen päälle saat luotua ajastimet uudelleen seuraava hakuajastin päivityksen yhteydessä, jos olet poistanut ne."
 
 msgid "Check if EPG exists for ... [h]"
-msgstr ""
+msgstr "Tarkasta tulevat ohjelmatiedot... [h]"
 
-#, fuzzy
 msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
-msgstr "Suorittaa päällekkäisyyksien tarkistuksen jokaisen hakuajastimen päivityksen yhteydessä."
+msgstr "Määrittelee vaadittavat tulevat ohjelmatietot tunteina hakuajastimien päivityksen yhteydessä, jonka jälkeen käyttäjää varoitetaan."
 
-#, fuzzy
 msgid "Warn by OSD"
-msgstr "muistutus kuvaruutunäytölle"
+msgstr "Muistuta kuvaruutunäytöllä"
 
-#, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
-msgstr "Tällä asetuksella saat ilmoitukset päällekkäisistä ajastimista sähköpostiisi."
+msgstr "Laittamalla tämän asetuksen päälle saat varoitukset ohjelmatietojen tarkastuksesta kuvaruutunäytölle."
 
-#, fuzzy
 msgid "Warn by mail"
-msgstr "muistutus sähköpostitse"
+msgstr "Muistuta sähköpostitse"
 
-#, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
-msgstr "Asettaa SMTP-autentikoinnin päälle sähköpostin lähetystä varten."
+msgstr "Laittamalla tämän asetuksen päälle saat varoitukset ohjelmatietojen tarkastuksesta sähköpostitse."
 
-#, fuzzy
 msgid "Channel group to check"
-msgstr "Kanavaryhmä"
+msgstr "Tarkastettava kanavaryhmä"
 
-#, fuzzy
 msgid "Help$Specify the channel group to check."
-msgstr "Määrittelee mallipohjan nimen."
+msgstr "Määrittelee tarkastettavan kanavaryhmän."
 
 msgid "Ignore PayTV channels"
 msgstr "Jätä salatut kanavat huomioimatta"
@@ -1119,9 +1110,8 @@ msgstr "Vertaa jakson nimeä"
 msgid "Compare summary"
 msgstr "Vertaa kuvausta"
 
-#, fuzzy
 msgid "Min. match in %"
-msgstr "  Kestoaika vähintään"
+msgstr "Vaadittava yhdenmukaisuus [%]"
 
 msgid "Compare categories"
 msgstr "Vertaa kategorioita"
@@ -1258,10 +1248,10 @@ msgstr "Hakuajastimet päivitetty!"
 
 #, c-format
 msgid "small EPG content on:%s"
-msgstr ""
+msgstr "vajaat ohjelmatiedot: %s"
 
 msgid "VDR EPG check warning"
-msgstr ""
+msgstr "Varoitus VDR:n ohjelmatietojen tarkastuksesta"
 
 #, c-format
 msgid "Switch to (%d) '%s'?"
