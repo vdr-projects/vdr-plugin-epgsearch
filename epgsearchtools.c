@@ -929,7 +929,7 @@ int FindIgnoreCase(const string& expr, const string& query)
   const char *r = strcasestr(p, query.c_str());
 
   if (!r)
-     return string::npos;
+     return -1;
   return r - p;
 }
 
