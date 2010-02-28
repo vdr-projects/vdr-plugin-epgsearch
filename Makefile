@@ -60,7 +60,7 @@ VERSION = $(shell grep 'static const char VERSION\[\] *=' $(PLUGIN).c | awk '{ p
 ### The C++ compiler and options:
 
 CXX      ?= g++
-CXXFLAGS ?= -Wall -O2 -Woverloaded-virtual -Wno-format-y2k -fPIC
+CXXFLAGS ?= -g -O2 -Wall -Woverloaded-virtual -Wno-parentheses -Wno-format-y2k
 
 ### The directory environment:
 
@@ -83,6 +83,10 @@ ifdef AUTOCONFIG
 		USE_GRAPHTFT = 1
 	endif
 endif
+
+### Make sure that necessary options are included:
+-include $(VDRDIR)/Make.global
+
 
 ### Allow user defined options to overwrite defaults:
 
