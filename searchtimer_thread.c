@@ -454,6 +454,7 @@ void cSearchTimerThread::Action(void)
 			int mode = 0;
 			if (searchExt->action == searchTimerActionAnnounceAndSwitch)
 			  mode = 2;
+			LogFile.Log(3,"adding switch timer event for '%s~%s' (%s - %s); search timer: '%s'", pEvent->Title(), pEvent->ShortText()?pEvent->ShortText():"", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);
                         SwitchTimers.Add(new cSwitchTimer(pEvent, searchExt->switchMinsBefore, mode, 
 							  searchExt->unmuteSoundOnSwitch));
                         SwitchTimers.Save();
