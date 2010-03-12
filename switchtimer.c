@@ -29,7 +29,6 @@ cSwitchTimers SwitchTimers;
 // -- cSwitchTimer -----------------------------------------------------------------
 cSwitchTimer::cSwitchTimer(void)
 {
-    event = NULL;
     switchMinsBefore = 1;
     mode = 0;
     unmute = 0;
@@ -37,7 +36,14 @@ cSwitchTimer::cSwitchTimer(void)
 
 cSwitchTimer::cSwitchTimer(const cEvent* Event, int SwitchMinsBefore, int Mode, int Unmute)
 {
-    event = Event;
+    eventID = 0;
+    startTime = 0;
+    if (Event)
+    {
+      eventID = Event->EventID();
+      channelID = Event->ChannelID();
+      startTime = Event->StartTime();
+    }
     switchMinsBefore = SwitchMinsBefore;
     mode = Mode;
     unmute = Unmute;
@@ -53,10 +59,7 @@ bool cSwitchTimer::Parse(const char *s)
 #define MAXVALUELEN (10 * MaxFileName)
 
   char value[MAXVALUELEN];
-
-  cChannel* channel = NULL;
-  unsigned int eventID = 0;
-  time_t startTime=0;
+  startTime=0;
   
   pos = line = strdup(s);
   pos_next = pos + strlen(pos);
@@ -75,7 +78,7 @@ bool cSwitchTimer::Parse(const char *s)
         pos = pos_next;
         switch (parameter) {
 	    case 1:  
-		channel = Channels.GetByChannelID(tChannelID::FromString(value), true, true);
+		channelID = tChannelID::FromString(value);
 		break;
 	    case 2:
 		eventID = atoi(value);
@@ -99,13 +102,20 @@ bool cSwitchTimer::Parse(const char *s)
     if (*pos) pos++;
   } //while
   
+  free(line);
+  return (parameter >= 3) ? true : false;
+}
+
+const cEvent* cSwitchTimer::Event()
+{
   time_t now = time(NULL);
-  event = NULL;
-  if (startTime > now && channel)
+  const cEvent* event = NULL;
+  if (startTime > now)
   {
       cSchedulesLock schedulesLock;
       const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
-      const cSchedule *Schedule = schedules->GetSchedule(channel->GetChannelID());
+      if (!schedules) return NULL;
+      const cSchedule *Schedule = schedules->GetSchedule(channelID);
       if (Schedule) 
       {
 	  event = Schedule->GetEvent(eventID, startTime);
@@ -113,23 +123,22 @@ bool cSwitchTimer::Parse(const char *s)
 	      event = Schedule->GetEventAround(startTime);
       }
   }
-  free(line);
-  return (parameter >= 3) ? true : false;
+  return event;
 }
 
 cString cSwitchTimer::ToText(bool& ignore)
 {
     ignore = false;
-    if (!event)
+    if (!Event())
     {
 	ignore = true;
 	return NULL;
     }
-    cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true, true);
+    cChannel *channel = Channels.GetByChannelID(channelID, true, true);
     if (!channel) return NULL;
     cString buffer = cString::sprintf("%s:%u:%ld:%d:%d:%d", 
-				      CHANNELSTRING(channel), event->EventID(), 
-				      event->StartTime(), switchMinsBefore, 
+				      CHANNELSTRING(channel), eventID, 
+				      startTime, switchMinsBefore, 
 				      mode, unmute?1:0);
     return buffer;
 }
@@ -151,7 +160,9 @@ cSwitchTimer* cSwitchTimers::InSwitchList(const cEvent* event)
     cSwitchTimer* switchTimer = SwitchTimers.First();
     while (switchTimer) 
     {
-	if (switchTimer->event == event)
+      if (switchTimer->eventID == event->EventID() && 
+	  switchTimer->channelID == event->ChannelID() && 
+	  switchTimer->startTime == event->StartTime())
 	    return switchTimer;
 	switchTimer = SwitchTimers.Next(switchTimer);
     }

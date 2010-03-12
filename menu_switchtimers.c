@@ -67,7 +67,7 @@ void cMenuEditSwitchTimer::Set()
       Add(new cMenuEditIntItem(tr("Ask ... minutes before start"), &data.switchMinsBefore, 0, 99));
 
     cString info = cString::sprintf("%s:\t%s", tr("action at"), 
-				    TIMESTRING(data.event->StartTime() - 60 * data.switchMinsBefore));
+				    TIMESTRING(data.startTime - 60 * data.switchMinsBefore));
     cOsdItem* pInfoItem = new cOsdItem(info);
     pInfoItem->SetSelectable(false);
     Add(pInfoItem);
@@ -85,7 +85,7 @@ eOSState cMenuEditSwitchTimer::ProcessKey(eKeys Key)
 	iOldMode != data.mode)
     {
 	time_t now = time(NULL);
-	if (data.event->StartTime() - 60 * data.switchMinsBefore < now)
+	if (data.startTime - 60 * data.switchMinsBefore < now)
 	    data.switchMinsBefore = iOldMinsBefore;
 	Set();
 	Display();
@@ -113,19 +113,19 @@ eOSState cMenuEditSwitchTimer::ProcessKey(eKeys Key)
     return state;
 }
 
-cMenuSwitchTimerItem::cMenuSwitchTimerItem(cSwitchTimer* SwitchTimer)
+cMenuSwitchTimerItem::cMenuSwitchTimerItem(cSwitchTimer* SwitchTimer, const cEvent* Event)
 {
   switchTimer = SwitchTimer;
+  event = Event;
   Set();
 }
 
-void cMenuSwitchTimerItem::Set(void)
+void cMenuSwitchTimerItem::Set()
 {
-    if (!SwitchTimers.Exists(switchTimer) || !switchTimer || !switchTimer->event)
+    if (!SwitchTimers.Exists(switchTimer) || !switchTimer || !event)
 	return;
 
-    const cEvent* event = switchTimer->event;
-    time_t startTime = event->StartTime();
+    time_t startTime = switchTimer->startTime;
     char *buffer = NULL;
 
     char datebuf[32];
@@ -133,7 +133,7 @@ void cMenuSwitchTimerItem::Set(void)
     tm *tm = localtime_r(&startTime, &tm_r);
     strftime(datebuf, sizeof(datebuf), "%d.%m", tm);
 
-    cChannel* channel = Channels.GetByChannelID(event->ChannelID(),true,true);
+    cChannel* channel = Channels.GetByChannelID(switchTimer->channelID,true,true);
 
     msprintf(&buffer, "%s\t%d\t%s\t%s\t%d\'\t%s~%s", switchTimer->mode==1?"":">", channel?channel->Number():-1, datebuf, TIMESTRING(startTime), switchTimer->switchMinsBefore, event->Title()?event->Title():"", event->ShortText()?event->ShortText():"");
     SetText(buffer, false);
@@ -142,7 +142,7 @@ void cMenuSwitchTimerItem::Set(void)
 int cMenuSwitchTimerItem::Compare(const cListObject &ListObject) const
 {
     cMenuSwitchTimerItem *p = (cMenuSwitchTimerItem *)&ListObject;
-    if (switchTimer->event->StartTime() > p->switchTimer->event->StartTime()) 
+    if (switchTimer->startTime > p->switchTimer->startTime) 
 	return 1; 
     else 
 	return -1;
@@ -161,9 +161,11 @@ void cMenuSwitchTimers::Set()
     Clear();
     cMutexLock SwitchTimersLock(&SwitchTimers);
     cSwitchTimer* switchTimer = SwitchTimers.First();
-    while (switchTimer) {
-	if (switchTimer->event)
-	    Add(new cMenuSwitchTimerItem(switchTimer));
+    while (switchTimer) 
+    {
+      const cEvent* event = switchTimer->Event();
+      if (event)
+	Add(new cMenuSwitchTimerItem(switchTimer, event));
 	switchTimer = SwitchTimers.Next(switchTimer);
     }
     Display();
@@ -213,8 +215,13 @@ eOSState cMenuSwitchTimers::Summary(void)
     if (HasSubMenu() || Count() == 0)
 	return osContinue;
     cSwitchTimer *curSwitchTimer = CurrentSwitchTimer();
-    if (curSwitchTimer && !isempty(curSwitchTimer->event->Description()))
-	return AddSubMenu(new cMenuText(tr("Summary"), curSwitchTimer->event->Description()));
+    
+    if (curSwitchTimer)
+    {
+      const cEvent* event = curSwitchTimer->Event();
+      if (event && !isempty(event->Description()))
+	return AddSubMenu(new cMenuText(tr("Summary"), event->Description()));
+    }
     return osContinue;
 }
 

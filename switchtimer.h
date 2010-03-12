@@ -29,13 +29,17 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cSwitchTimer : public cListObject
 {
 public:
-    const cEvent* event;
+    tEventID eventID;
+    time_t startTime;
+    tChannelID channelID;
+
     int switchMinsBefore;
     int mode; // 0 = switch, 1 = announce only, 2 = ask for switch
     int unmute;
 
     cSwitchTimer(void);
     cSwitchTimer(const cEvent* Event, int SwitchMinsBefore=1, int mode=0, int unmute=0);
+    const cEvent* Event();
     bool Parse(const char *s);
     cString ToText(bool& ignore);
     bool Save(FILE *f);

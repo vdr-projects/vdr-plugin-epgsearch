@@ -86,16 +86,16 @@ void cSwitchTimerThread::Action(void)
          cSwitchTimer* switchTimer = SwitchTimers.First();
          while (switchTimer && m_Active) 
          {
-            const cEvent* event = switchTimer->event;
-            if (event && event->StartTime() - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
+            if (switchTimer->startTime - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
             {
-               cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true, true);
+               cChannel *channel = Channels.GetByChannelID(switchTimer->channelID, true, true);
                bool doSwitch = (switchTimer->mode == 0);
                bool doAsk = (switchTimer->mode == 2);
 	       bool doUnmute = switchTimer->unmute;
                SwitchTimers.Del(switchTimer);
-	       
-               if (channel && (event->EndTime() >= now))
+
+  	       const cEvent* event = switchTimer->Event();     
+               if (event && channel && (event->EndTime() >= now))
                {
                   cString Message = cString::sprintf("%s: %s - %s", event->Title(), 
 						     CHANNELNAME(channel), GETTIMESTRING(event));

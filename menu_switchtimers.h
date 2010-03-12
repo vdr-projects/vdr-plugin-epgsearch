@@ -32,8 +32,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cMenuSwitchTimerItem : public cOsdItem {
  public:
     cSwitchTimer* switchTimer;
-    cMenuSwitchTimerItem(cSwitchTimer* SwitchTimer);
-    void Set(void);
+    const cEvent* event;
+    cMenuSwitchTimerItem(cSwitchTimer* SwitchTimer, const cEvent* event);
+    void Set();
     int Compare(const cListObject &ListObject) const;
 };
 
