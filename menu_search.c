@@ -179,14 +179,12 @@ eOSState cMenuEPGSearchExt::Actions(eKeys Key)
   if (HasSubMenu() || Count() == 0)
      return osContinue;
   cSearchExt* search = CurrentSearchExt();
-  if (search) {
-      cMenuSearchActions *menu;
-      eOSState state = AddSubMenu(menu = new cMenuSearchActions(search, true));
-      if (Key != kNone)
-	  state = menu->ProcessKey(Key);
-      return state;
-  }
-  return osContinue;
+
+  cMenuSearchActions *menu;
+  eOSState state = AddSubMenu(menu = new cMenuSearchActions(search, true));
+  if (Key != kNone)
+    state = menu->ProcessKey(Key);
+  return state;
 }
 
 
@@ -211,10 +209,7 @@ eOSState cMenuEPGSearchExt::ProcessKey(eKeys Key)
 	case kBlue:
 	    if (HasSubMenu())
 		return osContinue;	    
-	    if (CurrentSearchExt())
-		state = AddSubMenu(new cMenuSearchActions(CurrentSearchExt()));
-	    else
-		state = osContinue;
+	    state = AddSubMenu(new cMenuSearchActions(CurrentSearchExt()));
 	    break;
 	case kRed:
  	  if (HasSubMenu())

@@ -74,7 +74,8 @@ cMenuSearchActions::~cMenuSearchActions()
 eOSState cMenuSearchActions::Search(void)
 {
     cMenuTemplate* MenuTemplate = NULL;
-    if (search && search->menuTemplate > 0)
+    if (!search) return osContinue;
+    if (search->menuTemplate > 0)
 	MenuTemplate = cTemplFile::GetSearchTemplateByPos(search->menuTemplate);
     if (!MenuTemplate)
 	MenuTemplate = cTemplFile::GetTemplateByName("MenuSearchResults");
@@ -124,11 +125,11 @@ eOSState cMenuSearchActions::Execute()
             updateForced = 3; // with message about completion
          return osBack;
       }	
-      if (current == 3)
+      if (current == 3 && search)
          return AddSubMenu(new cMenuRecsDone(search));
-      if (current == 4)
+      if (current == 4 && search)
          return AddSubMenu(new cMenuTimersDone(search));
-      if (current == 5)
+      if (current == 5 && search)
       {
          if (!Interface->Confirm(tr("Copy this entry?")))
             return osBack;
@@ -142,7 +143,7 @@ eOSState cMenuSearchActions::Execute()
 	 SearchExts.Save();
 	 return AddSubMenu(new cMenuEditSearchExt(copy));
       }
-      if (current == 6)
+      if (current == 6 && search)
       {
          if (!Interface->Confirm(tr("Copy this entry to templates?")))
             return osBack;
