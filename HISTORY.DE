@@ -135,6 +135,8 @@ fixes:
   Hinweis.
 - möglicher Fix für das alte Problem mit dem crash in libpcre, Danke an Andreas Cz. für 
   den Patch und an Stefan Bauer für den Hinweis darauf.
+- Fix für einen Absturz beim Hin- und Herschalten von mit/ohne Untertitel bei Timern mit
+  mit sehr langen Episodennamen, Danke an Ville Skyttä für den Patch.
 
 
 2008-04-29: Version 0.9.24

@@ -128,7 +128,8 @@ fixes:
   thanks to cmichel@mantis for reporting
 - possible fix of the old problem with a crash in libpcre, thanks to Andreas Cz. for the
   patch and to Stefan Bauer for pointing me to it.
-
+- fix a crash when toggling between with/without subtitle in timer info view for events 
+  that have (very) long "short" texts, thanks to Ville Skyttä for providing a patch.
 
 2008-04-29: Version 0.9.24
 new:

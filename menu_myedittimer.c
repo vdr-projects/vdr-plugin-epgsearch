@@ -215,7 +215,7 @@ void cMenuMyEditTimer::HandleSubtitle()
     else
     {
 	strcat(file, "~");
-	strcat(file, event->ShortText());
+	strncat(file, event->ShortText(), MaxFileName - strlen(file) - 1);
 	SetHelp(addIfConfirmed?NULL:trVDR("Button$Delete"), NULL, trVDR("Button$Reset"), tr("Button$Without subtitle"));
     }
     RefreshCurrent();
