@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-20 09:26+0100\n"
-"PO-Revision-Date: 2009-07-15 23:30+0100\n"
+"POT-Creation-Date: 2010-03-29 19:37+0200\n"
+"PO-Revision-Date: 2010-03-29 01:42+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team:  <vdr@linuxtv.org>\n"
 "MIME-Version: 1.0\n"
@@ -75,9 +75,8 @@ msgstr "Cerca nella guida EPG: per parole, repliche e altro"
 msgid "Program guide"
 msgstr "Guida programmi"
 
-#, fuzzy
 msgid "search timer update running"
-msgstr "Aggiornamento timer ricerca completato!"
+msgstr "aggiornamento timer ricerca in esecuzione"
 
 msgid "Direct access to epgsearch's search menu"
 msgstr "Accesso diretto al menu di ricerca di epgsearch"
@@ -417,7 +416,7 @@ msgstr "Imposta 'sì' se la verifica del conflitto dovrebbe essere eseguita dopo
 
 #, fuzzy
 msgid "Warn by OSD"
-msgstr "Solo annuncio"
+msgstr "Annuncia tramite OSD"
 
 #, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
@@ -425,7 +424,7 @@ msgstr "Imposta 'sì' se vuoi avere una notifica email sui timer in conflitto."
 
 #, fuzzy
 msgid "Warn by mail"
-msgstr "Solo annuncio"
+msgstr "Annuncia tramite email"
 
 #, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
@@ -528,7 +527,7 @@ msgid "Help$Set this to 'yes' if you want to get an email notification about the
 msgstr "Imposta 'sì' se vuoi avere una email di notifica sui timer di ricerca che sono stati programmati automaticamente dal sistema."
 
 msgid "Time between mails [h]"
-msgstr ""
+msgstr "Tempo tra le email [h]"
 
 msgid ""
 "Help$Specifiy how much time in [h] you would\n"
@@ -536,6 +535,11 @@ msgid ""
 "With '0' you get a new mail after each\n"
 "search timer update with new results."
 msgstr ""
+"Specifica quanto tempo in [h]\n"
+"vuoi almeno avere tra due email.\n"
+"Con '0' hai una nuova email dopo ogni\n"
+"aggiornamento del timer di ricerca\n"
+"con nuovi risultati."
 
 msgid "Timer conflict notification"
 msgstr "Notifica timer in conflitto"
@@ -621,7 +625,7 @@ msgid "No timers were deleted."
 msgstr "Nessun timer eliminato."
 
 msgid "No new events to announce."
-msgstr ""
+msgstr "Nessun nuovo evento da annunciare."
 
 msgid "This version of EPGSearch does not support this service!"
 msgstr "Questa versione di EPGSearch non supporta questo servizio!"
@@ -987,20 +991,17 @@ msgstr "Modifica ricerca"
 msgid "Record"
 msgstr "Registra"
 
-#, fuzzy
 msgid "Announce by OSD"
-msgstr "Solo annuncio"
+msgstr "Annuncia tramite OSD"
 
 msgid "Switch only"
 msgstr "Cambia soltanto"
 
-#, fuzzy
 msgid "Announce and switch"
-msgstr "Solo annuncio"
+msgstr "Annuncia e cambia"
 
-#, fuzzy
 msgid "Announce by mail"
-msgstr "Solo annuncio"
+msgstr "Annuncia tramite email"
 
 msgid "Selection"
 msgstr "Selezione"
@@ -1015,7 +1016,7 @@ msgid "count days"
 msgstr "conteggia giorni"
 
 msgid "if present"
-msgstr ""
+msgstr "se presente"
 
 msgid "Template name"
 msgstr "Nome modello"
@@ -1082,14 +1083,13 @@ msgid "Action"
 msgstr "Azione"
 
 msgid "Switch ... minutes before start"
-msgstr "Cambia ... minuti prima dell'avvio"
+msgstr "Cambia ... minuti prima dell'inizio"
 
 msgid "Unmute sound"
 msgstr "Togli suono muto"
 
-#, fuzzy
 msgid "Ask ... minutes before start"
-msgstr "Cambia ... minuti prima dell'avvio"
+msgstr "Chiedi ... minuti prima dell'inizio"
 
 msgid "  Series recording"
 msgstr "  Registrazione di serie"
@@ -1212,16 +1212,14 @@ msgstr "Sovrascrivere valori esistenti?"
 msgid "Edit entry"
 msgstr "Modifica valore"
 
-#, fuzzy
 msgid "Switch"
-msgstr "Cambia soltanto"
+msgstr "Cambia"
 
 msgid "Announce only"
 msgstr "Solo annuncio"
 
-#, fuzzy
 msgid "Announce ... minutes before start"
-msgstr "Cambia ... minuti prima dell'avvio"
+msgstr "Annuncia ... minuti prima dell'inizio"
 
 msgid "action at"
 msgstr "azione alle"
@@ -1269,7 +1267,7 @@ msgstr ""
 
 #, c-format
 msgid "Switch to (%d) '%s'?"
-msgstr ""
+msgstr "Cambiare a (%d) '%s'?"
 
 msgid "Programming timer failed!"
 msgstr "Programmazione timer fallito!"
