@@ -107,6 +107,8 @@ bool cTimerDone::Parse(const char *s)
                   break;
                case 6:  shorttext = value;
                   break;
+	       default:
+		 break;
             } //switch
          }
          parameter++;

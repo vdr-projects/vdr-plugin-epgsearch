@@ -106,6 +106,8 @@ bool cNoAnnounce::Parse(const char *s)
 			break;
  		    case 5: nextAnnounce = atol(value);
 			break;
+		    default:
+		      break;
 		} //switch
 	    }
 	    parameter++;

@@ -366,7 +366,7 @@ bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, con
       }	
       else if (mode == 5) // fuzzy
       {
-         AFUZZY af = { NULL, NULL, NULL, NULL, NULL, NULL };
+	 AFUZZY af = { NULL, NULL, NULL, NULL, NULL, NULL, { 0 }, { 0 }, 0, 0, 0, 0, 0, 0 };
          string query = searchText?searchText:"";
          if (query.size() > 32) query = query.substr(0, 32);
          afuzzy_init(query.c_str(), tolerance, 0, &af);
@@ -886,6 +886,8 @@ char* FixSeparators(char* buffer, char sep)
 	case 0:
 	  i = j;
 	  c = 0;
+	  break;
+	default:
 	  break;
 	}
       }

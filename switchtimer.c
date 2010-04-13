@@ -95,6 +95,8 @@ bool cSwitchTimer::Parse(const char *s)
 	    case 6:
 		unmute = atoi(value);
 		break;
+	    default:
+	      break;
         } //switch
       }
       parameter++;

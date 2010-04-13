@@ -602,6 +602,8 @@ bool cSearchExt::Parse(const char *s)
 	    case 52:
 	      compareSummaryMatchInPercent = atoi(value);
 	      break;
+	    default:
+	      break;
             } //switch
          }
          parameter++;
@@ -814,6 +816,8 @@ bool cSearchExt::ParseExtEPGEntry(const char *s)
                      }
                   }
                   break;
+	    default:
+	      break;
             } //switch
          }
          parameter++;

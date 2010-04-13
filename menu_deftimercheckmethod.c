@@ -64,6 +64,8 @@ bool cDefTimerCheckMode::Parse(const char *s)
 			break;
  		    case 2: mode = atol(value);
 			break;
+		    default:
+		        break;
 		} //switch
 	    }
 	    parameter++;

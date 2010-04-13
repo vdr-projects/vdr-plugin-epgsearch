@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
       { "maxvalues",   required_argument, NULL, 'v' },
       { "maxlength",   required_argument,       NULL, 'l' },
       { "help",     no_argument,       NULL, 'h' },
-      { NULL }
+      { NULL,     no_argument,       NULL, 0 }
     };
 
     int c;    
@@ -223,6 +223,8 @@ int main(int argc, char *argv[])
 		printf("                           as a category value\n");
 		printf("-h, --help                 this help\n\n");
 		return 0;
+	     default:
+	        break;
 	}
     }
 

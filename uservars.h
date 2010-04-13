@@ -40,9 +40,6 @@ using std::set;
 using std::map;
 using std::ostringstream;
 
-string NumToString(long num);
-int FindIgnoreCase(const string& expr, const string& query);
-
 class cUserVar : public cListObject {
     const cEvent* oldEvent; // cache 
     bool oldescapeStrings; 

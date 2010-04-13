@@ -102,9 +102,10 @@ bool cSearchExtCat::Parse(const char *s)
 		break;
 	    }
 	    case 5:  
-           searchmode = atoi(value);
+	      searchmode = atoi(value);
 	      break;
-	    break;
+	    default:
+	      break;
         } //switch
       }
       parameter++;

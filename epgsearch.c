@@ -173,7 +173,7 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
       { "verbose",        required_argument, NULL, 'v' },
       { "mailcmd",        required_argument, NULL, 'm' },
       { "reloadmenuconf", no_argument, NULL, 'r' },
-      { NULL }
+      { NULL,             no_argument, NULL, 0 }
    };
 
    int c=0,i=0;

@@ -758,7 +758,7 @@ bool cMenuSearchResultsForRecs::BuildList()
 
      if (!match)
        {
-	 AFUZZY af = { NULL, NULL, NULL, NULL, NULL, NULL };
+	 AFUZZY af = { NULL, NULL, NULL, NULL, NULL, NULL, { 0 }, { 0 }, 0, 0, 0, 0, 0, 0 };
 	 if (s1.size() > 32) s1 = s1.substr(0, 32);
 	 afuzzy_init(s1.c_str(), tolerance, 0, &af);
 	 /* Checking substring */
@@ -768,7 +768,7 @@ bool cMenuSearchResultsForRecs::BuildList()
        }
      if (!match)
        {
-	 AFUZZY af = { NULL, NULL, NULL, NULL, NULL, NULL };
+	 AFUZZY af = { NULL, NULL, NULL, NULL, NULL, NULL, { 0 }, { 0 }, 0, 0, 0, 0, 0, 0 };
 	 if (s2.size() > 32) s2 = s2.substr(0, 32);
 	 afuzzy_init(s2.c_str(), tolerance, 0, &af);
 	 /* Checking substring */

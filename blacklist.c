@@ -379,6 +379,8 @@ bool cBlacklist::Parse(const char *s)
 		break;
             case 21: ignoreMissingEPGCats = atoi(value);
          	break;
+	    default:
+	        break;
         } //switch
       }
       parameter++;
@@ -478,6 +480,8 @@ bool cBlacklist::ParseExtEPGEntry(const char *s)
 		    }
 		}
 	      break;
+	    default:
+              break;
         } //switch
       }
       parameter++;
