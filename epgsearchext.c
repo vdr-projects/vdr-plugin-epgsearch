@@ -877,12 +877,6 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
          break;
       }
 
-      if (szTest)
-      {
-         free(szTest);
-         szTest = NULL;
-      }
-      
       if (skipRunningEvents && tNow > p->StartTime())
 	continue;
 
@@ -890,15 +884,8 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
       if (!p->Title() || !*p->Title())
          continue;
         
-      msprintf(&szTest, "%s%s%s%s%s", (useTitle?(p->Title()?p->Title():""):""), (useSubtitle||useDescription)?"~":"",
-               (useSubtitle?(p->ShortText()?p->ShortText():""):""),useDescription?"~":"",
-               (useDescription?(p->Description()?p->Description():""):""));     
-	
       if (tNow < p->EndTime() + (inspectTimerMargin?(MarginStop * 60):0)) 
       {	    
-         if (!useCase)
-            ToLower(szTest);
-	
          if (useTime)
          {
             time_t tEvent = p->StartTime();
@@ -964,11 +951,21 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
             }
          }
 
-         if (*szTest)
+	 msprintf(&szTest, "%s%s%s%s%s", (useTitle?(p->Title()?p->Title():""):""), (useSubtitle||useDescription)?"~":"",
+               (useSubtitle?(p->ShortText()?p->ShortText():""):""),useDescription?"~":"",
+               (useDescription?(p->Description()?p->Description():""):""));     
+	
+         if (!useCase)
+            ToLower(szTest);
+	
+         if (szTest && *szTest)
          {
             if (!MatchesSearchMode(szTest, searchText, mode," ,;|~", fuzzyTolerance))
                continue;
          }
+	 if (szTest)
+	   free(szTest);
+	 szTest = NULL;
 
          if (useExtEPGInfo && !MatchesExtEPGInfo(p))
             continue;
@@ -976,8 +973,6 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
          break;
       }
    }
-   if (szTest)
-      free(szTest);
    free(searchText);
    return pe;
 }
