@@ -3,7 +3,9 @@ VDR Plugin 'epgsearch' Revision History
 
 2010-xx-xx; Version 0.9.25
 neu:
-- Unterstützung für vdr-1.7.12
+- vdr-1.7.15 benutzt einen anderen SVDRP Standard-Port (6419), bitte im Setupmenü von 
+  epgsearch ebenfalls anpassen!
+- Unterstützung für vdr-1.7.12 und später
 - Es gibt nun ein offizielles git repository für epgsearch, das die neueste Entwicklung
   enthält. 
   Zuerst: 

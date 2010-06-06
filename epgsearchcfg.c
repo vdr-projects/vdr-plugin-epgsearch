@@ -35,7 +35,11 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   showChannelNr     = 0;
   useSearchTimers   = 0;
   UpdateIntervall   = 30;
+#if APIVERSNUM >= 10715 
+  SVDRPPort         = 6419;
+#else
   SVDRPPort         = 2001;
+#endif
   timeShiftValue    = 30;
   toggleGreenYellow = 1;
   StartMenu         = 0;

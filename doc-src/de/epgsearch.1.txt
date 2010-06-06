@@ -630,7 +630,7 @@ wird.
 
 =item - B<SVDRP Port:>
 
-Falls nicht der Standard-SVDRP-Port 2001 verwendet wird, dann bitte
+Falls nicht der Standard-SVDRP-Port 6419 (2001 vor vdr-1.7.15) verwendet wird, dann bitte
 hier anpassen, damit die Suchtimer funktionieren. 
 
 =item - B<Priorität, Lebensdauer und Zeitpuffer für Anfang und Ende:>
@@ -874,7 +874,7 @@ dann in einem Ordner mit dem Seriennamem. Falls es keinen Episodennamen gibt
 wird stattdessen automatisch Datum und Uhrzeit verwendet.
 
 Die Suchtimer-Funktion muss ausserdem im Setup aktiviert werden.
-Falls für SVDRP nicht der Standardport 2001 verwendet wird, bitte
+Falls für SVDRP nicht der Standardport verwendet wird, bitte
 ebenfalls im Setup eintragen.
 
 Falls man eine Hintergrund-Suche manuell anstoßen will, genügt ein
