@@ -96,6 +96,8 @@ new:
   when testing for complete recordings. 98% and more are handled as complete. 
 - switch timers are now also visible in all search results EPG menus
 - Avoid repeats: in 'compare summary' one can now adjust the required match, default is 90%.
+- if there is no subtitle the filename now defaults to YYYY.MM.DD-HH.MM-Weekday to ease 
+  sorting in some frontends, thanks to Dominic Evans for providing a patch
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu

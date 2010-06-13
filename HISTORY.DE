@@ -101,6 +101,9 @@ neu:
 - Umschalttimer sind nun ebenfalls in alle EPG-Menüs mit Suchergebnissen sichtbar.
 - Vermeide Wiederholung: Bei 'Vergleiche Beschreibung' kann nun angegeben werden wie hoch 
   die Übereinstimmung sein muss, Default ist 90%.
+- falls kein Episodenname existiert, wird nun als Dateiname YYYY.MM.DD-HH.MM-Weekday
+  verwendet, um die Sortierung in manchen Frontends zu erleichtern. Danke an Dominic 
+  Evans für einen Patch.
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben

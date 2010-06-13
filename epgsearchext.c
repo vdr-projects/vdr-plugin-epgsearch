@@ -639,8 +639,10 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
    char SubtitleBuffer[Utf8BufSize(MAX_SUBTITLE_LENGTH)];
    if (isempty(Subtitle))
    {
-      sprintf(SubtitleBuffer, "%s-%s", GETDATESTRING(pEvent), GETTIMESTRING(pEvent));
-      Subtitle = SubtitleBuffer;
+     time_t Start = pEvent->StartTime();
+     struct tm tm_r;
+     strftime(SubtitleBuffer, sizeof(SubtitleBuffer), "%Y.%m.%d-%R-%a", localtime_r(&Start, &tm_r));      
+     Subtitle = SubtitleBuffer;
    }
    else if (Utf8StrLen(Subtitle) > MAX_SUBTITLE_LENGTH) 
    {
