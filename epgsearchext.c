@@ -850,7 +850,6 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
       p1 = Events->First();
 
    time_t tNow=time(NULL);
-   char* szTest = NULL;
    char* searchText = strdup(search);
 
    int searchStart = 0, searchStop = 0;
@@ -953,6 +952,7 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
             }
          }
 
+	 char* szTest = NULL;
 	 msprintf(&szTest, "%s%s%s%s%s", (useTitle?(p->Title()?p->Title():""):""), (useSubtitle||useDescription)?"~":"",
                (useSubtitle?(p->ShortText()?p->ShortText():""):""),useDescription?"~":"",
                (useDescription?(p->Description()?p->Description():""):""));     
@@ -963,11 +963,13 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
          if (szTest && *szTest)
          {
             if (!MatchesSearchMode(szTest, searchText, mode," ,;|~", fuzzyTolerance))
+	    {
+	       free(szTest);
                continue;
+	    }
          }
 	 if (szTest)
 	   free(szTest);
-	 szTest = NULL;
 
          if (useExtEPGInfo && !MatchesExtEPGInfo(p))
             continue;
