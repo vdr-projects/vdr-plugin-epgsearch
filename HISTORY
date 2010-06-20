@@ -134,6 +134,9 @@ fixes:
   patch and to Stefan Bauer for pointing me to it.
 - fix a crash when toggling between with/without subtitle in timer info view for events 
   that have (very) long "short" texts, thanks to Ville Skyttä for providing a patch.
+- fixed file descriptor handling when there are errors in SVDRP communication, thanks to 
+  Teemu Rantanen for providing a patch.
+
 
 2008-04-29: Version 0.9.24
 new:

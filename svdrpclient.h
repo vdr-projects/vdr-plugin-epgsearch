@@ -62,6 +62,12 @@ public:
 		LogFile.eSysLog("EPGSearch: could not connect to VDR!");
 	}
 
+    ~cSVDRPClient()
+        {
+	    if (sock >= 0)
+	        close(sock);
+	}
+
     bool SendCmd(const char* cmd) 
 	{
 	    if (!bConnected)
@@ -79,6 +85,7 @@ public:
 		LogFile.eSysLog("could not disconnect (%ld)!", rc);
 	    
 	    close(sock);
+	    sock = -1;
 	    return cmdret;
 	}
     bool Send(const char* szSend) 
@@ -112,6 +119,7 @@ public:
 		    if (recv(sock, &ch, 1, 0 ) < 0)
 		    {
 			LogFile.eSysLog("EPGSearch: error receiving response!");
+			free(csResp);
 			return -1;
 		    }
 		    char* Temp = NULL;
