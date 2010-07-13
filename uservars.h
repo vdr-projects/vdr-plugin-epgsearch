@@ -442,6 +442,18 @@ public:
 	}
 };
 
+class cNEWTCmdVar : public cInternalVar {
+ public:
+    cNEWTCmdVar() : cInternalVar("%newtcmd%") {}
+    string Evaluate(const cEvent* e, bool escapeStrings = false) 
+	{ 
+	    if (!e) return "";
+	    cTimer* timer = new cTimer(e);
+	    string newtCmd =  *(timer->ToText());
+	    if (escapeStrings) return "'" + EscapeString(newtCmd) + "'"; else return newtCmd;
+	}
+};
+
 // independet variables
 class cColonVar : public cInternalVar {
  public:
@@ -710,6 +722,7 @@ class cUserVars : public cList<cUserVar> {
     cChannelLongVar chLongVar;
     cChannelDataVar chDataVar;
     cChannelGroupVar chGroupVar;
+    cNEWTCmdVar newtCmdVar;
     cSearchQueryVar searchQueryVar;
     cSearchSeriesVar searchSeriesVar;
 
@@ -765,6 +778,7 @@ class cUserVars : public cList<cUserVar> {
 	    internalVars[chLongVar.Name()] = &chLongVar;
 	    internalVars[chDataVar.Name()] = &chDataVar;
 	    internalVars[chGroupVar.Name()] = &chGroupVar;
+	    internalVars[newtCmdVar.Name()] = &newtCmdVar;
 
 	    internalVars[colonVar.Name()] = &colonVar;
 	    internalVars[dateNowVar.Name()] = &dateNowVar;
