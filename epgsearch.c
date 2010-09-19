@@ -354,7 +354,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
                cSwitchTimer *lTimer = SwitchTimers.InSwitchList(serviceData->event);
                if (lTimer) {
                   serviceData->switchMinsBefore = lTimer->switchMinsBefore;
-                  serviceData->mode             = lTimer->mode;
+                  serviceData->announceOnly     = lTimer->mode;
                } // if
                serviceData->success=lTimer!=NULL;
                break;
@@ -363,10 +363,10 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
                cSwitchTimer *lTimer = SwitchTimers.InSwitchList(serviceData->event);
                if (lTimer) {
                   lTimer->switchMinsBefore = serviceData->switchMinsBefore;
-                  lTimer->mode             = serviceData->mode;
+                  lTimer->mode             = serviceData->announceOnly;
                } else {
                   cMutexLock SwitchTimersLock(&SwitchTimers);	
-                  SwitchTimers.Add(new cSwitchTimer(serviceData->event,serviceData->switchMinsBefore,serviceData->mode));  
+                  SwitchTimers.Add(new cSwitchTimer(serviceData->event,serviceData->switchMinsBefore,serviceData->announceOnly));  
                   SwitchTimers.Save(); 
                   cSwitchTimerThread::Init();
                } // if

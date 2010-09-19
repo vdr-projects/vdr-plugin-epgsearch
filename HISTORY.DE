@@ -144,6 +144,8 @@ fixes:
   mit sehr langen Episodennamen, Danke an Ville Skyttä für den Patch.
 - Korrektur beim file descriptor handling bei fehlerhafter SVDRP-Verbindung, Danke an  
   Teemu Rantanen für einen Patch.
+- Service-Schnittstelle für Umschalttimer wegen falschem Parameterhandling korrigiert,
+  Danke an gnapheus@vdrportal für den Hinweis.
 
 
 2008-04-29: Version 0.9.24

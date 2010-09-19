@@ -136,6 +136,8 @@ fixes:
   that have (very) long "short" texts, thanks to Ville Skyttä for providing a patch.
 - fixed file descriptor handling when there are errors in SVDRP communication, thanks to 
   Teemu Rantanen for providing a patch.
+- fixed the service interface for switchtimers because of wrong parameter handling, thanks
+  to gnapheus@vdrportal for reporting.
 
 
 2008-04-29: Version 0.9.24
