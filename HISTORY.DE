@@ -44,6 +44,7 @@ neu:
 - neues Kommando 'connect' innerhalb interner Variablen: damit kann eine Verbindung zu einem
   TCP-Dienst aufgebaut werden, Daten übergeben und das Ergebnis einer Variable zugewiesen
   werden. S. MANUAL für Details.
+- neues Kommando 'length' innerhalb interner Variablen: liefert die Länge des Arguments zurück.
 - Im Gedenken an pat: Update der französischen Übersetzung, Danke an Patrice Staudt
 - Update der italienischen Übersetzung, Danke an Diego Pierotto
 - Update der finnischen Übersetzung, Danke an Rolf Ahrenberg und Ville Skyttä

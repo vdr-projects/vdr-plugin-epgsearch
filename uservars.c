@@ -42,7 +42,7 @@ cUserVar::cUserVar()
 
 string cUserVar::Evaluate(const cEvent* e, bool escapeStrings)
 {
-  if (oldEvent && oldEvent == e && oldescapeStrings == escapeStrings)
+   if (oldEvent && oldEvent == e && oldescapeStrings == escapeStrings)
     return oldResult;
    usedVars.clear();
    string result;
@@ -50,6 +50,8 @@ string cUserVar::Evaluate(const cEvent* e, bool escapeStrings)
       result = EvaluateShellCmd(e);
    else if (IsConnectCmd())
      result = EvaluateConnectCmd(e);
+   else if (IsLengthCmd())
+     result = EvaluateLengthCmd(e);
    else if (IsCondExpr())
       result = EvaluateCondExpr(e);
    else
@@ -124,6 +126,11 @@ string cUserVar::EvaluateConnectCmd(const cEvent* e)
 
    close(conn_s);
    return buffer;
+}
+
+string cUserVar::EvaluateLengthCmd(const cEvent* e)
+{
+   return NumToString(EvaluateCompExpr(e, false).size());
 }
 
 string cUserVar::EvaluateCondExpr(const cEvent* e, bool escapeStrings)
@@ -239,6 +246,7 @@ string cUserVar::EvaluateInternalTimerVars(const string& Expr, const cTimer* t)
    {
       string varName = tvar->second->Name();
       int varPos = 0;
+
       while((varPos = FindIgnoreCase(expr, varName)) >= 0)
       {
          expr.replace(varPos, varName.size(), tvar->second->Evaluate(t));

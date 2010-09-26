@@ -59,6 +59,10 @@ bool cVarParser::ParseExp(const string& input)
    int conPos = input.find("connect");
    if (conPos == 0)
       return ParseConnectCmd(input);
+   // length command?
+   int lenPos = input.find("length");
+   if (lenPos == 0)
+      return ParseLengthCmd(input);
    // conditional expression?
    int varPos = Strip(input).find("%");
    if (varPos == 0)
@@ -98,6 +102,7 @@ bool cVarParser::ParseShellCmd(const string& input)
       cmd = NULL;
       return false;
    }
+   type = cVarParser::shellcmd;
    return true;
 }
 
@@ -124,6 +129,18 @@ bool cVarParser::ParseConnectCmd(const string& input)
      LogFile.eSysLog("error parsing command: %s", input.c_str());
      return false;
    }
+   type = cVarParser::connectcmd;
+   return true;
+}
+
+bool cVarParser::ParseLengthCmd(const string& input)
+{
+   int startLen = input.find("(");
+   int endLen = input.find(")");
+   if (startLen == -1 || endLen == -1) return false;
+   string arg(input.begin() + startLen + 1, input.begin() + endLen);
+   compExpr = arg;
+   type = cVarParser::lengthcmd;
    return true;
 }
 
@@ -165,6 +182,7 @@ bool cVarParser::ParseCondExp(const string& input)
       {
          condvarTrue = Strip(truePart); 
          condvarFalse = Strip(falsePart);		
+	 type = cVarParser::condition;
          return true;
       }
    }
@@ -202,15 +220,20 @@ bool cVarParser::ParseVar(const string& input)
 
 bool cVarParser::IsCondExpr()
 {
-   return (condEqLeft != "");
+   return type == cVarParser::condition;
 }
 
 bool cVarParser::IsShellCmd()
 {
-   return (cmd != NULL);
+   return type == cVarParser::shellcmd;
 }
 
 bool cVarParser::IsConnectCmd()
 {
-   return (connectAddr != "" && connectPort != -1);
+   return type == cVarParser::connectcmd;
+}
+
+bool cVarParser::IsLengthCmd()
+{
+   return type == cVarParser::lengthcmd;
 }

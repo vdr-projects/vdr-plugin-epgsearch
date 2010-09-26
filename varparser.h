@@ -40,6 +40,15 @@ typedef enum
 
 class cVarParser
 {
+  typedef enum
+  {
+    composed=0,
+    condition,
+    shellcmd,
+    connectcmd,
+    lengthcmd
+  } exprType;
+  
  public:
     string varName;
     string condEqLeft;
@@ -53,18 +62,21 @@ class cVarParser
     string cmdArgs;
 
     string connectAddr;
-    int connectPort;    
+    int connectPort;  
+    exprType type;
 
- cVarParser() : cmd(NULL), connectPort(-1) {}
+ cVarParser() : cmd(NULL), connectPort(-1), type(composed) {}
     bool Parse(const string& input);
     bool ParseExp(const string& input);
     bool IsCondExpr();
     bool IsShellCmd();
     bool IsConnectCmd();
+    bool IsLengthCmd();
  private:
     bool ParseAssign(const string& input);
     bool ParseShellCmd(const string& input);
     bool ParseConnectCmd(const string& input);
+    bool ParseLengthCmd(const string& input);
     bool ParseCondExp(const string& input);
     bool ParseEquality(const string& input);
     bool ParseVar(const string& input);

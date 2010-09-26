@@ -743,6 +743,17 @@ This will connect to <addr> through the given port and pass the optional given
 data. <addr> can be an IP address or the domain name of the TCP service. The result 
 returned by the service must be terminated with a line feed. 
 
+=head2 Get the length of an argument
+
+When passing any values to the connect or system command it can be helpful to have 
+the length of an argument for simple parsing. This can be done with
+
+ %uservar%=length(<any arguments>) 
+
+Sample:
+
+%length_title%=length(%title%)
+
 =head2 Possible variables
 
 for a list of already builtin variables refer to the section "Customizing the EPG menus"

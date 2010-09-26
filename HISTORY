@@ -44,6 +44,7 @@ new:
 - new command 'connect' within internal variables: with this command you can connect to
   a TCP service, pass data and assign the result to a variable. See the MANUAL for 
   details.
+- new command 'length' within internal variables: this returns the length of the given arguments
 - in memory to pat: french translation update, thanks to Patrice Staudt
 - italian translation update, thanks to Diego Pierotto
 - finnish translation update, thanks to Rolf Ahrenberg and Ville Skyttä

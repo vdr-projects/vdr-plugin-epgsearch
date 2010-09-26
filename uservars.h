@@ -49,6 +49,7 @@ class cUserVar : public cListObject {
     string EvaluateCompExpr(const cEvent* e, bool escapeStrings = false);
     string EvaluateShellCmd(const cEvent* e);
     string EvaluateConnectCmd(const cEvent* e);
+    string EvaluateLengthCmd(const cEvent* e);
 public:
     cUserVar();
     cVarParser varparser;
@@ -65,6 +66,7 @@ public:
     virtual bool IsCondExpr() { return varparser.IsCondExpr(); }
     virtual bool IsShellCmd() { return varparser.IsShellCmd(); }
     virtual bool IsConnectCmd() { return varparser.IsConnectCmd(); }
+    virtual bool IsLengthCmd() { return varparser.IsLengthCmd(); }
     bool DependsOnVar(const string& varName);
     bool DependsOnVar(cUserVar* var);
     bool AddDepVar(cUserVar* var);
