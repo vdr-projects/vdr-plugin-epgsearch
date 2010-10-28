@@ -53,6 +53,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #endif
 
 const char AllowedChars[] = trNOOP("$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&");
+extern bool isUTF8;
 
 int CompareEventTime(const void *p1, const void *p2)
 {
@@ -401,9 +402,24 @@ bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, con
 void ToLower(char* szText)
 {
    if (!szText)
-      return;
-   for (int loop = 0; szText[loop] !=0; loop++)
-     szText[loop] = tolower(szText[loop]);
+     return;
+
+   if (!isUTF8)
+   {
+     for (int loop = 0; szText[loop] !=0; loop++)
+       szText[loop] = tolower(szText[loop]);
+     return;
+   }
+   else
+   {
+     int length = strlen(szText)+1;
+     uint* valueUtf8 = new uint[length];
+     int lengthUtf8 = Utf8ToArray(szText, valueUtf8, length);
+     for(int i=0; i<lengthUtf8; i++)
+       valueUtf8[i] = Utf8to(lower, valueUtf8[i]);
+     Utf8FromArray(valueUtf8, szText, length);
+     delete [] valueUtf8;
+   }
 }
 
 char* GetExtEPGValue(const cEvent* e, cSearchExtCat* SearchExtCat)

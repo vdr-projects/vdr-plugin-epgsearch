@@ -147,6 +147,8 @@ fixes:
   Teemu Rantanen für einen Patch.
 - Service-Schnittstelle für Umschalttimer wegen falschem Parameterhandling korrigiert,
   Danke an gnapheus@vdrportal für den Hinweis.
+- Korrektur der Suche ohne Unterscheidung von Groß-/Kleinschreibung in Verbindung mit
+  Utf-8-Zeichen, danke an Ville Skyttä für den Hinweis.
 
 
 2008-04-29: Version 0.9.24

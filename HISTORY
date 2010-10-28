@@ -139,7 +139,9 @@ fixes:
   Teemu Rantanen for providing a patch.
 - fixed the service interface for switchtimers because of wrong parameter handling, thanks
   to gnapheus@vdrportal for reporting.
-
+- fixed case insensitve searching when Utf-8 characters are involved, thanks to Ville 
+  Skyttä for reporting
+ 
 
 2008-04-29: Version 0.9.24
 new:
