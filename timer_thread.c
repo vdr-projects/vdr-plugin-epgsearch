@@ -23,6 +23,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <string>
 #include <list>
+#ifdef __FreeBSD__
+#include <netinet/in.h>
+#endif
 #include "timer_thread.h"
 #include "epgsearchcfg.h"
 #include "epgsearchtools.h"

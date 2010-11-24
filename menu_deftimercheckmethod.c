@@ -21,6 +21,9 @@ The author can be reached at cwieninger@gmx.de
 The project's page is at http://winni.vdr-developer.org/epgsearch
 */
 
+#ifdef __FreeBSD__
+#include <stdint.h>
+#endif
 #include "menu_deftimercheckmethod.h"
 #include "menu_myedittimer.h"
 

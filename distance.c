@@ -32,7 +32,11 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include "distance.h"
 #include <string.h>
+#ifdef __FreeBSD__
+#include <stdlib.h>
+#else
 #include <malloc.h>
+#endif
 #include <vdr/tools.h>
 
 

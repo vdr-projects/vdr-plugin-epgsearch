@@ -30,6 +30,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/plugin.h>
 #include <vdr/status.h>
 #include <vdr/epg.h>
+#ifdef __FreeBSD__
+#include <netinet/in.h>
+#endif
 #include <getopt.h>
 #include "menu_event.h"
 #include "menu_main.h"

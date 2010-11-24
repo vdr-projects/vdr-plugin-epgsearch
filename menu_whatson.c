@@ -106,7 +106,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
 		    frac = ((now - startTime) * 8 + (dur >> 1)) / dur;
 		}
 	      if (mode == showNext)
-		frac = (  ( 30*60 - min((long int)30*60, startTime - now) ) * 8 + 15*60  ) / (30*60);
+		frac = (  ( 30*60 - min((time_t)30*60, startTime - now) ) * 8 + 15*60  ) / (30*60);
 	      
 	      frac = min(8,max(0, frac));
 	      

@@ -36,6 +36,12 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define KILOBYTE(n) ((n) * 1024)
 #define MAXPARSEBUFFER KILOBYTE(10)
 
+#ifdef __FreeBSD__
+#ifdef isnumber
+#undef isnumber
+#endif
+#endif
+
 bool isnumber(const char *s)
 {
   if (!*s)

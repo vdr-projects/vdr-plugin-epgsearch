@@ -105,6 +105,7 @@ neu:
 - falls kein Episodenname existiert, wird nun als Dateiname YYYY.MM.DD-HH.MM-Weekday
   verwendet, um die Sortierung in manchen Frontends zu erleichtern. Danke an Dominic 
   Evans für einen Patch.
+- sollte nun auch unter FreeBSD compilieren, Danke an Juergen Lock für einen Patch
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben

@@ -28,7 +28,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <ctype.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-
+#ifdef __FreeBSD__
+#include <netinet/in.h>
+#endif
 #include "uservars.h"
 #include "epgsearchtools.h"
 #include "epgsearchext.h"
