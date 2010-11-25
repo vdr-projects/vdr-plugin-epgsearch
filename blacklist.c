@@ -316,9 +316,15 @@ bool cBlacklist::Parse(const char *s)
 		    int fields = sscanf(value, "%d-%d", &minNum, &maxNum);
 		    if (fields == 0) // stored with ID
 		    {
+#ifdef __FreeBSD__
+			char *channelMinbuffer = MALLOC(char, 32);
+			char *channelMaxbuffer = MALLOC(char, 32);
+			int channels = sscanf(value, "%31[^|]|%31[^|]", channelMinbuffer, channelMaxbuffer);
+#else
 			char *channelMinbuffer = NULL;
 			char *channelMaxbuffer = NULL;
 			int channels = sscanf(value, "%a[^|]|%a[^|]", &channelMinbuffer, &channelMaxbuffer);
+#endif
 			channelMin = Channels.GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
 			if (!channelMin)
 			{

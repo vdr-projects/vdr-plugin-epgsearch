@@ -73,8 +73,13 @@ bool cChannelGroup::Parse(const char *s)
 	      break;
 	    default:
 	    {
+#ifdef __FreeBSD__
+		char *channelbuffer = MALLOC(char, 32);
+		int numChannels = sscanf(value, "%31[^|]", channelbuffer);
+#else
 		char *channelbuffer = NULL;
 		int numChannels = sscanf(value, "%a[^|]", &channelbuffer);
+#endif
 		if (numChannels == 1)
 		{
 		    cChannel* channel = Channels.GetByChannelID(tChannelID::FromString(channelbuffer), true, true);
