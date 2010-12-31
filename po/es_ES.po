@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-20 09:26+0100\n"
+"POT-Creation-Date: 2010-12-28 20:19+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -1052,6 +1052,14 @@ msgstr "Establecer a 'Sí' cuando desee buscar en el episodio de una emisión."
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Establecer a 'Sí' cuando desee buscar en el resumen de una emisión."
+
+#, fuzzy
+msgid "Use content descriptor"
+msgstr "Usar descripción"
+
+#, fuzzy
+msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgstr "Establecer a 'Sí' cuando desee buscar en el título de una emisión."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "El resumen de una emisión puede contener información adicional como 'Género', 'Categoría', 'Año', ... llamada 'categorías EPG' en el EPGSearch. A menudo los proveedores EPG externos ofrecen esta información. Esto permite refinar una búsqueda y otras funcionalidades atractivas, como buscar por el 'consejo del día'. Para usarlo, establecer a 'Sí'."

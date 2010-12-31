@@ -214,6 +214,13 @@ libpcre from www.pcre.org, but it's already part of most distributions).
 
 See also C<epgsearch(4)> 'Description of the search process'.
 
+=item - B<Use content descriptor>
+
+Some providers deliver content descriptors in their EPG, like "Movie/Drama", 
+"Documentation",...(available with vdr-1.7.11)
+Select here the descriptors to search for. Multiple choice is possible, that
+must match with all given descriptors (AND operator).
+
 =item - B<Use extended EPG info:>
 
 Only available if configured, see below 'Using extended EPG info'.
@@ -939,7 +946,13 @@ See C<epgsearch(4)>.
 =head1 4. Using extended EPG info
 
 Some EPG providers deliver additional EPG information like the type of
-event, the video and audio format, cast,...
+event, the video and audio format, cast,... in the content summary.
+
+Note: This is different from the content descriptors introduced in vdr-1.7.11, 
+that are delivered as extra data with a common standard. Unfortunately not
+all providers deliver this data, or the set wrong descriptors. So you can
+use the approach of 'extended EPG info' here, which is a way to extract that 
+info from the content summary.
 
 Using tvm2vdr or epg4vdr you can import this into vdr.
 To use this information with search timers one has to configure it

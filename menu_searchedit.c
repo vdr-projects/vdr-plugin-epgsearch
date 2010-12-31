@@ -23,6 +23,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <vector>
 #include <string>
+#include <map>
 
 #include "menu_searchedit.h"
 #include "changrp.h"
@@ -93,6 +94,21 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
    CompareSubtitleModes[1] = strdup(trVDR("yes"));
    CompareSubtitleModes[2] = strdup(tr("if present"));
 
+#if APIVERSNUM > 10710 
+   // collect content string IDs
+   std::set<std::string> contentStrings;
+   for(unsigned int i=0; i<CONTENT_DESCRIPTOR_MAX;i++)
+     {
+       const string contentDescr = cEvent::ContentToString(i);
+       if (!contentDescr.empty() && contentStrings.find(contentDescr) == contentStrings.end())
+	 {
+	   contentStrings.insert(contentDescr);
+	   contentStringIDs.push_back(i);
+	 }
+     }
+#endif
+   useContentDescriptors = false;
+
    if (!templateMode && New)
    {
       cSearchExt* SearchTempl = NULL; // copy the default settings, if we have a default template	
@@ -148,6 +164,14 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
             channelGroupNr++;
          }
       }
+
+#if APIVERSNUM > 10710 
+      // set the flags for the content descriptors
+      contentStringsFlags = (int*) malloc((CONTENT_DESCRIPTOR_MAX+1) * sizeof(int));
+      for(unsigned int i=0; i<=CONTENT_DESCRIPTOR_MAX;i++)
+	contentStringsFlags[i] = data.HasContent(i);
+      useContentDescriptors = (data.contentsFilter.size() > 0);
+#endif
 
       catarrayAvoidRepeats = NULL;
       catvaluesNumeric = NULL;
@@ -221,6 +245,20 @@ void cMenuEditSearchExt::Set()
    Add(new cMenuEditBoolItem( tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));
    AddHelp(tr("Help$Set this to 'Yes' if you like to search in the summary of an event."));    
     
+#if APIVERSNUM > 10710 
+   Add(new cMenuEditBoolItem( tr("Use content descriptor"), &useContentDescriptors, trVDR("no"), trVDR("yes")));
+   AddHelp(tr("Help$Set this to 'Yes' if you want to search the contents by a descriptor."));    
+   if (useContentDescriptors)
+     {
+       vector<int>::const_iterator it;
+       for(unsigned int i=0; i< contentStringIDs.size(); i++)
+	 {
+	   int level = (contentStringIDs[i] % 0x10==0?1:2);
+	   Add(new cMenuEditBoolItem(IndentMenuItem(tr(cEvent::ContentToString(contentStringIDs[i])), level), &contentStringsFlags[contentStringIDs[i]], trVDR("no"), trVDR("yes")));
+	 }
+     }
+#endif
+
    // show Categories only if we have them
    if (SearchExtCats.Count() > 0)
      {
@@ -385,6 +423,8 @@ cMenuEditSearchExt::~cMenuEditSearchExt()
       free(catarrayAvoidRepeats);
    if (catvaluesNumeric)
      free(catvaluesNumeric);
+   if (contentStringsFlags)
+     free(contentStringsFlags);
 
    int i;
    for(i=0; i<=5; i++)
@@ -432,6 +472,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
    int iTemp_useDayOfWeek = data.useDayOfWeek;
    int iTemp_useAsSearchTimer = data.useAsSearchTimer;
    int iTemp_useExtEPGInfo = data.useExtEPGInfo;
+   int iTemp_useContentDescriptor = useContentDescriptors;
    int iTemp_avoidRepeats = data.avoidRepeats;
    int iTemp_allowedRepeats = data.allowedRepeats;
    int iTemp_delAfterDays = data.delAfterDays;
@@ -448,6 +489,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
        iTemp_useDayOfWeek != data.useDayOfWeek ||
        iTemp_useAsSearchTimer != data.useAsSearchTimer ||
        iTemp_useExtEPGInfo != data.useExtEPGInfo ||
+       iTemp_useContentDescriptor != useContentDescriptors ||
        iTemp_avoidRepeats != data.avoidRepeats ||
        iTemp_allowedRepeats != data.allowedRepeats ||
        iTemp_delAfterDays != data.delAfterDays ||
@@ -649,6 +691,8 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
 		 index++;
                }
 	       
+	       searchExt->SetContentFilter(useContentDescriptors?contentStringsFlags:NULL);
+
                if (data.blacklistMode == blacklistsSelection)
                {
                   searchExt->blacklists.Clear();

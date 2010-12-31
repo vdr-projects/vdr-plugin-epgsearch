@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EPGSearch 0.9.25\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-20 09:26+0100\n"
+"POT-Creation-Date: 2010-12-28 20:19+0100\n"
 "PO-Revision-Date: 2009-10-15 20:52+0200\n"
 "Last-Translator: Rolf Ahrenberg\n"
 "Language-Team:  Finnish\n"
@@ -1049,6 +1049,14 @@ msgstr "Tällä asetuksella pystyt etsimään lyhyestä ohjelmakuvauksesta."
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Tällä asetuksella pystyt etsimään ohjelmakuvauksesta."
+
+#, fuzzy
+msgid "Use content descriptor"
+msgstr "Käytä ohjelmakuvausta"
+
+#, fuzzy
+msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgstr "Tällä asetuksella pystyt etsimään ohjelmanimestä."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "Ohjelmakuvaus voi sisältää ohjelmaoppaan kategoriatietoja ('lajityyppi', 'kategoria', 'valmistumisvuosi', ...), joita ulkoiset ohjelmaoppaat voivat tuottaa. Tällä asetuksella voit hakea myös niiden perusteella."

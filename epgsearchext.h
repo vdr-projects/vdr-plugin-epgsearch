@@ -30,6 +30,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/plugin.h>
 #include <vdr/interface.h>
 #include <vdr/skins.h>
+#include <string>
 
 #include "log.h"
 #include "epgsearchtools.h"
@@ -137,6 +138,7 @@ public:
   int      MarginStop;
   int      useVPS;
   int      action;
+  std::string contentsFilter;
   int      useExtEPGInfo;
   char**   catvalues;
   cChannel *channelMin;
@@ -200,6 +202,9 @@ public:
   cTimerObjList* GetTimerList(cTimerObjList* timerList);
   int GetCountRecordings();
   bool IsActiveAt(time_t t);
+  bool HasContent(int contentID);
+  void SetContentFilter(int* contentStringsFlags);
+  bool MatchesContentsFilter(const cEvent* e);
 };
 
 class cSearchExts : public cList<cSearchExt>, public cMutex {

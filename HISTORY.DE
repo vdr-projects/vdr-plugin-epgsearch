@@ -15,6 +15,8 @@ neu:
   Web-git:
     http://projects.vdr-developer.org/git/?p=vdr-plugin-epgsearch.git
   Vielen Dank an die Leute von projects.vdr-developer.org, besonders an Tobias Grimm
+- Suchtimer unterstützen nun content descriptors, die in vdr-1.7.11 eingeführt wurden. Damit
+  können Sendungen nach ihrem Typ gesucht werden, z.B. "Film/Drama", "Dokumentation",...
 - Suchtimer haben nun eine neue Aktion "Ankündigen und Umschalten". Damit wird eine Sendung 
   via OSD kurz vor ihrem Start angekündigt. Mit 'Ok' kann zum entsprechenden Kanal
   gewechselt werden. Umschalttimer haben die gleiche Option erhalten.

@@ -80,6 +80,7 @@ cSearchExt::cSearchExt(void)
    useVPS = false;
    action = searchTimerActionRecord;
    useExtEPGInfo = false;
+   contentsFilter = "";
    catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
    cSearchExtCat *SearchExtCat = SearchExtCats.First();
    int index = 0;
@@ -187,6 +188,7 @@ cSearchExt& cSearchExt::operator= (const cSearchExt &SearchExt)
    useVPS = templ->useVPS;
    action = templ->action;
    useExtEPGInfo = templ->useExtEPGInfo;
+   contentsFilter = templ->contentsFilter;
    switchMinsBefore = templ->switchMinsBefore;
    pauseOnNrRecordings = templ->pauseOnNrRecordings;
 
@@ -348,7 +350,7 @@ const char *cSearchExt::ToText()
       }      
    }
 
-   msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d",
+   msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d:%s",
             ID,
             tmp_search,
             useTime,
@@ -400,7 +402,8 @@ const char *cSearchExt::ToText()
 	    useAsSearchTimerTil,
 	    ignoreMissingEPGCats, 
 	    unmuteSoundOnSwitch,
-	    compareSummaryMatchInPercent);
+	    compareSummaryMatchInPercent,
+	    contentsFilter.c_str());
 
    if (tmp_search) free(tmp_search);
    if (tmp_directory) free(tmp_directory);
@@ -607,6 +610,9 @@ bool cSearchExt::Parse(const char *s)
 	      break;
 	    case 52:
 	      compareSummaryMatchInPercent = atoi(value);
+	      break;
+	    case 53:
+	      contentsFilter = value;
 	      break;
 	    default:
 	      break;
@@ -976,6 +982,9 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
          }
 	 if (szTest)
 	   free(szTest);
+
+	 if (contentsFilter.size() > 0 && !MatchesContentsFilter(p))
+	    continue;
 
          if (useExtEPGInfo && !MatchesExtEPGInfo(p))
             continue;
@@ -1390,6 +1399,64 @@ bool cSearchExt::IsActiveAt(time_t t)
       if (useAsSearchTimerTil > 0 && t > useAsSearchTimerTil) return false;
     } 
   return true;
+}
+
+bool cSearchExt::HasContent(int contentID)
+{
+  for(unsigned int i=0; i<contentsFilter.size();i+=2)
+  {
+    std::string hexContentID = contentsFilter.substr(i,2);
+    if(hexContentID.size()!=2) return false;
+    std::istringstream iss(hexContentID);
+    int tmpContentID =0;
+    if(!(iss>>std::noshowbase>>std::hex>>tmpContentID)) return false;
+    if (contentID == tmpContentID) return true;
+  }
+  return false;
+}
+
+void cSearchExt::SetContentFilter(int* contentStringsFlags)
+{
+  // create the hex array of content descriptor IDs
+  string tmp;
+  contentsFilter = "";
+  for(unsigned int i=0; contentStringsFlags && i<=CONTENT_DESCRIPTOR_MAX; i++)
+    {
+      if (contentStringsFlags[i])
+	{
+	  std::ostringstream oss;
+	  oss<<std::hex<<std::noshowbase<<i;
+	  contentsFilter += oss.str();
+	}
+    }
+}
+
+bool cSearchExt::MatchesContentsFilter(const cEvent* e)
+{
+#if APIVERSNUM < 10711 
+  return true;
+#else
+  if (!e) return false;
+  // check if each content filter ID is contained in the events descriptors
+  for(unsigned int i=0; i<contentsFilter.size();i+=2)
+  {
+    std::string hexContentID = contentsFilter.substr(i,2);
+    if(hexContentID.size()!=2) return false;
+    std::istringstream iss(hexContentID);
+    int searchContentID =0;
+    if(!(iss>>std::hex>>searchContentID)) return false;
+    int c=0, eventContentID=0;
+    bool found = false;
+    while((eventContentID=e->Contents(c++)) > 0)
+      if (eventContentID == searchContentID) 
+	{
+	  found = true;
+	  break;
+	}
+    if (!found) return false;
+  }
+  return true;
+#endif
 }
 
 // -- cSearchExts ----------------------------------------------------------------

@@ -212,6 +212,13 @@ auf den meisten Distributionen bereits vorhanden sein sollte).
 
 Eine Beschreibung des Suchprozesses gibt es im MANUAL.
 
+=item - B<Verw. Kennung für Inhalt>
+
+Einige Provider liefern Kennungen für den Inhalt einer Sendung, z.B. 
+"Film/Drama", "Dokumentation",...(erst ab vdr-1.7.11 verfügbar)
+Hiermit können diesen Kennungen ausgewählt werden. Es ist auch eine
+Mehrfachauswahl möglich, die dann in allen Kennungen übereinstimmen muss (UND-Verknüpfung).
+
 =item - B<Verw. erweiterte EPG Info>
 
 (nur verfügbar, wenn konfiguriert. Siehe weiter unten 'Verwendung
@@ -983,7 +990,15 @@ Siehe C<epgsearch(4)>.
 =head1 4. Verwendung erweiterter EPG Infos
 
 Einige EPG Provider liefern zusätzliche EPG Infos wie die Art der
-Sendung, das Video und Audio Format, die Besetzung,...
+Sendung, das Video und Audio Format, die Besetzung,... in der Beschreibung der
+Sendung.
+
+Anmerkung: Dies hat nichts mit den content descriptors seit vdr-1.7.11 zu tun, 
+die als zusätzliche Daten nach einem gemeinsamen Standard aufgeliefert werden. 
+Leider liefern nicht alle Provider diese Daten oder setzen die Kennungen nicht korrekt.
+Deshalb gibt es den Ansatz der "erweiterten EPG Infos", der versucht diese Information
+aus der Inhaltsbeschreibung zu extrahieren.
+
 Mit tvmovie2vdr oder epg4vdr können diese Daten in den VDR importiert
 werden.
 

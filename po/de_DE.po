@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-20 09:26+0100\n"
+"POT-Creation-Date: 2010-12-28 20:19+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -1047,6 +1047,12 @@ msgstr "Auf 'Ja' setzen, wenn die Suche im Untertitel einer Sendung stattfinden 
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Auf 'Ja' setzen, wenn die Suche in der Zusammenfassung einer Sendung stattfinden soll."
+
+msgid "Use content descriptor"
+msgstr "Verw. Kennung für Inhalt"
+
+msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgstr "Auf 'Ja' setzen, wenn die Suche anhand Kennungen zum Inhalt der Sendung stattfinden soll."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "Die Zusammenfassung einer Sendung kann Zusatz-Informationen wie 'Genre', 'Kategorie', 'Jahr', ... enthalten, welche in EPGSearch 'EPG-Kategorien' genannt werden. Externe EPG-Anbieter liefern diese Informationen häufig mit aus. Damit läßt sich eine Suche verfeinern und auch andere Dinge, wie die Suche nach dem Tagestipp, sind möglich. Zur Verwendung auf 'Ja' setzen."

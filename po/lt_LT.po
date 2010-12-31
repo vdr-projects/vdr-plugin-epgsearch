@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.10\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-20 09:26+0100\n"
+"POT-Creation-Date: 2010-12-28 20:19+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: Lietuvių\n"
@@ -1055,6 +1055,14 @@ msgstr "Pasirinkite 'Taip', jei paiešką norite vykdyti vienoje iš įvykio ser
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Pasirinkti 'Taip' jei norite ieškoti įvykio santraukoje."
+
+#, fuzzy
+msgid "Use content descriptor"
+msgstr "Rodyti aprašymą"
+
+#, fuzzy
+msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgstr "Pasirinkite 'Taip', jei paiešką norite vykdyti įvykio pavadinime."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "Įviokio santrauka gali turėti papildomos informacijos, tokios kaip 'Žanras', 'Kategorija', 'Metai', ... EPGSearch įskiepe vadinamos 'EPG kategorijomis'. Išoriniai EPG tiekėjai dašnai pateikia šitą informaciją. Tai leidžia pagražinti paiešką ir įvesti kitus gražius dalykėlius, tokius kaip 'dienos frazė'. Kad tai panaudotumėt, pasirinkite 'Taip'"

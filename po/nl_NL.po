@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-20 09:26+0100\n"
+"POT-Creation-Date: 2010-12-28 20:19+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -1049,6 +1049,14 @@ msgstr "Kies 'ja' indien de zoakactie moet zoeken in de aflevering van een progr
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Kies 'ja' indien de zoekactie moet zoeken in de samenvatting van een programma."
+
+#, fuzzy
+msgid "Use content descriptor"
+msgstr "Gebruik beschrijving"
+
+#, fuzzy
+msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgstr "Kies 'ja' indien de zoekactie moet zoeken in de titel van het programma"
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "De samenvatting van een programma kan extra informatie bevatten zoals 'Genre', 'Jaar',... binnen EPGsearch 'EPG categori√en' genoemd.  "

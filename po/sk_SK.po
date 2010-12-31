@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-20 09:26+0100\n"
+"POT-Creation-Date: 2010-12-28 20:19+0100\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: SLovak <hrala.milan@gmail.com>\n"
@@ -1053,6 +1053,14 @@ msgstr "Nastavte 'Áno', ak chcete hµada» v epizóde ."
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Nastavte 'Áno', ak chcete hµada» vo v¹etkých údajoch."
+
+#, fuzzy
+msgid "Use content descriptor"
+msgstr "Pou¾i» popis"
+
+#, fuzzy
+msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgstr "Nastavte 'Áno', ak chcete hµada» v názvoch ."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "Súhrn udalostí, mô¾e obsahova» ïal¹ie informácie, ako '®áner', 'Kategória', 'Rok',... tzv 'EPG kategórie' v epgsearch. Vonkaj¹ie EPG slu¾by èasto takéto informácie poskytujú. To umo¾òuje kvalitnej¹ie vyhµadávanie a iné veci, ako je hµadanie 'typ dòa' alebo 'kino na' . Pre pou¾itie nastavte na 'Áno'."

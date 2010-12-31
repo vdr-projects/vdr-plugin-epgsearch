@@ -53,7 +53,9 @@ protected:
   char *DelModes[3];
   char *SearchActiveModes[3];
   char *CompareSubtitleModes[3];
-
+  std::vector<int> contentStringIDs;
+  int useContentDescriptors;
+  int *contentStringsFlags;
   bool templateMode;
   std::vector<const char*> helpTexts;
   void AddHelp(const char* helpText);

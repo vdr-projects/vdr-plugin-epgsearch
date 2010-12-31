@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2010-02-20 09:26+0100\n"
+"POT-Creation-Date: 2010-12-28 20:19+0100\n"
 "PO-Revision-Date: 2008-04-30 08:36+0200\n"
 "Last-Translator: Patrice Staudt <patrice.staudt@laposte.net>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -1045,6 +1045,14 @@ msgstr ""
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr ""
+
+#, fuzzy
+msgid "Use content descriptor"
+msgstr "Utiliser la description"
+
+#, fuzzy
+msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgstr "Mettez 'oui',si le compte mail utilise l'authentification pour les mails sortants."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr ""

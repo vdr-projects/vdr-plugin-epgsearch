@@ -118,6 +118,8 @@ using std::string;
 #define Utf8BufSize(s) ((s) * 4)
 #endif
 
+#define CONTENT_DESCRIPTOR_MAX 255
+
 extern const char AllowedChars[];
 
 extern char* ConfigDir;
