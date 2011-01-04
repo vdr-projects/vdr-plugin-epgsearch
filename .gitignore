@@ -1,0 +1,11 @@
+/.dependencies
+/i18n-generated.h
+/doc/
+/html/
+/man/
+/po/epgsearch.pot
+*.o
+*.so
+*.tgz
+*.tmp
+*~
