@@ -750,7 +750,7 @@ bool cMenuSearchResultsForRecs::BuildList()
      string s2 = searchExt->search;
      if (s1.empty() || s2.empty()) continue;
 
-     // tolerance for fuzzy searching: 90% of the shorter text lenght, but atleast 1
+     // tolerance for fuzzy searching: 90% of the shorter text length, but at least 1
      int tolerance = std::max(1, (int)std::min(s1.size(), s2.size()) / 10); 
 
      bool match = FindIgnoreCase(s1, s2) >= 0 ||

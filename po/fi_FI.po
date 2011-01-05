@@ -2,19 +2,22 @@
 # Copyright (C) 2007 Klaus Schmidinger <kls@cadsoft.de>
 # This file is distributed under the same license as the VDR package.
 # Rolf Ahrenberg <rahrenbe@cc.hut.fi>, 2003
-# Ville Skyttä <ville.skytta@iki.fi>, 2009
+# Ville Skyttä <ville.skytta@iki.fi>, 2009, 2011
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: EPGSearch 0.9.25\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: 2010-12-28 20:19+0100\n"
-"PO-Revision-Date: 2009-10-15 20:52+0200\n"
-"Last-Translator: Rolf Ahrenberg\n"
-"Language-Team:  Finnish\n"
+"PO-Revision-Date: 2011-01-04 21:07+0200\n"
+"Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
+"Language-Team: Finnish <vdr@linuxtv.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Channel groups"
 msgstr "Kanavaryhmät"
@@ -1050,13 +1053,11 @@ msgstr "Tällä asetuksella pystyt etsimään lyhyestä ohjelmakuvauksesta."
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Tällä asetuksella pystyt etsimään ohjelmakuvauksesta."
 
-#, fuzzy
 msgid "Use content descriptor"
-msgstr "Käytä ohjelmakuvausta"
+msgstr "Käytä sisältökuvausta"
 
-#, fuzzy
 msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
-msgstr "Tällä asetuksella pystyt etsimään ohjelmanimestä."
+msgstr "Tällä asetuksella pystyt etsimään sisältökuvauksesta."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "Ohjelmakuvaus voi sisältää ohjelmaoppaan kategoriatietoja ('lajityyppi', 'kategoria', 'valmistumisvuosi', ...), joita ulkoiset ohjelmaoppaat voivat tuottaa. Tällä asetuksella voit hakea myös niiden perusteella."
@@ -1279,3 +1280,4 @@ msgstr "%02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"
+

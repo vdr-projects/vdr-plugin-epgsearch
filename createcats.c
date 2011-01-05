@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
 		    maxlength = atoi(optarg);
 		    break;
 		}
-		fprintf(stderr, "invalid parameter maxlenght: %s\n", optarg);
+		fprintf(stderr, "invalid parameter maxlength: %s\n", optarg);
 		return 2;
 		break;
 	    case 'h':
