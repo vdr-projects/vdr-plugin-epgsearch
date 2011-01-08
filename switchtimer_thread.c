@@ -81,7 +81,7 @@ void cSwitchTimerThread::Action(void)
       if (now >= nextUpdate)
       {
          LogFile.Log(3,"locking switch timers");
-         cMutexLock SwitchTimersLock(&SwitchTimers);
+         SwitchTimers.Lock();
          LogFile.Log(3,"switch timer check started");
          cSwitchTimer* switchTimer = SwitchTimers.First();
          while (switchTimer && m_Active) 
@@ -136,6 +136,7 @@ void cSwitchTimerThread::Action(void)
             }
             switchTimer = SwitchTimers.Next(switchTimer);
          }
+	 SwitchTimers.Unlock();
          LogFile.Log(3,"switch timer check finished");
          if (m_Active)
 	    Wait.Wait(1000 * MSG_DELAY);
