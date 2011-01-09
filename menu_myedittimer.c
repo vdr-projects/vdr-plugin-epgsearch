@@ -34,6 +34,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_deftimercheckmethod.h"
 #include "timerstatus.h"
 #include <math.h>
+#ifdef USE_PINPLUGIN
+#include "../pin/pin.h"
+#endif
 
 const char *cMenuMyEditTimer::CheckModes[3];
 
@@ -63,7 +66,7 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
 	strcpy(file, Timer->File());
 	channel = Timer->Channel()->Number();
 #ifdef USE_PINPLUGIN
-    fskProtection = Timer->FskProtection();  
+    fskProtection = Timer->HasFlags(tfProtected);  
 #endif
 	if (forcechannel)
 	    channel = forcechannel->Number();
@@ -125,7 +128,7 @@ void cMenuMyEditTimer::Set()
     Add(new cMenuEditStrItem( tr("Directory"), directory, MaxFileName, tr(AllowedChars)));
     Add(new cMenuEditBitItem( trVDR("Active"),       &flags, tfActive));
 #ifdef USE_PINPLUGIN
-    if (cOsd::pinValid) Add(new cMenuEditChanItem(tr("Channel"), &channel));
+    if (PinService::pinValid) Add(new cMenuEditChanItem(tr("Channel"), &channel));
     else {
       cString buf = cString::sprintf("%s\t%s", tr("Channel"), Channels.GetByNumber(channel)->Name());
       Add(new cOsdItem(buf));
@@ -144,7 +147,7 @@ void cMenuMyEditTimer::Set()
     Add(new cMenuEditIntItem( trVDR("Priority"),     &priority, 0, MAXPRIORITY));
     Add(new cMenuEditIntItem( trVDR("Lifetime"),     &lifetime, 0, MAXLIFETIME));
 #ifdef USE_PINPLUGIN
-    if (cOsd::pinValid || !fskProtection) Add(new cMenuEditBoolItem(tr("Childlock"),&fskProtection));
+    if (PinService::pinValid || !fskProtection) Add(new cMenuEditBoolItem(tr("Childlock"),&fskProtection));
     else {
       cString buf = cString::sprintf("%s\t%s", tr("Childlock"), fskProtection ? trVDR("yes") : trVDR("no"));
       Add(new cOsdItem(buf));

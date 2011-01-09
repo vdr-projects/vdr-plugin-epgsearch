@@ -226,7 +226,7 @@ eOSState cMenuSearchMain::Record(void)
 	 }
 #ifdef USE_PINPLUGIN
       aux = "";
-      aux = UpdateAuxValue(aux, "protected", timer->FskProtection() ? "yes" : "no");
+      aux = UpdateAuxValue(aux, "protected", timer->HasFlags(tfProtected) ? "yes" : "no");
       fullaux = UpdateAuxValue(fullaux, "pin-plugin", aux);
 #endif
 
