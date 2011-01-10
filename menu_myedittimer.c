@@ -35,7 +35,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "timerstatus.h"
 #include <math.h>
 #ifdef USE_PINPLUGIN
-#include "../pin/pin.h"
+#include <vdr/childlock.h>
+using namespace PinPatch;
 #endif
 
 const char *cMenuMyEditTimer::CheckModes[3];
@@ -128,7 +129,7 @@ void cMenuMyEditTimer::Set()
     Add(new cMenuEditStrItem( tr("Directory"), directory, MaxFileName, tr(AllowedChars)));
     Add(new cMenuEditBitItem( trVDR("Active"),       &flags, tfActive));
 #ifdef USE_PINPLUGIN
-    if (PinService::pinValid) Add(new cMenuEditChanItem(tr("Channel"), &channel));
+    if (ChildLock::IsUnlocked()) Add(new cMenuEditChanItem(tr("Channel"), &channel));
     else {
       cString buf = cString::sprintf("%s\t%s", tr("Channel"), Channels.GetByNumber(channel)->Name());
       Add(new cOsdItem(buf));
@@ -147,7 +148,7 @@ void cMenuMyEditTimer::Set()
     Add(new cMenuEditIntItem( trVDR("Priority"),     &priority, 0, MAXPRIORITY));
     Add(new cMenuEditIntItem( trVDR("Lifetime"),     &lifetime, 0, MAXLIFETIME));
 #ifdef USE_PINPLUGIN
-    if (PinService::pinValid || !fskProtection) Add(new cMenuEditBoolItem(tr("Childlock"),&fskProtection));
+    if (ChildLock::IsUnlocked() || !fskProtection) Add(new cMenuEditBoolItem(tr("Childlock"),&fskProtection));
     else {
       cString buf = cString::sprintf("%s\t%s", tr("Childlock"), fskProtection ? trVDR("yes") : trVDR("no"));
       Add(new cOsdItem(buf));
