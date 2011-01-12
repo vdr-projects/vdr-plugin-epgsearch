@@ -1268,13 +1268,13 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 		 if (relOnly && (*it)->ignore) continue;
 		 std::ostringstream timerpart;
 		 int recPart = (*it)->recDuration * 100 / ((*it)->stop - (*it)->start);
-		 timerpart << (*it)->timer->Index()+1 << "|" << recPart << "|";
+		 timerpart << (*it)->origIndex+1 << "|" << recPart << "|";
 		 std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator itcc;
 		 if ((*it)->concurrentTimers)
 		   {
 		   std::ostringstream cctimers;
 		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); itcc++) 
-		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->timer->Index()+1;
+		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->origIndex+1;
 		   timerpart << cctimers.str();
 		   }
 		 timerparts << (timerparts.str().empty()?"":":") << timerpart.str();

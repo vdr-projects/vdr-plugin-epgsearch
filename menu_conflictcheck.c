@@ -400,7 +400,7 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 		    for(cTimer* checkT = Timers.First(); checkT; checkT = Timers.Next(checkT)) 
 		    {
 			checkT->Matches();
-			if (checkT == (*it)->timer) // ok -> found, check for changes		    
+			if (checkT == Timers.GetTimer((*it)->timer)) // ok -> found, check for changes		    
 			{
 			    if (checkT->IsSingleEvent())
 			    {

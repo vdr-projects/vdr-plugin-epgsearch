@@ -43,6 +43,7 @@ class cConflictCheckTimerObj : public cTimerObj
     time_t start;
     time_t stop;
     int device;
+    int origIndex;
     int recDuration;
     time_t lastRecStart;
     time_t lastRecStop;
@@ -50,7 +51,9 @@ class cConflictCheckTimerObj : public cTimerObj
     std::set<cConflictCheckTimerObj*,TimerObjSort>* concurrentTimers;
     bool ignore;
 
-    cConflictCheckTimerObj(cTimer* Timer, time_t Start, time_t Stop, int Device = -1);
+
+    cConflictCheckTimerObj(cTimer* Timer, time_t Start, time_t Stop, int Device = -1, int OrigIndex=-1);
+    ~cConflictCheckTimerObj();
     int Compare(const cListObject &ListObject) const;
     const cEvent* Event();
     const cEvent* SetEventFromSchedule();

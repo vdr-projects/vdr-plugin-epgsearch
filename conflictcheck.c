@@ -35,12 +35,18 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define EPGLIMITAFTER    (1 * 3600) // after its stop time within which EPG events will be taken into consideration.
 
 // --- cConflictCheckTimerObj --------------------------------------------------------
-cConflictCheckTimerObj::cConflictCheckTimerObj(cTimer* Timer, time_t Start, time_t Stop, int Device) : cTimerObj(Timer), start(Start), stop(Stop), device(Device), conflCheckTime(NULL), concurrentTimers(NULL), ignore(false)
+cConflictCheckTimerObj::cConflictCheckTimerObj(cTimer* Timer, time_t Start, time_t Stop, int Device, int OrigIndex) : cTimerObj(Timer), start(Start), stop(Stop), device(Device), origIndex(OrigIndex), conflCheckTime(NULL), concurrentTimers(NULL), ignore(false)
 {
     event = Timer->Event();
     recDuration = 0;
     lastRecStart = 0;
     lastRecStop = 0;
+}
+
+cConflictCheckTimerObj::~cConflictCheckTimerObj()
+{
+  // conflict checks works on a copy of a timer, so delete it again
+  delete timer;
 }
 
 int cConflictCheckTimerObj::Compare(const cListObject &ListObject) const
@@ -50,7 +56,7 @@ int cConflictCheckTimerObj::Compare(const cListObject &ListObject) const
     if (diff == 0)
 	diff = p->timer->Priority() - timer->Priority();
     if (diff == 0)
-	diff = timer->Index() - p->timer->Index();
+	diff = origIndex - p->origIndex;
     return diff;
 }
 
@@ -233,7 +239,13 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 	if (!ti->IsSingleEvent()) continue;
         // already recording?
 	int deviceNr = gl_recStatusMonitor->TimerRecDevice(ti)-1;
-	cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(ti, ti->StartTime(), ti->StopTime(), deviceNr);
+
+        // create a copy of this timer 
+        cTimer* clone = new cTimer;
+        *clone = *ti;
+        clone->SetEvent(ti->Event());
+
+	cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(clone, ti->StartTime(), ti->StopTime(), deviceNr, ti->Index());
 	if (deviceNr >= 0)
 	{
 	    devices[deviceNr].recTimers.insert(timerObj);
@@ -280,7 +292,13 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 		    day += SECSINDAY;
 		    continue;
 		}
-		cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(ti, Start, Start + ti->StopTime() - ti->StartTime(), deviceNr);
+
+		// create a copy of this timer 
+		cTimer* clone = new cTimer;
+		*clone = *ti;
+		clone->SetEvent(ti->Event());
+
+		cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(ti, Start, Start + ti->StopTime() - ti->StartTime(), deviceNr, ti->Index());
 		LogFile.Log(3,"add timer '%s' (%s, channel %s) for conflict check", ti->File(), DAYDATETIME(Start), CHANNELNAME(ti->Channel()));
 		if (deviceNr >= 0)
 		{
