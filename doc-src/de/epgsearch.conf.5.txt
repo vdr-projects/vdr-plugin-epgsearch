@@ -39,8 +39,8 @@ Folgende Felder sind möglich:
  11 - Suche in Untertitel? 0/1
  12 - Suche in Beschreibung? 0/1
  13 - Verwende Länge? 0/1
- 14 - Minimale Länge der Sendung in Minuten
- 15 - Maximale Länge der Sendung in Minuten
+ 14 - Minimale Länge der Sendung in HHMM
+ 15 - Maximale Länge der Sendung in HHMM
  16 - Verwende als Suchtimer? 0/1
  17 - Verwende Tag der Woche? 0/1
  18 - Tag der Woche (0 = Sonntag, 1 = Montag...;

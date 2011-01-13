@@ -36,8 +36,8 @@ is B<':'>:
  11 - use subtitle? 0/1   
  12 - use description? 0/1
  13 - use duration? 0/1
- 14 - min duration in minutes 
- 15 - max duration in minutes 
+ 14 - min duration in hhmm 
+ 15 - max duration in hhmm 
  16 - use as search timer? 0/1
  17 - use day of week? 0/1
  18 - day of week (0 = Sunday, 1 = Monday...; 
