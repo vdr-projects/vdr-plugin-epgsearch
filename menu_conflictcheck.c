@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2010 Christian Wieninger
+Copyright (C) 2004-2011 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -162,14 +162,14 @@ eOSState cMenuConflictCheck::ProcessKey(eKeys Key)
 cMenuConflictCheckDetailsItem::cMenuConflictCheckDetailsItem(cConflictCheckTimerObj* TimerObj)
 {
     timerObj = TimerObj;
-    hasTimer = timerObj->timer->HasFlags(tfActive);
+    hasTimer = timerObj->OrigTimer()?timerObj->OrigTimer()->HasFlags(tfActive):false;
     Update(true);
 }
 
 bool cMenuConflictCheckDetailsItem::Update(bool Force)
 {
     bool oldhasTimer = hasTimer;
-    hasTimer = timerObj->timer->HasFlags(tfActive);
+    hasTimer = timerObj->OrigTimer()?timerObj->OrigTimer()->HasFlags(tfActive):false;
     if (Force || hasTimer != oldhasTimer)
     { 	
 	cTimer* timer = timerObj->timer;
@@ -255,12 +255,12 @@ eOSState cMenuConflictCheckDetails::Commands(eKeys Key)
 
 eOSState cMenuConflictCheckDetails::ToggleTimer(cConflictCheckTimerObj* TimerObj)
 {
-    if (!TimerObj) return osContinue;
-    TimerObj->timer->OnOff();
-    Timers.SetModified();
-    Update();
-    Display();
-    return osContinue;
+  if (!TimerObj || !TimerObj->OrigTimer()) return osContinue;
+  TimerObj->OrigTimer()->OnOff();
+  Timers.SetModified();
+  Update();
+  Display();
+  return osContinue;
 }
 
 bool cMenuConflictCheckDetails::Update(bool Force)
@@ -275,27 +275,27 @@ bool cMenuConflictCheckDetails::Update(bool Force)
 
 eOSState cMenuConflictCheckDetails::DeleteTimer(cConflictCheckTimerObj* TimerObj)
 {
-    cTimer* timer = TimerObj->timer;
-    // Check if this timer is active:
-    if (timer) {
-	if (Interface->Confirm(trVDR("Delete timer?"))) {
-	    if (timer->Recording()) {
-		if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
-		    timer->Skip();
-		    cRecordControls::Process(time(NULL));
-		}
-		else
-		    return osContinue;
-	    }
-	    LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
-	    Timers.Del(timer);
-	    cOsdMenu::Del(Current());
-	    Timers.SetModified();
-	    Display();
-	    return osBack;
-        }
+  cTimer* timer = TimerObj->OrigTimer();
+  // Check if this timer is active:
+  if (timer) {
+    if (Interface->Confirm(trVDR("Delete timer?"))) {
+      if (timer->Recording()) {
+	if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
+	  timer->Skip();
+	  cRecordControls::Process(time(NULL));
+	}
+	else
+	  return osContinue;
+      }
+      LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
+      Timers.Del(timer);
+      cOsdMenu::Del(Current());
+      Timers.SetModified();
+      Display();
+      return osBack;
     }
-    return osContinue;
+  }
+  return osContinue;
 }
 
 
@@ -400,7 +400,7 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 		    for(cTimer* checkT = Timers.First(); checkT; checkT = Timers.Next(checkT)) 
 		    {
 			checkT->Matches();
-			if (checkT == Timers.GetTimer((*it)->timer)) // ok -> found, check for changes		    
+			if (checkT == (*it)->OrigTimer()) // ok -> found, check for changes		    
 			{
 			    if (checkT->IsSingleEvent())
 			    {

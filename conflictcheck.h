@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2004-2010 Christian Wieninger
+Copyright (C) 2004-2011 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -58,6 +58,7 @@ class cConflictCheckTimerObj : public cTimerObj
     const cEvent* Event();
     const cEvent* SetEventFromSchedule();
     int Matches(const cEvent *Event, int *Overlap) const;
+    cTimer* OrigTimer() {return Timers.GetTimer(timer); }
 };
 
 class TimerObjSort
