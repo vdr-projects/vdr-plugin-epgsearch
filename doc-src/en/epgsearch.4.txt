@@ -275,6 +275,7 @@ sources:
    * directories used in search timers
    * directories specified in F<epgsearchdirs.conf>,
      see C<epgsearchdirs.con(5)>
+   * entries in VDR's folders.conf
 
 The menu merges theses directories and displays only distinct
 directories. With key 'yellow' one can change the depth of the

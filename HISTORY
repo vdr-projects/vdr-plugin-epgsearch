@@ -16,6 +16,8 @@ new:
     http://projects.vdr-developer.org/git/?p=vdr-plugin-epgsearch.git
   many thanks to the maintainers of projects.vdr-developer.org, especially Tobias 
   Grimm
+- directory entries from VDR's folders.conf are now also read and offered in the 
+  directory selection of the timer menu.
 - Search timer support for content descriptors as introduced in vdr-1.7.11. This lets you
   search for broadcasts by their type, like "Movie/Drama", "Documentation",...
 - Search timers now have a new action "Announce and switch". This announces the

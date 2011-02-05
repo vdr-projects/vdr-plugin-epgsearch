@@ -63,6 +63,9 @@ private:
     ~cMenuDirSelect();
     void Load();
     void AddDistinct(const char* szText);
+#if APIVERSNUM >= 10712
+    static void AddVDRFolders(cNestedItem* folder, string parentDirectory = "");
+#endif
     virtual eOSState ProcessKey(eKeys Key);
     int Level(const char* szDir);
     void ReplaceDirVars();

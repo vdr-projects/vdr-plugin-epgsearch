@@ -173,6 +173,12 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	free(dir);
     }
 
+#if APIVERSNUM >= 10712
+    // add distinct directories from folders.conf
+    for(cNestedItem* item = Folders.First(); item; item = Folders.Next(item))
+      AddVDRFolders(item);
+#endif
+
     if (extraDirs)
       {
 	cMutexLock SearchExtsLock(&SearchExts);
@@ -202,6 +208,17 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
       }
 }
 
+#if APIVERSNUM >= 10712
+void cMenuDirSelect::AddVDRFolders(cNestedItem* folder, string parentDirectory)
+{
+  if (folder == NULL) return;
+  string folderDirectory = string((parentDirectory.size() == 0)?"":parentDirectory + "~") + folder->Text();
+  directorySet.insert(folderDirectory);
+  if (folder->SubItems() == NULL) return;
+  for(cNestedItem* subfolder = folder->SubItems()->First(); subfolder; subfolder = folder->SubItems()->Next(subfolder))
+    AddVDRFolders(subfolder, folderDirectory);
+}
+#endif
 
 void cMenuDirSelect::Load()
 {
