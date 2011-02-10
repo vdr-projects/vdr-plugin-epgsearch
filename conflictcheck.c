@@ -674,7 +674,7 @@ bool cConflictCheck::TimerInConflict(cTimer* timer)
 		{
 		    for (it2 = (*it)->concurrentTimers->begin(); it2 != (*it)->concurrentTimers->end(); it2++)
 		    {
-			if ((*it2)->timer == timer)
+			if ((*it2)->OrigTimer() == timer)
 			    return true;
 		    }
 		}
