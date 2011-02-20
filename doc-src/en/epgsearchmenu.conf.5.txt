@@ -4,7 +4,7 @@ F<epgsearchmenu.conf> - Customizing the EPG menus
 
 =head1 DESCRIPTION
 
-The file F<epgsearchmenu.conf> in your plugins config directory is used to store
+The file F<epgsearchmenu.conf> in your epgsearch config directory is used to store
 the entries for customizing the EPG menus. You specify the look of each menu
 (What's on now, What's on next, What's on at ..., Schedule, Search results,
 Favorites) with a separate line.
@@ -88,7 +88,7 @@ the permanent reload for testing your conf, pass the new start parameter '-r'
 or '--reloadmenuconf' in your runvdr.
 
 There's a sample F<epgsearchmenu.conf> in the subdirectory "conf". For a quick try
-copy it to your plugins config directory (e.g. /etc/vdr/plugins).
+copy it to your epgsearch config directory (e.g. /etc/vdr/plugins/epgsearch).
 
 To enable icons from WarEagleIcon-Patch simply put the line
 
