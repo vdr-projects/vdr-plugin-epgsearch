@@ -47,9 +47,25 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 Copyright (c) 2005-2006 Christian Wieninger
 
-L<http://www.cwieninger.de.vu/>
+Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+der GNU General Public License, wie von der Free Software Foundation 
+veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
+der Lizenz oder (nach Ihrer Option) jeder späteren Version. 
 
-Dieses Programm ist freie Software. Es darf nach belieben benutzt, 
-kopiert, modifiziert, verteilt und verkauft werden, solange niemand
-anderem das Recht abgesprochen wird dasselbe zu tun.
+Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es 
+Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die 
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN 
+ZWECK. Details finden Sie in der GNU General Public License. 
 
+Sie sollten ein Exemplar der GNU General Public License zusammen mit 
+diesem Programm erhalten haben. Falls nicht, schreiben Sie an die 
+Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+auf.
+
+Der Author kann über cwieninger@gmx.de erreicht werden.
+
+Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+
+Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm 
+von RSA Data Security, Inc..   
