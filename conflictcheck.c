@@ -241,8 +241,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 	int deviceNr = gl_recStatusMonitor->TimerRecDevice(ti)-1;
 
         // create a copy of this timer 
-        cTimer* clone = new cTimer;
-        *clone = *ti;
+        cTimer* clone = new cTimer(*ti);
         clone->SetEvent(ti->Event());
 
 	cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(clone, ti->StartTime(), ti->StopTime(), deviceNr, ti->Index());
