@@ -46,7 +46,7 @@ cConflictCheckTimerObj::cConflictCheckTimerObj(cTimer* Timer, time_t Start, time
 cConflictCheckTimerObj::~cConflictCheckTimerObj()
 {
   // conflict checks works on a copy of a timer, so delete it again
-  delete timer;
+  DELETENULL(timer);
 }
 
 int cConflictCheckTimerObj::Compare(const cListObject &ListObject) const
@@ -293,8 +293,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 		}
 
 		// create a copy of this timer 
-		cTimer* clone = new cTimer;
-		*clone = *ti;
+		cTimer* clone = new cTimer(*ti);
 		clone->SetEvent(ti->Event());
 
 		cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(ti, Start, Start + ti->StopTime() - ti->StartTime(), deviceNr, ti->Index());
