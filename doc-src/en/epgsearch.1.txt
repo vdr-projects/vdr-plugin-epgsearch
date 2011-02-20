@@ -71,7 +71,7 @@ is '<plugins configuration directory>/epgsearch'
 =item -l file,  --logfile=file
 
 to specify a specific log file for epgsearch (default log file is
-epgsearch.log in the epgsearchs config directory)
+epgsearch.log in the epgsearch config directory)
 
 =item -v n,  --verbose=n       
 
@@ -152,7 +152,7 @@ item. There are 8 built-in commands:
    timer can be setup to ignore events from arbitrary blacklists.
 
 You can add your own commands to this menu by editing the file
-epgsearchcmds.conf in epgsearchs config directory. There's a sample
+epgsearchcmds.conf in the epgsearch config directory. There's a sample
 conf file with some sample commands (see directory 'scripts', taken
 from vdr-wiki.de, thanks to the authors).
 
@@ -956,7 +956,7 @@ info from the content summary.
 
 Using tvm2vdr or epg4vdr you can import this into vdr.
 To use this information with search timers one has to configure it
-with the file epgsearchcats.conf in epgsearchs config directory. The
+with the file epgsearchcats.conf in the epgsearch config directory. The
 format of the file is as follows:
 
  ID|category name|name in menu|values separated by ','(option)|search mode(option)
@@ -986,7 +986,7 @@ format of the file is as follows:
 Sample files for epgsearchcats.conf are delivered with the plugin in the
 directory 'conf'.
 
-Simply copy the one that fits for you to epgsearchs configurations directory
+Simply copy the one that fits for you to the epgsearch configuration directory
 filename epgsearchcats.conf and then have a look to the search timers
 edit menu (after a restart of VDR).
 

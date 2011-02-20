@@ -119,7 +119,7 @@ The following variables exist:
  %timenow%        - current time in format HH:MM
  %videodir%       - VDR video directory (e.g. /video)
  %plugconfdir%    - VDR plugin config directory (e.g. /etc/vdr/plugins)
- %epgsearchdir%   - epgsearchs config directory (e.g. /etc/vdr/plugins/epgsearch)
+ %epgsearchdir%   - epgsearch config directory (e.g. /etc/vdr/plugins/epgsearch)
 
 
 See also C<epgsearchcats.conf(5)>.
