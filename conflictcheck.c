@@ -296,7 +296,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 		cTimer* clone = new cTimer(*ti);
 		clone->SetEvent(ti->Event());
 
-		cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(ti, Start, Start + ti->StopTime() - ti->StartTime(), deviceNr, ti->Index());
+		cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(clone, Start, Start + ti->StopTime() - ti->StartTime(), deviceNr, ti->Index());
 		LogFile.Log(3,"add timer '%s' (%s, channel %s) for conflict check", ti->File(), DAYDATETIME(Start), CHANNELNAME(ti->Channel()));
 		if (deviceNr >= 0)
 		{
