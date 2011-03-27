@@ -65,12 +65,9 @@ neu:
   wird verhindert, dass man eine Folge nur wegen eines fehlerhaften EPGs verpasst.
 - Suchtimer: Falls der Datei-Eintrag eines Timers leer ist oder "!^invalid^!" enthält,
   wird er für die Programmierung übersprungen.
-- Wiederholung vermeiden: 'Vergleiche Untertitel' hat nun eine dritte Variante 'falls 
-  vorhanden' neben 'nein' und 'ja'. Damit stuft epgsearch zwei Sendungen nur dann als 
-  identisch ein, wenn die Episodennamen gleich sind und nicht leer. Vorsicht: Wenn die 
-  EPG-Daten keine Untertitel für unterschiedliche Folgen enthalten, sollte diese Option
-  nicht verwendet werden. 'ja' ist in diesem Fall besser, selbst wenn dadurch doppelt 
-  aufgezeichnet werden kann.
+- Wiederholung vermeiden: Die Option 'ja' bei 'Vergleiche Untertitel' wurde durch 'falls 
+  vorhanden' ersetzt. Damit stuft epgsearch zwei Sendungen nur dann als 
+  identisch ein, wenn die Episodennamen gleich sind und nicht leer.
 - epgsearch verwendet nun den shutdown handler (eingeführt in vdr 1.5.1) um die Unter-
   brechung eines Suchtimerupdates zu verhindern.
 - das SVDRP-Kommando UPDS zum Auslösen von Suchtimer-Updates hat nun eine neue Option
