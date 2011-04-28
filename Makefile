@@ -247,7 +247,7 @@ libvdr-$(PLUGIN4).so: $(OBJS4)
 createcats: createcats.o Makefile
 	$(CXX) $(CXXFLAGS) createcats.o -o $@
 
-dist: generate-i18n clean
+dist: generate-i18n docs clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
@@ -259,13 +259,20 @@ dist: generate-i18n clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(PACKAGE).tgz
 
-distfull: generate-i18n clean 
+distfull: generate-i18n docs clean 
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
 	@tar czf $(PACKAGE).tgz -C $(TMPDIR) $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo complete distribution package created as $(PACKAGE).tgz
+
+docs:
+	@./docsrc2man.sh
+	@./docsrc2html.sh
+	@ln -sf ./doc/en/epgsearch.4.txt MANUAL
+	@ln -sf ./doc/en/epgsearch.1.txt README
+	@ln -sf ./doc/de/epgsearch.1.txt README.DE
 
 install-doc:
 	@mkdir -p $(MANDIR)/man1
