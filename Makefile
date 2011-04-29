@@ -257,6 +257,7 @@ dist: generate-i18n docs clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)/docsrc2html.sh
 	@tar czf $(PACKAGE).tgz -C $(TMPDIR) $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
+	@ln -sf README.git README
 	@echo Distribution package created as $(PACKAGE).tgz
 
 distfull: generate-i18n docs clean 
@@ -265,6 +266,7 @@ distfull: generate-i18n docs clean
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
 	@tar czf $(PACKAGE).tgz -C $(TMPDIR) $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
+	@ln -sf README.git README
 	@echo complete distribution package created as $(PACKAGE).tgz
 
 docs:
