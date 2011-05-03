@@ -57,7 +57,7 @@ is the same as
  %Category%~%Genre%
  (with 'serial recording' set to 'yes').
 
-The %chnlng% variable gets replaced with the name of the channel.
+The %chlng% variable gets replaced with the name of the channel.
 
 Attention: Automatically appending title and subtitle will not be
 done, if you use the variables %Title% or %Subtitle% in the directory
@@ -564,7 +564,7 @@ for the 'Whats on...' and 'Search results' menu there are also:
                     requires VDRSymbols font for vdr>=1.5.3
  %progrT2S%       - progress bar in text2skin style (not for menu 'Search results')
 
-some indepent variables:
+some independent variables:
 
  %colon%          - the sign ':'
  %datenow%        - current date in format DD.MM.YY
@@ -801,7 +801,7 @@ mail you have to define the following sections:
   - "mailbody" the body of the mail:
     put %update.newtimers% in the place where the list of new timers should
     appear. The same for %update.modtimers%, %update.deltimers% and 
-    %update.newevents& for the list of changed or deleted timers and event
+    %update.newevents% for the list of changed or deleted timers and event
     announcements.
   - "timer" the description of one timer and "event" with the description of
     one event. This section is used to display one timer within a timer list, 
