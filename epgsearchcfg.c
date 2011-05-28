@@ -92,6 +92,7 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   checkEPGWarnByOSD = 1;
   checkEPGWarnByMail = 0;
   checkEPGchannelGroupNr = -1;
+  strcpy(conflCheckCmd, "");
 }
 
 int cShowMode::Compare(const cListObject &ListObject) const

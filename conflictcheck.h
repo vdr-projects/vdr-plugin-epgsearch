@@ -307,6 +307,7 @@ class cConflictCheck
     void AddConflict(cConflictCheckTimerObj* TimerObj, cConflictCheckTime* Checktime, std::set<cConflictCheckTimerObj*>& pendingTimers);
     int ProcessCheckTime(cConflictCheckTime* checkTime);
     bool TimerInConflict(cTimer*);
+    void EvaluateConflCheckCmd();
 };
 
 #endif

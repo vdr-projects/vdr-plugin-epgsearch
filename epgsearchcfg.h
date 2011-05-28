@@ -147,6 +147,7 @@ cEPGSearchConfig(void);
     int checkEPGWarnByMail;
     int checkEPGchannelGroupNr;
     time_t lastMailOnSearchtimerAt;
+    char conflCheckCmd[MaxFileName*10];    
 };
 
 extern cEPGSearchConfig EPGSearchConfig;

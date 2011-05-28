@@ -641,6 +641,8 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
    if      (!strcasecmp(Name, "CheckConflictsMinDuration"))  EPGSearchConfig.checkMinDuration = atoi(Value);
    if      (!strcasecmp(Name, "CheckConflictsAfterTimerProg"))  EPGSearchConfig.checkTimerConflAfterTimerProg = atoi(Value);
    if      (!strcasecmp(Name, "CheckConflictsOnRecording"))  EPGSearchConfig.checkTimerConflOnRecording = atoi(Value);
+   if      (!strcasecmp(Name, "ConflCheckCmd"))  strcpy(EPGSearchConfig.conflCheckCmd, Value);
+
    if      (!strcasecmp(Name, "NoConflMsgWhileReplay"))  EPGSearchConfig.noConflMsgWhileReplay = atoi(Value);
    if      (!strcasecmp(Name, "NoAnnounceWhileReplay"))  EPGSearchConfig.noAnnounceWhileReplay = atoi(Value);
    if      (!strcasecmp(Name, "TimerProgRepeat"))  EPGSearchConfig.TimerProgRepeat = atoi(Value);

@@ -132,8 +132,8 @@ void cConflictCheckThread::Action(void)
 		  cMailConflictNotifier mailNotifier;
 		  mailNotifier.SendConflictNotifications(conflictCheck);
 		}
-	    }
-	    
+	      conflictCheck.EvaluateConflCheckCmd();
+	    }	    
 	    // store for external access
 	    cConflictCheckThread::m_cacheNextConflict = conflictCheck.nextRelevantConflictDate;
 	    cConflictCheckThread::m_cacheRelevantConflicts = conflictCheck.relevantConflicts;

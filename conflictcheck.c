@@ -29,6 +29,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "conflictcheck_thread.h"
 #include "recstatus.h"
 #include "timerstatus.h"
+#include "uservars.h"
 
 #define FULLMATCH 1000
 #define EPGLIMITBEFORE   (1 * 3600) // Time in seconds before a timer's start time and
@@ -680,4 +681,39 @@ bool cConflictCheck::TimerInConflict(cTimer* timer)
 	}
     }
     return false;
+}
+
+void cConflictCheck::EvaluateConflCheckCmd()
+{
+  if (strlen(EPGSearchConfig.conflCheckCmd) > 0)
+    {
+      LogFile.Log(2,"evaluating conflict check command '%s'", EPGSearchConfig.conflCheckCmd);
+      for(cConflictCheckTime* ct = failedList->First(); ct; ct = failedList->Next(ct))
+	{
+	  if (ct->ignore) continue;
+	  std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
+	  for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++) 
+	    if ((*it) && !(*it)->ignore)
+	      {
+		string result = EPGSearchConfig.conflCheckCmd;
+		if (!(*it)->OrigTimer()) 
+		  {
+		    LogFile.Log(3,"timer has disappeared meanwhile");
+		    continue;
+		  }
+		else
+		  LogFile.Log(3,"evaluating conflict check command for timer '%s' (%s, channel %s)", (*it)->timer->File(), DAYDATETIME((*it)->start), CHANNELNAME((*it)->timer->Channel()));
+		
+		if ((*it)->Event())
+		  {
+		    cVarExpr varExprEvent(result);
+		    result = varExprEvent.Evaluate((*it)->Event());
+		  }
+		cVarExpr varExprTimer(result);
+		result =  varExprTimer.Evaluate((*it)->timer);
+		cVarExpr varExpr(result);
+		varExpr.Evaluate();
+	      }
+	}
+    }
 }

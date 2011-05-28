@@ -546,6 +546,8 @@ void cSearchTimerThread::Action(void)
                   mailNotifier.SendConflictNotifications(conflictCheck);
                }
 
+ 	       conflictCheck.EvaluateConflCheckCmd();
+
                cString msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"), 
 						 conflictCheck.relevantConflicts,
 						 *DateTime(conflictCheck.nextRelevantConflictDate));
