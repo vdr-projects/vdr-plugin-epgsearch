@@ -690,6 +690,7 @@ cMenuSearchResultsForQuery::cMenuSearchResultsForQuery(const char *query, bool I
       searchExt->useTitle = 1;
       searchExt->useSubtitle = 0;
       searchExt->useDescription = 0;
+      searchExt->blacklistMode = blacklistsNone;
       BuildList();
    }
 }

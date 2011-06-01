@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-01-08 12:15+0100\n"
+"POT-Creation-Date: 2011-05-30 19:07+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Drazen Dupor <drazen.dupor@dupor.com>\n"
 "Language-Team: Croatian <vdr@linuxtv.org>\n"
@@ -709,6 +709,9 @@ msgstr ""
 msgid "Day of week"
 msgstr ""
 
+msgid "Use global"
+msgstr ""
+
 msgid "Button$Templates"
 msgstr ""
 
@@ -950,6 +953,9 @@ msgid "Announce and switch"
 msgstr ""
 
 msgid "Announce by mail"
+msgstr ""
+
+msgid "only globals"
 msgstr ""
 
 msgid "Selection"

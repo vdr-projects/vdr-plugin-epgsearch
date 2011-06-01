@@ -54,6 +54,10 @@ void cMenuBlacklistsItem::Set(void)
 {
   ostringstream line;
 
+  if (blacklist->isGlobal != 0)
+    line << setiosflags(ios::left) << "G";
+  line << "\t";
+
   if (blacklist->search && strlen(blacklist->search) > 0)
     line << setiosflags(ios::left) << string(blacklist->search);
   else
@@ -93,7 +97,7 @@ int cMenuBlacklistsItem::Compare(const cListObject &ListObject) const
 
 // --- cMenuBlacklists ----------------------------------------------------------
 cMenuBlacklists::cMenuBlacklists()
-:cOsdMenu(tr("Blacklists"), 20, 11, 6, 5)
+:cOsdMenu(tr("Blacklists"), 3, 20, 11, 6, 5)
 {
     cMutexLock BlacklistLock(&Blacklists);
     cBlacklist *Blacklist = Blacklists.First();

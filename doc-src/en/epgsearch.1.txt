@@ -251,8 +251,9 @@ You'll find the user-defined selection in the list after Friday.
 
 =item - B<Use blacklists:>
 
-You can select one or more or all blacklists here. If any search result
-is also contained in one of the selected blacklists it will be skipped.
+Blacklists are a way to exclude unwanted events. Select only global, one, more
+or all blacklists here. If any search result is also contained in one of 
+the selected blacklists it will be skipped.
 
 =item - B<Use in favorites menu:>
 
@@ -667,6 +668,11 @@ search.
 
 Here you can manage blacklists which can be used to suppress unwanted events
 within a search.
+A blacklist can also be marked as global. Since the default setting of a search timer 
+for 'use blacklists' is 'only global', this is a simple way to exclude unwanted events
+form all search timers, except: If the search timer has the option 'use blacklists: none'
+no blacklists are taken into account. Also the search for repeats within the OSD ignores
+any blacklists.
 
 =item - B<Channel groups:>
 

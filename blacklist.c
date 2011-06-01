@@ -61,6 +61,7 @@ cBlacklist::cBlacklist(void)
     useDayOfWeek = false;
     DayOfWeek = 0;
     buffer = NULL;
+    isGlobal = 0;
 
     useExtEPGInfo = false;
     catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
@@ -133,6 +134,7 @@ void cBlacklist::CopyFromTemplate(const cSearchExt* templ)
   useDayOfWeek = templ->useDayOfWeek;
   DayOfWeek = templ->DayOfWeek;
   useExtEPGInfo = templ->useExtEPGInfo;
+  isGlobal = 0;
 
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
@@ -233,7 +235,7 @@ const char *cBlacklist::ToText(void)
       }
   }
 
-  msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%s:%d:%d",
+  msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%s:%d:%d:%d",
 	   ID,
 	   tmp_search,
 	   useTime,
@@ -254,7 +256,8 @@ const char *cBlacklist::ToText(void)
 	   useExtEPGInfo,
 	   useExtEPGInfo?tmp_catvalues:"",
 	   fuzzyTolerance,
-	   ignoreMissingEPGCats);
+	   ignoreMissingEPGCats,
+	   isGlobal);
 
 
   if (tmp_chanSel)
@@ -384,6 +387,8 @@ bool cBlacklist::Parse(const char *s)
 	    case 20: fuzzyTolerance = atoi(value);
 		break;
             case 21: ignoreMissingEPGCats = atoi(value);
+         	break;
+            case 22: isGlobal = atoi(value);
          	break;
 	    default:
 	        break;

@@ -57,6 +57,7 @@ public:
   int      ignoreMissingEPGCats;
   char**   catvalues;
   int      fuzzyTolerance;
+  int      isGlobal;
   static char *buffer;
 public:
   cBlacklist(void);

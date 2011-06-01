@@ -215,6 +215,8 @@ void cMenuBlacklistEdit::Set()
 	}	
 	Add(new cMenuEditStraItem(IndentMenuItem(tr("Day of week")), &data.DayOfWeek, 8, DaysOfWeek));
     }
+    Add(new cMenuEditBoolItem( tr("Use global"), &data.isGlobal, trVDR("no"), trVDR("yes")));
+
     SetCurrent(Get(current));
 }
 

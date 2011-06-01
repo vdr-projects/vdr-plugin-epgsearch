@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-01-08 12:15+0100\n"
+"POT-Creation-Date: 2011-05-30 19:07+0200\n"
 "PO-Revision-Date: 2010-03-29 01:42+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: Italian <vdr@linuxtv.org>\n"
@@ -761,6 +761,9 @@ msgstr "Utilizza giorno settimana"
 msgid "Day of week"
 msgstr "Giorno settimana"
 
+msgid "Use global"
+msgstr ""
+
 msgid "Button$Templates"
 msgstr "Modelli"
 
@@ -1003,6 +1006,9 @@ msgstr "Annuncia e cambia"
 
 msgid "Announce by mail"
 msgstr "Annuncia tramite email"
+
+msgid "only globals"
+msgstr ""
 
 msgid "Selection"
 msgstr "Selezione"

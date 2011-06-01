@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-01-08 12:15+0100\n"
+"POT-Creation-Date: 2011-05-30 19:07+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: Dutch <vdr@linuxtv.org>\n"
@@ -749,6 +749,9 @@ msgstr "Gebruik dag van de week"
 msgid "Day of week"
 msgstr "Dag van de week"
 
+msgid "Use global"
+msgstr ""
+
 msgid "Button$Templates"
 msgstr "Sjablonen"
 
@@ -994,6 +997,9 @@ msgstr "Alleen aankondigen (geen timer)"
 #, fuzzy
 msgid "Announce by mail"
 msgstr "Alleen aankondigen (geen timer)"
+
+msgid "only globals"
+msgstr ""
 
 msgid "Selection"
 msgstr "Selectie"

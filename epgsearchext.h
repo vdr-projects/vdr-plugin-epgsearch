@@ -41,9 +41,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 typedef enum
 {
-    blacklistsNo = 0,
+    blacklistsOnlyGlobal = 0,
     blacklistsSelection,
-    blacklistsAll
+    blacklistsAll,
+    blacklistsNone
 } blacklistModes;
 
 typedef enum

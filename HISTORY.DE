@@ -3,6 +3,10 @@ VDR Plugin 'epgsearch' Revision History
 
 2010-xx-xx; Version 0.9.25
 neu:
+- Globale Ausschlusslisten: Ausschlusslisten für Suchtimer können nun als global markiert 
+  werden, um unerwünschte Sendungen generell auszuschliessen (wie z.B auf doppelten SD/HD-
+  Kanälen). Vorbelegung für Suchtimer ist nun "nur globale", kann aber auch auf "keine" 
+  gesetzt werden, um auch globale Ausschlusslisten zu ignorieren.
 - neue Setup-Option epgsearch.ConflCheckCmd (keine GUI dazu, also nur per setup.conf zu 
   setzen!), mit der man je Konflikt-Timer einen Befehl ausführen kann, mehr dazu im MANUAL.
 - vdr-1.7.15 benutzt einen anderen SVDRP Standard-Port (6419), bitte im Setupmenü von 

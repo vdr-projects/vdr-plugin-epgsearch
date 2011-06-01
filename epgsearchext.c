@@ -103,7 +103,7 @@ cSearchExt::cSearchExt(void)
    recordingsKeep = 0;
    switchMinsBefore = 1;
    pauseOnNrRecordings = 0;
-   blacklistMode = blacklistsNo; // no blacklists
+   blacklistMode = blacklistsOnlyGlobal; // no blacklists
    blacklists.Clear();
    fuzzyTolerance = 1;
    useInFavorites = 0;
@@ -1104,10 +1104,20 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
 
 cSearchResults* cSearchExt::GetBlacklistEvents(int MarginStop)
 {
-   if (blacklistMode == blacklistsNo) return NULL;
+   if (blacklistMode == blacklistsNone) return NULL;
 
    cMutexLock BlacklistLock(&Blacklists);
    cSearchResults* blacklistEvents = NULL; 
+   if (blacklistMode == blacklistsOnlyGlobal)
+   {
+      cBlacklist* tmpblacklist = Blacklists.First();
+      while(tmpblacklist)
+      {
+	if (tmpblacklist->isGlobal)
+	    blacklistEvents = tmpblacklist->Run(blacklistEvents, MarginStop);
+	tmpblacklist = Blacklists.Next(tmpblacklist);
+      }
+   }
    if (blacklistMode == blacklistsAll)
    {
       cBlacklist* tmpblacklist = Blacklists.First();

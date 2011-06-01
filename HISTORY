@@ -3,6 +3,9 @@ VDR Plugin 'epgsearch' Revision History
 
 2010-xx-xx; Version 0.9.25
 new:
+- global blacklists: blacklists for search timers can now be global to exclude 
+  unwanted events (like on my double SD/HD channels). Default mode for search timers is 
+  now 'only global', but can be  set to 'none' to ignore also global blacklists.
 - new setup variable epgsearch.ConflCheckCmd (no gui for this, so edit setup.conf!), that 
   allows executing a command for each timer causing a conflict, see the MANUAL for details.
 - vdr-1.7.15 has changed the SVDRP default port to 6419, please update this in epgsearch's 

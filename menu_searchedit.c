@@ -78,9 +78,10 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
    SearchTimerModes[3] = strdup(tr("Announce and switch"));
    SearchTimerModes[4] = strdup(tr("Announce by mail"));
 
-   BlacklistModes[0] = strdup(trVDR("no"));
+   BlacklistModes[0] = strdup(tr("only globals"));
    BlacklistModes[1] = strdup(tr("Selection"));
    BlacklistModes[2] = strdup(tr("all"));
+   BlacklistModes[3] = strdup(trVDR("none"));
 
    DelModes[0] = strdup(trVDR("no"));
    DelModes[1] = strdup(tr("count recordings"));
@@ -329,7 +330,7 @@ void cMenuEditSearchExt::Set()
       }	
       Add(new cMenuEditStraItem(IndentMenuItem(tr("Day of week")),     &data.DayOfWeek, 8, DaysOfWeek));
    }
-   Add(new cMenuEditStraItem(tr("Use blacklists"), &data.blacklistMode, 3, BlacklistModes));
+   Add(new cMenuEditStraItem(tr("Use blacklists"), &data.blacklistMode, 4, BlacklistModes));
 
    if (EPGSearchConfig.showFavoritesMenu)
       Add(new cMenuEditBoolItem( tr("Use in favorites menu"), &data.useInFavorites, trVDR("no"), trVDR("yes")));
@@ -434,7 +435,7 @@ cMenuEditSearchExt::~cMenuEditSearchExt()
       free(UseChannelSel[i]);
    for(i=0; i<=2; i++)
       free(SearchTimerModes[i]);
-   for(i=0; i<=2; i++)
+   for(i=0; i<=3; i++)
       free(BlacklistModes[i]);
    for(i=0; i<=2; i++)
       free(DelModes[i]);

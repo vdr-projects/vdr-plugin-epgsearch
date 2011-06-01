@@ -250,7 +250,8 @@ Son, Mon, ..., Sam, benutzerdefiniert
 
 =item - B<Verwende Ausschlusslisten:>
 
-Hier können eine oder mehrere oder alle Ausschlusslisten selektiert werden.
+Ausschlusslisten können benutzt werden, um unerwünschte Sendungen auszuschließen.
+Hier können nur globale, eine oder mehrere oder alle Ausschlusslisten selektiert werden.
 Falls ein Suchergebnis auch in einer der gewählten Ausschlusslisten
 erscheint, wird es verworfen.
 
@@ -684,7 +685,14 @@ verwendet werden können.
 =item - B<Ausschlusslisten:>
 
 Hier können Ausschlusslisten verwalten werden. Diese können innerhalb einer
-Suche verwendet werden um unerwünschte Sendungen zu vermeiden.
+Suche verwendet werden um unerwünschte Sendungen zu vermeiden. 
+Eine Ausschlussliste kann auch als global gekennzeichnet werden. Da die 
+Standardeinstellung beim Suchtimer für die Option 'Ausschlusslisten verw.' 
+auf 'nur globale' steht, kann man somit einfach unerwünschte Sendungen von 
+allen Suchtimern ausschließen. Ausnahme: Falls beim Suchtimer die Option 
+'Ausschlusslisten verw.: keine' gewählt ist, hat eine globale Ausschlussliste 
+keine Auswirkung. Ebenso werden globale Ausschlusslisten bei der Suche nach 
+Wiederholungen über das OSD ignoriert.
 
 =item - B<Kanalgruppen:>
 

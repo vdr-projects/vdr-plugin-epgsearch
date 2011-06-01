@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-01-08 12:15+0100\n"
+"POT-Creation-Date: 2011-05-30 19:07+0200\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -751,6 +751,9 @@ msgstr " Pou¾i deò v tý¾dni"
 msgid "Day of week"
 msgstr " Deò v tý¾dni"
 
+msgid "Use global"
+msgstr ""
+
 msgid "Button$Templates"
 msgstr "©ablony"
 
@@ -996,6 +999,9 @@ msgstr "Iba oznámi»"
 #, fuzzy
 msgid "Announce by mail"
 msgstr "Iba oznámi»"
+
+msgid "only globals"
+msgstr ""
 
 msgid "Selection"
 msgstr "Vybrané"
