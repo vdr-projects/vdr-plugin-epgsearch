@@ -533,6 +533,7 @@ The following variables exist:
  %year%           - year with century
  %month%          - month (1-12)
  %day%            - day (1-31)
+ %week%		  - week number of the year (Monday as the first day of the week) as a decimal number [01,53]
  %time_w%         - weekday name
  %time_d%         - start day in format TT
  %time_lng%       - start time in seconds since 1970-01-01 00:00

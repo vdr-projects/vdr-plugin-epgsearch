@@ -358,6 +358,15 @@ compared. If this is similar at the value of the next option
 
 The needed minimum match of descriptions in percent. 
 
+=item - B<Compare expression:>
+
+Sometimes an event is repeated many times within some period (week, month,...), but one 
+cannot distinguish the repeats based on the EPG contents. So the only information is its time. 
+To use this for comparison you can fill this entry with the corresponding variables. 
+E.g: the epxression 
+'%year%-%month%' will avoid all repeats within one month of the year,
+'%year%-%week%' will avoid the repeats within the week of the year,...
+
 =item - B<Compare categories:>
 
 With the button 'setup' you can also specify which categories should

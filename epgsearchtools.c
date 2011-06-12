@@ -54,7 +54,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <regex.h>
 #endif
 
-const char AllowedChars[] = trNOOP("$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&");
+const char AllowedChars[] = trNOOP("$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_");
 extern bool isUTF8;
 
 int CompareEventTime(const void *p1, const void *p2)
@@ -564,6 +564,21 @@ char *strreplacei(char *s, const char *s1, const char *s2)
    return s;
 }
 
+std::string strreplace(
+  std::string& result, 
+  const std::string& replaceWhat, 
+  const std::string& replaceWithWhat)
+{
+  while(1)
+  {
+    const int pos = result.find(replaceWhat);
+    if (pos==-1) break;
+    result.replace(pos,replaceWhat.size(),replaceWithWhat);
+  }
+  return result;
+}
+
+
 void sleepMSec(long ms)
 {
    cCondWait::SleepMs(ms);
@@ -791,7 +806,7 @@ void PrepareTimerFile(const cEvent* event, cTimer* timer)
    }
 }
 
-bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, int matchLimit)
+bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, const char* compareExpression, unsigned long catvaluesAvoidRepeat, int matchLimit)
 {
    if (!event1 || !event2) return false;
    if (event1 == event2) return true;
@@ -834,6 +849,14 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
          free(rawDescr1);
          free(rawDescr2);
          if (!match) return false;
+      }
+      if (compareExpression != NULL && strlen(compareExpression) > 0)
+      {
+	   cVarExpr varExpr(compareExpression); 
+	   string resEvent1 = varExpr.Evaluate(event1);
+	   string resEvent2 = varExpr.Evaluate(event2);
+	   if (resEvent1 != resEvent2)
+	     return false;
       }
       if (catvaluesAvoidRepeat != 0) // check categories
       {

@@ -141,6 +141,7 @@ string UpdateAuxValue(string aux, string section, string value);
 string UpdateAuxValue(string aux, string section, long num);
 void ToLower(char* szText);
 char *strreplacei(char *s, const char *s1, const char *s2);
+std::string strreplace(std::string& result, const std::string& replaceWhat, const std::string& replaceWithWhat);
 
 // replace s1 with s2 in s ignoring the case of s1
 inline char *strreplacei(char *s, const char *s1, const char s2)
@@ -170,7 +171,7 @@ char* GetRawDescription(const char* descr);
 void PrepareTimerFile(const cEvent* event, cTimer* timer);
 int CompareEventTime(const void *p1, const void *p2);
 int CompareEventChannel(const void *p1, const void *p2);
-bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, int matchLimit=90);
+bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, const char* compareExpression, unsigned long catvaluesAvoidRepeat, int matchLimit=90);
 int ChannelNrFromEvent(const cEvent* pEvent);
 void DelTimer(int index);
 char* FixSeparators(char* buffer, char sep);

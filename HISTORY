@@ -3,6 +3,9 @@ VDR Plugin 'epgsearch' Revision History
 
 2010-xx-xx; Version 0.9.25
 new:
+- avoid repeats with new 'compare expression' entry: compare two events by an arbitrary
+  expression. E.g: the epxression '%year%-%month%' will avoid all repeats within one month,
+  '%week%' will avoid the repeats within the week,...
 - global blacklists: blacklists for search timers can now be global to exclude 
   generally unwanted events (like on my double SD/HD channels). Default mode for search 
   timers is now 'only global', but can be  set to 'none' to ignore also global blacklists.

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-05-30 19:07+0200\n"
+"POT-Creation-Date: 2011-06-12 10:15+0200\n"
 "PO-Revision-Date: 2010-03-29 01:42+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: Italian <vdr@linuxtv.org>\n"
@@ -607,7 +607,8 @@ msgstr "Verifica account email fallita!"
 msgid "Button$Test"
 msgstr "Prova"
 
-msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+#, fuzzy
+msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
 msgstr " aàbcdeéèfghiîìjklmnoòpqrstuùvwxyz0123456789-.#~\\^$[]|()*+?{}/:%"
 
 msgid "Start/Stop time has changed"
@@ -1139,6 +1140,10 @@ msgstr "Confronta sommario"
 #, fuzzy
 msgid "Min. match in %"
 msgstr "   Durata Minima"
+
+#, fuzzy
+msgid "Compare expression"
+msgstr "espressione regolare"
 
 msgid "Compare categories"
 msgstr "Confronta categorie"

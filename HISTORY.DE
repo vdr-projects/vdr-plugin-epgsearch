@@ -3,6 +3,9 @@ VDR Plugin 'epgsearch' Revision History
 
 2010-xx-xx; Version 0.9.25
 neu:
+- Vermeide Wiederholungen mit dem neuen 'Vergleiche Ausdruck'-Eintrag: dabei werden 
+  2 Sendungen anhand eines beliebigen Ausdruck verglichen. Z.B. '%year%-%month%' vermeidet
+  Wiederholungen innerhalb eines Monats, '%week%' innerhalb einer Wochen,...
 - Globale Ausschlusslisten: Ausschlusslisten für Suchtimer können nun als global markiert 
   werden, um unerwünschte Sendungen generell auszuschliessen (wie z.B auf doppelten SD/HD-
   Kanälen). Vorbelegung für Suchtimer ist nun "nur globale", kann aber auch auf "keine" 

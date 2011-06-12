@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-05-30 19:07+0200\n"
+"POT-Creation-Date: 2011-06-12 10:15+0200\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -597,7 +597,8 @@ msgstr "Chyba kontroly mailového úètu!"
 msgid "Button$Test"
 msgstr "Testova»"
 
-msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+#, fuzzy
+msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
 msgstr " $ aáäbcèdïeéfghiíjklåµmnòoóôpqràs¹t»uúvwxyýz¾0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
 msgid "Start/Stop time has changed"
@@ -1133,6 +1134,10 @@ msgstr "porovna» celkovo"
 #, fuzzy
 msgid "Min. match in %"
 msgstr " Min. doba"
+
+#, fuzzy
+msgid "Compare expression"
+msgstr "be¾ný výraz"
 
 msgid "Compare categories"
 msgstr "porovna» kategórie"

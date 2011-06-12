@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EPGSearch 0.9.25\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-05-30 19:07+0200\n"
+"POT-Creation-Date: 2011-06-12 10:15+0200\n"
 "PO-Revision-Date: 2011-01-04 21:07+0200\n"
 "Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
 "Language-Team: Finnish <vdr@linuxtv.org>\n"
@@ -598,7 +598,8 @@ msgstr "Sähköpostilaatikon tarkistus epäonnistui!"
 msgid "Button$Test"
 msgstr "Testaa"
 
-msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+#, fuzzy
+msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
 msgstr " abcdefghijklmnopqrstuvwxyzåäö0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
 msgid "Start/Stop time has changed"
@@ -1127,6 +1128,10 @@ msgstr "Vertaa kuvausta"
 
 msgid "Min. match in %"
 msgstr "Vaadittava yhdenmukaisuus [%]"
+
+#, fuzzy
+msgid "Compare expression"
+msgstr "säännöllinen lauseke"
 
 msgid "Compare categories"
 msgstr "Vertaa kategorioita"

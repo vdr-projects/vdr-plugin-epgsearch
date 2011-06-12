@@ -28,6 +28,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchcfg.h"
 #include "epgsearchcats.h"
 #include "searchtimer_thread.h"
+#include "uservars.h"
 
 #include <vdr/tools.h>
 
@@ -229,10 +230,50 @@ int cRecDone::ChannelNr()
 // -- cRecsDone -----------------------------------------------------------------
 int cRecsDone::GetCountRecordings(const cEvent* event, cSearchExt* search, cRecDone** first, int matchLimit)
 {
-  return GetCountRecordings(event, search->compareTitle, search->compareSubtitle, search->compareSummary, search->catvaluesAvoidRepeat, first, matchLimit);
+  return GetCountRecordings(event, search->compareTitle, search->compareSubtitle, search->compareSummary, search->compareExpression, search->catvaluesAvoidRepeat, first, matchLimit);
 }
 
-int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int compareSubtitle, bool compareSummary, unsigned long catvaluesAvoidRepeat, cRecDone** first, int matchLimit)
+bool CatValuesMatch(unsigned long catvaluesAvoidRepeat, const string& rDescr, const string& eDescr)
+{
+  bool bCatMatch = ((rDescr != "" && eDescr != "") || (rDescr == "" && eDescr == ""));
+  cSearchExtCat *SearchExtCat = SearchExtCats.First();
+  int index = 0;
+  while (catvaluesAvoidRepeat > 0 && SearchExtCat && bCatMatch) 	    
+    {
+      if (catvaluesAvoidRepeat & (1<<index))
+	{
+	  char* eCatValue = GetExtEPGValue(eDescr.c_str(), SearchExtCat->name);
+	  char* rCatValue = GetExtEPGValue(rDescr.c_str(), SearchExtCat->name);
+	  if ((!eCatValue && rCatValue) ||
+	      (!rCatValue && eCatValue) ||
+	      (eCatValue && rCatValue && strcmp(eCatValue, rCatValue) != 0))
+	    bCatMatch = false;
+	  free(eCatValue);
+	  free(rCatValue);
+	}
+      SearchExtCat = SearchExtCats.Next(SearchExtCat);
+      index++;
+    }
+  return bCatMatch;
+}
+
+bool MatchesInExpression(const string& expression, const cRecDone* recDone, const cEvent* event)
+{
+  cVarExpr varExpr(expression);
+  
+  cEvent recDoneEvent(0);
+  recDoneEvent.SetTitle(recDone->title);
+  recDoneEvent.SetShortText(recDone->shortText);
+  recDoneEvent.SetDescription(recDone->description);
+  recDoneEvent.SetStartTime(recDone->startTime);
+  recDoneEvent.SetDuration(recDone->duration);
+
+  string resRecDone = varExpr.Evaluate(&recDoneEvent);
+  string resEvent = varExpr.Evaluate(event);
+  return resRecDone == resEvent;
+}
+
+int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int compareSubtitle, bool compareSummary, const char* compareExpression, unsigned long catvaluesAvoidRepeat, cRecDone** first, int matchLimit)
 {
    if (first)
       *first = NULL;
@@ -265,7 +306,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
       eRawDescr = rawDescr?rawDescr:"";
       if (rawDescr) free(rawDescr);
    }
-       
+
    cRecDone* firstrecDone = NULL;
    cRecDone* recDone = First();
    while (recDone) 
@@ -296,46 +337,15 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
 
       if ((!compareTitle || rTitle == eTitle) &&
           (!compareSubtitle || (rSubtitle == eSubtitle && rSubtitle !="")) &&
-          (!compareSummary || DescriptionMatches(eRawDescr.c_str(), rRawDescr.c_str(), matchLimit)))
+          (!compareSummary || DescriptionMatches(eRawDescr.c_str(), rRawDescr.c_str(), matchLimit)) &&
+	  (catvaluesAvoidRepeat == 0 || CatValuesMatch(catvaluesAvoidRepeat, rDescr, eDescr)) &&
+	  (compareExpression == NULL || strlen(compareExpression) == 0 || MatchesInExpression(compareExpression, recDone, event)))
       {
-         if (catvaluesAvoidRepeat != 0) // check categories
-         {
-            bool bCatMatch = ((rDescr != "" && eDescr != "") || (rDescr == "" && eDescr == ""));
-            cSearchExtCat *SearchExtCat = SearchExtCats.First();
-            int index = 0;
-            while (catvaluesAvoidRepeat > 0 && SearchExtCat && bCatMatch) 	    
-            {
-               if (catvaluesAvoidRepeat & (1<<index))
-               {
-                  char* eCatValue = GetExtEPGValue(eDescr.c_str(), SearchExtCat->name);
-                  char* rCatValue = GetExtEPGValue(rDescr.c_str(), SearchExtCat->name);
-                  if ((!eCatValue && rCatValue) ||
-                      (!rCatValue && eCatValue) ||
-                      (eCatValue && rCatValue && strcmp(eCatValue, rCatValue) != 0))
-                     bCatMatch = false;
-                  free(eCatValue);
-                  free(rCatValue);
-               }
-               SearchExtCat = SearchExtCats.Next(SearchExtCat);
-               index++;
-            }
-            if (bCatMatch)
-            {
-               if (!firstrecDone) firstrecDone = recDone;
-               else
-                  if (firstrecDone->startTime > recDone->startTime)
-                     firstrecDone = recDone;
-               count++;
-            }
-         }
-         else
-         {
-            if (!firstrecDone) firstrecDone = recDone;
-            else
-               if (firstrecDone->startTime > recDone->startTime)
-                  firstrecDone = recDone;
-            count++;
-         }
+	if (!firstrecDone) firstrecDone = recDone;
+	else
+	  if (firstrecDone->startTime > recDone->startTime)
+	    firstrecDone = recDone;
+	count++;
       }
 
       recDone = Next(recDone);

@@ -354,7 +354,7 @@ public:
 
 class cMonthVar : public cInternalVar {
 public:
-    cMonthVar() : cInternalVar("%year%") {}
+    cMonthVar() : cInternalVar("%month%") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false) 
 	{ 
 	    if (!e) return "";
@@ -378,6 +378,21 @@ public:
 	    const time_t t = e->StartTime();
 	    tm *tm = localtime_r(&t, &tm_r);
 	    strftime(day, sizeof(day), "%d", tm);
+	    if (escapeStrings) return "'" + EscapeString(day) + "'"; else return day;
+	}
+};
+
+class cWeekVar : public cInternalVar {
+public:
+    cWeekVar() : cInternalVar("%week%") {}
+    string Evaluate(const cEvent* e, bool escapeStrings = false) 
+	{ 
+	    if (!e) return "";
+	    char day[3] = "";
+	    struct tm tm_r;
+	    const time_t t = e->StartTime();
+	    tm *tm = localtime_r(&t, &tm_r);
+	    strftime(day, sizeof(day), "%V", tm);
 	    if (escapeStrings) return "'" + EscapeString(day) + "'"; else return day;
 	}
 };
@@ -719,6 +734,7 @@ class cUserVars : public cList<cUserVar> {
     cYearVar yearVar;
     cMonthVar monthVar;
     cDayVar dayVar;
+    cWeekVar weekVar;
     cChannelNrVar chnrVar;
     cChannelShortVar chShortVar;
     cChannelLongVar chLongVar;
@@ -775,6 +791,7 @@ class cUserVars : public cList<cUserVar> {
 	    internalVars[yearVar.Name()] = &yearVar;
 	    internalVars[monthVar.Name()] = &monthVar;
 	    internalVars[dayVar.Name()] = &dayVar;
+	    internalVars[weekVar.Name()] = &weekVar;
 	    internalVars[chnrVar.Name()] = &chnrVar;
 	    internalVars[chShortVar.Name()] = &chShortVar;
 	    internalVars[chLongVar.Name()] = &chLongVar;

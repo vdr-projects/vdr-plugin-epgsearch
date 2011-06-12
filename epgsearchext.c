@@ -116,6 +116,7 @@ cSearchExt::cSearchExt(void)
    ignoreMissingEPGCats = 0;
    unmuteSoundOnSwitch = 0;
    skipRunningEvents = false;
+   *compareExpression = 0;
 }
 
 cSearchExt::~cSearchExt(void)
@@ -218,6 +219,7 @@ cSearchExt& cSearchExt::operator= (const cSearchExt &SearchExt)
    compareSubtitle = templ->compareSubtitle;
    compareSummary = templ->compareSummary;
    compareSummaryMatchInPercent = templ->compareSummaryMatchInPercent;
+   strcpy(compareExpression, templ->compareExpression);
    allowedRepeats = templ->allowedRepeats;
    catvaluesAvoidRepeat = templ->catvaluesAvoidRepeat;
    repeatsWithinDays = templ->repeatsWithinDays;
@@ -249,6 +251,15 @@ bool cSearchExt::operator< (const cListObject &ListObject)
    return strcasecmp(search, SE->search) < 0;
 }
 
+char* replaceSpecialChars(const char* in)
+{
+   char* tmp_in = strdup(in);
+   while(strstr(tmp_in, "|"))
+      tmp_in = strreplace(tmp_in, "|", "!^pipe^!"); // ugly: replace a pipe with something, 
+   strreplace(tmp_in, ':', '|');
+   return tmp_in;
+}
+
 const char *cSearchExt::ToText()
 {
    char tmp_Start[5] = "";
@@ -256,23 +267,14 @@ const char *cSearchExt::ToText()
    char tmp_minDuration[5] = "";
    char tmp_maxDuration[5] = "";
    cString tmp_chanSel;
-   char* tmp_search = NULL;
-   char* tmp_directory = NULL;
    char* tmp_catvalues = NULL;
    char* tmp_blacklists = NULL;
 
    free(buffer);
-   tmp_search = strdup(search);
-   while(strstr(tmp_search, "|"))
-      tmp_search = strreplace(tmp_search, "|", "!^pipe^!"); // ugly: replace a pipe with something, 
-                                                            // that should not happen to be part of a search string
-   tmp_directory = strdup(directory);
-   while(strstr(tmp_directory, "|"))
-      tmp_directory = strreplace(tmp_directory, "|", "!^pipe^!"); // ugly: replace a pipe with something, 
-   // that should not happen to be part of a search string
-
-   strreplace(tmp_search, ':', '|');
-   strreplace(tmp_directory, ':', '|');
+   char* tmp_search = replaceSpecialChars(search);
+   char* tmp_directory = replaceSpecialChars(directory);
+   char* tmp_contentsFilter = replaceSpecialChars(contentsFilter.c_str());
+   char* tmp_compareExpression = replaceSpecialChars(compareExpression);
 
    if (useTime)
    {
@@ -350,7 +352,7 @@ const char *cSearchExt::ToText()
       }      
    }
 
-   msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d:%s",
+   msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d:%s:%s",
             ID,
             tmp_search,
             useTime,
@@ -403,12 +405,15 @@ const char *cSearchExt::ToText()
 	    ignoreMissingEPGCats, 
 	    unmuteSoundOnSwitch,
 	    compareSummaryMatchInPercent,
-	    contentsFilter.c_str());
+	    contentsFilter.c_str(),
+	    compareExpression);
 
    if (tmp_search) free(tmp_search);
    if (tmp_directory) free(tmp_directory);
    if (tmp_catvalues) free(tmp_catvalues);
    if (tmp_blacklists) free(tmp_blacklists);
+   if (tmp_contentsFilter) free(tmp_contentsFilter);
+   if (tmp_compareExpression) free(tmp_compareExpression);
 
    return buffer;
 }
@@ -614,6 +619,9 @@ bool cSearchExt::Parse(const char *s)
 	    case 53:
 	      contentsFilter = value;
 	      break;
+	    case 54:
+	      strcpy(compareExpression, value);
+	      break;
 	    default:
 	      break;
             } //switch
@@ -625,10 +633,16 @@ bool cSearchExt::Parse(const char *s)
 
    strreplace(directory, '|', ':');
    strreplace(search, '|', ':');
+   strreplace(contentsFilter, "|", ":");
+   strreplace(compareExpression, '|', ':');
+
    while(strstr(search, "!^pipe^!"))
       strreplace(search, "!^pipe^!", "|");
    while(strstr(directory, "!^pipe^!"))
       strreplace(directory, "!^pipe^!", "|");
+   strreplace(contentsFilter, "!^pipe^!", "|");
+   while(strstr(compareExpression, "!^pipe^!"))
+      strreplace(compareExpression, "!^pipe^!", "|");
 
    if (disableSearchtimer && useAsSearchTimer)
    {
@@ -1191,7 +1205,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
          
          if (!pResultObjP->needsTimer) continue;
          
-         if (EventsMatch(pEvent, pEventP, compareTitle, compareSubtitle, compareSummary, catvaluesAvoidRepeat))
+         if (EventsMatch(pEvent, pEventP, compareTitle, compareSubtitle, compareSummary, compareExpression, catvaluesAvoidRepeat))
          {
             if (!pFirstResultMatching) pFirstResultMatching = pResultObjP;
             plannedTimers++;

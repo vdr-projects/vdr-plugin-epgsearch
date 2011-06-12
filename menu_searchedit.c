@@ -367,30 +367,31 @@ void cMenuEditSearchExt::Set()
          if (data.avoidRepeats)
          {
 	   Add(new cMenuEditIntItem(IndentMenuItem(tr("Allowed repeats"),2), &data.allowedRepeats, 0, 99));
-            if (data.allowedRepeats > 0)
-	      Add(new cMenuEditIntItem(IndentMenuItem(tr("Only repeats within ... days"),2), &data.repeatsWithinDays, 0, 999));
-            Add(new cMenuEditBoolItem(IndentMenuItem(tr("Compare title"),2), &data.compareTitle, trVDR("no"), trVDR("yes")));
-		Add(new cMenuEditStraItem(IndentMenuItem(tr("Compare subtitle"),2), &data.compareSubtitle, 2, CompareSubtitleModes));
-		Add(new cMenuEditBoolItem(IndentMenuItem(tr("Compare summary"),2), &data.compareSummary, trVDR("no"), trVDR("yes")));
-	    if (data.compareSummary)
-	      Add(new cMenuEditIntItem(IndentMenuItem(tr("Min. match in %"),3), &data.compareSummaryMatchInPercent, 1, 100));
-            // show 'Compare categories' only if we have them
-            if (SearchExtCats.Count() > 0)
-            {
+	   if (data.allowedRepeats > 0)
+	     Add(new cMenuEditIntItem(IndentMenuItem(tr("Only repeats within ... days"),2), &data.repeatsWithinDays, 0, 999));
+	   Add(new cMenuEditBoolItem(IndentMenuItem(tr("Compare title"),2), &data.compareTitle, trVDR("no"), trVDR("yes")));
+	   Add(new cMenuEditStraItem(IndentMenuItem(tr("Compare subtitle"),2), &data.compareSubtitle, 2, CompareSubtitleModes));
+	   Add(new cMenuEditBoolItem(IndentMenuItem(tr("Compare summary"),2), &data.compareSummary, trVDR("no"), trVDR("yes")));
+	   if (data.compareSummary)
+	     Add(new cMenuEditIntItem(IndentMenuItem(tr("Min. match in %"),3), &data.compareSummaryMatchInPercent, 1, 100));
+	   Add(new cMenuEditStrItem(IndentMenuItem(tr("Compare expression")), data.compareExpression, sizeof(data.compareExpression), tr(AllowedChars)));
+	   // show 'Compare categories' only if we have them
+	   if (SearchExtCats.Count() > 0)
+	     {
                cSearchExtCat *SearchExtCat = SearchExtCats.First();
                int iUsed = 0;
                int index = 0;
                while (SearchExtCat) 
-               {
-                  if (catarrayAvoidRepeats[index])
+		 {
+		   if (catarrayAvoidRepeats[index])
                      iUsed++;
-                  SearchExtCat = SearchExtCats.Next(SearchExtCat);
-                  index++;
-               }
-		    
+		   SearchExtCat = SearchExtCats.Next(SearchExtCat);
+		   index++;
+		 }
+	       
                cString itemtext = cString::sprintf("%s (%d/%d)", tr("Compare categories"), iUsed, SearchExtCats.Count());
                Add(new cOsdItem(IndentMenuItem(IndentMenuItem(itemtext))));
-            }
+	     }
          }
 	    
          Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Priority")), &data.Priority, 0, MAXPRIORITY));
