@@ -362,14 +362,12 @@ wird er als gleich behandelt.
 
 Die notwendige Übereinstimmung zweier Beschreibung in %.
 
-=item - B<Vergl. Ausdruck>
+=item - B<Vergl. Zeitpunkt>
 
-Manchmal wird eine Sendung häufig innerhalb einer gewissen Zeitspanne (Woche, Monat,...)
+Manchmal wird eine Sendung häufig innerhalb einer gewissen Zeitspanne (Tag, Woche, Monat,...)
 wiederholt, die einzelnen Sendungen lassen sich aber anhand des EPG Inhalts nicht unterscheiden.
-Somit ist der Zeitpunkt also die einzige Information. Um damit zu vergelichen, kann man diesen
-Eintrag mit den entsprechenden Variablen füllen. Z.B. Mit dem Ausdruck
-'%year%-%month%' werden die Wiederholungen innerhalb eines Monats dieses Jahres vermieden,
-'%year%-%week%' vermeidet die Wiederholungen innerhalb einer Woche des Jahres,...
+Somit ist der Zeitpunkt also die einzige Information. Um damit zu vergelichen, kann man hier
+die entsprechende Zeitspanne auswählen, um die Wiederholungen zu ignorieren.
 
 =item - B<Vergl. Kategorien>
 

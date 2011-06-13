@@ -806,7 +806,7 @@ void PrepareTimerFile(const cEvent* event, cTimer* timer)
    }
 }
 
-bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, const char* compareExpression, unsigned long catvaluesAvoidRepeat, int matchLimit)
+bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, int compareSubtitle, bool compareSummary, int compareDate, unsigned long catvaluesAvoidRepeat, int matchLimit)
 {
    if (!event1 || !event2) return false;
    if (event1 == event2) return true;
@@ -834,6 +834,10 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
       std::transform(Subtitle1.begin(), Subtitle1.end(), Subtitle1.begin(), tolower);
       std::transform(Subtitle2.begin(), Subtitle2.end(), Subtitle2.begin(), tolower);
    }
+   string compareExpression = "";
+   if (compareDate == 1) compareExpression = "%date%";
+   if (compareDate == 2) compareExpression = "%year%-%week%";
+   if (compareDate == 3) compareExpression = "%year%-%month%";
 
    bool match = false;
    if ((!compareTitle || Title1 == Title2) &&
@@ -850,7 +854,7 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
          free(rawDescr2);
          if (!match) return false;
       }
-      if (compareExpression != NULL && strlen(compareExpression) > 0)
+      if (compareExpression.size() > 0)
       {
 	   cVarExpr varExpr(compareExpression); 
 	   string resEvent1 = varExpr.Evaluate(event1);

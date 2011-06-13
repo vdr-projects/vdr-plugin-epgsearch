@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-06-12 10:15+0200\n"
+"POT-Creation-Date: 2011-06-13 14:06+0200\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -1019,6 +1019,17 @@ msgstr "Poèet dní"
 msgid "if present"
 msgstr ""
 
+#, fuzzy
+msgid "same day"
+msgstr "Posledný deò"
+
+#, fuzzy
+msgid "same week"
+msgstr " Deò v tý¾dni"
+
+msgid "same month"
+msgstr ""
+
 msgid "Template name"
 msgstr "Meno ¹ablony"
 
@@ -1136,8 +1147,8 @@ msgid "Min. match in %"
 msgstr " Min. doba"
 
 #, fuzzy
-msgid "Compare expression"
-msgstr "be¾ný výraz"
+msgid "Compare date"
+msgstr "porovna» tituly"
 
 msgid "Compare categories"
 msgstr "porovna» kategórie"
@@ -1299,6 +1310,10 @@ msgstr "v %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "v %02ldm"
+
+#, fuzzy
+#~ msgid "Compare expression"
+#~ msgstr "be¾ný výraz"
 
 #~ msgid "File"
 #~ msgstr "Súbor"

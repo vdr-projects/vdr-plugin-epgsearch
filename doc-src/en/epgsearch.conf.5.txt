@@ -93,7 +93,8 @@ is B<':'>:
  51 - unmute sound if off when used as switch timer
  52 - percentage of match when comparing the summary of two events (with 'avoid repeats')
  53 - HEX representation of the content descriptors, each descriptor ID is represented with 2 chars
-
+ 54 - compare date when testing for a repeat? (0=no, 1=same day, 2=same week, 3=same month)
+ 
 A ':' in the search term or the directory entry will be translated in a
 '|'. If a '|' exists in the search term, e.g. when using regular
 expressions, it will be translated to "!^pipe^!" (I know it's ugly ;-))

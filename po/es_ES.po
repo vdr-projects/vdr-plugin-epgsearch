@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-06-12 10:15+0200\n"
+"POT-Creation-Date: 2011-06-13 14:06+0200\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: Spanish <vdr@linuxtv.org>\n"
@@ -1018,6 +1018,17 @@ msgstr "incluir días"
 msgid "if present"
 msgstr "si existe"
 
+#, fuzzy
+msgid "same day"
+msgstr "Último día"
+
+#, fuzzy
+msgid "same week"
+msgstr "Día de la semana"
+
+msgid "same month"
+msgstr ""
+
 msgid "Template name"
 msgstr "Nombre de la plantilla"
 
@@ -1134,8 +1145,8 @@ msgid "Min. match in %"
 msgstr "  Duración mín."
 
 #, fuzzy
-msgid "Compare expression"
-msgstr "expresión regular"
+msgid "Compare date"
+msgstr "Comparar título"
 
 msgid "Compare categories"
 msgstr "Comparar categorías"
@@ -1295,3 +1306,7 @@ msgstr "en %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "en %02ldm"
+
+#, fuzzy
+#~ msgid "Compare expression"
+#~ msgstr "expresión regular"

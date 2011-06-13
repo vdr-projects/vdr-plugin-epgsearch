@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EPGSearch 0.9.25\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-06-12 10:15+0200\n"
+"POT-Creation-Date: 2011-06-13 14:06+0200\n"
 "PO-Revision-Date: 2011-01-04 21:07+0200\n"
 "Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
 "Language-Team: Finnish <vdr@linuxtv.org>\n"
@@ -1017,6 +1017,17 @@ msgstr "päivien mukaan"
 msgid "if present"
 msgstr "jos olemassa"
 
+#, fuzzy
+msgid "same day"
+msgstr "Lopetuspäivä"
+
+#, fuzzy
+msgid "same week"
+msgstr "Viikonpäivä"
+
+msgid "same month"
+msgstr ""
+
 msgid "Template name"
 msgstr "Mallipohjan nimi"
 
@@ -1130,8 +1141,8 @@ msgid "Min. match in %"
 msgstr "Vaadittava yhdenmukaisuus [%]"
 
 #, fuzzy
-msgid "Compare expression"
-msgstr "säännöllinen lauseke"
+msgid "Compare date"
+msgstr "Vertaa nimeä"
 
 msgid "Compare categories"
 msgstr "Vertaa kategorioita"
@@ -1291,3 +1302,7 @@ msgstr "%02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"
+
+#, fuzzy
+#~ msgid "Compare expression"
+#~ msgstr "säännöllinen lauseke"

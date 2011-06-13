@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.10\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-06-12 10:15+0200\n"
+"POT-Creation-Date: 2011-06-13 14:06+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: Lithuanian <vdr@linuxtv.org>\n"
@@ -1021,6 +1021,17 @@ msgstr "skaičiuoti dienas"
 msgid "if present"
 msgstr "jei yra"
 
+#, fuzzy
+msgid "same day"
+msgstr "Paskutinė diena"
+
+#, fuzzy
+msgid "same week"
+msgstr "Savaitės diena"
+
+msgid "same month"
+msgstr ""
+
 msgid "Template name"
 msgstr "Šablono pavadinimas"
 
@@ -1137,8 +1148,8 @@ msgid "Min. match in %"
 msgstr "  Min. trukmė"
 
 #, fuzzy
-msgid "Compare expression"
-msgstr "reguliari išraiška"
+msgid "Compare date"
+msgstr "Palyginti pavadinimą"
 
 msgid "Compare categories"
 msgstr "Palyginti kategorijas"
@@ -1298,3 +1309,7 @@ msgstr "per %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "per %02ldm"
+
+#, fuzzy
+#~ msgid "Compare expression"
+#~ msgstr "reguliari išraiška"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-06-12 10:15+0200\n"
+"POT-Creation-Date: 2011-06-13 14:06+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: German <vdr@linuxtv.org>\n"
@@ -1013,6 +1013,15 @@ msgstr "Anzahl Tage"
 msgid "if present"
 msgstr "wenn vorhanden"
 
+msgid "same day"
+msgstr "gleicher Tag"
+
+msgid "same week"
+msgstr "gleiche Woche"
+
+msgid "same month"
+msgstr "gleicher Monat"
+
 msgid "Template name"
 msgstr "Vorlagenname"
 
@@ -1125,8 +1134,8 @@ msgstr "Vergleiche Beschreibung"
 msgid "Min. match in %"
 msgstr "Min. Übereinstimmung in %"
 
-msgid "Compare expression"
-msgstr "Vergleiche Ausdruck"
+msgid "Compare date"
+msgstr "Vergleiche Zeitpunkt"
 
 msgid "Compare categories"
 msgstr "Vergl. Kategorien"
@@ -1286,3 +1295,4 @@ msgstr "in %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "in %02ldm"
+

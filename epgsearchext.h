@@ -150,7 +150,7 @@ public:
   int      compareSubtitle;
   int      compareSummary;
   int      compareSummaryMatchInPercent;
-  char     compareExpression[MaxFileName];
+  int      compareDate;
   int      allowedRepeats;
   unsigned long catvaluesAvoidRepeat;
   int      repeatsWithinDays;

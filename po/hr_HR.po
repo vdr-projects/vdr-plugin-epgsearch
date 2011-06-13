@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-06-12 10:15+0200\n"
+"POT-Creation-Date: 2011-06-13 14:06+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Drazen Dupor <drazen.dupor@dupor.com>\n"
 "Language-Team: Croatian <vdr@linuxtv.org>\n"
@@ -973,6 +973,15 @@ msgstr ""
 msgid "if present"
 msgstr ""
 
+msgid "same day"
+msgstr ""
+
+msgid "same week"
+msgstr ""
+
+msgid "same month"
+msgstr ""
+
 msgid "Template name"
 msgstr ""
 
@@ -1077,7 +1086,7 @@ msgstr ""
 msgid "Min. match in %"
 msgstr ""
 
-msgid "Compare expression"
+msgid "Compare date"
 msgstr ""
 
 msgid "Compare categories"

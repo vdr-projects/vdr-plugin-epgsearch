@@ -94,6 +94,11 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
    CompareSubtitleModes[0] = strdup(trVDR("no"));
    CompareSubtitleModes[1] = strdup(tr("if present"));
 
+   CompareDateModes[0] = strdup(trVDR("no"));
+   CompareDateModes[1] = strdup(tr("same day"));
+   CompareDateModes[2] = strdup(tr("same week"));
+   CompareDateModes[3] = strdup(tr("same month"));
+
 #if APIVERSNUM > 10710 
    // collect content string IDs
    std::set<std::string> contentStrings;
@@ -374,7 +379,7 @@ void cMenuEditSearchExt::Set()
 	   Add(new cMenuEditBoolItem(IndentMenuItem(tr("Compare summary"),2), &data.compareSummary, trVDR("no"), trVDR("yes")));
 	   if (data.compareSummary)
 	     Add(new cMenuEditIntItem(IndentMenuItem(tr("Min. match in %"),3), &data.compareSummaryMatchInPercent, 1, 100));
-	   Add(new cMenuEditStrItem(IndentMenuItem(tr("Compare expression")), data.compareExpression, sizeof(data.compareExpression), tr(AllowedChars)));
+	   Add(new cMenuEditStraItem(IndentMenuItem(tr("Compare date"),2), &data.compareDate, 4, CompareDateModes));
 	   // show 'Compare categories' only if we have them
 	   if (SearchExtCats.Count() > 0)
 	     {
@@ -444,6 +449,8 @@ cMenuEditSearchExt::~cMenuEditSearchExt()
       free(SearchActiveModes[i]);
    for(i=0; i<=1; i++)
       free(CompareSubtitleModes[i]);
+   for(i=0; i<=3; i++)
+      free(CompareDateModes[i]);
 }
 
 eOSState cMenuEditSearchExt::Help()

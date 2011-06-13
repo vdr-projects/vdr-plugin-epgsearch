@@ -230,7 +230,7 @@ int cRecDone::ChannelNr()
 // -- cRecsDone -----------------------------------------------------------------
 int cRecsDone::GetCountRecordings(const cEvent* event, cSearchExt* search, cRecDone** first, int matchLimit)
 {
-  return GetCountRecordings(event, search->compareTitle, search->compareSubtitle, search->compareSummary, search->compareExpression, search->catvaluesAvoidRepeat, first, matchLimit);
+  return GetCountRecordings(event, search->compareTitle, search->compareSubtitle, search->compareSummary, search->compareDate, search->catvaluesAvoidRepeat, first, matchLimit);
 }
 
 bool CatValuesMatch(unsigned long catvaluesAvoidRepeat, const string& rDescr, const string& eDescr)
@@ -273,7 +273,7 @@ bool MatchesInExpression(const string& expression, const cRecDone* recDone, cons
   return resRecDone == resEvent;
 }
 
-int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int compareSubtitle, bool compareSummary, const char* compareExpression, unsigned long catvaluesAvoidRepeat, cRecDone** first, int matchLimit)
+int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int compareSubtitle, bool compareSummary, int compareDate, unsigned long catvaluesAvoidRepeat, cRecDone** first, int matchLimit)
 {
    if (first)
       *first = NULL;
@@ -307,6 +307,11 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
       if (rawDescr) free(rawDescr);
    }
 
+   string compareExpression = "";
+   if (compareDate == 1) compareExpression = "%date%";
+   if (compareDate == 2) compareExpression = "%year%-%week%";
+   if (compareDate == 3) compareExpression = "%year%-%month%";
+
    cRecDone* firstrecDone = NULL;
    cRecDone* recDone = First();
    while (recDone) 
@@ -339,7 +344,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
           (!compareSubtitle || (rSubtitle == eSubtitle && rSubtitle !="")) &&
           (!compareSummary || DescriptionMatches(eRawDescr.c_str(), rRawDescr.c_str(), matchLimit)) &&
 	  (catvaluesAvoidRepeat == 0 || CatValuesMatch(catvaluesAvoidRepeat, rDescr, eDescr)) &&
-	  (compareExpression == NULL || strlen(compareExpression) == 0 || MatchesInExpression(compareExpression, recDone, event)))
+	  (compareExpression.size() == 0 || MatchesInExpression(compareExpression, recDone, event)))
       {
 	if (!firstrecDone) firstrecDone = recDone;
 	else
