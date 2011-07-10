@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-06-13 14:06+0200\n"
-"PO-Revision-Date: 2010-03-29 01:42+0100\n"
+"POT-Creation-Date: 2011-07-10 20:44+0200\n"
+"PO-Revision-Date: 2011-07-10 03:14+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: Italian <vdr@linuxtv.org>\n"
 "MIME-Version: 1.0\n"
@@ -409,35 +409,28 @@ msgid "Help$Set this to 'yes' if you want timers to be recreated with the next s
 msgstr "Imposta 'sì' se vuoi ricreare i timer con la successiva ricerca di aggiornamento timer dopo la loro eliminazione."
 
 msgid "Check if EPG exists for ... [h]"
-msgstr ""
+msgstr "Verifica se l'EPG esiste per ... [h]"
 
-#, fuzzy
 msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
-msgstr "Imposta 'sì' se la verifica del conflitto dovrebbe essere eseguita dopo ciascun aggiornamento del timer di ricerca."
+msgstr "Specifica quante ore degli EPG futuri dovrebbero essere notificati anche dopo un aggiornamento del timer di ricerca."
 
-#, fuzzy
 msgid "Warn by OSD"
-msgstr "Annuncia tramite OSD"
+msgstr "Notifica tramite OSD"
 
-#, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
-msgstr "Imposta 'sì' se vuoi avere una notifica email sui timer in conflitto."
+msgstr "Imposta 'sì' se vuoi avere una notifica OSD sulle verifiche EPG."
 
-#, fuzzy
 msgid "Warn by mail"
-msgstr "Annuncia tramite email"
+msgstr "Notifica tramite mail"
 
-#, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
-msgstr "Imposta 'sì' se il tuo account ha bisogno di autenticazione per inviare email."
+msgstr "Imposta 'sì' se vuoi avere una notifica email sulle verifiche EPG."
 
-#, fuzzy
 msgid "Channel group to check"
-msgstr "Gruppo canali"
+msgstr "Gruppo canali da verificare"
 
-#, fuzzy
 msgid "Help$Specify the channel group to check."
-msgstr "Specifica il nome del modello."
+msgstr "Specifica il gruppo canali da verificare."
 
 msgid "Ignore PayTV channels"
 msgstr "Ignora i canali a pagamento"
@@ -763,7 +756,7 @@ msgid "Day of week"
 msgstr "Giorno settimana"
 
 msgid "Use global"
-msgstr ""
+msgstr "Utilizza globale"
 
 msgid "Button$Templates"
 msgstr "Modelli"
@@ -1009,7 +1002,7 @@ msgid "Announce by mail"
 msgstr "Annuncia tramite email"
 
 msgid "only globals"
-msgstr ""
+msgstr "solo globali"
 
 msgid "Selection"
 msgstr "Selezione"
@@ -1080,13 +1073,11 @@ msgstr "Imposta 'Sì' se vuoi cercare l'episodio di un evento."
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Imposta 'Sì' se vuoi cercare il sommario di un evento."
 
-#, fuzzy
 msgid "Use content descriptor"
-msgstr "Utilizza descrizione"
+msgstr "Utilizza contenuto descrizione"
 
-#, fuzzy
 msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
-msgstr "Imposta 'Sì' se vuoi cercare il titolo di un evento."
+msgstr "Imposta 'Sì' se vuoi cercare i contenuti per descrizione."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "Il sommario di un evento, può contenere informazione addizionale come 'Genere', 'Categoria', 'Anno',... chiamata 'Categorie EPG' all'interno di EPGSearch. I fornitori di EPG esterni spesso inviano questa informazione. Questo ti permette di rifinire una ricerca e altre cosette, come la ricerca per il 'consiglio del giorno'. Per usarlo imposta 'Sì'."
@@ -1148,9 +1139,8 @@ msgstr "Confronta sottotitolo"
 msgid "Compare summary"
 msgstr "Confronta sommario"
 
-#, fuzzy
 msgid "Min. match in %"
-msgstr "   Durata Minima"
+msgstr "Corrispondenza min. in %"
 
 #, fuzzy
 msgid "Compare date"
@@ -1291,10 +1281,10 @@ msgstr "Aggiornamento timer ricerca completato!"
 
 #, c-format
 msgid "small EPG content on:%s"
-msgstr ""
+msgstr "contenuto piccoli EPG su:%s"
 
 msgid "VDR EPG check warning"
-msgstr ""
+msgstr "Notifica verifica EPG di VDR"
 
 #, c-format
 msgid "Switch to (%d) '%s'?"
@@ -1314,10 +1304,6 @@ msgstr "in %02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "in %02ldm"
-
-#, fuzzy
-#~ msgid "Compare expression"
-#~ msgstr "espressione regolare"
 
 #~ msgid "File"
 #~ msgstr "File"
