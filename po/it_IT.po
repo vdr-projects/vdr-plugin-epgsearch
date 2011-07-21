@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: 2011-07-10 20:44+0200\n"
-"PO-Revision-Date: 2011-07-10 03:14+0100\n"
+"PO-Revision-Date: 2011-07-17 17:46+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: Italian <vdr@linuxtv.org>\n"
 "MIME-Version: 1.0\n"
@@ -600,9 +600,8 @@ msgstr "Verifica account email fallita!"
 msgid "Button$Test"
 msgstr "Prova"
 
-#, fuzzy
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
-msgstr " aàbcdeéèfghiîìjklmnoòpqrstuùvwxyz0123456789-.#~\\^$[]|()*+?{}/:%"
+msgstr " aáàbcdeéèfghiíìjklmnoóòpqrstuúùvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&°_"
 
 msgid "Start/Stop time has changed"
 msgstr "L'orario di Inizio/Fine è cambiato"
@@ -1019,16 +1018,14 @@ msgstr "conteggia giorni"
 msgid "if present"
 msgstr "se presente"
 
-#, fuzzy
 msgid "same day"
-msgstr "Ultimo giorno"
+msgstr "stesso giorno"
 
-#, fuzzy
 msgid "same week"
-msgstr "Giorno settimana"
+msgstr "stessa settimana"
 
 msgid "same month"
-msgstr ""
+msgstr "stesso mese"
 
 msgid "Template name"
 msgstr "Nome modello"
@@ -1142,9 +1139,8 @@ msgstr "Confronta sommario"
 msgid "Min. match in %"
 msgstr "Corrispondenza min. in %"
 
-#, fuzzy
 msgid "Compare date"
-msgstr "Confronta titolo"
+msgstr "Confronta date"
 
 msgid "Compare categories"
 msgstr "Confronta categorie"
