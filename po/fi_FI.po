@@ -1,7 +1,7 @@
 # VDR plugin language source file.
 # Copyright (C) 2007 Klaus Schmidinger <kls@cadsoft.de>
 # This file is distributed under the same license as the VDR package.
-# Rolf Ahrenberg <rahrenbe@cc.hut.fi>, 2003
+# Rolf Ahrenberg <rahrenbe@cc.hut.fi>, 2003-2011
 # Ville Skyttä <ville.skytta@iki.fi>, 2009, 2011
 #
 msgid ""
@@ -598,7 +598,6 @@ msgstr "Sähköpostilaatikon tarkistus epäonnistui!"
 msgid "Button$Test"
 msgstr "Testaa"
 
-#, fuzzy
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
 msgstr " abcdefghijklmnopqrstuvwxyzåäö0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
@@ -754,7 +753,7 @@ msgid "Day of week"
 msgstr "Viikonpäivä"
 
 msgid "Use global"
-msgstr ""
+msgstr "Käytä globaalina"
 
 msgid "Button$Templates"
 msgstr "Mallipohjat"
@@ -1000,7 +999,7 @@ msgid "Announce by mail"
 msgstr "muistutus sähköpostitse"
 
 msgid "only globals"
-msgstr ""
+msgstr "vain globaalit"
 
 msgid "Selection"
 msgstr "valittu"
@@ -1017,16 +1016,14 @@ msgstr "päivien mukaan"
 msgid "if present"
 msgstr "jos olemassa"
 
-#, fuzzy
 msgid "same day"
-msgstr "Lopetuspäivä"
+msgstr "sama päivä"
 
-#, fuzzy
 msgid "same week"
-msgstr "Viikonpäivä"
+msgstr "sama viikko"
 
 msgid "same month"
-msgstr ""
+msgstr "sama kuukausi"
 
 msgid "Template name"
 msgstr "Mallipohjan nimi"
@@ -1140,9 +1137,8 @@ msgstr "Vertaa kuvausta"
 msgid "Min. match in %"
 msgstr "Vaadittava yhdenmukaisuus [%]"
 
-#, fuzzy
 msgid "Compare date"
-msgstr "Vertaa nimeä"
+msgstr "Vertaa päivämäärää"
 
 msgid "Compare categories"
 msgstr "Vertaa kategorioita"

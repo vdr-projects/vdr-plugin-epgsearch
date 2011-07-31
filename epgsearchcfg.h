@@ -64,7 +64,7 @@ class cShowMode: public cListObject
     int GetTime() const { return itime; }
     bool GetUsage() const { return useIt; }
 
-    void SetDescription(const char* szD) { if (szD)  strcpy(description, szD); }
+    void SetDescription(const char* szD) { if (szD)  strncpy(description, szD, sizeof(description)); }
     void SetTime(int iT) { itime = iT; }
     void SetUsage(bool bU) { useIt = bU; }
     int Compare(const cListObject &ListObject) const;
@@ -107,7 +107,7 @@ cEPGSearchConfig(void);
     int useExternalSVDRP;
     int ignorePrimary;
     char defrecdir[MaxFileName];
-    cShowMode ShowModes[6];
+    cShowMode ShowModes[showModeMax];
     int useVDRTimerEditMenu;
     int showChannelGroups;
     int showDaySeparators;
