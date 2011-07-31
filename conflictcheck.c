@@ -229,6 +229,7 @@ void cConflictCheck::Check()
 
 cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 {
+    LogFile.Log(3,"current timer list creation started");
     cList<cConflictCheckTimerObj>* CurrentTimerList = NULL;
 
     // collect single event timers
@@ -313,6 +314,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     }
 
     if (CurrentTimerList) CurrentTimerList->Sort();
+    LogFile.Log(3,"current timer list created");
     return CurrentTimerList;
 }
 
