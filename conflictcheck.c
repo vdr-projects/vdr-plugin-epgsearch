@@ -442,6 +442,7 @@ cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictChe
 int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 {
     if (!checkTime) return 0;
+
     LogFile.Log(3,"check time %s", DAYDATETIME(checkTime->evaltime));
 
     LogFile.Log(3,"detach stopping timers");
@@ -510,6 +511,19 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 }
 
 #if APIVERSNUM >= 10500
+
+eModuleStatus cConflictCheck::CamSlotModuleStatus(cCamSlot *CamSlot)
+{
+  if (!CamSlot) return msNone;
+  if ((int)camSlotStatusArray.size() != CamSlots.Count())
+    for (cCamSlot *CamSlot = CamSlots.First(); CamSlot; CamSlot = CamSlots.Next(CamSlot)) 
+      camSlotStatusArray.push_back(CamSlot->ModuleStatus());
+  if (CamSlot->Index() < (int)camSlotStatusArray.size())
+    return camSlotStatusArray[CamSlot->Index()];
+  else
+    return msNone;
+}
+
 int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetachReceivers)
 {
     int Priority = TimerObj->timer->Priority();
@@ -523,7 +537,7 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
     if (Channel->Ca() >= CA_ENCRYPTED_MIN) {
 	for (cCamSlot *CamSlot = CamSlots.First(); CamSlot; CamSlot = CamSlots.Next(CamSlot)) {
 	    SlotPriority[CamSlot->Index()] = MAXPRIORITY + 1; // assumes it can't be used
-	    if (CamSlot->ModuleStatus() == msReady) {
+	    if (CamSlotModuleStatus(CamSlot) == msReady) {
 		if (CamSlot->ProvidesCa(Channel->Caids())) {
 		    if (!ChannelCamRelations.CamChecked(Channel->GetChannelID(), CamSlot->SlotNumber())) {
 			SlotPriority[CamSlot->Index()] = CamSlot->Priority();

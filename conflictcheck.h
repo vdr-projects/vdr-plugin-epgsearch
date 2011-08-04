@@ -289,6 +289,7 @@ class cConflictCheck
 
     int numDevices;   
     time_t maxCheck;
+    std::vector<eModuleStatus> camSlotStatusArray;
  public:
     int relevantConflicts;
     int numConflicts;
@@ -308,6 +309,9 @@ class cConflictCheck
     int ProcessCheckTime(cConflictCheckTime* checkTime);
     bool TimerInConflict(cTimer*);
     void EvaluateConflCheckCmd();
+#if APIVERSNUM >= 10500
+    eModuleStatus CamSlotModuleStatus(cCamSlot *CamSlot);
+#endif
 };
 
 #endif
