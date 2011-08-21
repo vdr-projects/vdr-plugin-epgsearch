@@ -88,7 +88,7 @@ cBlacklist::~cBlacklist(void)
   {
       cSearchExtCat *SearchExtCat = SearchExtCats.First();
       int index = 0;
-      while (SearchExtCat && index < (int)(sizeof(catvalues)/sizeof(char*))) 
+      while (SearchExtCat) 
       {
 	  free(catvalues[index]);
 	  SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -102,12 +102,10 @@ cBlacklist::~cBlacklist(void)
 cBlacklist& cBlacklist::operator= (const cBlacklist &Blacklist)
 {
   memcpy(this, &Blacklist, sizeof(*this));
-  catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
   while (SearchExtCat) 
   {
-      catvalues[index] = (char*)malloc(MaxFileName);
       *catvalues[index] = 0;
       strcpy(catvalues[index], Blacklist.catvalues[index]);
       SearchExtCat = SearchExtCats.Next(SearchExtCat);

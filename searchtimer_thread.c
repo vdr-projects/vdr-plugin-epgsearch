@@ -479,6 +479,7 @@ void cSearchTimerThread::Action(void)
                if (Summary) free(Summary);
                delete timer;
             }
+	    delete pSearchResults;
             searchExt = localSearchExts->Next(searchExt);
          }
 

@@ -213,7 +213,7 @@ class cSearchExts : public cList<cSearchExt>, public cMutex {
  private:
     char *fileName;
     bool allowComments;
-    void Clear(void)
+    virtual void Clear(void)
 	{
 	    cMutexLock SearchExtsLock(this);
 	    free(fileName);
@@ -222,7 +222,7 @@ class cSearchExts : public cList<cSearchExt>, public cMutex {
 	}
  public:
   cSearchExts(void) { fileName = NULL; }
-  virtual ~cSearchExts() { free(fileName); }
+  virtual ~cSearchExts() { Clear(); free(fileName); }
 
 public:
     bool Load(const char *FileName = NULL);

@@ -130,11 +130,11 @@ cSearchExt::~cSearchExt(void)
    {
       cSearchExtCat *SearchExtCat = SearchExtCats.First();
       int index = 0;
-      while (SearchExtCat && index < (int)(sizeof(catvalues)/sizeof(char*))) 
+      while (SearchExtCat) 
       {
-         free(catvalues[index]);
-         SearchExtCat = SearchExtCats.Next(SearchExtCat);
-         index++;
+	free(catvalues[index]);
+	SearchExtCat = SearchExtCats.Next(SearchExtCat);
+	index++;
       }
       free(catvalues);
       catvalues = NULL;
@@ -146,12 +146,11 @@ cSearchExt& cSearchExt::operator= (const cSearchExt &SearchExt)
    CopyFromTemplate(&SearchExt);
    ID = SearchExt.ID;
    strcpy(search, SearchExt.search);
-   catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
+
    cSearchExtCat *SearchExtCat = SearchExtCats.First();
    int index = 0;
    while (SearchExtCat) 
    {
-      catvalues[index] = (char*)malloc(MaxFileName);
       *catvalues[index] = 0;
       strcpy(catvalues[index], SearchExt.catvalues[index]);
       SearchExtCat = SearchExtCats.Next(SearchExtCat);
