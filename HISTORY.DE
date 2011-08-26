@@ -1,7 +1,7 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2010-xx-xx; Version 0.9.25
+2011-xx-xx; Version 0.9.25
 neu:
 - Vermeide Wiederholungen mit 'Vergleiche Zeitpunkt': dabei werden 
   2 Sendungen anhand des Zeitpunkts der Ausstrahlung verglichen, um z.B. Wiederholungen 
@@ -160,6 +160,8 @@ fixes:
   Danke an gnapheus@vdrportal für den Hinweis.
 - Korrektur der Suche ohne Unterscheidung von Groß-/Kleinschreibung in Verbindung mit
   Utf-8-Zeichen, danke an Ville Skyttä für den Hinweis.
+- Prüfung auf Vollständigkeit von VPS-Aufnahmen korrigiert, Danke an durchflieger@vdr-portal
+  für einen Patch.
 
 
 2008-04-29: Version 0.9.24

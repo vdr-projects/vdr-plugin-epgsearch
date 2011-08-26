@@ -1,7 +1,7 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2010-xx-xx; Version 0.9.25
+2011-xx-xx; Version 0.9.25
 new:
 - avoid repeats with new 'compare date' entry: compare two events by their date to ignore 
   repeats within the same day, week or month
@@ -151,7 +151,9 @@ fixes:
   to gnapheus@vdrportal for reporting.
 - fixed case insensitve searching when Utf-8 characters are involved, thanks to Ville 
   Skyttä for reporting
- 
+- fixed check of complete VPS recordings, thanks to durchflieger@vdr-portal for providing
+  a patch.
+
 
 2008-04-29: Version 0.9.24
 new:

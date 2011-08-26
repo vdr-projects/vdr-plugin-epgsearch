@@ -78,7 +78,8 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
             if (!search || (search->avoidRepeats == 0 && search->delMode == 0)) // ignore if not avoid repeats and no auto-delete 
                continue;
 
-            LogFile.Log(1,"recording started '%s' on device %d (search timer '%s')", Name, Device->CardIndex(), search->search);
+            bool vpsUsed = ti->HasFlags(tfVps) && ti->Event() && ti->Event()->Vps();
+            LogFile.Log(1,"recording started '%s' on device %d (search timer '%s'); VPS used: %s", Name, Device->CardIndex(), search->search, vpsUsed ? "Yes": "No");
             const cEvent* event = ti->Event();
             if (!event)
             {
@@ -92,7 +93,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                continue;
             }
             time_t now = time(NULL);
-            if (now < ti->StartTime() + 60) // allow a delay of one minute
+            if (vpsUsed || now < ti->StartTime() + 60) // allow a delay of one minute
             {
                timerObj->recDone = new cRecDone(ti, event, search);
                return;
@@ -137,15 +138,15 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
 		  int recLen = RecLengthInSecs(pRecording);
 		  recFraction = double(recLen) * 100 / timerLengthSecs;
 	       }
-
-               if (now < tiR->timer->StopTime() || recFraction < 98) // assure timer has reached its end or at least 98% were recorded
+	       bool vpsUsed = tiR->timer->HasFlags(tfVps) && tiR->timer->Event() && tiR->timer->Event()->Vps();
+               if ((!vpsUsed && now < tiR->timer->StopTime()) || recFraction < (vpsUsed ? 90: 98)) // assure timer has reached its end or at least 98% were recorded
                {
                   complete = false;
-                  LogFile.Log(1,"finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'", tiR->timer->File(), recFraction, search->search);
+                  LogFile.Log(1,"finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", tiR->timer->File(), recFraction, search->search, vpsUsed ? "Yes": "No");
                }
                else
 	       {
-                  LogFile.Log(1,"finished: '%s'; search timer: '%s'", tiR->timer->File(), search->search);
+                  LogFile.Log(1,"finished: '%s'; search timer: '%s'; VPS used: %s", tiR->timer->File(), search->search, vpsUsed ? "Yes": "No");
 		  if (recFraction < 100)
 		    LogFile.Log(2,"recorded %d%%'", recFraction);
 	       }
