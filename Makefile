@@ -288,7 +288,8 @@ install-doc:
 	@cp man/en/*5.gz $(MANDIR)/man5/
 	@cp man/de/*1.gz $(MANDIR)/de/man1/
 	@cp man/de/*5.gz $(MANDIR)/de/man5/
+
 clean:
 	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
 	@-rm -f $(OBJS) $(OBJS2) $(OBJS3) $(OBJS4) $(DEPFILE) *.so *.tgz core* createcats createcats.o pod2*.tmp
-	@-find . -name "*~" -print0 | xargs -0r rm -f
+	@-find . \( -name "*~" -o -name "#*#" \) -print0 | xargs -0r rm -f
