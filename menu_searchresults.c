@@ -47,7 +47,11 @@ extern bool isUTF8;
 
 static int CompareRecording(const void *p1, const void *p2)
 {
+#if APIVERSNUM < 10721 
    return (int)((*(cRecording **)p1)->start - (*(cRecording **)p2)->start);
+#else
+   return (int)((*(cRecording **)p1)->Start() - (*(cRecording **)p2)->Start());
+#endif
 }
 
 // --- cMenuSearchResultsItem -------------------------------------------------------

@@ -74,7 +74,7 @@ const cEvent* cMailTimerNotification::GetEvent() const
     const cSchedules *schedules = cSchedules::Schedules(schedulesLock);
     if (!schedules) return NULL;
     const cSchedule *schedule = schedules->GetSchedule(channelID);
-    if (!schedule) return NULL;
+    if (!schedule) return NULL;    
     return schedule->GetEvent(eventID);
 }
 
