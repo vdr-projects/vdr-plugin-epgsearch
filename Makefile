@@ -229,23 +229,23 @@ generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
 ### Targets:
 
 libvdr-$(PLUGIN).so: $(OBJS)
-	$(CXX) $(CXXFLAGS)  -shared $(OBJS) $(LIBS) -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS) $(LIBS) -o $@
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 libvdr-$(PLUGIN2).so: $(OBJS2)
-	$(CXX) $(CXXFLAGS) -shared $(OBJS2) $(LIBS2) -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS2) $(LIBS2) -o $@
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 libvdr-$(PLUGIN3).so: $(OBJS3)
-	$(CXX) $(CXXFLAGS) -shared $(OBJS3) $(LIBS3) -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS3) $(LIBS3) -o $@
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 libvdr-$(PLUGIN4).so: $(OBJS4)
-	$(CXX) $(CXXFLAGS) -shared $(OBJS4) $(LIBS4) -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS4) $(LIBS4) -o $@
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 createcats: createcats.o Makefile
-	$(CXX) $(CXXFLAGS) createcats.o -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) createcats.o -o $@
 
 dist: generate-i18n docs clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
