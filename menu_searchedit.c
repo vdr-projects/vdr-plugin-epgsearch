@@ -170,6 +170,7 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
          }
       }
 
+      contentStringsFlags = NULL;
 #if APIVERSNUM > 10710 
       // set the flags for the content descriptors
       contentStringsFlags = (int*) malloc((CONTENT_DESCRIPTOR_MAX+1) * sizeof(int));
