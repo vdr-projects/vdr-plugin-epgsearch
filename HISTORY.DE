@@ -116,6 +116,7 @@ neu:
   verwendet, um die Sortierung in manchen Frontends zu erleichtern. Danke an Dominic 
   Evans für einen Patch.
 - sollte nun auch unter FreeBSD compilieren, Danke an Juergen Lock für einen Patch
+- neuer SVDRP-Befehl UPDT zum Neuladen der Suchtimer aus der Datei epgsearch.conf
 
 fixes:
 - Absturz beim Drücken von 'Ok' in leerem Menü erledigter Timer behoben

@@ -109,6 +109,7 @@ new:
 - if there is no subtitle the filename now defaults to YYYY.MM.DD-HH.MM-Weekday to ease 
   sorting in some frontends, thanks to Dominic Evans for providing a patch
 - should now compile in FreeBSD, thanks to Juergen Lock for providing a patch
+- new SVDRP command UPDT to reload the list of search timers in epgsearch.conf
 
 fixes:
 - fixed a crash when pressing 'Ok' in an empty timers done menu

@@ -416,6 +416,7 @@ the following commands are available:
    evaluate and defaults to 24h. 
  * 'MENU [PRG|NOW|SUM]' calls one of the main menus of epgsearch or the summary
    of the current event.
+ * 'UPDT' reloads the search timers from epgsearch.conf
 
 =head2 channel group management:
 

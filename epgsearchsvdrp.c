@@ -132,7 +132,9 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
       "    'REL' only relevant conflicts are listed",
       "MENU [ NOW|PRG|SUM ]\n"
       "    Calls one of the main menus of epgsearch or the summary\n"
-      "    of the current event",
+      "    of the current event\n",
+      "UPDT\n"
+      "    Reload search timers from epgsearch.conf",
       NULL
    };
    return HelpPages;
@@ -605,6 +607,13 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          if (temp_SearchExt) delete temp_SearchExt;
          return cString("no results");	
       }
+   }
+   else if (strcasecmp(Command, "UPDT") == 0)
+   {
+     if (SearchExts.Load(AddDirectory(CONFIGDIR, "epgsearch.conf")))
+       return cString("reload epgsearch.conf successful");
+     else
+       return cString("reload epgsearch.conf failed");
    }
    // ---------------------
    // recording directories
