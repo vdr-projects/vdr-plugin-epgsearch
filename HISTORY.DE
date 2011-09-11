@@ -1,8 +1,9 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2011-xx-xx; Version 0.9.25
+2011-09-11; Version 1.0.0
 neu:
+- unterstützt vdr-1.6.0 bis vdr-1.7.21
 - Vermeide Wiederholungen mit 'Vergleiche Zeitpunkt': dabei werden 
   2 Sendungen anhand des Zeitpunkts der Ausstrahlung verglichen, um z.B. Wiederholungen 
   innerhalb des gleichen Tages, der Woche oder des Monats zu ignorieren.
@@ -14,7 +15,6 @@ neu:
   setzen!), mit der man je Konflikt-Timer einen Befehl ausführen kann, mehr dazu im MANUAL.
 - vdr-1.7.15 benutzt einen anderen SVDRP Standard-Port (6419), bitte im Setupmenü von 
   epgsearch ebenfalls anpassen!
-- Unterstützung für vdr-1.7.12 und später
 - Es gibt nun ein offizielles git repository für epgsearch, das die neueste Entwicklung
   enthält. 
   Zuerst: 

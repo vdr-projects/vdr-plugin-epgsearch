@@ -1,8 +1,9 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2011-xx-xx; Version 0.9.25
+2011-09-11; Version 1.0.0
 new:
+- supports vdr-1.6.0 to vdr-1.7.21
 - avoid repeats with new 'compare date' entry: compare two events by their date to ignore 
   repeats within the same day, week or month
 - global blacklists: blacklists for search timers can now be global to exclude 
@@ -12,7 +13,6 @@ new:
   allows executing a command for each timer causing a conflict, see the MANUAL for details.
 - vdr-1.7.15 has changed the SVDRP default port to 6419, please update this in epgsearch's 
   setup menu too!
-- support for vdr-1.7.12 and later
 - there is now an official git repository for epgsearch, that contains the latest 
   development. 
   First usage: 
