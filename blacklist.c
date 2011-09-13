@@ -101,7 +101,10 @@ cBlacklist::~cBlacklist(void)
 
 cBlacklist& cBlacklist::operator= (const cBlacklist &Blacklist)
 {
+  char**   catvaluesTemp = this->catvalues;
   memcpy(this, &Blacklist, sizeof(*this));
+  this->catvalues = catvaluesTemp;
+
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
   while (SearchExtCat) 
