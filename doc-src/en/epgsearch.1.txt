@@ -415,10 +415,7 @@ these keys on your remote, you can access this function by pressing
 '0' to toggle the green and yellow button to '<<' and '>>'. This toggling
 can be adjusted by setup.
 
-You can display a progress bar in 'now' and 'next'. When using text2skin you
-should use the setup option "text2skin" in the setup option "Show progress in
-'Now'"/Show progress in 'Next'" (the setting 'graphical' may also work with
-text2skin, but this depends on the selected skin).
+You can display a progress bar in 'now' and 'next'.
 
 Furthermore you can enable in the setup an favorites list. You can configure
 your searchtimers ("Use in favorite list") to display their results in
@@ -472,9 +469,7 @@ assignment for key 'blue'.
 =item - B<Show progress in 'Now':>
 
 In the menu 'what's on now' you can display a progress bar, that
-displays the progress of the current item. When using text2skin you
-should use the setup option "text2skin" (the setting 'graphical' may also
-work with text2skin, but this depends on the selected skin).
+displays the progress of the current item.
 
 =item - B<Show channel numbers:>
 

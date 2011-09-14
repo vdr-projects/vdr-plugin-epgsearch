@@ -421,10 +421,6 @@ existieren, kann diese Funktion durch Umschalten mit '0' erreicht
 werden. Die Tasten Grün und Gelb wechseln dann zu '<<' und '>>'. Das
 Umschalten kann über das Setup angepasst werden.
 Man kann einen Fortschrittsbalken im Menü 'Jetzt'/'Nächste' anzeigen lassen.
-Falls text2skin verwendet wird, sollte die Option "text2skin" in den
-Setup-Optionen "Zeige Fortschrittsbalken in 'Jetzt'"/"Zeige Fortschrittsbalken
-in 'Nächste'" verwendet werden (Die Option 'graphisch' kann ebenfalls mit
-text2skin funktionieren, das ist aber abhängig vom gewählten skin)
 
 =head2 1.4 Menü Setup
 
@@ -477,10 +473,7 @@ Vorbelegung möchte.
 =item - B<Zeige Fortschrittsbalken in 'Jetzt':>
 
 Im Menü 'Jetzt' kann ein Fortschrittsbalken angezeigt werden, der
-den Fortschritt der laufenden Sendung anzeigt. Falls text2skin verwendet
-wird, sollte die Option "pipes" verwendet werden (Die Option 'graphisch'
-kann ebenfalls mit text2skin funktionieren, das ist aber abhängig vom
-gewählten skin) 
+den Fortschritt der laufenden Sendung anzeigt.
 
 =item - B<Zeige Kanalnummer:>
 

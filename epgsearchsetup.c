@@ -39,7 +39,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 const char *OkKeyMode[2];
 const char *RedKeyMode[2];
 const char *BlueKeyMode[2];
-const char *ProgressbarMode[3];
 const char *StartMenuMode[2];
 const char *AddSubtitleMode[3];
 const char *FavoritesMenuMode[4];
@@ -108,10 +107,6 @@ cMenuEPGSearchSetup::cMenuEPGSearchSetup(void)
     
     BlueKeyMode[0] = tr("Standard");
     BlueKeyMode[1] = tr("Button$Search");
-    
-    ProgressbarMode[0] = trVDR("no");
-    ProgressbarMode[1] = tr("pipes");
-    ProgressbarMode[2] = tr("graphical");
 
     StartMenuMode[0] = trVDR("Button$Schedule");
     StartMenuMode[1] = trVDR("Button$Now");
@@ -419,12 +414,8 @@ void cMenuSetupEPGMenus::Set()
     Add(new cMenuEditStraItem(tr("Blue key"), &data->bluekeymode, 2, BlueKeyMode));
     AddHelp(tr("Help$Choose which standard function ('Switch'/'Info' or 'Search') you like to have on the blue key.\n(Can be toggled with key '0')"));
 
-#if VDRVERSNUM < 10503
-    Add(new cMenuEditStraItem(tr("Show progress in 'Now'"), &data->showProgress, 3, ProgressbarMode));
-#else
     Add(new cMenuEditBoolItem(tr("Show progress in 'Now'"), &data->showProgress, trVDR("no"), trVDR("yes")));
-#endif
-    AddHelp(tr("Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event.\nDepending on your selected skin you can choose between 'Pipes' or 'graphical' to get the best look."));
+    AddHelp(tr("Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event."));
     Add(new cMenuEditBoolItem(  tr("Show channel numbers"), &data->showChannelNr,       trVDR("no"),      trVDR("yes")));
     AddHelp(tr("Help$Display channel numbers in 'Overview - Now'.\n\n(To completely define your own menu look please inspect the MANUAL)"));
     Add(new cMenuEditBoolItem(  tr("Show channel separators"), &data->showChannelGroups,       trVDR("no"),      trVDR("yes")));
