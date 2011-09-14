@@ -9,7 +9,7 @@ Description of patches
 - timercmd-0.1_1.x.diff:
   this patch adds a timer commands menu to VDR's timer menu, that can be called with '0'.
   It can be used e.g. to search for repeats of a timer.
-- vdr-1.5.11-progressbar-support-0.0.1.diff:
+- vdr-1.5.17-progressbar-support-0.0.1.diff:
   this patch adds progressbar support to VDR's skins 'classic' and 'st:tng'
 - vdr.epgsearch-exttimeredit.diff:
   this patch against VDR integrates epgsearch's timer edit menu to VDR's timer menu.
