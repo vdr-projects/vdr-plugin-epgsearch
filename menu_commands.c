@@ -74,11 +74,7 @@ cMenuSearchCommands::~cMenuSearchCommands()
 
 void cMenuSearchCommands::LoadCommands()
 {
-#if APIVERSNUM >= 10507
   const char* szLanguageCode = I18nLanguageCode(I18nCurrentLanguage());
-#else
-  const char* szLanguageCode = I18nLanguageCode(Setup.OSDLanguage);
-#endif
 
    char *pstrSearchToken, *pptr;
    char *pstrSearch=strdup(szLanguageCode);

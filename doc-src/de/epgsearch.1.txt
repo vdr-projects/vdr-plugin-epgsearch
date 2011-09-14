@@ -52,8 +52,6 @@ sorgen, dass Timer automatisch programmiert werden.
 
  - Email-Benachrichtigungen über Suchtimer-Updates und Timer-Konflikte
 
-Funktioniert nur mit >= vdr-1.3.46.
-
 Teile der Quelltexte basieren auf dem repeating-epg-patch von Gerhard Steiner, der mir die Erlaubnis gab, diese zu verwenden. Danke für seine Arbeit!
 
 =head1 OPTIONEN
@@ -503,8 +501,8 @@ wird das Limit ignoriert und wieder alle Kanäle angezeigt.
 
 =item - B<Timer mit 'Aufnehmen' sofort anlegen:>
 
-Falls 'Ja' wird ein Timer sofort erzeugt, sobald man 'Aufnehmen' drückt, wie
-in vdr-1.3.38 eingeführt, sonst wird das Timer-Edit-Menü angezeigt. 
+Falls 'Ja' wird ein Timer sofort erzeugt, sobald man 'Aufnehmen' drückt,
+sonst wird das Timer-Edit-Menü angezeigt. 
 
 =item - B<Zeige Kanäle ohne EPG:>
 
@@ -513,8 +511,8 @@ können oder einen Timer zu programmieren
 
 =item - B<Timer mit 'Aufnehmen' sofort anlegen:>
 
-Falls 'Ja' wird nach Drücken von 'Aufnahme' sofort ein Timer angelegt, wie
-in vdr-1.3.38 eingeführt, falls 'Nein' erscheint das Timer-Edit-Menü.
+Falls 'Ja' wird nach Drücken von 'Aufnahme' sofort ein Timer angelegt,
+falls 'Nein' erscheint das Timer-Edit-Menü.
 
 =item - B<Zeitintervall für FR/FF [min]:>
 
@@ -1081,11 +1079,6 @@ die Zeile
 
 in die keymacros.conf schreiben, wobei x die Position von epgsearch
 innerhalb des launcher listings ist.
-
-Achtung: Versteckt man das Plugin ohne die Verwendung des launcher
-plugins oder anderer Patches, die das Aufrufen versteckter Plugins
-erlauben, erhält man das VDR-Standard-Menü beim Drücken von Grün. Ab
-VDR 1.3.32 sind dazu keine Patches oder Plugins mehr notwendig.
 
 Ein weiterer Ansatz ist ein Patch gegen VDR, der das Standardmenü
 'Programm' gegen epgsearch austauscht.

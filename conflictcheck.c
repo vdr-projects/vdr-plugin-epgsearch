@@ -510,8 +510,6 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
     return Conflicts;
 }
 
-#if APIVERSNUM >= 10500
-
 eModuleStatus cConflictCheck::CamSlotModuleStatus(cCamSlot *CamSlot)
 {
   if (!CamSlot) return msNone;
@@ -591,9 +589,7 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
 	     // avoid the primary device                                             
              imp <<= 1; imp |= devices[i].IsPrimaryDevice();
 	     // avoid cards with Common Interface for FTA channels         
-#if APIVERSNUM >= 10501
 	     imp <<= 1; imp |= NumUsableSlots ? 0 : devices[i].HasCi();                                  
-#endif
 	     // avoid full featured cards
              imp <<= 1; imp |= devices[i].HasDecoder();              
 	     // prefer CAMs that are known to decrypt this channel
@@ -612,36 +608,6 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
       }
   return selDevice;
 }
-#else
-// retrieves a free device (nearly a copy of the original cDevice::GetDevice)
-int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool *NeedsDetachReceivers)
-{
-  int selDevice = -1;
-  int Priority = TimerObj->timer->Priority();
-  const cChannel* Channel = TimerObj->timer->Channel();
-  uint Impact = 0xFFFFFFFF;
-  for (int i = 0; i < numDevices; i++) {
-      bool ndr;
-      if (devices[i].ProvidesChannel(Channel, Priority, &ndr)) { // this device is basicly able to do the job
-         uint imp = 0;
-         imp <<= 1; imp |= !devices[i].Receiving() || ndr;
-         imp <<= 1; imp |= devices[i].Receiving();
-         imp <<= 1; //imp |= devices[i] == ActualDevice(); // cannot be handled
-         imp <<= 8; imp |= min(max(devices[i].Priority() + MAXPRIORITY, 0), 0xFF);
-         imp <<= 8; imp |= min(max(devices[i].ProvidesCa(Channel), 0), 0xFF);
-         imp <<= 1; imp |= devices[i].IsPrimaryDevice();
-         imp <<= 1; imp |= devices[i].HasDecoder();
-         if (imp < Impact) {
-            Impact = imp;
-	    selDevice = i;
-            if (NeedsDetachReceivers)
-               *NeedsDetachReceivers = ndr;
-            }
-         }
-      }
-  return selDevice;
-}
-#endif
 
 void cConflictCheck::AddConflict(cConflictCheckTimerObj* TimerObj, cConflictCheckTime* CheckTime, std::set<cConflictCheckTimerObj*>& pendingTimers)
 {

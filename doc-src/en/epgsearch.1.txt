@@ -50,8 +50,6 @@ additional functions:
 
  - Email notifications about search timer updates and timer conflicts
 
-Works only with >= vdr-1.3.46 or newer. 
-
 Parts of the sources are based on the repeating-ECG patch from Gerhard Steiner, who gave me the permission to use them. Thanks for his work!
 
 =head1 OPTIONS
@@ -499,8 +497,8 @@ be displayed again.
 
 =item - B<'One press' timer creation:>
 
-If set to 'yes' a timer is immediately created when pressing 'Record' as
-introduced in vdr-1.3.38, else the timer edit menu is displayed.
+If set to 'yes' a timer is immediately created when pressing 'Record',
+else the timer edit menu is displayed.
 
 =item - B<Show channels without EPG:>
 
@@ -1022,17 +1020,12 @@ launcher-plugin and put the line
 in your keymacros.conf, where x is the position of the Epgsearch
 plugin within launchers menu listing.
 
-Attention: Hiding the plugin without using the launcher plugin or
-other patches that enable calling hidden plugins will show the standard
-schedules menu when you press the green key. This is not needed
-anymore after VDR >= 1.3.32.
-
 Another approach is using a patch to VDR that replaces vdr's standard
 schedule menu with epgsearch (vdr-replace-schedulemenu.diff.gz in the
 patches subdir, thanks to the author Uwe/egal@vdrportal). When using
 this patch the entry should look like
 
- Gree Schedule
+ Green Schedule
 
 This patch is already included in some patch collections, like the
 Bigpatch. 

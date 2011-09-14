@@ -384,11 +384,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
                     cmdbuf = cString::sprintf("%d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s",
                        flags,
                        ch->Number(),
-#if VDRVERSNUM < 10503
-		       PRINTDAY(day, weekdays),
-#else
                        PRINTDAY(day, weekdays, true),
-#endif
                        start,
                        stop,
                        priority,

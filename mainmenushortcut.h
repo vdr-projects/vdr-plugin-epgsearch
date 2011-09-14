@@ -26,11 +26,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <vdr/plugin.h>
 
-#if APIVERSNUM < 10508
-static const char I18nEpgsearch[] = "epgsearch";
-#else
 static const char I18nEpgsearch[] = "vdr-epgsearch";
-#endif
 
 class cMainMenuShortcutSetupPage : public cMenuSetupPage 
 {

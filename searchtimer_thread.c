@@ -693,11 +693,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
       msprintf(&cmdbuf, "NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s", 
                Flags,
                Timer->Channel()->Number(),
-#if VDRVERSNUM < 10503
-               *Timer->PrintDay(start, Timer->WeekDays()),
-#else
                *Timer->PrintDay(start, Timer->WeekDays(), true),
-#endif
                bufStart,
                bufEnd,
                Prio, 
@@ -709,11 +705,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
                index,
                Flags,
                Timer->Channel()->Number(),
-#if VDRVERSNUM < 10503
-               *Timer->PrintDay(start, Timer->WeekDays()),
-#else
                *Timer->PrintDay(start, Timer->WeekDays(), true),
-#endif
                bufStart,
                bufEnd,
                Prio, 

@@ -90,102 +90,6 @@ class cConflictCheckTime : public cListObject
 	}
 };
 
-#if APIVERSNUM < 10500
-// --- cConflictCheckDevice --------------------------------------------------------
-// This class tries to emulate the behaviour of a DVB device
-// NOTE: The case device == NULL is only for debugging purposes 
-class cConflictCheckDevice
-{
- public:
-    std::set<cConflictCheckTimerObj*,TimerObjSort> recTimers;
-    cDevice* device;
-    int devicenr;
-
-    cConflictCheckDevice() {}    
-    int Priority() const
-	{
-	    int prio = -1;
-	    for(std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it = recTimers.begin(); it != recTimers.end(); it++)
-		prio = max(prio, (*it)->timer->Priority());
-	    return prio;
-	};
-    bool Receiving() const { return (recTimers.size() > 0); }
-    bool IsTunedTo (const cChannel* Channel) const
-	{
-	    for(std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it = recTimers.begin(); it != recTimers.end(); it++)
-		if ((*it)->timer->Channel()->Source() == Channel->Source() && 
-		    (*it)->timer->Channel()->Transponder() == Channel->Transponder())
-		    return true;
-	    return false;
-	}
-    bool HasDecoder() const { if (device) return device->HasDecoder(); else return (devicenr == 3); }
-    bool IsPrimaryDevice() const { if (device) return device->IsPrimaryDevice(); else return (devicenr == 3); }
-    bool ProvidesSource(int Source) const 
-	{ 
-	    if (device) return device->ProvidesSource(Source);
-	    else 
-	    {
-//		int type = Source & cSource::st_Mask;
-//		if (devicenr == 0) return type == cSource::stCable;
-//		if (devicenr > 0) return type == cSource::stTerr;
-//		return false; 
-		return true;
-	    }
-	}
-    int ProvidesCa(const cChannel* Channel) const { if (device) return device->ProvidesCa(Channel); else return true; }
-    int Ca() const
-	{
-	    for(std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it = recTimers.begin(); it != recTimers.end(); it++)
-		return (*it)->timer->Channel()->Ca();
-	    return 0;
-	}
-    bool HasPid(int Pid) const { return true; }
-    bool ProvidesChannel(const cChannel *Channel, int Priority = -1, bool *NeedsDetachReceivers = NULL) const
-	{
-	    bool result = false;
-	    bool hasPriority = Priority < 0 || Priority > this->Priority();
-	    bool needsDetachReceivers = false;
-
-#ifdef CFLC
-	    if (ProvidesSource(Channel->Source()))
-#else
-	    if (ProvidesSource(Channel->Source()) && ProvidesCa(Channel)) 
-#endif
-	    {
-		result = hasPriority;
-		if (Priority >= 0 && Receiving()) 
-		{
-		    if (IsTunedTo(Channel)) 
-		    {
-		      if ((Channel->Vpid() && !HasPid(Channel->Vpid())) || (Channel->Apid(0) && ! HasPid(Channel->Apid(0)))) 
-			{
-#ifdef DO_MULTIPLE_RECORDINGS
-#ifndef DO_MULTIPLE_CA_CHANNELS
-			    if (Ca() >= CA_ENCRYPTED_MIN || Channel->Ca() >= CA_ENCRYPTED_MIN)
-				needsDetachReceivers = Ca() != Channel->Ca();
-			    else
-#endif
-				if (!IsPrimaryDevice())
-				    result = true;
-#ifdef DO_REC_AND_PLAY_ON_PRIMARY_DEVICE
-				else
-				    result = Priority >= Setup.PrimaryLimit;
-#endif
-#endif
-			}
-			else
-			    result = !IsPrimaryDevice() || Priority >= Setup.PrimaryLimit;
-		    }
-		    else
-			needsDetachReceivers = true;
-		}
-	    }
-	    if (NeedsDetachReceivers)
-		*NeedsDetachReceivers = needsDetachReceivers;
-	    return result;	    
-	}
-};
-#else
 // --- cConflictCheckDevice --------------------------------------------------------
 // This class tries to emulate the behaviour of a DVB device
 // NOTE: The case device == NULL is only for debugging purposes 
@@ -276,8 +180,6 @@ class cConflictCheckDevice
 	}
 };
 
-#endif
-
 // --- cConflictCheck --------------------------------------------------------
 class cConflictCheck 
 {
@@ -309,9 +211,7 @@ class cConflictCheck
     int ProcessCheckTime(cConflictCheckTime* checkTime);
     bool TimerInConflict(cTimer*);
     void EvaluateConflCheckCmd();
-#if APIVERSNUM >= 10500
     eModuleStatus CamSlotModuleStatus(cCamSlot *CamSlot);
-#endif
 };
 
 #endif

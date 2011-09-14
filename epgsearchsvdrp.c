@@ -446,11 +446,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 		  cString cmdbuf = cString::sprintf("NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s", 
                            Flags,
                            Timer->Channel()->Number(),
-#if VDRVERSNUM < 10503
-                           *Timer->PrintDay(start, Timer->WeekDays()),
-#else
                            *Timer->PrintDay(start, Timer->WeekDays(), true),
-#endif
                            bufStart,
                            bufEnd,
                            search->Priority, 

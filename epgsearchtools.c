@@ -41,9 +41,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "md5.h"
 #include "afuzzy.h"
 #include "timerstatus.h"
-#if APIVERSNUM >= 10503 
 #include <langinfo.h>
-#endif
 
 #ifdef HAVE_PCREPOSIX
 #include <pcreposix.h>
@@ -854,7 +852,6 @@ int msprintf(char **strp, const char *fmt, ...)
 
 std::string GetCodeset()
 {
-#if APIVERSNUM >= 10503 
    // Taken from VDR's vdr.c
    char *CodeSet = NULL;
    if (setlocale(LC_CTYPE, ""))
@@ -871,9 +868,6 @@ std::string GetCodeset()
      return std::string(CodeSet);
    else
      return "ISO-8859-15";
-#else
-   return "ISO-8859-15";
-#endif
 }
 
 /*  Read a line from a socket  */
