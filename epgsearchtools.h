@@ -26,7 +26,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <string>
 #include <vdr/config.h> // For VDRVERSNUM only
-#include <vdr/font.h>
 #include "epgsearchext.h"
 #include "recdone.h"
 
@@ -129,7 +128,6 @@ class cSearchExtCat;
 class cEvent;
 
 char* IndentMenuItem(const char*, int indentions=1);
-void PatchFont(eDvbFont);
 bool MatchesSearchMode(const char* test, const char* values, int searchmode, const char* delim, int tolerance);
 char* GetExtEPGValue(const cEvent* e, cSearchExtCat* SearchExtCat);
 char* GetExtEPGValue(const char* description, const char* catname);

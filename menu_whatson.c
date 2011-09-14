@@ -34,7 +34,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_search.h" 
 #include "menu_commands.h"
 #include "epgsearchcfg.h"
-#include "epgsearchtools.h"
 #include "switchtimer.h"
 #include "epgsearchcats.h"
 #include "conflictcheck.h"
@@ -263,16 +262,6 @@ cMenuWhatsOnSearch::cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentC
   helpKeys = -1;
   shiftTime = 0;
   schedules = Schedules;
-  
-  // do a font patch, if necessary
-  if (strcasestr(cTemplFile::GetTemplateByName("MenuWhatsOnNow")->MenuTemplate(), "%progr%") ||
-      strcasestr(cTemplFile::GetTemplateByName("MenuWhatsOnNext")->MenuTemplate(), "%progr%"))
-    {
-      if(Setup.UseSmallFont==2)  
-	PatchFont(fontSml);
-      else
-	PatchFont(fontOsd);	
-    }
   
   CreateShowModes();
   
