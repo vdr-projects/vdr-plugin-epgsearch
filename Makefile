@@ -133,7 +133,7 @@ DEFINES4 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"'
 
 ### The object files (add further files here):
 
-OBJS = afuzzy.o blacklist.o changrp.o confdloader.o conflictcheck.o conflictcheck_thread.o distance.o $(PLUGIN).o epgsearchcats.o epgsearchcfg.o epgsearchext.o epgsearchsetup.o  epgsearchsvdrp.o epgsearchtools.o i18n.o mail.o md5.o menu_announcelist.o menu_blacklistedit.o menu_blacklists.o menu_commands.o menu_conflictcheck.o menu_deftimercheckmethod.o menu_dirselect.o menu_event.o menu_favorites.o menu_main.o menu_myedittimer.o menu_quicksearch.o menu_recsdone.o menu_search.o menu_searchactions.o menu_searchedit.o menu_searchresults.o menu_searchtemplate.o menu_switchtimers.o menu_templateedit.o menu_timersdone.o menu_whatson.o noannounce.o pending_notifications.o rcfile.o  recdone.o recstatus.o searchtimer_thread.o services.o switchtimer.o switchtimer_thread.o templatefile.o timer_thread.o timerdone.o timerstatus.o uservars.o varparser.o  
+OBJS = afuzzy.o blacklist.o changrp.o confdloader.o conflictcheck.o conflictcheck_thread.o distance.o $(PLUGIN).o epgsearchcats.o epgsearchcfg.o epgsearchext.o epgsearchsetup.o  epgsearchsvdrp.o epgsearchtools.o mail.o md5.o menu_announcelist.o menu_blacklistedit.o menu_blacklists.o menu_commands.o menu_conflictcheck.o menu_deftimercheckmethod.o menu_dirselect.o menu_event.o menu_favorites.o menu_main.o menu_myedittimer.o menu_quicksearch.o menu_recsdone.o menu_search.o menu_searchactions.o menu_searchedit.o menu_searchresults.o menu_searchtemplate.o menu_switchtimers.o menu_templateedit.o menu_timersdone.o menu_whatson.o noannounce.o pending_notifications.o rcfile.o  recdone.o recstatus.o searchtimer_thread.o services.o switchtimer.o switchtimer_thread.o templatefile.o timer_thread.o timerdone.o timerstatus.o uservars.o varparser.o  
 
 ifeq ($(REGEXLIB), pcre)
 LIBS += $(shell pcre-config --libs-posix)
@@ -210,7 +210,7 @@ I18Npot   = $(PODIR)/$(PLUGIN).pot
 	msgfmt -c -o $@ $<
 
 $(I18Npot): $(wildcard *.[ch])
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ `ls $^`
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP -kI18nTranslate --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ `ls $^`
 
 %.po: $(I18Npot)
 	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<
@@ -222,9 +222,6 @@ $(I18Nmsgs): $(LOCALEDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
 
 .PHONY: i18n
 i18n: $(I18Nmsgs) $(I18Npot)
-
-generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
-	buildutil/pot2i18n.pl $(I18Npot) i18n-template.h > i18n-generated.h
 
 ### Targets:
 
@@ -247,7 +244,7 @@ libvdr-$(PLUGIN4).so: $(OBJS4)
 createcats: createcats.o Makefile
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) createcats.o -o $@
 
-dist: generate-i18n docs clean
+dist: docs clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
@@ -260,7 +257,7 @@ dist: generate-i18n docs clean
 	@ln -sf README.git README
 	@echo Distribution package created as $(PACKAGE).tgz
 
-distfull: generate-i18n docs clean 
+distfull: docs clean 
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)

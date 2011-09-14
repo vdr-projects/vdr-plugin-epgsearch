@@ -26,63 +26,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <memory>
 #include <set>
 #include <vdr/plugin.h>
-#include "i18n.h"
 #include "services.h"
 #include "mainmenushortcut.h"
 
 static const char SETUPENTRY[] = "MainMenuEntryEnabled";
-
-#if APIVERSNUM < 10507
-const tI18nPhrase Phrases[] = {
-  {
-   "This version of EPGSearch does not support this service!",
-   "Diese Version von EPGSearch unterstützt diesen Dienst nicht!",
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "EPGSearch-laajennos ei tarjoa vaadittavaa palvelua!",
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// Eesti
-   "",				// Dansk
-   "",				// Czech
-   },
-  {
-   "EPGSearch does not exist!",
-   "EPGSearch nicht vorhanden!",
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "EPGSearch-laajennosta ei löydy!",
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// TODO
-   "",				// Eesti
-   "",				// Dansk
-   "",				// Czech
-   },
-  {NULL}
-};
-#endif
 
 cMainMenuShortcutSetupPage::cMainMenuShortcutSetupPage(const char *setupText,
 						       const char *setupEntry,
@@ -104,9 +51,6 @@ cMainMenuShortcut::cMainMenuShortcut()
 
 cMainMenuShortcut::~cMainMenuShortcut()
 {
-#if APIVERSNUM < 10507
-  I18nRegister(NULL, PLUGIN_NAME_I18N);
-#endif
 }
 
 cOsdMenu *cMainMenuShortcut::GetEpgSearchMenu(const char *serviceName)
@@ -131,9 +75,6 @@ cOsdMenu *cMainMenuShortcut::GetEpgSearchMenu(const char *serviceName)
 
 bool cMainMenuShortcut::Initialize()
 {
-#if APIVERSNUM < 10507
-  I18nRegister(Phrases, PLUGIN_NAME_I18N);
-#endif
   return true;
 }
 

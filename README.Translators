@@ -19,18 +19,8 @@ To do so please follow these steps:
    the po subdirectory. All entries with 'msgstr ""' should be filled 
    with your translation.
 
-3. To test your translations:
-   in vdr > 1.5.6: 
-   simply recompile EPGSearch and check your changes.
-   in vdr < 1.5.7: 
-   for backwards compatibility the translation is built from the 
-   po files. To do so call
-
-   make generate-i18n
-
-   from EPGSearch's source directory and then recompile EPGSearch.
-   (this calls buildutil/pot2i18n.pl which may need to install Locale::PO 
-   in the pearl cpan shell)
+3. To test your translations, simply recompile EPGSearch and check
+   your changes.
 
 4. When done please send me your po file or even better a patch for it,
    created like

@@ -29,7 +29,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/font.h>
 #include "epgsearchext.h"
 #include "recdone.h"
-#include "i18n.h"
 
 using std::string;
 

@@ -37,7 +37,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_event.h"
 #include "menu_main.h"
 #include "menu_whatson.h"
-#include "i18n.h"
 #include "epgsearchsetup.h"
 #include "epgsearchcfg.h"
 #include "epgsearchext.h"
@@ -423,9 +422,6 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
 
 bool cPluginEpgsearch::Initialize(void)
 {
-#if APIVERSNUM < 10507
-   RegisterI18n(Phrases);
-#endif
    return true;
 }
 

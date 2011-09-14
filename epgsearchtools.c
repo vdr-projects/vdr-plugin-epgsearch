@@ -40,7 +40,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "distance.h"
 #include "md5.h"
 #include "afuzzy.h"
-#include "i18n.h"
 #include "timerstatus.h"
 #if APIVERSNUM >= 10503 
 #include <langinfo.h>
