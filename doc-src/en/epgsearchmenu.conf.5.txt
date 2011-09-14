@@ -90,11 +90,12 @@ or '--reloadmenuconf' in your runvdr.
 There's a sample F<epgsearchmenu.conf> in the subdirectory "conf". For a quick try
 copy it to your epgsearch config directory (e.g. /etc/vdr/plugins/epgsearch).
 
-To enable icons from WarEagleIcon-Patch simply put the line
+To enable icons from the VDRSymbols font simply put the line
 
  WarEagleIcons=1
 
-to F<epgsearchmenu.conf>.
+to F<epgsearchmenu.conf>. The VDRSymbols font is available at
++http://andreas.vdr-developer.org/fonts/download.html
 
 NOTE: As long as there is a file epgsearchmenu.conf with an entry for a special
 menu, all setup settings regarding the look of this menu are ignored.
