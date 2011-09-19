@@ -15,7 +15,7 @@ msgstr ""
 "Language-Team: Dutch <vdr@linuxtv.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Channel groups"
@@ -108,10 +108,10 @@ msgid "smart"
 msgstr "slim"
 
 msgid "before user-def. times"
-msgstr "vóór gebruiker-gedef. tijden"
+msgstr "vÃ³Ã³r gebruiker-gedef. tijden"
 
 msgid "after user-def. times"
-msgstr "ná gebruiker-gedef. tijden"
+msgstr "nÃ¡ gebruiker-gedef. tijden"
 
 msgid "before 'next'"
 msgstr ""
@@ -234,7 +234,7 @@ msgid "Help$If you have a large channel set you can speed up things when you lim
 msgstr "Als er sprake is van een groot aantal kanalen dan kan de snelheid worden bevorderd als het aantal kanalen wordt beperkt. Gebruik '0' om de limitering op te heffen"
 
 msgid "'One press' timer creation"
-msgstr "Maak met één toetsdruk een nieuwe timer aan"
+msgstr "Maak met Ã©Ã©n toetsdruk een nieuwe timer aan"
 
 msgid "Help$When a timer is created with 'Record' you can choose between an immediate creation of the timer or the display of the timer edit menu."
 msgstr "Als er een timer is gemaakt met 'Opname' dan kan er gekozen worden de timer direct aan te maken of eerst het 'Wijzig timer' menu te tonen."
@@ -462,7 +462,7 @@ msgid "Help$If a conflicts duration is less then the given number of minutes it 
 msgstr "Indien de duur van conflict(en) kleiner is dan het gegeven aantal minuten dan worden deze niet gemerkt als 'belangrijk' Alleen belangrijke conflicten zullen een OSD melding tot gevolg hebben."
 
 msgid "Only check within next ... days"
-msgstr "Controleer alleen vóór de volgende ... dagen"
+msgstr "Controleer alleen vÃ³Ã³r de volgende ... dagen"
 
 msgid "Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."
 msgstr "Deze waarde beperkt de conflict controle tot het gegeven aantal dagen. Alle andere conflicten worden als 'nog niet belangrijk' bestempeld."
@@ -702,7 +702,7 @@ msgid "Use extended EPG info"
 msgstr "Gebruik uitgebreide EPG info"
 
 msgid "Ignore missing categories"
-msgstr "Negeer ontbrekende categoriÃen"
+msgstr "Negeer ontbrekende categoriÃ«en"
 
 msgid "Use channel"
 msgstr "Gebruik kanaal"
@@ -945,10 +945,10 @@ msgid "Run search timer update?"
 msgstr "Start verversen zoektimer? "
 
 msgid "Copy this entry?"
-msgstr "KopiÃer deze regel?"
+msgstr "KopiÃ«er deze regel?"
 
 msgid "Copy"
-msgstr "KopiÃer"
+msgstr "KopiÃ«er"
 
 msgid "Copy this entry to templates?"
 msgstr "KopiÃ«er deze regel naar sjablonen"
@@ -1039,7 +1039,7 @@ msgid ""
 msgstr ""
 "Er kan gekozen worden uit de volgende zoekinstellingen:\n"
 "- alle woorden: alle los voorkomende woorden moeten gevonden worden\n"
-"- minstens ÃÃn woord: minstens Ã©n woord moet worden gevonden\n"
+"- minstens Ã©Ã©n woord: minstens Ã©n woord moet worden gevonden\n"
 "- past precies: de hele zoekterm komt exact overeen\n"
 "- reguliere expressie: resultaat past bij uitkomst expressie\n"
 "- 'fuzzy' zoeken: zoek naar mogelijke matches"
@@ -1068,7 +1068,7 @@ msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor
 msgstr "Kies 'ja' indien de zoekactie moet zoeken in de titel van het programma"
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
-msgstr "De samenvatting van een programma kan extra informatie bevatten zoals 'Genre', 'Jaar',... binnen EPGsearch 'EPG categoriÃen' genoemd.  "
+msgstr "De samenvatting van een programma kan extra informatie bevatten zoals 'Genre', 'Jaar',... binnen EPGsearch 'EPG categoriÃ«en' genoemd.  "
 
 msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
 msgstr "Het bestand epgsearchcats.conf omschrijft de zoekinstellingen voor deze regel. Men kan zoeken op tekst of waarde. Er kan ook een lijst van voorgedefinieerde waarden geselecteerd en aangepast worden"
@@ -1137,7 +1137,7 @@ msgid "Compare date"
 msgstr "Vergelijk titel"
 
 msgid "Compare categories"
-msgstr "vergelijk categoriëen"
+msgstr "vergelijk categoriÃ«en"
 
 msgid "VPS"
 msgstr "VPS"

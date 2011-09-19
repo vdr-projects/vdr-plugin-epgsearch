@@ -1,7 +1,7 @@
 # VDR plugin language source file.
 # Copyright (C) 2007 Klaus Schmidinger <kls@cadsoft.de>
 # This file is distributed under the same license as the VDR package.
-# Vladimír Bárta <vladimir.barta@k2atmitec.cz>, 2006
+# VladimÃ­r BÃ¡rta <vladimir.barta@k2atmitec.cz>, 2006
 #
 msgid ""
 msgstr ""
@@ -13,290 +13,290 @@ msgstr ""
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Channel groups"
-msgstr "Skupiny kanálov"
+msgstr "Skupiny kanÃ¡lov"
 
 msgid "Button$Select"
-msgstr "Vybra»"
+msgstr "VybraÅ¥"
 
 msgid "Channel group used by:"
-msgstr "Pou¾itá skupina kanálov:"
+msgstr "PouÅ¾itÃ¡ skupina kanÃ¡lov:"
 
 msgid "Edit$Delete group?"
-msgstr "Vymaza» skupinu"
+msgstr "VymazaÅ¥ skupinu"
 
 msgid "Edit channel group"
-msgstr "Upravi» skupinu kanálu"
+msgstr "UpraviÅ¥ skupinu kanÃ¡lu"
 
 msgid "Group name"
-msgstr "Názov skupiny"
+msgstr "NÃ¡zov skupiny"
 
 msgid "Button$Invert selection"
-msgstr "Prevráti» vıber"
+msgstr "PrevrÃ¡tiÅ¥ vÃ½ber"
 
 msgid "Button$All yes"
-msgstr "Áno v¹etko"
+msgstr "Ãno vÅ¡etko"
 
 msgid "Button$All no"
-msgstr "V¹etko nie"
+msgstr "VÅ¡etko nie"
 
 msgid "Group name is empty!"
-msgstr "Meno skupiny je prázdne!"
+msgstr "Meno skupiny je prÃ¡zdne!"
 
 msgid "Group name already exists!"
 msgstr "Meno skupiny existuje!"
 
 msgid "Direct access to epgsearch's conflict check menu"
-msgstr "Priamy prístup EPGsearch k menu konfliktov"
+msgstr "Priamy prÃ­stup EPGsearch k menu konfliktov"
 
 msgid "Timer conflicts"
-msgstr "Konflikty plánovaèa"
+msgstr "Konflikty plÃ¡novaÄa"
 
 msgid "Conflict info in main menu"
-msgstr "Informácie o konfliktoch v hlav menu"
+msgstr "InformÃ¡cie o konfliktoch v hlav menu"
 
 msgid "next"
-msgstr "ïal¹í"
+msgstr "ÄalÅ¡Ã­"
 
 #, c-format
 msgid "%d timer conflict(s)! First at %s. Show them?"
-msgstr "%d  konflikt(y) plánovania! Prvı o %s. Ukáza»"
+msgstr "%d  konflikt(y) plÃ¡novania! PrvÃ½ o %s. UkÃ¡zaÅ¥"
 
 msgid "search the EPG for repeats and more"
-msgstr "Prehµada» televízny program, èi nebude repríza"
+msgstr "PrehÄ¾adaÅ¥ televÃ­zny program, Äi nebude reprÃ­za"
 
 msgid "Program guide"
-msgstr "Programovı sprievodca"
+msgstr "ProgramovÃ½ sprievodca"
 
 #, fuzzy
 msgid "search timer update running"
-msgstr "Aktualizácia vyhµadávania plánov skonèená!"
+msgstr "AktualizÃ¡cia vyhÄ¾adÃ¡vania plÃ¡nov skonÄenÃ¡!"
 
 msgid "Direct access to epgsearch's search menu"
-msgstr "Priamy prístup k epgsearch cez vyhµadávacie menu"
+msgstr "Priamy prÃ­stup k epgsearch cez vyhÄ¾adÃ¡vacie menu"
 
 msgid "Search"
-msgstr "Håada»"
+msgstr "HÄºadaÅ¥"
 
 msgid "EpgSearch-Search in main menu"
-msgstr "EpgSearch-Vyhµadávanie v hlavnom menu"
+msgstr "EpgSearch-VyhÄ¾adÃ¡vanie v hlavnom menu"
 
 msgid "Button$Help"
 msgstr "Pomoc"
 
 msgid "Standard"
-msgstr "be¾ne"
+msgstr "beÅ¾ne"
 
 msgid "Button$Commands"
-msgstr "Príkazy"
+msgstr "PrÃ­kazy"
 
 msgid "Button$Search"
-msgstr "Hµada»"
+msgstr "HÄ¾adaÅ¥"
 
 msgid "never"
 msgstr "nikdy"
 
 msgid "always"
-msgstr "v¾dy"
+msgstr "vÅ¾dy"
 
 msgid "smart"
-msgstr "chytrı"
+msgstr "chytrÃ½"
 
 msgid "before user-def. times"
-msgstr "pred u¾ívateµ-def. plánu"
+msgstr "pred uÅ¾Ã­vateÄ¾-def. plÃ¡nu"
 
 msgid "after user-def. times"
-msgstr "po u¾ívateµ-def. plánu"
+msgstr "po uÅ¾Ã­vateÄ¾-def. plÃ¡nu"
 
 msgid "before 'next'"
-msgstr "pred 'ïal¹ím'"
+msgstr "pred 'ÄalÅ¡Ã­m'"
 
 msgid "General"
-msgstr "Hlavné"
+msgstr "HlavnÃ©"
 
 msgid "EPG menus"
 msgstr "EPG menu"
 
 msgid "User-defined EPG times"
-msgstr "U¾ívateµom-urèenı EPG plán"
+msgstr "UÅ¾Ã­vateÄ¾om-urÄenÃ½ EPG plÃ¡n"
 
 msgid "Timer programming"
-msgstr "Plán programovania"
+msgstr "PlÃ¡n programovania"
 
 msgid "Search and search timers"
-msgstr "Hµada» a prehµada» plány"
+msgstr "HÄ¾adaÅ¥ a prehÄ¾adaÅ¥ plÃ¡ny"
 
 msgid "Timer conflict checking"
-msgstr "Kontrola konfliktov plánu"
+msgstr "Kontrola konfliktov plÃ¡nu"
 
 msgid "Email notification"
-msgstr "Oznámenie na Email"
+msgstr "OznÃ¡menie na Email"
 
 msgid "Hide main menu entry"
-msgstr "Skry» v hlavnom menu"
+msgstr "SkryÅ¥ v hlavnom menu"
 
 msgid "Help$Hides the main menu entry and may be useful if this plugin is used to replace the original 'Schedule' entry."
-msgstr "Skryje v hlavnom menu polo¾ku. Mô¾e to by» u¾itoèné, ak tento modul má nahradi» pôvodnı 'Program' ."
+msgstr "Skryje v hlavnom menu poloÅ¾ku. MÃ´Å¾e to byÅ¥ uÅ¾itoÄnÃ©, ak tento modul mÃ¡ nahradiÅ¥ pÃ´vodnÃ½ 'Program' ."
 
 msgid "Main menu entry"
-msgstr "Hlavné menu"
+msgstr "HlavnÃ© menu"
 
 msgid "Help$The name of the main menu entry which defaults to 'Programm guide'."
-msgstr "meno polo¾ky v hlavnom menu , ktorá je nastavená na 'Programovı sprievodca'."
+msgstr "meno poloÅ¾ky v hlavnom menu , ktorÃ¡ je nastavenÃ¡ na 'ProgramovÃ½ sprievodca'."
 
 msgid "Replace original schedule"
-msgstr "Nahradi» pôvodnı harmonogram"
+msgstr "NahradiÅ¥ pÃ´vodnÃ½ harmonogram"
 
 msgid "Help$When VDR is patched to allow this plugin to replace the original 'Schedule' entry, you can de/activate this replacement here."
-msgstr "Keï je VDR opravenı, mô¾ete aktivova» vımenu televízneho programu tu, aby tento modul nahradil pôvodnı televízny program."
+msgstr "KeÄ je VDR opravenÃ½, mÃ´Å¾ete aktivovaÅ¥ vÃ½menu televÃ­zneho programu tu, aby tento modul nahradil pÃ´vodnÃ½ televÃ­zny program."
 
 msgid "Start menu"
-msgstr "©tart menu"
+msgstr "Å tart menu"
 
 msgid "Help$Choose between 'Overview - Now' and 'Schedule' as start menu when this plugin is called."
-msgstr "Keï sa spustí tento modul, tak si vyberte medzi 'Prehµad - teraz' a 'Televíznym programom' v ©tart menu."
+msgstr "KeÄ sa spustÃ­ tento modul, tak si vyberte medzi 'PrehÄ¾ad - teraz' a 'TelevÃ­znym programom' v Å tart menu."
 
 msgid "Ok key"
-msgstr "Ok klávesa"
+msgstr "Ok klÃ¡vesa"
 
 msgid ""
 "Help$Choose here the behaviour of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
 "Note: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."
 msgstr ""
-"Tu si vyberte správanie klávesy 'Ok'. Mô¾ete ju pou¾i» na zobrazenie súhrnu alebo prepnú» na zodpovedajúci kanál.\n"
-"Poznámka: funkcia  'modrej' klávesy (Prepnú» / Informácie / Hµada») závisí na nastavení."
+"Tu si vyberte sprÃ¡vanie klÃ¡vesy 'Ok'. MÃ´Å¾ete ju pouÅ¾iÅ¥ na zobrazenie sÃºhrnu alebo prepnÃºÅ¥ na zodpovedajÃºci kanÃ¡l.\n"
+"PoznÃ¡mka: funkcia  'modrej' klÃ¡vesy (PrepnÃºÅ¥ / InformÃ¡cie / HÄ¾adaÅ¥) zÃ¡visÃ­ na nastavenÃ­."
 
 msgid "Red key"
-msgstr "Èervená klávesa"
+msgstr "ÄŒervenÃ¡ klÃ¡vesa"
 
 msgid ""
 "Help$Choose which standard function ('Record' or 'Commands') you like to have on the red key.\n"
 "(Can be toggled with key '0')"
 msgstr ""
-"Vyberte si, ktoré ¹tandardné funkcie ( 'Nahrávky' alebo 'príkazy'), chcete ma» pod èervenım tlaèítkom.\n"
-"(Mo¾no zapína» s klávesou '0')"
+"Vyberte si, ktorÃ© Å¡tandardnÃ© funkcie ( 'NahrÃ¡vky' alebo 'prÃ­kazy'), chcete maÅ¥ pod ÄervenÃ½m tlaÄÃ­tkom.\n"
+"(MoÅ¾no zapÃ­naÅ¥ s klÃ¡vesou '0')"
 
 msgid "Blue key"
-msgstr "Modrá klávesa"
+msgstr "ModrÃ¡ klÃ¡vesa"
 
 msgid ""
 "Help$Choose which standard function ('Switch'/'Info' or 'Search') you like to have on the blue key.\n"
 "(Can be toggled with key '0')"
 msgstr ""
-"Vyberte si, ktoré ¹tandardné funkcie ( 'Nahrávky' alebo 'príkazy'), chcete ma» pod modrım tlaèítkom.\n"
-"(Mo¾no zapína» s klávesou '0')"
+"Vyberte si, ktorÃ© Å¡tandardnÃ© funkcie ( 'NahrÃ¡vky' alebo 'prÃ­kazy'), chcete maÅ¥ pod modrÃ½m tlaÄÃ­tkom.\n"
+"(MoÅ¾no zapÃ­naÅ¥ s klÃ¡vesou '0')"
 
 msgid "Show progress in 'Now'"
-msgstr "Zobrazi» proces v 'Now'"
+msgstr "ZobraziÅ¥ proces v 'Now'"
 
 msgid "Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event."
-msgstr "Ukazuje priebeh v 'Prehµad - teraz', ktorı informuje o zostávajúcom èase aktuálnej udalosti."
+msgstr "Ukazuje priebeh v 'PrehÄ¾ad - teraz', ktorÃ½ informuje o zostÃ¡vajÃºcom Äase aktuÃ¡lnej udalosti."
 
 msgid "Show channel numbers"
-msgstr "Zobrazi» èíslo kanálu"
+msgstr "ZobraziÅ¥ ÄÃ­slo kanÃ¡lu"
 
 msgid ""
 "Help$Display channel numbers in 'Overview - Now'.\n"
 "\n"
 "(To completely define your own menu look please inspect the MANUAL)"
 msgstr ""
-"Zobrazenie èísla kanálov v 'Prehµad - Teraz'. \n"
+"Zobrazenie ÄÃ­sla kanÃ¡lov v 'PrehÄ¾ad - Teraz'. \n"
 "\n"
-"(Ak chcete kompletne definova» vlastné menu ,prosím skontrolujte MANUÁL)"
+"(Ak chcete kompletne definovaÅ¥ vlastnÃ© menu ,prosÃ­m skontrolujte MANUÃL)"
 
 msgid "Show channel separators"
-msgstr "Oddeli» zobrazené kanály"
+msgstr "OddeliÅ¥ zobrazenÃ© kanÃ¡ly"
 
 msgid "Help$Display VDR channel groups as separators between your channels in 'Overview - Now'."
-msgstr "Zobrazi» skupiny VDR kanálov s oddeµovaèmi v 'Prehµad - Teraz'."
+msgstr "ZobraziÅ¥ skupiny VDR kanÃ¡lov s oddeÄ¾ovaÄmi v 'PrehÄ¾ad - Teraz'."
 
 msgid "Show day separators"
-msgstr "Zobrazi» oddeµovaèe dní"
+msgstr "ZobraziÅ¥ oddeÄ¾ovaÄe dnÃ­"
 
 msgid "Help$Display a separator line at day break in 'Schedule'."
-msgstr "Zobrazi» deliace èiary cez dennú prestávku v 'Plánovaèi."
+msgstr "ZobraziÅ¥ deliace Äiary cez dennÃº prestÃ¡vku v 'PlÃ¡novaÄi."
 
 msgid "Show radio channels"
-msgstr "Zobrazi» rádio kanály"
+msgstr "ZobraziÅ¥ rÃ¡dio kanÃ¡ly"
 
 msgid "Help$Show also radio channels."
-msgstr "Zobrazi» tie¾ rozhlasové kanály"
+msgstr "ZobraziÅ¥ tieÅ¾ rozhlasovÃ© kanÃ¡ly"
 
 msgid "Limit channels from 1 to"
-msgstr "Limit kanálov od 1 do"
+msgstr "Limit kanÃ¡lov od 1 do"
 
 msgid "Help$If you have a large channel set you can speed up things when you limit the displayed channels with this setting. Use '0' to disable the limit."
-msgstr "Ak máte veµa nastavenıch kanálov, mô¾ete urıchli» vec tak, ¾e obmedzíte zobrazené kanály s tımto nastavením. Pou¾ite '0 'pre vypnutie limitu."
+msgstr "Ak mÃ¡te veÄ¾a nastavenÃ½ch kanÃ¡lov, mÃ´Å¾ete urÃ½chliÅ¥ vec tak, Å¾e obmedzÃ­te zobrazenÃ© kanÃ¡ly s tÃ½mto nastavenÃ­m. PouÅ¾ite '0 'pre vypnutie limitu."
 
 msgid "'One press' timer creation"
-msgstr "Raz stlaèi» vytvorenie plánu"
+msgstr "Raz stlaÄiÅ¥ vytvorenie plÃ¡nu"
 
 msgid "Help$When a timer is created with 'Record' you can choose between an immediate creation of the timer or the display of the timer edit menu."
-msgstr "Keï je èasovaè vytvorenı s 'Nahra»', tak si mô¾ete vybra» medzi okam¾itım vytvorením èasovaèa alebo zobrazenie menu s úpravami èasovaèa."
+msgstr "KeÄ je ÄasovaÄ vytvorenÃ½ s 'NahraÅ¥', tak si mÃ´Å¾ete vybraÅ¥ medzi okamÅ¾itÃ½m vytvorenÃ­m ÄasovaÄa alebo zobrazenie menu s Ãºpravami ÄasovaÄa."
 
 msgid "Show channels without EPG"
-msgstr "Zobrazi» kanály bez EPG"
+msgstr "ZobraziÅ¥ kanÃ¡ly bez EPG"
 
 msgid "Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."
-msgstr "Vyberte 'áno', ak chcete zobrazi» kanály bez EPG v 'Prehµad - Teraz'. 'Ok' na tejto polo¾ieke prepína kanál."
+msgstr "Vyberte 'Ã¡no', ak chcete zobraziÅ¥ kanÃ¡ly bez EPG v 'PrehÄ¾ad - Teraz'. 'Ok' na tejto poloÅ¾ieke prepÃ­na kanÃ¡l."
 
 msgid "Time interval for FRew/FFwd [min]"
-msgstr "Èasovı úsek pre FRew/FFwd [min]"
+msgstr "ÄŒasovÃ½ Ãºsek pre FRew/FFwd [min]"
 
 msgid ""
 "Help$Choose here the time interval which should be used for jumping through the EPG by pressing FRew/FFwd.\n"
 "\n"
 "(If you don't have those keys, you can toggle to this functionality pressing '0' and get '<<' and '>>' on the keys green and yellow)"
 msgstr ""
-"Tu si vyberte èasovı interval, ktorı by mal by» pou¾itı pre skákanie cez EPG stlaèením FRew / FFwd.\n"
+"Tu si vyberte ÄasovÃ½ interval, ktorÃ½ by mal byÅ¥ pouÅ¾itÃ½ pre skÃ¡kanie cez EPG stlaÄenÃ­m FRew / FFwd.\n"
 "\n"
-"(Ak nemáte tie klávesy, mô¾ete prepína» na túto funkciu stlaèením '0' a  '<<' alebo '>>'  ' klávesy zelenej a ¾ltej)search"
+"(Ak nemÃ¡te tie klÃ¡vesy, mÃ´Å¾ete prepÃ­naÅ¥ na tÃºto funkciu stlaÄenÃ­m '0' a  '<<' alebo '>>'  ' klÃ¡vesy zelenej a Å¾ltej)search"
 
 msgid "Toggle Green/Yellow"
-msgstr "Prepínaè zelenej/¾ltej"
+msgstr "PrepÃ­naÄ zelenej/Å¾ltej"
 
 msgid "Help$Specify if green and yellow shall also be switched when pressing '0'."
-msgstr "Uveïte, èi zelenou a ¾ltou, sa má tie¾ prepína» pri stlaèení '0 '."
+msgstr "UveÄte, Äi zelenou a Å¾ltou, sa mÃ¡ tieÅ¾ prepÃ­naÅ¥ pri stlaÄenÃ­ '0 '."
 
 msgid "Show favorites menu"
-msgstr "Zobrazi» obµúbené menu"
+msgstr "ZobraziÅ¥ obÄ¾ÃºbenÃ© menu"
 
 msgid ""
 "Help$A favorites menu can display a list of your favorite broadcasts. Enable this if you want an additional menu besides 'Now' and 'Next'\n"
 "Any search can be used as a favorite. You only have to set the option 'Use in favorites menu' when editing a search."
 msgstr ""
-"Obµúbené polo¾ky menu je mo¾né zobrazi» zoznam obµúbenıch staníc. Povoli», ak chcete ïal¹ie ponuky vedµa 'teraz' a 'Nasleduje' \n"
-"Akékoµvek vyhµadávania mo¾no pou¾i» ako obµúbené. Musíte len nastavi» voµbu 'Pou¾i» do obµúbenıch polo¾iek menu' pri úpravách vyhµadávania."
+"ObÄ¾ÃºbenÃ© poloÅ¾ky menu je moÅ¾nÃ© zobraziÅ¥ zoznam obÄ¾ÃºbenÃ½ch stanÃ­c. PovoliÅ¥, ak chcete ÄalÅ¡ie ponuky vedÄ¾a 'teraz' a 'Nasleduje' \n"
+"AkÃ©koÄ¾vek vyhÄ¾adÃ¡vania moÅ¾no pouÅ¾iÅ¥ ako obÄ¾ÃºbenÃ©. MusÃ­te len nastaviÅ¥ voÄ¾bu 'PouÅ¾iÅ¥ do obÄ¾ÃºbenÃ½ch poloÅ¾iek menu' pri ÃºpravÃ¡ch vyhÄ¾adÃ¡vania."
 
 msgid "for the next ... hours"
-msgstr "Za ïal¹ie ... hodiny"
+msgstr "Za ÄalÅ¡ie ... hodiny"
 
 msgid "Help$This value controls the timespan used to display your favorites."
-msgstr "Táto hodnota urèuje èasové rozpätie pre zobrazenie obµúbenıch."
+msgstr "TÃ¡to hodnota urÄuje ÄasovÃ© rozpÃ¤tie pre zobrazenie obÄ¾ÃºbenÃ½ch."
 
 msgid "Use user-defined time"
-msgstr "Pou¾i» u¾ívateµom definované plánovanie"
+msgstr "PouÅ¾iÅ¥ uÅ¾Ã­vateÄ¾om definovanÃ© plÃ¡novanie"
 
 msgid "Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."
-msgstr "Okrem 'teraz' a 'Nasleduje' mô¾ete zada» a¾ 4 iné èasy v EPG, ktoré mô¾u by» pou¾ité po opakovanom stlaèení zeleného tlaèitka, napr 'hlavnom vysielacom èase', 'neskoro v noci',..."
+msgstr "Okrem 'teraz' a 'Nasleduje' mÃ´Å¾ete zadaÅ¥ aÅ¾ 4 inÃ© Äasy v EPG, ktorÃ© mÃ´Å¾u byÅ¥ pouÅ¾itÃ© po opakovanom stlaÄenÃ­ zelenÃ©ho tlaÄitka, napr 'hlavnom vysielacom Äase', 'neskoro v noci',..."
 
 msgid "Description"
 msgstr "Popis"
 
 msgid "Help$This is the description for your user-defined time as it will appear as label on the green button."
-msgstr "To to je znázornené pre u¾ívateµom-stanovenej lehote(èasu), ako bude vyzera» oznaèenie  na zelenom tlaèítku."
+msgstr "To to je znÃ¡zornenÃ© pre uÅ¾Ã­vateÄ¾om-stanovenej lehote(Äasu), ako bude vyzeraÅ¥ oznaÄenie  na zelenom tlaÄÃ­tku."
 
 msgid "Time"
-msgstr "Èas"
+msgstr "ÄŒas"
 
 msgid "Help$Specify the user-defined time here in 'HH:MM'."
-msgstr "Presne napí¹te èas vo formáte 'HH:MM'."
+msgstr "Presne napÃ­Å¡te Äas vo formÃ¡te 'HH:MM'."
 
 msgid "Use VDR's timer edit menu"
-msgstr "Pou¾i» menu úpravy VDR èasovaèa"
+msgstr "PouÅ¾iÅ¥ menu Ãºpravy VDR ÄasovaÄa"
 
 msgid ""
 "Help$This plugin has it's own timer edit menu extending the original one with some extra functionality like\n"
@@ -305,20 +305,20 @@ msgid ""
 "- adding an episode name\n"
 "- support for EPG variables (see MANUAL)"
 msgstr ""
-"Tento modul je roz¹írením pôvodného menu s úpravami vysielacieho èasu  a pridáva niektoré nové funkcie, ako je \n"
-"- Pridávanie polo¾kou v adresári \n"
-"- Urèenie dòa v tı¾dni, ak sa opakujú vysielacie èasy \n"
-"- Pridanie mena epizódy \n"
-"- Podporu pre menlivé EPG (pozri manuál)"
+"Tento modul je rozÅ¡Ã­renÃ­m pÃ´vodnÃ©ho menu s Ãºpravami vysielacieho Äasu  a pridÃ¡va niektorÃ© novÃ© funkcie, ako je \n"
+"- PridÃ¡vanie poloÅ¾kou v adresÃ¡ri \n"
+"- UrÄenie dÅˆa v tÃ½Å¾dni, ak sa opakujÃº vysielacie Äasy \n"
+"- Pridanie mena epizÃ³dy \n"
+"- Podporu pre menlivÃ© EPG (pozri manuÃ¡l)"
 
 msgid "Default recording dir"
-msgstr "Predvolenı adresár záznamov"
+msgstr "PredvolenÃ½ adresÃ¡r zÃ¡znamov"
 
 msgid "Help$When creating a timer you can specify here a default recording directory."
-msgstr "Tu mô¾ete zada» predvolenı adresár záznamov ,ktorı sa pou¾ije ak vytvárate novı plán nahrávania,"
+msgstr "Tu mÃ´Å¾ete zadaÅ¥ predvolenÃ½ adresÃ¡r zÃ¡znamov ,ktorÃ½ sa pouÅ¾ije ak vytvÃ¡rate novÃ½ plÃ¡n nahrÃ¡vania,"
 
 msgid "Add episode to manual timers"
-msgstr "Prida» epizódy do ruèného èasovaèa"
+msgstr "PridaÅ¥ epizÃ³dy do ruÄnÃ©ho ÄasovaÄa"
 
 msgid ""
 "Help$If you create a timer for a series, you can automatically add the episode name.\n"
@@ -327,14 +327,14 @@ msgid ""
 "- always: always add episode name if present\n"
 "- smart: add only if event lasts less than 80 mins."
 msgstr ""
-"Ak vytvoríte plán nahrávania  pre sériu, mô¾ete automaticky prida» názov epizódy. \n"
+"Ak vytvorÃ­te plÃ¡n nahrÃ¡vania  pre sÃ©riu, mÃ´Å¾ete automaticky pridaÅ¥ nÃ¡zov epizÃ³dy. \n"
 "\n"
 "- Nikdy: nie okrem \n"
-"- V¾dy: v¾dy prida» meno epizódy ak je prítomné \n"
-"- Inteligentne :prida» iba ak udalos» trvá menej ako 80 minút."
+"- VÅ¾dy: vÅ¾dy pridaÅ¥ meno epizÃ³dy ak je prÃ­tomnÃ© \n"
+"- Inteligentne :pridaÅ¥ iba ak udalosÅ¥ trvÃ¡ menej ako 80 minÃºt."
 
 msgid "Default timer check method"
-msgstr "Predvolenı postup kontroly plánov"
+msgstr "PredvolenÃ½ postup kontroly plÃ¡nov"
 
 msgid ""
 "Help$Manual timers can be checked for EPG changes. Here you can setup the default check method for each channel. Choose between\n"
@@ -343,175 +343,175 @@ msgid ""
 "- by event ID: checks by an event ID supplied by the channel provider.\n"
 "- by channel and time: check by the duration match."
 msgstr ""
-"Manuálne plány mô¾u by» kontrolované na zmeny EPG. Tu si mô¾ete nastavi» predvolenı spôsob kontroly pre ka¾dı kanál. Vyberte si medzi \n"
+"ManuÃ¡lne plÃ¡ny mÃ´Å¾u byÅ¥ kontrolovanÃ© na zmeny EPG. Tu si mÃ´Å¾ete nastaviÅ¥ predvolenÃ½ spÃ´sob kontroly pre kaÅ¾dÃ½ kanÃ¡l. Vyberte si medzi \n"
 "\n"
-"- nekontrolova» \n"
-" - Podµa ID udalosti: kontroly ID udalosti poskytované poskytovateµom kanála. \n"
-"- Podµa  kanálu a èasu: kontrola då¾ky vysielaného programu."
+"- nekontrolovaÅ¥ \n"
+" - PodÄ¾a ID udalosti: kontroly ID udalosti poskytovanÃ© poskytovateÄ¾om kanÃ¡la. \n"
+"- PodÄ¾a  kanÃ¡lu a Äasu: kontrola dÄºÅ¾ky vysielanÃ©ho programu."
 
 msgid "Button$Setup"
 msgstr "Nastavenie"
 
 msgid "Use search timers"
-msgstr "Pou¾i» vyhµadávanie èasovaèov"
+msgstr "PouÅ¾iÅ¥ vyhÄ¾adÃ¡vanie ÄasovaÄov"
 
 msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criterions."
-msgstr "Vyhµadávanie vysielacieho èasu 'mo¾no pou¾i» na automatické vytváranie plánov nahrávania, ktoré zodpovedajú vá¹mu hµadanému kritériu."
+msgstr "VyhÄ¾adÃ¡vanie vysielacieho Äasu 'moÅ¾no pouÅ¾iÅ¥ na automatickÃ© vytvÃ¡ranie plÃ¡nov nahrÃ¡vania, ktorÃ© zodpovedajÃº vÃ¡Å¡mu hÄ¾adanÃ©mu kritÃ©riu."
 
 msgid "  Update interval [min]"
-msgstr "  obnovovací interval [min]"
+msgstr "  obnovovacÃ­ interval [min]"
 
 msgid "Help$Specify here the time intervall to be used when searching for events in the background."
-msgstr "Zvolte ako èasto sa majú na pozadí hµada» udalosti."
+msgstr "Zvolte ako Äasto sa majÃº na pozadÃ­ hÄ¾adaÅ¥ udalosti."
 
 msgid "  SVDRP port"
 msgstr "  SVDRP port"
 
 msgid "Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."
-msgstr "Programovanie novıch plánov alebo úpravy plánov sa vykonávajú so SVDRP. Predvolená hodnota by mala by» v poriadku, tak¾e ho zmente len vtedy, ak viete, èo robíte."
+msgstr "Programovanie novÃ½ch plÃ¡nov alebo Ãºpravy plÃ¡nov sa vykonÃ¡vajÃº so SVDRP. PredvolenÃ¡ hodnota by mala byÅ¥ v poriadku, takÅ¾e ho zmente len vtedy, ak viete, Äo robÃ­te."
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
-msgstr "Uveïte predvolenú prioritu plánov nahrávania vytvorenıch s tımto modulom. Túto hodnotu mo¾no upravi» aj pre ka¾dé samostatné hµadanie."
+msgstr "UveÄte predvolenÃº prioritu plÃ¡nov nahrÃ¡vania vytvorenÃ½ch s tÃ½mto modulom. TÃºto hodnotu moÅ¾no upraviÅ¥ aj pre kaÅ¾dÃ© samostatnÃ© hÄ¾adanie."
 
 msgid "Help$Specify here the default lifetime of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
-msgstr "Uveïte predvolenú ¾ivotnos» plánov / nahrávky vytvorenıch s tımto modulom. Túto hodnotu mo¾no upravi» aj pre ka¾dé samostatné hµadanie."
+msgstr "UveÄte predvolenÃº Å¾ivotnosÅ¥ plÃ¡nov / nahrÃ¡vky vytvorenÃ½ch s tÃ½mto modulom. TÃºto hodnotu moÅ¾no upraviÅ¥ aj pre kaÅ¾dÃ© samostatnÃ© hÄ¾adanie."
 
 msgid "Help$Specify here the default start recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
-msgstr "Uveïte predvolenı nadbytok úvodného záznamu plánu / nahrávky vytvorenım s tımto modulom. Túto hodnotu mo¾no  upravi» aj pre ka¾dé samostatné hµadanie."
+msgstr "UveÄte predvolenÃ½ nadbytok ÃºvodnÃ©ho zÃ¡znamu plÃ¡nu / nahrÃ¡vky vytvorenÃ½m s tÃ½mto modulom. TÃºto hodnotu moÅ¾no  upraviÅ¥ aj pre kaÅ¾dÃ© samostatnÃ© hÄ¾adanie."
 
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
-msgstr "Uveïte predvolenı nadbytok pri ukonèení nahrávania plánu / nahrávky vytvorenım s tımto modulom. Túto hodnotu mo¾no upravi» aj pre ka¾dé samostatné hµadanie."
+msgstr "UveÄte predvolenÃ½ nadbytok pri ukonÄenÃ­ nahrÃ¡vania plÃ¡nu / nahrÃ¡vky vytvorenÃ½m s tÃ½mto modulom. TÃºto hodnotu moÅ¾no upraviÅ¥ aj pre kaÅ¾dÃ© samostatnÃ© hÄ¾adanie."
 
 msgid "No announcements when replaying"
-msgstr "Neoznamova» pri prehrávaní"
+msgstr "NeoznamovaÅ¥ pri prehrÃ¡vanÃ­"
 
 msgid "Help$Set this to 'yes' if you don't like to get any announcements of broadcasts if you currently replay anything."
-msgstr "Ak nieèo prehrávate a nepáèi sa vám oznamovanie o vysielaní, tak nastavte 'áno'"
+msgstr "Ak nieÄo prehrÃ¡vate a nepÃ¡Äi sa vÃ¡m oznamovanie o vysielanÃ­, tak nastavte 'Ã¡no'"
 
 msgid "Recreate timers after deletion"
-msgstr "Znova vytvori» plán po vymazaní"
+msgstr "Znova vytvoriÅ¥ plÃ¡n po vymazanÃ­"
 
 msgid "Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."
-msgstr "Ak zma¾ete plán nahrávania a nechcete aby bol znova vytvorenı po automatickom obnovení vyhµadávaèa plánov, tak nastavte 'áno'"
+msgstr "Ak zmaÅ¾ete plÃ¡n nahrÃ¡vania a nechcete aby bol znova vytvorenÃ½ po automatickom obnovenÃ­ vyhÄ¾adÃ¡vaÄa plÃ¡nov, tak nastavte 'Ã¡no'"
 
 msgid "Check if EPG exists for ... [h]"
 msgstr ""
 
 #, fuzzy
 msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
-msgstr "Ak kontrola konfliktov by mala by» vykonávaná pri ka¾dom obnovení vyhµadávaèa plánov, tak nastavte 'áno'"
+msgstr "Ak kontrola konfliktov by mala byÅ¥ vykonÃ¡vanÃ¡ pri kaÅ¾dom obnovenÃ­ vyhÄ¾adÃ¡vaÄa plÃ¡nov, tak nastavte 'Ã¡no'"
 
 #, fuzzy
 msgid "Warn by OSD"
-msgstr "Iba oznámi»"
+msgstr "Iba oznÃ¡miÅ¥"
 
 #, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
-msgstr "Nastavte áno ak potrebujete oznamova» konflikty plánu na mail"
+msgstr "Nastavte Ã¡no ak potrebujete oznamovaÅ¥ konflikty plÃ¡nu na mail"
 
 #, fuzzy
 msgid "Warn by mail"
-msgstr "Iba oznámi»"
+msgstr "Iba oznÃ¡miÅ¥"
 
 #, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
-msgstr "Nastavte Áno, ak vá¹ úèet potrebuje overenie na poslanie mailov"
+msgstr "Nastavte Ãno, ak vÃ¡Å¡ ÃºÄet potrebuje overenie na poslanie mailov"
 
 #, fuzzy
 msgid "Channel group to check"
-msgstr "Skupina kanálov"
+msgstr "Skupina kanÃ¡lov"
 
 #, fuzzy
 msgid "Help$Specify the channel group to check."
-msgstr "Uveïte meno ¹ablony"
+msgstr "UveÄte meno Å¡ablony"
 
 msgid "Ignore PayTV channels"
-msgstr "Nev¹íma» si PayTV kanály"
+msgstr "NevÅ¡Ã­maÅ¥ si PayTV kanÃ¡ly"
 
 msgid "Help$Set this to 'yes' if don't want to see events on PayTV channels when searching for repeats."
-msgstr "Ak nepotrebujete zobrazi» udalosti na kanáloch PayTV pri opakovanom vyhµadávaní, nastavte 'áno'"
+msgstr "Ak nepotrebujete zobraziÅ¥ udalosti na kanÃ¡loch PayTV pri opakovanom vyhÄ¾adÃ¡vanÃ­, nastavte 'Ã¡no'"
 
 msgid "Search templates"
-msgstr "Vyhµadávanie ¹ablóny"
+msgstr "VyhÄ¾adÃ¡vanie Å¡ablÃ³ny"
 
 msgid "Help$Here you can setup templates for your searches."
-msgstr "Tu si mô¾ete nastavi» ¹ablóny pre vyhµadávanie."
+msgstr "Tu si mÃ´Å¾ete nastaviÅ¥ Å¡ablÃ³ny pre vyhÄ¾adÃ¡vanie."
 
 msgid "Blacklists"
-msgstr "Èierny zoznam"
+msgstr "ÄŒierny zoznam"
 
 msgid "Help$Here you can setup blacklists which can be used within a search to exclude events you don't like."
-msgstr "Tu sa nastavuje èierny zoznam, ktorı mô¾e by» pou¾itı v rámci hµadania a tak vylúèi» udalosti, ktoré sa vám nepáèia."
+msgstr "Tu sa nastavuje Äierny zoznam, ktorÃ½ mÃ´Å¾e byÅ¥ pouÅ¾itÃ½ v rÃ¡mci hÄ¾adania a tak vylÃºÄiÅ¥ udalosti, ktorÃ© sa vÃ¡m nepÃ¡Äia."
 
 msgid "Help$Here you can setup channel groups which can be used within a search. These are different to VDR channel groups and represent a set of arbitrary channels, e.g. 'FreeTV'."
-msgstr "Tu si mô¾ete nastavi» skupinu kanálov, ktoré majú by» pou¾ité v rámci hµadania. Tie sú odli¹né od kanálov VDR skupín a predstavujú súbor µubovoµnıch kanálov, napr 'volne ¹íriteµné '."
+msgstr "Tu si mÃ´Å¾ete nastaviÅ¥ skupinu kanÃ¡lov, ktorÃ© majÃº byÅ¥ pouÅ¾itÃ© v rÃ¡mci hÄ¾adania. Tie sÃº odliÅ¡nÃ© od kanÃ¡lov VDR skupÃ­n a predstavujÃº sÃºbor Ä¾ubovoÄ¾nÃ½ch kanÃ¡lov, napr 'volne Å¡Ã­riteÄ¾nÃ© '."
 
 msgid "Ignore below priority"
-msgstr "nev¹íma» si prioritu"
+msgstr "nevÅ¡Ã­maÅ¥ si prioritu"
 
 msgid "Help$If a timer with priority below the given value will fail it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
-msgstr "Ak je plán nahrávania s prioritou pod danú hodnotu dôjde k zlyhaniu, preto¾e nebude klasifikovanı ako dôle¾itı. Iba dôle¾ité konflikty vyvolávajú OSD správy."
+msgstr "Ak je plÃ¡n nahrÃ¡vania s prioritou pod danÃº hodnotu dÃ´jde k zlyhaniu, pretoÅ¾e nebude klasifikovanÃ½ ako dÃ´leÅ¾itÃ½. Iba dÃ´leÅ¾itÃ© konflikty vyvolÃ¡vajÃº OSD sprÃ¡vy."
 
 msgid "Ignore conflict duration less ... min."
-msgstr "Nev¹íma» si konflikty men¹ie ako ... min"
+msgstr "NevÅ¡Ã­maÅ¥ si konflikty menÅ¡ie ako ... min"
 
 msgid "Help$If a conflicts duration is less then the given number of minutes it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
-msgstr "Ak doba konfliktu pretrváva menej ako danı poèet minút, nebude konflikt bra» ako dôle¾itı. Iba dôle¾ité konflikty sa automaticky zobrazia ako OSD správa."
+msgstr "Ak doba konfliktu pretrvÃ¡va menej ako danÃ½ poÄet minÃºt, nebude konflikt braÅ¥ ako dÃ´leÅ¾itÃ½. Iba dÃ´leÅ¾itÃ© konflikty sa automaticky zobrazia ako OSD sprÃ¡va."
 
 msgid "Only check within next ... days"
-msgstr "Skontrolova» iba do budúcich ... dní"
+msgstr "SkontrolovaÅ¥ iba do budÃºcich ... dnÃ­"
 
 msgid "Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."
-msgstr "Táto hodnota zni¾uje konflikty podµa daného rozsahu dní. V¹etky ostatné konflikty sú klasifikované ako 'e¹te dôle¾ité'."
+msgstr "TÃ¡to hodnota zniÅ¾uje konflikty podÄ¾a danÃ©ho rozsahu dnÃ­. VÅ¡etky ostatnÃ© konflikty sÃº klasifikovanÃ© ako 'eÅ¡te dÃ´leÅ¾itÃ©'."
 
 msgid "--- Automatic checking ---"
-msgstr "--- Automatická kontrola ---"
+msgstr "--- AutomatickÃ¡ kontrola ---"
 
 msgid "After each timer programming"
-msgstr "Po ka¾dom programovaní èasovaèa"
+msgstr "Po kaÅ¾dom programovanÃ­ ÄasovaÄa"
 
 msgid "Help$Set this to 'yes' if the conflict check should be performed after each manual timer programming. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if this timer is involved in any conflict."
-msgstr "Ak pri ruènom programovaní plánu nastane konflikt, tak vám vypí¹e okam¾itú správu o konflikte. Správa sa zobrazí v prípade ak plán je zapojenı do akéhokoµvek konfliktu. Ak danú funkciu chcete pou¾i» zvolte 'áno'"
+msgstr "Ak pri ruÄnom programovanÃ­ plÃ¡nu nastane konflikt, tak vÃ¡m vypÃ­Å¡e okamÅ¾itÃº sprÃ¡vu o konflikte. SprÃ¡va sa zobrazÃ­ v prÃ­pade ak plÃ¡n je zapojenÃ½ do akÃ©hokoÄ¾vek konfliktu. Ak danÃº funkciu chcete pouÅ¾iÅ¥ zvolte 'Ã¡no'"
 
 msgid "When a recording starts"
-msgstr "Pri nahrávaní sa spustí"
+msgstr "Pri nahrÃ¡vanÃ­ sa spustÃ­"
 
 msgid "Help$Set this to 'yes' if the conflict check should be performed when a recording starts. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if the conflict is within the next 2 hours."
-msgstr "Nastavte 'áno' ak by mala by» kontrola konfliktov vykonaná pri spustiní nahrávania. V prípade konfliktu vám po¹le okam¾ite správu. Správa sa zobrazí v prípade konfliktu iba poèas 2 hodín."
+msgstr "Nastavte 'Ã¡no' ak by mala byÅ¥ kontrola konfliktov vykonanÃ¡ pri spustinÃ­ nahrÃ¡vania. V prÃ­pade konfliktu vÃ¡m poÅ¡le okamÅ¾ite sprÃ¡vu. SprÃ¡va sa zobrazÃ­ v prÃ­pade konfliktu iba poÄas 2 hodÃ­n."
 
 msgid "After each search timer update"
-msgstr "Po ka¾dom hµadaní plánu zmenené"
+msgstr "Po kaÅ¾dom hÄ¾adanÃ­ plÃ¡nu zmenenÃ©"
 
 msgid "Help$Set this to 'yes' if the conflict check should be performed after each search timer update."
-msgstr "Ak kontrola konfliktov by mala by» vykonávaná pri ka¾dom obnovení vyhµadávaèa plánov, tak nastavte 'áno'"
+msgstr "Ak kontrola konfliktov by mala byÅ¥ vykonÃ¡vanÃ¡ pri kaÅ¾dom obnovenÃ­ vyhÄ¾adÃ¡vaÄa plÃ¡nov, tak nastavte 'Ã¡no'"
 
 msgid "every ... minutes"
-msgstr "ka¾dıch ... minút"
+msgstr "kaÅ¾dÃ½ch ... minÃºt"
 
 msgid ""
 "Help$Specify here the time intervall to be used for an automatic conflict check in the background.\n"
 "('0' disables an automatic check)"
 msgstr ""
-"Zvolte ako èasto majú by» pou¾ité automatické kontroly konfliktov na pozadí. \n"
-"('0 'Zaká¾e automatické kontroly)"
+"Zvolte ako Äasto majÃº byÅ¥ pouÅ¾itÃ© automatickÃ© kontroly konfliktov na pozadÃ­. \n"
+"('0 'ZakÃ¡Å¾e automatickÃ© kontroly)"
 
 msgid "if conflicts within next ... minutes"
-msgstr "ak je v rozpore s ïal¹ou ... minútou"
+msgstr "ak je v rozpore s ÄalÅ¡ou ... minÃºtou"
 
 msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."
-msgstr "Ak  sa objaví ïal¹í konflikt v danom poète minút, mô¾ete zvoli» krat¹í interval kontroly a tak získa» viac OSD oznámení. "
+msgstr "Ak  sa objavÃ­ ÄalÅ¡Ã­ konflikt v danom poÄte minÃºt, mÃ´Å¾ete zvoliÅ¥ kratÅ¡Ã­ interval kontroly a tak zÃ­skaÅ¥ viac OSD oznÃ¡menÃ­. "
 
 msgid "Avoid notification when replaying"
-msgstr "Vyhnú» sa oznámeniam pri prehrávaní"
+msgstr "VyhnÃºÅ¥ sa oznÃ¡meniam pri prehrÃ¡vanÃ­"
 
 msgid "Help$Set this to 'yes' if the don't want to get OSD messages about conflicts if you currently replay something. Nevertheless messages will be displayed if the first upcoming conflict is within the next 2 hours."
-msgstr "Nastavte 'áno', ak nechcete dostáva» OSD správu o konfliktoch, v prípade,¾e nieèo prehrávate. Av¹ak, správy sa zobrazia v prípade prvého nadchádzajúceho konfliktu v nasledujúcich 2 hodinách."
+msgstr "Nastavte 'Ã¡no', ak nechcete dostÃ¡vaÅ¥ OSD sprÃ¡vu o konfliktoch, v prÃ­pade,Å¾e nieÄo prehrÃ¡vate. AvÅ¡ak, sprÃ¡vy sa zobrazia v prÃ­pade prvÃ©ho nadchÃ¡dzajÃºceho konfliktu v nasledujÃºcich 2 hodinÃ¡ch."
 
 msgid "Search timer notification"
-msgstr "Hlásenie vyhµadávania èasovaèa"
+msgstr "HlÃ¡senie vyhÄ¾adÃ¡vania ÄasovaÄa"
 
 msgid "Help$Set this to 'yes' if you want to get an email notification about the search timers that where programmed automatically in the background."
-msgstr "Nastavte áno ak potrebujete oznamova» automaticky vyhµadané plány na mail"
+msgstr "Nastavte Ã¡no ak potrebujete oznamovaÅ¥ automaticky vyhÄ¾adanÃ© plÃ¡ny na mail"
 
 msgid "Time between mails [h]"
 msgstr ""
@@ -524,19 +524,19 @@ msgid ""
 msgstr ""
 
 msgid "Timer conflict notification"
-msgstr "Oznámi» konflikt plánov"
+msgstr "OznÃ¡miÅ¥ konflikt plÃ¡nov"
 
 msgid "Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."
-msgstr "Nastavte áno ak potrebujete oznamova» konflikty plánu na mail"
+msgstr "Nastavte Ã¡no ak potrebujete oznamovaÅ¥ konflikty plÃ¡nu na mail"
 
 msgid "Send to"
-msgstr "Posla» no"
+msgstr "PoslaÅ¥ no"
 
 msgid "Help$Specify the email adress where notifications should be sent to."
-msgstr "Rozpí¹te email adresu, na ktorú by sa mali posiela» oznámenia."
+msgstr "RozpÃ­Å¡te email adresu, na ktorÃº by sa mali posielaÅ¥ oznÃ¡menia."
 
 msgid "Mail method"
-msgstr "Mailová metóda"
+msgstr "MailovÃ¡ metÃ³da"
 
 msgid ""
 "Help$Specify here the method to use when sending mails.\n"
@@ -544,146 +544,146 @@ msgid ""
 " - 'sendmail': requires a properly configured email system\n"
 " - 'SendEmail.pl': simple script for mail delivery"
 msgstr ""
-"Zvolte pou¾itı spôsob  posielania mailov.\n"
+"Zvolte pouÅ¾itÃ½ spÃ´sob  posielania mailov.\n"
 "Vyberte medzi\n"
-" - 'sendmail':  vy¾aduje, aby bol správne nakonfigurovanı systém e-mailu - 'SendEmail.pl': jednoduchı skript pre doruèovanie po¹ty"
+" - 'sendmail':  vyÅ¾aduje, aby bol sprÃ¡vne nakonfigurovanÃ½ systÃ©m e-mailu - 'SendEmail.pl': jednoduchÃ½ skript pre doruÄovanie poÅ¡ty"
 
 msgid "--- Email account ---"
-msgstr "--- Email úèet ---"
+msgstr "--- Email ÃºÄet ---"
 
 msgid "Email adress"
 msgstr "Email adresa"
 
 msgid "Help$Specify the email adress where notifications should be sent from."
-msgstr "Zadajte mailovú adresu na ktorá sa budú posiela» upozornenia."
+msgstr "Zadajte mailovÃº adresu na ktorÃ¡ sa budÃº posielaÅ¥ upozornenia."
 
 msgid "SMTP server"
 msgstr "SMTP server"
 
 msgid "Help$Specify the SMTP server that should deliver the notifications. If it's using a port different from the default(25) append the port with \":port\"."
-msgstr "Zadajte SMTP server, ktorı by mal posiela» oznámenia. Ak sa port lí¹i od predvoleného (25), tak pripí¹te port s \": port \"."
+msgstr "Zadajte SMTP server, ktorÃ½ by mal posielaÅ¥ oznÃ¡menia. Ak sa port lÃ­Å¡i od predvolenÃ©ho (25), tak pripÃ­Å¡te port s \": port \"."
 
 msgid "Use SMTP authentication"
-msgstr "Pou¾i» SMTP overenie"
+msgstr "PouÅ¾iÅ¥ SMTP overenie"
 
 msgid "Help$Set this to 'yes' if your account needs authentication to send mails."
-msgstr "Nastavte Áno, ak vá¹ úèet potrebuje overenie na poslanie mailov"
+msgstr "Nastavte Ãno, ak vÃ¡Å¡ ÃºÄet potrebuje overenie na poslanie mailov"
 
 msgid "Auth user"
-msgstr "Dôveryhodnı u¾ívateµ"
+msgstr "DÃ´veryhodnÃ½ uÅ¾Ã­vateÄ¾"
 
 msgid "Help$Specify the auth user, if this account needs authentication for SMTP."
-msgstr "Zvolte overovacie meno, ak úèet potrebuje overenie pre SMTP"
+msgstr "Zvolte overovacie meno, ak ÃºÄet potrebuje overenie pre SMTP"
 
 msgid "Auth password"
-msgstr "Dôveryhodné heslo"
+msgstr "DÃ´veryhodnÃ© heslo"
 
 msgid "Help$Specify the auth password, if this account needs authentication for SMTP."
-msgstr "Zvolte overovacie heslo, ak je nutné overenie  pre SMTP."
+msgstr "Zvolte overovacie heslo, ak je nutnÃ© overenie  pre SMTP."
 
 msgid "Mail account check failed!"
-msgstr "Chyba kontroly mailového úètu!"
+msgstr "Chyba kontroly mailovÃ©ho ÃºÄtu!"
 
 msgid "Button$Test"
-msgstr "Testova»"
+msgstr "TestovaÅ¥"
 
 #, fuzzy
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
-msgstr " $ aáäbcèdïeéfghiíjklåµmnòoóôpqràs¹t»uúvwxyız¾0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+msgstr " $ aÃ¡Ã¤bcÄdÄeÃ©fghiÃ­jklÄºÄ¾mnÅˆoÃ³Ã´pqrÅ•sÅ¡tÅ¥uÃºvwxyÃ½zÅ¾0123456789-.,#~\\^$[]|()*+?{}/:%@&"
 
 msgid "Start/Stop time has changed"
-msgstr "Spusti»/Zastavi» dobu zmien"
+msgstr "SpustiÅ¥/ZastaviÅ¥ dobu zmien"
 
 msgid "Title/episode has changed"
-msgstr "Názov / epizóda sa zmenila"
+msgstr "NÃ¡zov / epizÃ³da sa zmenila"
 
 msgid "No new timers were added."
-msgstr "®iadne nové plány neboli pridané."
+msgstr "Å½iadne novÃ© plÃ¡ny neboli pridanÃ©."
 
 msgid "No timers were modified."
-msgstr "®iadne plány neboli upravované."
+msgstr "Å½iadne plÃ¡ny neboli upravovanÃ©."
 
 msgid "No timers were deleted."
-msgstr "®iadne plány neboli vymazané."
+msgstr "Å½iadne plÃ¡ny neboli vymazanÃ©."
 
 msgid "No new events to announce."
 msgstr ""
 
 msgid "This version of EPGSearch does not support this service!"
-msgstr "Táto verzia epgsearch nepodporuje túto slu¾bu!"
+msgstr "TÃ¡to verzia epgsearch nepodporuje tÃºto sluÅ¾bu!"
 
 msgid "EPGSearch does not exist!"
 msgstr "Epgsearch neexistuje!"
 
 #, c-format
 msgid "%d new broadcast"
-msgstr "%d nové vysielanie"
+msgstr "%d novÃ© vysielanie"
 
 msgid "Button$by channel"
-msgstr "podµa kanálu"
+msgstr "podÄ¾a kanÃ¡lu"
 
 msgid "Button$by time"
-msgstr "podµa èasu"
+msgstr "podÄ¾a Äasu"
 
 msgid "Button$Episode"
-msgstr "Epizóda"
+msgstr "EpizÃ³da"
 
 msgid "Button$Title"
-msgstr "Názov"
+msgstr "NÃ¡zov"
 
 msgid "announce details"
-msgstr "oznámi» podrobnosti"
+msgstr "oznÃ¡miÅ¥ podrobnosti"
 
 msgid "announce again"
-msgstr "oznámi» znova"
+msgstr "oznÃ¡miÅ¥ znova"
 
 msgid "with next update"
-msgstr "s ïal¹ou aktualizáciou"
+msgstr "s ÄalÅ¡ou aktualizÃ¡ciou"
 
 msgid "again from"
 msgstr "znova od"
 
 msgid "Search timer"
-msgstr "Hµada» èasy"
+msgstr "HÄ¾adaÅ¥ Äasy"
 
 msgid "Edit blacklist"
-msgstr "Upravi» èiernu listinu"
+msgstr "UpraviÅ¥ Äiernu listinu"
 
 msgid "phrase"
-msgstr "slovné spojenie"
+msgstr "slovnÃ© spojenie"
 
 msgid "all words"
-msgstr "v¹etky slová"
+msgstr "vÅ¡etky slovÃ¡"
 
 msgid "at least one word"
-msgstr "aspoò jedno slovo"
+msgstr "aspoÅˆ jedno slovo"
 
 msgid "match exactly"
-msgstr "prispôsobi» presne"
+msgstr "prispÃ´sobiÅ¥ presne"
 
 msgid "regular expression"
-msgstr "be¾nı vıraz"
+msgstr "beÅ¾nÃ½ vÃ½raz"
 
 msgid "fuzzy"
-msgstr "nejasnı"
+msgstr "nejasnÃ½"
 
 msgid "user-defined"
-msgstr "urèené u¾ívateµom"
+msgstr "urÄenÃ© uÅ¾Ã­vateÄ¾om"
 
 msgid "interval"
-msgstr "èasové rozpätie"
+msgstr "ÄasovÃ© rozpÃ¤tie"
 
 msgid "channel group"
-msgstr "skupin kanálov"
+msgstr "skupin kanÃ¡lov"
 
 msgid "only FTA"
-msgstr "iba voµne ¹íritelné"
+msgstr "iba voÄ¾ne Å¡Ã­ritelnÃ©"
 
 msgid "Search term"
-msgstr "Hµada» termín"
+msgstr "HÄ¾adaÅ¥ termÃ­n"
 
 msgid "Search mode"
-msgstr "Spôsob vyhµadávania"
+msgstr "SpÃ´sob vyhÄ¾adÃ¡vania"
 
 msgid "Tolerance"
 msgstr "odchylka "
@@ -692,34 +692,34 @@ msgid "Match case"
 msgstr "Argumenty zhody"
 
 msgid "Use title"
-msgstr "Pou¾i» názov"
+msgstr "PouÅ¾iÅ¥ nÃ¡zov"
 
 msgid "Use subtitle"
-msgstr "Pou¾i» titulky"
+msgstr "PouÅ¾iÅ¥ titulky"
 
 msgid "Use description"
-msgstr "Pou¾i» popis"
+msgstr "PouÅ¾iÅ¥ popis"
 
 msgid "Use extended EPG info"
-msgstr "Pou¾i» roz¹írené EPG informácie"
+msgstr "PouÅ¾iÅ¥ rozÅ¡Ã­renÃ© EPG informÃ¡cie"
 
 msgid "Ignore missing categories"
-msgstr "Ignorova» chıbajúce kategórie"
+msgstr "IgnorovaÅ¥ chÃ½bajÃºce kategÃ³rie"
 
 msgid "Use channel"
-msgstr "Pou¾i kanál"
+msgstr "PouÅ¾i kanÃ¡l"
 
 msgid "  from channel"
-msgstr " od kanálu"
+msgstr " od kanÃ¡lu"
 
 msgid "  to channel"
-msgstr " po kanál"
+msgstr " po kanÃ¡l"
 
 msgid "Channel group"
-msgstr "Skupina kanálov"
+msgstr "Skupina kanÃ¡lov"
 
 msgid "Use time"
-msgstr " Pou¾i èas"
+msgstr " PouÅ¾i Äas"
 
 msgid "  Start after"
 msgstr " od kedy"
@@ -728,7 +728,7 @@ msgid "  Start before"
 msgstr " Po kedy"
 
 msgid "Use duration"
-msgstr " Po¾i trvanie"
+msgstr " PoÅ¾i trvanie"
 
 msgid "  Min. duration"
 msgstr " Min. doba"
@@ -737,55 +737,55 @@ msgid "  Max. duration"
 msgstr " Max doba"
 
 msgid "Use day of week"
-msgstr " Pou¾i deò v tı¾dni"
+msgstr " PouÅ¾i deÅˆ v tÃ½Å¾dni"
 
 msgid "Day of week"
-msgstr " Deò v tı¾dni"
+msgstr " DeÅˆ v tÃ½Å¾dni"
 
 msgid "Use global"
 msgstr ""
 
 msgid "Button$Templates"
-msgstr "©ablony"
+msgstr "Å ablony"
 
 msgid "*** Invalid Channel ***"
-msgstr "*** Neplatnı kanál ***"
+msgstr "*** NeplatnÃ½ kanÃ¡l ***"
 
 msgid "Please check channel criteria!"
-msgstr "Prosím, skontrolujte kritéria kanálu!"
+msgstr "ProsÃ­m, skontrolujte kritÃ©ria kanÃ¡lu!"
 
 msgid "Edit$Delete blacklist?"
-msgstr "Vymaza» èierny zoznam?"
+msgstr "VymazaÅ¥ Äierny zoznam?"
 
 msgid "Repeats"
-msgstr "Repríza"
+msgstr "ReprÃ­za"
 
 msgid "Create search"
-msgstr "Vytvori» vyhµadávanie"
+msgstr "VytvoriÅ¥ vyhÄ¾adÃ¡vanie"
 
 msgid "Search in recordings"
-msgstr "Hµada» v nahrávkach"
+msgstr "HÄ¾adaÅ¥ v nahrÃ¡vkach"
 
 msgid "Mark as 'already recorded'?"
-msgstr "Vymaza» urèené nahrá "
+msgstr "VymazaÅ¥ urÄenÃ© nahrÃ¡ "
 
 msgid "Add/Remove to/from switch list?"
-msgstr "Prida»/Vymaza» do/zo zoznamu?"
+msgstr "PridaÅ¥/VymazaÅ¥ do/zo zoznamu?"
 
 msgid "Create blacklist"
-msgstr "Vytvori» èiernu listinu"
+msgstr "VytvoriÅ¥ Äiernu listinu"
 
 msgid "EPG Commands"
-msgstr "EPG príkazy"
+msgstr "EPG prÃ­kazy"
 
 msgid "Already running!"
-msgstr "Práve spustené!"
+msgstr "PrÃ¡ve spustenÃ©!"
 
 msgid "Add to switch list?"
-msgstr "Prida» do zoznamu?"
+msgstr "PridaÅ¥ do zoznamu?"
 
 msgid "Delete from switch list?"
-msgstr "Vymaza» zo zoznamu?"
+msgstr "VymazaÅ¥ zo zoznamu?"
 
 msgid "Button$Details"
 msgstr "Podrobnosti"
@@ -794,7 +794,7 @@ msgid "Button$Filter"
 msgstr "filter"
 
 msgid "Button$Show all"
-msgstr "Zobrazi» v¹etko"
+msgstr "ZobraziÅ¥ vÅ¡etko"
 
 msgid "conflicts"
 msgstr "konflikty"
@@ -803,55 +803,55 @@ msgid "no conflicts!"
 msgstr "Bez konfliktu!"
 
 msgid "no important conflicts!"
-msgstr "¾iadne dôle¾ité konflikty!"
+msgstr "Å¾iadne dÃ´leÅ¾itÃ© konflikty!"
 
 msgid "C"
 msgstr "C"
 
 msgid "Button$Repeats"
-msgstr "Reprízy"
+msgstr "ReprÃ­zy"
 
 msgid "no check"
-msgstr "neskontrolované"
+msgstr "neskontrolovanÃ©"
 
 msgid "by channel and time"
-msgstr "podµa kanálu a èasu"
+msgstr "podÄ¾a kanÃ¡lu a Äasu"
 
 msgid "by event ID"
-msgstr "podµa ID"
+msgstr "podÄ¾a ID"
 
 msgid "Select directory"
-msgstr "Vybra» adresár"
+msgstr "VybraÅ¥ adresÃ¡r"
 
 msgid "Button$Level"
-msgstr "Úroveò"
+msgstr "ÃšroveÅˆ"
 
 msgid "Event"
 msgstr "Udalosti"
 
 msgid "Favorites"
-msgstr "Obµúbené"
+msgstr "ObÄ¾ÃºbenÃ©"
 
 msgid "Search results"
-msgstr "Vısledok hµadania"
+msgstr "VÃ½sledok hÄ¾adania"
 
 msgid "Timer conflict! Show?"
-msgstr "Konflikt plánu! Zobrazi»?"
+msgstr "Konflikt plÃ¡nu! ZobraziÅ¥?"
 
 msgid "Directory"
-msgstr "Adresár"
+msgstr "AdresÃ¡r"
 
 msgid "Channel"
-msgstr "Kanál"
+msgstr "KanÃ¡l"
 
 msgid "Childlock"
-msgstr "Detskı zámok"
+msgstr "DetskÃ½ zÃ¡mok"
 
 msgid "Timer check"
-msgstr "Kontrola plánu"
+msgstr "Kontrola plÃ¡nu"
 
 msgid "recording with device"
-msgstr "nahrávanie so zariadením"
+msgstr "nahrÃ¡vanie so zariadenÃ­m"
 
 msgid "Button$With subtitle"
 msgstr "S titulkami"
@@ -860,174 +860,174 @@ msgid "Button$Without subtitle"
 msgstr "Bez titulkov"
 
 msgid "Button$Extended"
-msgstr "Roz¹írené"
+msgstr "RozÅ¡Ã­renÃ©"
 
 msgid "Button$Simple"
-msgstr "Jednoduché"
+msgstr "JednoduchÃ©"
 
 msgid "Use blacklists"
-msgstr "Pou¾i» èiernu listinu"
+msgstr "PouÅ¾iÅ¥ Äiernu listinu"
 
 msgid "Edit$Search text too short - use anyway?"
-msgstr "Hµadanı text je krátky - pou¾i» aj tak?"
+msgstr "HÄ¾adanÃ½ text je krÃ¡tky - pouÅ¾iÅ¥ aj tak?"
 
 msgid "Button$by name"
-msgstr "podµa mena"
+msgstr "podÄ¾a mena"
 
 msgid "Button$by date"
-msgstr "podµa dátumu"
+msgstr "podÄ¾a dÃ¡tumu"
 
 msgid "Button$Delete all"
-msgstr "Vymaza» v¹etko"
+msgstr "VymazaÅ¥ vÅ¡etko"
 
 msgid "Recordings"
-msgstr "Nahrávky"
+msgstr "NahrÃ¡vky"
 
 msgid "Edit$Delete entry?"
-msgstr "Vymaza» údaje?"
+msgstr "VymazaÅ¥ Ãºdaje?"
 
 msgid "Edit$Delete all entries?"
-msgstr "Vymaza» v¹etky údaje?"
+msgstr "VymazaÅ¥ vÅ¡etky Ãºdaje?"
 
 msgid "Summary"
 msgstr "Celkovo"
 
 msgid "Auxiliary info"
-msgstr "Doplòujúce informácie"
+msgstr "DoplÅˆujÃºce informÃ¡cie"
 
 msgid "Button$Aux info"
-msgstr "Pomocné informácie"
+msgstr "PomocnÃ© informÃ¡cie"
 
 msgid "Search actions"
-msgstr "Hµada» akcie"
+msgstr "HÄ¾adaÅ¥ akcie"
 
 msgid "Execute search"
-msgstr "Spusti» vyhladávanie"
+msgstr "SpustiÅ¥ vyhladÃ¡vanie"
 
 msgid "Use as search timer on/off"
-msgstr "Pou¾i» ako vyhµadávaè plánu zapnuté/vypnuté"
+msgstr "PouÅ¾iÅ¥ ako vyhÄ¾adÃ¡vaÄ plÃ¡nu zapnutÃ©/vypnutÃ©"
 
 msgid "Trigger search timer update"
-msgstr "Spustená aktualizácia vyhµadávania plánu"
+msgstr "SpustenÃ¡ aktualizÃ¡cia vyhÄ¾adÃ¡vania plÃ¡nu"
 
 msgid "Show recordings done"
-msgstr "Zobrazi» spravené nahrávky"
+msgstr "ZobraziÅ¥ spravenÃ© nahrÃ¡vky"
 
 msgid "Show timers created"
-msgstr "Zobrazi» vytvorené plány"
+msgstr "ZobraziÅ¥ vytvorenÃ© plÃ¡ny"
 
 msgid "Create a copy"
-msgstr "Vytvori» a kopírova»"
+msgstr "VytvoriÅ¥ a kopÃ­rovaÅ¥"
 
 msgid "Use as template"
-msgstr "Pou¾i» ako ¹ablonu"
+msgstr "PouÅ¾iÅ¥ ako Å¡ablonu"
 
 msgid "Show switch list"
-msgstr "Zobrazi» zoznam"
+msgstr "ZobraziÅ¥ zoznam"
 
 msgid "Show blacklists"
-msgstr "Zobrazi» èiernu listinu"
+msgstr "ZobraziÅ¥ Äiernu listinu"
 
 msgid "Delete created timers?"
-msgstr "Vymaza» vytvorené plány?"
+msgstr "VymazaÅ¥ vytvorenÃ© plÃ¡ny?"
 
 msgid "Timer conflict check"
-msgstr "Kontrola konfliktu plánov"
+msgstr "Kontrola konfliktu plÃ¡nov"
 
 msgid "Disable associated timers too?"
-msgstr "Zakáza» súvisiace plány?"
+msgstr "ZakÃ¡zaÅ¥ sÃºvisiace plÃ¡ny?"
 
 msgid "Activate associated timers too?"
-msgstr "Povoli» aj súvisiace plány?"
+msgstr "PovoliÅ¥ aj sÃºvisiace plÃ¡ny?"
 
 msgid "Search timers activated in setup."
-msgstr "Vyhµadávaè plánov aktivovanı v nastavení."
+msgstr "VyhÄ¾adÃ¡vaÄ plÃ¡nov aktivovanÃ½ v nastavenÃ­."
 
 msgid "Run search timer update?"
-msgstr "Spusti» aktualizáciu vyhladávania plánov?"
+msgstr "SpustiÅ¥ aktualizÃ¡ciu vyhladÃ¡vania plÃ¡nov?"
 
 msgid "Copy this entry?"
-msgstr "Kopírova» tieto údaje?"
+msgstr "KopÃ­rovaÅ¥ tieto Ãºdaje?"
 
 msgid "Copy"
-msgstr "Kopírova»"
+msgstr "KopÃ­rovaÅ¥"
 
 msgid "Copy this entry to templates?"
-msgstr "Kopírova» tieto údaje z ¹ablon?"
+msgstr "KopÃ­rovaÅ¥ tieto Ãºdaje z Å¡ablon?"
 
 msgid "Delete all timers created from this search?"
-msgstr "Vymaza» v¹etky plány vytvorené cez vyhµadávaè?"
+msgstr "VymazaÅ¥ vÅ¡etky plÃ¡ny vytvorenÃ© cez vyhÄ¾adÃ¡vaÄ?"
 
 msgid "Button$Actions"
 msgstr "Akcia"
 
 msgid "Search entries"
-msgstr "Vyhµada» údaje"
+msgstr "VyhÄ¾adaÅ¥ Ãºdaje"
 
 msgid "active"
-msgstr "aktívne"
+msgstr "aktÃ­vne"
 
 msgid "Edit$Delete search?"
-msgstr "Vymaza» vyhµadané?"
+msgstr "VymazaÅ¥ vyhÄ¾adanÃ©?"
 
 msgid "Edit search"
-msgstr "Upravi» vyhladávanie"
+msgstr "UpraviÅ¥ vyhladÃ¡vanie"
 
 msgid "Record"
-msgstr "Nahra»"
+msgstr "NahraÅ¥"
 
 #, fuzzy
 msgid "Announce by OSD"
-msgstr "Iba oznámi»"
+msgstr "Iba oznÃ¡miÅ¥"
 
 msgid "Switch only"
-msgstr "Prepnú» iba"
+msgstr "PrepnÃºÅ¥ iba"
 
 #, fuzzy
 msgid "Announce and switch"
-msgstr "Iba oznámi»"
+msgstr "Iba oznÃ¡miÅ¥"
 
 #, fuzzy
 msgid "Announce by mail"
-msgstr "Iba oznámi»"
+msgstr "Iba oznÃ¡miÅ¥"
 
 msgid "only globals"
 msgstr ""
 
 msgid "Selection"
-msgstr "Vybrané"
+msgstr "VybranÃ©"
 
 msgid "all"
-msgstr "v¹etko"
+msgstr "vÅ¡etko"
 
 msgid "count recordings"
-msgstr "Poèet nahrávok"
+msgstr "PoÄet nahrÃ¡vok"
 
 msgid "count days"
-msgstr "Poèet dní"
+msgstr "PoÄet dnÃ­"
 
 msgid "if present"
 msgstr ""
 
 #, fuzzy
 msgid "same day"
-msgstr "Poslednı deò"
+msgstr "PoslednÃ½ deÅˆ"
 
 #, fuzzy
 msgid "same week"
-msgstr " Deò v tı¾dni"
+msgstr " DeÅˆ v tÃ½Å¾dni"
 
 msgid "same month"
 msgstr ""
 
 msgid "Template name"
-msgstr "Meno ¹ablony"
+msgstr "Meno Å¡ablony"
 
 msgid "Help$Specify the name of the template."
-msgstr "Uveïte meno ¹ablony"
+msgstr "UveÄte meno Å¡ablony"
 
 msgid "Help$Specify here the term to search for."
-msgstr "Sem zadajte termín pre vyhåadávanie"
+msgstr "Sem zadajte termÃ­n pre vyhÄºadÃ¡vanie"
 
 msgid ""
 "Help$The following search modes exist:\n"
@@ -1039,98 +1039,98 @@ msgid ""
 "- regular expression: match a regular expression\n"
 "- fuzzy searching: searches approximately"
 msgstr ""
-"Podµa spôsobu vyhåadávania je: \n"
+"PodÄ¾a spÃ´sobu vyhÄºadÃ¡vania je: \n"
 "\n"
-"- Veta: vyhµadávanie èiastkového termínu \n"
-"- V¹etky slová: v¹etky jednotlivé slová musia by» \n"
-"- Aspoò jedno slovo: aspoò jedno jediné slovo, musí by» \n"
-"- Presne sa zhodujú: musia presne zodpoveda» \n"
-"- Zvyèajnı vıraz: presnı vıraz \n"
-"- Nepresné vyhµadávanie: vyhµadávanie pribli¾ne"
+"- Veta: vyhÄ¾adÃ¡vanie ÄiastkovÃ©ho termÃ­nu \n"
+"- VÅ¡etky slovÃ¡: vÅ¡etky jednotlivÃ© slovÃ¡ musia byÅ¥ \n"
+"- AspoÅˆ jedno slovo: aspoÅˆ jedno jedinÃ© slovo, musÃ­ byÅ¥ \n"
+"- Presne sa zhodujÃº: musia presne zodpovedaÅ¥ \n"
+"- ZvyÄajnÃ½ vÃ½raz: presnÃ½ vÃ½raz \n"
+"- NepresnÃ© vyhÄ¾adÃ¡vanie: vyhÄ¾adÃ¡vanie pribliÅ¾ne"
 
 msgid "Help$This sets the tolerance of fuzzy searching. The value represents the allowed errors."
-msgstr "Toto nastaví toleranciu nepresnosti vyhµadávania. Hodnota predstavuje povolené chyby."
+msgstr "Toto nastavÃ­ toleranciu nepresnosti vyhÄ¾adÃ¡vania. Hodnota predstavuje povolenÃ© chyby."
 
 msgid "Help$Set this to 'Yes' if your search should match the case."
-msgstr "Nastavte 'Áno', ak va¹e vyhµadávanie by malo zodpoveda» prípadu."
+msgstr "Nastavte 'Ãno', ak vaÅ¡e vyhÄ¾adÃ¡vanie by malo zodpovedaÅ¥ prÃ­padu."
 
 msgid "Help$Set this to 'Yes' if you like to search in the title of an event."
-msgstr "Nastavte 'Áno', ak chcete hµada» v názvoch ."
+msgstr "Nastavte 'Ãno', ak chcete hÄ¾adaÅ¥ v nÃ¡zvoch ."
 
 msgid "Help$Set this to 'Yes' if you like to search in the episode of an event."
-msgstr "Nastavte 'Áno', ak chcete hµada» v epizóde ."
+msgstr "Nastavte 'Ãno', ak chcete hÄ¾adaÅ¥ v epizÃ³de ."
 
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
-msgstr "Nastavte 'Áno', ak chcete hµada» vo v¹etkıch údajoch."
+msgstr "Nastavte 'Ãno', ak chcete hÄ¾adaÅ¥ vo vÅ¡etkÃ½ch Ãºdajoch."
 
 #, fuzzy
 msgid "Use content descriptor"
-msgstr "Pou¾i» popis"
+msgstr "PouÅ¾iÅ¥ popis"
 
 #, fuzzy
 msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
-msgstr "Nastavte 'Áno', ak chcete hµada» v názvoch ."
+msgstr "Nastavte 'Ãno', ak chcete hÄ¾adaÅ¥ v nÃ¡zvoch ."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
-msgstr "Súhrn udalostí, mô¾e obsahova» ïal¹ie informácie, ako '®áner', 'Kategória', 'Rok',... tzv 'EPG kategórie' v epgsearch. Vonkaj¹ie EPG slu¾by èasto takéto informácie poskytujú. To umo¾òuje kvalitnej¹ie vyhµadávanie a iné veci, ako je hµadanie 'typ dòa' alebo 'kino na' . Pre pou¾itie nastavte na 'Áno'."
+msgstr "SÃºhrn udalostÃ­, mÃ´Å¾e obsahovaÅ¥ ÄalÅ¡ie informÃ¡cie, ako 'Å½Ã¡ner', 'KategÃ³ria', 'Rok',... tzv 'EPG kategÃ³rie' v epgsearch. VonkajÅ¡ie EPG sluÅ¾by Äasto takÃ©to informÃ¡cie poskytujÃº. To umoÅ¾Åˆuje kvalitnejÅ¡ie vyhÄ¾adÃ¡vanie a inÃ© veci, ako je hÄ¾adanie 'typ dÅˆa' alebo 'kino na' . Pre pouÅ¾itie nastavte na 'Ãno'."
 
 msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
-msgstr "Súbor epgsearchcats.conf ¹pecifikuje re¾im hµadania pre túto polo¾ku. Mô¾e vyhµadáva» podµa textu alebo hodnoty. Mô¾ete tie¾ upravova» zoznam preddefinovanıch hodnôt, v tomto súbore, ktorı mo¾no vybra» tu."
+msgstr "SÃºbor epgsearchcats.conf Å¡pecifikuje reÅ¾im hÄ¾adania pre tÃºto poloÅ¾ku. MÃ´Å¾e vyhÄ¾adÃ¡vaÅ¥ podÄ¾a textu alebo hodnoty. MÃ´Å¾ete tieÅ¾ upravovaÅ¥ zoznam preddefinovanÃ½ch hodnÃ´t, v tomto sÃºbore, ktorÃ½ moÅ¾no vybraÅ¥ tu."
 
 msgid "Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."
-msgstr "Ak vybraná kategória nie je súèas»ou súhrnu údajov, tak je zvyèajne vylúèená z vısledkov vyhµadávania. Ak chcete tomu predís», nastavte túto voµbu na 'Áno', ale s mierou prosím , aby sa zabránilo veµkému mno¾stvu vısledkov."
+msgstr "Ak vybranÃ¡ kategÃ³ria nie je sÃºÄasÅ¥ou sÃºhrnu Ãºdajov, tak je zvyÄajne vylÃºÄenÃ¡ z vÃ½sledkov vyhÄ¾adÃ¡vania. Ak chcete tomu predÃ­sÅ¥, nastavte tÃºto voÄ¾bu na 'Ãno', ale s mierou prosÃ­m , aby sa zabrÃ¡nilo veÄ¾kÃ©mu mnoÅ¾stvu vÃ½sledkov."
 
 msgid "Use in favorites menu"
-msgstr "Pou¾i» v obµúbenom menu"
+msgstr "PouÅ¾iÅ¥ v obÄ¾Ãºbenom menu"
 
 msgid "Result menu layout"
-msgstr "Usporiada» vısledné menu"
+msgstr "UsporiadaÅ¥ vÃ½slednÃ© menu"
 
 msgid "Use as search timer"
-msgstr "Pou¾i» ako vyhµadávaè plánu"
+msgstr "PouÅ¾iÅ¥ ako vyhÄ¾adÃ¡vaÄ plÃ¡nu"
 
 msgid "Action"
 msgstr "Akcia"
 
 msgid "Switch ... minutes before start"
-msgstr "Prepnú» ... minút pred ¹tartom"
+msgstr "PrepnÃºÅ¥ ... minÃºt pred Å¡tartom"
 
 msgid "Unmute sound"
-msgstr "Pusti» zvuk"
+msgstr "PustiÅ¥ zvuk"
 
 #, fuzzy
 msgid "Ask ... minutes before start"
-msgstr "Prepnú» ... minút pred ¹tartom"
+msgstr "PrepnÃºÅ¥ ... minÃºt pred Å¡tartom"
 
 msgid "  Series recording"
-msgstr " Sériové nahrávky"
+msgstr " SÃ©riovÃ© nahrÃ¡vky"
 
 msgid "Delete recordings after ... days"
-msgstr "Vymaza» nahrávky po ... dòoch"
+msgstr "VymazaÅ¥ nahrÃ¡vky po ... dÅˆoch"
 
 msgid "Keep ... recordings"
-msgstr "Uchova» ... nahrávok"
+msgstr "UchovaÅ¥ ... nahrÃ¡vok"
 
 msgid "Pause when ... recordings exist"
-msgstr "Zastavi» ak ... nahrávka existuje"
+msgstr "ZastaviÅ¥ ak ... nahrÃ¡vka existuje"
 
 msgid "Avoid repeats"
-msgstr "Vyhıba» sa reprízam"
+msgstr "VyhÃ½baÅ¥ sa reprÃ­zam"
 
 msgid "Allowed repeats"
-msgstr "povoli» reprízy"
+msgstr "povoliÅ¥ reprÃ­zy"
 
 msgid "Only repeats within ... days"
-msgstr "Iba reprízy behom ... dní"
+msgstr "Iba reprÃ­zy behom ... dnÃ­"
 
 msgid "Compare title"
-msgstr "porovna» tituly"
+msgstr "porovnaÅ¥ tituly"
 
 msgid "Compare subtitle"
-msgstr "porovna» titulky"
+msgstr "porovnaÅ¥ titulky"
 
 msgid "Compare summary"
-msgstr "porovna» celkovo"
+msgstr "porovnaÅ¥ celkovo"
 
 #, fuzzy
 msgid "Min. match in %"
@@ -1138,37 +1138,37 @@ msgstr " Min. doba"
 
 #, fuzzy
 msgid "Compare date"
-msgstr "porovna» tituly"
+msgstr "porovnaÅ¥ tituly"
 
 msgid "Compare categories"
-msgstr "porovna» kategórie"
+msgstr "porovnaÅ¥ kategÃ³rie"
 
 msgid "VPS"
 msgstr "VPS"
 
 msgid "Auto delete"
-msgstr "automaticky vymaza»"
+msgstr "automaticky vymazaÅ¥"
 
 msgid "after ... recordings"
-msgstr "po ... nahrávkach"
+msgstr "po ... nahrÃ¡vkach"
 
 msgid "after ... days after first rec."
-msgstr "po ... dòoch od prvého nahratia."
+msgstr "po ... dÅˆoch od prvÃ©ho nahratia."
 
 msgid "Edit user-defined days of week"
-msgstr "Upravi» u¾ívateµom urèenı deò v tı¾dni"
+msgstr "UpraviÅ¥ uÅ¾Ã­vateÄ¾om urÄenÃ½ deÅˆ v tÃ½Å¾dni"
 
 msgid "Compare"
-msgstr "porovna»"
+msgstr "porovnaÅ¥"
 
 msgid "Select blacklists"
-msgstr "Vybra» èiernu listinu"
+msgstr "VybraÅ¥ Äiernu listinu"
 
 msgid "Values for EPG category"
-msgstr "Hodnota pre EPG kategóriu"
+msgstr "Hodnota pre EPG kategÃ³riu"
 
 msgid "Button$Apply"
-msgstr "Pou¾i»"
+msgstr "PouÅ¾iÅ¥"
 
 msgid "less"
 msgstr "menej"
@@ -1180,100 +1180,100 @@ msgid "greater"
 msgstr "viacej"
 
 msgid "greater or equal"
-msgstr "Väè¹í alebo rovnı"
+msgstr "VÃ¤ÄÅ¡Ã­ alebo rovnÃ½"
 
 msgid "equal"
-msgstr "rovnakı"
+msgstr "rovnakÃ½"
 
 msgid "not equal"
-msgstr "nerovná sa"
+msgstr "nerovnÃ¡ sa"
 
 msgid "Activation of search timer"
-msgstr "Aktivácia vyhµadávania plánu"
+msgstr "AktivÃ¡cia vyhÄ¾adÃ¡vania plÃ¡nu"
 
 msgid "First day"
-msgstr "Prvı deò"
+msgstr "PrvÃ½ deÅˆ"
 
 msgid "Last day"
-msgstr "Poslednı deò"
+msgstr "PoslednÃ½ deÅˆ"
 
 msgid "Button$all channels"
-msgstr "v¹etky kanály"
+msgstr "vÅ¡etky kanÃ¡ly"
 
 msgid "Button$only FTA"
-msgstr "iba voµne ¹íriteµné"
+msgstr "iba voÄ¾ne Å¡Ã­riteÄ¾nÃ©"
 
 msgid "Button$Timer preview"
-msgstr "Náhµad plánu"
+msgstr "NÃ¡hÄ¾ad plÃ¡nu"
 
 msgid "Blacklist results"
-msgstr "vısledky èierneho zoznamu"
+msgstr "vÃ½sledky Äierneho zoznamu"
 
 msgid "found recordings"
-msgstr "nájdené nahrávky"
+msgstr "nÃ¡jdenÃ© nahrÃ¡vky"
 
 msgid "Error while accessing recording!"
-msgstr "Chyba prístupu k záznamom!"
+msgstr "Chyba prÃ­stupu k zÃ¡znamom!"
 
 msgid "Button$Default"
-msgstr "Predvolené"
+msgstr "PredvolenÃ©"
 
 msgid "Edit$Delete template?"
-msgstr "Vymaza» ¹ablónu?"
+msgstr "VymazaÅ¥ Å¡ablÃ³nu?"
 
 msgid "Overwrite existing entries?"
-msgstr "Prepísa» existujúce údaje?"
+msgstr "PrepÃ­saÅ¥ existujÃºce Ãºdaje?"
 
 msgid "Edit entry"
-msgstr "Upravi» údaje"
+msgstr "UpraviÅ¥ Ãºdaje"
 
 #, fuzzy
 msgid "Switch"
-msgstr "Prepnú» iba"
+msgstr "PrepnÃºÅ¥ iba"
 
 msgid "Announce only"
-msgstr "Iba oznámi»"
+msgstr "Iba oznÃ¡miÅ¥"
 
 #, fuzzy
 msgid "Announce ... minutes before start"
-msgstr "Prepnú» ... minút pred ¹tartom"
+msgstr "PrepnÃºÅ¥ ... minÃºt pred Å¡tartom"
 
 msgid "action at"
 msgstr "za akciou"
 
 msgid "Switch list"
-msgstr "Prepnú» zoznam"
+msgstr "PrepnÃºÅ¥ zoznam"
 
 msgid "Edit template"
-msgstr "Upravi» ¹ablóny"
+msgstr "UpraviÅ¥ Å¡ablÃ³ny"
 
 msgid "Timers"
-msgstr "Plány"
+msgstr "PlÃ¡ny"
 
 msgid ">>> no info! <<<"
-msgstr ">>> ¾iadne informácie! <<<"
+msgstr ">>> Å¾iadne informÃ¡cie! <<<"
 
 msgid "Overview"
-msgstr "Prehµad"
+msgstr "PrehÄ¾ad"
 
 msgid "Button$Favorites"
-msgstr "Obµúbené"
+msgstr "ObÄ¾ÃºbenÃ©"
 
 msgid "Quick search for broadcasts"
-msgstr "Rıchle vyhµadávanie vo vysielaní"
+msgstr "RÃ½chle vyhÄ¾adÃ¡vanie vo vysielanÃ­"
 
 msgid "Quick search"
-msgstr "Rıchle hµadanie"
+msgstr "RÃ½chle hÄ¾adanie"
 
 msgid "Show in main menu"
-msgstr "Zobrazi» v hlavnom menu"
+msgstr "ZobraziÅ¥ v hlavnom menu"
 
 #, c-format
 msgid "%d new broadcast(s) found! Show them?"
-msgstr "%d nové vysielanie(a) nájdené! Zobrazi» ich?"
+msgstr "%d novÃ© vysielanie(a) nÃ¡jdenÃ©! ZobraziÅ¥ ich?"
 
 msgid "Search timer update done!"
-msgstr "Aktualizácia vyhµadávania plánov skonèená!"
+msgstr "AktualizÃ¡cia vyhÄ¾adÃ¡vania plÃ¡nov skonÄenÃ¡!"
 
 #, c-format
 msgid "small EPG content on:%s"
@@ -1287,7 +1287,7 @@ msgid "Switch to (%d) '%s'?"
 msgstr ""
 
 msgid "Programming timer failed!"
-msgstr "Chyba programovania plánovaèa"
+msgstr "Chyba programovania plÃ¡novaÄa"
 
 #, c-format
 msgid "in %02ldd"
@@ -1303,10 +1303,10 @@ msgstr "v %02ldm"
 
 #, fuzzy
 #~ msgid "Compare expression"
-#~ msgstr "be¾nı vıraz"
+#~ msgstr "beÅ¾nÃ½ vÃ½raz"
 
 #~ msgid "File"
-#~ msgstr "Súbor"
+#~ msgstr "SÃºbor"
 
 #~ msgid "Day"
-#~ msgstr "Deò"
+#~ msgstr "DeÅˆ"

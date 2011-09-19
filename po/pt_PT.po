@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: Portuguese <vdr@linuxtv.org>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Channel groups"
@@ -413,7 +413,7 @@ msgid "Ignore below priority"
 msgstr ""
 
 msgid "Help$If a timer with priority below the given value will fail it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."
-msgstr "Lorsqu'une programmation dont la prioritée est en dessous de la valeur définie, n'aboutit pas, alors elle est qualifiée de 'non-importante'. Seulement les conflits importants sont affichés à l'écran lors de la vérification automatique."
+msgstr "Lorsqu'une programmation dont la prioritÃ©e est en dessous de la valeur dÃ©finie, n'aboutit pas, alors elle est qualifiÃ©e de 'non-importante'. Seulement les conflits importants sont affichÃ©s Ã  l'Ã©cran lors de la vÃ©rification automatique."
 
 msgid "Ignore conflict duration less ... min."
 msgstr ""
