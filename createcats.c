@@ -93,9 +93,9 @@ class cCat {
     int appeared;
     char name[MAXPARSEBUFFER];
     int numvalues;
-    char** values; 
-    
-    cCat(char* n) 
+    char** values;
+
+    cCat(char* n)
 	:appeared(0), numvalues(0), values(NULL)
 	{
 	    strcpy(name, n);
@@ -137,9 +137,9 @@ class cCats {
     cCat** cats;
  public:
     cCats():numcats(0), cats(NULL) {}
-    
+
     int num() {return numcats;}
-    
+
     cCat* add(char* name)
 	{
 	    cCat* newCat = new cCat(name);
@@ -147,7 +147,7 @@ class cCats {
 	    cats[numcats++] = newCat;
 	    return newCat;
 	}
-    
+
     cCat* get(int i)
 	{
 	    if (i>=0 && i<numcats)
@@ -155,7 +155,7 @@ class cCats {
 	    else
 		return NULL;
 	}
-    
+
     cCat* exists(char* name)
 	{
 	    for(int i=0; i<numcats; i++)
@@ -187,13 +187,13 @@ int main(int argc, char *argv[])
       { NULL,     no_argument,       NULL, 0 }
     };
 
-    int c;    
-    while ((c = getopt_long(argc, argv, "m:v:l:h", long_options, NULL)) != -1) 
+    int c;
+    while ((c = getopt_long(argc, argv, "m:v:l:h", long_options, NULL)) != -1)
     {
-        switch (c) 
+        switch (c)
 	{
 	    case 'm':
-		if (isnumber(optarg)) 
+		if (isnumber(optarg))
 		{
 		    minappearance = atoi(optarg);
 		    break;
@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 		return 2;
 		break;
 	    case 'v':
-		if (isnumber(optarg)) 
+		if (isnumber(optarg))
 		{
 		    maxvalues = atoi(optarg);
 		    break;
@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
 		return 2;
 		break;
 	    case 'l':
-		if (isnumber(optarg)) 
+		if (isnumber(optarg))
 		{
 		    maxlength = atoi(optarg);
 		    break;
@@ -234,22 +234,22 @@ int main(int argc, char *argv[])
 	}
     }
 
-    if (argc < 2)	
+    if (argc < 2)
     {
 	fprintf(stderr, "ERROR: please pass your epg.data\nusage: createcats epg.data\n");
 	return 1;
     }
-    
+
     f = fopen(argv[argc-1], "r");
     if (f == NULL)
     {
 	fprintf(stderr, "ERROR: could not open: %s\n", argv[1]);
 	return 1;
     }
-    
+
     char *s;
     cReadLine ReadLine;
-    while ((s = ReadLine.Read(f)) != NULL) 
+    while ((s = ReadLine.Read(f)) != NULL)
     {
         if (*s == 'D')
 	{
@@ -261,7 +261,7 @@ int main(int argc, char *argv[])
 	    char *pstrSearch=strdup(s);
 	    pstrSearchToken=strtok(pstrSearch, "|");
 
-	    while(pstrSearchToken) 
+	    while(pstrSearchToken)
 	    {
 		// must have a ':'
 		char* szPos = NULL;
@@ -270,34 +270,34 @@ int main(int argc, char *argv[])
 		    pstrSearchToken=strtok(NULL, "|");
 		    continue;
 		}
-		
+
 		char catname[MAXPARSEBUFFER] = "";
 		char catvalue[MAXPARSEBUFFER] = "";
-		
+
 		strncpy(catname, pstrSearchToken, szPos - pstrSearchToken);
 		catname[szPos - pstrSearchToken] = 0;
 		strcpy(catvalue, skipspace(szPos+1));
-		
+
 		cCat* cat = catlist.exists(catname);
 		if (!cat && strlen(catname) < maxlength) // accept only names up to 30 chars
 		    cat = catlist.add(catname);
-		
+
 		if (cat)
 		{
 		    cat->appeared++;
 		    if (strlen(catvalue) < maxlength) // accept only values up to 30 chars
 			cat->addvalue(catvalue);
 		}
-		
+
 		pstrSearchToken=strtok(NULL, "|");
 	    }
 	    free(pstrSearch);
         }
-    }	
+    }
     fclose(f);
 
     catlist.sort();
-    
+
     f = fopen("epgsearchcats.conf", "w");
     if (f == NULL)
     {
@@ -322,9 +322,9 @@ int main(int argc, char *argv[])
     fprintf(f, "# - 'searchmode' is an optional parameter specifying the mode of search:\n");
     fprintf(f, "#     text comparison:\n");
     fprintf(f, "#     0 - the whole term must appear as substring\n");
-    fprintf(f, "#     1 - all single words (delimiters are ',', ';', '|' or '~')\n"); 
+    fprintf(f, "#     1 - all single words (delimiters are ',', ';', '|' or '~')\n");
     fprintf(f, "#         must exist as substrings. This is the default search mode.\n");
-    fprintf(f, "#     2 - at least one word (delimiters are ',', ';', '|' or '~')\n"); 
+    fprintf(f, "#     2 - at least one word (delimiters are ',', ';', '|' or '~')\n");
     fprintf(f, "#         must exist as substring.\n");
     fprintf(f, "#     3 - matches exactly\n");
     fprintf(f, "#     4 - regular expression\n");
@@ -344,7 +344,7 @@ int main(int argc, char *argv[])
 	{
 	    fprintf(f, "# '%s' found %d times with %d different values %s\n", cat->name, cat->appeared, cat->numvalues, cat->numvalues>=(int)maxvalues?"(values omitted, too much)":"");
 	    fprintf(f, "%d|%s|%s|", id++, cat->name, cat->name);
-	    for(int j=0; cat->numvalues < (int)maxvalues && j<cat->numvalues; j++) 
+	    for(int j=0; cat->numvalues < (int)maxvalues && j<cat->numvalues; j++)
 		fprintf(f, "%s%s", cat->values[j], (j == cat->numvalues-1?"":","));
 	    fprintf(f, "|1\n\n");
 	}

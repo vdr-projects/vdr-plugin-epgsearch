@@ -47,7 +47,7 @@ private:
   char file[MaxFileName];
   char directory[MaxFileName];
 #ifdef USE_PINPLUGIN
-  int fskProtection;  
+  int fskProtection;
 #endif
   int checkmode;
 public:

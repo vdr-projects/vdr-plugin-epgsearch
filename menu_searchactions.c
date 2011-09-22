@@ -50,7 +50,7 @@ cMenuSearchActions::cMenuSearchActions(cSearchExt* Search, bool DirectCall)
 {
     directCall = DirectCall;
     SetHasHotkeys();
-    
+
     search = Search;
 
     Add(new cOsdItem(hk(tr("Execute search"))));
@@ -84,7 +84,7 @@ eOSState cMenuSearchActions::Search(void)
 
 eOSState cMenuSearchActions::OnOffSearchtimer(void)
 {
-   if (search) 
+   if (search)
    {
       search->useAsSearchTimer = search->useAsSearchTimer?0:1;
 	  SearchExts.Save();
@@ -96,9 +96,9 @@ eOSState cMenuSearchActions::OnOffSearchtimer(void)
          if (!EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
          {
             cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
-            Skins.Message(mtInfo, tr("Search timers activated in setup."));			
+            Skins.Message(mtInfo, tr("Search timers activated in setup."));
          }
-      }      
+      }
   }
   return osBack;
 }
@@ -113,18 +113,18 @@ eOSState cMenuSearchActions::Execute()
       if (current == 0)
          return Search();
       if (current == 1)
-         return OnOffSearchtimer(); 
+         return OnOffSearchtimer();
       if (current == 2)
       {
          if (!EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
          {
             cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
-            Skins.Message(mtInfo, tr("Search timers activated in setup."));			
+            Skins.Message(mtInfo, tr("Search timers activated in setup."));
          }
          if (Interface->Confirm(tr("Run search timer update?")))
             updateForced = 3; // with message about completion
          return osBack;
-      }	
+      }
       if (current == 3 && search)
          return AddSubMenu(new cMenuRecsDone(search));
       if (current == 4 && search)
@@ -167,7 +167,7 @@ eOSState cMenuSearchActions::Execute()
 	 search->DeleteAllTimers();
 	 return osBack;
      }
-     if (current == 10)	 
+     if (current == 10)
        return AddSubMenu(new cMenuConflictCheck());
   }
   return osContinue;
@@ -191,7 +191,7 @@ eOSState cMenuSearchActions::ProcessKey(eKeys Key)
          case kYellow:
          case kBlue:
             return osContinue;
-         case kOk:  
+         case kOk:
             if (!HasSubMenu())
                return Execute();
          default:   break;

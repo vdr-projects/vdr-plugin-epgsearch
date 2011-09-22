@@ -28,11 +28,11 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include <vdr/tools.h>
 #include "menu_searchresults.h"
-#include "menu_dirselect.h" 
+#include "menu_dirselect.h"
 #include "changrp.h"
-#include "menu_search.h" 
-#include "menu_searchedit.h" 
-#include "menu_recsdone.h" 
+#include "menu_search.h"
+#include "menu_searchedit.h"
+#include "menu_recsdone.h"
 #include "searchtimer_thread.h"
 #include "timer_thread.h"
 #include "uservars.h"
@@ -58,7 +58,7 @@ cSearchExt::cSearchExt(void)
    useChannel = false;
    channelMin = Channels.GetByNumber(cDevice::CurrentChannel());
    channelMax = Channels.GetByNumber(cDevice::CurrentChannel());
-   channelGroup = NULL; 
+   channelGroup = NULL;
    useCase = false;
    mode = 0;
    useTitle = true;
@@ -84,7 +84,7 @@ cSearchExt::cSearchExt(void)
    catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
    cSearchExtCat *SearchExtCat = SearchExtCats.First();
    int index = 0;
-   while (SearchExtCat) 
+   while (SearchExtCat)
    {
       catvalues[index] = (char*)malloc(MaxFileName);
       *catvalues[index] = 0;
@@ -130,7 +130,7 @@ cSearchExt::~cSearchExt(void)
    {
       cSearchExtCat *SearchExtCat = SearchExtCats.First();
       int index = 0;
-      while (SearchExtCat) 
+      while (SearchExtCat)
       {
 	free(catvalues[index]);
 	SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -149,7 +149,7 @@ cSearchExt& cSearchExt::operator= (const cSearchExt &SearchExt)
 
    cSearchExtCat *SearchExtCat = SearchExtCats.First();
    int index = 0;
-   while (SearchExtCat) 
+   while (SearchExtCat)
    {
       *catvalues[index] = 0;
       strcpy(catvalues[index], SearchExt.catvalues[index]);
@@ -194,13 +194,13 @@ cSearchExt& cSearchExt::operator= (const cSearchExt &SearchExt)
 
    cSearchExtCat *SearchExtCat = SearchExtCats.First();
    int index = 0;
-   while (SearchExtCat) 
+   while (SearchExtCat)
    {
       strcpy(catvalues[index], templ->catvalues[index]);
       SearchExtCat = SearchExtCats.Next(SearchExtCat);
       index++;
    }
-  
+
    if (!ignoreChannelSettings)
      {
        channelMin = templ->channelMin;
@@ -254,7 +254,7 @@ char* replaceSpecialChars(const char* in)
 {
    char* tmp_in = strdup(in);
    while(strstr(tmp_in, "|"))
-      tmp_in = strreplace(tmp_in, "|", "!^pipe^!"); // ugly: replace a pipe with something, 
+      tmp_in = strreplace(tmp_in, "|", "!^pipe^!"); // ugly: replace a pipe with something,
    strreplace(tmp_in, ':', '|');
    return tmp_in;
 }
@@ -308,46 +308,46 @@ const char *cSearchExt::ToText()
    {
       cSearchExtCat *SearchExtCat = SearchExtCats.First();
       int index = 0;
-      while (SearchExtCat) 
+      while (SearchExtCat)
       {
          char* catvalue = NULL;
          msprintf(&catvalue, "%s", catvalues[index]);
          while(strstr(catvalue, ":"))
             catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part ofa category value
          while(strstr(catvalue, "|"))
-            catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression 
+            catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression
 
          if (index == 0)
             msprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
          else
          {
-            char* temp = tmp_catvalues;	      
+            char* temp = tmp_catvalues;
             msprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
             free(temp);
          }
-         SearchExtCat = SearchExtCats.Next(SearchExtCat);	 
+         SearchExtCat = SearchExtCats.Next(SearchExtCat);
          index++;
          free(catvalue);
-      }      
+      }
    }
 
    if (blacklistMode == blacklistsSelection && blacklists.Count() > 0)
    {
       cBlacklistObject *blacklistObj = blacklists.First();
       int index = 0;
-      while (blacklistObj) 
+      while (blacklistObj)
       {
          if (index == 0)
             msprintf(&tmp_blacklists, "%d", blacklistObj->blacklist->ID);
          else
          {
-            char* temp = tmp_blacklists;	      
+            char* temp = tmp_blacklists;
             msprintf(&tmp_blacklists, "%s|%d", tmp_blacklists, blacklistObj->blacklist->ID);
             free(temp);
          }
-         blacklistObj = blacklists.Next(blacklistObj);	 
+         blacklistObj = blacklists.Next(blacklistObj);
          index++;
-      }      
+      }
    }
 
    msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d:%s:%d",
@@ -400,7 +400,7 @@ const char *cSearchExt::ToText()
             delAfterDaysOfFirstRec,
 	    useAsSearchTimerFrom,
 	    useAsSearchTimerTil,
-	    ignoreMissingEPGCats, 
+	    ignoreMissingEPGCats,
 	    unmuteSoundOnSwitch,
 	    compareSummaryMatchInPercent,
 	    contentsFilter.c_str(),
@@ -421,10 +421,10 @@ bool cSearchExt::Parse(const char *s)
    char *pos;
    char *pos_next;
    int parameter = 1;
-   int valuelen; 
+   int valuelen;
    char value[MaxFileName];
    bool disableSearchtimer = false;
-  
+
    *directory = 0;
    *search = 0;
 
@@ -443,7 +443,7 @@ bool cSearchExt::Parse(const char *s)
             strn0cpy(value, pos, valuelen);
             pos = pos_next;
             switch (parameter) {
-               case 1:  
+               case 1:
                   if (!isnumber(value)) return false;
                   ID = atoi(value);
                   break;
@@ -457,7 +457,7 @@ bool cSearchExt::Parse(const char *s)
                   break;
                case 6:  useChannel = atoi(value);
                   break;
-               case 7:  
+               case 7:
                   if (useChannel == 0)
                   {
                      channelMin = NULL;
@@ -479,7 +479,7 @@ bool cSearchExt::Parse(const char *s)
                         int channels = sscanf(value, "%a[^|]|%a[^|]", &channelMinbuffer, &channelMaxbuffer);
 #endif
                         channelMin = Channels.GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
-                        if (!channelMin) 
+                        if (!channelMin)
                         {
                            LogFile.eSysLog("ERROR: channel '%s' not defined", channelMinbuffer);
                            channelMin = channelMax = NULL;
@@ -491,7 +491,7 @@ bool cSearchExt::Parse(const char *s)
                         else
                         {
                            channelMax = Channels.GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
-                           if (!channelMax) 
+                           if (!channelMax)
                            {
                               LogFile.eSysLog("ERROR: channel '%s' not defined", channelMaxbuffer);
                               channelMin = channelMax = NULL;
@@ -546,7 +546,7 @@ bool cSearchExt::Parse(const char *s)
                   break;
                case 27: useExtEPGInfo = atoi(value);
                   break;
-               case 28: 
+               case 28:
                   if (!ParseExtEPGValues(value))
                   {
                      LogFile.eSysLog("ERROR reading ext. EPG values - 1");
@@ -578,14 +578,14 @@ bool cSearchExt::Parse(const char *s)
                   break;
                case 40: blacklistMode = atoi(value);
                   break;
-               case 41: 
+               case 41:
                   if (blacklistMode == blacklistsSelection && !ParseBlacklistIDs(value))
                   {
                      LogFile.eSysLog("ERROR parsing blacklist IDs");
                      free(line);
                      return false;
                   }
-                  break;		
+                  break;
                case 42: fuzzyTolerance = atoi(value);
                   break;
                case 43: useInFavorites = atoi(value);
@@ -651,20 +651,20 @@ bool cSearchExt::Parse(const char *s)
 char* cSearchExt::BuildFile(const cEvent* pEvent) const
 {
    char* file = NULL;
-    
+
    if (!pEvent)
       return file;
-    
+
    const char *Subtitle = pEvent ? pEvent->ShortText() : NULL;
    char SubtitleBuffer[Utf8BufSize(MAX_SUBTITLE_LENGTH)];
    if (isempty(Subtitle))
    {
      time_t Start = pEvent->StartTime();
      struct tm tm_r;
-     strftime(SubtitleBuffer, sizeof(SubtitleBuffer), "%Y.%m.%d-%R-%a", localtime_r(&Start, &tm_r));      
+     strftime(SubtitleBuffer, sizeof(SubtitleBuffer), "%Y.%m.%d-%R-%a", localtime_r(&Start, &tm_r));
      Subtitle = SubtitleBuffer;
    }
-   else if (Utf8StrLen(Subtitle) > MAX_SUBTITLE_LENGTH) 
+   else if (Utf8StrLen(Subtitle) > MAX_SUBTITLE_LENGTH)
    {
       Utf8Strn0Cpy(SubtitleBuffer, Subtitle, sizeof(SubtitleBuffer));
       SubtitleBuffer[Utf8SymChars(SubtitleBuffer, MAX_SUBTITLE_LENGTH)] = 0;
@@ -703,7 +703,7 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
       if (file) free(file);
       file = strdup(pFile);
       free(pFile);
-   }    
+   }
 // replace some special chars
    if (file)
    {
@@ -720,7 +720,7 @@ bool cSearchExt::ParseBlacklistIDs(const char *s)
    char *line;
    char *pos;
    char *pos_next;
-   int valuelen; 
+   int valuelen;
    char value[MaxFileName];
 
    cMutexLock BlacklistLock(&Blacklists);
@@ -759,7 +759,7 @@ bool cSearchExt::ParseExtEPGValues(const char *s)
    char *line;
    char *pos;
    char *pos_next;
-   int valuelen; 
+   int valuelen;
    char value[MaxFileName];
 
    pos = line = strdup(s);
@@ -797,7 +797,7 @@ bool cSearchExt::ParseExtEPGEntry(const char *s)
    char *pos;
    char *pos_next;
    int parameter = 1;
-   int valuelen; 
+   int valuelen;
    char value[MaxFileName];
    int currentid = -1;
 
@@ -816,7 +816,7 @@ bool cSearchExt::ParseExtEPGEntry(const char *s)
             strn0cpy(value, pos, valuelen);
             pos = pos_next;
             switch (parameter) {
-               case 1:  
+               case 1:
                {
                   currentid = atoi(value);
                   int index = SearchExtCats.GetIndexFromID(currentid);
@@ -824,7 +824,7 @@ bool cSearchExt::ParseExtEPGEntry(const char *s)
                      strcpy(catvalues[index], "");
                }
                break;
-               case 2:  
+               case 2:
                   if (currentid > -1)
                   {
                      int index = SearchExtCats.GetIndexFromID(currentid);
@@ -856,7 +856,7 @@ bool cSearchExt::Save(FILE *f)
    return fprintf(f, "%s\n", ToText()) > 0;
 }
 
-cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEvent *Start, bool inspectTimerMargin) 
+cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEvent *Start, bool inspectTimerMargin)
 {
    if (!schedules) return NULL;
 
@@ -893,7 +893,7 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
 
    for (cEvent *p = p1; p; p = Events->Next(p))
    {
-      if(!p) 
+      if(!p)
       {
          break;
       }
@@ -904,21 +904,21 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
       // ignore events without title
       if (!p->Title() || !*p->Title())
          continue;
-        
-      if (tNow < p->EndTime() + (inspectTimerMargin?(MarginStop * 60):0)) 
-      {	    
+
+      if (tNow < p->EndTime() + (inspectTimerMargin?(MarginStop * 60):0))
+      {
          if (useTime)
          {
             time_t tEvent = p->StartTime();
             struct tm tmEvent;
             localtime_r(&tEvent, &tmEvent);
-	    
-            int eventStart = tmEvent.tm_hour*100 + tmEvent.tm_min;	
-            int eventStart2 = eventStart + 2400;	
+
+            int eventStart = tmEvent.tm_hour*100 + tmEvent.tm_min;
+            int eventStart2 = eventStart + 2400;
             if ((eventStart < searchStart || eventStart > searchStop) &&
                 (eventStart2 < searchStart || eventStart2 > searchStop))
                continue;
-	    
+
             if (useDayOfWeek)
             {
                if (DayOfWeek >= 0)
@@ -959,7 +959,7 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
             if (DayOfWeek >= 0 && DayOfWeek != tmEvent.tm_wday)
                continue;
             if (DayOfWeek < 0)
-            {	      
+            {
                int iFound = 0;
                for(int i=0; i<7; i++)
                   if (abs(DayOfWeek) & (int)pow(2,i) && i == tmEvent.tm_wday)
@@ -975,11 +975,11 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
 	 char* szTest = NULL;
 	 msprintf(&szTest, "%s%s%s%s%s", (useTitle?(p->Title()?p->Title():""):""), (useSubtitle||useDescription)?"~":"",
                (useSubtitle?(p->ShortText()?p->ShortText():""):""),useDescription?"~":"",
-               (useDescription?(p->Description()?p->Description():""):""));     
-	
+               (useDescription?(p->Description()?p->Description():""):""));
+
          if (!useCase)
             ToLower(szTest);
-	
+
          if (szTest && *szTest)
          {
             if (!MatchesSearchMode(szTest, searchText, mode," ,;|~", fuzzyTolerance))
@@ -1027,7 +1027,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
    const cSchedule *Schedule = schedules->First();
    cSearchResults* pSearchResults = pPrevResults;
    cSearchResults* pBlacklistResults = GetBlacklistEvents(inspectTimerMargin?MarginStop:0);
-    
+
    int counter = 0;
    while (Schedule) {
       cChannel* channel = Channels.GetByChannelID(Schedule->ChannelID(),true,true);
@@ -1036,7 +1036,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
          Schedule = (const cSchedule *)schedules->Next(Schedule);
          continue;
       }
-	
+
       if (useChannel == 1 && channelMin && channelMax)
       {
          if (channelMin->Number() > channel->Number() || channelMax->Number() < channel->Number())
@@ -1054,7 +1054,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
             continue;
          }
       }
-	
+
       if (useChannel == 3 && noPayTV)
       {
          if (channel->Ca() >= CA_ENCRYPTED_MIN)
@@ -1071,7 +1071,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
             Schedule = (const cSchedule *)schedules->Next(Schedule);
             continue;
          }
-      }       
+      }
 
       const cEvent *pPrevEvent = NULL;
       do {
@@ -1085,7 +1085,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
          if (event && Channels.GetByChannelID(event->ChannelID(),true,true))
          {
             if (pBlacklistResults && pBlacklistResults->Lookup(event))
-            {		    
+            {
                LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d): matches blacklist", event->Title()?event->Title():"no title", event->ShortText()?event->ShortText():"no subtitle", GETDATESTRING(event), GETTIMESTRING(event), ChannelNrFromEvent(event));
                continue;
             }
@@ -1115,7 +1115,7 @@ cSearchResults* cSearchExt::GetBlacklistEvents(int MarginStop)
    if (blacklistMode == blacklistsNone) return NULL;
 
    cMutexLock BlacklistLock(&Blacklists);
-   cSearchResults* blacklistEvents = NULL; 
+   cSearchResults* blacklistEvents = NULL;
    if (blacklistMode == blacklistsOnlyGlobal)
    {
       cBlacklist* tmpblacklist = Blacklists.First();
@@ -1145,7 +1145,7 @@ cSearchResults* cSearchExt::GetBlacklistEvents(int MarginStop)
       }
    }
    return blacklistEvents;
-     
+
 }
 
 void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
@@ -1161,31 +1161,31 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
       LogFile.Log(3,"search timer not set to 'record', so skip all");
       return;
    }
-   
+
    cSearchResult* pResultObj = NULL;
    for (pResultObj = pResults->First(); pResultObj; pResultObj = pResults->Next(pResultObj))
    {
       if (action != searchTimerActionRecord) // only announce if there is no timer for the event
       {
-         pResultObj->needsTimer = false; 		
+         pResultObj->needsTimer = false;
          continue;
       }
-      
+
       const cEvent* pEvent = pResultObj->event;
       // check if this event was already recorded
       int records = 0;
       cRecDone* firstRec = NULL;
       LogFile.Log(3,"get count recordings with %d%% match", compareSummaryMatchInPercent);
       records = RecsDone.GetCountRecordings(pEvent, this, &firstRec, compareSummaryMatchInPercent);
-      LogFile.Log(3,"recordings: %d", records);	
-      
+      LogFile.Log(3,"recordings: %d", records);
+
       if (records > allowedRepeats) // already recorded
       {
          LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d): already recorded %d equal event(s)", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), records);
          pResultObj->needsTimer = false; // first asume we need no timer
          continue;
       }
-      
+
       int plannedTimers = 0;
       LogFile.Log(3,"get planned recordings");
       cSearchResult* pFirstResultMatching = NULL;
@@ -1193,12 +1193,12 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
       for (cSearchResult* pResultObjP = pResults->First(); pResultObjP; pResultObjP = pResults->Next(pResultObjP))
       {
          if (pResultObj == pResultObjP) break;
-         
+
          const cEvent* pEventP = pResultObjP->event;
          if (!pEventP) continue;
-         
+
          if (!pResultObjP->needsTimer) continue;
-         
+
          if (EventsMatch(pEvent, pEventP, compareTitle, compareSubtitle, compareSummary, compareDate, catvaluesAvoidRepeat))
          {
             if (!pFirstResultMatching) pFirstResultMatching = pResultObjP;
@@ -1206,11 +1206,11 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
          }
       }
       LogFile.Log(3,"planned: %d", plannedTimers);
-      
+
       if (plannedTimers + records > allowedRepeats)
       {
          LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d): events planned(%d), recorded(%d), allowed(%d)", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), plannedTimers, records, allowedRepeats);
-         pResultObj->needsTimer = false; 		
+         pResultObj->needsTimer = false;
          continue;
       }
       else if (allowedRepeats > 0 && repeatsWithinDays > 0) // if we only allow repeats with in a given range
@@ -1220,14 +1220,14 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
             if (firstRec->startTime > pEvent->StartTime() - pEvent->Duration()) // no repeat
             {
                LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d); no repeat for event already recorded at %s, channel %d", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), DAYDATETIME(firstRec->startTime), firstRec->ChannelNr());
-               pResultObj->needsTimer = false; 		
+               pResultObj->needsTimer = false;
                continue;
             }
             int daysFromFirstRec = int(double((pEvent->StartTime() - firstRec->startTime)) / (60*60*24) + 0.5);
             if (daysFromFirstRec  > repeatsWithinDays)
             {
                LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d); first recording at %s is %d days before, limit is %d days", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), DAYDATETIME(firstRec->startTime),daysFromFirstRec, repeatsWithinDays);
-               pResultObj->needsTimer = false; 		
+               pResultObj->needsTimer = false;
                continue;
             }
          }
@@ -1237,15 +1237,15 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
             if (pFirst->StartTime() > pEvent->StartTime() - pEvent->Duration()) // no repeat
             {
                LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d); no repeat for event already recorded at %s - %s, channel %d", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), GETDATESTRING(pFirst), GETTIMESTRING(pFirst), ChannelNrFromEvent(pFirst));
-               pResultObj->needsTimer = false; 		
+               pResultObj->needsTimer = false;
                continue;
             }
-            
+
             int daysBetween = int(double((pEvent->StartTime() - pFirst->StartTime())) / (60*60*24) + 0.5);
             if (daysBetween  > repeatsWithinDays)
             {
                LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d); first event '%s~%s' (%s - %s) is %d days before, limit is %d days", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), GETDATESTRING(pFirst), GETTIMESTRING(pFirst),daysBetween, repeatsWithinDays);
-               pResultObj->needsTimer = false; 		
+               pResultObj->needsTimer = false;
                continue;
             }
          }
@@ -1255,7 +1255,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
       if (timer && !timer->HasFlags(tfActive))
       {
          LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d), existing timer disabled", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
-         pResultObj->needsTimer = false; 		
+         pResultObj->needsTimer = false;
          continue;
       }
       else
@@ -1264,7 +1264,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
    int needsTimer = 0;
    for (pResultObj = pResults->First(); pResultObj; pResultObj = pResults->Next(pResultObj))
       if (pResultObj->needsTimer) needsTimer++;
-   
+
    LogFile.Log(2,"%d/%d events need a timer for search timer '%s'", needsTimer, pResults->Count(), search);
 }
 
@@ -1277,18 +1277,18 @@ void cSearchExt::CheckExistingRecordings(cSearchResults* pResults)
 
    // how many recordings do we already have?
    int num = GetCountRecordings();
-    
+
    cSearchResult* pResultObj = NULL;
    int remain = pauseOnNrRecordings - num;
    for (pResultObj = pResults->First(); pResultObj; pResultObj = pResults->Next(pResultObj), remain--)
    {
-      if (!pResultObj->needsTimer) 
+      if (!pResultObj->needsTimer)
 	{
 	  remain++;
 	  continue; // maybe already disabled because of done feature
 	}
-      pResultObj->needsTimer = (remain > 0); 		
-      if (remain <= 0)	    
+      pResultObj->needsTimer = (remain > 0);
+      if (remain <= 0)
       {
          const cEvent* pEvent = pResultObj->event;
          LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d): only %d recordings are allowed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), pauseOnNrRecordings);
@@ -1301,7 +1301,7 @@ bool cSearchExt::MatchesExtEPGInfo(const cEvent* e)
    if (!e || !e->Description())
       return false;
    cSearchExtCat* SearchExtCat = SearchExtCats.First();
-   while (SearchExtCat) 
+   while (SearchExtCat)
    {
       char* value = NULL;
       int index = SearchExtCats.GetIndexFromID(SearchExtCat->id);
@@ -1335,7 +1335,7 @@ bool cSearchExt::MatchesExtEPGInfo(const cEvent* e)
 
 void cSearchExt::OnOffTimers(bool bOn)
 {
-   for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti)) 
+   for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti))
    {
       if (((!bOn && ti->HasFlags(tfActive)) || (bOn && !ti->HasFlags(tfActive))) && TriggeredFromSearchTimerID(ti) == ID)
          ti->OnOff();
@@ -1356,7 +1356,7 @@ void cSearchExt::DeleteAllTimers()
          Timers.Del(ti);
          Timers.SetModified();
          ti = tiNext;
-      }	
+      }
       else
          ti = Timers.Next(ti);
    };
@@ -1366,14 +1366,14 @@ cTimerObjList* cSearchExt::GetTimerList(cTimerObjList* timerList)
 {
    if (!timerList)
       timerList = new cTimerObjList;
- 
-   for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti)) 
+
+   for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti))
    {
       if (TriggeredFromSearchTimerID(ti) == ID)
       {
          // check if already in list
          bool found = false;
-         for (cTimerObj *tObj = timerList->First(); tObj; tObj = timerList->Next(tObj)) 
+         for (cTimerObj *tObj = timerList->First(); tObj; tObj = timerList->Next(tObj))
          {
             if (tObj->timer == ti)
             {
@@ -1393,7 +1393,7 @@ int cSearchExt::GetCountRecordings()
 {
    int countRecs = 0;
 
-   for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording)) 
+   for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording))
    {
       if (recording->IsEdited()) continue; // ignore recordings edited
       if (!recording->Info()) continue;
@@ -1415,7 +1415,7 @@ bool cSearchExt::IsActiveAt(time_t t)
     {
       if (useAsSearchTimerFrom > 0 && t < useAsSearchTimerFrom) return false;
       if (useAsSearchTimerTil > 0 && t > useAsSearchTimerTil) return false;
-    } 
+    }
   return true;
 }
 
@@ -1451,7 +1451,7 @@ void cSearchExt::SetContentFilter(int* contentStringsFlags)
 
 bool cSearchExt::MatchesContentsFilter(const cEvent* e)
 {
-#if APIVERSNUM < 10711 
+#if APIVERSNUM < 10711
   return true;
 #else
   if (!e) return false;
@@ -1466,7 +1466,7 @@ bool cSearchExt::MatchesContentsFilter(const cEvent* e)
     int c=0, eventContentID=0;
     bool found = false;
     while((eventContentID=e->Contents(c++)) > 0)
-      if (eventContentID == searchContentID) 
+      if (eventContentID == searchContentID)
 	{
 	  found = true;
 	  break;
@@ -1592,7 +1592,7 @@ void cSearchExts::RemoveBlacklistID(int ID)
    bool changed = false;
    cMutexLock SearchExtsLock(this);
    cSearchExt *l = (cSearchExt *)First();
-   while (l) 
+   while (l)
    {
       cBlacklistObject* blacklistObj = l->blacklists.First();
       while(blacklistObj)
@@ -1606,7 +1606,7 @@ void cSearchExts::RemoveBlacklistID(int ID)
          blacklistObj = blacklistObjNext;
       }
       l = (cSearchExt *)l->Next();
-   }   
+   }
    if (changed)
       Save();
 }
@@ -1615,7 +1615,7 @@ bool cSearchExts::Exists(const cSearchExt* SearchExt)
 {
    cMutexLock SearchExtsLock(this);
    cSearchExt *l = (cSearchExt *)First();
-   while (l) 
+   while (l)
    {
       if (l == SearchExt)
          return true;
@@ -1630,7 +1630,7 @@ cSearchExts* cSearchExts::Clone()
 
    cMutexLock SearchExtsLock(this);
    cSearchExt *l = (cSearchExt *)First();
-   while (l) 
+   while (l)
    {
       cSearchExt* clone = new cSearchExt();
       *clone = *l;
@@ -1643,7 +1643,7 @@ cSearchExts* cSearchExts::Clone()
 bool cSearchExts::CheckForAutoDelete(cSearchExt* SearchExt)
 {
    if (!SearchExt || SearchExt->delMode == 0) return false;
-   
+
    cRecDone* firstRec = NULL;
    bool delSearch = false;
    int recs = RecsDone.GetTotalCountRecordings(SearchExt, &firstRec);
@@ -1663,7 +1663,7 @@ bool cSearchExts::CheckForAutoDelete(cSearchExt* SearchExt)
    return delSearch;
 }
 
-cSearchResult::cSearchResult(const cEvent* Event, int searchID) : event(Event), blacklist(NULL), needsTimer(true) 
+cSearchResult::cSearchResult(const cEvent* Event, int searchID) : event(Event), blacklist(NULL), needsTimer(true)
 {
   search = SearchExts.GetSearchFromID(searchID);
 }

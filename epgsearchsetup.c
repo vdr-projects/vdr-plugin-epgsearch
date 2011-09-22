@@ -28,7 +28,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "searchtimer_thread.h"
 #include "epgsearchtools.h"
 #include "changrp.h"
-#include "menu_dirselect.h" 
+#include "menu_dirselect.h"
 #include "menu_searchtemplate.h"
 #include "menu_blacklists.h"
 #include "templatefile.h"
@@ -54,7 +54,7 @@ const char *cMenuSetupMailNotification::MailBoxChars     = " abcdefghijklmnopqrs
 cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cEPGSearchConfig* Data)
     : cOsdMenu(Title, 33)
 {
-    data = Data;  
+    data = Data;
 }
 
 eOSState cMenuSetupSubMenu::ProcessKey(eKeys Key)
@@ -104,7 +104,7 @@ cMenuEPGSearchSetup::cMenuEPGSearchSetup(void)
 
     RedKeyMode[0] = tr("Standard");
     RedKeyMode[1] = tr("Button$Commands");
-    
+
     BlueKeyMode[0] = tr("Standard");
     BlueKeyMode[1] = tr("Button$Search");
 
@@ -131,7 +131,7 @@ void cMenuEPGSearchSetup::Setup(void)
     data = EPGSearchConfig;
     if (isempty(EPGSearchConfig.mainmenuentry))
 	strcpy(data.mainmenuentry,tr("Program guide"));
-    
+
     Set();
     SetHelp(NULL, NULL, NULL, trVDR("Button$Open"));
 }
@@ -140,7 +140,7 @@ void cMenuEPGSearchSetup::Set()
 {
   int current = Current();
   Clear();
- 
+
   Add(new cOsdItem(tr("General")));
   Add(new cOsdItem(tr("EPG menus")));
   Add(new cOsdItem(tr("User-defined EPG times")));
@@ -171,9 +171,9 @@ void cMenuEPGSearchSetup::Store(void)
     }
 
     EPGSearchConfig = data;
-    if (strcmp(EPGSearchConfig.mainmenuentry, tr("Program guide")) == 0) 
+    if (strcmp(EPGSearchConfig.mainmenuentry, tr("Program guide")) == 0)
 	strcpy(EPGSearchConfig.mainmenuentry,"");
-    
+
    if (isempty(EPGSearchConfig.MailAddressTo))
       strcpy(EPGSearchConfig.MailAddressTo, EPGSearchConfig.MailAddress);
 
@@ -194,15 +194,15 @@ void cMenuEPGSearchSetup::Store(void)
     SetupStore("UserMode1UseIt",  EPGSearchConfig.ShowModes[showUserMode1].GetUsage());
     SetupStore("UserMode1Description",  EPGSearchConfig.ShowModes[showUserMode1].GetDescription());
     SetupStore("UserMode1Time",  EPGSearchConfig.ShowModes[showUserMode1].GetTime());
-    
+
     SetupStore("UserMode2UseIt",  EPGSearchConfig.ShowModes[showUserMode2].GetUsage());
     SetupStore("UserMode2Description",  EPGSearchConfig.ShowModes[showUserMode2].GetDescription());
     SetupStore("UserMode2Time",  EPGSearchConfig.ShowModes[showUserMode2].GetTime());
-  
+
     SetupStore("UserMode3UseIt",  EPGSearchConfig.ShowModes[showUserMode3].GetUsage());
     SetupStore("UserMode3Description",  EPGSearchConfig.ShowModes[showUserMode3].GetDescription());
     SetupStore("UserMode3Time",  EPGSearchConfig.ShowModes[showUserMode3].GetTime());
-    
+
     SetupStore("UserMode4UseIt",  EPGSearchConfig.ShowModes[showUserMode4].GetUsage());
     SetupStore("UserMode4Description",  EPGSearchConfig.ShowModes[showUserMode4].GetDescription());
     SetupStore("UserMode4Time",  EPGSearchConfig.ShowModes[showUserMode4].GetTime());
@@ -293,7 +293,7 @@ eOSState cMenuEPGSearchSetup::ProcessKey(eKeys Key)
     int iOnEmailNotification = 0;
 
     if (!HasSubMenu())
-    { 
+    {
 	if (strstr(ItemText, tr("General")) == ItemText)
 	    iOnGeneral = 1;
 	else if (strstr(ItemText, tr("EPG menus")) == ItemText)
@@ -310,7 +310,7 @@ eOSState cMenuEPGSearchSetup::ProcessKey(eKeys Key)
 	    iOnEmailNotification = 1;
     }
 
-    if (!HasSubMenu() && (state == osUnknown || Key == kOk)) 
+    if (!HasSubMenu() && (state == osUnknown || Key == kOk))
     {
 	if ((Key == kOk && !hadSubMenu) || Key == kBlue)
 	{
@@ -405,7 +405,7 @@ void cMenuSetupEPGMenus::Set()
     int current = Current();
     Clear();
     helpTexts.clear();
-    
+
     Add(new cMenuEditStraItem(  tr("Ok key"), &data->useOkForSwitch, 2, OkKeyMode));
     AddHelp(tr("Help$Choose here the behaviour of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\nNote: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."));
 
@@ -476,7 +476,7 @@ void cMenuSetupUserdefTimes::Set()
       AddHelp(tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
       Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode1].itime));
       AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
-  } 
+  }
 
   szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 2);
   Add(new cMenuEditBoolItem( szUseUserTime, &data->ShowModes[showUserMode2].useIt,       trVDR("no"),      trVDR("yes")));
@@ -487,7 +487,7 @@ void cMenuSetupUserdefTimes::Set()
       AddHelp(tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
       Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode2].itime));
       AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
-  } 
+  }
 
   szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 3);
   Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode3].useIt,       trVDR("no"),      trVDR("yes")));
@@ -498,7 +498,7 @@ void cMenuSetupUserdefTimes::Set()
       AddHelp(tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
       Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode3].itime));
       AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
-  } 
+  }
 
   szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 4);
   Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode4].useIt,       trVDR("no"),      trVDR("yes")));
@@ -509,7 +509,7 @@ void cMenuSetupUserdefTimes::Set()
       AddHelp(tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
       Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode4].itime));
       AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
-  } 
+  }
 
   SetCurrent(Get(current));
   Display();
@@ -599,7 +599,7 @@ eOSState cMenuSetupTimers::ProcessKey(eKeys Key)
     int iOnDefRecDir = 0;
     int iOnDefTimerCheck = 0;
     if (!HasSubMenu())
-    { 
+    {
 	if (strstr(ItemText, tr("Default recording dir")) == ItemText)
 	    iOnDefRecDir = 1;
 	if (strstr(ItemText, tr("Default timer check method")) == ItemText)
@@ -685,7 +685,7 @@ void cMenuSetupSearchtimers::Set()
       }
   }
 
-  Add(new cMenuEditBoolItem(  tr("Ignore PayTV channels"), &data->ignorePayTV, trVDR("no"), trVDR("yes")));  
+  Add(new cMenuEditBoolItem(  tr("Ignore PayTV channels"), &data->ignorePayTV, trVDR("no"), trVDR("yes")));
   AddHelp(tr("Help$Set this to 'yes' if don't want to see events on PayTV channels when searching for repeats."));
   Add(new cOsdItem(tr("Search templates")));
   AddHelp(tr("Help$Here you can setup templates for your searches."));
@@ -735,7 +735,7 @@ eOSState cMenuSetupSearchtimers::ProcessKey(eKeys Key)
 
     const char* ItemText = Get(Current())->Text();
     if (!HasSubMenu())
-    { 
+    {
 	if (strstr(ItemText, tr("Search templates")) == ItemText)
 	    iOnSearchTemplates = 1;
 	else if (strstr(ItemText, tr("Blacklists")) == ItemText)
@@ -866,8 +866,8 @@ void cMenuSetupMailNotification::Set()
 
   if (data->sendMailOnSearchtimers)
   {
-    Add(new cMenuEditIntItem(IndentMenuItem(tr("Time between mails [h]")), &data->sendMailOnSearchtimerHours,  0, 999999, ""));   
-    AddHelp(tr("Help$Specifiy how much time in [h] you would\nlike to have atleast between two mails.\nWith '0' you get a new mail after each\nsearch timer update with new results.")); 
+    Add(new cMenuEditIntItem(IndentMenuItem(tr("Time between mails [h]")), &data->sendMailOnSearchtimerHours,  0, 999999, ""));
+    AddHelp(tr("Help$Specifiy how much time in [h] you would\nlike to have atleast between two mails.\nWith '0' you get a new mail after each\nsearch timer update with new results."));
   }
   Add(new cMenuEditBoolItem(tr("Timer conflict notification"), &data->sendMailOnConflicts, trVDR("no"), trVDR("yes")));
   AddHelp(tr("Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."));
@@ -884,15 +884,15 @@ void cMenuSetupMailNotification::Set()
      sep->SetSelectable(false);
      Add(sep);
      AddHelp(" dummy");
-     
+
      Add(new cMenuEditStrItem(tr("Email adress"), data->MailAddress, sizeof(data->MailAddress), MailBoxChars));
      AddHelp(tr("Help$Specify the email adress where notifications should be sent from."));
-     
+
      Add(new cMenuEditStrItem(tr("SMTP server"), data->MailServer, sizeof(data->MailServer), HostNameChars));
      AddHelp(tr("Help$Specify the SMTP server that should deliver the notifications. If it's using a port different from the default(25) append the port with \":port\"."));
      Add(new cMenuEditBoolItem(tr("Use SMTP authentication"), &data->MailUseAuth, trVDR("no"), trVDR("yes")));
      AddHelp(tr("Help$Set this to 'yes' if your account needs authentication to send mails."));
-     
+
      if (data->MailUseAuth)
      {
         Add(new cMenuEditStrItem(IndentMenuItem(tr("Auth user")), data->MailAuthUser, sizeof(data->MailAuthUser), UserNameChars));
@@ -901,7 +901,7 @@ void cMenuSetupMailNotification::Set()
         AddHelp(tr("Help$Specify the auth password, if this account needs authentication for SMTP."));
      }
   }
-  
+
   SetCurrent(Get(current));
   Display();
 
@@ -959,14 +959,14 @@ eOSState cMenuSetupMailNotification::ProcessKey(eKeys Key)
    int iTemp_MailUseAuth = data->MailUseAuth;
    int iTemp_sendMailOnSearchtimers = data->sendMailOnSearchtimers;
    int iTemp_mailViaScript = data->mailViaScript;
-   
+
    const char* ItemText = Get(Current())->Text();
    bool bAuthPassWasInEditMode = false;
    if (ItemText && strlen(ItemText) > 0 && strstr(ItemText, IndentMenuItem(tr("Auth password"))) == ItemText)
       bAuthPassWasInEditMode = InEditMode(ItemText, IndentMenuItem(tr("Auth password")), tmpMailAuthPass);
- 
+
    eOSState state = cMenuSetupSubMenu::ProcessKey(Key);
-   
+
    ItemText = Get(Current())->Text();
    bool bAuthPassIsInEditMode = false;
    if (ItemText && strlen(ItemText) > 0 && strstr(ItemText, IndentMenuItem(tr("Auth password"))) == ItemText)
@@ -995,9 +995,9 @@ eOSState cMenuSetupMailNotification::ProcessKey(eKeys Key)
       Set();
       Display();
    }
-   
+
    SetHelpKeys();
-   
+
    if (state == osUnknown) {
       switch (Key) {
          case kOk:
@@ -1010,7 +1010,7 @@ eOSState cMenuSetupMailNotification::ProcessKey(eKeys Key)
          default: break;
       }
    }
-   
+
    return state;
 }
 

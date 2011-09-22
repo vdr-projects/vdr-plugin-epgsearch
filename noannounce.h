@@ -37,10 +37,10 @@ public:
     string shortText;         // Short description of this event
     time_t startTime;        // Start time of the timer
     time_t nextAnnounce;     // time of the next announce
-    tChannelID channelID;    
+    tChannelID channelID;
 
     static char *buffer;
-    
+
     cNoAnnounce();
     cNoAnnounce(const cEvent* Event, time_t NextAnnounce = 0);
     ~cNoAnnounce();

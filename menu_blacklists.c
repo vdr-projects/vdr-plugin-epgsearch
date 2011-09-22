@@ -73,7 +73,7 @@ void cMenuBlacklistsItem::Set(void)
   }
   else if (blacklist->useChannel == 2)
       line << setiosflags(ios::left) << setw(11) << blacklist->channelGroup;
-  
+
   line << "\t";
   if (blacklist->useTime)
   {
@@ -85,7 +85,7 @@ void cMenuBlacklistsItem::Set(void)
   }
   else
     line << "--:--\t--:--";
-	
+
   SetText(strdup(line.str().c_str()), false);
 }
 
@@ -101,7 +101,7 @@ cMenuBlacklists::cMenuBlacklists()
 {
     cMutexLock BlacklistLock(&Blacklists);
     cBlacklist *Blacklist = Blacklists.First();
-    while (Blacklist) {	
+    while (Blacklist) {
 	Add(new cMenuBlacklistsItem(Blacklist));
 	Blacklist = Blacklists.Next(Blacklist);
     }
@@ -165,8 +165,8 @@ eOSState cMenuBlacklists::ProcessKey(eKeys Key)
 	  default: break;
       }
   }
-  if (BlacklistNumber >= 0 && !HasSubMenu()) 
-  {      
+  if (BlacklistNumber >= 0 && !HasSubMenu())
+  {
       cMutexLock BlacklistLock(&Blacklists);
       cBlacklist* Blacklist = Blacklists.Get(BlacklistNumber);
       if (Blacklist)       // a newly created search was confirmed with Ok

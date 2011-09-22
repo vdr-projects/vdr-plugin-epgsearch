@@ -49,14 +49,14 @@ class cMenuSearchResultsItem : public cOsdItem {
     bool previewTimer;
     bool episodeOnly;
     cMenuTemplate* menuTemplate;
- public: 
+ public:
     int timerMatch;
     bool inSwitchList;
     const cEvent *event;
     const cSearchExt* search;
     const char *FileName(void) { return fileName; }
-    cMenuSearchResultsItem(const cEvent *EventInfo, bool EpisodeOnly = false, 
-                           bool PreviewTimer = false, cMenuTemplate* MenuTemplate = NULL, 
+    cMenuSearchResultsItem(const cEvent *EventInfo, bool EpisodeOnly = false,
+                           bool PreviewTimer = false, cMenuTemplate* MenuTemplate = NULL,
                            const cSearchExt* Search = NULL);
     cMenuSearchResultsItem(cRecording *Recording);
     bool Update(bool Force = false);
@@ -84,13 +84,13 @@ class cMenuSearchResults : public cOsdMenu {
     virtual void SetHelpKeys(bool Force=false)=0;
     bool Update(void);
     void UpdateCurrent();
-    
+
     static const cEvent *scheduleEventInfo;
     ModeYellowSR modeYellow;
     ModeBlueSR modeBlue;
  public:
     bool m_bSort;
-    
+
     cMenuSearchResults(cMenuTemplate* MenuTemplate);
 };
 

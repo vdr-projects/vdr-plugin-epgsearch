@@ -47,7 +47,7 @@ bool cMenuFavorites::BuildList()
    cSearchExt *SearchExt = SearchExts.First();
    int timespan = EPGSearchConfig.FavoritesMenuTimespan*60;
 
-   while (SearchExt) 
+   while (SearchExt)
    {
       if (SearchExt->useInFavorites)
          pCompleteSearchResults = SearchExt->Run(modeBlue == showNoPayTV?1:0, false, timespan, pCompleteSearchResults, true);
@@ -58,9 +58,9 @@ bool cMenuFavorites::BuildList()
    {
       set<const cEvent*> foundEvents;
       pCompleteSearchResults->SortBy(CompareEventTime);
-	
-      for (cSearchResult* pResultObj = pCompleteSearchResults->First(); 
-           pResultObj; 
+
+      for (cSearchResult* pResultObj = pCompleteSearchResults->First();
+           pResultObj;
            pResultObj = pCompleteSearchResults->Next(pResultObj))
       {
          if (foundEvents.find(pResultObj->event) == foundEvents.end())
@@ -69,21 +69,21 @@ bool cMenuFavorites::BuildList()
             Add(new cMenuSearchResultsItem(pResultObj->event, modeYellow == showEpisode, false, menuTemplate));
             eventObjects.Add(pResultObj->event);
         }
-      }	
+      }
       delete pCompleteSearchResults;
    }
-   SetHelpKeys();  
+   SetHelpKeys();
    cString szTitle = cString::sprintf("%s: %d %s", tr("Favorites"), Count(), tr("Search results"));
    SetTitle(szTitle);
    Display();
-    
+
    return true;
 }
 
 eOSState cMenuFavorites::OnGreen()
 {
    eOSState state = osUnknown;
-   if(!HasSubMenu()) 	     
+   if(!HasSubMenu())
    {
       toggleKeys = 0;
       cMenuWhatsOnSearch::currentShowMode = cMenuWhatsOnSearch::GetNextMode();
@@ -95,7 +95,7 @@ eOSState cMenuFavorites::OnGreen()
 eOSState cMenuFavorites::OnYellow()
 {
    eOSState state = osUnknown;
-   if(!HasSubMenu()) 	     
+   if(!HasSubMenu())
    {
       cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
       if (item && item->event)
@@ -120,7 +120,7 @@ eOSState cMenuFavorites::ProcessKey(eKeys Key)
    }
 
    eOSState state = cMenuSearchResults::ProcessKey(Key);
-   if (state == osUnknown) 
+   if (state == osUnknown)
    {
       switch (Key) {
          case kRecord:
@@ -128,21 +128,21 @@ eOSState cMenuFavorites::ProcessKey(eKeys Key)
             state = OnRed();
             break;
          case k0:
-            if(!HasSubMenu()) 
+            if(!HasSubMenu())
             {
                toggleKeys = 1 - toggleKeys;
                SetHelpKeys(true);
             }
             state = osContinue;
             break;
-         case k1...k9: 
+         case k1...k9:
             state = HasSubMenu()?osContinue:Commands(Key);
             break;
          case kBlue:
             return EPGSearchConfig.useOkForSwitch?ShowSummary():Switch();
             break;
          case kOk:
-            if(HasSubMenu()) 
+            if(HasSubMenu())
             {
                state = cOsdMenu::ProcessKey(Key);
                break;
@@ -152,7 +152,7 @@ eOSState cMenuFavorites::ProcessKey(eKeys Key)
             else
                state = osBack;
             break;
-         default:      
+         default:
             break;
       }
    }
@@ -164,7 +164,7 @@ void cMenuFavorites::SetHelpKeys(bool Force)
   cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
   int NewHelpKeys = 0;
   if (item) {
-    if (item->Selectable() && item->timerMatch == tmFull)	
+    if (item->Selectable() && item->timerMatch == tmFull)
       NewHelpKeys = 2;
     else
       NewHelpKeys = 1;
@@ -172,18 +172,18 @@ void cMenuFavorites::SetHelpKeys(bool Force)
 
   bool hasTimer = (NewHelpKeys == 2);
   if (NewHelpKeys != helpKeys || Force)
-    { 
-      showMode nextShowMode = cMenuWhatsOnSearch::GetNextMode();    
+    {
+      showMode nextShowMode = cMenuWhatsOnSearch::GetNextMode();
       cShowMode* mode = cMenuWhatsOnSearch::GetShowMode(nextShowMode);
       const char* szButtonGreen = NULL;
-      if (mode) 
+      if (mode)
 	szButtonGreen = mode->GetDescription();
-      
+
       if (toggleKeys==0)
       SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), szButtonGreen,trVDR("Button$Schedule"), EPGSearchConfig.useOkForSwitch?trVDR("Button$Info"):trVDR("Button$Switch"));
       else
 	SetHelp((EPGSearchConfig.redkeymode==1?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), szButtonGreen,trVDR("Button$Schedule"), EPGSearchConfig.useOkForSwitch?trVDR("Button$Info"):trVDR("Button$Switch"));
       helpKeys = NewHelpKeys;
-    }    
+    }
 }
 

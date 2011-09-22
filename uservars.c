@@ -66,7 +66,7 @@ string cUserVar::Evaluate(const cEvent* e, bool escapeStrings)
    // avoid double dir separators
    int pos = 0;
    while((pos = result.find("~~")) >= 0)
-      result.replace(pos, 2, "~"); 
+      result.replace(pos, 2, "~");
 
    return result;
 }
@@ -78,15 +78,15 @@ string cUserVar::EvaluateShellCmd(const cEvent* e)
    if (varparser.cmdArgs != "")
    {
       string args = varparser.cmdArgs;
-      varparser.compExpr = args; //handle the args as composed expr	
+      varparser.compExpr = args; //handle the args as composed expr
       cmdArgs = EvaluateCompExpr(e, true);
    }
    const char* res = varparser.cmd->Execute(cmdArgs.c_str());
    string result = res?res:"";
    int crPos = 0; // remove any CR
    while((crPos = result.find("\n")) >= 0)
-      result.replace(crPos, 1, ""); 
-    
+      result.replace(crPos, 1, "");
+
    return result;
 }
 
@@ -98,8 +98,8 @@ string cUserVar::EvaluateConnectCmd(const cEvent* e)
    int       conn_s;                /*  connection socket         */
    struct    sockaddr_in servaddr;  /*  socket address structure  */
    char      buffer[MAX_LINE];      /*  character buffer          */
- 
-   if ( (conn_s = socket(AF_INET, SOCK_STREAM, 0)) < 0 ) 
+
+   if ( (conn_s = socket(AF_INET, SOCK_STREAM, 0)) < 0 )
    {
      LogFile.eSysLog("Error creating listening socket");
      return "";
@@ -115,7 +115,7 @@ string cUserVar::EvaluateConnectCmd(const cEvent* e)
      return "";
    }
 
-   if ( connect(conn_s, (struct sockaddr *) &servaddr, sizeof(servaddr) ) < 0 ) 
+   if ( connect(conn_s, (struct sockaddr *) &servaddr, sizeof(servaddr) ) < 0 )
    {
      LogFile.eSysLog("Error calling connect()");
      return "";
@@ -145,7 +145,7 @@ string cUserVar::EvaluateCondExpr(const cEvent* e, bool escapeStrings)
    string resRight = rightExp.Evaluate(e);
    if (varparser.condOp == condEq && resLeft == resRight)  condresult = "1"; // assign any value
    if (varparser.condOp == condNeq && resLeft != resRight) condresult = "1"; // assign any value
-    
+
    cUserVar* condVarTrue = UserVars.GetFromName(varparser.condvarTrue);
    cUserVar* condVarFalse = UserVars.GetFromName(varparser.condvarFalse);
    if (!condVarTrue || !condVarFalse) return "";
@@ -188,13 +188,13 @@ string cUserVar::EvaluateInternalVars(const string& Expr, const cEvent* e, bool 
    if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cInternalVar*>::iterator it;
-   for (it = UserVars.internalVars.begin(); it != UserVars.internalVars.end(); it++) 
+   for (it = UserVars.internalVars.begin(); it != UserVars.internalVars.end(); it++)
    {
       string varName = (it->second)->Name();
       int varPos = 0;
       while((varPos = FindIgnoreCase(expr, varName)) >= 0)
       {
-         usedVars.insert(it->second); 
+         usedVars.insert(it->second);
          expr.replace(varPos, varName.size(), (it->second)->Evaluate(e, escapeStrings));
       }
    }
@@ -207,14 +207,14 @@ string cUserVar::EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool es
    if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cExtEPGVar*>::iterator evar;
-   for (evar = UserVars.extEPGVars.begin(); evar != UserVars.extEPGVars.end(); evar++) 
+   for (evar = UserVars.extEPGVars.begin(); evar != UserVars.extEPGVars.end(); evar++)
    {
       string varName = evar->second->Name();
       int varPos = 0;
       while((varPos = FindIgnoreCase(expr, varName)) >= 0)
       {
          expr.replace(varPos, varName.size(), evar->second->Evaluate(e, escapeStrings));
-         usedVars.insert(evar->second); 		
+         usedVars.insert(evar->second);
       }
    }
    return expr;
@@ -226,7 +226,7 @@ string cUserVar::EvaluateUserVars(const string& Expr, const cEvent* e, bool esca
    if (expr.find('%') == string::npos) return expr;
 
    std::set<cUserVar*>::iterator it;
-   for (it = UserVars.userVars.begin(); it != UserVars.userVars.end(); it++) 
+   for (it = UserVars.userVars.begin(); it != UserVars.userVars.end(); it++)
    {
       string varName = (*it)->Name();
       int varPos = 0;
@@ -245,7 +245,7 @@ string cUserVar::EvaluateInternalTimerVars(const string& Expr, const cTimer* t)
    if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cTimerVar*>::iterator tvar;
-   for (tvar = UserVars.internalTimerVars.begin(); tvar != UserVars.internalTimerVars.end(); tvar++) 
+   for (tvar = UserVars.internalTimerVars.begin(); tvar != UserVars.internalTimerVars.end(); tvar++)
    {
       string varName = tvar->second->Name();
       int varPos = 0;
@@ -264,7 +264,7 @@ string cUserVar::EvaluateInternalSearchVars(const string& Expr, const cSearchExt
    if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cSearchVar*>::iterator svar;
-   for (svar = UserVars.internalSearchVars.begin(); svar != UserVars.internalSearchVars.end(); svar++) 
+   for (svar = UserVars.internalSearchVars.begin(); svar != UserVars.internalSearchVars.end(); svar++)
    {
       string varName = svar->second->Name();
       int varPos = 0;
@@ -289,7 +289,7 @@ bool cUserVar::DependsOnVar(cUserVar* var)
    if (!var) return false;
    if (usedVars.find(var) != usedVars.end()) return true;
    std::set<cUserVar*>::iterator it;
-   for (it = usedVars.begin(); it != usedVars.end(); it++) 
+   for (it = usedVars.begin(); it != usedVars.end(); it++)
       if ((*it)->DependsOnVar(var))
          return true;
    return false;
@@ -302,7 +302,7 @@ bool cUserVar::AddDepVar(cUserVar* var)
       LogFile.eSysLog("ERROR - found cylic reference to var '%s' in var '%s'", var->Name().c_str(), Name().c_str());
       return false;
    }
-   usedVars.insert(var); 		    
+   usedVars.insert(var);
    return true;
 }
 
@@ -318,7 +318,7 @@ bool cUserVarLine::Parse(char *s)
    if (s && s[0] == '#')
       return true;
    char *p = strchr(s, '=');
-   if (p) 
+   if (p)
    {
       cUserVar* userVar = new cUserVar;
       if (userVar->varparser.Parse(s))
@@ -342,18 +342,18 @@ cUserVar* cUserVars::GetFromName(const string& varName, bool log)
 {
    string VarName = Strip(varName);
    std::transform(VarName.begin(), VarName.end(), VarName.begin(), tolower);
-    
+
    std::map<string, cInternalVar*>::iterator ivar = internalVars.find(VarName);
-   if (ivar != internalVars.end()) 
+   if (ivar != internalVars.end())
       return ivar->second;
 
    std::set<cUserVar*>::iterator uvar;
-   for (uvar = userVars.begin(); uvar != userVars.end(); uvar++) 
+   for (uvar = userVars.begin(); uvar != userVars.end(); uvar++)
       if (EqualsNoCase((*uvar)->Name(), VarName))
          return (*uvar);
 
    std::map<string, cExtEPGVar*>::iterator evar = extEPGVars.find(VarName);
-   if (evar != extEPGVars.end()) 
+   if (evar != extEPGVars.end())
       return evar->second;
 
    if (log)

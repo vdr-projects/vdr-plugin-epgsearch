@@ -46,7 +46,7 @@ cMenuEditSwitchTimer::cMenuEditSwitchTimer(cSwitchTimer* SwitchTimer, bool New)
 
   switchTimer = SwitchTimer;
   addIfConfirmed = New;
-  if (switchTimer) 
+  if (switchTimer)
     {
       data = *switchTimer;
       Set();
@@ -66,12 +66,12 @@ void cMenuEditSwitchTimer::Set()
     if (data.mode == 2) // ask for switching
       Add(new cMenuEditIntItem(tr("Ask ... minutes before start"), &data.switchMinsBefore, 0, 99));
 
-    cString info = cString::sprintf("%s:\t%s", tr("action at"), 
+    cString info = cString::sprintf("%s:\t%s", tr("action at"),
 				    TIMESTRING(data.startTime - 60 * data.switchMinsBefore));
     cOsdItem* pInfoItem = new cOsdItem(info);
     pInfoItem->SetSelectable(false);
     Add(pInfoItem);
-    Add(new cMenuEditBoolItem(tr("Unmute sound"), &data.unmute, trVDR("no"), trVDR("yes")));    
+    Add(new cMenuEditBoolItem(tr("Unmute sound"), &data.unmute, trVDR("no"), trVDR("yes")));
     SetCurrent(Get(current));
 }
 
@@ -100,13 +100,13 @@ eOSState cMenuEditSwitchTimer::ProcessKey(eKeys Key)
 		    *switchTimer = data;
 		    cMutexLock SwitchTimersLock(&SwitchTimers);
 		    if (addIfConfirmed)
-			SwitchTimers.Add(switchTimer);	      
+			SwitchTimers.Add(switchTimer);
 		    SwitchTimers.Save();
 		}
 		addIfConfirmed = false;
 		return osBack;
 		break;
-	    } 
+	    }
 	    default: break;
 	}
   }
@@ -142,9 +142,9 @@ void cMenuSwitchTimerItem::Set()
 int cMenuSwitchTimerItem::Compare(const cListObject &ListObject) const
 {
     cMenuSwitchTimerItem *p = (cMenuSwitchTimerItem *)&ListObject;
-    if (switchTimer->startTime > p->switchTimer->startTime) 
-	return 1; 
-    else 
+    if (switchTimer->startTime > p->switchTimer->startTime)
+	return 1;
+    else
 	return -1;
 }
 
@@ -161,7 +161,7 @@ void cMenuSwitchTimers::Set()
     Clear();
     cMutexLock SwitchTimersLock(&SwitchTimers);
     cSwitchTimer* switchTimer = SwitchTimers.First();
-    while (switchTimer) 
+    while (switchTimer)
     {
       const cEvent* event = switchTimer->Event();
       if (event)
@@ -198,10 +198,10 @@ eOSState cMenuSwitchTimers::Delete(void)
 
 eOSState cMenuSwitchTimers::DeleteAll(void)
 {
-    if (Interface->Confirm(tr("Edit$Delete all entries?"))) 
+    if (Interface->Confirm(tr("Edit$Delete all entries?")))
     {
 	cMutexLock SwitchTimersLock(&SwitchTimers);
-	while (SwitchTimers.First()) 
+	while (SwitchTimers.First())
 	    SwitchTimers.Del(SwitchTimers.First());
 	SwitchTimers.Save();
 	Set();
@@ -215,7 +215,7 @@ eOSState cMenuSwitchTimers::Summary(void)
     if (HasSubMenu() || Count() == 0)
 	return osContinue;
     cSwitchTimer *curSwitchTimer = CurrentSwitchTimer();
-    
+
     if (curSwitchTimer)
     {
       const cEvent* event = curSwitchTimer->Event();

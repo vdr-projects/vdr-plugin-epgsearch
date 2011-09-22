@@ -39,9 +39,9 @@ public:
     char *description;       // Description of this event
     char *aux;               // Aux info
     time_t startTime;        // Start time of the timer
-    int duration; 
+    int duration;
     int searchID;          // ID of the search, that triggered this recording
-    tChannelID channelID;    
+    tChannelID channelID;
 
     char* rawdescription;
     static char *buffer;

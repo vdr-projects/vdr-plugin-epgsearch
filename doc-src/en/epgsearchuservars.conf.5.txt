@@ -95,7 +95,7 @@ The following variables exist:
  %time%           - start time in format HH:MM
  %timeend%        - end time in format HH:MM
  %date%           - start date in format TT.MM.YY
- %datesh%         - start date in format TT.MM.   
+ %datesh%         - start date in format TT.MM.
  %time_w%         - weekday name
  %time_d%         - start day in format TT
  %time_lng%       - start time in seconds since 1970-01-01 00:00
@@ -126,7 +126,7 @@ See also C<epgsearchcats.conf(5)>.
 
 =head1 EXAMPLES
 
- # Weekday, Date, Time   
+ # Weekday, Date, Time
  %DateStr%=%time_w% %date% %time%
 
  # Themes or Subtitle or Date
@@ -147,7 +147,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 =head1 REPORT BUGS
 
-Bug reports (german): 
+Bug reports (german):
 
 L<http://www.vdr-developer.org/mantisbt/>
 

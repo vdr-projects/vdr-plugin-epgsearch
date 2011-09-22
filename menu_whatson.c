@@ -31,7 +31,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_event.h"
 #include "menu_myedittimer.h"
 #include "menu_searchresults.h"
-#include "menu_search.h" 
+#include "menu_search.h"
 #include "menu_commands.h"
 #include "epgsearchcfg.h"
 #include "switchtimer.h"
@@ -79,13 +79,13 @@ bool cMenuMyScheduleItem::Update(bool Force)
 
    int OldTimerMatch = timerMatch;
    bool OldInSwitchList = inSwitchList;
-   bool hasMatch = false; 
+   bool hasMatch = false;
    cTimer* timer = NULL;
    if (event) timer = Timers.GetMatch(event, &timerMatch);
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
-    
-   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList) 
+
+   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList)
    {
      char szProgressPart[Utf8BufSize(12)] = "";
       char szProgressPartT2S[12] = "";
@@ -106,15 +106,15 @@ bool cMenuMyScheduleItem::Update(bool Force)
 		}
 	      if (mode == showNext)
 		frac = (  ( 30*60 - min((time_t)30*60, startTime - now) ) * 8 + 15*60  ) / (30*60);
-	      
+
 	      frac = min(8,max(0, frac));
-	      
+
 	      szProgressPartT2S[0] = '[';
 	      memset(szProgressPartT2S + 1,'|',frac);
 	      memset(szProgressPartT2S + 1 + frac ,' ', 8 - frac);
 	      szProgressPartT2S[9] = ']';
 	      szProgressPartT2S[10] = 0;
-	      
+
 	      if (!isUTF8)
 		{
 		  szProgressPart[0] = ICON_BAR_OPEN;
@@ -125,7 +125,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
 		}
 	      else
 		{
-#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96 
+#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96
 #else
 		  std::stringstream buffer;
 		  buffer << ICON_BAR_OPEN_UTF8;
@@ -145,11 +145,11 @@ bool cMenuMyScheduleItem::Update(bool Force)
             }
          }
       }
-      
+
       char t[Utf8BufSize(2)],v[Utf8BufSize(2)],r[Utf8BufSize(2)];
       char szStatus[Utf8BufSize(4)];
       szStatus[3] = 0;
-      t[1]=v[1]=r[1] = 0; 
+      t[1]=v[1]=r[1] = 0;
 
       if (EPGSearchConfig.WarEagle)
       {
@@ -161,7 +161,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
 	  }
 	else
 	  {
-#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96 
+#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96
 #else
 	    sprintf(t, "%s", (event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC_UTF8:ICON_CLOCK_UTF8) : ICON_CLOCK_HALF_UTF8 : " "));
 	    sprintf(v, "%s", event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS_UTF8 : " ");
@@ -199,9 +199,9 @@ bool cMenuMyScheduleItem::Update(bool Force)
       char* buffer = strdup(menutemplate);
       strreplace(buffer, '|', '\t');
 
-      char* title = NULL; 
+      char* title = NULL;
       title = strdup(event?event->Title():tr(">>> no info! <<<"));
-      title = strreplacei(title, ":", "%colon%"); // asume a title has the form "a?b:c", 
+      title = strreplacei(title, ":", "%colon%"); // asume a title has the form "a?b:c",
       // we need to replace the colon to avoid misinterpretation the expression as a condition
       buffer = strreplacei(buffer, "%title%", title);
       free(title);
@@ -222,7 +222,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
       char* tmp = strdup(varExpr.Evaluate(event).c_str());
       free(buffer);
       buffer = tmp;
-      
+
       buffer = strreplacei(buffer, "$status$", szStatus);
       buffer = strreplacei(buffer, "$t_status$", t);
       buffer = strreplacei(buffer, "$v_status$", v);
@@ -239,9 +239,9 @@ bool cMenuMyScheduleItem::Update(bool Force)
          cConflictCheck C;
          C.Check();
          if (C.TimerInConflict(timer))
-            gl_InfoConflict = 1;	  
+            gl_InfoConflict = 1;
       }
-      return true;      
+      return true;
    }
    return result;
 }
@@ -262,13 +262,13 @@ cMenuWhatsOnSearch::cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentC
   helpKeys = -1;
   shiftTime = 0;
   schedules = Schedules;
-  
+
   CreateShowModes();
-  
+
   LoadSchedules();
-  
+
   currentChannel = CurrentChannelNr;
-  
+
   SetHelpKeys();
 }
 
@@ -288,14 +288,14 @@ const char* cMenuWhatsOnSearch::MenuKind()
 void cMenuWhatsOnSearch::Display(void)
 {
    cOsdMenu::Display();
-   
-   if (Count() > 0) 
+
+   if (Count() > 0)
    {
       int i = 0;
 
-      for (cOsdItem *item = First(); item; item = Next(item)) 
-         cStatus::MsgOsdEventItem(!item->Selectable() ? 0 : 
-                                  ((cMenuMyScheduleItem*)item)->event, 
+      for (cOsdItem *item = First(); item; item = Next(item))
+         cStatus::MsgOsdEventItem(!item->Selectable() ? 0 :
+                                  ((cMenuMyScheduleItem*)item)->event,
                                   item->Text(), i++, Count());
    }
 }
@@ -317,7 +317,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
 {
    Clear();
    eventObjects.Clear();
-   
+
    //   time_t SeekTime;
    cString szTitle;
    cShowMode* mode = GetShowMode(currentShowMode);
@@ -331,10 +331,10 @@ void cMenuWhatsOnSearch::LoadSchedules()
       {
          if (mode)
             seekTime = GetTimeT(mode->GetTime());
-         if (seekTime < time(NULL)) seekTime += HOURS2SECS(24);	
+         if (seekTime < time(NULL)) seekTime += HOURS2SECS(24);
       }
       seekTime += shiftTime*60;
-	
+
       struct tm tm_r;
       time_t now = time(NULL);
 
@@ -350,11 +350,11 @@ void cMenuWhatsOnSearch::LoadSchedules()
       seekTime = GetTimeT(mode->GetTime());
       if (seekTime < time(NULL) && currentShowMode != showNow && currentShowMode != showNext)
 	{
-	  seekTime += HOURS2SECS(24);	
-	  szTitle = cString::sprintf("%s - %s (%s)", tr("Overview"), mode->GetDescription(), *WeekDayName(seekTime));    
+	  seekTime += HOURS2SECS(24);
+	  szTitle = cString::sprintf("%s - %s (%s)", tr("Overview"), mode->GetDescription(), *WeekDayName(seekTime));
 	}
       else
-	szTitle = cString::sprintf("%s - %s", tr("Overview"), mode->GetDescription());    
+	szTitle = cString::sprintf("%s - %s", tr("Overview"), mode->GetDescription());
    }
    SetTitle(szTitle);
 
@@ -370,9 +370,9 @@ void cMenuWhatsOnSearch::LoadSchedules()
    if (currentChannel > maxChannel)
       maxChannel = 0;
 
-   for (cChannel *Channel = Channels.First(); Channel; Channel = Channels.Next(Channel)) 
-   {	
-      if (!Channel->GroupSep()) 
+   for (cChannel *Channel = Channels.First(); Channel; Channel = Channels.Next(Channel))
+   {
+      if (!Channel->GroupSep())
       {
          if (maxChannel && Channel->Number() > maxChannel) break;
          if (EPGSearchConfig.showRadioChannels == 0 && ISRADIO(Channel))
@@ -380,16 +380,16 @@ void cMenuWhatsOnSearch::LoadSchedules()
 
          const cSchedule *Schedule = schedules->GetSchedule(Channel);
          const cEvent *Event = NULL;
-         if (Schedule) 
-         {		
+         if (Schedule)
+         {
             if (shiftTime != 0)
                Event = Schedule->GetEventAround(seekTime);
             else
             {
                switch(currentShowMode)
-               {  
+               {
                   default:
-                  case showNow: 
+                  case showNow:
                      Event = Schedule->GetPresentEvent();
                      break;
                   case showNext:
@@ -408,7 +408,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
             continue;
 
 	     Add(new cMenuMyScheduleItem(Event, Channel, currentShowMode, currentTemplate), Channel->Number() == currentChannel);
-         if (Event) eventObjects.Add(Event);            
+         if (Event) eventObjects.Add(Event);
       }
       else
       {
@@ -437,10 +437,10 @@ showMode cMenuWhatsOnSearch::GetNextMode()
 {
    showMode nextShowMode = currentShowMode;
    cShowMode* Mode = GetShowMode(currentShowMode);
-   if (Mode) 
+   if (Mode)
    {
       cShowMode* ModeNext = showModes.Next(Mode);
-      if (ModeNext == NULL) 
+      if (ModeNext == NULL)
          nextShowMode = showNow;
       else
          nextShowMode = ModeNext->GetMode();
@@ -465,12 +465,12 @@ void cMenuWhatsOnSearch::CreateShowModes()
       if (!EPGSearchConfig.ShowModes[i].GetUsage())
          continue;
 
-      time_t SeekTime = GetTimeT(EPGSearchConfig.ShowModes[i].GetTime());    
+      time_t SeekTime = GetTimeT(EPGSearchConfig.ShowModes[i].GetTime());
       if (SeekTime < now)
          SeekTime += HOURS2SECS(24);
       if (SeekTime - now > HOURS2SECS(SKIPHOURS))
          continue;
-      cShowMode* Mode = new cShowMode((showMode)i, EPGSearchConfig.ShowModes[i].GetDescription(), 
+      cShowMode* Mode = new cShowMode((showMode)i, EPGSearchConfig.ShowModes[i].GetDescription(),
                                       1, EPGSearchConfig.ShowModes[i].GetTime(), SeekTime);
       showModes.Add(Mode);
    }
@@ -484,7 +484,7 @@ void cMenuWhatsOnSearch::CreateShowModes()
 
 cShowMode* cMenuWhatsOnSearch::GetShowMode(showMode mode)
 {
-   for (cShowMode *showMode = showModes.First(); showMode; showMode = showModes.Next(showMode)) 
+   for (cShowMode *showMode = showModes.First(); showMode; showMode = showModes.Next(showMode))
       if (mode == showMode->GetMode())
          return showMode;
    return NULL;
@@ -505,16 +505,16 @@ eOSState cMenuWhatsOnSearch::Switch(void)
       if (cDevice::PrimaryDevice()->SwitchChannel(item->channel, true))
          return osEnd;
    }
-   Skins.Message(mtInfo, trVDR("Can't switch channel!")); 
+   Skins.Message(mtInfo, trVDR("Can't switch channel!"));
    return osContinue;
 }
 
 eOSState cMenuWhatsOnSearch::Record(void)
 {
    cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)Get(Current());
-   if (item) 
+   if (item)
    {
-      if (item->timerMatch == tmFull) 
+      if (item->timerMatch == tmFull)
       {
          int tm = tmNone;
          cTimer *timer = Timers.GetMatch(item->event, &tm);
@@ -535,14 +535,14 @@ eOSState cMenuWhatsOnSearch::Record(void)
       }
       else
          timer = new cTimer(false, false, item->channel);
- 
+
       cTimer *t = Timers.GetTimer(timer);
-      if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL))) 
+      if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
       {
          if (t)
          {
             delete timer;
-            timer = t;      
+            timer = t;
          }
          timer->SetFlags(tfActive);
          if (EPGSearchConfig.useVDRTimerEditMenu)
@@ -574,7 +574,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
 #endif
          SetAux(timer, fullaux);
          Timers.Add(timer);
-	 gl_timerStatusMonitor->SetConflictCheckAdvised(); 
+	 gl_timerStatusMonitor->SetConflictCheckAdvised();
          timer->Matches();
          Timers.SetModified();
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
@@ -605,9 +605,9 @@ eOSState cMenuWhatsOnSearch::Commands(eKeys Key)
       return osContinue;
 
    cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
-   if (mi) 
+   if (mi)
    {
-      if (!mi->event) 
+      if (!mi->event)
       {
          if (Key == k3)
             return Switch();
@@ -635,7 +635,7 @@ void cMenuWhatsOnSearch::SetHelpKeys(bool Force)
   cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)Get(Current());
   int NewHelpKeys = 0;
   if (item) {
-    if (item->Selectable() && item->timerMatch == tmFull)	
+    if (item->Selectable() && item->timerMatch == tmFull)
       NewHelpKeys = 2;
     else
       NewHelpKeys = 1;
@@ -643,21 +643,21 @@ void cMenuWhatsOnSearch::SetHelpKeys(bool Force)
 
   bool hasTimer = (NewHelpKeys == 2);
   if (NewHelpKeys != helpKeys || Force)
-    { 
-      showMode nextShowMode = GetNextMode();    
+    {
+      showMode nextShowMode = GetNextMode();
       cShowMode* mode = GetShowMode(nextShowMode);
       const char* szButtonGreen = NULL;
-      if (mode) 
+      if (mode)
 	szButtonGreen = mode->GetDescription();
       if (toggleKeys==0)
-	SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), 
-		szButtonGreen, 
-		trVDR("Button$Schedule"), 
+	SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")),
+		szButtonGreen,
+		trVDR("Button$Schedule"),
 		EPGSearchConfig.bluekeymode==0?(EPGSearchConfig.useOkForSwitch?trVDR("Button$Info"):trVDR("Button$Switch")):tr("Button$Search"));
       else
-	SetHelp((EPGSearchConfig.redkeymode==1?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), 
-		(EPGSearchConfig.toggleGreenYellow==0?szButtonGreen:"<<"), 
-		(EPGSearchConfig.toggleGreenYellow==0?trVDR("Button$Schedule"):">>"), 
+	SetHelp((EPGSearchConfig.redkeymode==1?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")),
+		(EPGSearchConfig.toggleGreenYellow==0?szButtonGreen:"<<"),
+		(EPGSearchConfig.toggleGreenYellow==0?trVDR("Button$Schedule"):">>"),
 		EPGSearchConfig.bluekeymode==1?(EPGSearchConfig.useOkForSwitch?trVDR("Button$Info"):trVDR("Button$Switch")):tr("Button$Search"));
       helpKeys = NewHelpKeys;
     }
@@ -668,7 +668,7 @@ eOSState cMenuWhatsOnSearch::Shift(int iMinutes)
    shiftTime += iMinutes;
    cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
    int TempChannel = currentChannel;
-   if (mi) 
+   if (mi)
    {
       currentChannel = mi->channel->Number();
       scheduleChannel = Channels.GetByNumber(currentChannel);
@@ -685,7 +685,7 @@ eOSState cMenuWhatsOnSearch::ShowSummary()
    if (Count())
    {
       const cEvent *ei = ((cMenuMyScheduleItem *)Get(Current()))->event;
-      if (ei) 
+      if (ei)
       {
          cChannel *channel = Channels.GetByChannelID(ei->ChannelID(), true, true);
          if (channel)
@@ -700,14 +700,14 @@ void cMenuWhatsOnSearch::UpdateCurrent()
    // navigation in summary could have changed current item, so update it
    cEventObj* cureventObj = eventObjects.GetCurrent();
    if (cureventObj && cureventObj->Event())
-      for (cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)First(); item; item = (cMenuMyScheduleItem *)Next(item)) 
+      for (cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)First(); item; item = (cMenuMyScheduleItem *)Next(item))
          if (item->event == cureventObj->Event())
          {
             cureventObj->Select(false);
             SetCurrent(item);
             Display();
             break;
-         }               
+         }
 }
 
 eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
@@ -728,11 +728,11 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
    if (state == osUnknown) {
       switch (Key) {
          case kFastRew:
-            if(!HasSubMenu()) 	     
+            if(!HasSubMenu())
                return Shift(-EPGSearchConfig.timeShiftValue);
             break;
          case kFastFwd:
-            if(!HasSubMenu()) 	     
+            if(!HasSubMenu())
                return Shift(EPGSearchConfig.timeShiftValue);
             break;
          case kRecord:
@@ -741,7 +741,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                UpdateCurrent();
                state = Record();
                break;
-            } 
+            }
       		if (Count())
             {
                if (EPGSearchConfig.redkeymode==toggleKeys)
@@ -750,7 +750,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                {
                   cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
                   if (mi) {
-                     if (mi->event) 
+                     if (mi->event)
                         return AddSubMenu(new cMenuSearchCommands(tr("EPG Commands"),mi->event));
                      else
                         return osContinue;
@@ -760,7 +760,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
             break;
 
          case k0:
-            if(!HasSubMenu()) 
+            if(!HasSubMenu())
             {
                toggleKeys = 1 - toggleKeys;
                SetHelpKeys(true);
@@ -768,8 +768,8 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
             state = osContinue;
             break;
          case k1...k9: return Commands(Key);
-         case kYellow: 
-            if(!HasSubMenu()) 	     
+         case kYellow:
+            if(!HasSubMenu())
             {
                if (toggleKeys == 0 || (toggleKeys == 1 && EPGSearchConfig.toggleGreenYellow == 0))
                {
@@ -798,9 +798,9 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                }
                else
                   return Shift(EPGSearchConfig.timeShiftValue);
-            }            
-         case kGreen:  
-            if(!HasSubMenu()) 	     
+            }
+         case kGreen:
+            if(!HasSubMenu())
             {
                if (toggleKeys == 0 || (toggleKeys == 1 && EPGSearchConfig.toggleGreenYellow == 0))
                {
@@ -809,7 +809,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                   else
                      currentShowMode = GetNextMode();
                   cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
-                  if (mi) 
+                  if (mi)
                   {
                      currentChannel = mi->channel->Number();
                      scheduleChannel = Channels.GetByNumber(currentChannel);
@@ -819,7 +819,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                   return Shift(-EPGSearchConfig.timeShiftValue);
             }
             break;
-         case kBlue:   
+         case kBlue:
             if (HasSubMenu())
             {
                UpdateCurrent();
@@ -845,7 +845,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
       default:      break;
       }
    }
-   if (!HasSubMenu()) 
+   if (!HasSubMenu())
    {
       if ((HadSubMenu || gl_TimerProgged) && Update())
       {
@@ -865,7 +865,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
             return AddSubMenu(new cMenuConflictCheck());
       }
    }
-    
+
    return state;
 }
 

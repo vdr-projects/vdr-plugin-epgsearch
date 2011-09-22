@@ -34,7 +34,7 @@ typedef enum
 } MenuEventSurfMode;
 
 class cEventObj
-{   
+{
    const cEvent *event;
    bool selected;
   public:

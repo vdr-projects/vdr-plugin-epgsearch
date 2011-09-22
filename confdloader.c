@@ -136,7 +136,7 @@ bool cConfDLoader::LoadFile(const char *FileName)
     fclose(f);
     return true;
   }
-  else 
+  else
     {
       LOG_ERROR_STR(FileName);
       return false;

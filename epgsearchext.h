@@ -194,7 +194,7 @@ public:
   bool ParseBlacklistIDs(const char *s);
   bool Save(FILE *f);
   char* BuildFile(const cEvent* pEvent) const;
-  cSearchResults* Run(int PayTVMode = -1, bool inspectTimerMargin = false, int evalLimitMins = 0, cSearchResults* pPrevResults = NULL, bool suppressRepeatCheck = false); 
+  cSearchResults* Run(int PayTVMode = -1, bool inspectTimerMargin = false, int evalLimitMins = 0, cSearchResults* pPrevResults = NULL, bool suppressRepeatCheck = false);
   void CheckRepeatTimers(cSearchResults* pResults);
   void CheckExistingRecordings(cSearchResults* pResults);
   void CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSettings = false);

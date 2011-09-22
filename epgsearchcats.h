@@ -35,10 +35,10 @@ public:
     char*    name;
     char*    menuname;
     int      searchmode; // text comarison:
-                         // 0 - substring, 
-                         // 1 - substring-and, 
-                         // 2 - substring or, 
-                         // 3 - equal, 
+                         // 0 - substring,
+                         // 1 - substring-and,
+                         // 2 - substring or,
+                         // 3 - equal,
                          // 4 - regular expression,
                          // 5 - fuzzy (not available for categories)
                          // numerical comparison:

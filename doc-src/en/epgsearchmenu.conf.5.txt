@@ -20,7 +20,7 @@ Favorites) with a separate line.
 
 =head1 SYNTAX
 
-E.g. the entry 'MenuWhatsOnNow' tells epgsearch how you would like to build a 
+E.g. the entry 'MenuWhatsOnNow' tells epgsearch how you would like to build a
 line for the menu 'What's on now'. This would create a menu line starting with
 the channel number, followed by a progress bar in text2skin style, a space of
 one char, the start time, the timer status, the EPG category (like "movie")
@@ -46,13 +46,13 @@ default one.
 
 The following variables exist:
 
- %time%           - start time in format HH:MM   
+ %time%           - start time in format HH:MM
  %date%           - start date in format TT.MM.YY
  %datesh%         - start date in format TT.MM.
  %time_w%         - weekday name
  %time_d%         - start day in format TT
  %time_lng%       - start time in seconds since 1970-01-01 00:00
- %title%          - title   
+ %title%          - title
  %subtitle%       - subtitle
  %t_status%       - timer status ('T', 't', 'R')
  %v_status%       - VPS status
@@ -77,8 +77,8 @@ the variables are not case sensitive.
 An entry consists of up to 6 tables separated with '|'. The last entry of
 each table should declare the table width in chars, separated with ':'.
 
-If you use a separator like '~', '-' or '#' to separate items like title or   
-subtitle, e.g. %title% ~ %subtitle%, and the subtitle is empty, then epgsearch 
+If you use a separator like '~', '-' or '#' to separate items like title or
+subtitle, e.g. %title% ~ %subtitle%, and the subtitle is empty, then epgsearch
 will try to fix this automatically to avoid a trailing separator.
 
 You should vary the tab width values to fit your needs, since the look often
@@ -110,7 +110,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 =head1 REPORT BUGS
 
-Bug reports (german): 
+Bug reports (german):
 
 L<http://www.vdr-developer.org/mantisbt/>
 

@@ -72,9 +72,9 @@ bool cSearchExtCat::Parse(const char *s)
         if (!pos_next)
           pos_next = pos + strlen(pos);
         valuelen = pos_next - pos + 1;
-        if (valuelen > MAXVALUELEN) 
+        if (valuelen > MAXVALUELEN)
 	{
-	    LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);  
+	    LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);
 	    valuelen = MAXVALUELEN;
 	}
         strn0cpy(value, pos, valuelen);
@@ -86,12 +86,12 @@ bool cSearchExtCat::Parse(const char *s)
 	      break;
 	    case 3:  menuname = strdup(value);
 	      break;
-	    case 4:  
+	    case 4:
 	    {
 		char* szBuffer = strdup(value);
 		char* pptr;
 		char* pstrToken=strtok_r(szBuffer, ",", &pptr);
-		while(pstrToken) 
+		while(pstrToken)
 		{
 		    nvalues++;
 		    values = (char**) realloc(values, nvalues * sizeof(char*));
@@ -101,7 +101,7 @@ bool cSearchExtCat::Parse(const char *s)
 		free(szBuffer);
 		break;
 	    }
-	    case 5:  
+	    case 5:
 	      searchmode = atoi(value);
 	      break;
 	    default:
@@ -123,8 +123,8 @@ const char *cSearchExtCat::ToText(void)
     string sValues = "";
     for(int i=0; i<nvalues; i++)
 	sValues += string(values[i]) + ((i<nvalues-1)?", ":"");
-    
-    msprintf(&buffer, "%d|%s|%s|%s|%d", 
+
+    msprintf(&buffer, "%d|%s|%s|%s|%d",
 	     id, name, menuname, sValues.c_str(), searchmode);
     return buffer;
 }
@@ -134,7 +134,7 @@ int cSearchExtCats::GetIndexFromID(int id)
 {
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
-  while (SearchExtCat) 
+  while (SearchExtCat)
   {
       if (SearchExtCat->id == id)
 	  break;

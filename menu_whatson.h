@@ -66,9 +66,9 @@ private:
   static int CurrentChannel(void) { return currentChannel; }
   static void SetCurrentChannel(int ChannelNr) { currentChannel = ChannelNr; }
   static cChannel *ScheduleChannel(cChannel* forceChannel = NULL);
-  virtual eOSState ProcessKey(eKeys Key); 
+  virtual eOSState ProcessKey(eKeys Key);
   virtual eOSState Switch(void);
-  virtual eOSState Shift(int); 
+  virtual eOSState Shift(int);
   virtual eOSState Commands(eKeys Key);
   virtual eOSState ShowSummary();
   void SetHelpKeys(bool Force = false);

@@ -37,31 +37,31 @@ using std::string;
 #define CHANNELNAME(x) (x ? x->ShortName(true) : "")
 
 #undef TIMESTRING
-#define TIMESTRING(x) *(TimeString(x)) 
+#define TIMESTRING(x) *(TimeString(x))
 
 #undef DATESTRING
-#define DATESTRING(x) *(DateString(x)) 
+#define DATESTRING(x) *(DateString(x))
 
 #undef GETDATESTRING
-#define GETDATESTRING(x) *(x->GetDateString()) 
+#define GETDATESTRING(x) *(x->GetDateString())
 
 #undef GETTIMESTRING
-#define GETTIMESTRING(x) *(x->GetTimeString()) 
+#define GETTIMESTRING(x) *(x->GetTimeString())
 
 #undef PRINTDAY
 #define PRINTDAY *cTimer::PrintDay
 
 #undef DAYDATETIME
-#define DAYDATETIME(x) *DayDateTime(x) 
+#define DAYDATETIME(x) *DayDateTime(x)
 
 #undef CHANNELSTRING
-#define CHANNELSTRING(x) (*x->GetChannelID().ToString()) 
+#define CHANNELSTRING(x) (*x->GetChannelID().ToString())
 
 #undef WEEKDAYNAME
-#define WEEKDAYNAME(x) (*WeekDayName(x)) 
+#define WEEKDAYNAME(x) (*WeekDayName(x))
 
 #undef ADDDIR
-#define ADDDIR *AddDirectory 
+#define ADDDIR *AddDirectory
 
 #undef CONFIGDIR
 #define CONFIGDIR (!ConfigDir?cPlugin::ConfigDirectory():ConfigDir)

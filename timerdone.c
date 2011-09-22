@@ -54,7 +54,7 @@ bool cTimerDone::operator== (const cTimerDone &arg) const
    {
       if (title != arg.title) return false;
       if (shorttext != "" && arg.shorttext != "" && shorttext != arg.shorttext) return false;
-	 
+
       if (searchID > -1 && arg.searchID > -1)
          return searchID == arg.searchID;
       else
@@ -71,11 +71,11 @@ bool cTimerDone::Parse(const char *s)
    char *pos_next;
    int parameter = 1;
    int valuelen;
-    
+
 #define MAXVALUELEN (10 * MaxFileName)
-    
+
    char value[MAXVALUELEN];
-    
+
    pos = line = strdup(s);
    pos_next = pos + strlen(pos);
    if (*pos_next == '\n') *pos_next = 0;
@@ -87,9 +87,9 @@ bool cTimerDone::Parse(const char *s)
             if (!pos_next)
                pos_next = pos + strlen(pos);
             valuelen = pos_next - pos + 1;
-            if (valuelen > MAXVALUELEN) 
+            if (valuelen > MAXVALUELEN)
             {
-               LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);  
+               LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);
                valuelen = MAXVALUELEN;
             }
             strn0cpy(value, pos, valuelen);
@@ -115,8 +115,8 @@ bool cTimerDone::Parse(const char *s)
       }
       if (*pos) pos++;
    } //while
-    
-    
+
+
    title = ReplaceAll(title, "|", ":");
    shorttext = ReplaceAll(shorttext, "|", ":");
 
@@ -129,10 +129,10 @@ cString cTimerDone::ToText(void) const
    cChannel *channel = Channels.GetByChannelID(channelID, true, true);
    string info = string(DAYDATETIME(start)) + " - " + string(channel?channel->Name():"");
 
-   cString buffer = cString::sprintf("%s:%ld:%ld:%d:%s:%s:%s", 
+   cString buffer = cString::sprintf("%s:%ld:%ld:%d:%s:%s:%s",
             *channelID.ToString(),
             start,
-            stop, 
+            stop,
             searchID,
             ReplaceAll(title, ":", "|").c_str(),
             ReplaceAll(shorttext, ":", "|").c_str(),
@@ -161,12 +161,12 @@ cTimerDone* cTimersDone::InList(const time_t Start, const time_t Stop, const cEv
 {
    cTimerDone td(Start, Stop, pEvent, SearchID);
    cTimerDone* timerdone = First();
-   while (timerdone) 
+   while (timerdone)
    {
       if (*timerdone == td)
          return timerdone;
       timerdone = Next(timerdone);
-   }	
+   }
    return NULL;
 }
 
@@ -174,19 +174,19 @@ void cTimersDone::ClearOutdated(void)
 {
    // remove outdated items
    cTimerDone* timerdone = First();
-   while (timerdone) 
+   while (timerdone)
    {
       cTimerDone* timerdoneNext = Next(timerdone);
       if (timerdone->stop < time(NULL))
          Del(timerdone);
       timerdone = timerdoneNext;
-   }	
+   }
 }
 
 void cTimersDone::Update(const time_t Start, const time_t Stop, const cEvent* pEvent, const int SearchID, cTimerDone* Timerdone)
-{   
+{
    cTimerDone* timerdone = InList(Start, Stop, pEvent, SearchID);
-   if(timerdone) 
+   if(timerdone)
    {
       timerdone->start = Timerdone->start;
       timerdone->stop = Timerdone->stop;
@@ -203,11 +203,11 @@ void cTimersDone::Update(const time_t Start, const time_t Stop, const cEvent* pE
 void cTimersDone::RemoveEntriesOfSearch(const int SearchID)
 {
    cTimerDone* timerdone = First();
-   while (timerdone) 
+   while (timerdone)
    {
       cTimerDone* timerdoneNext = Next(timerdone);
       if (timerdone->searchID == SearchID)
 	Del(timerdone);
       timerdone = timerdoneNext;
-   }	
+   }
 }

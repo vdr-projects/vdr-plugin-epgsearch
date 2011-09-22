@@ -31,8 +31,8 @@ If you are using extended EPG information, you can use variables as
 part of a directory entry of a search timer. These variables always have
 the form '%variable%'. The name of a variable corresponds with the
 internal name of an extended EPG info, as specified in the file
-epgsearchcats.conf (samples can be found in subdirectory 'conf'). 
-Example: 
+epgsearchcats.conf (samples can be found in subdirectory 'conf').
+Example:
 
  1|Category|Kategorie|Information,Kinder,Musik,Serie,Show,Spielfilm,Sport|3
 
@@ -52,7 +52,7 @@ subtitle will be automatically appended. So the directory entry
 
  %Category%~%Genre%~%Title%~%Subtitle%
 
-is the same as 
+is the same as
 
  %Category%~%Genre%
  (with 'serial recording' set to 'yes').
@@ -81,18 +81,18 @@ is B<':'>:
   1 - unique search timer id
   2 - the search term
   3 - use time? 0/1
-  4 - start time in HHMM 
-  5 - stop time in HHMM 
+  4 - start time in HHMM
+  5 - stop time in HHMM
   6 - use channel? 0 = no,  1 = Interval, 2 = Channel group, 3 = FTA only
   7 - if 'use channel' = 1 then channel id[|channel id] in vdr format,
       one entry or min/max entry separated with |, if 'use channel' = 2
-      then the channel group name     
-  8 - match case? 0/1 
+      then the channel group name
+  8 - match case? 0/1
   9 - search mode:
        0 - the whole term must appear as substring
-       1 - all single terms (delimiters are blank,',', ';', '|' or '~') 
+       1 - all single terms (delimiters are blank,',', ';', '|' or '~')
  	  must exist as substrings.
-       2 - at least one term (delimiters are blank, ',', ';', '|' or '~') 
+       2 - at least one term (delimiters are blank, ',', ';', '|' or '~')
            must exist as substring.
        3 - matches exactly
        4 - regular expression
@@ -104,10 +104,10 @@ is B<':'>:
  13 - use duration? 0/1
  14 - min duration in minutes
  15 - max duration in minutes
- 16 - use as search timer? 0/1/2 (with 2 one can specify time margins in 
+ 16 - use as search timer? 0/1/2 (with 2 one can specify time margins in
       parameter 48/49 where the search timer is active)
  17 - use day of week? 0/1
- 18 - day of week (0 = Sunday, 1 = Monday...;      
+ 18 - day of week (0 = Sunday, 1 = Monday...;
       -1 Sunday, -2 Monday, -4 Tuesday, ...; -7 Sun, Mon, Tue)
  19 - use series recording? 0/1
  20 - directory for recording
@@ -129,9 +129,9 @@ is B<':'>:
           (a ':' will be translated to "!^colon^!", e.g. in "16:9")
  29 - avoid repeats? 0/1
  30 - allowed repeats
- 31 - compare title when testing for a repeat? 0/1     
- 32 - compare subtitle when testing for a repeat? 0=no/1=yes/2=yes-if present     
- 33 - compare description when testing for a repeat? 0/1     
+ 31 - compare title when testing for a repeat? 0/1
+ 32 - compare subtitle when testing for a repeat? 0=no/1=yes/2=yes-if present
+ 33 - compare description when testing for a repeat? 0/1
  34 - compare extended EPG info when testing for a repeat?
       This entry is a bit field of the category IDs.
  35 - accepts repeats only within x days
@@ -166,7 +166,7 @@ See also C<epgsearch.conf(5)>.
 
 First, for each broadcasting a search text divided by '~' is created,
 depending on the settings of 'Use title', 'Use subtitle' and 'Use
-description': 
+description':
 
  title~subtitle~description
 
@@ -184,7 +184,7 @@ if the search term is found anywhere in the search text.
 =item - 'at least one word', 'all words'
 
 first the search term will be split in single words. Delimiters are a
-blank and the characters ',' ';' '|' '~'. 
+blank and the characters ',' ';' '|' '~'.
 
 Then we check if at least one or all words appear in the search text.
 
@@ -217,10 +217,10 @@ but replaces this one later if the subtitle is present.
 Start and end times of a broadcasting often vary a little bit. To avoid
 getting many different timers for the same event, the plugin
 checks before adding a new timer, if there is one, that has start and
-end times which only differ by a maximum of 10 minutes (or the events 
-duration if this is less then 10 minutes). If so, the present timer is 
-modified, else a new timer is created. If the timer was set to inactive 
-there will be no update. Also manually corrected priority or lifetime 
+end times which only differ by a maximum of 10 minutes (or the events
+duration if this is less then 10 minutes). If so, the present timer is
+modified, else a new timer is created. If the timer was set to inactive
+there will be no update. Also manually corrected priority or lifetime
 will not be changed when updating.
 
 If you have set 'Announce only (no timer)' to yes, no timer is
@@ -268,7 +268,7 @@ OSD when the update has finished
 
 This menu displays directories, that can be used for search timers or
 ordinary timers. The items displayed are read from the following
-sources: 
+sources:
 
    * current recording directories
    * current timer directories
@@ -389,13 +389,13 @@ the following commands are available:
  * 'UPDD' to reload the file epgsearchdone.data, e.g. after an
    external tool has modified it.
  * 'SETS <ON|OFF>' to temporarily activate or cancel the search timer background
-   thread. 
+   thread.
  * 'FIND <settings>' for searching the EPG
    input is the same as with 'NEWS'. output is a list of found events formatted
    as 'NEWT' lines. So they can be immediately used to create a new timer for
    an event.
  * 'QRYS < ID(s) >' to get the results for a search with the given
-   ID. Multiple IDs can also be passed and have to be separated with '|'. 
+   ID. Multiple IDs can also be passed and have to be separated with '|'.
    The results are formatted like this:
 
    search ID    : // the ID of the corresponding search timer
@@ -410,10 +410,10 @@ the following commands are available:
    timer file	: // timer file (only valid if timer flag is > 0)
    timer flag   : // 0 = no timer needed, 1 = has timer, 2 timer planned for next update)
  * 'QRYS <settings>' to get the results for a search with the given search
-   settings. 
+   settings.
  * 'QRYF [hours]' to get the results for the favorites menu, see QRYS for
    result format. The optional parameter specifies the number of hours to
-   evaluate and defaults to 24h. 
+   evaluate and defaults to 24h.
  * 'MENU [PRG|NOW|SUM]' calls one of the main menus of epgsearch or the summary
    of the current event.
  * 'UPDT' reloads the search timers from epgsearch.conf
@@ -469,12 +469,12 @@ the following commands are available:
 =head2 timer conflicts:
 
  * 'LSCC [REL]' returns the current timer conflicts. With the option 'REL' only
-   relevant conflicts are listed. The result list looks like this for example 
+   relevant conflicts are listed. The result list looks like this for example
    when we have 2 timer conflicts at one time:
 
    1190232780:152|30|50#152#45:45|10|50#152#45
 
-   '1190232780' is the time of the conflict in seconds since 1970-01-01. It's 
+   '1190232780' is the time of the conflict in seconds since 1970-01-01. It's
    followed by list of timers that have a conflict at this time:
 
    '152|30|50#152#45' is the description of the first conflicting timer. Here:
@@ -491,7 +491,7 @@ the following commands are available:
 The file F<epgsearchmenu.conf> in your epgsearch config directory is used to store
 the entries for customizing the EPG menus. You specify the look of each menu
 (What's on now, What's on next, What's on at ..., Schedule, Search results,
-Favorites) with a separate line. Here's a sample: 
+Favorites) with a separate line. Here's a sample:
 
  MenuWhatsOnNow=%chnr%:3|%progrt2s%:5| %time% %t_status%:8|%category%:6| %title% ~ %subtitle%:35
  MenuWhatsOnNext=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
@@ -509,7 +509,7 @@ and finally the title and subtitle.
 The values for MenuWhatsOnNext, MenuWhatsOnElse, MenuSchedule,
 MenuSearchResults, MenuFavorites specify the menu 'What's on next', 'What's on
 at ...', 'Schedule', 'Search results' and 'Favorites' respectively. If you do
-not specify one entry, epgsearch uses it's default menu look. 
+not specify one entry, epgsearch uses it's default menu look.
 
 'MenuSearchResults' has something special: If you want to have different
 layouts for your search results depending on the search, you can use more then
@@ -539,7 +539,7 @@ The following variables exist:
  %time_d%         - start day in format TT
  %time_lng%       - start time in seconds since 1970-01-01 00:00
  %timespan%       - timespan from now to the beginning of an event, e.g. 'in 15m'
-                    or the time an event is already running, e.g. '10m'. 
+                    or the time an event is already running, e.g. '10m'.
  %length%         - length in seconds
  %title%          - title
  %subtitle%       - subtitle
@@ -562,7 +562,7 @@ for the 'Whats on...' and 'Search results' menu there are also:
  %chsh%           - the short channel name
  %chlng%          - the 'normal' channel name
  %chdata%         - VDR's internal channel representation (e.g. 'S19.2E-1-1101-28106')
- %progr%          - graphical progress bar (not for menu 'Search results'), 
+ %progr%          - graphical progress bar (not for menu 'Search results'),
                     requires VDRSymbols font
  %progrT2S%       - progress bar in text2skin style (not for menu 'Search results')
 
@@ -624,7 +624,7 @@ title always displays the number of relevant conflicts and the total number.
 The list displays first the time when a conflict appears and then all timers
 that will fail here. A timer entry consists of the channel number and its name
 followed by the timer priority and the percentage value that shows how much of
-the timer will be recorded. Finally the timer's file entry is displayed. 
+the timer will be recorded. Finally the timer's file entry is displayed.
 
 When you select a timer entry and press 'Ok' or 'Details' you get a new menu
 which displays all concurrent timers. This menu allows you to resolve the
@@ -640,16 +640,16 @@ An entry of this menu consists of the sign '>' to indicate an active timer,
 the channel number, the start and stop time, the priority, the number of the
 device that will do the recording (or 'C' for conflict) and the timer's file
 entry. Pressing 'Ok' on a timer entry will show you its event description if
-present. 
+present.
 
 If one returns from this menu to the conflict overview menu there will be an
 automatic update to see if a conflict was really resolved. Some changes to a
 timer (like modifying start/stop or deleting a timer) in the conflict details
 menu also cause an immediate return to the overview menu and produce an
-update. 
+update.
 
 Note:
-There's a 'hidden' setup option epgsearch.ConflCheckCmd, that allows executing a 
+There's a 'hidden' setup option epgsearch.ConflCheckCmd, that allows executing a
 command for each timer causing a conflict. You have to set this directly in VDRs
 setup.conf like this:
 
@@ -733,16 +733,16 @@ Other possible checks:
 You can call external commands. The returned string will be assigned
 to a variable
 
- %uservar%=system(scriptname[, parameters]) 
+ %uservar%=system(scriptname[, parameters])
 
 Calls the script "scriptname" with the parameters defined in the optional list
 of 'parameters'. This can be an arbitrary expression containing other user
 variables, but not again a system call or a conditional expression.
 
-Sample: 
+Sample:
 
- %myVar%=system(/usr/local/bin/myscript.sh, -t %title% -s %subtitle% -u %myOtherVar%) 
- 
+ %myVar%=system(/usr/local/bin/myscript.sh, -t %title% -s %subtitle% -u %myOtherVar%)
+
 The script must return a string B<without> line break!
 
 If the script returns nothing, an empty string will be assigned to the
@@ -752,18 +752,18 @@ Variable %Result%.
 
 You can call a TCP service with the following syntax:
 
- %uservar%=connect(<addr>, <port>, [<data>]) 
+ %uservar%=connect(<addr>, <port>, [<data>])
 
 This will connect to <addr> through the given port and pass the optional given
-data. <addr> can be an IP address or the domain name of the TCP service. The result 
-returned by the service must be terminated with a line feed. 
+data. <addr> can be an IP address or the domain name of the TCP service. The result
+returned by the service must be terminated with a line feed.
 
 =head2 Get the length of an argument
 
-When passing any values to the connect or system command it can be helpful to have 
+When passing any values to the connect or system command it can be helpful to have
 the length of an argument for simple parsing. This can be done with
 
- %uservar%=length(<any arguments>) 
+ %uservar%=length(<any arguments>)
 
 Sample:
 
@@ -778,7 +778,7 @@ See C<epgsearchcats.conf(5)>.
 
 =head2 EXAMPLES
 
- # Weekday, Date, Time   
+ # Weekday, Date, Time
  %DateStr%=%time_w% %date% %time%
 
  # Themes or Subtitle or Date
@@ -814,11 +814,11 @@ mail you have to define the following sections:
   - "subject" to be used as mail subject
   - "mailbody" the body of the mail:
     put %update.newtimers% in the place where the list of new timers should
-    appear. The same for %update.modtimers%, %update.deltimers% and 
+    appear. The same for %update.modtimers%, %update.deltimers% and
     %update.newevents% for the list of changed or deleted timers and event
     announcements.
   - "timer" the description of one timer and "event" with the description of
-    one event. This section is used to display one timer within a timer list, 
+    one event. This section is used to display one timer within a timer list,
     e.g. in %update.newtimers%. The same for "event".
 
 All sections are optional, e.g. if you don't use event announcements you
@@ -833,7 +833,7 @@ The following variables can be used in the section <mailbody>:
                               displayed as defined in the section '<timer>'
   - %update.countnewtimers% - the number of new timers
   - %update.modtimers%      - same as %update.newtimers% but for modified
-                              timers. 
+                              timers.
   - %update.countmodtimers% - the number of modified timers
   - %update.deltimers%      - same as %update.newtimers% but for deleted
                               timers. (Note: a deleted timer has eventually
@@ -841,7 +841,7 @@ The following variables can be used in the section <mailbody>:
                               within the timer section will be substituted to
                               an empty string.)
   - %update.countdeltimers% - the number of deleted timers
-  - %update.newevents%      - will be replaced with the list of events to 
+  - %update.newevents%      - will be replaced with the list of events to
                               announce. These events are the search result of
                               search timers with the action "announce by mail".
                               The events are displayed as defined in the section
@@ -858,7 +858,7 @@ The following variables can be used in the section <timer>:
   - %timer.start%           - start time of the timer
   - %timer.stop%            - stop time of the timer
   - %timer.file%            - recording directory of the timer
-  - %timer.chnr%            - channel number 
+  - %timer.chnr%            - channel number
   - %timer.chsh%            - short channel name
   - %timer.chlng%           - channel name
   - %timer.search%          - name of the search timer, that created the timer
@@ -913,7 +913,7 @@ epgsearch supports a configuration mechanism well-known in linux. The settings o
   - epgsearchmenu.conf
   - epgsearchcats.conf
 
-can also be given in a file with arbitrary name in the subdirectory conf.d in 
+can also be given in a file with arbitrary name in the subdirectory conf.d in
 <plugin-configuration-directory>/epgsearch. This allows one to quickly test different setups only
 by exchanging files instead of editing them. The format of these files is
 
@@ -934,8 +934,8 @@ where <section_name> is one of the following:
 
 The <settings> format follows the one in the corresponding configuration file.
 Comments beginning with # are allowed, also blank lines.
-At startup epgsearch first reads its 'regular' configuration files and then the conf.d subdirectory. 
-It's allowed to overwrite variables already defined in other files (although this is signaled with a warning in 
+At startup epgsearch first reads its 'regular' configuration files and then the conf.d subdirectory.
+It's allowed to overwrite variables already defined in other files (although this is signaled with a warning in
 epgsearch's log file.).
 
 
@@ -949,7 +949,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 =head1 REPORT BUGS
 
-Bug reports (german): 
+Bug reports (german):
 
 L<http://www.vdr-developer.org/mantisbt/>
 

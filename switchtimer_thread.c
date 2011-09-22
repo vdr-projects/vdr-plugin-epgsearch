@@ -40,7 +40,7 @@ cSwitchTimerThread::cSwitchTimerThread(void)
 }
 
 cSwitchTimerThread::~cSwitchTimerThread() {
-   if (m_Active) 
+   if (m_Active)
       Stop();
 }
 
@@ -64,10 +64,10 @@ void cSwitchTimerThread::Stop(void) {
    Cancel(6);
 }
 
-void cSwitchTimerThread::Action(void) 
+void cSwitchTimerThread::Action(void)
 {
   m_Active = true;
-  
+
   // let VDR do its startup
   if (!cPluginEpgsearch::VDR_readyafterStartup)
     LogFile.Log(2, "SwitchTimerThread: waiting for VDR to become ready...");
@@ -75,7 +75,7 @@ void cSwitchTimerThread::Action(void)
     Wait.Wait(1000);
 
    time_t nextUpdate = time(NULL);
-   while (m_Active) 
+   while (m_Active)
    {
       time_t now = time(NULL);
       if (now >= nextUpdate)
@@ -84,7 +84,7 @@ void cSwitchTimerThread::Action(void)
          SwitchTimers.Lock();
          LogFile.Log(3,"switch timer check started");
          cSwitchTimer* switchTimer = SwitchTimers.First();
-         while (switchTimer && m_Active) 
+         while (switchTimer && m_Active)
          {
             if (switchTimer->startTime - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
             {
@@ -94,10 +94,10 @@ void cSwitchTimerThread::Action(void)
 	       bool doUnmute = switchTimer->unmute;
                SwitchTimers.Del(switchTimer);
 
-  	       const cEvent* event = switchTimer->Event();     
+  	       const cEvent* event = switchTimer->Event();
                if (event && channel && (event->EndTime() >= now))
                {
-                  cString Message = cString::sprintf("%s: %s - %s", event->Title(), 
+                  cString Message = cString::sprintf("%s: %s - %s", event->Title(),
 						     CHANNELNAME(channel), GETTIMESTRING(event));
 		  cString SwitchCmd = cString::sprintf("CHAN %d", channel->Number());
                   // switch
@@ -121,13 +121,13 @@ void cSwitchTimerThread::Action(void)
 			  LogFile.Log(1,"switching to channel %d", channel->Number());
 			  if (cDevice::CurrentChannel() != channel->Number())
 			    SendViaSVDRP(SwitchCmd);
-			  
+
 			  if (doUnmute && cDevice::PrimaryDevice()->IsMute())
 			    cDevice::PrimaryDevice()->ToggleMute();
 
 			}
-		    }			
-		
+		    }
+
                   if (m_Active)
 		    Wait.Wait(1000 * MSG_DELAY);
                }

@@ -37,7 +37,7 @@ extern cChannelGroups ChannelGroups;
 extern cSearchExtCats SearchExtCats;
 
 cMenuEditTemplate::cMenuEditTemplate(cSearchExt *SearchExt, bool New)
- : cMenuEditSearchExt(SearchExt, New, true) 
+ : cMenuEditSearchExt(SearchExt, New, true)
 {
   SetTitle(tr("Edit template"));
 }
@@ -57,9 +57,9 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
    int iTemp_allowedRepeats = data.allowedRepeats;
    int iTemp_delAfterDays = data.delAfterDays;
    int iTemp_delMode = data.delMode;
-    
+
    eOSState state = cOsdMenu::ProcessKey(Key);
-    
+
    if (iTemp_mode != data.mode ||
        iTemp_useTime != data.useTime ||
        iTemp_useChannel != data.useChannel ||
@@ -76,7 +76,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
       Display();
    }
    const char* ItemText = Get(Current())->Text();
-    
+
    if (!HasSubMenu())
    {
       if (strlen(ItemText)>0 && strstr(ItemText, tr("  from channel")) == ItemText && ((Key >= k0 &&  Key <= k9) || Key == kLeft || Key == kRight))
@@ -105,16 +105,16 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
       int iOnExtCatItem = 0;
       cSearchExtCat *SearchExtCat = SearchExtCats.First();
       int index = 0;
-      while (SearchExtCat) 
+      while (SearchExtCat)
       {
          if (strstr(ItemText, IndentMenuItem(SearchExtCat->menuname)) == ItemText)
-         {		
+         {
             iOnExtCatItem = 1;
             if (SearchExtCat->nvalues > 0)
                iOnExtCatItemBrowsable = 1;
             iCatIndex = index;
             catname = SearchExtCat->menuname;
-            break;		    
+            break;
          }
          index++;
          SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -174,7 +174,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
       else if (iOnExtCatItem)
       {
          if (!InEditMode(ItemText, IndentMenuItem(catname), data.catvalues[iCatIndex]) ||
-	     SearchExtCats.Get(iCatIndex)->searchmode >= 10)	    
+	     SearchExtCats.Get(iCatIndex)->searchmode >= 10)
             SetHelp(NULL, NULL, NULL, iOnExtCatItemBrowsable?tr("Button$Select"):NULL);
       }
       else if (strstr(ItemText, tr("Template name")) != ItemText)
@@ -184,13 +184,13 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
       if (HasSubMenu())
          return osContinue;
       switch (Key) {
-         case kOk: 
-            if (data.useChannel==1) 
+         case kOk:
+            if (data.useChannel==1)
             {
                cChannel *ch = Channels.GetByNumber(channelMin);
                if (ch)
                   data.channelMin = ch;
-               else 
+               else
                {
                   Skins.Message(mtError, tr("*** Invalid Channel ***"));
                   break;
@@ -198,7 +198,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
                ch = Channels.GetByNumber(channelMax);
                if (ch)
                   data.channelMax = ch;
-               else 
+               else
                {
                   Skins.Message(mtError, tr("*** Invalid Channel ***"));
                   break;
@@ -211,18 +211,18 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
             }
             if (data.useChannel==2)
                data.channelGroup = strdup(menuitemsChGr[channelGroupNr]);
-		
-            if (searchExt) 
+
+            if (searchExt)
             {
                *searchExt = data;
                if (data.DayOfWeek == 7)
                   searchExt->DayOfWeek = UserDefDayOfWeek;
-		    
+
                // transfer cat selection for 'avoid repeats' back to search
                cSearchExtCat *SearchExtCat = SearchExtCats.First();
                int index = 0;
                searchExt->catvaluesAvoidRepeat = 0;
-               while (SearchExtCat) 
+               while (SearchExtCat)
                {
                   if (catarrayAvoidRepeats[index])
                      searchExt->catvaluesAvoidRepeat += (1<<index);
@@ -233,7 +233,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
 	       // transfer numeric cat values back to search
                SearchExtCat = SearchExtCats.First();
                index = 0;
-               while (SearchExtCat) 
+               while (SearchExtCat)
                {
 		 if (SearchExtCat->searchmode >= 10)
 		   {
@@ -271,12 +271,12 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
             if (iOnUserDefDayItem)
                state = AddSubMenu(new cMenuEditDaysOfWeek(&UserDefDayOfWeek));
             break;
-		
-         case kBlue:   
+
+         case kBlue:
             if (iOnDirectoryItem && !InEditMode(ItemText, IndentMenuItem(tr("Directory")), data.directory))
                state = AddSubMenu(new cMenuDirSelect(data.directory));
             if (iOnUseChannelGroups || iOnChannelGroup)
-            {		    
+            {
                if (channelGroupName)
                   free(channelGroupName);
                channelGroupName = strdup(menuitemsChGr[channelGroupNr]);
@@ -304,7 +304,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
 	{
 	  cSearchExtCat *SearchExtCat = SearchExtCats.First();
 	  int index = 0;
-	  while (SearchExtCat) 	    
+	  while (SearchExtCat)
             {
 	      if (SearchExtCat->searchmode >= 10)
 		catvaluesNumeric[index] = atoi(data.catvalues[index]);

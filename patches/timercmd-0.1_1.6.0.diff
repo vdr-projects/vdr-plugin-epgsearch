@@ -78,14 +78,14 @@ diff -Nru vdr-1.6.0/menu.c vdr-1.6.0-patched/menu.c
 +        cRecording *rc_dummy = new cRecording(ti, pEvent);
 +        Recordings.Load();
 +        cRecording *rc = Recordings.GetByName(rc_dummy->FileName());
-+     
++
 +        delete rc_dummy;
 +        if(rc)
 +           iRecNumber=rc->Index() + 1;
 +     }
 +//Parameter format TimerNumber 'ChannelId' Start Stop 'Titel' 'Subtitel' 'file' RecNumer
 +//                 1           2           3     4    5       6          7      8
-+     asprintf(&parameter, "%d '%s' %d %d '%s' '%s' '%s' %d", ti->Index(), 
++     asprintf(&parameter, "%d '%s' %d %d '%s' '%s' '%s' %d", ti->Index(),
 +                                                             *ti->Channel()->GetChannelID().ToString(),
 +                                                             (int)ti->StartTime(),
 +                                                             (int)ti->StopTime(),

@@ -79,7 +79,7 @@ public:
   bool ParseExtEPGValues(const char *s);
   bool ParseExtEPGEntry(const char *s);
   bool Save(FILE *f);
-  cSearchResults* Run(cSearchResults* pSearchResults = NULL, int MarginStop = 0);  
+  cSearchResults* Run(cSearchResults* pSearchResults = NULL, int MarginStop = 0);
   void CopyFromTemplate(const cSearchExt* templ);
 };
 

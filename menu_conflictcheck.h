@@ -30,7 +30,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 // --- cMenuConflictCheckItem ------------------------------------------------------
 class cMenuConflictCheckItem : public cOsdItem {
-public: 
+public:
     cConflictCheckTime* checktime;
     cConflictCheckTimerObj* timerObj;
     cMenuConflictCheckItem(cConflictCheckTime* Ct, cConflictCheckTimerObj* TimerObj = NULL);
@@ -39,7 +39,7 @@ public:
 // --- cMenuConflictCheck ------------------------------------------------------
 class cMenuConflictCheck : public cOsdMenu {
 private:
-    cConflictCheck conflictCheck;   
+    cConflictCheck conflictCheck;
     bool showAll;
     int lastSel;
     virtual eOSState ProcessKey(eKeys Key);
@@ -53,7 +53,7 @@ private:
 // --- cMenuConflictCheckDetailsItem ------------------------------------------------------
 class cMenuConflictCheckDetailsItem : public cOsdItem {
     bool hasTimer;
-public: 
+public:
     cConflictCheckTimerObj* timerObj;
     cMenuConflictCheckDetailsItem(cConflictCheckTimerObj* TimerObj = NULL);
     bool Update(bool Force = false);
@@ -63,7 +63,7 @@ public:
 class cMenuConflictCheckDetails : public cOsdMenu {
 private:
     cConflictCheck* conflictCheck;
-    cConflictCheckTimerObj* timerObj;   
+    cConflictCheckTimerObj* timerObj;
     cConflictCheckTime* checktime;
     cEventObjects eventObjects;
 

@@ -33,7 +33,7 @@ class cConflictCheckThread: public cThread {
     bool m_Active;
     time_t m_lastUpdate;
     cPluginEpgsearch* m_plugin;
-    static bool m_runOnce; 
+    static bool m_runOnce;
     static bool m_forceUpdate;
     cCondWait Wait;
  protected:
@@ -50,4 +50,4 @@ class cConflictCheckThread: public cThread {
     static void Exit(void);
 };
 
-#endif 
+#endif

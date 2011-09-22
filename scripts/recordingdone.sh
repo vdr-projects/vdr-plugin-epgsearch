@@ -40,7 +40,7 @@
 TEST=yes
 
 # should we add recordings that have a S-ID in info.vdr ?
-# That is recordings already recorded with epgsearch-autotimer 
+# That is recordings already recorded with epgsearch-autotimer
 # and they are probably already in the done file!
 # yes = add recodrings with S-ID
 # no = don't add recordings with S-ID

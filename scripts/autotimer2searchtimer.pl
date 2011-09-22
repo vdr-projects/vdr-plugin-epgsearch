@@ -157,9 +157,9 @@ sub CONF_Collect {
     $stitle       = $at->{section} & 1 ? 1 : 0;
     $ssubtitle    = $at->{section} & 2 ? 1 : 0;
     $sdescription = $at->{section} & 4 ? 1 : 0;
-    
+
     $id += 1 if ($EPGSEARCH_FILENAME);
-    
+
     $data = sprintf $conf_str,
     									$id,
     									$pattern,

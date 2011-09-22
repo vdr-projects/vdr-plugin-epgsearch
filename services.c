@@ -42,13 +42,13 @@ std::list<std::string> cEpgsearchServiceHandler::SearchTimerList()
 {
    std::list<std::string> list;
    cMutexLock SearchExtsLock(&SearchExts);
-   for (int i = 0; i < SearchExts.Count(); i++) 
+   for (int i = 0; i < SearchExts.Count(); i++)
    {
       cSearchExt* search = SearchExts.Get(i);
       if (search)
          list.push_back(search->ToText());
    }
-   return list;    
+   return list;
 }
 
 int cEpgsearchServiceHandler::AddSearchTimer(const std::string& settings)
@@ -85,7 +85,7 @@ bool cEpgsearchServiceHandler::ModSearchTimer(const std::string& settings)
          LogFile.Log(1,"modified search '%s' (%d) via service interface", searchTemp->search, searchTemp->ID);
          SearchExts.Save();
          if (searchTemp->useAsSearchTimer && !EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
-            cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);	    
+            cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
          return true;
       }
    }
@@ -122,14 +122,14 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
       // transfer to result list
       pCompleteSearchResults->SortBy(CompareEventTime);
       cSearchResult *result = pCompleteSearchResults->First();
-      while (result && result->search) 
+      while (result && result->search)
       {
          const cEvent* pEvent = result->event;
          cTimer* Timer = new cTimer(pEvent);
-		
+
          static char bufStart[25];
          static char bufEnd[25];
-	    
+
          struct tm tm_r;    time_t eStart = pEvent->StartTime();
          time_t eStop = pEvent->EndTime();
          time_t start = eStart - (result->search->MarginStart * 60);
@@ -139,18 +139,18 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
             start = pEvent->Vps();
             stop = start + pEvent->Duration();
          }
-	    
+
          strftime(bufStart, sizeof(bufStart), "%H%M", localtime_r(&start, &tm_r));
          strftime(bufEnd, sizeof(bufEnd), "%H%M", localtime_r(&stop, &tm_r));
-	    
+
          int timerMatch;
          bool hasTimer = false;
-         if (Timers.GetMatch(pEvent, &timerMatch)) 
+         if (Timers.GetMatch(pEvent, &timerMatch))
             hasTimer = (timerMatch == tmFull);
-		
+
          if (!result->search->useAsSearchTimer)
             result->needsTimer = false;
-		
+
          cChannel *channel = Channels.GetByChannelID(pEvent->ChannelID(), true, true);
          int timerMode = hasTimer?1:(result->needsTimer?2:0);
 
@@ -161,7 +161,7 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
          std::string description = pEvent->Description()?ReplaceAll(pEvent->Description(), "|", "!^pipe!^"):"";
          description = ReplaceAll(description, ":", "|");
 
-         cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d", 
+         cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d",
                   result->search->ID,
                   pEvent->EventID(),
                   title.c_str(),
@@ -173,8 +173,8 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
                   timerMode>0?start:-1,
                   timerMode>0?stop:-1,
                   timerMode>0?result->search->BuildFile(pEvent):"",
-                  timerMode);				 
-		
+                  timerMode);
+
          list.push_back(*cmdbuf);
 
          delete(Timer);
@@ -203,20 +203,20 @@ std::list<std::string> cEpgsearchServiceHandler::QuerySearch(std::string query)
    std::list<std::string> list;
 
    cSearchExt* temp_SearchExt = new cSearchExt;
-   if (temp_SearchExt->Parse(query.c_str()))	
+   if (temp_SearchExt->Parse(query.c_str()))
    {
-      cSearchResults* pCompleteSearchResults = temp_SearchExt->Run();    
+      cSearchResults* pCompleteSearchResults = temp_SearchExt->Run();
       list = TranslateResults(pCompleteSearchResults);
       if (pCompleteSearchResults) delete pCompleteSearchResults;
    }
    delete temp_SearchExt;
-   return list;    
+   return list;
 }
 
 std::list<std::string> cEpgsearchServiceHandler::ExtEPGInfoList()
 {
    std::list<std::string> list;
-   for (int i = 0; i < SearchExtCats.Count(); i++) 
+   for (int i = 0; i < SearchExtCats.Count(); i++)
    {
       cSearchExtCat *SearchExtCat = SearchExtCats.Get(i);
       if (SearchExtCat)
@@ -228,7 +228,7 @@ std::list<std::string> cEpgsearchServiceHandler::ExtEPGInfoList()
 std::list<std::string> cEpgsearchServiceHandler::ChanGrpList()
 {
    std::list<std::string> list;
-   for (int i = 0; i < ChannelGroups.Count(); i++) 
+   for (int i = 0; i < ChannelGroups.Count(); i++)
    {
       cChannelGroup *changrp = ChannelGroups.Get(i);
       if (changrp)
@@ -242,13 +242,13 @@ std::list<std::string> cEpgsearchServiceHandler::BlackList()
    std::list<std::string> list;
    cMutexLock BlacklistLock(&Blacklists);
 
-   for (int i = 0; i < Blacklists.Count(); i++) 
+   for (int i = 0; i < Blacklists.Count(); i++)
    {
       cBlacklist* blacklist = Blacklists.Get(i);
       if (blacklist)
          list.push_back(blacklist->ToText());
    }
-   return list;    
+   return list;
 }
 
 std::set<std::string> cEpgsearchServiceHandler::DirectoryList()
@@ -276,8 +276,8 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 {
    std::list<std::string> list;
    cConflictCheck conflictCheck;
-   conflictCheck.Check(); 
-     
+   conflictCheck.Check();
+
    if ((relOnly && conflictCheck.numConflicts > 0) ||
        conflictCheck.relevantConflicts > 0)
      {
@@ -286,13 +286,13 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
        for(cConflictCheckTime* ct = failedList->First(); ct; ct = failedList->Next(ct))
 	 {
 	   if (relOnly && ct->ignore) continue;
-	   
+
 	   std::ostringstream conflline;
 	   conflline << ct->evaltime << ":";
 	   std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	   
+
 	   std::ostringstream timerparts;
-	   for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++) 
+	   for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
 	     {
 	       if (relOnly && (*it)->ignore) continue;
 	       std::ostringstream timerpart;
@@ -302,7 +302,7 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 	       if ((*it)->concurrentTimers)
 		 {
 		   std::ostringstream cctimers;
-		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); itcc++) 
+		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); itcc++)
 		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->origIndex+1;
 		   timerpart << cctimers.str();
 		 }
@@ -312,17 +312,17 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 	   list.push_back(conflline.str());
 	 }
      }
-   
+
    // set advised to false after an external conflict check
    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(false);
 
-   return list;    
+   return list;
 }
 
 bool cEpgsearchServiceHandler::IsConflictCheckAdvised()
 {
-  return gl_timerStatusMonitor?gl_timerStatusMonitor->ConflictCheckAdvised():false;  
-}    
+  return gl_timerStatusMonitor?gl_timerStatusMonitor->ConflictCheckAdvised():false;
+}
 
 std::set<std::string> cEpgsearchServiceHandler::ShortDirectoryList()
 {

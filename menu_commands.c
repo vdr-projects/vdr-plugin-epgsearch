@@ -28,8 +28,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/plugin.h>
 #include "menu_searchresults.h"
 #include "menu_myedittimer.h"
-#include "menu_search.h" 
-#include "menu_searchedit.h" 
+#include "menu_search.h"
+#include "menu_searchedit.h"
 #include "epgsearchcfg.h"
 #include "recdone.h"
 #include "epgsearchtools.h"
@@ -48,7 +48,7 @@ cMenuSearchCommands::cMenuSearchCommands(const char *Title, const cEvent* Event,
    directCall = DirectCall;
    SetHasHotkeys();
    LoadCommands();
-    
+
    search = Search;
    event = Event;
    Add(new cOsdItem(hk(tr("Repeats"))));
@@ -83,7 +83,7 @@ void cMenuSearchCommands::LoadCommands()
    while(pstrSearchToken) // may contain multiple code, e.g. 'ger,deu'
    {
      cString cmdFile = cString::sprintf("%s-%s.conf", ADDDIR(CONFIGDIR, "epgsearchcmds"), pstrSearchToken);
-      if (access(cmdFile, F_OK) == 0) 	
+      if (access(cmdFile, F_OK) == 0)
       {
          commands.Load(cmdFile, true);
          bLoaded = true;
@@ -103,7 +103,7 @@ eOSState cMenuSearchCommands::Switch(void)
       return osEnd;
    else
    {
-      Skins.Message(mtInfo, trVDR("Can't switch channel!")); 
+      Skins.Message(mtInfo, trVDR("Can't switch channel!"));
       return osContinue;
    }
 }
@@ -119,7 +119,7 @@ eOSState cMenuSearchCommands::Record(void)
 
    int timerMatch = tmNone;
    cTimer* timer = Timers.GetMatch(event, &timerMatch);
-   if (timerMatch == tmFull) 
+   if (timerMatch == tmFull)
    {
       if (EPGSearchConfig.useVDRTimerEditMenu)
          return AddSubMenu(new cMenuEditTimer(timer));
@@ -130,18 +130,18 @@ eOSState cMenuSearchCommands::Record(void)
    timer = new cTimer(event);
    PrepareTimerFile(event, timer);
    cTimer *t = Timers.GetTimer(timer);
-    
-   if (EPGSearchConfig.onePressTimerCreation == 0 || t || (!t && event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL))) 
+
+   if (EPGSearchConfig.onePressTimerCreation == 0 || t || (!t && event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
    {
       if (t)
       {
          delete timer;
-         timer = t;      
+         timer = t;
       }
       if (EPGSearchConfig.useVDRTimerEditMenu)
          return AddSubMenu(new cMenuEditTimer(timer, !t));
       else
-         return AddSubMenu(new cMenuMyEditTimer(timer, !t, event));     
+         return AddSubMenu(new cMenuMyEditTimer(timer, !t, event));
    }
    else
    {
@@ -169,7 +169,7 @@ eOSState cMenuSearchCommands::Record(void)
       Timers.Add(timer);
       timer->Matches();
       Timers.SetModified();
-	
+
       LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
       return osBack;
    }
@@ -192,7 +192,7 @@ eOSState cMenuSearchCommands::MarkAsRecorded(void)
 eOSState cMenuSearchCommands::AddToSwitchList(void)
 {
    if (!event) return osContinue;
-     
+
    time_t now = time(NULL);
    if (now >= event->StartTime())
    {
@@ -204,7 +204,7 @@ eOSState cMenuSearchCommands::AddToSwitchList(void)
    {
       if (!Interface->Confirm(tr("Add to switch list?")))
 	     return osContinue;
-      cMutexLock SwitchTimersLock(&SwitchTimers);	
+      cMutexLock SwitchTimersLock(&SwitchTimers);
       SwitchTimers.Add(new cSwitchTimer(event));
       SwitchTimers.Save();
       cSwitchTimerThread::Init(); // asure the thread is running
@@ -213,11 +213,11 @@ eOSState cMenuSearchCommands::AddToSwitchList(void)
    {
       if (!Interface->Confirm(tr("Delete from switch list?")))
 	     return osContinue;
-      cMutexLock SwitchTimersLock(&SwitchTimers);		 
+      cMutexLock SwitchTimersLock(&SwitchTimers);
       SwitchTimers.Del(switchTimer);
       SwitchTimers.Save();
       if (SwitchTimers.Count() == 0)
-	     cSwitchTimerThread::Exit(); 
+	     cSwitchTimerThread::Exit();
    }
    return osBack;
 }
@@ -249,19 +249,19 @@ eOSState cMenuSearchCommands::Execute(void)
       if (current == 0)
          return AddSubMenu(new cMenuSearchResultsForQuery(event->Title(), true));
       if (current == 1)
-         return Record(); 
+         return Record();
       if (current == 2)
          return Switch();
       if (current == 3)
-         return CreateSearchTimer(); 
+         return CreateSearchTimer();
       if (current == 4)
          return AddSubMenu(new cMenuSearchResultsForRecs(event->Title()));
       if (current == 5)
-         return MarkAsRecorded(); 
+         return MarkAsRecorded();
       if (current == 6)
-         return AddToSwitchList(); 
+         return AddToSwitchList();
       if (current == 7)
-         return CreateBlacklist(); 
+         return CreateBlacklist();
    }
 
    cCommand *command = commands.Get(current-8);
@@ -275,13 +275,13 @@ eOSState cMenuSearchCommands::Execute(void)
       if (confirmed) {
 	buffer = cString::sprintf("%s...", command->Title());
 	Skins.Message(mtStatus, buffer);
-	
-	buffer = cString::sprintf("'%s' %ld %ld %d '%s' '%s'", 
-				  EscapeString(event->Title()).c_str(), 
-				  event->StartTime(), 
-				  event->EndTime(), 
-				  ChannelNrFromEvent(event), 
-				  EscapeString(Channels.GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(), 
+
+	buffer = cString::sprintf("'%s' %ld %ld %d '%s' '%s'",
+				  EscapeString(event->Title()).c_str(),
+				  event->StartTime(),
+				  event->EndTime(),
+				  ChannelNrFromEvent(event),
+				  EscapeString(Channels.GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(),
 				  EscapeString(event->ShortText()?event->ShortText():"").c_str());
 	const char *Result = command->Execute(buffer);
 	Skins.Message(mtStatus, NULL);
@@ -309,7 +309,7 @@ eOSState cMenuSearchCommands::ProcessKey(eKeys Key)
          case kBlue:
             return osContinue;
          case k1...k9:
-         case kOk:  
+         case kOk:
             return Execute();
          default:   break;
       }

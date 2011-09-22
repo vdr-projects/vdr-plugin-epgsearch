@@ -29,7 +29,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchext.h"
 #include "menu_event.h"
 #include "menu_searchresults.h"
-#include "menu_search.h" 
+#include "menu_search.h"
 #include "menu_commands.h"
 #include "epgsearchcfg.h"
 #include "epgsearchtools.h"
@@ -81,14 +81,14 @@ cMenuSearchMain::cMenuSearchMain(void)
 void cMenuSearchMain::Display(void)
 {
    cOsdMenu::Display();
-   
-   if (Count() > 0) 
+
+   if (Count() > 0)
    {
       int i = 0;
 
-      for (cOsdItem *item = First(); item; item = Next(item)) 
-         cStatus::MsgOsdEventItem(!item->Selectable() ? 0 : 
-                                  ((cMenuMyScheduleItem*)item)->event, 
+      for (cOsdItem *item = First(); item; item = Next(item))
+         cStatus::MsgOsdEventItem(!item->Selectable() ? 0 :
+                                  ((cMenuMyScheduleItem*)item)->event,
                                   item->Text(), i++, Count());
    }
 }
@@ -117,7 +117,7 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
    if (schedules) {
 	const cSchedule *Schedule = schedules->GetSchedule(Channel);
 	currentChannel = Channel->Number();
-	if (Schedule && Schedule->Events()->First()) 
+	if (Schedule && Schedule->Events()->First())
 	{
 	    const cEvent *PresentEvent = Schedule->GetPresentEvent();
 	    time_t now = time(NULL);
@@ -137,8 +137,8 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
 			struct tm tm_rEvent;
 			struct tm tm_rLastEvent;
 			time_t EventDate = Event->StartTime();
-			struct tm *t_event = localtime_r(&EventDate, &tm_rEvent);			
-			struct tm *t_lastevent = localtime_r(&lastEventDate, &tm_rLastEvent);			
+			struct tm *t_event = localtime_r(&EventDate, &tm_rEvent);
+			struct tm *t_lastevent = localtime_r(&lastEventDate, &tm_rLastEvent);
 			if (t_event->tm_mday != t_lastevent->tm_mday)
 			{
 			  cString szSep = cString::sprintf("----------------------------------\t %s ----------------------------------------------------------------------------------------------", GETDATESTRING(Event));
@@ -159,7 +159,7 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
     }
     if (shiftTime)
     {
-      cString buffer = cString::sprintf("%s (%s%dh %dm)", Channel->Name(), shiftTime>0?"+":"", 
+      cString buffer = cString::sprintf("%s (%s%dh %dm)", Channel->Name(), shiftTime>0?"+":"",
 					shiftTime/60, abs(shiftTime)%60);
       SetTitle(buffer);
     }
@@ -179,7 +179,7 @@ eOSState cMenuSearchMain::Record(void)
 {
   cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)Get(Current());
   if (item) {
-      if (item->timerMatch == tmFull) 
+      if (item->timerMatch == tmFull)
       {
 	  int tm = tmNone;
 	  cTimer *timer = Timers.GetMatch(item->event, &tm);
@@ -195,17 +195,17 @@ eOSState cMenuSearchMain::Record(void)
      cTimer *timer = new cTimer(item->event);
      PrepareTimerFile(item->event, timer);
      cTimer *t = Timers.GetTimer(timer);
-     if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL))) 
+     if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
      {
 	 if (t)
 	 {
 	     delete timer;
-	     timer = t;      
+	     timer = t;
 	 }
 	 if (EPGSearchConfig.useVDRTimerEditMenu)
 	     return AddSubMenu(new cMenuEditTimer(timer, !t));
 	 else
-	     return AddSubMenu(new cMenuMyEditTimer(timer, !t, item->event));     
+	     return AddSubMenu(new cMenuMyEditTimer(timer, !t, item->event));
      }
      else
      {
@@ -232,7 +232,7 @@ eOSState cMenuSearchMain::Record(void)
 
 	 SetAux(timer, fullaux);
 	 Timers.Add(timer);
-	 gl_timerStatusMonitor->SetConflictCheckAdvised(); 
+	 gl_timerStatusMonitor->SetConflictCheckAdvised();
 	 timer->Matches();
 	 Timers.SetModified();
 	 LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
@@ -255,7 +255,7 @@ eOSState cMenuSearchMain::Switch(void)
      if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
         return osEnd;
      }
-  Skins.Message(mtInfo, trVDR("Can't switch channel!")); 
+  Skins.Message(mtInfo, trVDR("Can't switch channel!"));
   return osContinue;
 }
 
@@ -263,7 +263,7 @@ eOSState cMenuSearchMain::ExtendedSearch(void)
 {
     return AddSubMenu(new cMenuEPGSearchExt());
 }
- 
+
 eOSState cMenuSearchMain::Commands(eKeys Key)
 {
   if (HasSubMenu() || Count() == 0)
@@ -284,7 +284,7 @@ eOSState cMenuSearchMain::ShowSummary()
    if (Count())
    {
       cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
-      if (mi && mi->event) 
+      if (mi && mi->event)
          return AddSubMenu(new cMenuEventSearch(mi->event, eventObjects, SurfModeTime));
    }
    return osContinue;
@@ -295,7 +295,7 @@ void cMenuSearchMain::SetHelpKeys(bool Force)
     cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)Get(Current());
     int NewHelpKeys = 0;
         if (item) {
-      if (item->Selectable() && item->timerMatch == tmFull)	
+      if (item->Selectable() && item->timerMatch == tmFull)
         NewHelpKeys = 2;
       else
         NewHelpKeys = 1;
@@ -307,12 +307,12 @@ void cMenuSearchMain::SetHelpKeys(bool Force)
 	if (toggleKeys==0)
 	  SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), trVDR("Button$Now"), trVDR("Button$Next"), EPGSearchConfig.bluekeymode==0?trVDR("Button$Switch"):tr("Button$Search"));
 	else
-	  {	
+	  {
 	    const char* szGreenToggled = CHANNELNAME(Channels.GetByNumber(currentChannel-1,-1));
 	    const char* szYellowToggled = CHANNELNAME(Channels.GetByNumber(currentChannel+1,1));
-	    
+
 	    SetHelp((EPGSearchConfig.redkeymode==1?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), (EPGSearchConfig.toggleGreenYellow==0?trVDR("Button$Now"):szGreenToggled), (EPGSearchConfig.toggleGreenYellow==0?trVDR("Button$Next"):szYellowToggled), EPGSearchConfig.bluekeymode==1?trVDR("Button$Switch"):tr("Button$Search"));
-	
+
 	  }
 	helpKeys = NewHelpKeys;
       }
@@ -333,18 +333,18 @@ void cMenuSearchMain::UpdateCurrent()
    // navigation in summary could have changed current item, so update it
    cEventObj* cureventObj = eventObjects.GetCurrent();
    if (cureventObj && cureventObj->Event())
-      for (cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)First(); item; item = (cMenuMyScheduleItem *)Next(item)) 
+      for (cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)First(); item; item = (cMenuMyScheduleItem *)Next(item))
          if (item->event == cureventObj->Event())
          {
             cureventObj->Select(false);
             SetCurrent(item);
             Display();
             break;
-         }               
+         }
 }
 
 eOSState cMenuSearchMain::ProcessKey(eKeys Key)
-{ 
+{
     bool HadSubMenu = HasSubMenu();
     eOSState state = cOsdMenu::ProcessKey(Key);
 
@@ -387,7 +387,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
             UpdateCurrent();
             state = Record();
             break;
-	     } 
+	     }
 	     if (Count())
 	     {
 		 if (EPGSearchConfig.redkeymode==toggleKeys)
@@ -404,21 +404,21 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 	     }
 	     break;
 	 case k0:
-	     if(!HasSubMenu()) 
+	     if(!HasSubMenu())
 	     {
 		 toggleKeys = 1 - toggleKeys;
 		 SetHelpKeys(true);
 	     }
 	     state = osContinue;
 	     break;
-	 case k1...k9: 
+	 case k1...k9:
 	     if (!HasSubMenu())
 		 return Commands(Key);
 	     else
 		 state = osContinue;
 	     break;
-	 case kGreen:  
-	     if (schedules) 
+	 case kGreen:
+	     if (schedules)
 	     {
 		 if (HasSubMenu() && !InWhatsOnMenu && !InFavoritesMenu)
 		 {
@@ -451,10 +451,10 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 			 return AddSubMenu(new cMenuWhatsOnSearch(schedules, ChannelNr));
 		     }
 		 }
-		 else 
+		 else
 		 {
 		     cChannel *channel = Channels.GetByNumber(currentChannel-1,-1);
-		     
+
 		     if (channel) {
 			 PrepareSchedule(channel);
 			 if (channel->Number() != cDevice::CurrentChannel()) {
@@ -466,7 +466,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		     return osContinue;
 		 }
 	     }
-	 case kYellow: 
+	 case kYellow:
 	     if (schedules)
 	     {
 		 if (HasSubMenu())
@@ -510,7 +510,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		 return ExtendedSearch();
 	     break;
 	case kInfo:
-	case kOk: 
+	case kOk:
 	   if (Count())
 	       return ShowSummary();
 	   break;
@@ -531,7 +531,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 	  }
 	else
 	  shiftTime = 0;
- 
+
 	PrepareSchedule(ch);
 	if (ch->Number() != cDevice::CurrentChannel()) {
 	  otherChannel = ch->Number();
@@ -554,7 +554,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 	  gl_InfoConflict = 0;
 	  if (Interface->Confirm(tr("Timer conflict! Show?")))
 	      return AddSubMenu(new cMenuConflictCheck());
-      }      
+      }
   }
   return state;
 }

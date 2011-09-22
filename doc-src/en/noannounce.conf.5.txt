@@ -12,7 +12,7 @@ If the user presses one of the keys 'Ok', '0', ... '9' while the announcement
 of an event is displayed, he will be asked if further announcements of this
 event should be disabled for ever (user hit '0' or 'Ok') or for the next 'x'
 days (user hit '1' to '9'). After pressing 'Ok' again, this setting will be
-stored. 
+stored.
 
 =head1 FORMAT
 

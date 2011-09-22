@@ -34,7 +34,7 @@ cMenuEventSearch::cMenuEventSearch(const cEvent* Event, cEventObjects& EventObje
    eventObjects(EventObjects),
    surfMode(SurfMode)
 {
-   
+
    eventObjects.SetCurrent(Event);
    szGreen = szYellow = NULL;
    Set();
@@ -62,7 +62,7 @@ cEventObj* cMenuEventSearch::GetNext(const cEvent* Event)
       {
          cEventObjects::iterator nexti = i;
          nexti++;
-         return nexti != eventObjects.end() ? *nexti : NULL; 
+         return nexti != eventObjects.end() ? *nexti : NULL;
       }
 
    return NULL;
@@ -79,11 +79,11 @@ void cMenuEventSearch::Set()
    if (szYellow) free(szYellow);
    szGreen = szYellow = NULL;
 
-   if (event) 
+   if (event)
    {
       cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true, true);
       bool canSwitch = false;
-      if (channel) 
+      if (channel)
       {
          SetTitle(channel->Name());
          canSwitch = channel->Number() != cDevice::CurrentChannel();
@@ -92,7 +92,7 @@ void cMenuEventSearch::Set()
       cEventObj* eventObjPrev = GetPrev(event);
       cEventObj* eventObjNext = GetNext(event);
 
-      int timerMatch = tmNone;      
+      int timerMatch = tmNone;
       Timers.GetMatch(event, &timerMatch);
       const char* szRed = trVDR("Button$Record");
       if (timerMatch == tmFull)
@@ -108,9 +108,9 @@ void cMenuEventSearch::Set()
       }
       else if (surfMode == SurfModeChannel)
       {
-         if (eventObjPrev && eventObjPrev->Event()) 
+         if (eventObjPrev && eventObjPrev->Event())
             szGreen = strdup(CHANNELNAME(Channels.GetByChannelID(eventObjPrev->Event()->ChannelID(), true, true)));
-         if (eventObjNext && eventObjNext->Event()) 
+         if (eventObjNext && eventObjNext->Event())
             szYellow = strdup(CHANNELNAME(Channels.GetByChannelID(eventObjNext->Event()->ChannelID(), true, true)));
          SetHelp(szRed, szGreen, szYellow, canSwitch ? trVDR("Button$Switch") : NULL);
       }
@@ -166,7 +166,7 @@ eOSState cMenuEventSearch::ProcessKey(eKeys Key)
             DisplayMenu()->Scroll(NORMALKEY(Key) == kUp || NORMALKEY(Key) == kLeft, NORMALKEY(Key) == kLeft || NORMALKEY(Key) == kRight);
             cStatus::MsgOsdTextItem(NULL, NORMALKEY(Key) == kUp);
             return osContinue;
-         case k1...k9: 
+         case k1...k9:
             if (!HasSubMenu())
                return Commands(Key);
             else
@@ -178,7 +178,7 @@ eOSState cMenuEventSearch::ProcessKey(eKeys Key)
    }
 
    eOSState state = cOsdMenu::ProcessKey(Key);
-  
+
    if (state == osUnknown) {
       switch (Key) {
          case kOk:     return osBack;
@@ -215,9 +215,9 @@ eOSState cMenuEventSearch::ProcessKey(eKeys Key)
 }
 
 cMenuEventSearchSimple::cMenuEventSearchSimple(const cEvent* Event, cEventObjects& EventObjects)
-     :cMenuEventSearch(Event, EventObjects) 
-{ 
-   Set(); 
+     :cMenuEventSearch(Event, EventObjects)
+{
+   Set();
 }
 
 void cMenuEventSearchSimple::Set()
@@ -231,11 +231,11 @@ void cMenuEventSearchSimple::Set()
    if (szYellow) free(szYellow);
    szGreen = szYellow = NULL;
 
-   if (event) 
+   if (event)
    {
       cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true, true);
       bool canSwitch = false;
-      if (channel) 
+      if (channel)
       {
          SetTitle(channel->Name());
          canSwitch = channel->Number() != cDevice::CurrentChannel();

@@ -12,7 +12,7 @@ Ein weiterer Punkt sind die sog. Suchtimer die dafür
 sorgen, dass Timer automatisch programmiert werden.
 
  - Befehle für EPG-Einträge mit verschiedenen integrierten Befehlen wie
-   z.B. 'Wiederholungen anzeigen', 'Suche anlegen'. Man kann eigene   
+   z.B. 'Wiederholungen anzeigen', 'Suche anlegen'. Man kann eigene
    Befehle hinzufügen, um z.B. einen VDRAdmin Autotimer anzulegen.
 
  - Bis zu 4 weitere Zeitpunkte im Menü 'Was läuft jetzt?' neben 'Jetzt'
@@ -58,7 +58,7 @@ Teile der Quelltexte basieren auf dem repeating-epg-patch von Gerhard Steiner, d
 
 =over 4
 
-=item -f file,  --svdrpsendcmd=file  
+=item -f file,  --svdrpsendcmd=file
 
 Pfad zu svdrpsend.pl für externe SVDRP-Kommunikation (Standard ist interne
 Kommunikation, deshalb ist dieser Paramter normalerweise nicht notwendig)
@@ -73,12 +73,12 @@ epgsearch-Dateien, Standard ist '<Plugin-Konfig-Verzeichnis>/epgsearch'
 zur Angabe eines abweichenden Dateipfades für epgsearch's Log-File (Standard
 ist epgsearch.log in epgsearch's Konfig-Verzeichnis)
 
-=item -v n,  --verbose=n       
+=item -v n,  --verbose=n
 
 verbose level für das Log-File. Wert 0 bedeutet kein Logging. Weiter Werte sind
 1 (allgemeine Meldungen), 2 (detaillierte Meldungen), 3 (für Debug-Zwecke)
 
-=item -r,  --reloadmenuconf       
+=item -r,  --reloadmenuconf
 
 bewirkt ein Neuladen der epgsearchmenu.conf bei jedem Plugin-Aufruf am
 OSD. Kann für das Testen eines selbst angepaßten Menü-Layouts praktisch sein.
@@ -113,7 +113,7 @@ bei sendEmail.pl.
 =head1 1. Beschreibung
 
 Auf den ersten Blick sieht EPG-Search wie der Programm-Menü-Punkt des
-VDR aus.   
+VDR aus.
 Ein Tastendruck auf '0' schaltet die Farbtasten um, so dass weitere
 Funktionen erreicht werden können (die vorgegebene Zuweisung kann per
 Setup angepasst werden):
@@ -188,7 +188,7 @@ einem bestimmten Sender kommt.
 Mit 'Blau' kann man auch eine Vorlage für eine Suche
 übernehmen. Falls eine Vorlage als Standard definiert wurde, wird
 bei einer neuen Suche automatisch der Inhalt der Standard-Vorlage
-verwendet. 
+verwendet.
 
 Hinweis: Die unscharfe Suche ist auf 32 Zeichen begrenzt!
 
@@ -212,7 +212,7 @@ Eine Beschreibung des Suchprozesses gibt es im MANUAL.
 
 =item - B<Verw. Kennung für Inhalt>
 
-Einige Provider liefern Kennungen für den Inhalt einer Sendung, z.B. 
+Einige Provider liefern Kennungen für den Inhalt einer Sendung, z.B.
 "Film/Drama", "Dokumentation",...(erst ab vdr-1.7.11 verfügbar)
 Hiermit können diesen Kennungen ausgewählt werden. Es ist auch eine
 Mehrfachauswahl möglich, die dann in allen Kennungen übereinstimmen muss (UND-Verknüpfung).
@@ -224,16 +224,16 @@ erweiterter EPG Infos')
 
 =item - B<Ignoriere fehlende Kategorien>
 
-Wenn 'Ja' gewählt ist, verhindert das, dass eine Sendung aus dem 
-Suchergebnis ausgeschlossen wird, falls die entsprechende 
-Kategorie nicht im EPG vorhanden ist. Vorsicht: Ohne weitere Suchkriterien 
+Wenn 'Ja' gewählt ist, verhindert das, dass eine Sendung aus dem
+Suchergebnis ausgeschlossen wird, falls die entsprechende
+Kategorie nicht im EPG vorhanden ist. Vorsicht: Ohne weitere Suchkriterien
 kann das zu einer Flut von Timern führen.
 
 =item - B<Verw. Kanal:>
 
 sucht nur im angegebenen Kanalbereich, der hinterlegten
 Kanalgruppe, z.B. 'Öffentl. Rechtl.' oder 'Sportsender'... oder in
-FTA-Sendern. 
+FTA-Sendern.
 
 ACHTUNG: Nach einer Änderung der Kanal-Reihenfolge sollten unbedingt
 diese Einstellungen der Suchtimer kontrolliert werden!
@@ -277,7 +277,7 @@ aktiv sein soll.
 
 Standard ist 'Aufnehmen', also das Erzeugen eines Timers für das
 Suchergebnis. Man kann aber auch wählen, dass nur eine Ankündigung
-der Sendung per OSD vorgenommen werden soll, sobald diese gefunden wird. 
+der Sendung per OSD vorgenommen werden soll, sobald diese gefunden wird.
 Eine weitere Möglichkeit ist 'nur umschalten'. Dadurch wird automatisch eine
 Minute vor Beginn der Sendung auf deren Kanal gewechselt. Ebenso kann
 mit 'Ankündigen und Umschalten' die Sendung vor ihrem Beginn angekündigt werden
@@ -303,7 +303,7 @@ Verzeichnis-Eintrag auch Variablen wie "%Genre%" oder "%Category%"
 verwendet werden. Diese werden durch die aktuellen erw. EPG-Infos
 ersetzt, sobald ein Timer erzeugt wird.
 
-Siehe MANUAL 'Using variables in the directory entry of a search timer') 
+Siehe MANUAL 'Using variables in the directory entry of a search timer')
 
 =item - B<Aufn. nach ... Tagen löschen>
 
@@ -323,7 +323,7 @@ Wenn man keine Wiederholungen aufnehmen will, versucht dieses
 Feature festzustellen, ob eine Sendung bereits
 aufgenommen/programmiert wurde und überspringt diese dann. Bitte vor
 Verwendung den Abschnitt 'Wiederholungen vermeiden - Im Detail'
-weiter unten lesen. 
+weiter unten lesen.
 
 =item - B<erlaubte Wiederholungen>
 
@@ -344,16 +344,16 @@ Titel verglichen werden soll.
 =item - B<Vergleiche Untertitel>
 
 Einstellung, ob beim Test, ob eine Sendung identisch ist, auch der
-Untertitel verglichen werden soll. Bei 'falls vorhanden' stuft epgsearch zwei Sendungen nur dann als 
-identisch ein, wenn die Episodennamen gleich sind und nicht leer. 
+Untertitel verglichen werden soll. Bei 'falls vorhanden' stuft epgsearch zwei Sendungen nur dann als
+identisch ein, wenn die Episodennamen gleich sind und nicht leer.
 
 =item - B<Vergleiche Beschreibung>
 
 Einstellung, ob beim Test, ob eine Sendung identisch ist, auch die
 Inhaltsbeschreibung verglichen werden soll. Dabei wird zunächst
 alles aus dem Inhalt entfernt, das einer Kategorienangabe
-gleicht. Der verbleibende Text wird dann verglichen. Ist dieser zum 
-Prozentsatz der folgenden Option ähnlich (im Sinne des Levinshtein-Distance-Algorithmus) 
+gleicht. Der verbleibende Text wird dann verglichen. Ist dieser zum
+Prozentsatz der folgenden Option ähnlich (im Sinne des Levinshtein-Distance-Algorithmus)
 wird er als gleich behandelt.
 
 =item - C<Min. Übereinstimmung in %>
@@ -389,8 +389,8 @@ zum automatischen Löschen eines Suchttimers bei folgenden Bedingungen:
  * nach x Aufnahmen, oder
  * nach x Tagen nach erster Aufnahme
 
-Gezählt werden dabei nur erfolgreiche Aufnahmen. Das Löschen erfolgt 
-direkt nach dem Ende der entsprechenden Aufnahme. 
+Gezählt werden dabei nur erfolgreiche Aufnahmen. Das Löschen erfolgt
+direkt nach dem Ende der entsprechenden Aufnahme.
 
 =back
 
@@ -456,7 +456,7 @@ Auswahl von 'Programm' oder 'Jetzt' als Startmenü.
 Hier kann das Verhalten der 'Ok'-Taste bestimmt werden. Man kann damit
 die Inhaltsangabe  anzeigen oder zum entsprechenden Sender
 wechseln. Hinweis: Die Funktion der Taste 'Blau' (Umschalten/Info/Suche)
-hängt von dieser Einstellung ab. 
+hängt von dieser Einstellung ab.
 
 =item - B<Taste Rot:>
 
@@ -502,7 +502,7 @@ wird das Limit ignoriert und wieder alle Kanäle angezeigt.
 =item - B<Timer mit 'Aufnehmen' sofort anlegen:>
 
 Falls 'Ja' wird ein Timer sofort erzeugt, sobald man 'Aufnehmen' drückt,
-sonst wird das Timer-Edit-Menü angezeigt. 
+sonst wird das Timer-Edit-Menü angezeigt.
 
 =item - B<Zeige Kanäle ohne EPG:>
 
@@ -519,7 +519,7 @@ falls 'Nein' erscheint das Timer-Edit-Menü.
 In den Menüs 'Programm', 'Jetzt', 'Nächste', 'Benutzerdef. Zeit 1',
 ... kann die angezeigte Zeit durch drücken von FastRew, FastFwd
 verschoben werden.  Die Anzahl Minuten für den Sprung kann hier
-angepasst werden. 
+angepasst werden.
 
 =item - B<Grün/Gelb umschalten:>
 
@@ -583,7 +583,7 @@ verwendet. Man kann auch EPG-Variablen verwenden (z.B.. 'Meine
 Filme~%Category%~%Genre%'). Wird das Timer-Edit-Menü aufgerufen
 versucht epgsearch alle Variablen durch die Werte in der
 Beschreibung der Sendung zu ersetzen. Konnten nicht alle ersetzt
-werden, bleibt der Verzeichniseintrag leer. 
+werden, bleibt der Verzeichniseintrag leer.
 
 =item - B<Untertitel in manuellen Timern:>
 
@@ -603,9 +603,9 @@ werden. Folgende Prüfmethoden existieren:
    * ohne Überwachung
    * anhand Sendungskennung: geprüft wird anhand einer Kennung, die durch den
      Sender vergeben wird. (Achtung: nicht jeder Sender liefert vernünftige
-     Kennungen!) 
+     Kennungen!)
    * anhand Sender/Uhrzeit: geprüft wird anhand der Sendung, die am besten zur
-     Dauer der ursprünglichen Sendung passt. 
+     Dauer der ursprünglichen Sendung passt.
 
 Nicht alle Sender liefern eine vernünftige Sendungskennung. Deshalb kann hier
 die Standardeinstellung für jeden Kanal einzeln gesetzt werden. Bei der
@@ -623,17 +623,17 @@ vorgegeben, falls das epgsearch-eigene Menü benutzt wird.
 falls ja, untersucht das Plugin im Hintergrund die EPG-Daten und
 erzeugt Timer, falls passende Einträge gefunden werden. Dies
 betrifft nur Sucheinträge, die mit 'Als Suchtimer verwenden'
-markiert sind. 
+markiert sind.
 
 =item - B<Aktualisierungsintervall:>
 
 Das Intervall in Minuten, in dem die Hintergrundsuche vorgenommen
-wird. 
+wird.
 
 =item - B<SVDRP Port:>
 
 Falls nicht der Standard-SVDRP-Port 6419 (2001 vor vdr-1.7.15) verwendet wird, dann bitte
-hier anpassen, damit die Suchtimer funktionieren. 
+hier anpassen, damit die Suchtimer funktionieren.
 
 =item - B<Priorität, Lebensdauer und Zeitpuffer für Anfang und Ende:>
 
@@ -651,7 +651,7 @@ wurden. Zum Abschalten dieses Verhaltens bitte 'Ja' wählen.
 
 =item - B<Prüfe ob EPG für ... [h] existiert:>
 
-Falls EPG von externen Anbietern bezogen wird, kann es vorkommenm, dass hier 
+Falls EPG von externen Anbietern bezogen wird, kann es vorkommenm, dass hier
 auch mal etwas schiefläuft und somit wegen fehlendem EPG Aufzeichnungen verlorengehen.
 Hiermit kann geprüft werden, ob für die nächsten ... Stunden EPG bei den
 gewünschten Sendern vorhanden ist. Mit '0' wird die Prüfung deaktiviert.
@@ -683,13 +683,13 @@ verwendet werden können.
 =item - B<Ausschlusslisten:>
 
 Hier können Ausschlusslisten verwalten werden. Diese können innerhalb einer
-Suche verwendet werden um unerwünschte Sendungen zu vermeiden. 
-Eine Ausschlussliste kann auch als global gekennzeichnet werden. Da die 
-Standardeinstellung beim Suchtimer für die Option 'Ausschlusslisten verw.' 
-auf 'nur globale' steht, kann man somit einfach unerwünschte Sendungen von 
-allen Suchtimern ausschließen. Ausnahme: Falls beim Suchtimer die Option 
-'Ausschlusslisten verw.: keine' gewählt ist, hat eine globale Ausschlussliste 
-keine Auswirkung. Ebenso werden globale Ausschlusslisten bei der Suche nach 
+Suche verwendet werden um unerwünschte Sendungen zu vermeiden.
+Eine Ausschlussliste kann auch als global gekennzeichnet werden. Da die
+Standardeinstellung beim Suchtimer für die Option 'Ausschlusslisten verw.'
+auf 'nur globale' steht, kann man somit einfach unerwünschte Sendungen von
+allen Suchtimern ausschließen. Ausnahme: Falls beim Suchtimer die Option
+'Ausschlusslisten verw.: keine' gewählt ist, hat eine globale Ausschlussliste
+keine Auswirkung. Ebenso werden globale Ausschlusslisten bei der Suche nach
 Wiederholungen über das OSD ignoriert.
 
 =item - B<Kanalgruppen:>
@@ -728,7 +728,7 @@ wird als 'nicht relevant' in der Konflikt-Übersicht angezeigt.
 
 Falls ein Konflikt nicht länger als die angegebene Anzahl Minuten dauert,
 wird darauf nicht per OSD-Nachricht hingewiesen und der Konflikt wird als
-'nicht relevant' in der Konflikt-Übersicht angezeigt. 
+'nicht relevant' in der Konflikt-Übersicht angezeigt.
 
 =item - B<Prüfe nur die nächsten ... Tage:>
 
@@ -738,12 +738,12 @@ Hier kann der Zeitraum der Prüfung angegeben werden.
 
 Das bewirkt eine Konfliktprüfung nach jeder manuellen Timer-Programmierung
 und erzeugt eine OSD-Nachricht, falls der neue/geänderte Timer in einen
-Konflikt verwickelt ist. 
+Konflikt verwickelt ist.
 
 =item - B<Beim Beginn einer Aufnahme:>
 
-Hier auf 'Ja' setzen, wenn die Konfliktprüfung beim Beginn jeder Aufnahme erfolgen soll. 
-Im Falle eines Konflikts wird dann sofort eine Nachricht angezeigt. Diese erscheint nur, 
+Hier auf 'Ja' setzen, wenn die Konfliktprüfung beim Beginn jeder Aufnahme erfolgen soll.
+Im Falle eines Konflikts wird dann sofort eine Nachricht angezeigt. Diese erscheint nur,
 wenn der Konflikt innerhalb der nächsten 2 Stunden auftritt.
 
 =item - B<Nach jedem Suchtimer-Update:>
@@ -774,7 +774,7 @@ Prüfintervall eingestellt werden.
 =item - B<Vermeide Nachricht bei Wiedergabe:>
 
 Bitte auf 'Ja' setzen, wenn während einer Wiedergabe keine OSD-Benachrichtigungen
-über Timer-Konflikte gewünscht sind. Die Benachrichtigung erfolgt trotzdem, 
+über Timer-Konflikte gewünscht sind. Die Benachrichtigung erfolgt trotzdem,
 wenn der nächste Konflikt innerhalb der nächsten 2 Stunden auftritt.
 
 =back
@@ -820,13 +820,13 @@ versandt, sobald sich etwas bei den Konflikten verändert.
 
 =item - B<Email-Adresse:>
 
-Hier bitte die volle (!) Email-Adresse hinterlegen, an die die Nachrichten 
-verschickt werden sollen. Hinweis: Einigen Provider (z.B. Arcor) erlauben nicht 
+Hier bitte die volle (!) Email-Adresse hinterlegen, an die die Nachrichten
+verschickt werden sollen. Hinweis: Einigen Provider (z.B. Arcor) erlauben nicht
 die gleiche Adresse für Sender und Empfänger.
 
 =item - B<Mail-Methode:>
 
-Zur Auswahl stehen 
+Zur Auswahl stehen
 
   - sendEmail.pl: ein einfaches Skript, das auch auf Systemen ohne
     konfigurierten Mailserver den Versand von Emails erlaubt. Das Skript wird
@@ -903,7 +903,7 @@ Hier soll erklärt werden wie die Option 'Wiederholungen vermeiden'
 eines Suchtimers funktioniert.
 
 Nicht immer lässt sich durch entsprechende Suchkriterien vermeiden,
-dass auch Timer für Wiederholungen erzeugt werden. 
+dass auch Timer für Wiederholungen erzeugt werden.
 
 Um das zu verhindern, versucht das Feature 'Wiederholungen vermeiden'
 vor dem Programmieren einer Sendung zu prüfen, ob eine gleiche Sendung
@@ -917,7 +917,7 @@ Für den Test auf Gleichheit zwischen 2 Sendungen gibt es viele
 Einstellmöglichkeiten beim Suchtimer. Man kann wählen, ob Titel,
 Untertitel, Beschreibung und bestimmte Kategorien innerhalb der
 Beschreibung einer Sendung mit den jeweiligen Angaben einer anderen
-Sendung verglichen werden sollen. 
+Sendung verglichen werden sollen.
 
 Der Vergleich der einzelnen Angaben selbst prüft immer auf
 vollständige Identität. Die Beschreibung einer Sendung bildet hier
@@ -958,7 +958,7 @@ aufgenommen, die bezüglich der Timerangaben korrekt begonnen und auch
 beendet wurden. D.h. dass teilweise unvollständige Aufnahmen nicht
 registriert werden und somit beim nächsten Suchtimer-Update
 automatisch ein neuer Timer für diese Sendung erzeugt wird, falls
-gefunden. 
+gefunden.
 
 B<Wie verwenden?>
 
@@ -969,7 +969,7 @@ richtige macht. Dazu gibt es für solche Timer im Suchergebnis-Menü auf
 der Taste 'Blau' die zusätzliche Belegung 'Timer-Vorschau'. Sendungen,
 die noch keinen Timer haben ('T'), aber für die einer aufgrund des
 Features beim nächsten Suchtimer-Update programmiert würde, haben dort
-ein 'P' stehen. 
+ein 'P' stehen.
 
 Hinweis: Möchte man wegen Konflikten einen bereits programmierten
 Timer nicht verwenden, dann sollte dieser im Timermenü deaktiviert
@@ -995,8 +995,8 @@ Einige EPG Provider liefern zusätzliche EPG Infos wie die Art der
 Sendung, das Video und Audio Format, die Besetzung,... in der Beschreibung der
 Sendung.
 
-Anmerkung: Dies hat nichts mit den content descriptors seit vdr-1.7.11 zu tun, 
-die als zusätzliche Daten nach einem gemeinsamen Standard aufgeliefert werden. 
+Anmerkung: Dies hat nichts mit den content descriptors seit vdr-1.7.11 zu tun,
+die als zusätzliche Daten nach einem gemeinsamen Standard aufgeliefert werden.
 Leider liefern nicht alle Provider diese Daten oder setzen die Kennungen nicht korrekt.
 Deshalb gibt es den Ansatz der "erweiterten EPG Infos", der versucht diese Information
 aus der Inhaltsbeschreibung zu extrahieren.
@@ -1075,7 +1075,7 @@ Setup ausblenden. Um das Plugin trotzdem mit der Taste "Grün" aufrufen
 zu können, könnte man z.B. mein launcher-Plugin verwenden und
 die Zeile
 
- Green @launcher x 
+ Green @launcher x
 
 in die keymacros.conf schreiben, wobei x die Position von epgsearch
 innerhalb des launcher listings ist.
@@ -1084,9 +1084,9 @@ Ein weiterer Ansatz ist ein Patch gegen VDR, der das Standardmenü
 'Programm' gegen epgsearch austauscht.
 Hierzu VDR mit dem Patch vdr-replace-schedulemenu.diff.gz aus dem
 Patches-Verzeichnis patchen. Danke an den Autor Uwe/egal@vdrportal.
-Bei Anwendung dieses Patches sollte der Eintrag 
+Bei Anwendung dieses Patches sollte der Eintrag
 
- Green Schedule 
+ Green Schedule
 
 heißen. Dieser Patch ist bereits in manchen Patchsammlungen,
 z.B. Bigpatch, enthalten.
@@ -1200,24 +1200,24 @@ L<http://www.vdr-developer.org/mantisbt/>
 
 Mailinglist:
 
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>   
+L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LIZENZ
 
 Copyright © 2004-2010 Christian Wieninger
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
-der GNU General Public License, wie von der Free Software Foundation 
+der GNU General Public License, wie von der Free Software Foundation
 veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
-der Lizenz oder (nach Ihrer Option) jeder späteren Version. 
+der Lizenz oder (nach Ihrer Option) jeder späteren Version.
 
-Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es 
-Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die 
-implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN 
-ZWECK. Details finden Sie in der GNU General Public License. 
+Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+ZWECK. Details finden Sie in der GNU General Public License.
 
-Sie sollten ein Exemplar der GNU General Public License zusammen mit 
-diesem Programm erhalten haben. Falls nicht, schreiben Sie an die 
+Sie sollten ein Exemplar der GNU General Public License zusammen mit
+diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 auf.
@@ -1226,8 +1226,8 @@ Der Author kann über cwieninger@gmx.de erreicht werden.
 
 Die Projektseite ist http://winni.vdr-developer.org/epgsearch
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm 
-von RSA Data Security, Inc..   
+Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
+von RSA Data Security, Inc..
 
 
 

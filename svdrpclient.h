@@ -41,7 +41,7 @@ public:
 	{
 	    bConnected = false;
 	    sock  = socket(PF_INET, SOCK_STREAM, 0);
-	    if (sock < 0) 
+	    if (sock < 0)
 	    {
 		LogFile.eSysLog("error creating socket!");
 		return;
@@ -68,7 +68,7 @@ public:
 	        close(sock);
 	}
 
-    bool SendCmd(const char* cmd) 
+    bool SendCmd(const char* cmd)
 	{
 	    if (!bConnected)
 		return false;
@@ -83,12 +83,12 @@ public:
 	    long rc = 0;
 	    if ((rc = Receive()) != SVDRPDISCONNECT)
 		LogFile.eSysLog("could not disconnect (%ld)!", rc);
-	    
+
 	    close(sock);
 	    sock = -1;
 	    return cmdret;
 	}
-    bool Send(const char* szSend) 
+    bool Send(const char* szSend)
 	{
 	    int length = strlen(szSend);
 	    int sent = 0;
@@ -104,7 +104,7 @@ public:
 	    while ( sent < length );
 	    return true;
 	}
-    long Receive() 
+    long Receive()
 	{
 	    char* csResp = strdup("");
 	    char ch;
@@ -134,7 +134,7 @@ public:
 		}
 		free(csResp);
 		csResp = strdup("");
-	    }		
+	    }
 	    free(csResp);
 	    return rc;
 	}

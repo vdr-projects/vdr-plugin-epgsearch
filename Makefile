@@ -6,11 +6,11 @@
 
 ### ------------
 ### CONFIG START
-### 
+###
 ### to comment an option just place a '#' at the beginning of the line
 ### to uncomment an option please remove the leading '#'
 
-### uncomment one of these lines, if you don't want the addon epgsearchonly, 
+### uncomment one of these lines, if you don't want the addon epgsearchonly,
 ### conflictcheckonly or quickepgsearch
 
 #WITHOUT_EPGSEARCHONLY=1
@@ -20,7 +20,7 @@
 ### comment this if you don't want epgsearch to auto config itself
 AUTOCONFIG=1
 
-### if AUTOCONFIG is not active (i.e. commented) you can manually enable the 
+### if AUTOCONFIG is not active (i.e. commented) you can manually enable the
 ### optional modules or patches for other plugins
 ifndef AUTOCONFIG
 # if you want to use Perl compatible regular expressions (PCRE) or libtre for
@@ -133,7 +133,7 @@ DEFINES4 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"'
 
 ### The object files (add further files here):
 
-OBJS = afuzzy.o blacklist.o changrp.o confdloader.o conflictcheck.o conflictcheck_thread.o distance.o $(PLUGIN).o epgsearchcats.o epgsearchcfg.o epgsearchext.o epgsearchsetup.o  epgsearchsvdrp.o epgsearchtools.o mail.o md5.o menu_announcelist.o menu_blacklistedit.o menu_blacklists.o menu_commands.o menu_conflictcheck.o menu_deftimercheckmethod.o menu_dirselect.o menu_event.o menu_favorites.o menu_main.o menu_myedittimer.o menu_quicksearch.o menu_recsdone.o menu_search.o menu_searchactions.o menu_searchedit.o menu_searchresults.o menu_searchtemplate.o menu_switchtimers.o menu_templateedit.o menu_timersdone.o menu_whatson.o noannounce.o pending_notifications.o rcfile.o  recdone.o recstatus.o searchtimer_thread.o services.o switchtimer.o switchtimer_thread.o templatefile.o timer_thread.o timerdone.o timerstatus.o uservars.o varparser.o  
+OBJS = afuzzy.o blacklist.o changrp.o confdloader.o conflictcheck.o conflictcheck_thread.o distance.o $(PLUGIN).o epgsearchcats.o epgsearchcfg.o epgsearchext.o epgsearchsetup.o  epgsearchsvdrp.o epgsearchtools.o mail.o md5.o menu_announcelist.o menu_blacklistedit.o menu_blacklists.o menu_commands.o menu_conflictcheck.o menu_deftimercheckmethod.o menu_dirselect.o menu_event.o menu_favorites.o menu_main.o menu_myedittimer.o menu_quicksearch.o menu_recsdone.o menu_search.o menu_searchactions.o menu_searchedit.o menu_searchresults.o menu_searchtemplate.o menu_switchtimers.o menu_templateedit.o menu_timersdone.o menu_whatson.o noannounce.o pending_notifications.o rcfile.o  recdone.o recstatus.o searchtimer_thread.o services.o switchtimer.o switchtimer_thread.o templatefile.o timer_thread.o timerdone.o timerstatus.o uservars.o varparser.o
 
 ifeq ($(REGEXLIB), pcre)
 LIBS += $(shell pcre-config --libs-posix)
@@ -155,7 +155,7 @@ ifdef USE_GRAPHTFT
 DEFINES += -DUSE_GRAPHTFT
 endif
 
-ifdef CFLC 
+ifdef CFLC
 DEFINES += -DCFLC
 endif
 
@@ -257,7 +257,7 @@ dist: docs clean
 	@ln -sf README.git README
 	@echo Distribution package created as $(PACKAGE).tgz
 
-distfull: docs clean 
+distfull: docs clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)

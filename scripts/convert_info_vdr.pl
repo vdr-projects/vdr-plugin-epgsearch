@@ -43,7 +43,7 @@ printf ("Konvertiere %s\n",$DateiAlt);
 while(<DATEI>) {
 
   $Zeile = $_;
-  
+
   print NEU $Zeile if $Zeile =~ /^[CETSX] .+/;
 
   $epgsearch = $1 if $Zeile =~ /^D .*(Kanal.+Suchtimer.+S-ID.+)$/;
@@ -58,7 +58,7 @@ while(<DATEI>) {
     $neuformat=1;
     $aux = $1;
   }
-  
+
 }
 
 if ( $neuformat == 1 && $aux !~ /epgsearch/ && $epgsearch ne "" ) {

@@ -59,7 +59,7 @@ int CompareEventTime(const void *p1, const void *p2)
    time_t time1 = (*(cSearchResult **)p1)->event->StartTime();
    time_t time2 = (*(cSearchResult **)p2)->event->StartTime();
    if (time1 == time2)
-      return (int)(ChannelNrFromEvent((*(cSearchResult **)p1)->event) - 
+      return (int)(ChannelNrFromEvent((*(cSearchResult **)p1)->event) -
                    ChannelNrFromEvent((*(cSearchResult **)p2)->event));
    else
       return (int)(time1 - time2);
@@ -88,34 +88,34 @@ bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, con
    if (szTest && *szTest)
    {
       if (mode == 0) // substring
-         return (strstr(szTest, searchText) != NULL); 
+         return (strstr(szTest, searchText) != NULL);
       else if (mode == 1 || mode == 2) // AND or OR
-      { 
+      {
          bool bTesting = false;
          char *pstrSearchToken, *pptr;
          bool bFirst=true;
          char *pstrSearch=strdup(searchText);
          pstrSearchToken=strtok_r(pstrSearch, delim, &pptr);
-         while(pstrSearchToken) 
+         while(pstrSearchToken)
          {
-            if(szTest && strstr(szTest, skipspace(pstrSearchToken))) 
-            { 
-               if(mode==1) 
+            if(szTest && strstr(szTest, skipspace(pstrSearchToken)))
+            {
+               if(mode==1)
                { // means AND
-                  if(bFirst) 
+                  if(bFirst)
                   {
                      bTesting=true;
                      bFirst=false;
-                  } 
+                  }
                   else
                      bTesting&=true;
                }
                else
                   bTesting|=true;
-            } 
-            else 
+            }
+            else
             {// not found!!
-               if(mode==1) 
+               if(mode==1)
                { // means AND
                   bTesting=false;
                   bFirst=false;
@@ -132,7 +132,7 @@ bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, con
             return true;
          else
             return false;
-      } 
+      }
       else if (mode == 4) // regexp
       {
          regex_t re;
@@ -144,7 +144,7 @@ bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, con
             return (status == 0);
          }
          return false;
-      }	
+      }
       else if (mode == 5) // fuzzy
       {
 	 AFUZZY af = { NULL, NULL, NULL, NULL, NULL, NULL, { 0 }, { 0 }, 0, 0, 0, 0, 0, 0 };
@@ -156,13 +156,13 @@ bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, con
          afuzzy_free(&af);
          return (res > 0);
       }
-      else if (mode >= 10 && mode <= 15) 
+      else if (mode >= 10 && mode <= 15)
       {
          int testvalue = atoi(szTest);
          int value = atoi(searchText);
 	 if (value == 0) return true;
 
-         if (mode == 10) // less 
+         if (mode == 10) // less
             return testvalue < value;
          else if (mode == 11) // less or equal
             return testvalue <= value;
@@ -214,7 +214,7 @@ char* GetExtEPGValue(const char* description, const char* catname)
    if (isempty(description))
       return NULL;
    char* tmp = NULL;
-    
+
    // search the category, must be at beginnig of a line
    msprintf(&tmp, "\n%s: ", catname);
    char* descr = strdup(description);
@@ -228,7 +228,7 @@ char* GetExtEPGValue(const char* description, const char* catname)
    else
       cat++; // skip linefeed
 
-   // search the value to appear before the next line feed or end 
+   // search the value to appear before the next line feed or end
    char* end = strchr(cat, '\n');
    int endpos = strlen(cat);
    if (end)
@@ -247,7 +247,7 @@ char* GetAuxValue(const char* aux, const char* name)
 {
    if (isempty(aux))
       return NULL;
-    
+
    char* descr = strdup(aux);
    char* beginaux = strstr(descr, "<epgsearch>");
    char* endaux = strstr(descr, "</epgsearch>");
@@ -255,12 +255,12 @@ char* GetAuxValue(const char* aux, const char* name)
       free(descr);
       return NULL;
       }
-   
+
    beginaux +=  11;  // strlen("<epgsearch>");
    endaux[0] = 0;
    memmove(descr, beginaux, endaux - beginaux + 1);
-   
-   if (strcmp(name, "epgsearch") == 0) 
+
+   if (strcmp(name, "epgsearch") == 0)
       return descr; // full aux
 
    int namelen = strlen(name);
@@ -275,19 +275,19 @@ char* GetAuxValue(const char* aux, const char* name)
       free(descr);
       return NULL;
       }
-      
+
    cat += namelen + 2;
    char* end = strstr(cat, "</");
    if (!end) {
-      free(descr);	
+      free(descr);
       return NULL;
       }
    end[0] = 0;
-   
+
    int catlen = end - cat + 1;
    char* value = (char *) malloc(catlen);
    memcpy(value, cat, catlen);
-   
+
    free(descr);
    return value;
 }
@@ -343,8 +343,8 @@ char *strreplacei(char *s, const char *s1, const char *s2)
 }
 
 std::string strreplace(
-  std::string& result, 
-  const std::string& replaceWhat, 
+  std::string& result,
+  const std::string& replaceWhat,
   const std::string& replaceWithWhat)
 {
   while(1)
@@ -367,13 +367,13 @@ void sleepSec(long s)
    sleepMSec(s * 1000);
 }
 
-bool SendViaSVDRP(cString SVDRPcmd) 
+bool SendViaSVDRP(cString SVDRPcmd)
 {
    bool bSuccess = true;
    cString cmdbuf;
    if (EPGSearchConfig.useExternalSVDRP)
    {
-     cmdbuf = cString::sprintf("%s -p %d \"%s\"", 
+     cmdbuf = cString::sprintf("%s -p %d \"%s\"",
                cSVDRPClient::SVDRPSendCmd,
                EPGSearchConfig.SVDRPPort,
                *SVDRPcmd);
@@ -397,11 +397,11 @@ bool SendViaSVDRP(cString SVDRPcmd)
          bSuccess = false;
       }
    }
-	    
+
    return bSuccess;
 }
 
-int SendMsg(cString Message, bool confirm, int seconds) 
+int SendMsg(cString Message, bool confirm, int seconds)
 {
    int Keys = Skins.QueueMessage(mtInfo, Message, seconds, confirm?seconds+2:0);
    return Keys;
@@ -429,7 +429,7 @@ cSearchExt* TriggeredFromSearchTimer(const cTimer* timer)
    char* searchID = GetAuxValue(timer, "s-id");
    if (!searchID)
       return NULL;
-    
+
    cSearchExt* search = SearchExts.GetSearchFromID(atoi(searchID));
    free(searchID);
    return search;
@@ -438,7 +438,7 @@ cSearchExt* TriggeredFromSearchTimer(const cTimer* timer)
 int TriggeredFromSearchTimerID(const cTimer* timer)
 {
    cSearchExt* trigger = TriggeredFromSearchTimer(timer);
-   if (trigger) 
+   if (trigger)
       return trigger->ID;
    else
       return -1;
@@ -468,7 +468,7 @@ bool DescriptionMatches(const char* eDescr, const char* rDescr, int matchLimit)
    if (100*double(minLength)/double(maxLength) < matchLimit)
       return false;
 
-   // last try with Levenshtein Distance, only compare the first 1000 chars 
+   // last try with Levenshtein Distance, only compare the first 1000 chars
    double fMatch = FuzzyMatch(eDescr, rDescr, 1000);
    double tmp_matchlimit = matchLimit/100.0;
    if(maxLength - minLength < 5)
@@ -489,7 +489,7 @@ const cEvent* GetEvent(cTimer* timer)
    const cEvent* event = NULL;
    const cChannel *channel = timer->Channel();
    time_t Time = timer->StartTime() + (timer->StopTime() - timer->StartTime()) / 2;
-   for (int seconds = 0; seconds <= 3; seconds++) 
+   for (int seconds = 0; seconds <= 3; seconds++)
    {
       {
          cSchedulesLock SchedulesLock;
@@ -498,7 +498,7 @@ const cEvent* GetEvent(cTimer* timer)
             const cSchedule *Schedule = Schedules->GetSchedule(channel->GetChannelID());
             if (Schedule) {
                event = Schedule->GetEventAround(Time);
-               if (event) return event; 
+               if (event) return event;
             }
          }
       }
@@ -511,8 +511,8 @@ const cEvent* GetEvent(cTimer* timer)
 }
 
 // this extracts the real description from a given epg entry cutting all that looks like a category line
-// we asume, that a category has a name not longer than MAXCATNAMELENGTH and a value not longer than 
-// MAXCATVALUELENGTH (so in most cases e.g. the 'cast' category will stay part of the description). name and 
+// we asume, that a category has a name not longer than MAXCATNAMELENGTH and a value not longer than
+// MAXCATVALUELENGTH (so in most cases e.g. the 'cast' category will stay part of the description). name and
 // value are separated with ': '
 #define MAXCATNAMELENGTH 40
 #define MAXCATVALUELENGTH 60
@@ -522,8 +522,8 @@ char* GetRawDescription(const char* descr)
    if (!descr || !*descr) return NULL;
 
    char* rawDescr = (char*) calloc(strlen(descr)+1, sizeof(char));
-   
-   const char* tmp = descr;    
+
+   const char* tmp = descr;
    while(tmp)
    {
       // extract a single line
@@ -536,11 +536,11 @@ char* GetRawDescription(const char* descr)
       //      if (lf) *lf = 0;
       // check for category
       char* delim = strstr(line, ": ");
-      if (!delim || 
+      if (!delim ||
           (delim && (delim - line > MAXCATNAMELENGTH || strlen(line) - (delim - line) + 2 > MAXCATVALUELENGTH)))
          if (*line)
 	   strcat(rawDescr, line);
-	
+
       if (lf) tmp += strlen(line)+1; else tmp = NULL;
       free(line);
    }
@@ -572,7 +572,7 @@ void PrepareTimerFile(const cEvent* event, cTimer* timer)
       strn0cpy(directory, EPGSearchConfig.defrecdir,sizeof(directory));
       cVarExpr varExprDir(directory);
       if (!varExprDir.DependsOnVar("%title%", event))
-      {	    
+      {
          strcat(directory, "~");
          strcat(directory, timer->File());
       }
@@ -620,7 +620,7 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
    bool match = false;
    if ((!compareTitle || Title1 == Title2) &&
        (!compareSubtitle || (Subtitle1 == Subtitle2 && Subtitle1!="")))
-   {	
+   {
       const char* Descr1    = event1->Description();
       const char* Descr2    = event2->Description();
       if (compareSummary)
@@ -634,7 +634,7 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
       }
       if (compareExpression.size() > 0)
       {
-	   cVarExpr varExpr(compareExpression); 
+	   cVarExpr varExpr(compareExpression);
 	   string resEvent1 = varExpr.Evaluate(event1);
 	   string resEvent2 = varExpr.Evaluate(event2);
 	   if (resEvent1 != resEvent2)
@@ -645,7 +645,7 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
          bool bCatMatch = ((Descr1 && Descr2) || (!Descr1 && !Descr2));
          cSearchExtCat *SearchExtCat = SearchExtCats.First();
          int index = 0;
-         while (catvaluesAvoidRepeat > 0 && SearchExtCat && bCatMatch) 	    
+         while (catvaluesAvoidRepeat > 0 && SearchExtCat && bCatMatch)
          {
             if (catvaluesAvoidRepeat & (1<<index))
             {
@@ -660,7 +660,7 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
             }
             SearchExtCat = SearchExtCats.Next(SearchExtCat);
             index++;
-         }		    
+         }
          if (bCatMatch)
             match = true;
       }
@@ -678,15 +678,15 @@ int ChannelNrFromEvent(const cEvent* pEvent)
    if (!channel)
       return -1;
    else
-      return channel->Number();						
+      return channel->Number();
 }
 
 void DelTimer(int index)
 {
-  cString cmdbuf = cString::sprintf("DELT %d", index);    
+  cString cmdbuf = cString::sprintf("DELT %d", index);
   LogFile.Log(2, "delete timer %d", index);
   SendViaSVDRP(cmdbuf);
-  gl_timerStatusMonitor->SetConflictCheckAdvised(); 
+  gl_timerStatusMonitor->SetConflictCheckAdvised();
 }
 
 char* FixSeparators(char* buffer, char sep)
@@ -699,7 +699,7 @@ char* FixSeparators(char* buffer, char sep)
     if (c == sep) {
       for (j = i + 1; (j < l) & (buffer[j] == ' '); j++)
 	;
-      
+
       if ((j <= l) | (i + 1 < j)) {
 	switch (buffer[j]) {
 	case '\t':
@@ -878,7 +878,7 @@ ssize_t Readline(int sockd, char *vptr, size_t maxlen) {
     buffer = vptr;
 
     for ( n = 1; n < maxlen; n++ ) {
-	
+
 	if ( (rc = read(sockd, &c, 1)) == 1 ) {
 	    if ( c == '\n' )
 		break;
@@ -927,17 +927,17 @@ ssize_t Writeline(int sockd, const char *vptr, size_t n) {
 long getAddrFromString(const char* hostnameOrIp, struct sockaddr_in* addr)
 {
   unsigned long ip;
-  
+
   struct hostent * he;
-  
+
   if(hostnameOrIp==NULL || addr==NULL)
     return -1;
-  
+
   ip=inet_addr(hostnameOrIp);
-  
+
   if(ip!=INADDR_NONE)
     {
-      addr->sin_addr.s_addr=ip;		
+      addr->sin_addr.s_addr=ip;
       return 0;
     }
   else

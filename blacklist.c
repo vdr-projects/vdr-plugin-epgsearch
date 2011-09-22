@@ -67,7 +67,7 @@ cBlacklist::cBlacklist(void)
     catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
     int index = 0;
-    while (SearchExtCat) 
+    while (SearchExtCat)
     {
 	catvalues[index] = (char*)malloc(MaxFileName);
 	*catvalues[index] = 0;
@@ -88,7 +88,7 @@ cBlacklist::~cBlacklist(void)
   {
       cSearchExtCat *SearchExtCat = SearchExtCats.First();
       int index = 0;
-      while (SearchExtCat) 
+      while (SearchExtCat)
       {
 	  free(catvalues[index]);
 	  SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -107,7 +107,7 @@ cBlacklist& cBlacklist::operator= (const cBlacklist &Blacklist)
 
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
-  while (SearchExtCat) 
+  while (SearchExtCat)
   {
       *catvalues[index] = 0;
       strcpy(catvalues[index], Blacklist.catvalues[index]);
@@ -139,7 +139,7 @@ void cBlacklist::CopyFromTemplate(const cSearchExt* templ)
 
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
-  while (SearchExtCat) 
+  while (SearchExtCat)
   {
       strcpy(catvalues[index], templ->catvalues[index]);
       SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -175,7 +175,7 @@ const char *cBlacklist::ToText(void)
   free(buffer);
   tmp_search = strdup(search);
   while(strstr(tmp_search, "|"))
-    tmp_search = strreplace(tmp_search, "|", "!^pipe^!"); // ugly: replace a pipe with something, that should not happen to be part of a regular expression 
+    tmp_search = strreplace(tmp_search, "|", "!^pipe^!"); // ugly: replace a pipe with something, that should not happen to be part of a regular expression
 
   strreplace(tmp_search, ':', '|');
 

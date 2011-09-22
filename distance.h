@@ -42,6 +42,6 @@ class Distance
     int *GetCellPointer (int *pOrigin, int col, int row, int nCols);
     int GetAt (int *pOrigin, int col, int row, int nCols);
     void PutAt (int *pOrigin, int col, int row, int nCols, int x);
-}; 
+};
 
 #endif

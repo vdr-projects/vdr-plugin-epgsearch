@@ -38,7 +38,7 @@ void cMenuTimerDoneItem::Set(void)
    if (!timerDone)
       return;
    char *buffer = NULL;
-    
+
    char buf[32];
    struct tm tm_r;
    tm *tm = localtime_r(&timerDone->start, &tm_r);
@@ -107,14 +107,14 @@ void cMenuTimersDone::UpdateCurrent()
    // navigation in summary could have changed current item, so update it
    cEventObj* cureventObj = eventObjects.GetCurrent();
    if (cureventObj && cureventObj->Event())
-      for (cMenuTimerDoneItem *item = (cMenuTimerDoneItem *)First(); item; item = (cMenuTimerDoneItem *)Next(item)) 
+      for (cMenuTimerDoneItem *item = (cMenuTimerDoneItem *)First(); item; item = (cMenuTimerDoneItem *)Next(item))
          if (item->timerDone->GetEvent() == cureventObj->Event())
          {
             cureventObj->Select(false);
             SetCurrent(item);
             Display();
             break;
-         }               
+         }
 }
 
 cTimerDone *cMenuTimersDone::CurrentTimerDone(void)

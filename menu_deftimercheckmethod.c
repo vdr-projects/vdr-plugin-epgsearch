@@ -39,11 +39,11 @@ bool cDefTimerCheckMode::Parse(const char *s)
     char *pos_next;
     int parameter = 1;
     int valuelen;
-    
+
 #define MAXVALUELEN (10 * MaxFileName)
-    
+
     char value[MAXVALUELEN];
-    
+
     pos = line = strdup(s);
     pos_next = pos + strlen(pos);
     if (*pos_next == '\n') *pos_next = 0;
@@ -55,9 +55,9 @@ bool cDefTimerCheckMode::Parse(const char *s)
 		if (!pos_next)
 		    pos_next = pos + strlen(pos);
 		valuelen = pos_next - pos + 1;
-		if (valuelen > MAXVALUELEN) 
+		if (valuelen > MAXVALUELEN)
 		{
-		    LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);  
+		    LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);
 		    valuelen = MAXVALUELEN;
 		}
 		strn0cpy(value, pos, valuelen);
@@ -75,7 +75,7 @@ bool cDefTimerCheckMode::Parse(const char *s)
 	}
 	if (*pos) pos++;
     } //while
-    
+
     free(line);
     return (parameter >= 2) ? true : false;
 }
@@ -137,13 +137,13 @@ void cMenuDefTimerCheckMethod::Set()
 {
     int current = Current();
     Clear();
-    
+
     delete modes;
-    modes = new int[Channels.Count()];    
+    modes = new int[Channels.Count()];
     int i=0;
-    for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel), i++) 
+    for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel), i++)
     {
-	if (!channel->GroupSep() && *channel->Name()) 
+	if (!channel->GroupSep() && *channel->Name())
 	{
 	    modes[i] = DefTimerCheckModes.GetMode(channel);
 	    Add(new cMenuEditStraItem(channel->Name(), &modes[i], 3, CheckModes));
@@ -161,8 +161,8 @@ eOSState cMenuDefTimerCheckMethod::ProcessKey(eKeys Key)
 	    case kOk:
 	    {
 		int i=0;
-		for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel), i++) 
-		    if (!channel->GroupSep() && *channel->Name()) 
+		for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel), i++)
+		    if (!channel->GroupSep() && *channel->Name())
 			DefTimerCheckModes.SetMode(channel, modes[i]);
 		DefTimerCheckModes.Save();
 		return osBack;
@@ -173,7 +173,7 @@ eOSState cMenuDefTimerCheckMethod::ProcessKey(eKeys Key)
     return state;
 }
 
- 
+
 
 
 

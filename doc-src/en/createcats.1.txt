@@ -46,7 +46,7 @@ Some notes:
 
 =over 4
 
-=item -m N, --minappearance=N    
+=item -m N, --minappearance=N
 
 createcats counts how often a category is used in your current
 epg.data. If this is less than N, then this category will not be part
@@ -63,13 +63,13 @@ from a list of values.
 =item -l N, --maxlength=N
 
 if the text length of a value is more than N, this value is not part
-of the value list. 
+of the value list.
 
 =back
 
 B<Hint:> Results are best, if your current EPG is as big as possible. So
 update it, if you are using an external EPG provider, before calling
-createcats. 
+createcats.
 
 Please edit this file now, since it will contain also things not suitable.
 

@@ -145,9 +145,9 @@ bool cRecDone::Read(FILE *f)
 			RecsDone.Add(recDone);
 		    }
 		}
-	    }		
+	    }
 		break;
-	    case 'C': 
+	    case 'C':
 	    {
 		s = skipspace(s + 1);
 		char *p = strchr(s, ' ');
@@ -193,13 +193,13 @@ const char *cRecDone::ToText(void)
     if (buffer)
 	free(buffer);
     buffer = NULL;
-    
+
     cChannel *channel = Channels.GetByChannelID(channelID, true, true);
     if (!channel)
 	LogFile.Log(3,"invalid channel in recs done!");
 
-    msprintf(&buffer, "R %ld %d %d\nC %s\n%s%s%s%s%s%s%s%s%s%s%s%sr", 
-	     startTime, duration, searchID, 
+    msprintf(&buffer, "R %ld %d %d\nC %s\n%s%s%s%s%s%s%s%s%s%s%s%sr",
+	     startTime, duration, searchID,
 	     channel?CHANNELSTRING(channel):"",
 	     title?"T ":"",title?title:"", title?"\n":"",
 	     shortText?"S ":"",shortText?shortText:"", shortText?"\n":"",
@@ -224,7 +224,7 @@ int cRecDone::ChannelNr()
     if (!channel)
 	return -1;
     else
-	return channel->Number();						
+	return channel->Number();
 }
 
 // -- cRecsDone -----------------------------------------------------------------
@@ -238,7 +238,7 @@ bool CatValuesMatch(unsigned long catvaluesAvoidRepeat, const string& rDescr, co
   bool bCatMatch = ((rDescr != "" && eDescr != "") || (rDescr == "" && eDescr == ""));
   cSearchExtCat *SearchExtCat = SearchExtCats.First();
   int index = 0;
-  while (catvaluesAvoidRepeat > 0 && SearchExtCat && bCatMatch) 	    
+  while (catvaluesAvoidRepeat > 0 && SearchExtCat && bCatMatch)
     {
       if (catvaluesAvoidRepeat & (1<<index))
 	{
@@ -260,7 +260,7 @@ bool CatValuesMatch(unsigned long catvaluesAvoidRepeat, const string& rDescr, co
 bool MatchesInExpression(const string& expression, const cRecDone* recDone, const cEvent* event)
 {
   cVarExpr varExpr(expression);
-  
+
   cEvent recDoneEvent(0);
   recDoneEvent.SetTitle(recDone->title);
   recDoneEvent.SetShortText(recDone->shortText);
@@ -279,7 +279,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
       *first = NULL;
    if (!event)
       return 0;
-    
+
    cMutexLock RecsDoneLock(this);
    int count = 0;
 
@@ -302,7 +302,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
    if ((compareSummary || catvaluesAvoidRepeat != 0) && event->Description())
    {
       eDescr = event->Description();
-      char* rawDescr = GetRawDescription(event->Description());       
+      char* rawDescr = GetRawDescription(event->Description());
       eRawDescr = rawDescr?rawDescr:"";
       if (rawDescr) free(rawDescr);
    }
@@ -314,7 +314,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
 
    cRecDone* firstrecDone = NULL;
    cRecDone* recDone = First();
-   while (recDone) 
+   while (recDone)
    {
       string rTitle = "";
       if (compareTitle)
@@ -329,14 +329,14 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
          string s = recDone->shortText?recDone->shortText:"";
          rSubtitle = GetAlNum(s);
          std::transform(rSubtitle.begin(), rSubtitle.end(), rSubtitle.begin(), tolower);
-      }      
+      }
       string rDescr = "";
       string rRawDescr = "";
       if ((compareSummary || catvaluesAvoidRepeat != 0) && recDone->description)
       {
          rDescr = recDone->description;
          char* rawDescr = recDone->rawdescription?recDone->rawdescription:GetRawDescription(recDone->description);
-	 recDone->rawdescription = rawDescr;       
+	 recDone->rawdescription = rawDescr;
          rRawDescr = rawDescr?rawDescr:"";
       }
 
@@ -371,7 +371,7 @@ void cRecsDone::RemoveSearchID(int ID)
     if (Count() == 0)
 	Load(AddDirectory(CONFIGDIR, "epgsearchdone.data"));
     cRecDone* recDone = First();
-    while (recDone) 
+    while (recDone)
     {
 	if (recDone->searchID == ID)
 	{
@@ -440,15 +440,15 @@ int cRecsDone::GetTotalCountRecordings(cSearchExt* search, cRecDone** first)
    if (!search) return 0;
    if (first)
       *first = NULL;
-    
+
    cMutexLock RecsDoneLock(this);
    int count = 0;
 
    cRecDone* firstrecDone = NULL;
    cRecDone* recDone = First();
-   while (recDone) 
+   while (recDone)
    {
-      if (recDone->searchID == search->ID) 
+      if (recDone->searchID == search->ID)
       {
          count++;
          if (!firstrecDone) firstrecDone = recDone;

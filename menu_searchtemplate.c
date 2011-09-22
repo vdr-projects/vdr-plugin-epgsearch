@@ -81,7 +81,7 @@ void cMenuSearchTemplateItem::Set(void)
   }
   else if (searchExt->useChannel == 2)
       line << setiosflags(ios::left) << setw(11) << searchExt->channelGroup;
-  
+
   line << "\t";
   if (searchExt->useTime)
   {
@@ -93,7 +93,7 @@ void cMenuSearchTemplateItem::Set(void)
   }
   else
     line << "--:--\t--:--";
-	
+
   SetText(strdup(line.str().c_str()), false);
 }
 
@@ -112,7 +112,7 @@ cMenuEPGSearchTemplate::cMenuEPGSearchTemplate(cSearchExt* Search, cBlacklist* B
     newSearch = New;
     cMutexLock SearchTemplatesLock(&SearchTemplates);
     cSearchExt *SearchExt = SearchTemplates.First();
-    while (SearchExt) {	
+    while (SearchExt) {
 	Add(new cMenuSearchTemplateItem(SearchExt));
 	SearchExt = SearchTemplates.Next(SearchExt);
     }
@@ -201,7 +201,7 @@ eOSState cMenuEPGSearchTemplate::ProcessKey(eKeys Key)
 		  if (!newSearch && !Interface->Confirm(tr("Overwrite existing entries?")))
 		      return osBack;
 		  // duplicate template
-		  cSearchExt* t =CurrentSearchTemplate();	      
+		  cSearchExt* t =CurrentSearchTemplate();
 		  if (!t) return osContinue;
 		  // copy all except the name and id
 		  search->CopyFromTemplate(t);
@@ -211,7 +211,7 @@ eOSState cMenuEPGSearchTemplate::ProcessKey(eKeys Key)
 		  if (!newSearch && !Interface->Confirm(tr("Overwrite existing entries?")))
 		      return osBack;
 		  // duplicate template
-		  cSearchExt* t =CurrentSearchTemplate();	      
+		  cSearchExt* t =CurrentSearchTemplate();
 		  if (!t) return osContinue;
 		  // copy all except the name and id
 		  blacklist->CopyFromTemplate(t);
@@ -230,8 +230,8 @@ eOSState cMenuEPGSearchTemplate::ProcessKey(eKeys Key)
 	  default: break;
       }
   }
-  if (SearchNumber >= 0 && !HasSubMenu()) 
-  {      
+  if (SearchNumber >= 0 && !HasSubMenu())
+  {
       cSearchExt* search = SearchTemplates.Get(SearchNumber);
       if (search)       // a newly created template was confirmed with Ok
 	  Add(new cMenuSearchTemplateItem(search));

@@ -34,4 +34,4 @@ class cMenuEditTemplate: public cMenuEditSearchExt {
 };
 
 #endif
- 
+

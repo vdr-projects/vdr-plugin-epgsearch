@@ -47,7 +47,7 @@ cTimerThread::cTimerThread()
 }
 
 cTimerThread::~cTimerThread() {
-    if (m_Active) 
+    if (m_Active)
 	Stop();
     cTimerThread::m_Instance = NULL;
 }
@@ -73,7 +73,7 @@ void cTimerThread::Stop(void) {
     Cancel(3);
 }
 
-void cTimerThread::Action(void) 
+void cTimerThread::Action(void)
 {
     m_Active = true;
     if (EPGSearchConfig.useExternalSVDRP && !cSVDRPClient::SVDRPSendCmd)
@@ -82,9 +82,9 @@ void cTimerThread::Action(void)
 	m_Active = false;
 	return;
     }
-    while (m_Active) 
+    while (m_Active)
     {
-	if (Timers.BeingEdited()) 		
+	if (Timers.BeingEdited())
 	{
 	    sleepSec(1);
 	    continue;
@@ -101,7 +101,7 @@ void cTimerThread::Action(void)
 	else
 	  {
 	    gl_TimerProgged = 1;
-	    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(); 
+	    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised();
 	  }
 	m_Active = false;
     };

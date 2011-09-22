@@ -43,11 +43,11 @@ class cLogFile: public cFile
     void Log(int LogLevel, const char *text, ...)
 	{
 	    if (LogLevel > loglevellimit) return;
-	    if(IsOpen()) 
+	    if(IsOpen())
 	    {
 		char* buffer = NULL;
-		va_list Arg; 
-		va_start(Arg,text); 
+		va_list Arg;
+		va_start(Arg,text);
 		if (vasprintf(&buffer, text, Arg) < 0)
 		   esyslog("EPGSearch: vasprintf error");
 		va_end(Arg);
@@ -60,7 +60,7 @@ class cLogFile: public cFile
 		char *p = stpcpy(datebuf, WeekDayName(tm->tm_wday));
 		*p++ = ' ';
 		strftime(p, sizeof(datebuf) - (p - datebuf), "%d.%m.%Y", tm);
-		
+
 		char timebuf[25];
 		strftime(timebuf, sizeof(timebuf), "%T", localtime_r(&now, &tm_r));
 
@@ -72,8 +72,8 @@ class cLogFile: public cFile
     void eSysLog(const char *text, ...)
 	{
 	    char* buffer = NULL;
-	    va_list Arg; 
-	    va_start(Arg,text); 
+	    va_list Arg;
+	    va_start(Arg,text);
 	    if (vasprintf(&buffer, text, Arg) < 0)
 	       esyslog("EPGSearch: vasprintf error");
 	    va_end(Arg);
@@ -84,8 +84,8 @@ class cLogFile: public cFile
     void iSysLog(const char *text, ...)
 	{
 	    char* buffer = NULL;
-	    va_list Arg; 
-	    va_start(Arg,text); 
+	    va_list Arg;
+	    va_start(Arg,text);
 	    if (vasprintf(&buffer, text, Arg) < 0)
 	       esyslog("EPGSearch: vasprintf error");
 	    va_end(Arg);
@@ -102,4 +102,4 @@ extern cLogFile LogFile;
 
 #endif
 
- 
+

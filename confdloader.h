@@ -24,7 +24,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #ifndef VDR_EPGSEARCH_CONFDLOADER_INC
 #define VDR_EPGSEARCH_CONFDLOADER_INC
 
-class cConfDLoader {  
+class cConfDLoader {
  public:
   cConfDLoader() {}
   bool Load();

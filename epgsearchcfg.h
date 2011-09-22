@@ -46,17 +46,17 @@ class cShowMode: public cListObject
 {
     showMode mode;
     time_t seekTime;
- public:    
+ public:
     char description[30];
     int useIt;
     int itime;
 
     cShowMode() : mode(showNow), seekTime(0), useIt(0), itime(0)  { description[0]=0;}
-    cShowMode(showMode Mode, const char* Description, int UseIt=1, int iTime=0, time_t SeekTime=0) 
-	: mode(Mode), seekTime(SeekTime), useIt(UseIt), itime(iTime)  
-	{ 
+    cShowMode(showMode Mode, const char* Description, int UseIt=1, int iTime=0, time_t SeekTime=0)
+	: mode(Mode), seekTime(SeekTime), useIt(UseIt), itime(iTime)
+	{
 	    if (strlen(Description) > 0)
-		SetDescription(Description); 
+		SetDescription(Description);
 	    else
 		sprintf(description, "%02d:%02d", iTime/100, iTime%100);
 	}
@@ -130,11 +130,11 @@ cEPGSearchConfig(void);
     int sendMailOnConflicts;
     char MailAddressTo[MaxFileName];
     char MailAddress[MaxFileName];
-    char MailServer[MaxFileName];    
+    char MailServer[MaxFileName];
     int MailUseAuth;
     char MailAuthUser[MaxFileName];
-    char MailAuthPass[MaxFileName];    
-    char LastMailConflicts[MaxFileName];    
+    char MailAuthPass[MaxFileName];
+    char LastMailConflicts[MaxFileName];
     int mailViaScript;
     int manualTimerCheckDefault;
     int noAnnounceWhileReplay;
@@ -147,7 +147,7 @@ cEPGSearchConfig(void);
     int checkEPGWarnByMail;
     int checkEPGchannelGroupNr;
     time_t lastMailOnSearchtimerAt;
-    char conflCheckCmd[MaxFileName*10];    
+    char conflCheckCmd[MaxFileName*10];
 };
 
 extern cEPGSearchConfig EPGSearchConfig;

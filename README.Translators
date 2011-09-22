@@ -2,9 +2,9 @@
 Building and maintaining translations for EPGSearch
 ---------------------------------------------------
 
-If your language is not yet supported in EPGSearch or any 
-updates are needed it would be great if you could give your 
-support for this. 
+If your language is not yet supported in EPGSearch or any
+updates are needed it would be great if you could give your
+support for this.
 
 To do so please follow these steps:
 
@@ -14,9 +14,9 @@ To do so please follow these steps:
 
    If not please use the latest known release.
 
-2. Copy the original po file for your language to any backup 
-   destination. Now edit the original po file for your language in 
-   the po subdirectory. All entries with 'msgstr ""' should be filled 
+2. Copy the original po file for your language to any backup
+   destination. Now edit the original po file for your language in
+   the po subdirectory. All entries with 'msgstr ""' should be filled
    with your translation.
 
 3. To test your translations, simply recompile EPGSearch and check

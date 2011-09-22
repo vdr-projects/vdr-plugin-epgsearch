@@ -33,7 +33,7 @@ bool cVarParser::Parse(const string& input)
 }
 
 bool cVarParser::ParseAssign(const string& input)
-{   
+{
    int assignPos = input.find("=");
    if (assignPos >= 0)
    {
@@ -45,7 +45,7 @@ bool cVarParser::ParseAssign(const string& input)
          return ParseExp(assign);
       }
    }
-   LogFile.eSysLog("error parsing '%s'", input.c_str());  
+   LogFile.eSysLog("error parsing '%s'", input.c_str());
    return false;
 }
 
@@ -77,7 +77,7 @@ bool cVarParser::ParseExp(const string& input)
      }
    // composed expression
    compExpr = input;
-   return true; 
+   return true;
 }
 
 bool cVarParser::ParseShellCmd(const string& input)
@@ -145,7 +145,7 @@ bool cVarParser::ParseLengthCmd(const string& input)
 }
 
 bool cVarParser::ParseCondExp(const string& input)
-{   
+{
    int condEndPos = input.find("?");
    string cond(input.begin(), input.begin() + condEndPos);
    int condNeqPos = cond.find("!=");
@@ -161,14 +161,14 @@ bool cVarParser::ParseCondExp(const string& input)
    {
       if (!ParseEquality(cond))
       {
-         LogFile.eSysLog("error parsing '%s'", input.c_str());  
+         LogFile.eSysLog("error parsing '%s'", input.c_str());
          return false;
       }
       condOp = (condEqPos >= 0)?condEq:condNeq;
    }
    else
    {
-      LogFile.eSysLog("error parsing '%s'", input.c_str());  
+      LogFile.eSysLog("error parsing '%s'", input.c_str());
       return false;
    }
 
@@ -180,13 +180,13 @@ bool cVarParser::ParseCondExp(const string& input)
       string falsePart(truefalse.begin() + elsePos + 1, truefalse.end());
       if (ParseVar(truePart) && ParseVar(falsePart))
       {
-         condvarTrue = Strip(truePart); 
-         condvarFalse = Strip(falsePart);		
+         condvarTrue = Strip(truePart);
+         condvarFalse = Strip(falsePart);
 	 type = cVarParser::condition;
          return true;
       }
    }
-   LogFile.eSysLog("error parsing '%s'", input.c_str());  
+   LogFile.eSysLog("error parsing '%s'", input.c_str());
    condEqLeft = condEqRight = "";
    return false;
 }
@@ -211,7 +211,7 @@ bool cVarParser::ParseEquality(const string& input)
 }
 
 bool cVarParser::ParseVar(const string& input)
-{   
+{
    string str = Strip(input);
    if (str.size() > 2 && str[0] == '%' && str[str.size()-1] == '%')
       return true;

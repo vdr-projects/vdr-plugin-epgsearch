@@ -32,7 +32,7 @@ cDirExts DirExts;
 cConfDDirExts ConfDDirExts;
 
 // --- cMenuDirItem ---------------------------------------------------------
-class cMenuDirItem : public cOsdItem 
+class cMenuDirItem : public cOsdItem
 {
  private:
     char* directory;
@@ -52,10 +52,10 @@ int cMenuDirItem::Compare(const cListObject &ListObject) const
 	if (hasVars1 != hasVars2)
 	    return hasVars2-hasVars1;
 	else
-	    return strcasecmp(directory, p->directory);	
+	    return strcasecmp(directory, p->directory);
     }
     else
-	return strcasecmp(directory, p->directory);	
+	return strcasecmp(directory, p->directory);
 }
 
 
@@ -105,7 +105,7 @@ void cMenuDirSelect::AddDistinct(const char* szText)
 	return;
 
     for(int i=0; i<Count(); i++)
-    {    
+    {
 	const char* ItemText = Get(i)->Text();
 	char* itemtext = strdup(ItemText);
 	char* sztext = strdup(szText);
@@ -130,7 +130,7 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
     // add distinct directories from current recordings
     if (Recordings.Count() == 0)
 	Recordings.Load();
-    for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording)) 
+    for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording))
     {
 	if (recording->HierarchyLevels() > 0)
 	{
@@ -139,10 +139,10 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	    char* pos = strrchr(dir, '~');
 	    if (pos)
 	    {
-		*pos=0;	    
-		for(int iLevel = 0; iLevel < recording->HierarchyLevels(); iLevel++)		  
-		{		    
-		    directorySet.insert(dir);	
+		*pos=0;
+		for(int iLevel = 0; iLevel < recording->HierarchyLevels(); iLevel++)
+		{
+		    directorySet.insert(dir);
 		    char* pos = strrchr(dir, '~');
 		    if (pos)
 			*pos=0;
@@ -152,17 +152,17 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	}
     }
     // add distinct directories from current timers
-    for (cTimer *timer = Timers.First(); timer; timer = Timers.Next(timer)) 
+    for (cTimer *timer = Timers.First(); timer; timer = Timers.Next(timer))
     {
 	char* dir = strdup(timer->File());
 	// strip the trailing name dir
 	char* pos = strrchr(dir, '~');
 	if (pos)
 	{
-	    *pos=0;	    
+	    *pos=0;
 	    do
 	    {
-		directorySet.insert(dir);	
+		directorySet.insert(dir);
 		char* pos = strrchr(dir, '~');
 		if (pos)
 		    *pos=0;
@@ -184,7 +184,7 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	cMutexLock SearchExtsLock(&SearchExts);
 	cSearchExt *searchExt = SearchExts.First();
 	// add distinct directories from existing search timers
-	while (searchExt) 
+	while (searchExt)
 	  {
 	    if (strlen(searchExt->directory) > 0)
 	      directorySet.insert(searchExt->directory);
@@ -193,16 +193,16 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	// add distinct directories from epgsearchdirs.conf
 	DirExts.Load(AddDirectory(CONFIGDIR, "epgsearchdirs.conf"), true);
 	cDirExt* DirExt = DirExts.First();
-	while (DirExt) 
+	while (DirExt)
 	  {
-	    directorySet.insert(DirExt->Name());	
+	    directorySet.insert(DirExt->Name());
 	    DirExt = DirExts.Next(DirExt);
 	  }
 	// add distinct directories from conf.d files
 	DirExt = ConfDDirExts.First();
-	while (DirExt) 
+	while (DirExt)
 	  {
-	    directorySet.insert(DirExt->Name());	
+	    directorySet.insert(DirExt->Name());
 	    DirExt = ConfDDirExts.Next(DirExt);
 	  }
       }
@@ -230,7 +230,7 @@ void cMenuDirSelect::Load()
 
     CreateDirSet();
     std::set<string>::iterator it;
-    for (it = directorySet.begin(); it != directorySet.end(); it++) 
+    for (it = directorySet.begin(); it != directorySet.end(); it++)
 	AddDistinct((*it).c_str());
 
     Sort();
@@ -271,7 +271,7 @@ eOSState cMenuDirSelect::ProcessKey(eKeys Key)
 	 case kRed:
 	     return osContinue;
 	 case kBlue:
-	 case kOk:  
+	 case kOk:
 	     if (Count() > 0)
 		 strn0cpy(Directory,Get(Current())->Text(), MaxFileName);
 	     return osBack;

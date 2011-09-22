@@ -27,15 +27,15 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 enum eTimerChange { tcMod, tcAdd, tcDel };
 #endif
 
-class cTimerStatusMonitor : public cStatus 
+class cTimerStatusMonitor : public cStatus
 {
   bool conflictCheckAdvised;
  protected:
   virtual void TimerChange(const cTimer *Timer, eTimerChange Change);
  public:
   cTimerStatusMonitor();
-  void SetConflictCheckAdvised(bool ConflictCheckAdvised = true); 
-  bool ConflictCheckAdvised(); 
+  void SetConflictCheckAdvised(bool ConflictCheckAdvised = true);
+  bool ConflictCheckAdvised();
 };
 
 extern cTimerStatusMonitor* gl_timerStatusMonitor;

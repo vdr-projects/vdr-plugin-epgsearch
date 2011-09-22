@@ -68,7 +68,7 @@ public:
   virtual eOSState ProcessKey(eKeys Key);
   eOSState Help();
   };
- 
+
 // --- cMenuEditDaysOfWeek --------------------------------------------------------
 class cMenuEditDaysOfWeek : public cOsdMenu {
 private:

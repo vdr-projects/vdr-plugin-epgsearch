@@ -23,7 +23,7 @@ like '%genre%', these entries are always shown before any other
 directories. They are also not level dependent, but are always shown
 with their full directory.
 
-If this menu is called from the timer edit menu and an item is 
+If this menu is called from the timer edit menu and an item is
 selected that contains the variables "%title%" or "%subtitle" then the
 'file' item of the timer gets cleared, since title or subtitle already
 exist in the 'directory' item.
@@ -69,7 +69,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 =head1 REPORT BUGS
 
-Bug reports (german): 
+Bug reports (german):
 
 L<http://www.vdr-developer.org/mantisbt/>
 

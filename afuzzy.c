@@ -30,21 +30,21 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 static int afuzzy_checkFLT(const char *t, AFUZZY *fuzzy);
 
 /******************************************************************************
-FUNCTION afuzzy_init() 
+FUNCTION afuzzy_init()
 	Initialization of the fuzzy search routine. This applies to the consequent
 	calls of the afuzzy_CheckRTR (whole string matching) and afuzzy_CheckSUB
 	(substring match) routines. afuzzy_init() should be called for each
 	new pattern or error length. The search is case sensitive
 
-ARGUMENTS: 
+ARGUMENTS:
 	p			Pattern
 	kerr		Number of possible errors. Shouldn't exceed pattern length
 	UseFilter	Use agrep filter algorithm that speeds up search.
 	fuzzy		pointer to the structure that will be later passes to Check*
 					(the first 6 elements should be NULLs for the first call)
-	
+
 RETURN VALUE:
-	none	
+	none
 
 ALGORITHM
 	see. the article on agrep algorithms.
@@ -141,14 +141,14 @@ void afuzzy_init(const char *p, int kerr, int UseFilter, AFUZZY *fuzzy)
 }
 
 /******************************************************************************
-FUNCTION afuzzy_free() 
+FUNCTION afuzzy_free()
 	Cleaning up after previous afuzzy_init() call.
 
-ARGUMENTS: 
+ARGUMENTS:
 	fuzzy		pointer to the afuzzy parameters structure
-	
+
 RETURN VALUE:
-	none	
+	none
 ******************************************************************************/
 void afuzzy_free(AFUZZY *fuzzy)
 {
@@ -186,14 +186,14 @@ void afuzzy_free(AFUZZY *fuzzy)
 
 
 /******************************************************************************
-FUNCTION afuzzy_CheckSUB() 
-	Perform a fuzzy pattern substring matching. afuzzy_init() should be 
-	called previously to initialize the pattern and error length. 
-	Positive result means that some part of the string given matches the 
-	pattern with no more than afuzzy->k errors (1 error = 1 letter 
+FUNCTION afuzzy_CheckSUB()
+	Perform a fuzzy pattern substring matching. afuzzy_init() should be
+	called previously to initialize the pattern and error length.
+	Positive result means that some part of the string given matches the
+	pattern with no more than afuzzy->k errors (1 error = 1 letter
 	replacement or transposition)
 
-ARGUMENTS: 
+ARGUMENTS:
 	t			the string to test
 	fuzzy		pointer to the afuzzy parameters structure
 
@@ -234,10 +234,10 @@ int afuzzy_checkSUB(const char *t, AFUZZY *fuzzy)
 	{
 		for (d = 0; d <= fuzzy->k; d++)
 		{
-			fuzzy->R1[d] = (((fuzzy->R[d]<<1) | 1) & 
+			fuzzy->R1[d] = (((fuzzy->R[d]<<1) | 1) &
 										fuzzy->S[fuzzy->Map[(unsigned char)c]]);
 			if (d > 0)
-				fuzzy->R1[d] |= ((fuzzy->R[d-1] | fuzzy->R1[d-1])<<1) | 1 | 
+				fuzzy->R1[d] |= ((fuzzy->R[d-1] | fuzzy->R1[d-1])<<1) | 1 |
 															fuzzy->R[d-1];
 		}
 		if (fuzzy->R1[fuzzy->k] & fuzzy->mask_ok)
@@ -258,7 +258,7 @@ static int afuzzy_checkFLT(const char *t, AFUZZY *fuzzy)
 
 	for (j = 0; t[j] != '\0'; j++)
 	{
-		FilterR1 = ( ((FilterR<<(fuzzy->k+1)) | fuzzy->filter_shift) & 
+		FilterR1 = ( ((FilterR<<(fuzzy->k+1)) | fuzzy->filter_shift) &
 						fuzzy->FilterS[fuzzy->FilterMap[(unsigned char)t[j]]]);
 		if (FilterR1 & fuzzy->filter_ok)
 			return 1;

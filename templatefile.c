@@ -38,7 +38,7 @@ bool cMenuTemplate::PrepareTemplate(const char* templateLine)
     pstrSearchToken=strtok_r(pstrSearch, "|", &pptr);
     cString stripped;
     int iToken = 0;
-    while(pstrSearchToken) 
+    while(pstrSearchToken)
     {
 	char* tmp = strchr(pstrSearchToken,':');
 	if (tmp)
@@ -107,12 +107,12 @@ bool cTemplLine::Parse(char *s)
     if (s && s[0] == '#')
 	return true;
     char *p = strchr(s, '=');
-    if (p) 
+    if (p)
     {
 	*p = 0;
 	char *Name  = compactspace(s);
 	char *Value = compactspace(p + 1);
-	if (*Name) 
+	if (*Name)
 	{
 	    name = strdup(Name);
 	    value = strdup(Value);
@@ -130,7 +130,7 @@ cTemplFile::cTemplFile()
 void cTemplFile::Reset()
 {
     std::set<cMenuTemplate*>::iterator it;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++) 
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
 	delete (*it);
     menuTemplates.clear();
 }
@@ -138,7 +138,7 @@ void cTemplFile::Reset()
 cMenuTemplate* cTemplFile::GetTemplateByName(const char* Name)
 {
     std::set<cMenuTemplate*>::iterator it;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++) 
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
 	if (!strcasecmp(Name, (*it)->Name())) return (*it);
     return NULL;
 }
@@ -149,15 +149,15 @@ bool cTemplFile::Load(const char *FileName)
   if (strstr(Setup.FontOsd, "VDRSymbols") == Setup.FontOsd)
     EPGSearchConfig.WarEagle = 1;
 
-  if (cConfig<cTemplLine>::Load(FileName, true)) 
+  if (cConfig<cTemplLine>::Load(FileName, true))
   {
       bool result = true;
-      for (cTemplLine *l = First(); l; l = Next(l)) 
+      for (cTemplLine *l = First(); l; l = Next(l))
       {
 	  bool error = false;
 	  if (!Parse(l->Name(), l->Value()))
 	      error = true;
-	  if (error) 
+	  if (error)
 	  {
 	      result = false;
 	  }
@@ -175,18 +175,18 @@ bool cTemplFile::Parse(const char *Name, const char *Value)
 	EPGSearchConfig.WarEagle = atoi(Value);
 	return true;
     }
-    
+
     if (!strcasecmp(Name, "MenuWhatsOnNow") ||
 	!strcasecmp(Name, "MenuWhatsOnNext") ||
 	!strcasecmp(Name, "MenuWhatsOnElse") ||
 	!strcasecmp(Name, "MenuSchedule") ||
-	!strncasecmp(Name, "MenuSearchResults", strlen("MenuSearchResults")) || 
+	!strncasecmp(Name, "MenuSearchResults", strlen("MenuSearchResults")) ||
 	!strcasecmp(Name, "MenuFavorites"))
     {
 	cMenuTemplate* menuTemplate = new cMenuTemplate(Name);
 	if (menuTemplate->PrepareTemplate(Value))
 	{
-	    LogFile.Log(3, "loaded menu template: %s", Name);      	    
+	    LogFile.Log(3, "loaded menu template: %s", Name);
 	    cMenuTemplate* TemplOld = GetTemplateByName(Name);
 	    if (TemplOld)
 	      {
@@ -198,9 +198,9 @@ bool cTemplFile::Parse(const char *Name, const char *Value)
 	    return true;
 	}
     }
-    else 
+    else
     {
-	LogFile.eSysLog("ERROR: unknown parameter: %s = %s", Name, Value);      
+	LogFile.eSysLog("ERROR: unknown parameter: %s = %s", Name, Value);
 	return false;
     }
     return true;
@@ -209,7 +209,7 @@ bool cTemplFile::Parse(const char *Name, const char *Value)
 void cTemplFile::PrepareDefaultTemplates()
 {
     char channelnr[20] = "";
-    sprintf(channelnr, "%%chnr%%:%d|", CHNUMWIDTH); 
+    sprintf(channelnr, "%%chnr%%:%d|", CHNUMWIDTH);
 
     bool text2skin = !(strcmp(Setup.OSDSkin, "soppalusikka") == 0 ||
 		       strcmp(Setup.OSDSkin, "classic") == 0 ||
@@ -225,15 +225,15 @@ void cTemplFile::PrepareDefaultTemplates()
     }
     if (WhatsOnNow && WhatsOnNow->MenuTemplate() == 0)
     {
-	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%s%s$status$:3|%%title%% ~ %%subtitle%%:30", 
+	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%s%s$status$:3|%%title%% ~ %%subtitle%%:30",
 		EPGSearchConfig.showChannelNr?channelnr:"",
 		EPGSearchConfig.showProgress==0?"":(EPGSearchConfig.showProgress==1?"%progrT2S%:4|":"%progr%:5|"),
 		text2skin?" ":"");
 	WhatsOnNow->PrepareTemplate(menutemplate);
     }
-	
+
     // What's on next and else
-    sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:7|$status$:4|%%title%% ~ %%subtitle%%:30", 
+    sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:7|$status$:4|%%title%% ~ %%subtitle%%:30",
 	    EPGSearchConfig.showChannelNr?channelnr:"");
     cMenuTemplate* WhatsOnNext = GetTemplateByName("MenuWhatsOnNext");
     if (!WhatsOnNext)
@@ -244,7 +244,7 @@ void cTemplFile::PrepareDefaultTemplates()
     if (WhatsOnNext && WhatsOnNext->MenuTemplate() == 0)
 	WhatsOnNext->PrepareTemplate(menutemplate);
     cMenuTemplate* WhatsOnElse = GetTemplateByName("MenuWhatsOnElse");
-    if (!WhatsOnElse) 
+    if (!WhatsOnElse)
     {
 	WhatsOnElse = new cMenuTemplate("MenuWhatsOnElse");
 	menuTemplates.insert(WhatsOnElse);
@@ -254,7 +254,7 @@ void cTemplFile::PrepareDefaultTemplates()
 
     // Schedule
     cMenuTemplate* Schedule = GetTemplateByName("MenuSchedule");
-    if (!Schedule) 
+    if (!Schedule)
     {
 	Schedule = new cMenuTemplate("MenuSchedule");
 	menuTemplates.insert(Schedule);
@@ -274,7 +274,7 @@ void cTemplFile::PrepareDefaultTemplates()
     }
     if (SearchResults && SearchResults->MenuTemplate() == 0)
     {
-	sprintf(menutemplate, "%s%%chsh%%:12|%%datesh%%:6|%%time%%:6|$status$:3|%%title%% ~ %%subtitle%%:30", 
+	sprintf(menutemplate, "%s%%chsh%%:12|%%datesh%%:6|%%time%%:6|$status$:3|%%title%% ~ %%subtitle%%:30",
 		EPGSearchConfig.showChannelNr?channelnr:"");
 	SearchResults->PrepareTemplate(menutemplate);
     }
@@ -288,7 +288,7 @@ void cTemplFile::PrepareDefaultTemplates()
     }
     if (Favorites && Favorites->MenuTemplate() == 0)
     {
-	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%%timespan%%:7|$status$:3|%%title%% ~ %%subtitle%%:30", 
+	sprintf(menutemplate, "%s%%chsh%%:12|%%time%%:6|%%timespan%%:7|$status$:3|%%title%% ~ %%subtitle%%:30",
 		EPGSearchConfig.showChannelNr?channelnr:"");
 	Favorites->PrepareTemplate(menutemplate);
     }
@@ -299,7 +299,7 @@ void cTemplFile::PrepareDefaultTemplates()
     SearchTemplates = new char*[CountSearchResultsTemplates()];
     std::set<cMenuTemplate*>::iterator it;
     int Count = 0;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++) 
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
 	if (!strncasecmp("MenuSearchResults", (*it)->Name(), strlen("MenuSearchResults")))
 	{
 	    char* templateName = strdup((*it)->Name() + strlen("MenuSearchResults"));
@@ -312,7 +312,7 @@ int cTemplFile::CountSearchResultsTemplates()
 {
     int Count = 0;
     std::set<cMenuTemplate*>::iterator it;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++) 
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
 	if (!strncasecmp("MenuSearchResults", (*it)->Name(), strlen("MenuSearchResults"))) Count++;
     return Count;
 }
@@ -321,7 +321,7 @@ cMenuTemplate* cTemplFile::GetSearchTemplateByPos(int iPos)
 {
     int Count = 0;
     std::set<cMenuTemplate*>::iterator it;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++) 
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
 	if (!strncasecmp("MenuSearchResults", (*it)->Name(), strlen("MenuSearchResults")))
 	    if(Count++ == iPos)
 		return (*it);

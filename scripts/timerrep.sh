@@ -1,7 +1,7 @@
 #!/bin/sh
 #------------------------------------------------------------------------------
 # this script allows searching for a repeat of timer using epgsearch (>=0.9.3).
-# it requires the timercmd patch from Gerhard Steiner, that extends the timers 
+# it requires the timercmd patch from Gerhard Steiner, that extends the timers
 # menu of VDR with commands like in recordings menu
 #
 # add the following lines to your timercmds.conf
@@ -29,7 +29,7 @@ cat << EOM >/tmp/cmd.sh
 
 SEARCHTERM="$6"~"$7";
 #event info not yet present? then extract it from the file name
-if test "\$SEARCHTERM" == "~"; then 
+if test "\$SEARCHTERM" == "~"; then
 SEARCHTERM='$8'
 #cut leading special folders
 i=0;

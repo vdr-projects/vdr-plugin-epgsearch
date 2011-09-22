@@ -60,7 +60,7 @@ bool cSwitchTimer::Parse(const char *s)
 
   char value[MAXVALUELEN];
   startTime=0;
-  
+
   pos = line = strdup(s);
   pos_next = pos + strlen(pos);
   if (*pos_next == '\n') *pos_next = 0;
@@ -72,12 +72,12 @@ bool cSwitchTimer::Parse(const char *s)
         if (!pos_next)
           pos_next = pos + strlen(pos);
         valuelen = pos_next - pos + 1;
-        if (valuelen > MAXVALUELEN) 
+        if (valuelen > MAXVALUELEN)
 	    valuelen = MAXVALUELEN;
         strn0cpy(value, pos, valuelen);
         pos = pos_next;
         switch (parameter) {
-	    case 1:  
+	    case 1:
 		channelID = tChannelID::FromString(value);
 		break;
 	    case 2:
@@ -103,7 +103,7 @@ bool cSwitchTimer::Parse(const char *s)
     }
     if (*pos) pos++;
   } //while
-  
+
   free(line);
   return (parameter >= 3) ? true : false;
 }
@@ -118,7 +118,7 @@ const cEvent* cSwitchTimer::Event()
       const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
       if (!schedules) return NULL;
       const cSchedule *Schedule = schedules->GetSchedule(channelID);
-      if (Schedule) 
+      if (Schedule)
       {
 	  event = Schedule->GetEvent(eventID, startTime);
 	  if (!event)
@@ -138,9 +138,9 @@ cString cSwitchTimer::ToText(bool& ignore)
     }
     cChannel *channel = Channels.GetByChannelID(channelID, true, true);
     if (!channel) return NULL;
-    cString buffer = cString::sprintf("%s:%u:%ld:%d:%d:%d", 
-				      CHANNELSTRING(channel), eventID, 
-				      startTime, switchMinsBefore, 
+    cString buffer = cString::sprintf("%s:%u:%ld:%d:%d:%d",
+				      CHANNELSTRING(channel), eventID,
+				      startTime, switchMinsBefore,
 				      mode, unmute?1:0);
     return buffer;
 }
@@ -160,10 +160,10 @@ cSwitchTimer* cSwitchTimers::InSwitchList(const cEvent* event)
     if (!event) return false;
     cMutexLock SwitchTimersLock(this);
     cSwitchTimer* switchTimer = SwitchTimers.First();
-    while (switchTimer) 
+    while (switchTimer)
     {
-      if (switchTimer->eventID == event->EventID() && 
-	  switchTimer->channelID == event->ChannelID() && 
+      if (switchTimer->eventID == event->EventID() &&
+	  switchTimer->channelID == event->ChannelID() &&
 	  switchTimer->startTime == event->StartTime())
 	    return switchTimer;
 	switchTimer = SwitchTimers.Next(switchTimer);
@@ -175,7 +175,7 @@ bool cSwitchTimers::Exists(const cSwitchTimer* SwitchTimer)
 {
     cMutexLock SwitchTimersLock(this);
     cSwitchTimer* switchTimer = SwitchTimers.First();
-    while (switchTimer) 
+    while (switchTimer)
     {
 	if (switchTimer == SwitchTimer)
 	    return true;

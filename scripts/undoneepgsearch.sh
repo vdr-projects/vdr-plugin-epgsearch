@@ -137,7 +137,7 @@ else
 
     [ $DEBUG = yes ] && printf "\nMatch=$Match\n"
 
-    [ $Match -eq 1 ] && grep -m$Match -A4 "^T $Title$" $EPGSEARCHDONE_WORK >$TempFile || grep -m$Match -A4 "^T $Title$" $EPGSEARCHDONE_WORK | grep -A5 "^--$" >$TempFile 
+    [ $Match -eq 1 ] && grep -m$Match -A4 "^T $Title$" $EPGSEARCHDONE_WORK >$TempFile || grep -m$Match -A4 "^T $Title$" $EPGSEARCHDONE_WORK | grep -A5 "^--$" >$TempFile
 
     if [ -z "$Subtitle" ]; then
       grep -q "$Description" $TempFile

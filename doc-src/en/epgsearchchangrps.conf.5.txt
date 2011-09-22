@@ -31,7 +31,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 =head1 REPORT BUGS
 
-Bug reports (german): 
+Bug reports (german):
 
 L<http://www.vdr-developer.org/mantisbt/>
 

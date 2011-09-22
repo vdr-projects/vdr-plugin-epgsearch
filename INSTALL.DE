@@ -12,7 +12,7 @@ folgendes kommt:
 
  ERROR: /usr/lib/libpcreposix.so.0: undefined symbol: pcre_free).
 
-dann bitte libpcre von www.pcre.org updaten und das Plugin neu 
+dann bitte libpcre von www.pcre.org updaten und das Plugin neu
 kompilieren.
 
 Scheinbar gibt es auf manchen Systemen Probleme mit PCRE, die sich in einem

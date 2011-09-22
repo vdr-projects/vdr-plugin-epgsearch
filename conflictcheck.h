@@ -36,7 +36,7 @@ class cConflictCheckTime;
 class TimerObjSort;
 
 // --- cConflictCheckTimerObj --------------------------------------------------------
-class cConflictCheckTimerObj : public cTimerObj 
+class cConflictCheckTimerObj : public cTimerObj
 {
     const cEvent* event;
  public:
@@ -72,7 +72,7 @@ public:
 
 
 // --- cConflictCheckTime --------------------------------------------------------
-class cConflictCheckTime : public cListObject 
+class cConflictCheckTime : public cListObject
 {
  public:
     time_t evaltime;
@@ -81,7 +81,7 @@ class cConflictCheckTime : public cListObject
     std::set<cConflictCheckTimerObj*,TimerObjSort> failedTimers;
     std::set<cConflictCheckTimerObj*,TimerObjSort> concurrentRecs;
     bool ignore;
-    
+
     cConflictCheckTime(time_t EvalTime) : evaltime(EvalTime), ignore(false) {}
     int Compare(const cListObject &ListObject) const
 	{
@@ -92,7 +92,7 @@ class cConflictCheckTime : public cListObject
 
 // --- cConflictCheckDevice --------------------------------------------------------
 // This class tries to emulate the behaviour of a DVB device
-// NOTE: The case device == NULL is only for debugging purposes 
+// NOTE: The case device == NULL is only for debugging purposes
 class cConflictCheckDevice
 {
  public:
@@ -100,7 +100,7 @@ class cConflictCheckDevice
     cDevice* device;
     int devicenr;
 
-    cConflictCheckDevice() {}    
+    cConflictCheckDevice() {}
     int Priority() const
 	{
 	    int prio = -1;
@@ -113,7 +113,7 @@ class cConflictCheckDevice
     bool IsTunedTo (const cChannel* Channel) const
 	{
 	    for(std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it = recTimers.begin(); it != recTimers.end(); it++)
-		if ((*it)->timer->Channel()->Source() == Channel->Source() && 
+		if ((*it)->timer->Channel()->Source() == Channel->Source() &&
 		    (*it)->timer->Channel()->Transponder() == Channel->Transponder())
 		    return true;
 	    return false;
@@ -121,15 +121,15 @@ class cConflictCheckDevice
     bool HasDecoder() const { if (device) return device->HasDecoder(); else return (devicenr == 3); }
     bool HasCi() const { if (device) return device->HasCi(); else return (devicenr == 3); }
     bool IsPrimaryDevice() const { if (device) return device->IsPrimaryDevice(); else return (devicenr == 3); }
-    bool ProvidesSource(int Source) const 
-	{ 
+    bool ProvidesSource(int Source) const
+	{
 	    if (device) return device->ProvidesSource(Source);
-	    else 
+	    else
 	    {
 //		int type = Source & cSource::st_Mask;
 //		if (devicenr == 0) return type == cSource::stCable;
 //		if (devicenr > 0) return type == cSource::stTerr;
-//		return false; 
+//		return false;
 		return true;
 	    }
 	}
@@ -181,7 +181,7 @@ class cConflictCheckDevice
 };
 
 // --- cConflictCheck --------------------------------------------------------
-class cConflictCheck 
+class cConflictCheck
 {
     cList<cConflictCheckTimerObj>* timerList;
     cList<cConflictCheckTime>* evaltimeList;
@@ -189,7 +189,7 @@ class cConflictCheck
     std::set<cConflictCheckTimerObj*> pendingTimers;
     cConflictCheckDevice *devices;
 
-    int numDevices;   
+    int numDevices;
     time_t maxCheck;
     std::vector<eModuleStatus> camSlotStatusArray;
  public:

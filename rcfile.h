@@ -42,7 +42,7 @@ public:
 };
 
 
-class cRCFile : public cConfig<cRCLine> 
+class cRCFile : public cConfig<cRCLine>
 {
     bool Parse(const char *Name, const char *Value);
 public:

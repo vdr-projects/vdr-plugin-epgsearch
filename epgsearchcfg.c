@@ -35,7 +35,7 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   showChannelNr     = 0;
   useSearchTimers   = 0;
   UpdateIntervall   = 30;
-#if APIVERSNUM >= 10715 
+#if APIVERSNUM >= 10715
   SVDRPPort         = 6419;
 #else
   SVDRPPort         = 2001;
@@ -133,4 +133,4 @@ int cShowMode::Compare(const cListObject &ListObject) const
 	return seekTime - p->seekTime;
     else
 	return mode - p->mode;
-} 
+}

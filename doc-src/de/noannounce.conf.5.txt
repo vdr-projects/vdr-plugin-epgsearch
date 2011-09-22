@@ -42,7 +42,7 @@ L<http://www.vdr-developer.org/mantisbt/>
 
 Mailinglist:
 
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>   
+L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT und LIZENZ
 
@@ -50,4 +50,4 @@ Copyright © 2005 - 2007 Christian Wieninger
 
 Dieses Dokument wird unter den Bedingungen der Gnu Public License
 (GPL) veröffentlicht. Alle Angaben sind nach bestem Wissen, aber
-natürlich ohne Gewähr (no warranty in any kind). 
+natürlich ohne Gewähr (no warranty in any kind).

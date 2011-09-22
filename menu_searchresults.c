@@ -47,7 +47,7 @@ extern bool isUTF8;
 
 static int CompareRecording(const void *p1, const void *p2)
 {
-#if APIVERSNUM < 10721 
+#if APIVERSNUM < 10721
    return (int)((*(cRecording **)p1)->start - (*(cRecording **)p2)->start);
 #else
    return (int)((*(cRecording **)p1)->Start() - (*(cRecording **)p2)->Start());
@@ -55,8 +55,8 @@ static int CompareRecording(const void *p1, const void *p2)
 }
 
 // --- cMenuSearchResultsItem -------------------------------------------------------
-cMenuSearchResultsItem::cMenuSearchResultsItem(const cEvent *EventInfo, bool EpisodeOnly, 
-                                               bool PreviewTimer, cMenuTemplate* MenuTemplate, 
+cMenuSearchResultsItem::cMenuSearchResultsItem(const cEvent *EventInfo, bool EpisodeOnly,
+                                               bool PreviewTimer, cMenuTemplate* MenuTemplate,
                                                const cSearchExt* Search)
 {
    fileName = NULL;
@@ -74,18 +74,18 @@ bool cMenuSearchResultsItem::Update(bool Force)
 {
    if (!menuTemplate)
       return false;
-    
+
    bool result = false;
 
    int OldTimerMatch = timerMatch;
    bool OldInSwitchList = inSwitchList;
-   bool hasMatch = false; 
+   bool hasMatch = false;
    cTimer* timer = NULL;
    if (event) timer = Timers.GetMatch(event, &timerMatch);
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
-    
-   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList)  
+
+   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList)
    {
      char t[Utf8BufSize(2)]="",v[Utf8BufSize(2)]="",r[Utf8BufSize(2)]="";
      char szStatus[Utf8BufSize(4)] = "";
@@ -103,7 +103,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
 	  }
 	else
 	  {
-#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96 
+#if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96
 #else
 	    sprintf(t, "%s", (event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC_UTF8:ICON_CLOCK_UTF8) : ICON_CLOCK_HALF_UTF8 : " "));
 	    sprintf(v, "%s", event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS_UTF8 : " ");
@@ -127,20 +127,20 @@ bool cMenuSearchResultsItem::Update(bool Force)
       }
       if (t[0] != 'T' && previewTimer)
          t[0] = 'P';
-	
+
       strcpy(szStatus, t);
       strcat(szStatus, v);
       strcat(szStatus, r);
-	
+
       char* buffer = strdup(menuTemplate->MenuTemplate());
       strreplace(buffer, '|', '\t');
 
-      if (!strcasestr(buffer, "%subtitle%") && cTemplFile::GetTemplateByName("MenuFavorites") != menuTemplate) 
+      if (!strcasestr(buffer, "%subtitle%") && cTemplFile::GetTemplateByName("MenuFavorites") != menuTemplate)
 	// make sure, there is a subtitle
          buffer = strreplacei(buffer, "%title%", "%title% ~ %subtitle%");
       if (episodeOnly)
          buffer = strreplacei(buffer, "%title%", "");
-	    
+
       // parse the epxression and evaluate it
       cVarExpr varExpr(buffer);
       char* tmp = strdup(varExpr.Evaluate(event).c_str());
@@ -155,7 +155,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
       buffer = FixSeparators(buffer, '~');
       buffer = FixSeparators(buffer, ':');
       buffer = FixSeparators(buffer, '-');
-	
+
       SetText(buffer, false);
 
       if (EPGSearchConfig.checkTimerConflAfterTimerProg && !Force && timer && timerMatch && timerMatch != OldTimerMatch)
@@ -163,7 +163,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
          cConflictCheck C;
          C.Check();
          if (C.TimerInConflict(timer))
-            gl_InfoConflict = 1;	  
+            gl_InfoConflict = 1;
       }
 
       return true;
@@ -174,7 +174,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
 cMenuSearchResultsItem::cMenuSearchResultsItem(cRecording *Recording)
 {
    event = NULL;
-   search = NULL; 
+   search = NULL;
    fileName = strdup(Recording->FileName());
    SetText(Recording->Title('\t'));
 }
@@ -215,7 +215,7 @@ eOSState cMenuSearchResults::Record(void)
    UpdateCurrent();
    cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
    if (item) {
-      if (item->timerMatch == tmFull) 
+      if (item->timerMatch == tmFull)
       {
          int tm = tmNone;
          cTimer *timer = Timers.GetMatch(item->event, &tm);
@@ -231,17 +231,17 @@ eOSState cMenuSearchResults::Record(void)
       cTimer *timer = new cTimer(item->event);
       PrepareTimerFile(item->event, timer);
       cTimer *t = Timers.GetTimer(timer);
-      if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL))) 
+      if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
       {
          if (t)
          {
             delete timer;
-            timer = t;      
+            timer = t;
          }
          if (EPGSearchConfig.useVDRTimerEditMenu)
             return AddSubMenu(new cMenuEditTimer(timer, !t));
          else
-            return AddSubMenu(new cMenuMyEditTimer(timer, !t, item->event));     
+            return AddSubMenu(new cMenuMyEditTimer(timer, !t, item->event));
       }
       else
       {
@@ -269,7 +269,7 @@ eOSState cMenuSearchResults::Record(void)
 
          SetAux(timer, fullaux);
          Timers.Add(timer);
-	 gl_timerStatusMonitor->SetConflictCheckAdvised(); 
+	 gl_timerStatusMonitor->SetConflictCheckAdvised();
          timer->Matches();
          Timers.SetModified();
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
@@ -294,7 +294,7 @@ eOSState cMenuSearchResults::Switch(void)
       if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
          return osEnd;
    }
-   Skins.Message(mtInfo, trVDR("Can't switch channel!")); 
+   Skins.Message(mtInfo, trVDR("Can't switch channel!"));
    return osContinue;
 }
 
@@ -318,7 +318,7 @@ eOSState cMenuSearchResults::ShowSummary()
    if (Count())
    {
       const cEvent *ei = ((cMenuSearchResultsItem *)Get(Current()))->event;
-      if (ei) 
+      if (ei)
       {
          cChannel *channel = Channels.GetByChannelID(ei->ChannelID(), true, true);
          if (channel)
@@ -332,7 +332,7 @@ eOSState cMenuSearchResults::OnRed(cSearchExt* searchExt)
 {
    eOSState state = osUnknown;
 
-   if(HasSubMenu()) 
+   if(HasSubMenu())
       return Record();
 
    if (Count())
@@ -355,7 +355,7 @@ eOSState cMenuSearchResults::OnRed(cSearchExt* searchExt)
 eOSState cMenuSearchResults::OnGreen()
 {
    eOSState state = osUnknown;
-   if(!HasSubMenu()) 	     
+   if(!HasSubMenu())
    {
       m_bSort=!m_bSort;
       BuildList();
@@ -367,7 +367,7 @@ eOSState cMenuSearchResults::OnGreen()
 eOSState cMenuSearchResults::OnYellow()
 {
    eOSState state = osUnknown;
-   if(!HasSubMenu()) 	     
+   if(!HasSubMenu())
    {
       modeYellow = (modeYellow==showTitleEpisode?showEpisode:showTitleEpisode);
       BuildList();
@@ -380,14 +380,14 @@ void cMenuSearchResults::UpdateCurrent()
 {
    cEventObj* cureventObj = eventObjects.GetCurrent();
    if (cureventObj && cureventObj->Event())
-      for (cMenuSearchResultsItem* item = (cMenuSearchResultsItem*)First(); item; item = (cMenuSearchResultsItem*)Next(item)) 
+      for (cMenuSearchResultsItem* item = (cMenuSearchResultsItem*)First(); item; item = (cMenuSearchResultsItem*)Next(item))
          if (item->event == cureventObj->Event())
          {
             cureventObj->Select(false);
             SetCurrent(item);
             Display();
             break;
-         }               
+         }
 }
 
 eOSState cMenuSearchResults::ProcessKey(eKeys Key)
@@ -401,22 +401,22 @@ eOSState cMenuSearchResults::ProcessKey(eKeys Key)
    if (state == osUnknown) {
       switch (Key) {
          case k0:
-            if(!HasSubMenu()) 
+            if(!HasSubMenu())
             {
                toggleKeys = 1 - toggleKeys;
                SetHelpKeys(true);
             }
             state = osContinue;
             break;
-         case kGreen:  
+         case kGreen:
             state = OnGreen();
             break;
-         case kYellow: 
+         case kYellow:
             state = OnYellow();
             break;
          case kOk:
       case kInfo:
-            if(HasSubMenu()) 
+            if(HasSubMenu())
             {
                state = cOsdMenu::ProcessKey(Key);
                break;
@@ -426,11 +426,11 @@ eOSState cMenuSearchResults::ProcessKey(eKeys Key)
             else
                state = osBack;
             break;
-         default:      
+         default:
             break;
       }
    }
-   if (!HasSubMenu()) 
+   if (!HasSubMenu())
    {
       if ((HadSubMenu || gl_TimerProgged) && Update())
       {
@@ -448,7 +448,7 @@ eOSState cMenuSearchResults::ProcessKey(eKeys Key)
          gl_InfoConflict = 0;
          if (Interface->Confirm(tr("Timer conflict! Show?")))
             state = AddSubMenu(new cMenuConflictCheck());
-      }      
+      }
    }
    return state;
 }
@@ -483,9 +483,9 @@ bool cMenuSearchResultsForSearch::BuildList()
    if (pSearchResults)
    {
       pSearchResults->SortBy(m_bSort? CompareEventTime: CompareEventChannel);
-	
-      for (cSearchResult* pResultObj = pSearchResults->First(); 
-           pResultObj; 
+
+      for (cSearchResult* pResultObj = pSearchResults->First();
+           pResultObj;
            pResultObj = pSearchResults->Next(pResultObj))
       {
          if (ignoreRunning && now > pResultObj->event->StartTime())
@@ -496,19 +496,19 @@ bool cMenuSearchResultsForSearch::BuildList()
          Add(new cMenuSearchResultsItem(pResultObj->event, modeYellow == showEpisode, pResultObj->needsTimer, menuTemplate));
          eventObjects.Add(pResultObj->event);
       }
-	
+
       delete pSearchResults;
    }
    if (Count())
       SetCurrent(Get(0));
-   SetHelpKeys(true);  
+   SetHelpKeys(true);
 
    cString szTitle = cString::sprintf("%d %s - %s", Count(), tr("Search results"), searchExt->search);
    SetTitle(szTitle);
 
    SetCurrent(Get(current));
    Display();
-    
+
    return hasResults;
 }
 
@@ -517,7 +517,7 @@ void cMenuSearchResultsForSearch::SetHelpKeys(bool Force)
    cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
   int NewHelpKeys = 0;
   if (item) {
-    if (item->Selectable() && item->timerMatch == tmFull)	
+    if (item->Selectable() && item->timerMatch == tmFull)
       NewHelpKeys = 2;
     else
       NewHelpKeys = 1;
@@ -525,12 +525,12 @@ void cMenuSearchResultsForSearch::SetHelpKeys(bool Force)
 
   bool hasTimer = (NewHelpKeys == 2);
   if (NewHelpKeys != helpKeys || Force)
-    { 
+    {
       ModeBlueSR nextModeBlue = (ModeBlueSR)(((int)modeBlue+1)%3);
-      if (nextModeBlue == showTimerPreview && 
+      if (nextModeBlue == showTimerPreview &&
 	  (searchExt->useAsSearchTimer == 0 || searchExt->avoidRepeats == 0))
 	nextModeBlue = (ModeBlueSR)(((int)nextModeBlue+1)%3);
-      
+
       if (toggleKeys==0)
 	SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), m_bSort? tr("Button$by channel"):tr("Button$by time"), modeYellow==showTitleEpisode?tr("Button$Episode"):tr("Button$Title"), ButtonBlue[(int)nextModeBlue]);
       else
@@ -549,7 +549,7 @@ eOSState cMenuSearchResultsForSearch::ProcessKey(eKeys Key)
          case kRed:
             state = OnRed(searchExt);
             break;
-         case k1...k9: 
+         case k1...k9:
             state = HasSubMenu()?osContinue:Commands(Key, searchExt);
             break;
          case kBlue:
@@ -558,18 +558,18 @@ eOSState cMenuSearchResultsForSearch::ProcessKey(eKeys Key)
             else
             {
                modeBlue = (ModeBlueSR)(((int)modeBlue+1)%3);
-               if (modeBlue == showTimerPreview && 
+               if (modeBlue == showTimerPreview &&
                    (!searchExt || (searchExt && (searchExt->useAsSearchTimer == 0 || searchExt->avoidRepeats == 0))))
                   modeBlue = (ModeBlueSR)(((int)modeBlue+1)%3);
-               
+
                if (modeBlue == showTimerPreview)
                   m_bSort = true; // show always sorted by channel
                BuildList();
-               
-               state = osContinue;			
+
+               state = osContinue;
             }
             break;
-         default:      
+         default:
             break;
       }
    }
@@ -587,7 +587,7 @@ cMenuSearchResultsForBlacklist::cMenuSearchResultsForBlacklist(cBlacklist* Black
    blacklist = Blacklist;
    m_bSort = true;
    modeBlue = blacklist->useChannel==3?showNoPayTV:(EPGSearchConfig.ignorePayTV?showNoPayTV:showAll);
-   
+
    BuildList();
 }
 
@@ -601,9 +601,9 @@ bool cMenuSearchResultsForBlacklist::BuildList()
    if (pSearchResults)
    {
       pSearchResults->SortBy(m_bSort? CompareEventTime: CompareEventChannel);
-	
-      for (cSearchResult* pResultObj = pSearchResults->First(); 
-           pResultObj; 
+
+      for (cSearchResult* pResultObj = pSearchResults->First();
+           pResultObj;
            pResultObj = pSearchResults->Next(pResultObj))
       {
          if (ignoreRunning && now > pResultObj->event->StartTime())
@@ -611,18 +611,18 @@ bool cMenuSearchResultsForBlacklist::BuildList()
          Add(new cMenuSearchResultsItem(pResultObj->event, modeYellow == showEpisode, false));
          eventObjects.Add(pResultObj->event);
       }
-	
+
       delete pSearchResults;
    }
    if (Count())
       SetCurrent(Get(0));
-   SetHelpKeys();  
+   SetHelpKeys();
    cString szTitle = cString::sprintf("%d %s - %s", Count(), tr("Blacklist results"), blacklist->search);
    SetTitle(szTitle);
 
    SetCurrent(Get(current));
    Display();
-    
+
    return true;
 }
 
@@ -632,7 +632,7 @@ eOSState cMenuSearchResultsForBlacklist::ProcessKey(eKeys Key)
 
    if (state == osUnknown) {
       switch (Key) {
-         case k1...k9: 
+         case k1...k9:
             state = HasSubMenu()?osContinue:Commands(Key);
             break;
          case kRecord:
@@ -643,9 +643,9 @@ eOSState cMenuSearchResultsForBlacklist::ProcessKey(eKeys Key)
             if (HasSubMenu())
                state = Switch();
             else
-               state = osContinue;			            
+               state = osContinue;
             break;
-         default:      
+         default:
             break;
       }
    }
@@ -657,7 +657,7 @@ void cMenuSearchResultsForBlacklist::SetHelpKeys(bool Force)
   cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
   int NewHelpKeys = 0;
   if (item) {
-    if (item->Selectable() && item->timerMatch == tmFull)	
+    if (item->Selectable() && item->timerMatch == tmFull)
       NewHelpKeys = 2;
     else
       NewHelpKeys = 1;
@@ -665,12 +665,12 @@ void cMenuSearchResultsForBlacklist::SetHelpKeys(bool Force)
 
   bool hasTimer = (NewHelpKeys == 2);
   if (NewHelpKeys != helpKeys || Force)
-    { 
+    {
 
       ModeBlueSR nextModeBlue = (ModeBlueSR)(((int)modeBlue+1)%3);
       if (nextModeBlue == showTimerPreview)
 	nextModeBlue = (ModeBlueSR)(((int)nextModeBlue+1)%3);
-      
+
       if (toggleKeys==0)
 	SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), m_bSort? tr("Button$by channel"):tr("Button$by time"), modeYellow==showTitleEpisode?tr("Button$Episode"):tr("Button$Title"), NULL);
       else
@@ -710,7 +710,7 @@ bool cMenuSearchResultsForQuery::BuildList()
 /*   if (!bRes)
    {
       char* szMessage = NULL;
-      asprintf(&szMessage, tr("No results! Try again with tolerance %d?"), searchExt->mode == 5?searchExt->fuzzyTolerance+1:1);      
+      asprintf(&szMessage, tr("No results! Try again with tolerance %d?"), searchExt->mode == 5?searchExt->fuzzyTolerance+1:1);
       string sMessage = szMessage;
       free(szMessage);
       if (Interface->Confirm(sMessage.c_str()))
@@ -745,7 +745,7 @@ bool cMenuSearchResultsForRecs::BuildList()
 {
    cRecording **pArray = NULL;
    int num = 0;
-    
+
    int current = Current();
    Clear();
    for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
@@ -756,7 +756,7 @@ bool cMenuSearchResultsForRecs::BuildList()
      if (s1.empty() || s2.empty()) continue;
 
      // tolerance for fuzzy searching: 90% of the shorter text length, but at least 1
-     int tolerance = std::max(1, (int)std::min(s1.size(), s2.size()) / 10); 
+     int tolerance = std::max(1, (int)std::min(s1.size(), s2.size()) / 10);
 
      bool match = FindIgnoreCase(s1, s2) >= 0 ||
        FindIgnoreCase(s2, s1) >= 0;
@@ -811,7 +811,7 @@ cRecording *cMenuSearchResultsForRecs::GetRecording(cMenuSearchResultsItem *Item
 eOSState cMenuSearchResultsForRecs::Play(void)
 {
    cMenuSearchResultsItem *ri = (cMenuSearchResultsItem*)Get(Current());
-   if (ri) 
+   if (ri)
    {
       cRecording *recording = GetRecording(ri);
       if (recording) {
@@ -826,7 +826,7 @@ eOSState cMenuSearchResultsForRecs::ProcessKey(eKeys Key)
 {
    eOSState state = cOsdMenu::ProcessKey(Key);
 
-   if (state == osUnknown) 
+   if (state == osUnknown)
    {
       if (Key == kOk)
 	{
@@ -851,7 +851,7 @@ cMenuSearchResultsForList::cMenuSearchResultsForList(cSearchResults& SearchResul
    ignoreRunning = IgnoreRunning;
 
    BuildList();
-    
+
    cString szTitle = cString::sprintf(Title, Count());
    SetTitle(szTitle);
 }
@@ -861,7 +861,7 @@ void cMenuSearchResultsForList::SetHelpKeys(bool Force)
   cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
   int NewHelpKeys = 0;
   if (item) {
-    if (item->Selectable() && item->timerMatch == tmFull)	
+    if (item->Selectable() && item->timerMatch == tmFull)
       NewHelpKeys = 2;
     else
       NewHelpKeys = 1;
@@ -869,7 +869,7 @@ void cMenuSearchResultsForList::SetHelpKeys(bool Force)
 
   bool hasTimer = (NewHelpKeys == 2);
   if (NewHelpKeys != helpKeys || Force)
-    { 
+    {
       if (toggleKeys==0)
 	SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), m_bSort? tr("Button$by channel"):tr("Button$by time"), modeYellow==showTitleEpisode?tr("Button$Episode"):tr("Button$Title"), ButtonBlue[0]);
       else
@@ -886,9 +886,9 @@ bool cMenuSearchResultsForList::BuildList()
    Clear();
    eventObjects.Clear();
    searchResults->SortBy(m_bSort? CompareEventTime: CompareEventChannel);
-   
-   for (cSearchResult* pResultObj = searchResults->First(); 
-        pResultObj; 
+
+   for (cSearchResult* pResultObj = searchResults->First();
+        pResultObj;
         pResultObj = searchResults->Next(pResultObj))
    {
       if (ignoreRunning && now > pResultObj->event->StartTime())
@@ -899,7 +899,7 @@ bool cMenuSearchResultsForList::BuildList()
    if (Count())
       SetCurrent(Get(0));
 
-   SetHelpKeys();  
+   SetHelpKeys();
 
    SetCurrent(Get(current));
    Display();
@@ -913,14 +913,14 @@ eOSState cMenuSearchResultsForList::ProcessKey(eKeys Key)
 
    if (state == osUnknown) {
       switch (Key) {
-         case k1...k9: 
+         case k1...k9:
             state = HasSubMenu()?osContinue:Commands(Key);
             break;
          case kRecord:
          case kRed:
             state = OnRed();
             break;
-         default:      
+         default:
             break;
       }
    }

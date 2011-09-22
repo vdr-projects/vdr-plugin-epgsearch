@@ -40,21 +40,21 @@ cRecStatusMonitor::cRecStatusMonitor()
 {
 }
 
-void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const char* Filename, bool On) 
+void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const char* Filename, bool On)
 {
    time_t now = time(NULL);
    // insert new timers currently recording in TimersRecording
    if (On && Name)
    {
       if (EPGSearchConfig.checkTimerConflOnRecording)
-         cConflictCheckThread::Init((cPluginEpgsearch*)cPluginManager::GetPlugin("epgsearch"), true);   
+         cConflictCheckThread::Init((cPluginEpgsearch*)cPluginManager::GetPlugin("epgsearch"), true);
 
-      for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti)) 
+      for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti))
          if (ti->Recording())
          {
             // check if this is a new entry
             cRecDoneTimerObj *tiRFound = NULL;
-            for (cRecDoneTimerObj *tiR = TimersRecording.First(); tiR; tiR = TimersRecording.Next(tiR)) 
+            for (cRecDoneTimerObj *tiR = TimersRecording.First(); tiR; tiR = TimersRecording.Next(tiR))
                if (tiR->timer == ti)
                {
                   tiRFound = tiR;
@@ -68,14 +68,14 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                   LogFile.Log(1,"accepting resume of '%s' on device %d", Name, Device->CardIndex());
                   tiRFound->lastBreak = 0;
                }
-               continue; 
+               continue;
             }
-		
+
             cRecDoneTimerObj* timerObj = new cRecDoneTimerObj(ti, Device->DeviceNumber());
             TimersRecording.Add(timerObj);
 
             cSearchExt* search = TriggeredFromSearchTimer(ti);
-            if (!search || (search->avoidRepeats == 0 && search->delMode == 0)) // ignore if not avoid repeats and no auto-delete 
+            if (!search || (search->avoidRepeats == 0 && search->delMode == 0)) // ignore if not avoid repeats and no auto-delete
                continue;
 
             bool vpsUsed = ti->HasFlags(tfVps) && ti->Event() && ti->Event()->Vps();
@@ -102,7 +102,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                LogFile.Log(1,"recording started too late! will be ignored");
          }
    }
-    
+
    if (!On)
    {
       cMutexLock RecsDoneLock(&RecsDone);
@@ -113,8 +113,8 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
       {
          // check if timer still exists
          bool found = false;
-         for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti)) 
-            if (ti == tiR->timer) 
+         for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti))
+            if (ti == tiR->timer)
             {
                found = true;
                break;
@@ -126,7 +126,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
             {
                cSearchExt* search = SearchExts.GetSearchFromID(tiR->recDone->searchID);
                if (!search) return;
-		    
+
                // check if recording has ended before timer end
 
                bool complete = true;
@@ -153,7 +153,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                if (complete)
                {
                   RecsDone.Add(tiR->recDone);
-                  LogFile.Log(1,"added rec done for '%s~%s';%s", tiR->recDone->title?tiR->recDone->title:"unknown title", 
+                  LogFile.Log(1,"added rec done for '%s~%s';%s", tiR->recDone->title?tiR->recDone->title:"unknown title",
                               tiR->recDone->shortText?tiR->recDone->shortText:"unknown subtitle",
                               search->search);
                   RecsDone.Save();
@@ -165,13 +165,13 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
 
                   // trigger a search timer update (skip running events)
 		  search->skipRunningEvents = true;
-                  updateForced = 1;			
+                  updateForced = 1;
                }
                else if (tiR->lastBreak == 0) // store first break
                   tiR->lastBreak = now;
             }
-            if (tiR->lastBreak == 0 || (now - tiR->lastBreak) > ALLOWED_BREAK_INSECS) 
-            { // remove finished recordings or those with an unallowed break 
+            if (tiR->lastBreak == 0 || (now - tiR->lastBreak) > ALLOWED_BREAK_INSECS)
+            { // remove finished recordings or those with an unallowed break
                if (tiR->recDone) delete tiR->recDone; // clean up
                cRecDoneTimerObj *tiRNext = TimersRecording.Next(tiR);
                TimersRecording.Del(tiR);
@@ -196,7 +196,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
 int cRecStatusMonitor::TimerRecDevice(cTimer* timer)
 {
    if (!timer) return 0;
-   for (cRecDoneTimerObj *tiR = TimersRecording.First(); tiR; tiR = TimersRecording.Next(tiR)) 
+   for (cRecDoneTimerObj *tiR = TimersRecording.First(); tiR; tiR = TimersRecording.Next(tiR))
       if (tiR->timer == timer && timer->Recording()) return tiR->deviceNr+1;
    return 0;
 }
@@ -218,18 +218,18 @@ int cRecStatusMonitor::RecLengthInSecs(cRecording *pRecording)
 {
   struct stat buf;
   cString fullname = cString::sprintf("%s%s", pRecording->FileName(), "/index.vdr");
-  if (stat(fullname, &buf) == 0) 
-  {      
+  if (stat(fullname, &buf) == 0)
+  {
     struct tIndex { int offset; uchar type; uchar number; short reserved; };
     int delta = buf.st_size % sizeof(tIndex);
-    if (delta) 
+    if (delta)
     {
       delta = sizeof(tIndex) - delta;
       esyslog("ERROR: invalid file size (%ld) in '%s'", buf.st_size, *fullname);
     }
     return (buf.st_size + delta) / sizeof(tIndex) / SecondsToFrames(1);
   }
-  else 
+  else
     return -1;
 }
 

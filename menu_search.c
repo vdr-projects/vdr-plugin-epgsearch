@@ -82,7 +82,7 @@ void cMenuSearchExtItem::Set(void)
       line << setiosflags(ios::left) << setw(11) << searchExt->channelGroup;
   else
     line << " ";
-  
+
   line << "\t";
   if (searchExt->useTime)
   {
@@ -94,7 +94,7 @@ void cMenuSearchExtItem::Set(void)
   }
   else
     line << "--:--\t--:--";
-	
+
   SetText(strdup(line.str().c_str()), false);
 }
 
@@ -125,7 +125,7 @@ void cMenuEPGSearchExt::UpdateTitle()
     int total=0, active=0;
     cMutexLock SearchExtsLock(&SearchExts);
     cSearchExt *SearchExt = SearchExts.First();
-    while (SearchExt) {	
+    while (SearchExt) {
 	if (SearchExt->useAsSearchTimer) active++;
 	SearchExt = SearchExts.Next(SearchExt);
 	total++;
@@ -196,7 +196,7 @@ eOSState cMenuEPGSearchExt::ProcessKey(eKeys Key)
     switch (Key) {
 	case k0:
 	    if (HasSubMenu())
-		return osContinue;	    
+		return osContinue;
 	    if (CurrentSearchExt())
 		state = AddSubMenu(new cMenuSearchActions(CurrentSearchExt()));
 	    else
@@ -208,7 +208,7 @@ eOSState cMenuEPGSearchExt::ProcessKey(eKeys Key)
 	    state = Actions(k1);
 	case kBlue:
 	    if (HasSubMenu())
-		return osContinue;	    
+		return osContinue;
 	    state = AddSubMenu(new cMenuSearchActions(CurrentSearchExt()));
 	    break;
 	case kRed:
@@ -224,8 +224,8 @@ eOSState cMenuEPGSearchExt::ProcessKey(eKeys Key)
       default: break;
     }
   }
-  if (SearchNumber >= 0 && !HasSubMenu()) 
-  {      
+  if (SearchNumber >= 0 && !HasSubMenu())
+  {
       cMutexLock SearchExtsLock(&SearchExts);
       cSearchExt* search = SearchExts.Get(SearchNumber);
       if (search)       // a newly created search was confirmed with Ok

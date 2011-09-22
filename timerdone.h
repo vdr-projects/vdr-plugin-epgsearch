@@ -34,7 +34,7 @@ class cTimerDone : public cListObject {
 public:
     time_t start;        // Start time of the timer
     time_t stop;         // Stop time of the timer
-    tChannelID channelID;    
+    tChannelID channelID;
     int searchID;
     string title;
     string shorttext;

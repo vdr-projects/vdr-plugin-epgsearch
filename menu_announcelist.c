@@ -40,7 +40,7 @@ void cMenuAnnounceList::SetHelpKeys(bool Force)
   cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
   int NewHelpKeys = 0;
   if (item) {
-    if (item->Selectable() && item->timerMatch == tmFull)	
+    if (item->Selectable() && item->timerMatch == tmFull)
       NewHelpKeys = 2;
     else
       NewHelpKeys = 1;
@@ -48,7 +48,7 @@ void cMenuAnnounceList::SetHelpKeys(bool Force)
 
   bool hasTimer = (NewHelpKeys == 2);
   if (NewHelpKeys != helpKeys || Force)
-    { 
+    {
       if (toggleKeys==0)
 	SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), m_bSort? tr("Button$by channel"):tr("Button$by time"), modeYellow==showTitleEpisode?tr("Button$Episode"):tr("Button$Title"), trVDR("Button$Edit"));
       else
@@ -69,15 +69,15 @@ eOSState cMenuAnnounceList::ProcessKey(eKeys Key)
             if (item)
             {
                if (!HasSubMenu())
-                  return AddSubMenu(new cMenuAnnounceDetails(item->event, item->search)); 
+                  return AddSubMenu(new cMenuAnnounceDetails(item->event, item->search));
                else if (!showsDetails)
                   return Switch();
-               else 
+               else
                   return osContinue;
             }
          }
          break;
-         default:      
+         default:
             break;
       }
    }
@@ -111,7 +111,7 @@ cMenuAnnounceDetails::cMenuAnnounceDetails(const cEvent* Event, const cSearchExt
       else
          announceAgain = 0;
    }
-   Set();   
+   Set();
 }
 
 cMenuAnnounceDetails::~cMenuAnnounceDetails()
@@ -123,13 +123,13 @@ void cMenuAnnounceDetails::Set()
 {
    int current = Current();
    Clear();
-  
+
    Add(new cMenuEditBoolItem(tr("announce again"), &announceAgain, trVDR("no"), trVDR("yes")));
    if (announceAgain)
    {
-      Add(new cMenuEditBoolItem(IndentMenuItem(tr("with next update")), &announceWithNextUpdate, trVDR("no"), trVDR("yes")));      
+      Add(new cMenuEditBoolItem(IndentMenuItem(tr("with next update")), &announceWithNextUpdate, trVDR("no"), trVDR("yes")));
       if (!announceWithNextUpdate)
-         Add(new cMenuEditDateItem(IndentMenuItem(IndentMenuItem(tr("again from"))), &announceAgainDay, NULL));      
+         Add(new cMenuEditDateItem(IndentMenuItem(IndentMenuItem(tr("again from"))), &announceAgainDay, NULL));
    }
    else
       announceAgainDay = 0;
@@ -139,7 +139,7 @@ void cMenuAnnounceDetails::Set()
       cOsdItem* pInfoItem = new cOsdItem("");
       pInfoItem->SetSelectable(false);
       Add(pInfoItem);
-      
+
       cString info = cString::sprintf("%s: %s", tr("Search timer"), search->search);
       pInfoItem = new cOsdItem(info);
       pInfoItem->SetSelectable(false);
@@ -166,7 +166,7 @@ eOSState cMenuAnnounceDetails::ProcessKey(eKeys Key)
 
    if (state == osUnknown) {
       switch (Key) {
-         case kRed: 
+         case kRed:
          case kGreen:
          case kBlue:
          case kYellow:
@@ -182,7 +182,7 @@ eOSState cMenuAnnounceDetails::ProcessKey(eKeys Key)
             {
                if (!noAnnounce)
                {
-                  noAnnounce = new cNoAnnounce(event, announceAgainDay);             
+                  noAnnounce = new cNoAnnounce(event, announceAgainDay);
                   NoAnnounces.Add(noAnnounce);
                }
                else
@@ -191,10 +191,10 @@ eOSState cMenuAnnounceDetails::ProcessKey(eKeys Key)
             }
             if (announceAgain && announceWithNextUpdate && noAnnounce)
                NoAnnounces.Del(noAnnounce);
-            NoAnnounces.Save(); 
+            NoAnnounces.Save();
          }
          return osBack;
-         default:      
+         default:
             break;
       }
    }

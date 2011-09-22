@@ -44,4 +44,4 @@ class cSwitchTimerThread: public cThread {
     static void Exit(void);
 };
 
-#endif 
+#endif

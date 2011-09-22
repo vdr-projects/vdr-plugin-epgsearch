@@ -37,15 +37,15 @@ class cMenuTemplate
  private:
     char name[MAXTEMPLLEN];
     char* menuTemplate;
-    int  menuTabs[cSkinDisplayMenu::MaxTabs];    
+    int  menuTabs[cSkinDisplayMenu::MaxTabs];
  public:
-    cMenuTemplate(const char* Name) 
+    cMenuTemplate(const char* Name)
       {
-	strcpy(name, Name); 
+	strcpy(name, Name);
 	menuTemplate = 0;
 	for(int i=0; i<cSkinDisplayMenu::MaxTabs; i++) menuTabs[i] = 0;
       }
-    ~cMenuTemplate() 
+    ~cMenuTemplate()
       {
 	if (menuTemplate) free(menuTemplate);
       }
@@ -69,7 +69,7 @@ public:
 };
 
 
-class cTemplFile : public cConfig<cTemplLine> 
+class cTemplFile : public cConfig<cTemplLine>
 {
 public:
     static set<cMenuTemplate*> menuTemplates; // the set of all templates

@@ -75,4 +75,4 @@ class cSearchTimerThread: public cThread {
     void CheckEPGHours();
 };
 
-#endif 
+#endif

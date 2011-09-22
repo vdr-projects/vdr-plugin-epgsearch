@@ -48,7 +48,7 @@ class cVarParser
     connectcmd,
     lengthcmd
   } exprType;
-  
+
  public:
     string varName;
     string condEqLeft;
@@ -62,7 +62,7 @@ class cVarParser
     string cmdArgs;
 
     string connectAddr;
-    int connectPort;  
+    int connectPort;
     exprType type;
 
  cVarParser() : cmd(NULL), connectPort(-1), type(composed) {}

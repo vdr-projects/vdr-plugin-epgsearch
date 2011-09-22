@@ -84,7 +84,7 @@ while(<DATEI>) {
     print NEU sprintf("%s\n",$aux);
   }
   print NEU sprintf("@ <epgsearch>%s</epgsearch>\n",$epgsearch) if ( $neuformat == 0 && $epgsearch ne "" );
-  
+
 }
 
 close(DATEI);

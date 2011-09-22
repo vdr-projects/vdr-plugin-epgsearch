@@ -48,14 +48,14 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
     strcpy(directory, "");
     UserDefDaysOfWeek = 0;
     checkmode = 0;
-    if (Timer) 
+    if (Timer)
     {
 	timer = Timer;
 	event = Event;
 	flags = Timer->Flags();
 	day = Timer->Day();
 	weekdays = Timer->WeekDays();
-	
+
 	start = Timer->Start();
 	stop = Timer->Stop();
 	priority = Timer->Priority();
@@ -68,7 +68,7 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
 	if (forcechannel)
 	    channel = forcechannel->Number();
 	SplitFile();
-	
+
 	addIfConfirmed = New;
 	Set();
 	SetHelp(addIfConfirmed?NULL:trVDR("Button$Delete"), NULL, NULL, NULL);
@@ -81,10 +81,10 @@ void cMenuMyEditTimer::SplitFile()
   char* tmp = strrchr(file, '~');
   if (tmp) // split file in real file and directory
     {
-      if (event && !isempty(event->ShortText())) 
+      if (event && !isempty(event->ShortText()))
 	{
 	  cString eventFile = cString::sprintf("%s~%s", event->Title(), event->ShortText());
-	  char* tmp2 = strstr(file, eventFile); 
+	  char* tmp2 = strstr(file, eventFile);
 	  if (tmp2) // file contains title and subtitle
 	    {
 	      if (tmp2 > file)
@@ -119,7 +119,7 @@ void cMenuMyEditTimer::Set()
     int current = Current();
     Clear();
 
-    cSearchExt* search = TriggeredFromSearchTimer(timer);    
+    cSearchExt* search = TriggeredFromSearchTimer(timer);
 
     Add(new cMenuEditStrItem( trVDR("File"), file, MaxFileName, trVDR(FileNameChars)));
     Add(new cMenuEditStrItem( tr("Directory"), directory, MaxFileName, tr(AllowedChars)));
@@ -303,7 +303,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 	else
 	    SetHelp(addIfConfirmed?NULL:trVDR("Button$Delete"), NULL, NULL, NULL);
     }
-    
+
     if ((Key == kYellow) && ((iOnDirectoryItem && !InEditMode(ItemText, tr("Directory"), directory)) ||
 			     (iOnFileItem && !InEditMode(ItemText, trVDR("File"), file))))
     {
@@ -314,12 +314,12 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 	RefreshCurrent();
 	Display();
     }
-    
-    if (state == osUnknown) 
+
+    if (state == osUnknown)
     {
-	switch (Key) 
+	switch (Key)
 	{
-	    case kOk:     
+	    case kOk:
 	    {
 		cChannel *ch = Channels.GetByNumber(channel);
 		if (!ch)
@@ -327,7 +327,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		    Skins.Message(mtError, tr("*** Invalid Channel ***"));
 		    break;
 		}
-		
+
 		string fullaux = "";
         string aux = "";
 		if (timer && timer->Aux())
@@ -338,9 +338,9 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		{
 		    time_t startTime = 0, stopTime = 0;;
 		    int begin  = cTimer::TimeToInt(start); // seconds from midnight
-		    int length = cTimer::TimeToInt(stop) - begin;		  
+		    int length = cTimer::TimeToInt(stop) - begin;
 		    if (length < 0)
-			length += SECSINDAY;	      
+			length += SECSINDAY;
 		    startTime = cTimer::SetTime(day, begin);
 		    stopTime = startTime + length;
 		    bstart = event->StartTime() - startTime;
@@ -351,7 +351,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		    {
 			aux = epgsearchaux;
 			free(epgsearchaux);
-		    }	      
+		    }
 		    aux = UpdateAuxValue(aux, "channel", NumToString(ch->Number()) + " - " + CHANNELNAME(ch));
 		    aux = UpdateAuxValue(aux, "update", checkmode);
 		    aux = UpdateAuxValue(aux, "eventid", event->EventID());
@@ -364,20 +364,20 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		      }
 		    fullaux = UpdateAuxValue(fullaux, "epgsearch", aux);
 		}
-		
+
 #ifdef USE_PINPLUGIN
         aux = "";
         aux = UpdateAuxValue(aux, "protected", fskProtection ? "yes" : "no");
         fullaux = UpdateAuxValue(fullaux, "pin-plugin", aux);
 #endif
-		
+
 		char* tmpFile = strdup(file);
 		tmpFile = strreplace(tmpFile, ':', '|');
 		char* tmpDir = strdup(directory);
 		tmpDir = strreplace(tmpDir, ':', '|');
 		if (strlen(tmpFile) == 0)
 		    tmpFile = strdup(CHANNELNAME(ch));
-		
+
                 if (timer)
                 {
                     cString cmdbuf;
@@ -421,7 +421,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 	    case kGreen:
 	    case kYellow:
 		return osContinue;
-	    case kBlue:   
+	    case kBlue:
 		if (HasSubMenu())
 		    return osContinue;
 		if (iOnDirectoryItem && !InEditMode(ItemText, tr("Directory"), directory))
@@ -435,10 +435,10 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 	    default: break;
 	}
     }
-    
+
     if (Key != kNone && !HasSubMenu())
     {
-	if (iOnDirectoryItem && !InEditMode(ItemText, tr("Directory"), directory))		
+	if (iOnDirectoryItem && !InEditMode(ItemText, tr("Directory"), directory))
 	    ReplaceDirVars();
     }
     return state;
@@ -467,4 +467,4 @@ void cMenuMyEditTimer::ReplaceDirVars()
     Display();
     return;
 }
- 
+

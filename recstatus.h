@@ -36,7 +36,7 @@ public:
     ~cRecDoneTimerObj() { timer = NULL; recDone = NULL; } // do not delete anything!
 };
 
-class cRecStatusMonitor : public cStatus 
+class cRecStatusMonitor : public cStatus
 {
     cList<cRecDoneTimerObj> TimersRecording;
 protected:

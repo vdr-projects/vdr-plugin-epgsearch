@@ -38,13 +38,13 @@ void cMenuRecDoneItem::Set()
     if (!recDone)
 	return;
     char *buffer = NULL;
-    
+
     char buf[32];
     struct tm tm_r;
     tm *tm = localtime_r(&recDone->startTime, &tm_r);
     strftime(buf, sizeof(buf), "%d.%m.%y %H:%M", tm);
 
-    msprintf(&buffer, "%s\t%s~%s", buf, recDone->title && !showEpisodeOnly?recDone->title:"", 
+    msprintf(&buffer, "%s\t%s~%s", buf, recDone->title && !showEpisodeOnly?recDone->title:"",
 	     recDone->shortText?recDone->shortText:"");
     SetText(buffer, false);
 }
@@ -185,7 +185,7 @@ eOSState cMenuRecsDone::ProcessKey(eKeys Key)
     default: break;
     }
   }
-  
+
   return state;
 }
 
@@ -195,7 +195,7 @@ eOSState cMenuTextDone::ProcessKey(eKeys Key)
     if (state == osContinue) {
 	switch (Key) {
 	    case kBlue:
-		if (recDone->aux) return AddSubMenu(new cMenuText(tr("Auxiliary info"), recDone->aux));		
+		if (recDone->aux) return AddSubMenu(new cMenuText(tr("Auxiliary info"), recDone->aux));
 		break;
 	    case kOk: return osBack;
 	    default:  state = osContinue;
@@ -205,9 +205,9 @@ eOSState cMenuTextDone::ProcessKey(eKeys Key)
 }
 
 // --- cMenuTextDone ----------------------------------------------------------
-cMenuTextDone::cMenuTextDone(const char *Title, cRecDone* RecDone, eDvbFont Font) 
-: cMenuText(Title, RecDone->description, Font), recDone(RecDone) 
+cMenuTextDone::cMenuTextDone(const char *Title, cRecDone* RecDone, eDvbFont Font)
+: cMenuText(Title, RecDone->description, Font), recDone(RecDone)
 {
   if (recDone->aux) SetHelp(NULL, NULL, NULL, tr("Button$Aux info"));
 }
-  
+

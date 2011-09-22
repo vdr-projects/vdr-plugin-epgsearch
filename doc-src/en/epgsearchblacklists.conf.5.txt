@@ -24,7 +24,7 @@ against "Damme". If so, the result will be dismissed.
 
 =head1 SYNTAX
 
-This file uses the same syntax as F<epgsearch.conf> except that theres no <use as searchtimer> field. 
+This file uses the same syntax as F<epgsearch.conf> except that theres no <use as searchtimer> field.
 So there's a shift by one field from this position. Because that, see C<epgsearch.conf(5)>.
 
 =head1 SEE ALSO
@@ -37,7 +37,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 =head1 REPORT BUGS
 
-Bug reports (german): 
+Bug reports (german):
 
 L<http://www.vdr-developer.org/mantisbt/>
 

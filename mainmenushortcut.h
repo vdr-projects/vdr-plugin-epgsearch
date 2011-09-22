@@ -28,16 +28,16 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 static const char I18nEpgsearch[] = "vdr-epgsearch";
 
-class cMainMenuShortcutSetupPage : public cMenuSetupPage 
+class cMainMenuShortcutSetupPage : public cMenuSetupPage
 {
  private:
   const char* _setupEntry;
   int* const _setupValue;
   int dummy; // don't know why, but this is necessary to avoid a crash with ext-patch and active USE_LIEMIKUUTIO
-  
+
  public:
   cMainMenuShortcutSetupPage(const char* setupText, const char* setupEntry, int* const setupValue);
-  
+
  protected:
   virtual void Store(void);
 };

@@ -49,7 +49,7 @@ function AddRecToDone()
   Title=$(echo $Rec|cut -f1 -d'|')
   Subtitle=$(echo $Rec|cut -f2 -d'|')
   [ "$Subtitle" = "NoSub" ] && Subtitle=""
-  
+
 
       if [ "$ASK_SID" = "yes" ]; then
 	if [ "$Title" != "$PrevTitle" ]; then
@@ -112,6 +112,6 @@ if [ "$TEST" = "yes" ]; then
  printf "\n\nTEST run !!!!\nNow take a look at the File $EPGSEARCHDONE_FILE to see if everything is OK.\n\n"
 else
   # Tell epgsearch that done-file was changed
-  echo "$SVDRPSEND PLUG epgsearch UPDD >/dev/null 2>&1" | at now >/dev/null 2>&1 
+  echo "$SVDRPSEND PLUG epgsearch UPDD >/dev/null 2>&1" | at now >/dev/null 2>&1
 fi
 

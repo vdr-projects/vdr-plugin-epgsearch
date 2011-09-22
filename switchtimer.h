@@ -45,7 +45,7 @@ public:
     bool Save(FILE *f);
 };
 
-class cSwitchTimers : public cConfig<cSwitchTimer>, public cMutex 
+class cSwitchTimers : public cConfig<cSwitchTimer>, public cMutex
 {
 public:
     cSwitchTimers(void) {}

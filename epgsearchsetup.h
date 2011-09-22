@@ -43,7 +43,7 @@ class cMenuSetupSubMenu : public cOsdMenu {
   };
 
 
-class cMenuSetupGeneral : public cMenuSetupSubMenu 
+class cMenuSetupGeneral : public cMenuSetupSubMenu
 {
  protected:
     virtual eOSState ProcessKey(eKeys Key);
@@ -52,7 +52,7 @@ class cMenuSetupGeneral : public cMenuSetupSubMenu
     cMenuSetupGeneral(cEPGSearchConfig* Data);
 };
 
-class cMenuSetupEPGMenus : public cMenuSetupSubMenu 
+class cMenuSetupEPGMenus : public cMenuSetupSubMenu
 {
  protected:
     void Set(void);
@@ -80,7 +80,7 @@ class cMenuSetupTimers : public cMenuSetupSubMenu
     cMenuSetupTimers(cEPGSearchConfig* Data);
 };
 
-class cMenuSetupSearchtimers : public cMenuSetupSubMenu 
+class cMenuSetupSearchtimers : public cMenuSetupSubMenu
 {
      char** menuitemsChGr;
  protected:
@@ -92,7 +92,7 @@ class cMenuSetupSearchtimers : public cMenuSetupSubMenu
     ~cMenuSetupSearchtimers();
 };
 
-class cMenuSetupTimerConflicts : public cMenuSetupSubMenu 
+class cMenuSetupTimerConflicts : public cMenuSetupSubMenu
 {
  protected:
     virtual eOSState ProcessKey(eKeys Key);
@@ -101,9 +101,9 @@ class cMenuSetupTimerConflicts : public cMenuSetupSubMenu
     cMenuSetupTimerConflicts(cEPGSearchConfig* Data);
 };
 
-class cMenuSetupMailNotification : public cMenuSetupSubMenu 
+class cMenuSetupMailNotification : public cMenuSetupSubMenu
 {
-   char tmpMailAuthPass[MaxFileName];      
+   char tmpMailAuthPass[MaxFileName];
    void SetHelpKeys();
   protected:
    virtual eOSState ProcessKey(eKeys Key);
@@ -111,7 +111,7 @@ class cMenuSetupMailNotification : public cMenuSetupSubMenu
   public:
    cMenuSetupMailNotification(cEPGSearchConfig* Data);
    eOSState TestMailAccount();
-   
+
    static const char *HostNameChars;
    static const char *UserNameChars;
    static const char *PasswordChars;

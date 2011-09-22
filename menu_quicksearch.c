@@ -46,7 +46,7 @@ void cMenuQuickSearch::Set()
 {
     int current = Current();
     Clear();
-    
+
     Add(new cMenuEditStrItem( tr("Search term"), data.search, sizeof(data.search), tr(AllowedChars)));
     if (editmode == QUICKSEARCHEXT)
     {
@@ -58,8 +58,8 @@ void cMenuQuickSearch::Set()
 	Add(new cMenuEditBoolItem( tr("Use title"), &data.useTitle, trVDR("no"), trVDR("yes")));
 	Add(new cMenuEditBoolItem( tr("Use subtitle"), &data.useSubtitle, trVDR("no"), trVDR("yes")));
 	Add(new cMenuEditBoolItem( tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));
-    
-    
+
+
 	// show Categories only if we have them
 	if (SearchExtCats.Count() > 0)
 	{
@@ -68,7 +68,7 @@ void cMenuQuickSearch::Set()
 	    {
 		cSearchExtCat *SearchExtCat = SearchExtCats.First();
 		int index = 0;
-		while (SearchExtCat) 
+		while (SearchExtCat)
 		{
 		    Add(new cMenuEditStrItem( IndentMenuItem(SearchExtCat->menuname), data.catvalues[index], MaxFileName, tr(AllowedChars)));
 		    SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -76,7 +76,7 @@ void cMenuQuickSearch::Set()
 		}
 	    }
 	}
-    
+
 	Add(new cMenuEditStraItem(tr("Use channel"), &data.useChannel, 4, UseChannelSel));
 	if (data.useChannel==1)
 	{
@@ -101,7 +101,7 @@ void cMenuQuickSearch::Set()
 		channelGroupNr++;
 	    Add(new cMenuEditStraItem(IndentMenuItem(tr("Channel group")), &channelGroupNr, ChannelGroups.Count()+1, menuitemsChGr));
 	}
-	
+
 	Add(new cMenuEditBoolItem( tr("Use time"), &data.useTime, trVDR("no"), trVDR("yes")));
 	if (data.useTime == true)
 	{
@@ -121,7 +121,7 @@ void cMenuQuickSearch::Set()
 	    {
 		UserDefDayOfWeek = data.DayOfWeek;
 		data.DayOfWeek = 7;
-	    }	
+	    }
 	    Add(new cMenuEditStraItem(IndentMenuItem(tr("Day of week")),     &data.DayOfWeek, 8, DaysOfWeek));
 	}
 	Add(new cMenuEditStraItem(tr("Use blacklists"), &data.blacklistMode, 3, BlacklistModes));
@@ -143,9 +143,9 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
     int iTemp_allowedRepeats = data.allowedRepeats;
     int iTemp_delAfterDays = data.delAfterDays;
     int iTemp_action = data.action;
-    
+
     eOSState state = cOsdMenu::ProcessKey(Key);
-    
+
     if (iTemp_mode != data.mode ||
 	iTemp_useTime != data.useTime ||
 	iTemp_useChannel != data.useChannel ||
@@ -161,7 +161,7 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 	Display();
     }
     const char* ItemText = Get(Current())->Text();
-    
+
     if (!HasSubMenu())
     {
 	if (strlen(ItemText)>0 && strstr(ItemText, tr("  from channel")) == ItemText && ((Key >= k0 &&  Key <= k9) || Key == kLeft || Key == kRight))
@@ -187,16 +187,16 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 	int iOnExtCatItem = 0;
 	cSearchExtCat *SearchExtCat = SearchExtCats.First();
 	int index = 0;
-	while (SearchExtCat) 
+	while (SearchExtCat)
 	{
 	    if (strstr(ItemText, IndentMenuItem(SearchExtCat->menuname)) == ItemText)
-	    {		
+	    {
 		iOnExtCatItem = 1;
 		if (SearchExtCat->nvalues > 0)
 		    iOnExtCatItemBrowsable = 1;
 		iCatIndex = index;
 		catname = SearchExtCat->menuname;
-		break;		    
+		break;
 	    }
 	    index++;
 	    SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -235,7 +235,7 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 	}
 	else if (iOnExtCatItem)
 	{
-	    if (!InEditMode(ItemText, IndentMenuItem(catname), data.catvalues[iCatIndex]))	    
+	    if (!InEditMode(ItemText, IndentMenuItem(catname), data.catvalues[iCatIndex]))
 		SetHelp(NULL, GREENLABEL, NULL, iOnExtCatItemBrowsable?tr("Button$Select"):NULL);
 	}
 	else if (strstr(ItemText, tr("Search term")) != ItemText)
@@ -245,13 +245,13 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 	if (HasSubMenu())
 	    return osContinue;
 	switch (Key) {
-	    case kOk: 		
-		if (data.useChannel==1) 
+	    case kOk:
+		if (data.useChannel==1)
 		{
 		    cChannel *ch = Channels.GetByNumber(channelMin);
 		    if (ch)
 			data.channelMin = ch;
-		    else 
+		    else
 		    {
 			Skins.Message(mtError, tr("*** Invalid Channel ***"));
 			break;
@@ -259,7 +259,7 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 		    ch = Channels.GetByNumber(channelMax);
 		    if (ch)
 			data.channelMax = ch;
-		    else 
+		    else
 		    {
 			Skins.Message(mtError, tr("*** Invalid Channel ***"));
 			break;
@@ -272,18 +272,18 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 		}
 		if (data.useChannel==2)
 		    data.channelGroup = strdup(menuitemsChGr[channelGroupNr]);
-		
-		if ((data.useTitle || data.useSubtitle || data.useDescription) && 
-		    (int(strlen(data.search)) < 3) && 
+
+		if ((data.useTitle || data.useSubtitle || data.useDescription) &&
+		    (int(strlen(data.search)) < 3) &&
 		    !Interface->Confirm(tr("Edit$Search text too short - use anyway?")))
 		    break;
-				
-		if (searchExt) 
+
+		if (searchExt)
 		{
 		    *searchExt = data;
 		    if (data.DayOfWeek == 7)
 			searchExt->DayOfWeek = UserDefDayOfWeek;
-		    
+
 		    if (data.blacklistMode == blacklistsSelection)
 		    {
 			searchExt->blacklists.Clear();
@@ -304,10 +304,10 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 		if (iOnUserDefDayItem)
 		    state = AddSubMenu(new cMenuEditDaysOfWeek(&UserDefDayOfWeek));
 		break;
-		
-	    case kBlue:   
+
+	    case kBlue:
 		if (iOnUseChannelGroups || iOnChannelGroup)
-		{		    
+		{
 		    if (channelGroupName)
 			free(channelGroupName);
 		    channelGroupName = strdup(menuitemsChGr[channelGroupNr]);
@@ -323,7 +323,7 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 		SetHelp(NULL, GREENLABEL, NULL, NULL);
 		Set();
 		Display();
-		break;		
+		break;
 	    case kYellow: state = osContinue;
 	    default: break;
 	}

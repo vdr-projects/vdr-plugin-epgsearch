@@ -56,4 +56,4 @@ public:
         void Exit(void);
 };
 
-#endif 
+#endif

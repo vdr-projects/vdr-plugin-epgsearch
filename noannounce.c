@@ -43,7 +43,7 @@ cNoAnnounce::cNoAnnounce(const cEvent* e, time_t NextAnnounce)
    startTime = 0;
    buffer = NULL;
    if (e)
-   { 
+   {
      if (e->Title()) title = e->Title();
      if (e->ShortText()) shortText = e->ShortText();
      channelID = e->ChannelID();
@@ -72,11 +72,11 @@ bool cNoAnnounce::Parse(const char *s)
     char *pos_next;
     int parameter = 1;
     int valuelen;
-    
+
 #define MAXVALUELEN (10 * MaxFileName)
-    
+
     char value[MAXVALUELEN];
-    
+
     pos = line = strdup(s);
     pos_next = pos + strlen(pos);
     if (*pos_next == '\n') *pos_next = 0;
@@ -88,9 +88,9 @@ bool cNoAnnounce::Parse(const char *s)
 		if (!pos_next)
 		    pos_next = pos + strlen(pos);
 		valuelen = pos_next - pos + 1;
-		if (valuelen > MAXVALUELEN) 
+		if (valuelen > MAXVALUELEN)
 		{
-		    LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);  
+		    LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);
 		    valuelen = MAXVALUELEN;
 		}
 		strn0cpy(value, pos, valuelen);
@@ -114,10 +114,10 @@ bool cNoAnnounce::Parse(const char *s)
 	}
 	if (*pos) pos++;
     } //while
-    
+
     title = ReplaceAll(title, "|", ":");
     shortText = ReplaceAll(shortText, "|", ":");
-    
+
     free(line);
     return (parameter >= 5) ? true : false;
 }
@@ -125,7 +125,7 @@ bool cNoAnnounce::Parse(const char *s)
 const char *cNoAnnounce::ToText(void) const
 {
     free(buffer);
-    msprintf(&buffer, "%s:%s:%s:%ld:%ld", 
+    msprintf(&buffer, "%s:%s:%s:%ld:%ld",
 	     ReplaceAll(title, ":", "|").c_str(),
 	     ReplaceAll(shortText, ":", "|").c_str(),
 	     *channelID.ToString(),
@@ -144,7 +144,7 @@ cNoAnnounce* cNoAnnounces::InList(const cEvent* e)
 {
    cNoAnnounce noAnnounceTemp(e);
    cNoAnnounce* noAnnounce = First();
-   while (noAnnounce) 
+   while (noAnnounce)
    {
       if (*noAnnounce == noAnnounceTemp)
       {
@@ -157,7 +157,7 @@ cNoAnnounce* cNoAnnounces::InList(const cEvent* e)
             return noAnnounce;
       }
       noAnnounce = Next(noAnnounce);
-   }	
+   }
    return NULL;
 }
 
@@ -165,18 +165,18 @@ void cNoAnnounces::ClearOutdated(void)
 {
     // remove outdated items
     cNoAnnounce* noAnnounce = First();
-    while (noAnnounce) 
+    while (noAnnounce)
     {
 	cNoAnnounce* noAnnounceNext = Next(noAnnounce);
 	if (noAnnounce->startTime < time(NULL))
 	    Del(noAnnounce);
 	noAnnounce = noAnnounceNext;
-    }	
+    }
 }
 
 void cNoAnnounces::UpdateNextAnnounce(const cEvent* e, time_t NextAnnounce)
 {
    cNoAnnounce* noAnnounce = InList(e);
    if (noAnnounce)
-      noAnnounce->nextAnnounce = NextAnnounce; 
+      noAnnounce->nextAnnounce = NextAnnounce;
 }

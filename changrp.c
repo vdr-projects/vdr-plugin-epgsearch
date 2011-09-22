@@ -61,9 +61,9 @@ bool cChannelGroup::Parse(const char *s)
         if (!pos_next)
           pos_next = pos + strlen(pos);
         valuelen = pos_next - pos + 1;
-        if (valuelen > MAXVALUELEN) 
+        if (valuelen > MAXVALUELEN)
 	{
-	    LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);  
+	    LogFile.eSysLog("entry '%s' is too long. Will be truncated!", pos);
 	    valuelen = MAXVALUELEN;
 	}
         strn0cpy(value, pos, valuelen);
@@ -98,7 +98,7 @@ bool cChannelGroup::Parse(const char *s)
     }
     if (*pos) pos++;
   } //while
-  
+
   free(line);
   return (parameter >= 1) ? true : false;
 }
@@ -108,19 +108,19 @@ const char *cChannelGroup::ToText(void)
     char* channelbuffer = NULL;
     cChannelGroupItem* ChannelGroupItem = channels.First();
     int index = 0;
-    while (ChannelGroupItem) 
+    while (ChannelGroupItem)
     {
 	cChannel* channel = ChannelGroupItem->channel;
 	if (index++ == 0)
 	    channelbuffer = strdup(CHANNELSTRING(channel));
 	else
 	{
-	    char* temp = channelbuffer;	      
+	    char* temp = channelbuffer;
 	    msprintf(&channelbuffer, "%s|%s", channelbuffer, CHANNELSTRING(channel));
 	    free(temp);
 	}
 	ChannelGroupItem = channels.Next(ChannelGroupItem);
-    }	
+    }
     char* buffer = NULL;
     msprintf(&buffer, "%s|%s", name, channelbuffer);
     free(channelbuffer);
@@ -132,7 +132,7 @@ int* cChannelGroup::CreateChannelSel()
     int* channelSel = (int*) malloc(Channels.Count() * sizeof(int));
     cChannel* channel = Channels.First();
     int index = 0;
-    while (channel) 
+    while (channel)
     {
 	if (channel->GroupSep())
 	{
@@ -141,18 +141,18 @@ int* cChannelGroup::CreateChannelSel()
 	}
 	channelSel[index] = 0;
 	cChannelGroupItem* channelInGroup = channels.First();
-	while (channelInGroup) 
-	{	
+	while (channelInGroup)
+	{
 	    if (channel == channelInGroup->channel)
 	    {
 		channelSel[index] = 1;
 		break;
 	    }
 	    channelInGroup = channels.Next(channelInGroup);
-	}	
+	}
 	index++;
 	channel = Channels.Next(channel);
-    }	
+    }
     return channelSel;
 }
 
@@ -161,7 +161,7 @@ void cChannelGroup::CreateChannelList(int* channelSel)
     channels.Clear();
     cChannel* channel = Channels.First();
     int index = 0;
-    while (channel) 
+    while (channel)
     {
 	if (!channel->GroupSep())
 	{
@@ -170,7 +170,7 @@ void cChannelGroup::CreateChannelList(int* channelSel)
 	    index++;
 	}
 	channel = Channels.Next(channel);
-    }	
+    }
 }
 
 bool cChannelGroup::Save(FILE *f)
@@ -181,12 +181,12 @@ bool cChannelGroup::Save(FILE *f)
 bool cChannelGroup::ChannelInGroup(cChannel* channel)
 {
     cChannelGroupItem* channelInGroup = channels.First();
-    while (channelInGroup) 
+    while (channelInGroup)
     {
 	if (channel == channelInGroup->channel)
 	    return true;
 	channelInGroup = channels.Next(channelInGroup);
-    }	
+    }
     return false;
 }
 
@@ -197,13 +197,13 @@ int cChannelGroups::GetIndex(char* channelGroup)
 	return -1;
     cChannelGroup* ChannelGroup = First();
     int index = 0;
-    while (ChannelGroup) 
+    while (ChannelGroup)
     {
 	if (strcmp(channelGroup, ChannelGroup->name) == 0)
 	    return index;
 	index++;
 	ChannelGroup = Next(ChannelGroup);
-    }	
+    }
     return -1;
 }
 
@@ -212,12 +212,12 @@ cChannelGroup* cChannelGroups::GetGroupByName(const char* channelGroup)
     if (!channelGroup)
 	return NULL;
     cChannelGroup* ChannelGroup = First();
-    while (ChannelGroup) 
+    while (ChannelGroup)
     {
 	if (strcmp(channelGroup, ChannelGroup->name) == 0)
 	    return ChannelGroup;
 	ChannelGroup = Next(ChannelGroup);
-    }	
+    }
     return NULL;
 }
 
@@ -231,7 +231,7 @@ cSearchExt* cChannelGroups::Used(cChannelGroup* group)
 
     cMutexLock SearchExtsLock(&SearchExts);
     cSearchExt *SearchExt = SearchExts.First();
-    while (SearchExt) 
+    while (SearchExt)
     {
 	if (SearchExt->useChannel == 2 && strcmp(SearchExt->channelGroup, group->name) == 0)
 	    return SearchExt;
@@ -246,7 +246,7 @@ char** cChannelGroups::CreateMenuitemsList()
     cChannelGroup* ChannelGroup = First();
     menuitemsChGr[0] = strdup("");
     int index = 1;
-    while (ChannelGroup) 
+    while (ChannelGroup)
     {
 	menuitemsChGr[index++] = ChannelGroup->name;
 	ChannelGroup = Next(ChannelGroup);
@@ -265,9 +265,9 @@ void cMenuChannelGroupItem::Set(void)
 {
     cString channelbuffer;
 
-    cChannelGroupItem* channelInGroup = group->channels.First(); 
+    cChannelGroupItem* channelInGroup = group->channels.First();
     int channelNr, chIntBegin = -1, chIntEnd = -1, chLast = -1;
-    while (channelInGroup) 
+    while (channelInGroup)
     {
 	channelNr = channelInGroup->channel->Number();
 	if (chIntBegin == -1)
@@ -308,17 +308,17 @@ cMenuChannelGroups::cMenuChannelGroups(char** GroupName)
     groupSel = -1;
     groupName = GroupName;
     if (groupName && *groupName)
-	groupSel = ChannelGroups.GetIndex(*groupName); 
+	groupSel = ChannelGroups.GetIndex(*groupName);
 
     cChannelGroup* ChannelGroup = ChannelGroups.First();
     int index = 0;
-    while (ChannelGroup) 
+    while (ChannelGroup)
     {
 	Add(new cMenuChannelGroupItem(ChannelGroup), (index == groupSel?true:false));
 	ChannelGroup = ChannelGroups.Next(ChannelGroup);
 	index++;
-    }	
-    
+    }
+
     if (groupName && *groupName)
 	SetHelp(trVDR("Button$Edit"), trVDR("Button$New"), trVDR("Button$Delete"), tr("Button$Select"));
     else
@@ -364,13 +364,13 @@ eOSState cMenuChannelGroups::Delete(void)
 eOSState cMenuChannelGroups::ProcessKey(eKeys Key)
 {
     int GroupNumber = HasSubMenu() ? Count() : -1;
-    
+
     eOSState state = cOsdMenu::ProcessKey(Key);
-    if (state == osUnknown) 
+    if (state == osUnknown)
     {
 	if (HasSubMenu())
 	    return osContinue;
-	switch (Key) 
+	switch (Key)
 	{
 	    case kRed:
 		if (CurrentGroup())
@@ -392,14 +392,14 @@ eOSState cMenuChannelGroups::ProcessKey(eKeys Key)
 	    default: break;
 	}
     }
-    if (GroupNumber >= 0 && !HasSubMenu() && ChannelGroups.Get(GroupNumber)) 
+    if (GroupNumber >= 0 && !HasSubMenu() && ChannelGroups.Get(GroupNumber))
     {
 	// a newly created group was confirmed with Ok
 	cChannelGroup* group = ChannelGroups.Get(GroupNumber);
 	Add(new cMenuChannelGroupItem(group), true);
 	Display();
     }
-    
+
     return state;
 }
 
@@ -411,7 +411,7 @@ cMenuEditChannelGroup::cMenuEditChannelGroup(cChannelGroup *Group, bool New)
     channelSel = group->CreateChannelSel();
     strcpy(name, group->name);
     addIfConfirmed = New;
-    if (group) 
+    if (group)
 	Set();
 }
 
@@ -428,7 +428,7 @@ void cMenuEditChannelGroup::Set()
     Add(new cMenuEditStrItem( tr("Group name"), name, sizeof(group->name), trVDR(FileNameChars)));
     cChannel* channel = Channels.First();
     int index = 0;
-    while (channel) 
+    while (channel)
     {
 	if (channel->GroupSep())
 	{
@@ -437,8 +437,8 @@ void cMenuEditChannelGroup::Set()
 	}
 	Add(new cMenuEditBoolItem( CHANNELNAME(channel), &channelSel[index++], trVDR("no"), trVDR("yes")));
 	channel = Channels.Next(channel);
-    }	
-    
+    }
+
     SetCurrent(Get(current));
 
 }
@@ -466,7 +466,7 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
 		  Skins.Message(mtError, tr("Group name already exists!"));
 		  return osContinue;
 	      }
-	      
+
 	      {
 		  bool saveSearchExts = false;
 		  if (strcmp(group->name, name) != 0 && !addIfConfirmed) // if group name changed, update searches
@@ -474,8 +474,8 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
 		      cMutexLock SearchExtsLock(&SearchExts);
 		      cSearchExt *SearchExt = SearchExts.First();
 		      while (SearchExt) {
-			  if (SearchExt->useChannel == 2 && 
-			      SearchExt->channelGroup && 
+			  if (SearchExt->useChannel == 2 &&
+			      SearchExt->channelGroup &&
 			      strcmp(SearchExt->channelGroup, group->name) == 0)
 			  {
 			      free(SearchExt->channelGroup);
@@ -498,12 +498,12 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
 	      return osBack;
 	      break;
 	  case kRed:
-	  case kGreen:	      
+	  case kGreen:
 	  case kYellow:
 	  {
 	      cChannel* channel = Channels.First();
 	      int index = 0;
-	      while (channel) 
+	      while (channel)
 	      {
 		  if (channel->GroupSep())
 		  {
@@ -514,7 +514,7 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
 		  channelSel[index] = (Key == kGreen?1:(Key == kRed?1-channelSel[index]:0));
 		  index++;
 		  channel = Channels.Next(channel);
-	      }	
+	      }
 	      Set();
 	      Display();
 	      return osContinue;

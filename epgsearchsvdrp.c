@@ -54,7 +54,7 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
       "LSTS [ ID ]\n"
       "    List searches.\n"
       "    If the optional numeric argument ID is passed,\n"
-      "    only the search with the according ID is listed",  
+      "    only the search with the according ID is listed",
       "NEWS <settings>\n"
       "    Add a new search\n",
       "DELS <ID>\n"
@@ -101,7 +101,7 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
       "LSTB [ ID ]\n"
       "    List blacklists.\n"
       "    If the optional numeric argument ID is passed,\n"
-      "    only the blacklist with the according ID is listed",  
+      "    only the blacklist with the according ID is listed",
       "NEWB <settings>\n"
       "    Add a new blacklist",
       "DELB <ID>\n"
@@ -117,7 +117,7 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
       "    List search templates.\n"
       "    If the optional numeric argument ID is passed,\n"
       "    only the search template with the according ID\n"
-      "    is listed",  
+      "    is listed",
       "NEWT <settings>\n"
       "    Add a new search template\n",
       "DELT <ID>\n"
@@ -142,7 +142,7 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
 
 cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, int &ReplyCode)
 {
-   if (strcasecmp(Command, "UPDS") == 0) 
+   if (strcasecmp(Command, "UPDS") == 0)
    {
      if (!EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
        cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
@@ -151,8 +151,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
        {
 	 char *pstrOptionToken, *pptr;
 	 char *pstrOptions=strdup(Option);
-	 pstrOptionToken=strtok_r(pstrOptions, " ", &pptr);     
-	 while(pstrOptionToken) 
+	 pstrOptionToken=strtok_r(pstrOptions, " ", &pptr);
+	 while(pstrOptionToken)
 	   {
 	     if (strcasecmp(Option, "OSD")==0)
 	       updateForced |= UPDS_WITH_OSD;
@@ -164,18 +164,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
        }
      return cString("update triggered");
    }
-   else if (strcasecmp(Command, "UPDD") == 0) 
+   else if (strcasecmp(Command, "UPDD") == 0)
    {
       if (RecsDone.Load(AddDirectory(CONFIGDIR, "epgsearchdone.data")))
-         return cString("reload successful");	    
+         return cString("reload successful");
       else
-         return cString("reload failed");	    
+         return cString("reload failed");
    }
    // -----------------------
    // search timer management
-   else if (strcasecmp(Command, "LSTS") == 0) 
+   else if (strcasecmp(Command, "LSTS") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          if (isnumber(Option))
          {
@@ -191,14 +191,14 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("Error in search ID \"%s\"", Option);	
+            return cString::sprintf("Error in search ID \"%s\"", Option);
          }
       }
-      else if (SearchExts.Count()>0) 
+      else if (SearchExts.Count()>0)
       {
          string sBuffer;
          cMutexLock SearchExtsLock(&SearchExts);
-         for (int i = 0; i < SearchExts.Count(); i++) 
+         for (int i = 0; i < SearchExts.Count(); i++)
          {
             cSearchExt* search = SearchExts.Get(i);
             if (search)
@@ -209,12 +209,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       else
       {
          ReplyCode = 901;
-         return cString("no searches defined");	    	
+         return cString("no searches defined");
       }
    }
-   else if (strcasecmp(Command, "DELS") == 0) 
+   else if (strcasecmp(Command, "DELS") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          string sOption = Option;
          bool delTimers = false;
@@ -248,18 +248,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("Error in search ID \"%s\"", Option);	
+            return cString::sprintf("Error in search ID \"%s\"", Option);
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing search ID");	    	
+         return cString("missing search ID");
       }
    }
-   else if (strcasecmp(Command, "NEWS") == 0) 
+   else if (strcasecmp(Command, "NEWS") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cSearchExt* search = new cSearchExt;
          if (search->Parse(Option))
@@ -277,18 +277,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             ReplyCode = 901;
             delete search;
-            return cString("Error in search settings");	
+            return cString("Error in search settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing search settings");	    	
+         return cString("missing search settings");
       }
    }
-   else if (strcasecmp(Command, "EDIS") == 0) 
+   else if (strcasecmp(Command, "EDIS") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cSearchExt* search = new cSearchExt;
          if (search->Parse(Option))
@@ -316,18 +316,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             ReplyCode = 901;
             delete search;
-            return cString("Error in search settings");	
+            return cString("Error in search settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing search settings");	    	
+         return cString("missing search settings");
       }
    }
-   else if (strcasecmp(Command, "MODS") == 0) 
+   else if (strcasecmp(Command, "MODS") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          char *tail;
          int ID = strtol(Option, &tail, 10);
@@ -346,7 +346,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 
             if (searchTemp->useAsSearchTimer && !EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
                cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
-		
+
             return cString::sprintf("search '%s' with ID %d modified", searchTemp->search, searchTemp->ID);
          }
          else
@@ -358,25 +358,25 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       else
       {
          ReplyCode = 901;
-         return cString("missing search ID");	    	
+         return cString("missing search ID");
       }
    }
-   else if (strcasecmp(Command, "SETS") == 0) 
+   else if (strcasecmp(Command, "SETS") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          if (strcasecmp(Option, "ON") == 0)
          {
             if (cSearchTimerThread::m_Instance)
             {
                ReplyCode = 901;
-               return cString("search timer thread already active!");	    	
+               return cString("search timer thread already active!");
             }
             else
             {
                LogFile.Log(1,"search timer thread started via SVDRP");
                cSearchTimerThread::Init(this);
-               return cString("search timer activated.");	    	
+               return cString("search timer activated.");
             }
          }
          else if (strcasecmp(Option, "OFF") == 0)
@@ -384,30 +384,30 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             if (!cSearchTimerThread::m_Instance)
             {
                ReplyCode = 901;
-               return cString("search timer thread already inactive!");	    	
+               return cString("search timer thread already inactive!");
             }
             else
             {
                LogFile.Log(1,"search timer thread canceled via SVDRP");
                cSearchTimerThread::Exit();
-               return cString("search timer thread canceled.");	    	
+               return cString("search timer thread canceled.");
             }
          }
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("unknown option '%s'", Option);	    	
+            return cString::sprintf("unknown option '%s'", Option);
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing option <on|off>");	    	
+         return cString("missing option <on|off>");
       }
    }
-   else if (strcasecmp(Command, "FIND") == 0) 
+   else if (strcasecmp(Command, "FIND") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cSearchExt* search = new cSearchExt;
          if (search->Parse(Option))
@@ -419,7 +419,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             {
                results->SortBy(CompareEventTime);
                cSearchResult *result = results->First();
-               while (result) 
+               while (result)
                {
                   const cEvent* pEvent = result->event;
                   cTimer* Timer = new cTimer(pEvent);
@@ -443,56 +443,56 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                   strftime(bufStart, sizeof(bufStart), "%H%M", localtime_r(&start, &tm_r));
                   strftime(bufEnd, sizeof(bufEnd), "%H%M", localtime_r(&stop, &tm_r));
 
-		  cString cmdbuf = cString::sprintf("NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s", 
+		  cString cmdbuf = cString::sprintf("NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s",
                            Flags,
                            Timer->Channel()->Number(),
                            *Timer->PrintDay(start, Timer->WeekDays(), true),
                            bufStart,
                            bufEnd,
-                           search->Priority, 
-                           search->Lifetime, 
+                           search->Priority,
+                           search->Lifetime,
                            Timer->File(),
                            "");
-				 
-		      
+
+
                   sBuffer += string(cmdbuf) + string(results->Next(result)?"\n":"");
                   delete(Timer);
                   result = results->Next(result);
                }
-               return sBuffer.c_str();	    
+               return sBuffer.c_str();
             }
             else
             {
                ReplyCode = 901;
                delete search;
-               return cString("no results");	
+               return cString("no results");
             }
          }
          else
          {
             ReplyCode = 901;
             delete search;
-            return cString("Error in search settings");	
+            return cString("Error in search settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing search settings");	    	
+         return cString("missing search settings");
       }
    }
-   else if (strcasecmp(Command, "QRYS") == 0 || strcasecmp(Command, "QRYF") == 0) 
+   else if (strcasecmp(Command, "QRYS") == 0 || strcasecmp(Command, "QRYF") == 0)
    {
       cSearchExt *temp_SearchExt = NULL;
       cSearchResults* pCompleteSearchResults = NULL;
       if (strcasecmp(Command, "QRYS") == 0) // query one or more searches
       {
-         if (*Option) 
+         if (*Option)
          {
             if (strchr(Option, ':'))
             {
                cSearchExt* temp_SearchExt = new cSearchExt;
-               if (temp_SearchExt->Parse(Option))		    
+               if (temp_SearchExt->Parse(Option))
                   pCompleteSearchResults = temp_SearchExt->Run();
             }
             else
@@ -500,8 +500,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                char *pstrSearchToken, *pptr;
                char *pstrSearch=strdup(Option);
                pstrSearchToken=strtok_r(pstrSearch, "|", &pptr);
-		    
-               while(pstrSearchToken) 
+
+               while(pstrSearchToken)
                {
                   cSearchExt* search = SearchExts.GetSearchFromID(atoi(pstrSearchToken));
                   if (search)
@@ -514,39 +514,39 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString("missing search IDs");	    	
+            return cString("missing search IDs");
          }
       }
       else // query the favorites
       {
          int hours = EPGSearchConfig.FavoritesMenuTimespan;
-         if (*Option) 
+         if (*Option)
             hours = atoi(Option);
 
          cMutexLock SearchExtsLock(&SearchExts);
          cSearchExt *SearchExt = SearchExts.First();
-         while (SearchExt) 
+         while (SearchExt)
          {
             if (SearchExt->useInFavorites)
                pCompleteSearchResults = SearchExt->Run(-1, false, 60*hours, pCompleteSearchResults);
             SearchExt = SearchExts.Next(SearchExt);
          }
       }
-	
+
       if (pCompleteSearchResults)
       {
          // transfer to result list
          string sBuffer;
          pCompleteSearchResults->SortBy(CompareEventTime);
          cSearchResult *result = pCompleteSearchResults->First();
-         while (result && result->search) 
+         while (result && result->search)
          {
             const cEvent* pEvent = result->event;
             cTimer* Timer = new cTimer(pEvent);
-		
+
             static char bufStart[25];
             static char bufEnd[25];
-		
+
             struct tm tm_r;    time_t eStart = pEvent->StartTime();
             time_t eStop = pEvent->EndTime();
             time_t start = eStart - (result->search->MarginStart * 60);
@@ -556,18 +556,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                start = pEvent->Vps();
                stop = start + pEvent->Duration();
             }
-		
+
             strftime(bufStart, sizeof(bufStart), "%H%M", localtime_r(&start, &tm_r));
             strftime(bufEnd, sizeof(bufEnd), "%H%M", localtime_r(&stop, &tm_r));
-		
+
             int timerMatch;
             bool hasTimer = false;
-            if (Timers.GetMatch(pEvent, &timerMatch)) 
+            if (Timers.GetMatch(pEvent, &timerMatch))
                hasTimer = (timerMatch == tmFull);
-		
+
             if (!result->search->useAsSearchTimer)
                result->needsTimer = false;
-		
+
             cChannel *channel = Channels.GetByChannelID(pEvent->ChannelID(), true,true);
             int timerMode = hasTimer?1:(result->needsTimer?2:0);
 
@@ -576,7 +576,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             string shorttext = pEvent->ShortText()?ReplaceAll(pEvent->ShortText(), "|", "!^pipe!^"):"";
             shorttext = ReplaceAll(shorttext, ":", "|");
 
-            cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d", 
+            cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d",
                      result->search->ID,
                      pEvent->EventID(),
                      title.c_str(),
@@ -587,21 +587,21 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                      timerMode>0?start:-1,
                      timerMode>0?stop:-1,
                      timerMode>0?result->search->BuildFile(pEvent):"",
-                     timerMode);				 
-		
+                     timerMode);
+
             sBuffer += string(cmdbuf) + string(pCompleteSearchResults->Next(result)?"\n":"");
             delete(Timer);
             result = pCompleteSearchResults->Next(result);
          }
          if (temp_SearchExt) delete temp_SearchExt;
          if (pCompleteSearchResults) delete pCompleteSearchResults;
-         return sBuffer.c_str();	    
+         return sBuffer.c_str();
       }
       else
       {
          ReplyCode = 901;
          if (temp_SearchExt) delete temp_SearchExt;
-         return cString("no results");	
+         return cString("no results");
       }
    }
    else if (strcasecmp(Command, "UPDT") == 0)
@@ -613,7 +613,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
    }
    // ---------------------
    // recording directories
-   else if (strcasecmp(Command, "LSRD") == 0) 
+   else if (strcasecmp(Command, "LSRD") == 0)
    {
       cMenuDirSelect::CreateDirSet();
 
@@ -621,7 +621,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       {
          cString sBuffer("");
          std::set<string>::iterator it;
-         for (it = cMenuDirSelect::directorySet.begin(); it != cMenuDirSelect::directorySet.end(); it++) 
+         for (it = cMenuDirSelect::directorySet.begin(); it != cMenuDirSelect::directorySet.end(); it++)
          {
             cString sOldBuffer = sBuffer;
             sBuffer = cString::sprintf("%s%s\n", *sOldBuffer, (*it).c_str());
@@ -634,28 +634,28 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       else
       {
          ReplyCode = 901;
-         return cString("no recording directories found");	    	
+         return cString("no recording directories found");
       }
    }
    // -------------------------
    // channel groups management
-   else if (strcasecmp(Command, "LSTC") == 0) 
+   else if (strcasecmp(Command, "LSTC") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cChannelGroup *changrp = ChannelGroups.GetGroupByName(Option);
          if (changrp)
-            return cString(changrp->ToText());	    
+            return cString(changrp->ToText());
          else
          {
             ReplyCode = 901;
             return cString::sprintf("channel group '%s' not defined", Option);
          }
       }
-      else if (ChannelGroups.Count()>0) 
+      else if (ChannelGroups.Count()>0)
       {
          cString sBuffer("");
-         for (int i = 0; i < ChannelGroups.Count(); i++) 
+         for (int i = 0; i < ChannelGroups.Count(); i++)
          {
             cChannelGroup *changrp = ChannelGroups.Get(i);
             if (changrp)
@@ -672,12 +672,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       else
       {
          ReplyCode = 901;
-         return cString("no channel groups defined");	    	
+         return cString("no channel groups defined");
       }
    }
-   else if (strcasecmp(Command, "EDIC") == 0) 
+   else if (strcasecmp(Command, "EDIC") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cChannelGroup *changrp = new cChannelGroup;
          if (changrp->Parse(Option))
@@ -702,18 +702,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             ReplyCode = 901;
             delete changrp;
-            return cString("Error in channel group settings");	
+            return cString("Error in channel group settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing channel group settings");	    	
+         return cString("missing channel group settings");
       }
    }
-   else if (strcasecmp(Command, "DELC") == 0) 
+   else if (strcasecmp(Command, "DELC") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cChannelGroup *changrp = ChannelGroups.GetGroupByName(Option);
          if (changrp)
@@ -738,12 +738,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       else
       {
          ReplyCode = 901;
-         return cString("missing channel group");	    	
+         return cString("missing channel group");
       }
    }
-   else if (strcasecmp(Command, "NEWC") == 0) 
+   else if (strcasecmp(Command, "NEWC") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cChannelGroup *changrp = new cChannelGroup;
          if (changrp->Parse(Option))
@@ -757,18 +757,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             ReplyCode = 901;
             delete changrp;
-            return cString("Error in channel group settings");	
+            return cString("Error in channel group settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing channel group settings");	    	
+         return cString("missing channel group settings");
       }
    }
-   else if (strcasecmp(Command, "RENC") == 0) 
+   else if (strcasecmp(Command, "RENC") == 0)
    {
-     if (*Option) 
+     if (*Option)
        {
          const char* pipePos = strchr(Option, '|');
          if (pipePos)
@@ -785,10 +785,10 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 		     strcpy(changrp->name, newName);
 		     cMutexLock SearchExtsLock(&SearchExts);
 		     cSearchExt *SearchExt = SearchExts.First();
-		     while (SearchExt) 
+		     while (SearchExt)
 		       {
-			 if (SearchExt->useChannel == 2 && 
-			     SearchExt->channelGroup && 
+			 if (SearchExt->useChannel == 2 &&
+			     SearchExt->channelGroup &&
 			     strcmp(SearchExt->channelGroup, oldName) == 0)
 			   {
 			     free(SearchExt->channelGroup);
@@ -801,8 +801,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 		     cString strReturn = cString::sprintf("renamed channel group '%s' to '%s'", oldName, newName);
 		     free(oldName);
 		     return strReturn;
-		     
-		   }		    
+
+		   }
 		 else
 		   {
 		     free(oldName);
@@ -813,19 +813,19 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 	     free(oldName);
 	   }
          ReplyCode = 901;
-         return cString("Error in channel group parameters");	
+         return cString("Error in channel group parameters");
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing channel group parameters");	    	
+         return cString("missing channel group parameters");
       }
    }
    // --------------------
    // blacklist management
-   else if (strcasecmp(Command, "LSTB") == 0) 
+   else if (strcasecmp(Command, "LSTB") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          if (isnumber(Option))
          {
@@ -841,14 +841,14 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("Error in blacklist ID \"%s\"", Option);	
+            return cString::sprintf("Error in blacklist ID \"%s\"", Option);
          }
       }
-      else if (Blacklists.Count()>0) 
+      else if (Blacklists.Count()>0)
       {
          cMutexLock BlacklistLock(&Blacklists);
          string sBuffer;
-         for (int i = 0; i < Blacklists.Count(); i++) 
+         for (int i = 0; i < Blacklists.Count(); i++)
          {
             cBlacklist *blacklist = Blacklists.Get(i);
             if (blacklist)
@@ -859,12 +859,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       else
       {
          ReplyCode = 901;
-         return cString("no blacklists defined");	    	
+         return cString("no blacklists defined");
       }
    }
-   else if (strcasecmp(Command, "DELB") == 0) 
+   else if (strcasecmp(Command, "DELB") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          if (isnumber(Option))
          {
@@ -888,18 +888,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("Error in blacklist ID \"%s\"", Option);	
+            return cString::sprintf("Error in blacklist ID \"%s\"", Option);
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing blacklist ID");	    	
+         return cString("missing blacklist ID");
       }
    }
-   else if (strcasecmp(Command, "NEWB") == 0) 
+   else if (strcasecmp(Command, "NEWB") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cBlacklist *blacklist = new cBlacklist;
          if (blacklist->Parse(Option))
@@ -915,18 +915,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             ReplyCode = 901;
             delete blacklist;
-            return cString("Error in blacklist settings");	
+            return cString("Error in blacklist settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing blacklist settings");	    	
+         return cString("missing blacklist settings");
       }
    }
-   else if (strcasecmp(Command, "EDIB") == 0) 
+   else if (strcasecmp(Command, "EDIB") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cBlacklist *blacklist = new cBlacklist;
          if (blacklist->Parse(Option))
@@ -951,20 +951,20 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             ReplyCode = 901;
             delete blacklist;
-            return cString("Error in blacklist settings");	
+            return cString("Error in blacklist settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing blacklist settings");	    	
+         return cString("missing blacklist settings");
       }
    }
    // ----------------------------------
    // extended EPG categories management
-   else if (strcasecmp(Command, "LSTE") == 0) 
+   else if (strcasecmp(Command, "LSTE") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          if (isnumber(Option))
          {
@@ -982,13 +982,13 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("Error in category ID \"%s\"", Option);	
+            return cString::sprintf("Error in category ID \"%s\"", Option);
          }
       }
-      else if (SearchExtCats.Count()>0) 
+      else if (SearchExtCats.Count()>0)
       {
          string sBuffer;
-         for (int i = 0; i < SearchExtCats.Count(); i++) 
+         for (int i = 0; i < SearchExtCats.Count(); i++)
          {
             cSearchExtCat *SearchExtCat = SearchExtCats.Get(i);
             if (SearchExtCat)
@@ -999,14 +999,14 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       else
       {
          ReplyCode = 901;
-         return cString("no EPG categories defined");	    	
+         return cString("no EPG categories defined");
       }
    }
    // ------------
    // setup values
-   else if (strcasecmp(Command, "SETP") == 0) 
+   else if (strcasecmp(Command, "SETP") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          if (strcasecmp(Option, "ShowFavoritesMenu") == 0)
             return cString::sprintf("%d", EPGSearchConfig.showFavoritesMenu);
@@ -1019,9 +1019,9 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             else
             {
                ReplyCode = 901;
-               return cString::sprintf("empty");	
+               return cString::sprintf("empty");
             }
-         }	
+         }
          else if (strcasecmp(Option, "AddSubtitleToTimerMode") == 0)
             return cString::sprintf("%d", EPGSearchConfig.addSubtitleToTimer);
          else if (strcasecmp(Option, "DefPriority") == 0)
@@ -1041,20 +1041,20 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                if (!chID.Valid())
                {
                   ReplyCode = 901;
-                  return cString::sprintf("invalid channel id");	
+                  return cString::sprintf("invalid channel id");
                }
                cChannel *ch = Channels.GetByChannelID(chID,true,true);
                if (!ch)
                {
                   ReplyCode = 901;
-                  return cString::sprintf("unknown channel");	
+                  return cString::sprintf("unknown channel");
                }
                return cString::sprintf("%s: %d", *ch->GetChannelID().ToString(), DefTimerCheckModes.GetMode(ch));
             }
             else
             {
                string sBuffer;
-               for (int i = 0; i < Channels.Count(); i++) 
+               for (int i = 0; i < Channels.Count(); i++)
                {
                   cChannel* ch = Channels.Get(i);
                   if (ch && !ch->GroupSep())
@@ -1066,7 +1066,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("setup option not supported");	
+            return cString::sprintf("setup option not supported");
          }
       }
       else
@@ -1086,9 +1086,9 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
    }
    // ---------------------------------
    // search timer templates management
-   else if (strcasecmp(Command, "LSTT") == 0) 
+   else if (strcasecmp(Command, "LSTT") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          if (isnumber(Option))
          {
@@ -1104,14 +1104,14 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("Error in search template ID \"%s\"", Option);	
+            return cString::sprintf("Error in search template ID \"%s\"", Option);
          }
       }
-      else if (SearchTemplates.Count()>0) 
+      else if (SearchTemplates.Count()>0)
       {
          string sBuffer;
          cMutexLock SearchExtsLock(&SearchTemplates);
-         for (int i = 0; i < SearchTemplates.Count(); i++) 
+         for (int i = 0; i < SearchTemplates.Count(); i++)
          {
             cSearchExt* search = SearchTemplates.Get(i);
             if (search)
@@ -1122,12 +1122,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       else
       {
          ReplyCode = 901;
-         return cString("no search templates defined");	    	
+         return cString("no search templates defined");
       }
    }
-   else if (strcasecmp(Command, "DELT") == 0) 
+   else if (strcasecmp(Command, "DELT") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          if (isnumber(Option))
          {
@@ -1149,18 +1149,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          else
          {
             ReplyCode = 901;
-            return cString::sprintf("Error in search template ID \"%s\"", Option);	
+            return cString::sprintf("Error in search template ID \"%s\"", Option);
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing search template ID");	    	
+         return cString("missing search template ID");
       }
    }
-   else if (strcasecmp(Command, "NEWT") == 0) 
+   else if (strcasecmp(Command, "NEWT") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cSearchExt* search = new cSearchExt;
          if (search->Parse(Option))
@@ -1176,18 +1176,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             ReplyCode = 901;
             delete search;
-            return cString("Error in search template settings");	
+            return cString("Error in search template settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing search template settings");	    	
+         return cString("missing search template settings");
       }
    }
-   else if (strcasecmp(Command, "EDIT") == 0) 
+   else if (strcasecmp(Command, "EDIT") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cSearchExt* search = new cSearchExt;
          if (search->Parse(Option))
@@ -1212,18 +1212,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
          {
             ReplyCode = 901;
             delete search;
-            return cString("Error in search template settings");	
+            return cString("Error in search template settings");
          }
       }
       else
       {
          ReplyCode = 901;
-         return cString("missing search template settings");	    	
+         return cString("missing search template settings");
       }
    }
-   else if (strcasecmp(Command, "DEFT") == 0) 
+   else if (strcasecmp(Command, "DEFT") == 0)
    {
-      if (*Option) 
+      if (*Option)
       {
          cSearchExt *searchTemp = SearchTemplates.GetSearchFromID(atoi(Option));
          if (searchTemp)
@@ -1245,15 +1245,15 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 
    // ---------------------------------
    // timer conflicts
-   else if (strcasecmp(Command, "LSCC") == 0) 
+   else if (strcasecmp(Command, "LSCC") == 0)
    {
      bool relOnly = false;
      if (*Option && strcasecmp(Option, "REL") == 0)
        relOnly = true;
 
      cConflictCheck conflictCheck;
-     conflictCheck.Check(); 
-     
+     conflictCheck.Check();
+
      if ((relOnly && conflictCheck.numConflicts > 0) ||
 	 conflictCheck.relevantConflicts > 0)
        {
@@ -1268,7 +1268,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 	     std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
 
 	     std::ostringstream timerparts;
-	     for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++) 
+	     for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
 	       {
 		 if (relOnly && (*it)->ignore) continue;
 		 std::ostringstream timerpart;
@@ -1278,7 +1278,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 		 if ((*it)->concurrentTimers)
 		   {
 		   std::ostringstream cctimers;
-		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); itcc++) 
+		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); itcc++)
 		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->origIndex+1;
 		   timerpart << cctimers.str();
 		   }
@@ -1292,10 +1292,10 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
      else
        {
          ReplyCode = 901;
-         return cString("no conflicts found");	    	
+         return cString("no conflicts found");
        }
    }
-   else if (strcasecmp(Command, "MENU") == 0) 
+   else if (strcasecmp(Command, "MENU") == 0)
      {
        if (*Option)
 	 {
@@ -1321,8 +1321,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 	       exitToMainMenu = 1;
 	       return "menu closed";
 	     }
-	 } 
+	 }
      }
-   
+
    return NULL;
 }

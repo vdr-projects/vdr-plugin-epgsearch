@@ -242,7 +242,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
         // already recording?
 	int deviceNr = gl_recStatusMonitor->TimerRecDevice(ti)-1;
 
-        // create a copy of this timer 
+        // create a copy of this timer
         cTimer* clone = new cTimer(*ti);
         clone->SetEvent(ti->Event());
 
@@ -294,7 +294,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 		    continue;
 		}
 
-		// create a copy of this timer 
+		// create a copy of this timer
 		cTimer* clone = new cTimer(*ti);
 		clone->SetEvent(ti->Event());
 
@@ -514,7 +514,7 @@ eModuleStatus cConflictCheck::CamSlotModuleStatus(cCamSlot *CamSlot)
 {
   if (!CamSlot) return msNone;
   if ((int)camSlotStatusArray.size() != CamSlots.Count())
-    for (cCamSlot *CamSlot = CamSlots.First(); CamSlot; CamSlot = CamSlots.Next(CamSlot)) 
+    for (cCamSlot *CamSlot = CamSlots.First(); CamSlot; CamSlot = CamSlots.Next(CamSlot))
       camSlotStatusArray.push_back(CamSlot->ModuleStatus());
   if (CamSlot->Index() < (int)camSlotStatusArray.size())
     return camSlotStatusArray[CamSlot->Index()];
@@ -575,23 +575,23 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
              // difference, because it results in the most significant bit of the result.
              uint32_t imp = 0;
 	     // prefer the primary device for live viewing if we don't need to detach existing receivers
-             imp <<= 1; ;                                  
+             imp <<= 1; ;
              // use receiving devices if we don't need to detach existing receivers
-             imp <<= 1; imp |= !devices[i].Receiving() || ndr;                     
-	     // avoid devices that are receiving                     
-             imp <<= 1; imp |= devices[i].Receiving();                             
+             imp <<= 1; imp |= !devices[i].Receiving() || ndr;
+	     // avoid devices that are receiving
+             imp <<= 1; imp |= devices[i].Receiving();
 	     // use the device with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
              imp <<= 8; imp |= min(max(devices[i].Priority() + MAXPRIORITY, 0), 0xFF);
 	     // use the CAM slot with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
-             imp <<= 8; imp |= min(max((NumUsableSlots ? SlotPriority[j] : 0) + MAXPRIORITY, 0), 0xFF);  
+             imp <<= 8; imp |= min(max((NumUsableSlots ? SlotPriority[j] : 0) + MAXPRIORITY, 0), 0xFF);
 	     // avoid devices if we need to detach existing receivers
-             imp <<= 1; imp |= ndr;                                  
-	     // avoid the primary device                                             
+             imp <<= 1; imp |= ndr;
+	     // avoid the primary device
              imp <<= 1; imp |= devices[i].IsPrimaryDevice();
-	     // avoid cards with Common Interface for FTA channels         
-	     imp <<= 1; imp |= NumUsableSlots ? 0 : devices[i].HasCi();                                  
+	     // avoid cards with Common Interface for FTA channels
+	     imp <<= 1; imp |= NumUsableSlots ? 0 : devices[i].HasCi();
 	     // avoid full featured cards
-             imp <<= 1; imp |= devices[i].HasDecoder();              
+             imp <<= 1; imp |= devices[i].HasDecoder();
 	     // prefer CAMs that are known to decrypt this channel
              imp <<= 1; imp |= NumUsableSlots ? !ChannelCamRelations.CamDecrypt(Channel->GetChannelID(), j + 1) : 0;
              if (imp < Impact) {
@@ -674,18 +674,18 @@ void cConflictCheck::EvaluateConflCheckCmd()
 	{
 	  if (ct->ignore) continue;
 	  std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	  for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++) 
+	  for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
 	    if ((*it) && !(*it)->ignore)
 	      {
 		string result = EPGSearchConfig.conflCheckCmd;
-		if (!(*it)->OrigTimer()) 
+		if (!(*it)->OrigTimer())
 		  {
 		    LogFile.Log(3,"timer has disappeared meanwhile");
 		    continue;
 		  }
 		else
 		  LogFile.Log(3,"evaluating conflict check command for timer '%s' (%s, channel %s)", (*it)->timer->File(), DAYDATETIME((*it)->start), CHANNELNAME((*it)->timer->Channel()));
-		
+
 		if ((*it)->Event())
 		  {
 		    cVarExpr varExprEvent(result);

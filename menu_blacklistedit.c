@@ -48,7 +48,7 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
     SearchModes[3] = strdup(tr("match exactly"));
     SearchModes[4] = strdup(tr("regular expression"));
     SearchModes[5] = strdup(tr("fuzzy"));
-    
+
     DaysOfWeek[0] = strdup(WeekDayName(0));
     DaysOfWeek[1] = strdup(WeekDayName(1));
     DaysOfWeek[2] = strdup(WeekDayName(2));
@@ -57,7 +57,7 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
     DaysOfWeek[5] = strdup(WeekDayName(5));
     DaysOfWeek[6] = strdup(WeekDayName(6));
     DaysOfWeek[7] = strdup(tr("user-defined"));
-    
+
     UseChannelSel[0] = strdup(trVDR("no"));
     UseChannelSel[1] = strdup(tr("interval"));
     UseChannelSel[2] = strdup(tr("channel group"));
@@ -65,15 +65,15 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
 
     if (New)
     {
-	cSearchExt* SearchTempl = NULL; // copy the default settings, if we have a default template	
+	cSearchExt* SearchTempl = NULL; // copy the default settings, if we have a default template
 	cMutexLock SearchTemplatesLock(&SearchTemplates);
 	cSearchExt *SearchExtTempl = SearchTemplates.First();
-	while (SearchExtTempl) 
-	{	
+	while (SearchExtTempl)
+	{
 	    if (SearchExtTempl->ID == EPGSearchConfig.DefSearchTemplateID)
 		SearchTempl = SearchExtTempl;
 	    SearchExtTempl = SearchTemplates.Next(SearchExtTempl);
-	}    
+	}
 	if (SearchTempl)
 	    Blacklist->CopyFromTemplate(SearchTempl);
     }
@@ -81,7 +81,7 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
     blacklist = Blacklist;
     addIfConfirmed = New;
 
-    if (blacklist) 
+    if (blacklist)
     {
 	data = *blacklist;
 	UserDefDayOfWeek = 0;
@@ -95,7 +95,7 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
 	channelGroupName = NULL;
 
 	channelMin = channelMax = cDevice::CurrentChannel();
-	channelGroupNr = 0;  
+	channelGroupNr = 0;
 	if (data.useChannel==1)
 	{
 	    channelMin = data.channelMin->Number();
@@ -115,14 +115,14 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
 		channelGroupName = strdup(data.channelGroup);
 		channelGroupNr++;
 	    }
-	}	
+	}
 	catvaluesNumeric = NULL;
 	if (SearchExtCats.Count() > 0)
 	  {
 	    catvaluesNumeric = (int*) malloc(SearchExtCats.Count() * sizeof(int));
 	    cSearchExtCat *SearchExtCat = SearchExtCats.First();
 	    int index = 0;
-	    while (SearchExtCat) 	    
+	    while (SearchExtCat)
 	      {
 		catvaluesNumeric[index] = atol(blacklist->catvalues[index]);
 		SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -137,7 +137,7 @@ void cMenuBlacklistEdit::Set()
 {
     int current = Current();
     Clear();
-    
+
     Add(new cMenuEditStrItem( tr("Search term"), data.search, sizeof(data.search), tr(AllowedChars)));
     Add(new cMenuEditStraItem(tr("Search mode"),     &data.mode, 6, SearchModes));
     if (data.mode == 5) // fuzzy
@@ -145,8 +145,8 @@ void cMenuBlacklistEdit::Set()
     Add(new cMenuEditBoolItem( tr("Match case"), &data.useCase, trVDR("no"), trVDR("yes")));
     Add(new cMenuEditBoolItem( tr("Use title"), &data.useTitle, trVDR("no"), trVDR("yes")));
     Add(new cMenuEditBoolItem( tr("Use subtitle"), &data.useSubtitle, trVDR("no"), trVDR("yes")));
-    Add(new cMenuEditBoolItem( tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));  
-    
+    Add(new cMenuEditBoolItem( tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));
+
     // show Categories only if we have them
     if (SearchExtCats.Count() > 0)
     {
@@ -155,19 +155,19 @@ void cMenuBlacklistEdit::Set()
 	{
 	    cSearchExtCat *SearchExtCat = SearchExtCats.First();
 	    int index = 0;
-	    while (SearchExtCat) 
+	    while (SearchExtCat)
 	    {
 	      if (SearchExtCat->searchmode >= 10)
 		Add(new cMenuEditIntItem(IndentMenuItem(SearchExtCat->menuname), &catvaluesNumeric[index], 0, 999999, ""));
 	      else
 		Add(new cMenuEditStrItem( IndentMenuItem(SearchExtCat->menuname), data.catvalues[index], MaxFileName, tr(AllowedChars)));
-	      
+
 	      SearchExtCat = SearchExtCats.Next(SearchExtCat);
 	      index++;
 	    }
 	    Add(new cMenuEditBoolItem(IndentMenuItem(tr("Ignore missing categories")), &data.ignoreMissingEPGCats, trVDR("no"), trVDR("yes")));	}
     }
-    
+
     Add(new cMenuEditStraItem(tr("Use channel"), &data.useChannel, 4, UseChannelSel));
     if (data.useChannel==1)
     {
@@ -192,7 +192,7 @@ void cMenuBlacklistEdit::Set()
 	    channelGroupNr++;
 	Add(new cMenuEditStraItem(IndentMenuItem(tr("Channel group")), &channelGroupNr, ChannelGroups.Count()+1, menuitemsChGr));
     }
-    
+
     Add(new cMenuEditBoolItem( tr("Use time"), &data.useTime, trVDR("no"), trVDR("yes")));
     if (data.useTime == true)
     {
@@ -212,7 +212,7 @@ void cMenuBlacklistEdit::Set()
 	{
 	    UserDefDayOfWeek = data.DayOfWeek;
 	    data.DayOfWeek = 7;
-	}	
+	}
 	Add(new cMenuEditStraItem(IndentMenuItem(tr("Day of week")), &data.DayOfWeek, 8, DaysOfWeek));
     }
     Add(new cMenuEditBoolItem( tr("Use global"), &data.isGlobal, trVDR("no"), trVDR("yes")));
@@ -250,9 +250,9 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
     int iTemp_useDuration = data.useDuration;
     int iTemp_useDayOfWeek = data.useDayOfWeek;
     int iTemp_useExtEPGInfo = data.useExtEPGInfo;
-    
+
     eOSState state = cOsdMenu::ProcessKey(Key);
-    
+
     if (iTemp_mode != data.mode ||
 	iTemp_useTime != data.useTime ||
 	iTemp_useChannel != data.useChannel ||
@@ -264,7 +264,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 	Display();
     }
     const char* ItemText = Get(Current())->Text();
-    
+
     if (!HasSubMenu())
     {
 	if (strlen(ItemText)>0 && strstr(ItemText, tr("  from channel")) == ItemText && ((Key >= k0 &&  Key <= k9) || Key == kLeft || Key == kRight))
@@ -289,16 +289,16 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 	int iOnExtCatItem = 0;
 	cSearchExtCat *SearchExtCat = SearchExtCats.First();
 	int index = 0;
-	while (SearchExtCat) 
+	while (SearchExtCat)
 	{
 	    if (strstr(ItemText, IndentMenuItem(SearchExtCat->menuname)) == ItemText)
-	    {		
+	    {
 		iOnExtCatItem = 1;
 		if (SearchExtCat->nvalues > 0)
 		    iOnExtCatItemBrowsable = 1;
 		iCatIndex = index;
 		catname = SearchExtCat->menuname;
-		break;		    
+		break;
 	    }
 	    index++;
 	    SearchExtCat = SearchExtCats.Next(SearchExtCat);
@@ -335,7 +335,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 	else if (iOnExtCatItem)
 	{
 	    if (!InEditMode(ItemText, IndentMenuItem(catname), data.catvalues[iCatIndex]) ||
-		 SearchExtCats.Get(iCatIndex)->searchmode >= 10)	    
+		 SearchExtCats.Get(iCatIndex)->searchmode >= 10)
 		SetHelp(NULL, NULL, NULL, iOnExtCatItemBrowsable?tr("Button$Select"):NULL);
 	}
 	else if (strstr(ItemText, tr("Search term")) != ItemText)
@@ -345,13 +345,13 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 	if (HasSubMenu())
 	    return osContinue;
 	switch (Key) {
-	    case kOk: 
-		if (data.useChannel==1) 
+	    case kOk:
+		if (data.useChannel==1)
 		{
 		    cChannel *ch = Channels.GetByNumber(channelMin);
 		    if (ch)
 			data.channelMin = ch;
-		    else 
+		    else
 		    {
 			Skins.Message(mtError, tr("*** Invalid Channel ***"));
 			break;
@@ -359,7 +359,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 		    ch = Channels.GetByNumber(channelMax);
 		    if (ch)
 			data.channelMax = ch;
-		    else 
+		    else
 		    {
 			Skins.Message(mtError, tr("*** Invalid Channel ***"));
 			break;
@@ -372,17 +372,17 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 		}
 		if (data.useChannel==2)
 		    data.channelGroup = strdup(menuitemsChGr[channelGroupNr]);
-		
-		if (blacklist) 
+
+		if (blacklist)
 		{
 		    *blacklist = data;
 		    if (data.DayOfWeek == 7)
 			blacklist->DayOfWeek = UserDefDayOfWeek;
-		    
+
 		    // transfer numeric cat values back to search
 		    cSearchExtCat *SearchExtCat = SearchExtCats.First();
 		    int index = 0;
-		    while (SearchExtCat) 
+		    while (SearchExtCat)
 		      {
 			if (SearchExtCat->searchmode >= 10)
 			  {
@@ -399,7 +399,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 			blacklist->ID = Blacklists.GetNewID();
 			Blacklists.Add(blacklist);
 		    }
- 
+
 		    Blacklists.Save();
 		    addIfConfirmed = false;
 		}
@@ -408,10 +408,10 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 		if (iOnUserDefDayItem)
 		    state = AddSubMenu(new cMenuEditDaysOfWeek(&UserDefDayOfWeek));
 		break;
-		
-	    case kBlue:   
+
+	    case kBlue:
 		if (iOnUseChannelGroups || iOnChannelGroup)
-		{		    
+		{
 		    if (channelGroupName)
 			free(channelGroupName);
 		    channelGroupName = strdup(menuitemsChGr[channelGroupNr]);
@@ -446,7 +446,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 	  {
 	    cSearchExtCat *SearchExtCat = SearchExtCats.First();
 	    int index = 0;
-	    while (SearchExtCat) 	    
+	    while (SearchExtCat)
 	      {
 		if (SearchExtCat->searchmode >= 10)
 		  catvaluesNumeric[index] = atoi(data.catvalues[index]);

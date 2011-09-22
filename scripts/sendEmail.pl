@@ -2,7 +2,7 @@
 ##############################################################################
 ## sendEmail
 ## Written by: Brandon Zehm <caspian@dotconf.net>
-## 
+##
 ## License:
 ##  sendEmail (hereafter referred to as "program") is free software;
 ##  you can redistribute it and/or modify it under the terms of the GNU General
@@ -11,7 +11,7 @@
 ##  Note that when redistributing modified versions of this source code, you
 ##  must ensure that this disclaimer and the above coder's names are included
 ##  VERBATIM in the modified code.
-##  
+##
 ## Disclaimer:
 ##  This program is provided with no warranty of any kind, either expressed or
 ##  implied.  It is the responsibility of the user (you) to fully research and
@@ -21,9 +21,9 @@
 ##  or anything that happens because of your use (or misuse) of this program,
 ##  including but not limited to anything you, your lawyers, or anyone else
 ##  can dream up.  And now, a relevant quote directly from the GPL:
-##    
+##
 ## NO WARRANTY
-## 
+##
 ##  11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
 ##  FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
 ##  OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
@@ -33,7 +33,7 @@
 ##  TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
 ##  PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
 ##  REPAIR OR CORRECTION.
-##    
+##
 ##############################################################################
 use strict;
 use IO::Socket;
@@ -54,25 +54,25 @@ my %conf = (
     "hostname"             => 'localhost',                         ## Used in printmsg() for all output, and in SMTP EHLO.
     "debug"                => 0,                                   ## Default debug level
     "error"                => '',                                  ## Error messages will often be stored here
-    
+
     ## Logging
     "debug"                => 0,
     "stdout"               => 1,
     "logging"              => 0,                                   ## If this is true the printmsg function prints to the log file
     "logFile"              => '',                                  ## If this is specified (form the command line via -l) this file will be used for logging.
-    
+
     ## Network
     "server"               => 'localhost',                         ## Default SMTP server
     "port"                 => 25,                                  ## Default port
     "alarm"                => '',                                  ## Default timeout for connects and reads, this gets set from $opt{'timeout'}
-    
+
     ## Email
     "delimiter"            => "----MIME delimiter for sendEmail-"  ## MIME Delimiter
                               . rand(1000000),                     ## Add some randomness to the delimiter
     "Message-ID"           => rand(1000000) . "-sendEmail",        ## Message-ID for email header
     "authUsername"         => '',                                  ## Username used in SMTP Auth
     "authPassword"         => '',                                  ## Password used in SMTP Auth
-    
+
 );
 
 
@@ -80,16 +80,16 @@ my %conf = (
 my %opt = (
     ## Addressing
     "reply-to"             => '',                                  ## Reply-To field
-    
+
     ## Message
     "message-file"         => '',                                  ## File to read message body from
     "message-header"       => '',                                  ## Additional email header line
     "message-format"       => 'normal',                            ## If "raw" is specified the message is sent unmodified
     "message-charset"      => 'iso-8859-1',                        ## Message character-set
-    
+
     ## Network
     "timeout"              => 60,                                  ## Default timeout for connects and reads, this is copied to $conf{'alarm'} later.
-    
+
 );
 
 ## More variables used later in the program
@@ -173,7 +173,7 @@ if (!($message)) {
         }
         close(MFILE);
     }
-    
+
     ## Read message body from STDIN
     else {
         alarm($conf{'alarm'}) if ($^O !~ /win/i);  ## alarm() doesn't work in win32
@@ -213,8 +213,8 @@ my $date = sprintf("%s, %s %s %d %.2d:%.2d:%.2d %s",$day, $mday, $mon, $year, $h
 ##  Connect to the SMTP server  ##
 ##################################
 printmsg("DEBUG => Connecting to $conf{'server'}:$conf{'port'}", 1);
-$SIG{'ALRM'} = sub { 
-    printmsg("ERROR => Timeout while connecting to $conf{'server'}:$conf{'port'}  There was no response after $conf{'alarm'} seconds.", 0); 
+$SIG{'ALRM'} = sub {
+    printmsg("ERROR => Timeout while connecting to $conf{'server'}:$conf{'port'}  There was no response after $conf{'alarm'} seconds.", 0);
     printmsg("HINT => Try specifying a different mail relay with the -s option.", 1);
     quit("", 1);
 };
@@ -247,7 +247,7 @@ if ( (!$SERVER) or (!$SERVER->opened()) ) {
 if (SMTPchat()) { quit($conf{'error'}, 1); }
 
 ## EHLO
-if (SMTPchat('EHLO ' . $conf{'hostname'}))   { 
+if (SMTPchat('EHLO ' . $conf{'hostname'}))   {
     printmsg($conf{'error'}, 0);
     printmsg("NOTICE => EHLO command failed, attempting HELO instead");
     if (SMTPchat('HELO ' . $conf{'hostname'}))   { quit($conf{'error'}, 1); }
@@ -301,36 +301,36 @@ if ($opt{'message-format'} =~ /^raw$/i) {
 
 ## If the message-format isn't raw, then build and send the message,
 else {
-    
+
     ## Message-ID: <MessageID>
     print $SERVER 'Message-ID: <' . $conf{'Message-ID'} . '@' . $conf{'hostname'} . '>' . $CRLF;
-    
+
     ## From: "Name" <address@domain.com> (the pointless test below is just to keep scoping correct)
     if ($from) {
         my ($name, $address) = returnAddressParts($from);
         print $SERVER 'From: "' . $name . '" <' . $address . '>' . $CRLF;
     }
-    
-    ## Reply-To: 
+
+    ## Reply-To:
     if ($opt{'reply-to'}) {
         my ($name, $address) = returnAddressParts($opt{'reply-to'});
         print $SERVER 'Reply-To: "' . $name . '" <' . $address . '>' . $CRLF;
     }
-    
+
     ## To: "Name" <address@domain.com>
     if (scalar(@to) > 0) {
         print $SERVER "To:";
         for (my $a = 0; $a < scalar(@to); $a++) {
             my $msg = "";
-            
+
             my ($name, $address) = returnAddressParts($to[$a]);
             $msg = " \"$name\" <$address>";
-            
+
             ## If we're not on the last address add a comma to the end of the line.
             if (($a + 1) != scalar(@to)) {
                 $msg .= ",";
             }
-            
+
             print $SERVER $msg . $CRLF;
         }
     }
@@ -338,41 +338,41 @@ else {
     else {
         print $SERVER "To: \"Undisclosed Recipients\" <>$CRLF";
     }
-    
+
     if (scalar(@cc) > 0) {
         print $SERVER "Cc:";
         for (my $a = 0; $a < scalar(@cc); $a++) {
             my $msg = "";
-            
+
             my ($name, $address) = returnAddressParts($cc[$a]);
             $msg = " \"$name\" <$address>";
-            
+
             ## If we're not on the last address add a comma to the end of the line.
             if (($a + 1) != scalar(@cc)) {
                 $msg .= ",";
             }
-            
+
             print $SERVER $msg . $CRLF;
         }
     }
-    
+
     print $SERVER 'Subject: ' . $subject . $CRLF;                   ## Subject
     print $SERVER 'Date: ' . $date . $CRLF;                         ## Date
     print $SERVER 'X-Mailer: sendEmail-'.$conf{'version'}.$CRLF;    ## X-Mailer
-    
+
     ## Send an additional message header line if specified
     if ($opt{'message-header'}) {
         print $SERVER $opt{'message-header'} . $CRLF;
     }
-    
+
     ## Encode all messages with MIME.
     print $SERVER "MIME-Version: 1.0$CRLF";
     print $SERVER "Content-Type: multipart/mixed; boundary=\"$conf{'delimiter'}\"$CRLF";
     print $SERVER "$CRLF";
     print $SERVER "This is a multi-part message in MIME format. To properly display this message you need a MIME-Version 1.0 compliant Email program.$CRLF";
     print $SERVER "$CRLF";
-    
-    
+
+
     ## Send message body
     print $SERVER "--$conf{'delimiter'}$CRLF";
     ## If the message contains HTML change the Content-Type
@@ -388,14 +388,14 @@ else {
     print $SERVER "Content-Transfer-Encoding: 7bit$CRLF";
     print $SERVER $CRLF;
     print $SERVER $message;
-    
-    
-    
+
+
+
     ## Send Attachemnts
     if ($attachments[0]) {
         ## Disable the alarm so people on modems can send big attachments
         alarm(0) if ($^O !~ /win/i);  ## alarm() doesn't work in win32
-        
+
         ## Send the attachments
         foreach my $filename (@attachments) {
             ## This is check 2, we already checked this above, but just in case...
@@ -411,10 +411,10 @@ else {
             }
         }
     }
-    
-    
+
+
     ## End the mime encoded message
-    print $SERVER "$CRLF--$conf{'delimiter'}--$CRLF";  
+    print $SERVER "$CRLF--$conf{'delimiter'}--$CRLF";
 }
 
 
@@ -443,10 +443,10 @@ close $SERVER;
 
 if ($conf{'debug'} or $conf{'logging'}) {
     printmsg("Generating a detailed exit message", 3);
-    
+
     ## Put the message together
     my $output = "Email was sent successfully!  From: <" . (returnAddressParts($from))[1] . "> ";
-    
+
     if (scalar(@to) > 0) {
         $output .= "To: ";
         for ($a = 0; $a < scalar(@to); $a++) {
@@ -466,19 +466,19 @@ if ($conf{'debug'} or $conf{'logging'}) {
         }
     }
     $output .= "Subject: [$subject] " if ($subject);
-    if (scalar(@attachments_names) > 0) { 
+    if (scalar(@attachments_names) > 0) {
         $output .= "Attachment(s): ";
         foreach(@attachments_names) {
             $output .= "[$_] ";
         }
     }
     $output .= "Server: [$conf{'server'}:$conf{'port'}]";
-    
-    
+
+
 ######################
 #  Exit the program  #
 ######################
-    
+
     ## Print / Log the detailed message
     quit($output, 0);
 }
@@ -526,35 +526,35 @@ else {
 
 ###############################################################################################
 ##  Function: initialize ()
-##  
+##
 ##  Does all the script startup jibberish.
-##  
+##
 ###############################################################################################
 sub initialize {
 
-    ## Set STDOUT to flush immediatly after each print  
+    ## Set STDOUT to flush immediatly after each print
     $| = 1;
-    
+
     ## Intercept signals
     $SIG{'QUIT'}  = sub { quit("EXITING: Received SIG$_[0]", 1); };
     $SIG{'INT'}   = sub { quit("EXITING: Received SIG$_[0]", 1); };
     $SIG{'KILL'}  = sub { quit("EXITING: Received SIG$_[0]", 1); };
     $SIG{'TERM'}  = sub { quit("EXITING: Received SIG$_[0]", 1); };
-  
+
     ## ALARM and HUP signals are not supported in Win32
     unless ($^O =~ /win/i) {
         $SIG{'HUP'}   = sub { quit("EXITING: Received SIG$_[0]", 1); };
         $SIG{'ALRM'}  = sub { quit("EXITING: Received SIG$_[0]", 1); };
     }
-    
+
     ## Fixup $conf{'programName'}
     $conf{'programName'} =~ s/(.)*[\/,\\]//;
     $0 = $conf{'programName'} . " " . join(" ", @ARGV);
-    
+
     ## Fixup $conf{'hostname'}
     if ($conf{'hostname'} eq 'localhost') {
         $conf{'hostname'} = "";
-        
+
         if ($ENV{'HOSTNAME'}) {
             $conf{'hostname'} = lc($ENV{'HOSTNAME'});
         }
@@ -566,15 +566,15 @@ sub initialize {
             use Sys::Hostname;
             $conf{'hostname'} = lc(hostname());
         }
-        
+
         ## Assign a name of "localhost" if it can't find anything else.
         if (!$conf{'hostname'}) {
             $conf{'hostname'} = 'localhost';
         }
-        
+
         $conf{'hostname'} =~ s/\..*$//;  ## Remove domain name if it's present
     }
-    
+
     return(1);
 }
 
@@ -594,32 +594,32 @@ sub initialize {
 
 ###############################################################################################
 ##  Function: processCommandLine ()
-##  
+##
 ##  Processes command line storing important data in global vars (usually %conf)
-##  
+##
 ###############################################################################################
 sub processCommandLine {
-    
-    
+
+
     ############################
     ##  Process command line  ##
     ############################
-    
+
     my @ARGS = @ARGV;  ## This is so later we can re-parse the command line args later if we need to
     my $numargv = @ARGS;
     help() unless ($numargv);
     my $counter = 0;
-    
+
     for ($counter = 0; $counter < $numargv; $counter++) {
-  
+
         if ($ARGS[$counter] =~ /^-h$/i) {                    ## Help ##
             help();
         }
-        
+
         elsif ($ARGS[$counter] eq "") {                      ## Ignore null arguments
             ## Do nothing
         }
-        
+
         elsif ($ARGS[$counter] =~ /^--help/) {               ## Topical Help ##
             $counter++;
             if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) {
@@ -629,12 +629,12 @@ sub processCommandLine {
                 help();
             }
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-o$/i) {                 ## Options specified with -o ##
             $counter++;
             ## Loop through each option passed after the -o
             while ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) {
-                
+
                 if ($ARGS[$counter] !~ /(\S+)=(\S.*)/) {
                     printmsg("WARNING => Name/Value pair [$ARGS[$counter]] is not properly formatted", 0);
                     printmsg("WARNING => Arguments proceeding -o should be in the form of \"name=value\"", 0);
@@ -652,13 +652,13 @@ sub processCommandLine {
                 $counter++;
             }   $counter--;
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-f$/) {                  ## From ##
             $counter++;
             if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) { $from = $ARGS[$counter]; }
             else { printmsg("WARNING => The argument after -f was not an email address!", 0); $counter--; }
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-t$/) {                  ## To ##
             $counter++;
             while ($ARGS[$counter] && ($ARGS[$counter] !~ /^-/)) {
@@ -671,7 +671,7 @@ sub processCommandLine {
                 $counter++;
             }   $counter--;
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-cc$/) {                 ## Cc ##
             $counter++;
             while ($ARGS[$counter] && ($ARGS[$counter] !~ /^-/)) {
@@ -684,7 +684,7 @@ sub processCommandLine {
                 $counter++;
             }   $counter--;
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-bcc$/) {                ## Bcc ##
             $counter++;
             while ($ARGS[$counter] && ($ARGS[$counter] !~ /^-/)) {
@@ -697,7 +697,7 @@ sub processCommandLine {
                 $counter++;
             }   $counter--;
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-m$/) {                  ## Message ##
             $counter++;
             $message = "";
@@ -706,12 +706,12 @@ sub processCommandLine {
                 $message .= $ARGS[$counter];
                 $counter++;
             }   $counter--;
-            
+
             ## Replace '\n' with $CRLF.
             ## This allows newlines with messages sent on the command line
             $message =~ s/\\n/$CRLF/g;
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-u$/) {                  ## Subject ##
             $counter++;
             $subject = "";
@@ -721,7 +721,7 @@ sub processCommandLine {
                 $counter++;
             }   $counter--;
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-s$/) {                  ## Server ##
             $counter++;
             if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) {
@@ -732,7 +732,7 @@ sub processCommandLine {
             }
             else { printmsg("WARNING - The argument after -s was not the server!", 0); $counter--; }
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-a$/) {                  ## Attachments ##
             $counter++;
             while ($ARGS[$counter] && ($ARGS[$counter] !~ /^-/)) {
@@ -740,7 +740,7 @@ sub processCommandLine {
                 $counter++;
             }   $counter--;
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-xu$/) {                  ## AuthSMTP Username ##
             $counter++;
             if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) {
@@ -750,12 +750,12 @@ sub processCommandLine {
                $tmp =~ tr|` -_|AA-Za-z0-9+/|;                           ## Translate from uuencode to base64
                $conf{'authUsername'} = $tmp;
             }
-            else { 
+            else {
                 printmsg("WARNING => The argument after -xu was not valid username!", 0);
                 $counter--;
             }
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-xp$/) {                  ## AuthSMTP Password ##
             $counter++;
             if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) {
@@ -770,28 +770,28 @@ sub processCommandLine {
                 $counter--;
             }
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-l$/) {                  ## Logging ##
             $counter++;
             $conf{'logging'} = 1;
             if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) { $conf{'logFile'} = $ARGS[$counter]; }
             else { printmsg("WARNING - The argument after -l was not the log file!", 0); $counter--; }
         }
-        
+
         elsif ($ARGS[$counter] =~ s/^-v+//i) {               ## Verbosity ##
             my $tmp = (length($&) - 1);
             $conf{'debug'} += $tmp;
         }
-        
+
         elsif ($ARGS[$counter] =~ /^-q$/) {                  ## Quiet ##
             $conf{'stdout'} = 0;
         }
-        
+
         else {
             printmsg("Error: \"$ARGS[$counter]\" is not a recognized option!", 0);
             help();
         }
-        
+
     }
 
 
@@ -799,8 +799,8 @@ sub processCommandLine {
 
 
 
-    
-    
+
+
     ###################################################
     ##  Verify required variables are set correctly  ##
     ###################################################
@@ -817,7 +817,7 @@ sub processCommandLine {
     if ( ((scalar(@to)) + (scalar(@cc)) + (scalar(@bcc))) <= 0) {
         quit("ERROR => You must specify at least one recipient via -t, -cc, or -bcc", 1);
     }
-    
+
     ## Make sure email addresses look OK.
     foreach my $addr (@to, @cc, @bcc, $from, $opt{'reply-to'}) {
         if ($addr) {
@@ -828,7 +828,7 @@ sub processCommandLine {
             }
         }
     }
-    
+
     ## Make sure all attachments exist.
     foreach my $file (@attachments) {
         if ( (! -f $file) or (! -r $file) ) {
@@ -837,17 +837,17 @@ sub processCommandLine {
             quit("", 1);
         }
     }
-    
+
     if ($conf{'logging'} and (!$conf{'logFile'})) {
         quit("ERROR => You used -l to enable logging but didn't specify a log file!", 1);
-    }    
-    
+    }
+
     if ( $conf{'authUsername'} ) {
         if (!$conf{'authPassword'}) {
             quit ("ERROR => You must supply both a username and a password to use SMTP auth.",1);
         }
     }
-    
+
     ## Return 0 errors
     return(0);
 }
@@ -907,49 +907,49 @@ sub getResponse {
 ##               be sent to the server, but a valid response is still required from the server.
 ##
 ##  Input:       [$command]          A (optional) valid SMTP command (ex. "HELO")
-##  
-##  
-##  Output:      Returns zero on success, or non-zero on error.  
+##
+##
+##  Output:      Returns zero on success, or non-zero on error.
 ##               Error messages will be stored in $conf{'error'}
-##               
-##  
+##
+##
 ##  Example:     SMTPchat ("HELO mail.isp.net");
 ###############################################################################################
 sub SMTPchat {
     my ($command) = @_;
-    
+
     printmsg("INFO => Sending: \t$command", 1) if ($command);
-    
+
     ## Send our command
     print $SERVER "$command$CRLF" if ($command);
-    
+
     ## Read a response from the server
     $SIG{'ALRM'} = sub { $conf{'error'} = "alarm"; $SERVER->close(); };
     alarm($conf{'alarm'}) if ($^O !~ /win/i);  ## alarm() doesn't work in win32;
-    my $result = getResponse(\$SERVER); 
+    my $result = getResponse(\$SERVER);
     alarm(0) if ($^O !~ /win/i);  ## alarm() doesn't work in win32;
-    
+
     ## Generate an alert if we timed out
     if ($conf{'error'} eq "alarm") {
         $conf{'error'} = "ERROR => Timeout while reading from $conf{'server'}:$conf{'port'} There was no response after $conf{'alarm'} seconds.";
         return(1);
     }
-    
+
     ## Make sure the server actually responded
     if (!$result) {
         $conf{'error'} = "ERROR => $conf{'server'}:$conf{'port'} returned a zero byte response to our query.";
         return(2);
     }
-    
+
     ## Validate the response
     if (evalSMTPresponse($result)) {
         ## conf{'error'} will already be set here
         return(2);
     }
-    
+
     ## Print the success messsage
     printmsg($conf{'error'}, 1);
-    
+
     ## Return Success
     return(0);
 }
@@ -970,46 +970,46 @@ sub SMTPchat {
 ##
 ##  Description: Searches $message for either an  SMTP success or error code, and returns
 ##               0 on success, and the actual error code on error.
-##               
 ##
-##  Input:       $message          Data received from a SMTP server (ex. "220 
-##                                
-##  
-##  Output:      Returns zero on success, or non-zero on error.  
+##
+##  Input:       $message          Data received from a SMTP server (ex. "220
+##
+##
+##  Output:      Returns zero on success, or non-zero on error.
 ##               Error messages will be stored in $conf{'error'}
-##               
-##  
+##
+##
 ##  Example:     SMTPchat ("HELO mail.isp.net");
 ###############################################################################################
 sub evalSMTPresponse {
     my ($message) = @_;
-    
+
     ## Validate input
-    if (!$message) { 
+    if (!$message) {
         $conf{'error'} = "ERROR => No message was passed to evalSMTPresponse().  What happened?";
         return(1)
     }
-    
+
     printmsg("DEBUG => evalSMTPresponse() - Checking for SMTP success or error status in the message: $message ", 3);
-    
+
     ## Look for a SMTP success code
     if ($message =~ /^([23]\d\d)/) {
         printmsg("DEBUG => evalSMTPresponse() - Found SMTP success code: $1", 2);
         $conf{'error'} = "SUCCESS => Received: \t$message";
         return(0);
     }
-    
+
     ## Look for a SMTP error code
     if ($message =~ /^([45]\d\d)/) {
         printmsg("DEBUG => evalSMTPresponse() - Found SMTP error code: $1", 2);
         $conf{'error'} = "ERROR => Received: \t$message";
         return($1);
     }
-    
+
     ## If no SMTP codes were found return an error of 1
     $conf{'error'} = "ERROR => Received a message with no success or error code. The message received was: $message";
     return(2);
-    
+
 }
 
 
@@ -1093,12 +1093,12 @@ sub return_day {
 ###############################################################################################
 ##  Function:    returnAddressParts(string $address)
 ##
-##  Description: Returns a two element array containing the "Name" and "Address" parts of 
+##  Description: Returns a two element array containing the "Name" and "Address" parts of
 ##               an email address.
-##  
+##
 ## Example:      "Brandon Zehm <caspian@dotconf.net>"
 ##               would return: ("Brandon Zehm", "caspian@dotconf.net");
-## 
+##
 ##               "caspian@dotconf.net"
 ##               would return: ("caspian@dotconf.net", "caspian@dotconf.net")
 ###############################################################################################
@@ -1106,35 +1106,35 @@ sub returnAddressParts {
     my $input = $_[0];
     my $name = "";
     my $address = "";
-    
+
     ## Make sure to fail if it looks totally invalid
     if ($input !~ /(\S+\@\S+)/) {
         $conf{'error'} = "ERROR => The address [$input] doesn't look like a valid email address, ignoring it";
         return(undef());
     }
-    
+
     ## Check 1, should find addresses like: "Brandon Zehm <caspian@dotconf.net>"
     elsif ($input =~ /^\s*(\S(.*\S)?)\s*<(\S+\@\S+)>/o) {
         ($name, $address) = ($1, $3);
     }
-    
+
     ## Otherwise if that failed, just get the address: <caspian@dotconf.net>
     elsif ($input =~ /<(\S+\@\S+)>/o) {
         $name = $address = $1;
     }
-    
+
     ## Or maybe it was formatted this way: caspian@dotconf.net
     elsif ($input =~ /(\S+\@\S+)/o) {
         $name = $address = $1;
     }
-    
+
     ## Something stupid happened, just return an error.
     unless ($name and $address) {
         printmsg("ERROR => Couldn't parse the address: $input", 0);
         printmsg("HINT => If you think this should work, consider reporting this as a bug to $conf{'authorEmail'}", 1);
         return(undef());
     }
-    
+
     ## Make sure there aren't invalid characters in the address, and return it.
     my $ctrl        = '\000-\037';
     my $nonASCII    = '\x80-\xff';
@@ -1169,18 +1169,18 @@ sub send_attachment {
     my (@fields, $y, $filename_name, $encoding,      ## Local variables
         @attachlines, $content_type);
     my $bin = 1;
-    
-    @fields = split(/\/|\\/, $filename);             ## Get the actual filename without the path  
-    $filename_name = pop(@fields);       
+
+    @fields = split(/\/|\\/, $filename);             ## Get the actual filename without the path
+    $filename_name = pop(@fields);
     push @attachments_names, $filename_name;         ## FIXME: This is only used later for putting in the log file
-    
+
     ##########################
     ## Autodetect Mime Type ##
     ##########################
-    
+
     @fields = split(/\./, $filename_name);
     $encoding = $fields[$#fields];
-    
+
     if ($encoding =~ /txt|text|log|conf|^c$|cpp|^h$|inc|m3u/i) {   $content_type = 'text/plain';                      }
     elsif ($encoding =~ /html|htm|shtml|shtm|asp|php|cfm/i) {      $content_type = 'text/html';                       }
     elsif ($encoding =~ /sh$/i) {                                  $content_type = 'application/x-sh';                }
@@ -1216,16 +1216,16 @@ sub send_attachment {
     elsif ($encoding =~ /latex/i) {                                $content_type = 'application/x-latex';             }
     elsif ($encoding =~ /vcf/i) {                                  $content_type = 'application/x-vcard';             }
     else { $content_type = 'application/octet-stream';  }
-  
-  
+
+
   ############################
   ## Process the attachment ##
   ############################
-    
+
     #####################################
     ## Generate and print MIME headers ##
     #####################################
-    
+
     $y  = "$CRLF--$conf{'delimiter'}$CRLF";
     $y .= "Content-Type: $content_type;$CRLF";
     $y .= "        name=\"$filename_name\"$CRLF";
@@ -1233,24 +1233,24 @@ sub send_attachment {
     $y .= "Content-Disposition: attachment; filename=\"$filename_name\"$CRLF";
     $y .= "$CRLF";
     print $SERVER $y;
-    
-    
+
+
     ###########################################################
     ## Convert the file to base64 and print it to the server ##
     ###########################################################
-    
-    open (FILETOATTACH, $filename) || do { 
+
+    open (FILETOATTACH, $filename) || do {
         printmsg("ERROR => Opening the file [$filename] for attachment failed with the error: $!", 0);
         return(1);
     };
     binmode(FILETOATTACH);                 ## Hack to make Win32 work
-    
+
     my $res = "";
     my $tmp = "";
     my $base64 = "";
     while (<FILETOATTACH>) {               ## Read a line from the (binary) file
         $res .= $_;
-        
+
         ###################################
         ## Convert binary data to base64 ##
         ###################################
@@ -1260,16 +1260,16 @@ sub send_attachment {
             $tmp =~ tr|` -_|AA-Za-z0-9+/|;     ## Translate from uuencode to base64
             $base64 .= $tmp;
         }
-        
+
         ################################
         ## Print chunks to the server ##
         ################################
         while ($base64 =~ s/(.{76})//s) {
             print $SERVER "$1$CRLF";
         }
-      
+
     }
-    
+
     ###################################
     ## Encode and send the leftovers ##
     ###################################
@@ -1280,7 +1280,7 @@ sub send_attachment {
         chop($res);
         $res =~ tr|` -_|AA-Za-z0-9+/|;             ## Translate from uuencode to base64
     }
-    
+
     ############################
     ## Fix padding at the end ##
     ############################
@@ -1291,12 +1291,12 @@ sub send_attachment {
             print $SERVER "$1$CRLF";
         }
     }
-    
+
     close (FILETOATTACH) || do {
         printmsg("ERROR - Closing the filehandle for file [$filename] failed with the error: $!", 0);
         return(2);
     };
-    
+
     ## Return 0 errors
     return(0);
 
@@ -1327,9 +1327,9 @@ sub send_attachment {
 ##  Input:       $message          A message to be printed, logged, etc.
 ##               $level            The debug level of the message. If
 ##                                 not defined 0 will be assumed.  0 is
-##                                 considered a normal message, 1 and 
+##                                 considered a normal message, 1 and
 ##                                 higher is considered a debug message.
-##  
+##
 ##  Output:      Prints to STDOUT
 ##
 ##  Assumptions: $conf{'hostname'} should be the name of the computer we're running on.
@@ -1344,33 +1344,33 @@ sub send_attachment {
 sub printmsg {
     ## Assign incoming parameters to variables
     my ( $message, $level ) = @_;
-    
+
     ## Make sure input is sane
     $level = 0 if (!defined($level));
     $message =~ s/\s+$//sgo;
     $message =~ s/\r?\n/, /sgo;
-    
+
     ## Continue only if the debug level of the program is >= message debug level.
     if ($conf{'debug'} >= $level) {
-        
+
         ## Get the date in the format: Dec  3 11:14:04
         my ($sec, $min, $hour, $mday, $mon) = localtime();
         $mon = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')[$mon];
         my $date = sprintf("%s %02d %02d:%02d:%02d", $mon, $mday, $hour, $min, $sec);
-        
+
         ## Print to STDOUT always if debugging is enabled, or if conf{stdout} is true.
         if ( ($conf{'debug'} >= 1) or ($conf{'stdout'} == 1) ) {
             print "$date $conf{'hostname'} $conf{'programName'}\[$$\]: $message\n";
         }
-        
+
         ## Print to the log file if $conf{'logging'} is true
         if ($conf{'logFile'}) {
             if (openLogFile($conf{'logFile'})) { $conf{'logFile'} = ""; printmsg("ERROR => Opening the file [$conf{'logFile'}] for appending returned the error: $!", 1); }
             print LOGFILE "$date $conf{'hostname'} $conf{'programName'}\[$$\]: $message\n";
         }
-        
+
     }
-    
+
     ## Return 0 errors
     return(0);
 }
@@ -1387,24 +1387,24 @@ sub printmsg {
 
 
 ###############################################################################################
-## FUNCTION:    
+## FUNCTION:
 ##   openLogFile ( $filename )
-## 
-## 
-## DESCRIPTION: 
+##
+##
+## DESCRIPTION:
 ##   Opens the file $filename and attaches it to the filehandle "LOGFILE".  Returns 0 on success
 ##   and non-zero on failure.  Error codes are listed below, and the error message gets set in
 ##   global variable $!.
-##   
-##   
-## Example: 
+##
+##
+## Example:
 ##   openFile ("/var/log/sendEmail.log");
 ##
 ###############################################################################################
 sub openLogFile {
     ## Get the incoming filename
     my $filename = $_[0];
-    
+
     ## Make sure our file exists, and if the file doesn't exist then create it
     if ( ! -f $filename ) {
         print STDERR "NOTICE: The log file [$filename] does not exist.  Creating it now with mode [0600].\n" if ($conf{'stdout'});
@@ -1412,15 +1412,15 @@ sub openLogFile {
         close LOGFILE;
         chmod (0600, $filename);
     }
-    
+
     ## Now open the file and attach it to a filehandle
     open (LOGFILE,">>$filename") or return (1);
-    
+
     ## Put the file into non-buffering mode
     select LOGFILE;
     $| = 1;
     select STDOUT;
-    
+
     ## Return success
     return(0);
 }
@@ -1442,9 +1442,9 @@ sub openLogFile {
 
 ###############################################################################################
 ##  Function:    quit (string $message, int $errorLevel)
-##  
-##  Description: Exits the program, optionally printing $message.  It 
-##               returns an exit error level of $errorLevel to the 
+##
+##  Description: Exits the program, optionally printing $message.  It
+##               returns an exit error level of $errorLevel to the
 ##               system  (0 means no errors, and is assumed if empty.)
 ##
 ##  Example:     quit("Exiting program normally", 0);
@@ -1456,12 +1456,12 @@ sub quit {
       $incoming{'errorLevel'}
     ) = @_;
     $incoming{'errorLevel'} = 0 if (!defined($incoming{'errorLevel'}));
-    
+
     ## Print exit message
-    if ($incoming{'message'}) { 
+    if ($incoming{'message'}) {
         printmsg($incoming{'message'}, 0);
     }
-    
+
     ## Exit
     exit($incoming{'errorLevel'});
 }
@@ -1480,9 +1480,9 @@ sub quit {
 ###############################################################################################
 ## Function:    help ()
 ##
-## Description: For all those newbies ;) 
+## Description: For all those newbies ;)
 ##              Prints a help message and exits the program.
-## 
+##
 ###############################################################################################
 sub help {
 exit(1) if (!$conf{'stdout'});
@@ -1491,23 +1491,23 @@ print <<EOM;
 ${colorBold}$conf{'programName'}-$conf{'version'} by $conf{'authorName'} <$conf{'authorEmail'}>${colorNoBold}
 
 Synopsis:  $conf{'programName'} -f ADDRESS [options]
-  
+
   ${colorRed}Required:${colorNormal}
     -f ADDRESS                from (sender) email address
     * At least one recipient required via -t, -cc, or -bcc
     * Message body required via -m, STDIN, or -o message-file=FILE
-    
+
   ${colorGreen}Common:${colorNormal}
     -t ADDRESS [ADDR ...]     to email address(es)
     -u SUBJECT                message subject
     -m MESSAGE                message body
     -s SERVER[:PORT]          smtp mail relay, default is $conf{'server'}:$conf{'port'}
-    
+
   ${colorGreen}Optional:${colorNormal}
     -a   FILE [FILE ...]      file attachment(s)
     -cc  ADDRESS [ADDR ...]   cc  email address(es)
     -bcc ADDRESS [ADDR ...]   bcc email address(es)
-    
+
   ${colorGreen}Paranormal:${colorNormal}
     -xu USERNAME              authentication user (for SMTP authentication)
     -xp PASSWORD              authentication password (for SMTP authentication)
@@ -1515,7 +1515,7 @@ Synopsis:  $conf{'programName'} -f ADDRESS [options]
     -v                        verbosity, use multiple times for greater effect
     -q                        be quiet (no stdout output)
     -o NAME=VALUE             see extended help topic "misc" for details
-  
+
   ${colorGreen}Help:${colorNormal}
     --help TOPIC              The following extended help topics are available:
         addressing            explain addressing and related options
@@ -1539,9 +1539,9 @@ exit(1);
 ###############################################################################################
 ## Function:    helpTopic ($topic)
 ##
-## Description: For all those newbies ;) 
+## Description: For all those newbies ;)
 ##              Prints a help message and exits the program.
-## 
+##
 ###############################################################################################
 sub helpTopic {
     exit(1) if (!$conf{'stdout'});
@@ -1565,17 +1565,17 @@ Options related to addressing:
     -cc  ADDRESS [ADDRESS ...]
     -bcc ADDRESS [ADDRESS ...]
     -o   reply-to=ADDRESS
-    
+
 -f ADDRESS
     This required option specifies who the email is from, I.E. the sender's
     email address.
-    
+
 -t ADDRESS [ADDRESS ...]
     This option specifies the primary recipient(s).  At least one recipient
     address must be specified via the -t, -cc. or -bcc options.
 
 -cc ADDRESS [ADDRESS ...]
-    This option specifies the "carbon copy" recipient(s).  At least one 
+    This option specifies the "carbon copy" recipient(s).  At least one
     recipient address must be specified via the -t, -cc. or -bcc options.
 
 -bcc ADDRESS [ADDRESS ...]
@@ -1585,7 +1585,7 @@ Options related to addressing:
 -o reply-to=ADDRESS
     This option specifies that an optional "Reply-To" address should be
     written in the email's headers.
-    
+
 
 ${colorGreen}Email Address Syntax${colorNormal}
 Email addresses may be specified in one of two ways:
@@ -1595,7 +1595,7 @@ Email addresses may be specified in one of two ways:
 The "Full Name" method is useful if you want a name, rather than a plain
 email address, to be displayed in the recipient's From, To, or Cc fields
 when they view the message.
-    
+
 
 ${colorGreen}Multiple Recipients${colorNormal}
 The -t, -cc, and -bcc options each accept multiple addresses.  They may be
@@ -1608,16 +1608,16 @@ Examples:
 
   * Space separated list:
     -t jane.doe\@yahoo.com "John Doe <john.doe\@gmail.com>"
-    
+
   * Semi-colon separated list:
     -t "jane.doe\@yahoo.com; John Doe <john.doe\@gmail.com>"
- 
+
   * Comma separated list:
     -t "jane.doe\@yahoo.com, John Doe <john.doe\@gmail.com>"
-  
+
   * Multiple -t, -cc, or -bcc options:
     -t "jane.doe\@yahoo.com" -t "John Doe <john.doe\@gmail.com>"
-  
+
 
 EOM
             last CASE;
@@ -1642,12 +1642,12 @@ Options related to the message:
     -o  message-header=EMAIL HEADER
     -o  message-format=raw
     -o  message-charset=CHARSET
-    
+
 -u SUBJECT
     This option allows you to specify the subject for your email message.
-    It is not required (anymore) that the subject be quoted, although it 
+    It is not required (anymore) that the subject be quoted, although it
     is recommended.  The subject will be read until an argument starting
-    with a hyphen (-) is found.  
+    with a hyphen (-) is found.
     Examples:
       -u "Contact information while on vacation"
       -u New Microsoft vulnerability discovered
@@ -1657,21 +1657,21 @@ Options related to the message:
     body for your email.  The message may be specified on the command line
     with this -m option, read from a file with the -o message-file=FILE
     option, or read from STDIN if neither of these options are present.
-    
+
     It is not required (anymore) that the message be quoted, although it is
     recommended.  The message will be read until an argument starting with a
     hyphen (-) is found.
     Examples:
       -m "See you in South Beach, Hawaii.  -Todd"
       -m Please ensure that you upgrade your systems right away
-    
+
     Multi-line message bodies may be specified with the -m option by putting
     a "\\n" into the message.  Example:
       -m "This is line 1.\\nAnd this is line 2."
-    
+
     HTML messages are supported, simply begin your message with "<html>" and
     sendEmail will properly label the mime header so MUAs properly render
-    the message.  
+    the message.
 
 -o message-file=FILE
     This option is one of three methods that allow you to specify the message
@@ -1697,23 +1697,23 @@ Options related to the message:
       -o message-header=EMAIL HEADER
       -o message-charset=CHARSET
       -a ATTACHMENT
-      
+
 -o message-charset=CHARSET
     This option allows you to specify the character-set for the message body.
     The default is iso-8859-1.
-      
+
 
 ${colorGreen}The Message Body${colorNormal}
 The message body may be specified in one of three ways:
  1) Via the -m MESSAGE command line option.
     Example:
       -m "This is the message body"
-      
+
  2) By putting the message body in a file and using the -o message-file=FILE
     command line option.
     Example:
       -o message-file=/root/message.txt
-      
+
  3) By piping the message body to sendEmail when nither of the above command
     line options were specified.
     Example:
@@ -1722,14 +1722,14 @@ The message body may be specified in one of three ways:
 If the message body begins with "<html>" then the message will be treated as
 an HTML message and the MIME headers will be written so that a HTML capable
 email client will display the message in it's HTML form.
-Any of the above methods may be used with the -o message-format=raw option 
+Any of the above methods may be used with the -o message-format=raw option
 to deliver an already complete email message.
 
 
 EOM
             last CASE;
         };
-        
+
 
 
 
@@ -1747,7 +1747,7 @@ Options that don't fit anywhere else:
     -xp  PASSWORD
     -a   ATTACHMENT
     -o   timeout=SECONDS
-    
+
 -xu  USERNAME
     This option, in conjunction with the -xp option, allows you to specify
     a username and password to be used with SMTP servers requiring
@@ -1761,12 +1761,12 @@ Options that don't fit anywhere else:
 -a   ATTACHMENT [ATTACHMENT]
     This option allows you to attach any number of files to your email
     message.
-    
--o   timeout=SECONDS    
+
+-o   timeout=SECONDS
     This option sets the timeout value in seconds used for all network reads,
     writes, and a few other things.
 
-    
+
 ${colorGreen}The Complete -o Parameter List${colorNormal}
     -o message-file=FILE
     -o message-header=EMAIL HEADER
@@ -1775,11 +1775,11 @@ ${colorGreen}The Complete -o Parameter List${colorNormal}
     -o reply-to=ADDRESS
     -o timeout=SECONDS
 
-        
+
 EOM
             last CASE;
         };
-        
+
 
 
 
@@ -1795,7 +1795,7 @@ ${colorGreen}Networking Options${colorNormal}
 Options related to networking:
     -s   SERVER[:PORT]
     -o   timeout=SECONDS
-    
+
 -s SERVER[:PORT]
     This option allows you to specify the SMTP server sendEmail should
     connect to to deliver your email message to.  If this option is not
@@ -1809,21 +1809,21 @@ Options related to networking:
     If you have your own email server running on port 300 you would
     probably use an option like this:
        -s myserver.mydomain.com:300
-    
--o timeout=SECONDS    
+
+-o timeout=SECONDS
     This option sets the timeout value in seconds used for all network reads,
     writes, and a few other things.
 
-    
+
 EOM
             last CASE;
         };
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
 ## OUTPUTO
         ($topic eq 'output') && do {
             print <<EOM;
@@ -1835,7 +1835,7 @@ Options related to output:
     -l LOGFILE
     -v
     -q
-    
+
 -l LOGFILE
     This option allows you to specify a log file to append to.  Every message
     that is displayed to STDOUT is also written to the log file.  This may be
@@ -1845,7 +1845,7 @@ Options related to output:
     This option tells sendEmail to disable printing to STDOUT.  In other
     words nothing will be printed to the console.  This does not affect the
     behavior of the -l or -v options.
-    
+
 -v
     This option allows you to increase the debug level of sendEmail.  You may
     either use this option more than once, or specify more than one v at a
@@ -1853,20 +1853,20 @@ Options related to output:
         Specifies a debug level of 1:  -v
         Specifies a debug level of 2:  -vv
         Specifies a debug level of 2:  -v -v
-    A debug level of one is recommended when doing any sort of debugging.  
+    A debug level of one is recommended when doing any sort of debugging.
     At that level you will see the entire SMTP transaction (except the
     body of the email message), and hints will be displayed for most
     warnings and errors.  The highest debug level is three.
 
-    
+
 EOM
             last CASE;
         };
-        
+
         ## Unknown option selected!
         quit("ERROR => The help topic specified is not valid!", 1);
     };
-    
+
 exit(1);
 }
 

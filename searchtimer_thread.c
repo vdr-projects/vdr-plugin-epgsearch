@@ -66,11 +66,11 @@ cSearchTimerThread::cSearchTimerThread(cPluginEpgsearch* thePlugin)
 }
 
 cSearchTimerThread::~cSearchTimerThread() {
-   if (m_Active) 
+   if (m_Active)
       Stop();
 }
 
-void cSearchTimerThread::Init(cPluginEpgsearch* thePlugin, bool activatePermanently) 
+void cSearchTimerThread::Init(cPluginEpgsearch* thePlugin, bool activatePermanently)
 {
    if (activatePermanently)
    {
@@ -78,7 +78,7 @@ void cSearchTimerThread::Init(cPluginEpgsearch* thePlugin, bool activatePermanen
       thePlugin->SetupStore("UseSearchTimers",  EPGSearchConfig.useSearchTimers);
    }
    if (!EPGSearchConfig.useSearchTimers)
-      return;    
+      return;
    if (m_Instance == NULL) {
       m_Instance = new cSearchTimerThread(thePlugin);
       m_Instance->Start();
@@ -128,8 +128,8 @@ cTimer *cSearchTimerThread::GetTimer(cSearchExt *searchExt, const cEvent *pEvent
    }
 
    tm *tmStartEv = localtime_r(&eStart, &tm_r);
-    
-   for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti)) 
+
+   for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti))
    {
       if (ti->Channel() != channel)
          continue;
@@ -160,7 +160,7 @@ cTimer *cSearchTimerThread::GetTimer(cSearchExt *searchExt, const cEvent *pEvent
          tm *tmStartTi = localtime_r(&tStart, &tm_r);
          if (tmStartEv->tm_mday != tmStartTi->tm_mday)
             continue;
-	    
+
 	 // some providers change EPG times only for a few seconds
 	 // ignore this to avoid search timer mails because of such changes
          bTimesMatchExactly = (abs(tStart -eStart) < 60 && abs(tStop - eStop) < 60);
@@ -192,7 +192,7 @@ bool cSearchTimerThread::TimerWasModified(cTimer* t)
    return bMod;
 }
 
-void cSearchTimerThread::Action(void) 
+void cSearchTimerThread::Action(void)
 {
    if (EPGSearchConfig.useExternalSVDRP && !cSVDRPClient::SVDRPSendCmd)
    {
@@ -209,7 +209,7 @@ void cSearchTimerThread::Action(void)
       Wait.Wait(1000);
 
    time_t nextUpdate = time(NULL);
-   while (m_Active) 
+   while (m_Active)
    {
       time_t now = time(NULL);
       bool needUpdate = NeedUpdate();
@@ -228,7 +228,7 @@ void cSearchTimerThread::Action(void)
 	    while(EITScanner.Active() && m_Active);
   	    LogFile.Log(1,"EPG scan finished");
 	 }
-         if (Timers.BeingEdited()) 		
+         if (Timers.BeingEdited())
          {
             Wait.Wait(1000);
             continue;
@@ -239,12 +239,12 @@ void cSearchTimerThread::Action(void)
          cTimerObjList* pOutdatedTimers = NULL;
 
          // for thread safeness we work with a copy of the current searches,
-         // because SVDRP would not work if the main thread would be locked 
-         cSearchExts* localSearchExts = SearchExts.Clone(); 
+         // because SVDRP would not work if the main thread would be locked
+         cSearchExts* localSearchExts = SearchExts.Clone();
          cSearchExt *searchExt = localSearchExts->First();
          // reset announcelist
          announceList.Clear();
-         while (searchExt && m_Active) 
+         while (searchExt && m_Active)
          {
 	   if (!searchExt->IsActiveAt(now))
             {
@@ -264,26 +264,26 @@ void cSearchTimerThread::Action(void)
             if (searchExt->pauseOnNrRecordings > 0)
                searchExt->CheckExistingRecordings(pSearchResults);
 
-            for (cSearchResult* pResultObj = pSearchResults->First(); 
-                 pResultObj; 
+            for (cSearchResult* pResultObj = pSearchResults->First();
+                 pResultObj;
                  pResultObj = pSearchResults->Next(pResultObj))
             {
                const cEvent* pEvent = pResultObj->event;
                if (!pEvent)
                   continue;
-			    
+
                cChannel *channel = Channels.GetByChannelID(pEvent->ChannelID(), true, true);
                if (!channel)
                   continue;
-			
+
                int index = 0;
                cTimer *timer = new cTimer(pEvent);
 
-               // create the file 
+               // create the file
                char* file = NULL;
                if ((file = searchExt->BuildFile(pEvent)) != NULL)
                {
-                  while(strstr(file, "!^pipe^!")) file = strreplace(file, "!^pipe^!", "|"); // revert the translation of '|' in BuildFile 
+                  while(strstr(file, "!^pipe^!")) file = strreplace(file, "!^pipe^!", "|"); // revert the translation of '|' in BuildFile
                   if (strstr(file, "!^invalid^!") || strlen(file) == 0)
                   {
                      LogFile.eSysLog("Skipping timer due to invalid or empty filename");
@@ -298,7 +298,7 @@ void cSearchTimerThread::Action(void)
                }
                int Priority = searchExt->Priority;
                int Lifetime = searchExt->Lifetime;
-			
+
                // search for an already existing timer
                bool bTimesMatchExactly = false;
                cTimer *t = GetTimer(searchExt, pEvent, bTimesMatchExactly);
@@ -306,7 +306,7 @@ void cSearchTimerThread::Action(void)
                char* Summary = NULL;
 	       uint timerMod = tmNoChange;
 
-               if (t) 
+               if (t)
                { // already exists
                   pOutdatedTimers->DelTimer(t);
 
@@ -316,7 +316,7 @@ void cSearchTimerThread::Action(void)
                      delete timer;
                      continue;
                   }
-			    
+
                   int triggerID = TriggeredFromSearchTimerID(t);
                   if (!pResultObj->needsTimer && !t->Recording()) // not needed
                   {
@@ -325,14 +325,14 @@ void cSearchTimerThread::Action(void)
                         LogFile.Log(1,"delete timer for '%s~%s' (%s - %s, channel %d)", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                         RemoveTimer(t, pEvent);
                      }
-                     else if (triggerID == -1) //manual timer 
+                     else if (triggerID == -1) //manual timer
                      {
                         LogFile.Log(2,"keep obsolete timer for '%s~%s' (%s - %s, channel %d) - was manually created", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                      }
                      delete timer;
                      continue;
                   }
-                  if (TimerWasModified(t)) // don't touch timer modified by user 
+                  if (TimerWasModified(t)) // don't touch timer modified by user
                   {
                      LogFile.Log(2,"timer for '%s~%s' (%s - %s, channel %d) modified by user - won't be touched", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                      delete timer;
@@ -350,9 +350,9 @@ void cSearchTimerThread::Action(void)
                   pFile = strreplace(pFile, ':', '|');
                   pFile = strreplace(pFile, " ~", "~");
                   pFile = strreplace(pFile, "~ ", "~");
-			    
+
                   Summary =  SummaryExtended(searchExt, t, pEvent);
-			    
+
                   if (bTimesMatchExactly && strcmp(pFile, timer->File()) == 0
                       && (t->Aux() != NULL && strcmp(t->Aux(), Summary) == 0)
                      )
@@ -376,8 +376,8 @@ void cSearchTimerThread::Action(void)
 			free(newEventID);
 		      }
 
-		    if (LogFile.Level() >= 3) // output reasons for a timer modification 
-		      { 
+		    if (LogFile.Level() >= 3) // output reasons for a timer modification
+		      {
                         if (timerMod & tmStartStop)
 			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : start/stop has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                         if (timerMod & tmFile)
@@ -391,14 +391,14 @@ void cSearchTimerThread::Action(void)
                   }
                   free(pFile);
 
-                  if (t->Recording() && t->StopTime() == timer->StopTime()) 
+                  if (t->Recording() && t->StopTime() == timer->StopTime())
                   {
                      // only update recording timers if stop time has changed, since all other settings can't be modified
                      LogFile.Log(2,"timer for '%s~%s' (%s - %s, channel %d) already recording - no changes possible", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                      delete timer;
                      continue;
                   }
-               }			       
+               }
                else
                {
                   if (!pResultObj->needsTimer)
@@ -407,15 +407,15 @@ void cSearchTimerThread::Action(void)
                      continue;
                   }
                }
-		
-               if (searchExt->action == searchTimerActionAnnounceViaOSD) 
+
+               if (searchExt->action == searchTimerActionAnnounceViaOSD)
                {
                   if (t || // timer already exists or
                       NoAnnounces.InList(pEvent) || // announcement not wanted anymore or
-                      (EPGSearchConfig.noAnnounceWhileReplay && 
-		       cDevice::PrimaryDevice()->Replaying() && 
+                      (EPGSearchConfig.noAnnounceWhileReplay &&
+		       cDevice::PrimaryDevice()->Replaying() &&
 		       !(updateForced & UPDS_WITH_OSD))  // no announce while replay within automatic updates
-                     ) 
+                     )
                   {
                      if (Summary) free(Summary);
                      delete timer;
@@ -429,52 +429,52 @@ void cSearchTimerThread::Action(void)
                   continue;
                }
 
-               if (searchExt->action == searchTimerActionAnnounceViaMail) 
+               if (searchExt->action == searchTimerActionAnnounceViaMail)
                {
                   if (t || // timer already exists or
                       NoAnnounces.InList(pEvent) ||
-		      pEvent->StartTime() < time(NULL)) // already started? 
+		      pEvent->StartTime() < time(NULL)) // already started?
                   {
                      if (Summary) free(Summary);
                      delete timer;
                      continue;
                   }
-		  mailNotifier.AddAnnounceEventNotification(pEvent->EventID(), pEvent->ChannelID(), searchExt->ID); 
+		  mailNotifier.AddAnnounceEventNotification(pEvent->EventID(), pEvent->ChannelID(), searchExt->ID);
 
                   if (Summary) free(Summary);
                   delete timer;
                   continue;
                }
-               if (searchExt->action == searchTimerActionSwitchOnly || 
+               if (searchExt->action == searchTimerActionSwitchOnly ||
 		   searchExt->action == searchTimerActionAnnounceAndSwitch) // add to switch list
                {
                   time_t now = time(NULL);
                   if (now < pEvent->StartTime())
                   {
                      if (!SwitchTimers.InSwitchList(pEvent))
-                     {			
+                     {
                         cMutexLock SwitchTimersLock(&SwitchTimers);
 			int mode = 0;
 			if (searchExt->action == searchTimerActionAnnounceAndSwitch)
 			  mode = 2;
 			LogFile.Log(3,"adding switch timer event for '%s~%s' (%s - %s); search timer: '%s'", pEvent->Title(), pEvent->ShortText()?pEvent->ShortText():"", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);
-                        SwitchTimers.Add(new cSwitchTimer(pEvent, searchExt->switchMinsBefore, mode, 
+                        SwitchTimers.Add(new cSwitchTimer(pEvent, searchExt->switchMinsBefore, mode,
 							  searchExt->unmuteSoundOnSwitch));
                         SwitchTimers.Save();
-                        cSwitchTimerThread::Init(); 
+                        cSwitchTimerThread::Init();
                      }
                   }
                   if (Summary) free(Summary);
                   delete timer;
                   continue;
                }
-			
+
                if (AddModTimer(timer, index, searchExt, pEvent, Priority, Lifetime, Summary, timerMod))
                {
                   if (index == 0)
                      LogFile.Log(1,"added timer for '%s~%s' (%s - %s); search timer: '%s'", pEvent->Title(), pEvent->ShortText()?pEvent->ShortText():"", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);
                   else
-                     LogFile.Log(1,"modified timer %d for '%s~%s' (%s - %s); search timer: '%s'", index, pEvent->Title(), pEvent->ShortText()?pEvent->ShortText():"", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);			    
+                     LogFile.Log(1,"modified timer %d for '%s~%s' (%s - %s); search timer: '%s'", index, pEvent->Title(), pEvent->ShortText()?pEvent->ShortText():"", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);
                }
                if (Summary) free(Summary);
                delete timer;
@@ -495,7 +495,7 @@ void cSearchTimerThread::Action(void)
                   cTimer* t = tObj->timer;
                   // timer could have been deleted meanwhile, so check if its still there
                   bool found = false;
-                  for(cTimer* checkT = Timers.First(); checkT; checkT = Timers.Next(checkT)) 
+                  for(cTimer* checkT = Timers.First(); checkT; checkT = Timers.Next(checkT))
                      if (checkT == t)
                      {
                         found = true;
@@ -521,10 +521,10 @@ void cSearchTimerThread::Action(void)
          if (announceList.Count() > 0)
          {
 	   cString msgfmt = cString::sprintf(tr("%d new broadcast(s) found! Show them?"), announceList.Count());
-	   if (SendMsg(msgfmt, true,7) == kOk)		   
+	   if (SendMsg(msgfmt, true,7) == kOk)
 	     {
 	       m_plugin->showAnnounces = true;
-	       cRemote::CallPlugin("epgsearch");	
+	       cRemote::CallPlugin("epgsearch");
 	     }
          }
 
@@ -536,8 +536,8 @@ void cSearchTimerThread::Action(void)
          if (EPGSearchConfig.checkTimerConflictsAfterUpdate && m_Active)
          {
             LogFile.iSysLog("check for timer conflicts");
-            cConflictCheck conflictCheck;   
-            conflictCheck.Check(); 
+            cConflictCheck conflictCheck;
+            conflictCheck.Check();
 
             if (conflictCheck.relevantConflicts > 0)
             {
@@ -549,21 +549,21 @@ void cSearchTimerThread::Action(void)
 
  	       conflictCheck.EvaluateConflCheckCmd();
 
-               cString msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"), 
+               cString msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"),
 						 conflictCheck.relevantConflicts,
 						 *DateTime(conflictCheck.nextRelevantConflictDate));
-               bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 || 
-                  !cDevice::PrimaryDevice()->Replaying() || 
+               bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 ||
+                  !cDevice::PrimaryDevice()->Replaying() ||
                   conflictCheck.nextRelevantConflictDate - now < 2*60*60 ||
 		 (updateForced & UPDS_WITH_OSD);
-               if (doMessage && SendMsg(msgfmt, true,7) == kOk)			
+               if (doMessage && SendMsg(msgfmt, true,7) == kOk)
                {
                   m_plugin->showConflicts = true;
-                  cRemote::CallPlugin("epgsearch");	
+                  cRemote::CallPlugin("epgsearch");
                }
             }
-		
-            LogFile.iSysLog("check for timer conflicts - done");	    
+
+            LogFile.iSysLog("check for timer conflicts - done");
          }
 
          // delete expired recordings
@@ -586,7 +586,7 @@ void cSearchTimerThread::Action(void)
 	 justRunning = false;
       }
       if (m_Active)
-	Wait.Wait(2000); // to avoid high system load if time%30==0 
+	Wait.Wait(2000); // to avoid high system load if time%30==0
       while (m_Active && !NeedUpdate() && time(NULL)%30 != 0) // sync heart beat to a multiple of 5secs
          Wait.Wait(1000);
    };
@@ -619,11 +619,11 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, cTimer* Timer, 
    time_t stop  = eStop + (UseVPS?0:(searchExt->MarginStop * 60));
 
    char* addSummaryFooter = NULL;
-   msprintf(&addSummaryFooter, "<channel>%d - %s</channel><searchtimer>%s</searchtimer><start>%ld</start><stop>%ld</stop><s-id>%d</s-id><eventid>%ld</eventid>", 
+   msprintf(&addSummaryFooter, "<channel>%d - %s</channel><searchtimer>%s</searchtimer><start>%ld</start><stop>%ld</stop><s-id>%d</s-id><eventid>%ld</eventid>",
             Timer->Channel()->Number(), CHANNELNAME(Timer->Channel()),
-            searchExt->search, 
-            start, 
-            stop, 
+            searchExt->search,
+            start,
+            stop,
             searchExt->ID,
             (long) pEvent->EventID());
 
@@ -649,7 +649,7 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, cTimer* Timer, 
    return tmpSummary;
 }
 
-bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searchExt, const cEvent* pEvent, int Prio, int Lifetime, char* Summary, uint timerMod) 
+bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searchExt, const cEvent* pEvent, int Prio, int Lifetime, char* Summary, uint timerMod)
 {
    char *cmdbuf = NULL;
 
@@ -686,54 +686,54 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
       tmpSummary = strdup(Summary);
       strreplace(tmpSummary, '\n', '|');
    }
-   else 
+   else
       tmpSummary = SummaryExtended(searchExt, Timer, pEvent);
 
    if (index==0)
-      msprintf(&cmdbuf, "NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s", 
+      msprintf(&cmdbuf, "NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s",
                Flags,
                Timer->Channel()->Number(),
                *Timer->PrintDay(start, Timer->WeekDays(), true),
                bufStart,
                bufEnd,
-               Prio, 
-               Lifetime, 
+               Prio,
+               Lifetime,
                Timer->File(),
                tmpSummary?tmpSummary:"");
    else
-      msprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s", 
+      msprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s",
                index,
                Flags,
                Timer->Channel()->Number(),
                *Timer->PrintDay(start, Timer->WeekDays(), true),
                bufStart,
                bufEnd,
-               Prio, 
-               Lifetime, 
+               Prio,
+               Lifetime,
                Timer->File(),
                tmpSummary?tmpSummary:"");
 
    if (!SendViaSVDRP(cmdbuf))
      return false;
-   
-   if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised(); 
-   
+
+   if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised();
+
    cTimerDone* timerdone = new cTimerDone(start, stop, pEvent, searchExt->ID);
    if (index==0)
      TimersDone.Add(timerdone);
    else
      TimersDone.Update(start, stop, pEvent, searchExt->ID, timerdone);
-   
+
    if (EPGSearchConfig.sendMailOnSearchtimers)
      {
        if (index==0) // new
-         mailNotifier.AddNewTimerNotification(pEvent->EventID(), pEvent->ChannelID()); 
+         mailNotifier.AddNewTimerNotification(pEvent->EventID(), pEvent->ChannelID());
        else
-	 mailNotifier.AddModTimerNotification(pEvent->EventID(), pEvent->ChannelID(), timerMod); 
+	 mailNotifier.AddModTimerNotification(pEvent->EventID(), pEvent->ChannelID(), timerMod);
      }
    free(cmdbuf);
    if (tmpSummary) free(tmpSummary);
-   
+
    return true;
 }
 
@@ -741,7 +741,7 @@ void cSearchTimerThread::RemoveTimer(cTimer* t, const cEvent* e)
 {
    if (!t) return;
    if (EPGSearchConfig.sendMailOnSearchtimers)
-      mailNotifier.AddRemoveTimerNotification(t,e); 
+      mailNotifier.AddRemoveTimerNotification(t,e);
    if (!EPGSearchConfig.TimerProgRepeat)
    {
       cTimerDone * TimerDone = TimersDone.InList(t->StartTime(), t->StopTime(), e, -1);
@@ -757,7 +757,7 @@ void cSearchTimerThread::RemoveTimer(cTimer* t, const cEvent* e)
 
 void cSearchTimerThread::DelRecording(int index)
 {
-  cString cmdbuf = cString::sprintf("DELR %d", index);    
+  cString cmdbuf = cString::sprintf("DELR %d", index);
   LogFile.Log(2, "delete recording %d", index);
   SendViaSVDRP(cmdbuf);
 }
@@ -767,9 +767,9 @@ void cSearchTimerThread::CheckExpiredRecs()
    LogFile.Log(1, "check for expired recordings started");
    cThreadLock RecordingsLock(&Recordings);
    cList<cRecordingObj> DelRecordings;
-   for (cRecording *recording = Recordings.First(); recording && m_Active; recording = Recordings.Next(recording)) 
+   for (cRecording *recording = Recordings.First(); recording && m_Active; recording = Recordings.Next(recording))
    {
-#if APIVERSNUM < 10721 
+#if APIVERSNUM < 10721
       LogFile.Log(3, "check recording %s from %s for expiration", recording->Name(), DAYDATETIME(recording->start));
       if (recording->start == 0)
 #else
@@ -783,10 +783,10 @@ void cSearchTimerThread::CheckExpiredRecs()
       if (recording->IsEdited()) continue;
 
       if (!recording->Info()) continue;
-      char* searchID = GetAuxValue(recording, "s-id");	
-      char* searchName = GetAuxValue(recording, "searchtimer");	
+      char* searchID = GetAuxValue(recording, "s-id");
+      char* searchName = GetAuxValue(recording, "searchtimer");
       if (!searchName)
-         searchName = GetAuxValue(recording, "search timer");	
+         searchName = GetAuxValue(recording, "search timer");
 
       if (!searchID || !searchName)
       {
@@ -795,7 +795,7 @@ void cSearchTimerThread::CheckExpiredRecs()
          continue;
       }
       cSearchExt* search = SearchExts.GetSearchFromID(atoi(searchID));
-      if (!search || strcmp(search->search, searchName) != 0) 
+      if (!search || strcmp(search->search, searchName) != 0)
       {
          if (searchID) free(searchID);
          if (searchName) free(searchName);
@@ -807,7 +807,7 @@ void cSearchTimerThread::CheckExpiredRecs()
       if (search->delAfterDays == 0) continue;
       time_t now = time(NULL);
 
-#if APIVERSNUM < 10721 
+#if APIVERSNUM < 10721
       int daysBetween = int(double((now - recording->start)) / (60*60*24));
 #else
       int daysBetween = int(double((now - recording->Start())) / (60*60*24));
@@ -816,27 +816,27 @@ void cSearchTimerThread::CheckExpiredRecs()
          DelRecordings.Add(new cRecordingObj(recording, search));
       else
          LogFile.Log(3, "recording will expire in %d days, search timer %s", search->delAfterDays - daysBetween, search->search);
-   }    
-   for (cRecordingObj *recordingObj = DelRecordings.First(); recordingObj && m_Active; recordingObj = DelRecordings.Next(recordingObj)) 
+   }
+   for (cRecordingObj *recordingObj = DelRecordings.First(); recordingObj && m_Active; recordingObj = DelRecordings.Next(recordingObj))
    {
       cRecording* recording = recordingObj->recording;
       cSearchExt* search = recordingObj->search;
       if (search->recordingsKeep > 0 && search->recordingsKeep >= search->GetCountRecordings())
       {
-#if APIVERSNUM < 10721 
+#if APIVERSNUM < 10721
          LogFile.Log(1, "recording '%s' from %s expired, but will be kept, search timer %s", recording->Name(), DAYDATETIME(recording->start), recordingObj->search->search);
 #else
          LogFile.Log(1, "recording '%s' from %s expired, but will be kept, search timer %s", recording->Name(), DAYDATETIME(recording->Start()), recordingObj->search->search);
 #endif
          continue;
       }
-#if APIVERSNUM < 10721 
+#if APIVERSNUM < 10721
       LogFile.Log(1, "delete expired recording '%s' from %s, search timer %s", recording->Name(), DAYDATETIME(recording->start), recordingObj->search->search);
 #else
       LogFile.Log(1, "delete expired recording '%s' from %s, search timer %s", recording->Name(), DAYDATETIME(recording->Start()), recordingObj->search->search);
 #endif
       cRecordControl *rc = cRecordControls::GetRecordControl(recording->FileName());
-      if (!rc) 
+      if (!rc)
       {
          if (!recording->Delete())
             LogFile.Log(1, "error deleting recording!");
@@ -865,25 +865,25 @@ void cSearchTimerThread::ModifyManualTimer(const cEvent* event, const cTimer* ti
    strftime(daybuffer, DAYBUFFERSIZE, "%Y-%m-%d", &tm_r_start);
    strftime(startbuffer, DAYBUFFERSIZE, "%H%M", &tm_r_start);
    strftime(stopbuffer, DAYBUFFERSIZE, "%H%M", &tm_r_stop);
-    
+
    char* cmdbuf = NULL;
-   msprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s", 
+   msprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s",
             timer->Index()+1,
             timer->Flags(),
             timer->Channel()->Number(),
             daybuffer,
             startbuffer,
             stopbuffer,
-            timer->Priority(), 
-            timer->Lifetime(), 
+            timer->Priority(),
+            timer->Lifetime(),
             timer->File(),
             timer->Aux());
-    
+
    if (EPGSearchConfig.sendMailOnSearchtimers)
-      mailNotifier.AddModTimerNotification(event->EventID(), event->ChannelID()); 
+      mailNotifier.AddModTimerNotification(event->EventID(), event->ChannelID());
 
    cTimerThread timerThread;
-   timerThread.Init(cmdbuf);			   
+   timerThread.Init(cmdbuf);
    free(cmdbuf);
 }
 
@@ -895,7 +895,7 @@ void cSearchTimerThread::CheckManualTimers()
    const cSchedules *schedules;
    schedules = cSchedules::Schedules(schedulesLock);
 
-   for (cTimer *ti = Timers.First(); ti && m_Active; ti = Timers.Next(ti)) 
+   for (cTimer *ti = Timers.First(); ti && m_Active; ti = Timers.Next(ti))
    {
       if (TriggeredFromSearchTimerID(ti) != -1) continue; // manual timer?
 
@@ -912,7 +912,7 @@ void cSearchTimerThread::CheckManualTimers()
       int bstop = szbstop? atoi(szbstop) : 0;
       free(szbstop);
 
-      // how to check? 
+      // how to check?
       char* updateMethod = GetAuxValue(ti, "update");
       if (updateMethod && atoi(updateMethod) == UPD_EVENTID) // by event ID?
       {
@@ -923,7 +923,7 @@ void cSearchTimerThread::CheckManualTimers()
             tEventID eventID = 0;
             char* szEventID = GetAuxValue(ti, "eventid");
             if (szEventID)
-               eventID = atol(szEventID); 
+               eventID = atol(szEventID);
             LogFile.Log(3,"checking manual timer %d by event ID %u", ti->Index()+1, eventID);
             const cEvent* event = schedule->GetEvent(eventID);
             if (event)
@@ -954,13 +954,13 @@ void cSearchTimerThread::CheckManualTimers()
             if (eventlist.Count() > 0)
             {
                // choose the event with the best match by duration
-               long origlen = (ti->StopTime() - bstop) - (ti->StartTime() + bstart); 
+               long origlen = (ti->StopTime() - bstop) - (ti->StartTime() + bstart);
                double maxweight = 0;
                const cEvent* event = eventlist.First()->event;
                for (cSearchResult* pResultObj = eventlist.First();  pResultObj; pResultObj = eventlist.Next(pResultObj))
                {
                   const cEvent* testevent = pResultObj->event;
-                  time_t start = (testevent->StartTime() < ti->StartTime()) ? ti->StartTime() : testevent->StartTime(); 
+                  time_t start = (testevent->StartTime() < ti->StartTime()) ? ti->StartTime() : testevent->StartTime();
                   time_t stop =  (testevent->EndTime() > ti->StopTime()) ? ti->StopTime() : testevent->EndTime();
                   double weight = double(stop - start) / double(testevent->EndTime() - testevent->StartTime());
                   LogFile.Log(3,"candidate '%s~%s' (%s - %s) timer match: %f, duration match: %f", testevent->Title(), testevent->ShortText()?testevent->ShortText():"", GETDATESTRING(testevent), GETTIMESTRING(testevent), weight, (double(testevent->EndTime() - testevent->StartTime()) / origlen));
@@ -972,7 +972,7 @@ void cSearchTimerThread::CheckManualTimers()
                }
                LogFile.Log(3,"selected candidate is '%s~%s' (%s - %s)", event->Title(), event->ShortText()?event->ShortText():"", GETDATESTRING(event), GETTIMESTRING(event));
                if ((maxweight > 0 && event->StartTime() - bstart != ti->StartTime()) || (event->EndTime() + bstop != ti->StopTime()))
-                  ModifyManualTimer(event, ti, bstart, bstop);		    
+                  ModifyManualTimer(event, ti, bstart, bstop);
 	       else if (maxweight <= 0)
 		 LogFile.Log(3,"selected candidate is too bad");
             }
@@ -980,7 +980,7 @@ void cSearchTimerThread::CheckManualTimers()
                LogFile.Log(1,"ooops - no events found touching manual timer %d", ti->Index()+1);
          }
          if (updateMethod) free(updateMethod);
-      }    
+      }
    }
    LogFile.Log(1, "manual timer check finished");
 }
@@ -988,7 +988,7 @@ void cSearchTimerThread::CheckManualTimers()
 // check if EPG is present for the configured hours
 void cSearchTimerThread::CheckEPGHours()
 {
-  if (EPGSearchConfig.checkEPGHours <= 0 || 
+  if (EPGSearchConfig.checkEPGHours <= 0 ||
       (EPGSearchConfig.checkEPGWarnByOSD == 0 && EPGSearchConfig.checkEPGWarnByMail == 0) ||
       EPGSearchConfig.checkEPGchannelGroupNr <= 0)
     return;
@@ -1004,45 +1004,45 @@ void cSearchTimerThread::CheckEPGHours()
    LogFile.Log(2,"checking channel group '%s'", channelGroup->name);
 
   time_t checkTime = time(NULL) + EPGSearchConfig.checkEPGHours * 60 * 60;
-  
+
   cSchedulesLock schedulesLock;
   const cSchedules *schedules;
   schedules = cSchedules::Schedules(schedulesLock);
-  
+
   cChannelGroup channelsWithSmallEPG;
   cChannelGroupItem* channelInGroup = channelGroup->channels.First();
-  while (channelInGroup) 
+  while (channelInGroup)
     {
       cChannel* channel = channelInGroup->channel;
       // get the channels schedule
       const cSchedule* schedule = schedules->GetSchedule(channel);
-      if (!schedule || !schedule->GetEventAround(checkTime))      
+      if (!schedule || !schedule->GetEventAround(checkTime))
 	{
 	  LogFile.Log(3,"less than %d hours of EPG for channel %s!", EPGSearchConfig.checkEPGHours, channel->Name());
 	  cChannelGroupItem* channelitem = new cChannelGroupItem(channel);
 	  channelsWithSmallEPG.channels.Add(channelitem);
 	}
       channelInGroup = channelGroup->channels.Next(channelInGroup);
-    }	
+    }
 
   // create a string list of the channels found
   if (channelsWithSmallEPG.channels.Count() > 0)
     {
       string sBuffer;
       channelInGroup = channelsWithSmallEPG.channels.First();
-      while (channelInGroup) 
+      while (channelInGroup)
 	{
 	  cChannel* channel = channelInGroup->channel;
 	  if (channel)
 	    sBuffer += " " + string(channel->ShortName(true));
 	  channelInGroup = channelsWithSmallEPG.channels.Next(channelInGroup);
-	}	
-      
-      
+	}
+
+
       if (EPGSearchConfig.checkEPGWarnByOSD)
 	{
 	  cString msgfmt = cString::sprintf(tr("small EPG content on:%s"), sBuffer.c_str());
-	  SendMsg(msgfmt);		   
+	  SendMsg(msgfmt);
 	}
       if (EPGSearchConfig.checkEPGWarnByMail)
 	{

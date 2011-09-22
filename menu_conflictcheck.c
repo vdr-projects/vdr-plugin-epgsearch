@@ -54,7 +54,7 @@ cMenuConflictCheckItem::cMenuConflictCheckItem(cConflictCheckTime* Ct, cConflict
 	int recPart = timerObj->recDuration * 100 / (timerObj->stop - timerObj->start);
 	buffer = cString::sprintf("%d\t%s\t%d\t%2d%%\t%s", t->Channel()->Number(), t->Channel()->ShortName(true), t->Priority(), recPart, t->File());
     }
-    SetText(buffer);    
+    SetText(buffer);
 }
 
 // --- cMenuConflictCheck -------------------------------------------------------
@@ -65,7 +65,7 @@ cMenuConflictCheck::cMenuConflictCheck()
     showAll = false;
     lastSel = -1;
     BuildList();
-    Update();    
+    Update();
 }
 
 void cMenuConflictCheck::Update()
@@ -82,7 +82,7 @@ void cMenuConflictCheck::Update()
     else
 	SetHelp(NULL, NULL, NULL, NULL);
 
-    cString buffer = cString::sprintf("%s - %d/%d %s", tr("Timer conflicts"), 
+    cString buffer = cString::sprintf("%s - %d/%d %s", tr("Timer conflicts"),
 	     showAll?conflictCheck.numConflicts:conflictCheck.relevantConflicts,
 	     conflictCheck.numConflicts,
 	     tr("conflicts"));
@@ -93,7 +93,7 @@ void cMenuConflictCheck::Update()
 bool cMenuConflictCheck::BuildList()
 {
     Clear();
-    conflictCheck.Check(); 
+    conflictCheck.Check();
 
     if ((showAll && conflictCheck.numConflicts > 0) ||
 	conflictCheck.relevantConflicts > 0)
@@ -104,7 +104,7 @@ bool cMenuConflictCheck::BuildList()
 	    if (!showAll && ct->ignore) continue;
 	    Add(new cMenuConflictCheckItem(ct));
 	    std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	    for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++) 
+	    for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
 		if (!(*it)->ignore || showAll)
 		    Add(new cMenuConflictCheckItem(ct, *it));
 	}
@@ -129,15 +129,15 @@ eOSState cMenuConflictCheck::ProcessKey(eKeys Key)
 {
     bool HadSubMenu = HasSubMenu();
     eOSState state = cOsdMenu::ProcessKey(Key);
-    if (state == osUnknown) 
+    if (state == osUnknown)
     {
-       switch (Key) 
+       switch (Key)
        {
           case kOk:
              if (Count() == 1)
                 return osBack;
           case kRed:
-             if (CurrentTimerObj()) 
+             if (CurrentTimerObj())
                 state = AddSubMenu(new cMenuConflictCheckDetails(CurrentTimerObj(), &conflictCheck));
              break;
           case kBlue:
@@ -171,7 +171,7 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
     bool oldhasTimer = hasTimer;
     hasTimer = timerObj->OrigTimer()?timerObj->OrigTimer()->HasFlags(tfActive):false;
     if (Force || hasTimer != oldhasTimer)
-    { 	
+    {
 	cTimer* timer = timerObj->timer;
 	char device[2]="";
 	if (hasTimer)
@@ -183,8 +183,8 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
 	}
 
 	cString buffer = cString::sprintf("%s\t%d\t%s - %s\t%d\t%s\t%s", hasTimer?">":"", timer->Channel()->Number(), TIMESTRING(timerObj->start), TIMESTRING(timerObj->stop), timer->Priority(), device, timer->File());
-	
-	SetText(buffer);    
+
+	SetText(buffer);
     }
     return true;
 }
@@ -207,10 +207,10 @@ bool cMenuConflictCheckDetails::BuildList()
 {
     Clear();
     int sel = -1;
-    
+
     std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
     if (timerObj->concurrentTimers)
-	for (it = timerObj->concurrentTimers->begin(); it != timerObj->concurrentTimers->end(); it++) 
+	for (it = timerObj->concurrentTimers->begin(); it != timerObj->concurrentTimers->end(); it++)
 	{
 	    Add(new cMenuConflictCheckDetailsItem(*it));
         if ((*it)->Event())
@@ -242,7 +242,7 @@ eOSState cMenuConflictCheckDetails::Commands(eKeys Key)
     if (HasSubMenu() || Count() == 0)
 	return osContinue;
     cConflictCheckTimerObj* curTimerObj = CurrentTimerObj();
-    if (curTimerObj && curTimerObj->Event()) 
+    if (curTimerObj && curTimerObj->Event())
     {
         cMenuSearchCommands *menu;
         eOSState state = AddSubMenu(menu = new cMenuSearchCommands(tr("EPG Commands"), curTimerObj->Event(), true));
@@ -306,7 +306,7 @@ eOSState cMenuConflictCheckDetails::ShowSummary()
 	return osContinue;
 
     const cEvent *ei = curTimerObj->Event();
-    if (ei) 
+    if (ei)
     {
 	cChannel *channel = Channels.GetByChannelID(ei->ChannelID(), true, true);
 	if (channel)
@@ -316,19 +316,19 @@ eOSState cMenuConflictCheckDetails::ShowSummary()
 }
 
 void cMenuConflictCheckDetails::UpdateCurrent()
-{       
+{
    cEventObj* cureventObj = eventObjects.GetCurrent();
    if (cureventObj && cureventObj->Event())
-      for (cMenuConflictCheckDetailsItem *item = (cMenuConflictCheckDetailsItem *)First(); item; item = (cMenuConflictCheckDetailsItem *)Next(item)) 
+      for (cMenuConflictCheckDetailsItem *item = (cMenuConflictCheckDetailsItem *)First(); item; item = (cMenuConflictCheckDetailsItem *)Next(item))
          if (item->timerObj && item->timerObj->Event() == cureventObj->Event())
          {
             cureventObj->Select(false);
             SetCurrent(item);
             Display();
             break;
-         }               
+         }
 }
- 
+
 eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 {
     bool HadSubMenu = HasSubMenu();
@@ -337,11 +337,11 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
     if (!HasSubMenu() && HadSubMenu) // navigation in summary could have changed current item, so update it
        UpdateCurrent();
 
-    if (state == osUnknown) 
+    if (state == osUnknown)
     {
-	switch (Key) 
+	switch (Key)
 	{
-	    case k1...k9: 
+	    case k1...k9:
 		if (!HasSubMenu())
 		    return Commands(Key);
 		else
@@ -352,9 +352,9 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 		    return ShowSummary();
 		else
 		    state = osContinue;
-		break;		
+		break;
 	    case kRed:
-		if(!HasSubMenu()) 	     
+		if(!HasSubMenu())
         {
            if (CurrentTimerObj() && CurrentTimerObj()->Event())
               return Commands(k1);
@@ -365,15 +365,15 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
            state = osContinue;
         break;
 	    case kGreen:
-		if(!HasSubMenu()) 	     
+		if(!HasSubMenu())
            state = ToggleTimer(CurrentTimerObj());
 		break;
 	    case kYellow:
-		if(!HasSubMenu()) 	     
+		if(!HasSubMenu())
            state = DeleteTimer(CurrentTimerObj());
 		break;
 	    case kBlue:
-		if(!HasSubMenu()) 	     
+		if(!HasSubMenu())
         {
            if (CurrentTimerObj() && CurrentTimerObj()->Event())
               return AddSubMenu(new cMenuSearchCommands(tr("EPG Commands"),CurrentTimerObj()->Event()));
@@ -386,7 +386,7 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 	    default: break;
 	}
     }
-    if (!HasSubMenu()) 
+    if (!HasSubMenu())
     {
 	// perhaps a timer was deleted, so first check this
 	if (conflictCheck)
@@ -394,13 +394,13 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 	    std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
 	    if (timerObj->concurrentTimers)
 	    {
-		for (it = timerObj->concurrentTimers->begin(); it != timerObj->concurrentTimers->end(); it++) 
+		for (it = timerObj->concurrentTimers->begin(); it != timerObj->concurrentTimers->end(); it++)
 		{
 		    bool found = false;
-		    for(cTimer* checkT = Timers.First(); checkT; checkT = Timers.Next(checkT)) 
+		    for(cTimer* checkT = Timers.First(); checkT; checkT = Timers.Next(checkT))
 		    {
 			checkT->Matches();
-			if (checkT == (*it)->OrigTimer()) // ok -> found, check for changes		    
+			if (checkT == (*it)->OrigTimer()) // ok -> found, check for changes
 			{
 			    if (checkT->IsSingleEvent())
 			    {
@@ -421,7 +421,7 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 
 				    time_t Start = cTimer::SetTime((*it)->start, cTimer::TimeToInt(checkT->Start()));
 				    if (Start == (*it)->start && (*it)->stop == (*it)->start + length)
-					found = true; 
+					found = true;
 				}
 			    }
 			}

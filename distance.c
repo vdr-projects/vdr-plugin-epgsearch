@@ -61,7 +61,7 @@ int mi;
 
 //**************************************************
 // Get a pointer to the specified cell of the matrix
-//************************************************** 
+//**************************************************
 
 int *Distance::GetCellPointer (int *pOrigin, int col, int row, int nCols)
 {
@@ -69,7 +69,7 @@ int *Distance::GetCellPointer (int *pOrigin, int col, int row, int nCols)
 }
 
 //*****************************************************
-// Get the contents of the specified cell in the matrix 
+// Get the contents of the specified cell in the matrix
 //*****************************************************
 
 int Distance::GetAt (int *pOrigin, int col, int row, int nCols)
@@ -115,7 +115,7 @@ int left; // contents of cell immediately to left
 int diag; // contents of cell immediately above and to left
 int sz; // number of cells in matrix
 
-  // Step 1     
+  // Step 1
 
   n = min((int)strlen(s), maxLength);
   m = min((int)strlen(t), maxLength);
@@ -159,7 +159,7 @@ int sz; // number of cells in matrix
         cost = 1;
       }
 
-      // Step 6 
+      // Step 6
 
       above = GetAt (d,i-1,j, n);
       left = GetAt (d,i, j-1, n);
@@ -174,6 +174,6 @@ int sz; // number of cells in matrix
   result = GetAt (d, n, m, n);
   free (d);
   return result;
-        
+
 }
 

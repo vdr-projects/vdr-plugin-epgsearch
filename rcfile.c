@@ -44,12 +44,12 @@ cRCLine::~cRCLine()
 bool cRCLine::Parse(char *s)
 {
   char *p = strchr(s, '=');
-  if (p) 
+  if (p)
   {
       *p = 0;
       char *Name  = compactspace(s);
       char *Value = compactspace(p + 1);
-      if (*Name) 
+      if (*Name)
       {
 	  name = strdup(Name);
 	  value = strdup(Value);
@@ -71,15 +71,15 @@ cRCFile::cRCFile()
 
 bool cRCFile::Load(const char *FileName)
 {
-  if (cConfig<cRCLine>::Load(FileName, true)) 
+  if (cConfig<cRCLine>::Load(FileName, true))
   {
       bool result = true;
-      for (cRCLine *l = First(); l; l = Next(l)) 
+      for (cRCLine *l = First(); l; l = Next(l))
       {
 	  bool error = false;
 	  if (!Parse(l->Name(), l->Value()))
 	      error = true;
-	  if (error) 
+	  if (error)
 	  {
 	      LogFile.eSysLog("ERROR: unknown parameter: %s = %s", l->Name(), l->Value());
 	      result = false;

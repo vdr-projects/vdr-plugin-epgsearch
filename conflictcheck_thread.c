@@ -33,7 +33,7 @@ cConflictCheckThread *cConflictCheckThread::m_Instance = NULL;
 time_t cConflictCheckThread::m_cacheNextConflict = 0;
 int cConflictCheckThread::m_cacheRelevantConflicts = 0;
 int cConflictCheckThread::m_cacheTotalConflicts = 0;
-bool cConflictCheckThread::m_runOnce = false; 
+bool cConflictCheckThread::m_runOnce = false;
 bool cConflictCheckThread::m_forceUpdate = false;
 
 cConflictCheckThread::cConflictCheckThread(cPluginEpgsearch* thePlugin)
@@ -47,15 +47,15 @@ cConflictCheckThread::cConflictCheckThread(cPluginEpgsearch* thePlugin)
 }
 
 cConflictCheckThread::~cConflictCheckThread() {
-    if (m_Active) 
+    if (m_Active)
 	Stop();
 }
 
-void cConflictCheckThread::Init(cPluginEpgsearch* thePlugin, bool runOnce) 
+void cConflictCheckThread::Init(cPluginEpgsearch* thePlugin, bool runOnce)
 {
    if (EPGSearchConfig.checkTimerConflictsAfterUpdate || EPGSearchConfig.conflictCheckIntervall == 0)
    {
-      if (!runOnce) return;    
+      if (!runOnce) return;
       m_runOnce = true;
    }
 
@@ -81,7 +81,7 @@ void cConflictCheckThread::Stop(void) {
     Cancel(6);
 }
 
-void cConflictCheckThread::Action(void) 
+void cConflictCheckThread::Action(void)
 {
     SetPriority(CONFLICTCHECK_NICE);
 
@@ -96,7 +96,7 @@ void cConflictCheckThread::Action(void)
       }
 
     time_t nextUpdate = time(NULL);
-    while (m_Active) 
+    while (m_Active)
     {
 	time_t now = time(NULL);
 	if (now >= nextUpdate || m_forceUpdate)
@@ -115,25 +115,25 @@ void cConflictCheckThread::Action(void)
 	    time_t nextConflict = 0;
 	    if (conflictCheck.relevantConflicts > 0)
 	    {
-	      cString msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"), 
+	      cString msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"),
 						conflictCheck.relevantConflicts,
 						*DateTime(conflictCheck.nextRelevantConflictDate));
-	      bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 || 
-		!cDevice::PrimaryDevice()->Replaying() || 
+	      bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 ||
+		!cDevice::PrimaryDevice()->Replaying() ||
 		conflictCheck.nextRelevantConflictDate - now < 2*60*60;
-	      if (doMessage && SendMsg(msgfmt, true,7) == kOk)			
+	      if (doMessage && SendMsg(msgfmt, true,7) == kOk)
 		{
 		  m_plugin->showConflicts = true;
-		  cRemote::CallPlugin("epgsearch");	
+		  cRemote::CallPlugin("epgsearch");
 		}
-	      
+
 	      if (EPGSearchConfig.sendMailOnConflicts)
 		{
 		  cMailConflictNotifier mailNotifier;
 		  mailNotifier.SendConflictNotifications(conflictCheck);
 		}
 	      conflictCheck.EvaluateConflCheckCmd();
-	    }	    
+	    }
 	    // store for external access
 	    cConflictCheckThread::m_cacheNextConflict = conflictCheck.nextRelevantConflictDate;
 	    cConflictCheckThread::m_cacheRelevantConflicts = conflictCheck.relevantConflicts;

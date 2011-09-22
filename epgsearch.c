@@ -69,7 +69,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "confdloader.h"
 #include "pending_notifications.h"
 
-static const char VERSION[]        = "1.0.0";
+static const char VERSION[]        = "1.0.1";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -105,14 +105,14 @@ cPluginEpgsearch::~cPluginEpgsearch()
    if (ConfigDir) free(ConfigDir);
 }
 
-const char* cPluginEpgsearch::Version(void) 
-{ 
-   return VERSION; 
+const char* cPluginEpgsearch::Version(void)
+{
+   return VERSION;
 }
 
-const char* cPluginEpgsearch::Description(void) 
-{ 
-   return tr(DESCRIPTION); 
+const char* cPluginEpgsearch::Description(void)
+{
+   return tr(DESCRIPTION);
 }
 
 const char *cPluginEpgsearch::CommandLineHelp(void)
@@ -136,7 +136,7 @@ const char *cPluginEpgsearch::MainMenuEntry(void)
    if (isempty(EPGSearchConfig.mainmenuentry))
       return tr("Program guide");
    else
-      return EPGSearchConfig.mainmenuentry;   
+      return EPGSearchConfig.mainmenuentry;
 }
 
 bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
@@ -183,23 +183,23 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
    while ((c = getopt_long(argc, argv, "f:c:l:v:m:r", long_options, &i)) != -1) {
       switch (c) {
 
-         case 'f': 
+         case 'f':
             cSVDRPClient::SVDRPSendCmd = optarg;
             EPGSearchConfig.useExternalSVDRP = 1;
             break;
-         case 'c': 
+         case 'c':
             ConfigDir = strdup(optarg);
             break;
-         case 'l': 
+         case 'l':
             cLogFile::LogFileName = optarg;
             break;
-         case 'v': 
+         case 'v':
             cLogFile::loglevellimit = atoi(optarg);
             break;
-         case 'r': 
+         case 'r':
             reloadMenuConf = true;
             break;
-         case 'm': 
+         case 'm':
             cMailNotifier::MailCmd = optarg;
             break;
          default:  return false;
@@ -217,7 +217,7 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
 
 bool cPluginEpgsearch::Service(const char *Id, void *Data)
 {
-   if (strcmp(Id, "MainMenuHooksPatch-v1.0::osSchedule") == 0 && EPGSearchConfig.ReplaceOrgSchedule!=0) 
+   if (strcmp(Id, "MainMenuHooksPatch-v1.0::osSchedule") == 0 && EPGSearchConfig.ReplaceOrgSchedule!=0)
    {
       if (Data == NULL)
          return true;
@@ -226,12 +226,12 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
          *menu = (cOsdMenu*) MainMenuAction();
       return true;
    }
- 
+
    if (strcmp(Id, "Epgsearch-search-v1.0") == 0) {
       if (Data == NULL)
          return true;
       cSearchExt* SearchExt = new cSearchExt;
-      
+
       Epgsearch_search_v1_0* searchData = (Epgsearch_search_v1_0*) Data;
       searchData->pResultMenu = NULL;
       strcpy(SearchExt->search,searchData->query);
@@ -252,7 +252,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
    if (strcmp(Id, "Epgsearch-exttimeredit-v1.0") == 0 && !EPGSearchConfig.useVDRTimerEditMenu) {
       if (Data == NULL)
          return true;
-      
+
       Epgsearch_exttimeredit_v1_0* serviceData = (Epgsearch_exttimeredit_v1_0*) Data;
       serviceData->pTimerMenu = new cMenuMyEditTimer(serviceData->timer, serviceData->bNew, serviceData->event);
 
@@ -283,7 +283,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
    if (strcmp(Id, "Epgsearch-searchmenu-v1.0") == 0) {
       if (Data == NULL)
          return true;
-      
+
       EpgSearchMenu_v1_0* serviceData = (EpgSearchMenu_v1_0*) Data;
       serviceData->Menu = new cMenuEPGSearchExt();
 
@@ -292,7 +292,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
    if (strcmp(Id, "Epgsearch-conflictmenu-v1.0") == 0) {
       if (Data == NULL)
          return true;
-      
+
       EpgSearchMenu_v1_0* serviceData = (EpgSearchMenu_v1_0*) Data;
       serviceData->Menu = new cMenuConflictCheck();
 
@@ -301,7 +301,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
    if (strcmp(Id, "Epgsearch-lastconflictinfo-v1.0") == 0) {
       if (Data == NULL)
          return true;
-      
+
       Epgsearch_lastconflictinfo_v1_0* serviceData = (Epgsearch_lastconflictinfo_v1_0*) Data;
       serviceData->nextConflict = cConflictCheckThread::m_cacheNextConflict;
       serviceData->relevantConflicts = cConflictCheckThread::m_cacheRelevantConflicts;
@@ -313,7 +313,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
       if (Data == NULL)
          return true;
       cSearchExt* SearchExt = new cSearchExt;
-      
+
       Epgsearch_searchresults_v1_0* searchData = (Epgsearch_searchresults_v1_0*) Data;
       searchData->pResultList = NULL;
       strcpy(SearchExt->search,searchData->query);
@@ -335,7 +335,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
          results->SortBy(CompareEventTime);
          searchData->pResultList = new cList<Epgsearch_searchresults_v1_0::cServiceSearchResult>;
          cSearchResult *result = results->First();
-         while (result) 
+         while (result)
          {
             searchData->pResultList->Add(new Epgsearch_searchresults_v1_0::cServiceSearchResult(result->event));
             result = results->Next(result);
@@ -367,9 +367,9 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
                   lTimer->switchMinsBefore = serviceData->switchMinsBefore;
                   lTimer->mode             = serviceData->announceOnly;
                } else {
-                  cMutexLock SwitchTimersLock(&SwitchTimers);	
-                  SwitchTimers.Add(new cSwitchTimer(serviceData->event,serviceData->switchMinsBefore,serviceData->announceOnly));  
-                  SwitchTimers.Save(); 
+                  cMutexLock SwitchTimersLock(&SwitchTimers);
+                  SwitchTimers.Add(new cSwitchTimer(serviceData->event,serviceData->switchMinsBefore,serviceData->announceOnly));
+                  SwitchTimers.Save();
                   cSwitchTimerThread::Init();
                } // if
                serviceData->success=true;
@@ -378,14 +378,14 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
             case 2: {// delete
                cSwitchTimer *lTimer = SwitchTimers.InSwitchList(serviceData->event);
                serviceData->success=lTimer!=NULL;
-               if (lTimer) { 
-                  cMutexLock SwitchTimersLock(&SwitchTimers);	
+               if (lTimer) {
+                  cMutexLock SwitchTimersLock(&SwitchTimers);
                   SwitchTimers.Del(lTimer);
-                  SwitchTimers.Save(); 
+                  SwitchTimers.Save();
                } // if
                break;
             } // 2
-            default: 
+            default:
                serviceData->success=false;
                break;
          } // switch
@@ -395,7 +395,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
    if (strcmp(Id, "Epgsearch-quicksearch-v1.0") == 0) {
       if (Data == NULL)
          return true;
-      
+
       EpgSearchMenu_v1_0* serviceData = (EpgSearchMenu_v1_0*) Data;
       serviceData->Menu = new cMenuQuickSearch(new cSearchExt);
 
@@ -457,9 +457,9 @@ bool cPluginEpgsearch::Start(void)
    TimersDone.Load(AddDirectory(CONFIGDIR, "timersdone.conf"));
    PendingNotifications.Load(AddDirectory(CONFIGDIR, "pendingnotifications.conf"));
 
-   cSearchTimerThread::Init(this);    
-   cSwitchTimerThread::Init();    
-   cConflictCheckThread::Init(this);    
+   cSearchTimerThread::Init(this);
+   cSwitchTimerThread::Init();
+   cConflictCheckThread::Init(this);
 
    CheckUTF8();
 
@@ -511,7 +511,7 @@ cOsdObject *cPluginEpgsearch::DoInitialSearch(char* rcFilename)
    }
    else
       LogFile.eSysLog("could not load '%s'", rcFilename);
-	
+
    return NULL;
 }
 
@@ -539,7 +539,7 @@ cOsdObject *cPluginEpgsearch::MainMenuAction(void)
       pMenu = DoInitialSearch(rcFilename);
    else
       pMenu = new cMenuSearchMain();
-    
+
    free(rcFilename);
    return pMenu;
 }
@@ -608,7 +608,7 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
    if      (!strcasecmp(Name, "OnePressTimerCreation")) EPGSearchConfig.onePressTimerCreation = atoi(Value);
    if      (!strcasecmp(Name, "ShowFavoritesMenu"))     EPGSearchConfig.showFavoritesMenu = atoi(Value);
    if      (!strcasecmp(Name, "FavoritesMenuTimespan")) EPGSearchConfig.FavoritesMenuTimespan = atoi(Value);
-  
+
    if      (!strcasecmp(Name, "UserMode1Description"))   EPGSearchConfig.ShowModes[showUserMode1].SetDescription(Value);
    if      (!strcasecmp(Name, "UserMode1Time"))   EPGSearchConfig.ShowModes[showUserMode1].SetTime(atoi(Value));
    if      (!strcasecmp(Name, "UserMode1UseIt"))   EPGSearchConfig.ShowModes[showUserMode1].SetUsage(atoi(Value));
@@ -660,20 +660,20 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
    if      (!strcasecmp(Name, "DefRecordingDir"))  strcpy(EPGSearchConfig.defrecdir, Value);
    if      (!strcasecmp(Name, "UseVDRTimerEditMenu"))  EPGSearchConfig.useVDRTimerEditMenu = atoi(Value);
 
-   if      (!strcasecmp(Name, "ShowChannelGroups"))  EPGSearchConfig.showChannelGroups = atoi(Value); 
-   if      (!strcasecmp(Name, "ShowDaySeparators"))  EPGSearchConfig.showDaySeparators = atoi(Value); 
+   if      (!strcasecmp(Name, "ShowChannelGroups"))  EPGSearchConfig.showChannelGroups = atoi(Value);
+   if      (!strcasecmp(Name, "ShowDaySeparators"))  EPGSearchConfig.showDaySeparators = atoi(Value);
 
-   if      (!strcasecmp(Name, "ShowEmptyChannels"))  EPGSearchConfig.showEmptyChannels = atoi(Value); 
+   if      (!strcasecmp(Name, "ShowEmptyChannels"))  EPGSearchConfig.showEmptyChannels = atoi(Value);
 
-   if      (!strcasecmp(Name, "DefSearchTemplateID"))  EPGSearchConfig.DefSearchTemplateID = atoi(Value); 
+   if      (!strcasecmp(Name, "DefSearchTemplateID"))  EPGSearchConfig.DefSearchTemplateID = atoi(Value);
 
-   if      (!strcasecmp(Name, "AddSubtitleToTimerMode"))  EPGSearchConfig.addSubtitleToTimer = (addSubtitleToTimerMode) atoi(Value); 
-  
-   if      (!strcasecmp(Name, "MailViaScript"))  EPGSearchConfig.mailViaScript = atoi(Value); 
-   if      (!strcasecmp(Name, "MailNotificationSearchtimers"))  EPGSearchConfig.sendMailOnSearchtimers = atoi(Value); 
+   if      (!strcasecmp(Name, "AddSubtitleToTimerMode"))  EPGSearchConfig.addSubtitleToTimer = (addSubtitleToTimerMode) atoi(Value);
+
+   if      (!strcasecmp(Name, "MailViaScript"))  EPGSearchConfig.mailViaScript = atoi(Value);
+   if      (!strcasecmp(Name, "MailNotificationSearchtimers"))  EPGSearchConfig.sendMailOnSearchtimers = atoi(Value);
    if      (!strcasecmp(Name, "MailNotificationSearchtimersHours")) EPGSearchConfig.sendMailOnSearchtimerHours = atoi(Value);
    if      (!strcasecmp(Name, "MailNotificationSearchtimersLastAt")) EPGSearchConfig.lastMailOnSearchtimerAt = atol(Value);
-   if      (!strcasecmp(Name, "MailNotificationConflicts"))  EPGSearchConfig.sendMailOnConflicts = atoi(Value); 
+   if      (!strcasecmp(Name, "MailNotificationConflicts"))  EPGSearchConfig.sendMailOnConflicts = atoi(Value);
    if      (!strcasecmp(Name, "MailAddress")) strcpy(EPGSearchConfig.MailAddress, Value);
    if      (!strcasecmp(Name, "MailAddressTo")) strcpy(EPGSearchConfig.MailAddressTo, Value);
 

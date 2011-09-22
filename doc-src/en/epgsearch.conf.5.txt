@@ -20,7 +20,7 @@ is B<':'>:
   4 - start time in HHMM
   5 - stop time in HHMM
   6 - use channel? 0 = no,  1 = Interval, 2 = Channel group, 3 = FTA only
-  7 - if 'use channel' = 1 then channel id[|channel id] in VDR format, 
+  7 - if 'use channel' = 1 then channel id[|channel id] in VDR format,
       one entry or min/max entry separated with |, if 'use channel' = 2
       then the channel group name
   8 - match case? 0/1
@@ -30,17 +30,17 @@ is B<':'>:
           must exist as substrings.
       2 - at least one term (delimiters are blank, ',', ';', '|' or '~')
           must exist as substring.
-      3 - matches exactly   
+      3 - matches exactly
       4 - regular expression
- 10 - use title? 0/1      
- 11 - use subtitle? 0/1   
+ 10 - use title? 0/1
+ 11 - use subtitle? 0/1
  12 - use description? 0/1
  13 - use duration? 0/1
- 14 - min duration in hhmm 
- 15 - max duration in hhmm 
+ 14 - min duration in hhmm
+ 15 - max duration in hhmm
  16 - use as search timer? 0/1
  17 - use day of week? 0/1
- 18 - day of week (0 = Sunday, 1 = Monday...; 
+ 18 - day of week (0 = Sunday, 1 = Monday...;
       -1 Sunday, -2 Monday, -4 Tuesday, ...; -7 Sun, Mon, Tue)
  19 - use series recording? 0/1
  20 - directory for recording
@@ -64,12 +64,12 @@ is B<':'>:
           (a ':' will be translated to "!^colon^!", e.g. in "16:9")
  29 - avoid repeats? 0/1
  30 - allowed repeats
- 31 - compare title when testing for a repeat? 0/1        
+ 31 - compare title when testing for a repeat? 0/1
  32 - compare subtitle when testing for a repeat? 0/1/2
       0 - no
       1 - yes
-      2 - yes, if present     
- 33 - compare description when testing for a repeat? 0/1  
+      2 - yes, if present
+ 33 - compare description when testing for a repeat? 0/1
  34 - compare extended EPG info when testing for a repeat?
       This entry is a bit field of the category IDs.
  35 - accepts repeats only within x days
@@ -94,7 +94,7 @@ is B<':'>:
  52 - percentage of match when comparing the summary of two events (with 'avoid repeats')
  53 - HEX representation of the content descriptors, each descriptor ID is represented with 2 chars
  54 - compare date when testing for a repeat? (0=no, 1=same day, 2=same week, 3=same month)
- 
+
 A ':' in the search term or the directory entry will be translated in a
 '|'. If a '|' exists in the search term, e.g. when using regular
 expressions, it will be translated to "!^pipe^!" (I know it's ugly ;-))
@@ -118,7 +118,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 =head1 REPORT BUGS
 
-Bug reports (german): 
+Bug reports (german):
 
 L<http://www.vdr-developer.org/mantisbt/>
 

@@ -35,7 +35,7 @@ using std::string;
 using std::set;
 
 // --- cMailNotifier --------------------------------------------------------
-class cMailNotifier 
+class cMailNotifier
 {
  protected:
     string subject;
@@ -68,7 +68,7 @@ class cMailTimerNotification
     virtual const cEvent* GetEvent() const;
 
  public:
- cMailTimerNotification(tEventID EventID, tChannelID ChannelID, uint TimerMod = tmNoChange) 
+ cMailTimerNotification(tEventID EventID, tChannelID ChannelID, uint TimerMod = tmNoChange)
    : eventID(EventID), channelID(ChannelID), timerMod(TimerMod) {}
     virtual bool operator< (const cMailTimerNotification &N) const;
     virtual string Format(const string& templ) const;
@@ -82,7 +82,7 @@ class cMailDelTimerNotification
  public:
     string formatted;
 
-    cMailDelTimerNotification(cTimer* t, const cEvent* pEvent, const string& templ); 
+    cMailDelTimerNotification(cTimer* t, const cEvent* pEvent, const string& templ);
     cMailDelTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start);
     bool operator< (const cMailDelTimerNotification &N) const;
     string Format(const string& templ) const { return formatted; }
@@ -93,7 +93,7 @@ class cMailAnnounceEventNotification : public cMailTimerNotification
   friend class cMailUpdateNotifier;
   int searchextID;
  public:
- cMailAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID) 
+ cMailAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID)
    : cMailTimerNotification(EventID, ChannelID), searchextID(SearchExtID) {}
     string Format(const string& templ) const;
 };
