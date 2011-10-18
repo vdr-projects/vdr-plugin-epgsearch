@@ -4,6 +4,7 @@ VDR Plugin 'epgsearch' Revision History
 2011-xx-xx; Version 1.0.1
 new:
 - dropped old code for vdr < 1.6.0, thanks to Ville Skyttä for whole pile of patches
+- updated MainMenuHooks patch to 1.0.1
 
 fixes:
 - fixed a crash when editing blacklists

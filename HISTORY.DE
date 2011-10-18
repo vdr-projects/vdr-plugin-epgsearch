@@ -4,6 +4,7 @@ VDR Plugin 'epgsearch' Revision History
 2011-xx-xx: Version 1.0.1
 neu:
 - alten Code für vdr < 1.6.0 entfernt, Danke an Ville Skyttä für einen ganzen Haufen Patches
+- MainMenuHooks-Patch auf 1.0.1 aktualisiert
 
 fixes:
 - Crash beim Editieren von Ausschlusslisten korrigiert
