@@ -90,7 +90,7 @@ const char *cPluginConflictcheckonly::MainMenuText(void)
       if (serviceData->relevantConflicts > 0) {
 	free(_menuText);
 	if (asprintf(&_menuText, "%s (%d, %s: %s)", menuText, serviceData->relevantConflicts,
-	    I18nTranslate("next", I18nEpgsearch), *DateTime(serviceData->nextConflict)))
+		     I18nTranslate(trNOOP("next"), I18nEpgsearch), *DateTime(serviceData->nextConflict)))
             menuText = _menuText;
       }
     }
