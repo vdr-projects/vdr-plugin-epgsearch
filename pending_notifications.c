@@ -153,9 +153,10 @@ bool cPendingNotifications::Load(const char *FileName)
 	LogFile.iSysLog("loading %s", fileName);
 	FILE *f = fopen(fileName, "r");
 	bool result = false;
-	if (f)
+	if (f) {
 	    result = cPendingNotification::Read(f);
-        fclose(f);
+	    fclose(f);
+	}
 	if (result)
 	    LogFile.Log(2,"loaded pending notifications from %s (count: %d)", fileName, Count());
 	else

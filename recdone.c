@@ -397,9 +397,10 @@ bool cRecsDone::Load(const char *FileName)
 	LogFile.iSysLog("loading %s", fileName);
 	FILE *f = fopen(fileName, "r");
 	bool result = false;
-	if (f)
+	if (f) {
 	    result = cRecDone::Read(f);
-        fclose(f);
+	    fclose(f);
+	}
 	if (result)
 	    LogFile.Log(2,"loaded recordings done from %s (count: %d)", fileName, Count());
 	else

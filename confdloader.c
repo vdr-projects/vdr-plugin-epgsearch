@@ -132,8 +132,8 @@ bool cConfDLoader::LoadFile(const char *FileName)
 	  }
 	}
       }
+      fclose(f);
     }
-    fclose(f);
     return true;
   }
   else
