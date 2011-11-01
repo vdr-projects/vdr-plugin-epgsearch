@@ -350,6 +350,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
 	else
 	  if (firstrecDone->startTime > recDone->startTime)
 	    firstrecDone = recDone;
+	LogFile.Log(3,"same event already recorded at %s", DAYDATETIME(recDone->startTime));
 	count++;
       }
 
