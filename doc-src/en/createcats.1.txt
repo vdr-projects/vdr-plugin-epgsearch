@@ -87,7 +87,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 Bugreports (german):
 
-L<http://www.vdr-developer.org/mantisbt/>
+L<http://projects.vdr-developer.org/projects/plg-epgsearch>
 
 Mailinglist:
 

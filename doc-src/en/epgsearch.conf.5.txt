@@ -120,7 +120,7 @@ Mike Constabel <epgsearch (at) constabel (dot) net>
 
 Bug reports (german):
 
-L<http://www.vdr-developer.org/mantisbt/>
+L<http://projects.vdr-developer.org/projects/plg-epgsearch>
 
 Mailing list:
 

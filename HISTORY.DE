@@ -3,6 +3,7 @@ VDR Plugin 'epgsearch' Revision History
 
 2011-xx-xx: Version 1.0.1
 neu:
+- Neuer Bugtracker unter http://projects.vdr-developer.org/projects/plg-epgsearch - Danke an Tobias Grimm
 - alten Code für vdr < 1.6.0 entfernt, Danke an Ville Skyttä für einen ganzen Haufen Patches
 - MainMenuHooks-Patch auf 1.0.1 aktualisiert
 
