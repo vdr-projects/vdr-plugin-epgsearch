@@ -125,11 +125,7 @@ EPGSEARCH_DEFINES += -D_GNU_SOURCE
 ifneq ($(SENDMAIL),)
 EPGSEARCH_DEFINES += -DSENDMAIL='"$(SENDMAIL)"'
 endif
-DEFINES += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
-DEFINES1 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(MAINMENUSHORTCUT)"'
-DEFINES2 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN2)"'
-DEFINES3 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN3)"'
-DEFINES4 += $(EPGSEARCH_DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"'
+DEFINES += $(EPGSEARCH_DEFINES)
 
 ### The object files (add further files here):
 
@@ -179,15 +175,15 @@ all: $(ALL) i18n
 ### Implicit rules:
 
 %.o: %.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN)"' $(INCLUDES) $<
 mainmenushortcut.o: mainmenushortcut.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES1) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(MAINMENUSHORTCUT)"' $(INCLUDES) $<
 epgsearchonly.o: epgsearchonly.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES2) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN2)"' $(INCLUDES) $<
 conflictcheckonly.o: conflictcheckonly.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES3) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN3)"' $(INCLUDES) $<
 quickepgsearch.o: quickepgsearch.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES4) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"' $(INCLUDES) $<
 
 # Dependencies:
 
