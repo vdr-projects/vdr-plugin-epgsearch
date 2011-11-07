@@ -374,10 +374,10 @@ void cMailUpdateNotifier::SendUpdateNotifications()
       p = PendingNotifications.Next(p);
     }
 
-    if (newTimers.size() == 0 &&
-	modTimers.size() == 0 &&
-	delTimers.size() == 0 &&
-	announceEvents.size() == 0)
+    if (newTimers.empty() &&
+	modTimers.empty() &&
+	delTimers.empty() &&
+	announceEvents.empty())
 	return;
 
     // extract single templates
@@ -393,7 +393,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
 
     // create the timer list for new timers
     string newtimers;
-    if (newTimers.size() == 0)
+    if (newTimers.empty())
 	newtimers = tr("No new timers were added.");
     std::set<cMailTimerNotification>::iterator itnt;
     for (itnt = newTimers.begin(); itnt != newTimers.end(); itnt++)
@@ -404,7 +404,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
 
     // create the timer list for modified timers
     string modtimers;
-    if (modTimers.size() == 0)
+    if (modTimers.empty())
 	modtimers = tr("No timers were modified.");
     std::set<cMailTimerNotification>::iterator itmt;
     for (itmt = modTimers.begin(); itmt != modTimers.end(); itmt++)
@@ -415,7 +415,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
 
     // create the timer list for removed timers
     string deltimers;
-    if (delTimers.size() == 0)
+    if (delTimers.empty())
 	deltimers = tr("No timers were deleted.");
     std::set<cMailDelTimerNotification>::iterator itdt;
     for (itdt = delTimers.begin(); itdt != delTimers.end(); itdt++)
@@ -426,7 +426,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
 
     // create the list of events to announce
     string announceevents;
-    if (announceEvents.size() == 0)
+    if (announceEvents.empty())
 	announceevents = tr("No new events to announce.");
     std::set<cMailAnnounceEventNotification>::iterator itae;
     for (itae = announceEvents.begin(); itae != announceEvents.end(); itae++)
@@ -492,7 +492,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
       if (noAnnounce && noAnnounce->Valid())
 	NoAnnounces.Add(noAnnounce);
     }
-    if (announceEvents.size() > 0)
+    if (!announceEvents.empty())
     {
       NoAnnounces.ClearOutdated();
       NoAnnounces.Save();

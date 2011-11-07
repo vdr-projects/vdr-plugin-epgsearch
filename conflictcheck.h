@@ -109,7 +109,7 @@ class cConflictCheckDevice
 	    return prio;
 	};
     int CardIndex(void) const { if (device) return device->CardIndex(); else return devicenr;}
-    bool Receiving() const { return (recTimers.size() > 0); }
+    bool Receiving() const { return !recTimers.empty(); }
     bool IsTunedTo (const cChannel* Channel) const
 	{
 	    for(std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it = recTimers.begin(); it != recTimers.end(); it++)
