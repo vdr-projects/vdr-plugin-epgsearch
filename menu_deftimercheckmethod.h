@@ -1,4 +1,4 @@
-/*
+/*                                                                  -*- c++ -*-
 Copyright (C) 2004-2011 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
