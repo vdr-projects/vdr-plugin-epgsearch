@@ -188,7 +188,7 @@ string cUserVar::EvaluateInternalVars(const string& Expr, const cEvent* e, bool 
    if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cInternalVar*>::iterator it;
-   for (it = UserVars.internalVars.begin(); it != UserVars.internalVars.end(); it++)
+   for (it = UserVars.internalVars.begin(); it != UserVars.internalVars.end(); ++it)
    {
       string varName = (it->second)->Name();
       int varPos = 0;
@@ -207,7 +207,7 @@ string cUserVar::EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool es
    if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cExtEPGVar*>::iterator evar;
-   for (evar = UserVars.extEPGVars.begin(); evar != UserVars.extEPGVars.end(); evar++)
+   for (evar = UserVars.extEPGVars.begin(); evar != UserVars.extEPGVars.end(); ++evar)
    {
       string varName = evar->second->Name();
       int varPos = 0;
@@ -226,7 +226,7 @@ string cUserVar::EvaluateUserVars(const string& Expr, const cEvent* e, bool esca
    if (expr.find('%') == string::npos) return expr;
 
    std::set<cUserVar*>::iterator it;
-   for (it = UserVars.userVars.begin(); it != UserVars.userVars.end(); it++)
+   for (it = UserVars.userVars.begin(); it != UserVars.userVars.end(); ++it)
    {
       string varName = (*it)->Name();
       int varPos = 0;
@@ -245,7 +245,7 @@ string cUserVar::EvaluateInternalTimerVars(const string& Expr, const cTimer* t)
    if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cTimerVar*>::iterator tvar;
-   for (tvar = UserVars.internalTimerVars.begin(); tvar != UserVars.internalTimerVars.end(); tvar++)
+   for (tvar = UserVars.internalTimerVars.begin(); tvar != UserVars.internalTimerVars.end(); ++tvar)
    {
       string varName = tvar->second->Name();
       int varPos = 0;
@@ -264,7 +264,7 @@ string cUserVar::EvaluateInternalSearchVars(const string& Expr, const cSearchExt
    if (expr.find('%') == string::npos) return expr;
 
    std::map<string, cSearchVar*>::iterator svar;
-   for (svar = UserVars.internalSearchVars.begin(); svar != UserVars.internalSearchVars.end(); svar++)
+   for (svar = UserVars.internalSearchVars.begin(); svar != UserVars.internalSearchVars.end(); ++svar)
    {
       string varName = svar->second->Name();
       int varPos = 0;
@@ -289,7 +289,7 @@ bool cUserVar::DependsOnVar(cUserVar* var)
    if (!var) return false;
    if (usedVars.find(var) != usedVars.end()) return true;
    std::set<cUserVar*>::iterator it;
-   for (it = usedVars.begin(); it != usedVars.end(); it++)
+   for (it = usedVars.begin(); it != usedVars.end(); ++it)
       if ((*it)->DependsOnVar(var))
          return true;
    return false;
@@ -348,7 +348,7 @@ cUserVar* cUserVars::GetFromName(const string& varName, bool log)
       return ivar->second;
 
    std::set<cUserVar*>::iterator uvar;
-   for (uvar = userVars.begin(); uvar != userVars.end(); uvar++)
+   for (uvar = userVars.begin(); uvar != userVars.end(); ++uvar)
       if (EqualsNoCase((*uvar)->Name(), VarName))
          return (*uvar);
 

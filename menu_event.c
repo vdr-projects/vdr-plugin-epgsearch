@@ -61,7 +61,7 @@ cEventObj* cMenuEventSearch::GetNext(const cEvent* Event)
       if (*i && (*i)->Event() == Event)
       {
          cEventObjects::iterator nexti = i;
-         nexti++;
+         ++nexti;
          return nexti != eventObjects.end() ? *nexti : NULL;
       }
 

@@ -130,7 +130,7 @@ cTemplFile::cTemplFile()
 void cTemplFile::Reset()
 {
     std::set<cMenuTemplate*>::iterator it;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); ++it)
 	delete (*it);
     menuTemplates.clear();
 }
@@ -138,7 +138,7 @@ void cTemplFile::Reset()
 cMenuTemplate* cTemplFile::GetTemplateByName(const char* Name)
 {
     std::set<cMenuTemplate*>::iterator it;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); ++it)
 	if (!strcasecmp(Name, (*it)->Name())) return (*it);
     return NULL;
 }
@@ -299,7 +299,7 @@ void cTemplFile::PrepareDefaultTemplates()
     SearchTemplates = new char*[CountSearchResultsTemplates()];
     std::set<cMenuTemplate*>::iterator it;
     int Count = 0;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); ++it)
 	if (!strncasecmp("MenuSearchResults", (*it)->Name(), strlen("MenuSearchResults")))
 	{
 	    char* templateName = strdup((*it)->Name() + strlen("MenuSearchResults"));
@@ -312,7 +312,7 @@ int cTemplFile::CountSearchResultsTemplates()
 {
     int Count = 0;
     std::set<cMenuTemplate*>::iterator it;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); ++it)
 	if (!strncasecmp("MenuSearchResults", (*it)->Name(), strlen("MenuSearchResults"))) Count++;
     return Count;
 }
@@ -321,7 +321,7 @@ cMenuTemplate* cTemplFile::GetSearchTemplateByPos(int iPos)
 {
     int Count = 0;
     std::set<cMenuTemplate*>::iterator it;
-    for (it = menuTemplates.begin(); it != menuTemplates.end(); it++)
+    for (it = menuTemplates.begin(); it != menuTemplates.end(); ++it)
 	if (!strncasecmp("MenuSearchResults", (*it)->Name(), strlen("MenuSearchResults")))
 	    if(Count++ == iPos)
 		return (*it);

@@ -621,7 +621,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
       {
          cString sBuffer("");
          std::set<string>::iterator it;
-         for (it = cMenuDirSelect::directorySet.begin(); it != cMenuDirSelect::directorySet.end(); it++)
+         for (it = cMenuDirSelect::directorySet.begin(); it != cMenuDirSelect::directorySet.end(); ++it)
          {
             cString sOldBuffer = sBuffer;
             sBuffer = cString::sprintf("%s%s\n", *sOldBuffer, (*it).c_str());
@@ -1268,7 +1268,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 	     std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
 
 	     std::ostringstream timerparts;
-	     for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
+	     for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); ++it)
 	       {
 		 if (relOnly && (*it)->ignore) continue;
 		 std::ostringstream timerpart;
@@ -1278,7 +1278,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 		 if ((*it)->concurrentTimers)
 		   {
 		   std::ostringstream cctimers;
-		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); itcc++)
+		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); ++itcc)
 		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->origIndex+1;
 		   timerpart << cctimers.str();
 		   }

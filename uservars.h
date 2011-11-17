@@ -847,12 +847,12 @@ class cUserVars : public cList<cUserVar> {
     ~cUserVars()
 	{
 	    std::map<string, cExtEPGVar*>::iterator evar;
-	    for (evar = extEPGVars.begin(); evar != extEPGVars.end(); evar++)
+	    for (evar = extEPGVars.begin(); evar != extEPGVars.end(); ++evar)
 		delete evar->second;
 	    extEPGVars.clear();
 
 	    std::set<cUserVar*>::iterator uvar;
-	    for (uvar = userVars.begin(); uvar != userVars.end(); uvar++)
+	    for (uvar = userVars.begin(); uvar != userVars.end(); ++uvar)
 		delete (*uvar);
 	    userVars.clear();
 	}

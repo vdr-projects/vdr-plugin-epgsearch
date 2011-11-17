@@ -396,7 +396,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     if (newTimers.empty())
 	newtimers = tr("No new timers were added.");
     std::set<cMailTimerNotification>::iterator itnt;
-    for (itnt = newTimers.begin(); itnt != newTimers.end(); itnt++)
+    for (itnt = newTimers.begin(); itnt != newTimers.end(); ++itnt)
     {
 	string message = (*itnt).Format(templTimer);
 	if (message != "") newtimers += message;
@@ -407,7 +407,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     if (modTimers.empty())
 	modtimers = tr("No timers were modified.");
     std::set<cMailTimerNotification>::iterator itmt;
-    for (itmt = modTimers.begin(); itmt != modTimers.end(); itmt++)
+    for (itmt = modTimers.begin(); itmt != modTimers.end(); ++itmt)
     {
 	string message = (*itmt).Format(templTimer);
 	if (message != "") modtimers += message;
@@ -418,7 +418,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     if (delTimers.empty())
 	deltimers = tr("No timers were deleted.");
     std::set<cMailDelTimerNotification>::iterator itdt;
-    for (itdt = delTimers.begin(); itdt != delTimers.end(); itdt++)
+    for (itdt = delTimers.begin(); itdt != delTimers.end(); ++itdt)
     {
       string message = (*itdt).Format("");
 	if (message != "") deltimers += message;
@@ -429,7 +429,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     if (announceEvents.empty())
 	announceevents = tr("No new events to announce.");
     std::set<cMailAnnounceEventNotification>::iterator itae;
-    for (itae = announceEvents.begin(); itae != announceEvents.end(); itae++)
+    for (itae = announceEvents.begin(); itae != announceEvents.end(); ++itae)
     {
 	string message = (*itae).Format(templEvent);
 	if (message != "") announceevents += message;
@@ -471,13 +471,13 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     else
     {
       // add current notifications to pending ones
-      for (itnt = newTimers.begin(); itnt != newTimers.end(); itnt++)
+      for (itnt = newTimers.begin(); itnt != newTimers.end(); ++itnt)
 	PendingNotifications.Add(new cPendingNotification(0, itnt->eventID, itnt->channelID, -1));
-      for (itmt = modTimers.begin(); itmt != modTimers.end(); itmt++)
+      for (itmt = modTimers.begin(); itmt != modTimers.end(); ++itmt)
 	PendingNotifications.Add(new cPendingNotification(1, itmt->eventID, itmt->channelID, -1, itmt->timerMod));
-      for (itdt = delTimers.begin(); itdt != delTimers.end(); itdt++)
+      for (itdt = delTimers.begin(); itdt != delTimers.end(); ++itdt)
 	PendingNotifications.Add(new cPendingNotification(2, -1, itdt->channelID, itdt->start, -1, -1, itdt->formatted));
-      for (itae = announceEvents.begin(); itae != announceEvents.end(); itae++)
+      for (itae = announceEvents.begin(); itae != announceEvents.end(); ++itae)
  	PendingNotifications.Add(new cPendingNotification(3, itae->eventID, itae->channelID, -1, -1, itae->searchextID));
     }
     PendingNotifications.Save();
@@ -486,7 +486,7 @@ void cMailUpdateNotifier::SendUpdateNotifications()
     modTimers.clear();
     delTimers.clear();
     // Add announced events to the "no announce" list
-    for (itae = announceEvents.begin(); itae != announceEvents.end(); itae++)
+    for (itae = announceEvents.begin(); itae != announceEvents.end(); ++itae)
     {
       cNoAnnounce* noAnnounce = new cNoAnnounce(itae->GetEvent());
       if (noAnnounce && noAnnounce->Valid())
@@ -517,7 +517,7 @@ void cMailConflictNotifier::SendConflictNotifications(cConflictCheck& conflictCh
     {
 	if (!ct || ct->ignore) continue;
 	std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
+	for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); ++it)
 	    if ((*it) && !(*it)->ignore && (*it)->Event())
 	      {
 		std::string channelID = *(*it)->Event()->ChannelID().ToString();
@@ -562,7 +562,7 @@ void cMailConflictNotifier::SendConflictNotifications(cConflictCheck& conflictCh
 
 	string conflicttimers;
 	std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
+	for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); ++it)
 	    if (!(*it)->ignore && (*it)->Event())
 	    {
 		cMailTimerNotification M((*it)->Event()->EventID(), (*it)->Event()->ChannelID());

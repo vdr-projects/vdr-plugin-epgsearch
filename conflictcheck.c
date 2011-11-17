@@ -219,7 +219,7 @@ void cConflictCheck::Check()
 	{
 	    LogFile.Log(2,"result of conflict check for %s:", DAYDATETIME(checkTime->evaltime));
 	    std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	    for (it = checkTime->failedTimers.begin(); it != checkTime->failedTimers.end(); it++)
+	    for (it = checkTime->failedTimers.begin(); it != checkTime->failedTimers.end(); ++it)
 		LogFile.Log(2,"timer '%s' (%s, channel %s) failed", (*it)->timer->File(), DAYDATETIME((*it)->timer->StartTime()), CHANNELNAME((*it)->timer->Channel()));
 	}
     }
@@ -407,7 +407,7 @@ cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictChe
 	{
 	    bool allTimersIgnored = true;
 	    std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	    for (it = checkTime->failedTimers.begin(); it != checkTime->failedTimers.end(); it++)
+	    for (it = checkTime->failedTimers.begin(); it != checkTime->failedTimers.end(); ++it)
 	    {
 		numConflicts++;
 		if (!(*it)->ignore)
@@ -449,7 +449,7 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
     int Conflicts = 0;
     // detach all stopping timers from their devices
     std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-    for (it = checkTime->stoppingTimers.begin(); it != checkTime->stoppingTimers.end(); it++)
+    for (it = checkTime->stoppingTimers.begin(); it != checkTime->stoppingTimers.end(); ++it)
 	if ((*it) && (*it)->device >= 0)
 	{
 	  LogFile.Log(3,"detach device %d from  timer '%s' (%s, channel %s) at %s", ((*it)->device)+1, (*it)->timer->File(), DAYDATETIME((*it)->start), CHANNELNAME((*it)->timer->Channel()), DAYDATETIME(checkTime->evaltime));
@@ -466,7 +466,7 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 
     LogFile.Log(3,"add pending timers");
     // if we have pending timers add them to the current start list
-    for (it = pendingTimers.begin(); it != pendingTimers.end(); it++)
+    for (it = pendingTimers.begin(); it != pendingTimers.end(); ++it)
     {
 	if ((*it) && (*it)->stop > checkTime->evaltime)
 	    checkTime->startingTimers.insert(*it);
@@ -475,7 +475,7 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 
     LogFile.Log(3,"attach starting timers");
     // handle starting timers
-    for (it = checkTime->startingTimers.begin(); it != checkTime->startingTimers.end(); it++)
+    for (it = checkTime->startingTimers.begin(); it != checkTime->startingTimers.end(); ++it)
     {
 	bool NeedsDetachReceivers = false;
 	if (!(*it) || (*it)->device >= 0) continue; // already has a device
@@ -486,7 +486,7 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 	    {
 		// disable running timers
 		std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it2 = devices[device].recTimers.begin();
-		for(; it2 != devices[device].recTimers.end(); it2++)
+		for(; it2 != devices[device].recTimers.end(); ++it2)
 		{
 		    LogFile.Log(3,"stopping timer '%s' (%s, channel %s) at %s on device %d because of higher priority", (*it2)->timer->File(), DAYDATETIME((*it2)->start), CHANNELNAME((*it2)->timer->Channel()), DAYDATETIME(checkTime->evaltime), device+1);
 		    AddConflict((*it2), checkTime, pendingTimers);
@@ -646,14 +646,14 @@ bool cConflictCheck::TimerInConflict(cTimer* timer)
     for(cConflictCheckTime* checkTime = failedList->First(); checkTime; checkTime = failedList->Next(checkTime))
     {
 	std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	for (it = checkTime->failedTimers.begin(); it != checkTime->failedTimers.end(); it++)
+	for (it = checkTime->failedTimers.begin(); it != checkTime->failedTimers.end(); ++it)
 	{
 	    if (!(*it)->ignore)
 	    {
 		std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it2;
 		if ((*it)->concurrentTimers)
 		{
-		    for (it2 = (*it)->concurrentTimers->begin(); it2 != (*it)->concurrentTimers->end(); it2++)
+		    for (it2 = (*it)->concurrentTimers->begin(); it2 != (*it)->concurrentTimers->end(); ++it2)
 		    {
 			if ((*it2)->OrigTimer() == timer)
 			    return true;
@@ -674,7 +674,7 @@ void cConflictCheck::EvaluateConflCheckCmd()
 	{
 	  if (ct->ignore) continue;
 	  std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
-	  for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
+	  for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); ++it)
 	    if ((*it) && !(*it)->ignore)
 	      {
 		string result = EPGSearchConfig.conflCheckCmd;
