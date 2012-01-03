@@ -584,9 +584,8 @@ msgstr "Mailkonto-Prüfung fehlgeschlagen!"
 msgid "Button$Test"
 msgstr "Test"
 
-#, fuzzy
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
-msgstr " aäbcdefghijklmnoöpqrsßtuüvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+msgstr " aäbcdefghijklmnoöpqrsßtuüvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
 
 msgid "Start/Stop time has changed"
 msgstr "Start/Stop-Zeit hat sich geändert"

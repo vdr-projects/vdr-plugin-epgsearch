@@ -592,9 +592,8 @@ msgstr "Pašto prisijungimo patikra!"
 msgid "Button$Test"
 msgstr "Testas"
 
-#, fuzzy
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
-msgstr " aąbcčdeęėfghiįjklmnopqrsštuųūvzž0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+msgstr " aąbcčdeęėfghiįjklmnopqrsštuųūvzž0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
 
 msgid "Start/Stop time has changed"
 msgstr "Pasikeitė pradžios/pabaigos laikas"

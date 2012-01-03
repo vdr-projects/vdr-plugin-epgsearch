@@ -546,9 +546,8 @@ msgstr ""
 msgid "Button$Test"
 msgstr ""
 
-#, fuzzy
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
-msgstr " aábcdeéfghiíjklmnoóöőpqrstuúüűvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+msgstr " aábcdeéfghiíjklmnoóöőpqrstuúüűvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
 
 msgid "Start/Stop time has changed"
 msgstr ""

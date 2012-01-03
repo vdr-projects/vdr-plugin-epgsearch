@@ -587,9 +587,8 @@ msgstr "Chyba kontroly mailového účtu!"
 msgid "Button$Test"
 msgstr "Testovať"
 
-#, fuzzy
 msgid "$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
-msgstr " $ aáäbcčdďeéfghiíjklĺľmnňoóôpqrŕsštťuúvwxyýzž0123456789-.,#~\\^$[]|()*+?{}/:%@&"
+msgstr " aáäbcčdďeéfghiíjklĺľmnňoóôpqrŕsštťuúvwxyýzž0123456789-.,#~\\^$[]|()*+?{}/:%@&_"
 
 msgid "Start/Stop time has changed"
 msgstr "Spustiť/Zastaviť dobu zmien"
