@@ -1663,6 +1663,25 @@ bool cSearchExts::CheckForAutoDelete(cSearchExt* SearchExt)
    return delSearch;
 }
 
+void cSearchExts::SortBy(int(*compar)(const void *, const void *))
+{
+  int n = Count();
+  cListObject *a[n];
+  cListObject *object = objects;
+  int i = 0;
+  while (object && i < n) {
+    a[i++] = object;
+    object = object->Next();
+  }
+  qsort(a, n, sizeof(cListObject *), compar);
+  objects = lastObject = NULL;
+  for (i = 0; i < n; i++) {
+    a[i]->Unlink();
+    count--;
+    Add(a[i]);
+  }
+}
+
 cSearchResult::cSearchResult(const cEvent* Event, int searchID) : event(Event), blacklist(NULL), needsTimer(true)
 {
   search = SearchExts.GetSearchFromID(searchID);

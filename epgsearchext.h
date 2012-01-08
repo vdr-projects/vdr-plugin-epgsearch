@@ -234,6 +234,7 @@ public:
     bool Exists(const cSearchExt* SearchExt);
     cSearchExts* Clone();
     bool CheckForAutoDelete(cSearchExt* SearchExt);
+    void SortBy(int(*compar)(const void *, const void *));
 };
 
 extern cSearchExts SearchExts;

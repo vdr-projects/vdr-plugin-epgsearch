@@ -241,6 +241,7 @@ void cSearchTimerThread::Action(void)
          // for thread safeness we work with a copy of the current searches,
          // because SVDRP would not work if the main thread would be locked
          cSearchExts* localSearchExts = SearchExts.Clone();
+	 localSearchExts->SortBy(CompareSearchExtPrioDescTerm);
          cSearchExt *searchExt = localSearchExts->First();
          // reset announcelist
          announceList.Clear();

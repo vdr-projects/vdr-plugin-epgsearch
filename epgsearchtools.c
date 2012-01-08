@@ -76,6 +76,16 @@ int CompareEventChannel(const void *p1, const void *p2)
       return ch1 - ch2;
 }
 
+int CompareSearchExtPrioDescTerm(const void *p1, const void *p2)
+{
+   int prio1 = (*(cSearchExt **)p1)->Priority;
+   int prio2 = (*(cSearchExt **)p2)->Priority;
+   if (prio2 != prio1)
+     return prio2 - prio1;
+   else
+     return strcmp((*(cSearchExt **)p1)->search, (*(cSearchExt **)p2)->search);
+}
+
 char* IndentMenuItem(const char* szString, int indentions)
 {
    char* szIndented = NULL;

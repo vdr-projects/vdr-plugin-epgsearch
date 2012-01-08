@@ -207,9 +207,10 @@ time, duration, week day) are checked.
 
 =head1 4. How do Search Timers work?
 
-With each update, the plugin searches for new matches of your search
-timers. If a new match is found then a new timer is created. For
-serial recordings, the subtitle is appended to the recording
+With each update, the plugin first sorts the search timers by timer
+priority (descending) and search term and then searches for new matches 
+of your search timers. If a new match is found then a new timer is created. 
+For serial recordings, the subtitle is appended to the recording
 directory. Many providers deliver the subtitle just 1-2 days before
 the event. The plugin uses then a date/time string for the subtitle,
 but replaces this one later if the subtitle is present.
