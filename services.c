@@ -292,7 +292,7 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 	   std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
 
 	   std::ostringstream timerparts;
-	   for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); it++)
+	   for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); ++it)
 	     {
 	       if (relOnly && (*it)->ignore) continue;
 	       std::ostringstream timerpart;
@@ -302,7 +302,7 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 	       if ((*it)->concurrentTimers)
 		 {
 		   std::ostringstream cctimers;
-		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); itcc++)
+		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); ++itcc)
 		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->origIndex+1;
 		   timerpart << cctimers.str();
 		 }
