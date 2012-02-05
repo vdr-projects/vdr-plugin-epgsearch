@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2011-09-19 19:17+0200\n"
+"POT-Creation-Date: 2012-02-05 12:40+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: Spanish <vdr@linuxtv.org>\n"
@@ -531,7 +531,7 @@ msgstr "Establecer a 'sí' cuando desee recibir una notificación por correo sob
 msgid "Send to"
 msgstr "Enviar a"
 
-msgid "Help$Specify the email adress where notifications should be sent to."
+msgid "Help$Specify the email address where notifications should be sent to."
 msgstr "Especifique la dirección de correo donde deben enviarse las notificaciones."
 
 msgid "Mail method"
@@ -551,10 +551,10 @@ msgstr ""
 msgid "--- Email account ---"
 msgstr "--- Cuenta de correo ---"
 
-msgid "Email adress"
+msgid "Email address"
 msgstr "Dirección de correo"
 
-msgid "Help$Specify the email adress where notifications should be sent from."
+msgid "Help$Specify the email address where notifications should be sent from."
 msgstr "Especifique la dirección de correo desde donde se enviarán las notificaciones."
 
 msgid "SMTP server"

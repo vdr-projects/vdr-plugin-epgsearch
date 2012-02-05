@@ -61,7 +61,7 @@ The %chlng% variable gets replaced with the name of the channel.
 
 Attention: Automatically appending title and subtitle will not be
 done, if you use the variables %Title% or %Subtitle% in the directory
-entry. This allows to form directory entries like this one:
+entry. This allows one to form directory entries like this one:
 
  %Category%~%Genre%~%Title%~%Episode%~%Subtitle%
 

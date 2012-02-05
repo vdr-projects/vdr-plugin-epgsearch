@@ -873,7 +873,7 @@ void cMenuSetupMailNotification::Set()
   AddHelp(tr("Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."));
 
   Add(new cMenuEditStrItem(tr("Send to"), data->MailAddressTo, sizeof(data->MailAddressTo), MailBoxChars));
-  AddHelp(tr("Help$Specify the email adress where notifications should be sent to."));
+  AddHelp(tr("Help$Specify the email address where notifications should be sent to."));
 
   Add(new cMenuEditStraItem(tr("Mail method"), &data->mailViaScript, 2, MailMethod));
   AddHelp(tr("Help$Specify here the method to use when sending mails.\nYou can choose between\n - 'sendmail': requires a properly configured email system\n - 'SendEmail.pl': simple script for mail delivery"));
@@ -885,8 +885,8 @@ void cMenuSetupMailNotification::Set()
      Add(sep);
      AddHelp(" dummy");
 
-     Add(new cMenuEditStrItem(tr("Email adress"), data->MailAddress, sizeof(data->MailAddress), MailBoxChars));
-     AddHelp(tr("Help$Specify the email adress where notifications should be sent from."));
+     Add(new cMenuEditStrItem(tr("Email address"), data->MailAddress, sizeof(data->MailAddress), MailBoxChars));
+     AddHelp(tr("Help$Specify the email address where notifications should be sent from."));
 
      Add(new cMenuEditStrItem(tr("SMTP server"), data->MailServer, sizeof(data->MailServer), HostNameChars));
      AddHelp(tr("Help$Specify the SMTP server that should deliver the notifications. If it's using a port different from the default(25) append the port with \":port\"."));
@@ -927,9 +927,9 @@ void cMenuSetupMailNotification::SetHelpKeys()
    const char* ItemText = Get(Current())->Text();
    if (!HasSubMenu())
    {
-      if (strstr(ItemText, tr("Email adress")) == ItemText)
+      if (strstr(ItemText, tr("Email address")) == ItemText)
       {
-         if (!InEditMode(ItemText, tr("Email adress"), data->MailAddress))
+         if (!InEditMode(ItemText, tr("Email address"), data->MailAddress))
             SetHelp(NULL, NULL, tr("Button$Help"), showTestButton?tr("Button$Test"):NULL);
       }
       else if (strstr(ItemText, tr("SMTP server")) == ItemText)

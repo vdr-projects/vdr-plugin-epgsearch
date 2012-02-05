@@ -796,8 +796,8 @@ conflict check setup to be activated.)
 
 =item - B<Send to:>
 
-The mail adress of the recipient. Note: Some providers (like Arcor) don't
-allow the same adresse for sender and recipient.
+The mail address of the recipient. Note: Some providers (like Arcor) don't
+allow the same address for sender and recipient.
 
 =item - B<Mail method:>
 
