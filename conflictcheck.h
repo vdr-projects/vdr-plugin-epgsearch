@@ -163,12 +163,20 @@ class cConflictCheckDevice
 				result = true;
 #ifdef DO_REC_AND_PLAY_ON_PRIMARY_DEVICE
 			    else
+#if APIVERSNUM < 10725
 				result = Priority >= Setup.PrimaryLimit;
+#else
+				result = Priority >= 0;
+#endif
 #endif
 #endif
 			}
 			else
+#if APIVERSNUM < 10725
 			    result = !IsPrimaryDevice() || Priority >= Setup.PrimaryLimit;
+#else
+			    result = !IsPrimaryDevice() || Priority >= 0;
+#endif
 		    }
 		    else
 			needsDetachReceivers = true;

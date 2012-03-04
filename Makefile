@@ -64,7 +64,7 @@ CXXFLAGS ?= -g -O2 -Wall -Woverloaded-virtual -Wno-parentheses -Wno-format-y2k
 
 ### The directory environment:
 
-DVBDIR = ../../../../DVB
+#DVBDIR = ../../../../DVB
 VDRDIR = ../../..
 LIBDIR = ../../lib
 TMPDIR = /tmp
