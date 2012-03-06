@@ -42,7 +42,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 cSearchExts SearchExts;
 cSearchExts SearchTemplates;
 
-#define MAX_SUBTITLE_LENGTH 40
+#ifndef MAX_SUBTITLE_LENGTH
+  #define MAX_SUBTITLE_LENGTH 40
+#endif
 
 // -- cSearchExt -----------------------------------------------------------------
 char *cSearchExt::buffer = NULL;

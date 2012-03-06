@@ -3,6 +3,11 @@ VDR Plugin 'epgsearch' Revision History
 
 2011-xx-xx: Version 1.0.1
 neu:
+- Wenn Kanalseparatoren angezeigt werden, kann das in der Ausgabe von graphtft Probleme 
+  machen. Um das zu  vermeiden, bitte PLUGIN_EPGSEARCH_SEPP_ITEMS=--- in der Make.config
+  setzen. Die meisten Skins (ausser classic, st:tng) ersetzen '---' ohnehin in eine durch-
+  gehende Linie.
+  (Feature #857, Danke an 'KeineAhnung' für den Patch)
 - Suchtimer werden jetzt anhand absteigender Timer-Priorität abgearbeitet. Bei 
   gleicher Priorität wird nach dem Suchbegriff sortiert. Danke an Anonym für den Patch.
 - Neuer Bugtracker unter http://projects.vdr-developer.org/projects/plg-epgsearch - Danke an Tobias Grimm

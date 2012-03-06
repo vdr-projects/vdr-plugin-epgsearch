@@ -74,6 +74,10 @@ using std::string;
 
 #define ISRADIO(x) ((x)->Vpid()==0||(x)->Vpid()==1||(x)->Vpid()==0x1fff)
 
+#ifndef MENU_SEPPERATOR_ITEMS
+  #define MENU_SEPPERATOR_ITEMS "----------------------------------------"
+#endif
+
 #define UPDS_WITH_OSD (1<<1)
 #define UPDS_WITH_EPGSCAN (1<<2)
 
