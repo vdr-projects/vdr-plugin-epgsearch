@@ -414,7 +414,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
       {
 	if (EPGSearchConfig.showChannelGroups && strlen(Channel->Name()))
          {
-	    cString szGroup = cString::sprintf("%s\t %s %s", MENU_SEPERATOR_ITEMS, Channel->Name(), MENU_SEPERATOR_ITEMS);
+	    cString szGroup = cString::sprintf("%s\t %s %s", MENU_SEPARATOR_ITEMS, Channel->Name(), MENU_SEPARATOR_ITEMS);
             cOsdItem* pGroupItem = new cOsdItem(szGroup);
             pGroupItem->SetSelectable(false);
             Add(pGroupItem);

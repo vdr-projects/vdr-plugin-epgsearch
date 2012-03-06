@@ -74,8 +74,8 @@ using std::string;
 
 #define ISRADIO(x) ((x)->Vpid()==0||(x)->Vpid()==1||(x)->Vpid()==0x1fff)
 
-#ifndef MENU_SEPERATOR_ITEMS
-  #define MENU_SEPERATOR_ITEMS "----------------------------------------"
+#ifndef MENU_SEPARATOR_ITEMS
+  #define MENU_SEPARATOR_ITEMS "----------------------------------------"
 #endif
 
 #define UPDS_WITH_OSD (1<<1)

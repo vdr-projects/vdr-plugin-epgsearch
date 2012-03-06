@@ -168,7 +168,7 @@ endif
 ### overwrite this with PLUGIN_EPGSEARCH_SEP_ITEMS=--- in your Make.config
 ### to avoid problems with graphlcd
 ifdef PLUGIN_EPGSEARCH_SEP_ITEMS
-DEFINES += -DMENU_SEPERATOR_ITEMS='"$(PLUGIN_EPGSEARCH_SEP_ITEMS)"'
+DEFINES += -DMENU_SEPARATOR_ITEMS='"$(PLUGIN_EPGSEARCH_SEP_ITEMS)"'
 endif
 
 OBJS2    = mainmenushortcut.o epgsearchonly.o

@@ -141,7 +141,7 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
 			struct tm *t_lastevent = localtime_r(&lastEventDate, &tm_rLastEvent);
 			if (t_event->tm_mday != t_lastevent->tm_mday)
 			{
-			  cString szSep = cString::sprintf("%s\t %s %s", MENU_SEPERATOR_ITEMS, GETDATESTRING(Event), MENU_SEPERATOR_ITEMS);
+			  cString szSep = cString::sprintf("%s\t %s %s", MENU_SEPARATOR_ITEMS, GETDATESTRING(Event), MENU_SEPARATOR_ITEMS);
 			  cOsdItem* pSepItem = new cOsdItem(szSep);
 			  pSepItem->SetSelectable(false);
 			  Add(pSepItem);
