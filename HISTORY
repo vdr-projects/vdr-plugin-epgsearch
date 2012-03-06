@@ -4,7 +4,7 @@ VDR Plugin 'epgsearch' Revision History
 2011-xx-xx; Version 1.0.1
 new:
 - when channel seperators are displayed the filling '-' can cause problems in the output
-  of graphtft. Set PLUGIN_EPGSEARCH_SEPP_ITEMS=--- in your Make.config to avoid this. Most
+  of graphlcd. Set PLUGIN_EPGSEARCH_SEP_ITEMS=--- in your Make.config to avoid this. Most
   skins (except classic, st:tng)  will translate '---' into a single line anyway 
   (Feature #857, thanks to 'KeineAhnung' for providing a patch)
 - search timers are now processed by their descending timer priority. Search timers with the same priority

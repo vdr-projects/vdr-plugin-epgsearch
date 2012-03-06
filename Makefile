@@ -165,10 +165,10 @@ endif
 
 ### length of the filling '-' in the channel separators, defaults to
 ### "----------------------------------------"
-### overwrite this with PLUGIN_EPGSEARCH_SEPP_ITEMS=--- in your Make.config
-### to avoid problems with graphtft
-ifdef PLUGIN_EPGSEARCH_SEPP_ITEMS
-DEFINES += -DMENU_SEPPERATOR_ITEMS='"$(PLUGIN_EPGSEARCH_SEPP_ITEMS)"'
+### overwrite this with PLUGIN_EPGSEARCH_SEP_ITEMS=--- in your Make.config
+### to avoid problems with graphlcd
+ifdef PLUGIN_EPGSEARCH_SEP_ITEMS
+DEFINES += -DMENU_SEPERATOR_ITEMS='"$(PLUGIN_EPGSEARCH_SEP_ITEMS)"'
 endif
 
 OBJS2    = mainmenushortcut.o epgsearchonly.o
