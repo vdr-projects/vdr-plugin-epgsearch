@@ -199,8 +199,10 @@ cMenuConflictCheckDetails::cMenuConflictCheckDetails(cConflictCheckTimerObj* Tim
     conflictCheck = ConflictCheck;
     BuildList();
     SetHelpKeys();
-    string title = string(DATESTRING(checktime->evaltime)) + " " +  TIMESTRING(checktime->evaltime);
-    SetTitle(title.c_str());
+    
+    int recPart = timerObj->recDuration * 100 / (timerObj->stop - timerObj->start);
+    cString buffer = cString::sprintf("%s - %s - %d%%", DATESTRING(checktime->evaltime), TIMESTRING(checktime->evaltime), recPart);
+    SetTitle(buffer);
 }
 
 bool cMenuConflictCheckDetails::BuildList()
