@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-02-05 12:40+0100\n"
+"POT-Creation-Date: 2012-03-15 19:51+0100\n"
 "PO-Revision-Date: 2008-04-30 08:36+0200\n"
 "Last-Translator: Patrice Staudt <patrice.staudt@laposte.net>\n"
 "Language-Team: French <vdr@linuxtv.org>\n"
@@ -869,6 +869,10 @@ msgstr "Utiliser la liste des exclus"
 
 msgid "Edit$Search text too short - use anyway?"
 msgstr "Texte de recherche est trop court - l'utiliser comme même?"
+
+#, fuzzy
+msgid "Button$Orphaned"
+msgstr "de programme"
 
 msgid "Button$by name"
 msgstr "par nom"

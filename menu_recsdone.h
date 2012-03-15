@@ -39,14 +39,14 @@ class cMenuRecDoneItem : public cOsdItem {
     int Compare(const cListObject &ListObject) const;
 };
 
-
 // --- cMenuRecDone ----------------------------------------------------------
 class cMenuRecsDone : public cOsdMenu {
   private:
     cSearchExt* search;
     eOSState Delete(void);
     eOSState DeleteAll(void);
-    bool showAll;
+    const char* ButtonBlue(cSearchExt* Search);
+    int showMode;
     bool showEpisodeOnly;
   protected:
     void Set();

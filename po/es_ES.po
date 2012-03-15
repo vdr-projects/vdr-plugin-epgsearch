@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-02-05 12:40+0100\n"
+"POT-Creation-Date: 2012-03-15 19:51+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: Spanish <vdr@linuxtv.org>\n"
@@ -869,6 +869,10 @@ msgstr "Usar listas negras"
 
 msgid "Edit$Search text too short - use anyway?"
 msgstr "El texto a buscar es muy corto - ¿usar de todas formas?"
+
+#, fuzzy
+msgid "Button$Orphaned"
+msgstr "por canal"
 
 msgid "Button$by name"
 msgstr "por nombre"

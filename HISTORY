@@ -3,6 +3,8 @@ VDR Plugin 'epgsearch' Revision History
 
 2011-xx-xx; Version 1.0.1
 new:
+- in the menu 'recordings done' you can now toggle the blue key to 'Orphaned' to show
+  recordings with vanished search timers.
 - when channel seperators are displayed the filling '-' can cause problems in the output
   of graphlcd. Set PLUGIN_EPGSEARCH_SEP_ITEMS=--- in your Make.config to avoid this. Most
   skins (except classic, st:tng)  will translate '---' into a single line anyway 

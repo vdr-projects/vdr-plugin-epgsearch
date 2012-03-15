@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.10\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-02-05 12:40+0100\n"
+"POT-Creation-Date: 2012-03-15 19:51+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: Lithuanian <vdr@linuxtv.org>\n"
@@ -874,6 +874,10 @@ msgstr "Naudoti juoduosius sąrašus"
 
 msgid "Edit$Search text too short - use anyway?"
 msgstr "Ieškomas tekstas per trumpas - vistiek naudoti?"
+
+#, fuzzy
+msgid "Button$Orphaned"
+msgstr "pagal kanalą"
 
 msgid "Button$by name"
 msgstr "pagal pavadinimą"

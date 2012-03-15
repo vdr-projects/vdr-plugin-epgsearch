@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-02-05 12:40+0100\n"
+"POT-Creation-Date: 2012-03-15 19:51+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Drazen Dupor <drazen.dupor@dupor.com>\n"
 "Language-Team: Croatian <vdr@linuxtv.org>\n"
@@ -829,6 +829,10 @@ msgstr ""
 
 msgid "Edit$Search text too short - use anyway?"
 msgstr ""
+
+#, fuzzy
+msgid "Button$Orphaned"
+msgstr "Snimi"
 
 msgid "Button$by name"
 msgstr ""

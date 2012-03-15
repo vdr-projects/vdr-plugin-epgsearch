@@ -64,16 +64,30 @@ int cMenuRecDoneItem::Compare(const cListObject &ListObject) const
 }
 
 // --- cMenuRecsDone ----------------------------------------------------------
+#define SHOW_RECDONE_SEARCH 0
+#define SHOW_RECDONE_ALL 1
+#define SHOW_RECDONE_ORPHANED 2
+
 cMenuRecsDone::cMenuRecsDone(cSearchExt* Search)
 :cOsdMenu("", 16)
 {
     search = Search;
-    showAll = true;
+    showMode = SHOW_RECDONE_ALL;
     showEpisodeOnly = false;
     sortModeRecDone = 0;
-    if (search) showAll = false;
+    if (search) showMode = SHOW_RECDONE_SEARCH;
     Set();
     Display();
+}
+
+const char* cMenuRecsDone::ButtonBlue(cSearchExt* Search)
+{
+  if (showMode==SHOW_RECDONE_SEARCH && Search)
+    return tr("Button$Show all");
+  else if (showMode==SHOW_RECDONE_ALL)
+    return tr("Button$Orphaned");
+  else
+    return Search->search;
 }
 
 void cMenuRecsDone::Set()
@@ -82,12 +96,14 @@ void cMenuRecsDone::Set()
     cMutexLock RecsDoneLock(&RecsDone);
     cRecDone* recDone = RecsDone.First();
     while (recDone) {
-	if (showAll || (!showAll && search && recDone->searchID == search->ID))
+	if (showMode == SHOW_RECDONE_ALL || 
+	    (showMode == SHOW_RECDONE_SEARCH && search && recDone->searchID == search->ID) ||
+	    (showMode == SHOW_RECDONE_ORPHANED && recDone->searchID == -1))
 	  Add(new cMenuRecDoneItem(recDone, showEpisodeOnly));
 	recDone = RecsDone.Next(recDone);
     }
     UpdateTitle();
-    SetHelp(sortModeRecDone==0?tr("Button$by name"):tr("Button$by date"), tr("Button$Delete all"), trVDR("Button$Delete"), showAll?search->search:tr("Button$Show all"));
+    SetHelp(sortModeRecDone==0?tr("Button$by name"):tr("Button$by date"), tr("Button$Delete all"), trVDR("Button$Delete"), ButtonBlue(search));
     Sort();
 }
 
@@ -99,7 +115,7 @@ cRecDone *cMenuRecsDone::CurrentRecDone(void)
 
 void cMenuRecsDone::UpdateTitle()
 {
-  cString buffer = cString::sprintf("%d %s%s%s", Count(), tr("Recordings"), showAll?"":" ", showAll?"":search->search);
+  cString buffer = cString::sprintf("%d %s%s%s", Count(), tr("Recordings"), showMode == SHOW_RECDONE_ALL?"":" ", showMode != SHOW_RECDONE_SEARCH ? "":search->search);
   SetTitle(buffer);
   Display();
 }
@@ -166,7 +182,7 @@ eOSState cMenuRecsDone::ProcessKey(eKeys Key)
       state = Delete();
       break;
     case kBlue:
-      showAll = !showAll;
+      showMode = (showMode+1)%3;
       Set();
       Display();
       break;

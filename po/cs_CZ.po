@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.21\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-02-05 12:40+0100\n"
+"POT-Creation-Date: 2012-03-15 19:51+0100\n"
 "PO-Revision-Date: 2011-10-31 20:21+0200\n"
 "Last-Translator: Radek Stastny <dedkus@gmail.com>\n"
 "Language-Team: Czech <vdr@linuxtv.org>\n"
@@ -827,6 +827,10 @@ msgstr "Použít blacklist"
 
 msgid "Edit$Search text too short - use anyway?"
 msgstr "Text je příliš krátký - přesto použít?"
+
+#, fuzzy
+msgid "Button$Orphaned"
+msgstr "Dle stanic"
 
 msgid "Button$by name"
 msgstr "dle jména"

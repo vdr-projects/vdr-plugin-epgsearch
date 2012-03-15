@@ -3,6 +3,8 @@ VDR Plugin 'epgsearch' Revision History
 
 2011-xx-xx: Version 1.0.1
 neu:
+- Im Menu 'Erledigte Aufnahmen' kann nun mit der blauen Taste zu 'Verwaiste' umgeschaltet
+  werden, um Aufnahmen anzuzeigen, zu denen es keine Suchtimer mehr gibt.
 - Wenn Kanalseparatoren angezeigt werden, kann das in der Ausgabe von graphlcd Probleme 
   machen. Um das zu  vermeiden, bitte PLUGIN_EPGSEARCH_SEP_ITEMS=--- in der Make.config
   setzen. Die meisten Skins (ausser classic, st:tng) ersetzen '---' ohnehin in eine durch-
