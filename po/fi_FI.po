@@ -871,9 +871,8 @@ msgstr "Käytä mustia listoja"
 msgid "Edit$Search text too short - use anyway?"
 msgstr "Liian suppea hakuehto - etsitäänkö silti?"
 
-#, fuzzy
 msgid "Button$Orphaned"
-msgstr "Kanavat"
+msgstr "Orvot"
 
 msgid "Button$by name"
 msgstr "Nimi"
@@ -1292,7 +1291,3 @@ msgstr "%02ldh"
 #, c-format
 msgid "in %02ldm"
 msgstr "%02ldm"
-
-#, fuzzy
-#~ msgid "Compare expression"
-#~ msgstr "säännöllinen lauseke"
