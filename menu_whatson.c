@@ -749,7 +749,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                else
                {
                   cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
-                  if (mi) {
+                  if (mi && mi->Selectable()) {
                      if (mi->event)
                         return AddSubMenu(new cMenuSearchCommands(tr("EPG Commands"),mi->event));
                      else
@@ -774,7 +774,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                if (toggleKeys == 0 || (toggleKeys == 1 && EPGSearchConfig.toggleGreenYellow == 0))
                {
                   cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
-                  if (mi && mi->channel)
+                  if (mi && mi->Selectable() && mi->channel)
                   {
                      const cSchedule *Schedule = schedules->GetSchedule(mi->channel);
                      if (Schedule)
@@ -809,7 +809,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                   else
                      currentShowMode = GetNextMode();
                   cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
-                  if (mi)
+                  if (mi && mi->Selectable())
                   {
                      currentChannel = mi->channel->Number();
                      scheduleChannel = Channels.GetByNumber(currentChannel);
@@ -833,10 +833,13 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
          case kOk:
          {
             cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
-            if (!mi->event) // no EPG, so simply switch to channel
-               return Switch();
-            else
-               return EPGSearchConfig.useOkForSwitch?Switch():ShowSummary();
+            if (mi && mi->Selectable()) 
+            {
+               if (!mi->event) // no EPG, so simply switch to channel
+                  return Switch();
+               else
+                  return EPGSearchConfig.useOkForSwitch?Switch():ShowSummary();
+            }
          }
          break;
       case kInfo:

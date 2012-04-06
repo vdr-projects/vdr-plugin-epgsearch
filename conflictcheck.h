@@ -100,7 +100,7 @@ class cConflictCheckDevice
     cDevice* device;
     int devicenr;
 
-    cConflictCheckDevice() {}
+    cConflictCheckDevice() { device = NULL; devicenr = 0; }
     int Priority() const
 	{
 	    int prio = -1;

@@ -67,7 +67,7 @@ class md5
 {
 // Methods
 public:
-	md5() { Init(); }
+	md5() { Init(); m_Buffer[0]=0; m_Digest[0]=0; m_Finalized=0; }
 	void	Init();
 	void	Update(uchar* chInput, uint4 nInputLen);
 	void	Finalize();

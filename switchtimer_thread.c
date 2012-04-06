@@ -84,7 +84,7 @@ void cSwitchTimerThread::Action(void)
          SwitchTimers.Lock();
          LogFile.Log(3,"switch timer check started");
          cSwitchTimer* switchTimer = SwitchTimers.First();
-         while (switchTimer && m_Active)
+         while (switchTimer && m_Active && Running())
          {
             if (switchTimer->startTime - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
             {
@@ -128,7 +128,7 @@ void cSwitchTimerThread::Action(void)
 			}
 		    }
 
-                  if (m_Active)
+                  if (m_Active && Running())
 		    Wait.Wait(1000 * MSG_DELAY);
                }
                SwitchTimers.Save();
@@ -138,11 +138,13 @@ void cSwitchTimerThread::Action(void)
          }
 	 SwitchTimers.Unlock();
          LogFile.Log(3,"switch timer check finished");
-         if (m_Active)
+         if (m_Active && Running())
 	    Wait.Wait(1000 * MSG_DELAY);
          m_lastUpdate = time(NULL);
          nextUpdate = long(m_lastUpdate/60)*60+ 60 - MSG_DELAY ; // check at each full minute minus 5sec
          if (SwitchTimers.Count() == 0)
+            m_Active = false;
+         if (!Running())
             m_Active = false;
       }
       while (m_Active && time(NULL)%MSG_DELAY != 0) // sync heart beat to MSG_DELAY

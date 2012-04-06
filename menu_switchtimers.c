@@ -105,7 +105,6 @@ eOSState cMenuEditSwitchTimer::ProcessKey(eKeys Key)
 		}
 		addIfConfirmed = false;
 		return osBack;
-		break;
 	    }
 	    default: break;
 	}

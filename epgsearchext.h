@@ -221,7 +221,7 @@ class cSearchExts : public cList<cSearchExt>, public cMutex {
 	    cList<cSearchExt>::Clear();
 	}
  public:
-  cSearchExts(void) { fileName = NULL; }
+  cSearchExts(void) { fileName = NULL; allowComments = false; }
   virtual ~cSearchExts() { Clear(); free(fileName); }
 
 public:

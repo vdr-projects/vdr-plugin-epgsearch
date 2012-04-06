@@ -188,6 +188,9 @@ cConflictCheck::~cConflictCheck()
 
 void cConflictCheck::InitDevicesInfo()
 {
+    if (devices)
+        delete [] devices;
+
     devices = new cConflictCheckDevice[MAXDEVICES];
 #ifdef DEBUG_CONFL
     numDevices = 4;

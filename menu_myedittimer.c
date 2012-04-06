@@ -333,7 +333,6 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		if (timer && timer->Aux())
 		    fullaux = timer->Aux();
 
-		int bstart = 0, bstop = 0; // calculate margins
 		if (event && IsSingleEvent())
 		{
 		    time_t startTime = 0, stopTime = 0;;
@@ -343,8 +342,9 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 			length += SECSINDAY;
 		    startTime = cTimer::SetTime(day, begin);
 		    stopTime = startTime + length;
-		    bstart = event->StartTime() - startTime;
-		    bstop = stopTime - event->EndTime();
+                    // calculate margins
+		    int bstart = event->StartTime() - startTime;
+		    int bstop = stopTime - event->EndTime();
 
 		    char* epgsearchaux = GetAuxValue(timer, "epgsearch");
 		    if (epgsearchaux)
@@ -372,11 +372,14 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 #endif
 
 		char* tmpFile = strdup(file);
-		tmpFile = strreplace(tmpFile, ':', '|');
+		strreplace(tmpFile, ':', '|');
 		char* tmpDir = strdup(directory);
-		tmpDir = strreplace(tmpDir, ':', '|');
+		strreplace(tmpDir, ':', '|');
 		if (strlen(tmpFile) == 0)
+		{
+		    free(tmpFile);
 		    tmpFile = strdup(CHANNELNAME(ch));
+		}
 
                 if (timer)
                 {
@@ -406,7 +409,10 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
                     gl_timerStatusMonitor->SetConflictCheckAdvised();
                     Timers.SetModified();
                     addIfConfirmed = false;
-                }
+                } else {
+		    free(tmpFile);
+		    free(tmpDir);
+		}
 	    }
 	    return osBack;
 	    case kRed:

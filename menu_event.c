@@ -234,11 +234,9 @@ void cMenuEventSearchSimple::Set()
    if (event)
    {
       cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true, true);
-      bool canSwitch = false;
       if (channel)
       {
          SetTitle(channel->Name());
-         canSwitch = channel->Number() != cDevice::CurrentChannel();
       }
 
       cEventObj* eventObjPrev = GetPrev(event);

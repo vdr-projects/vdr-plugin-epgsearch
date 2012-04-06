@@ -93,6 +93,9 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   checkEPGWarnByMail = 0;
   checkEPGchannelGroupNr = -1;
   strcpy(conflCheckCmd, "");
+  ReplaceOrgSchedule = 0;
+  sendMailOnSearchtimers = 0;
+  sendMailOnConflicts = 0;
 }
 
 int cShowMode::Compare(const cListObject &ListObject) const

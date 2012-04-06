@@ -461,11 +461,13 @@ eOSState cMenuEditSearchExt::Help()
     if(Current() < (int) helpTexts.size())
     {
 	char* title = NULL;
-	msprintf(&title, "%s - %s", tr("Button$Help"), ItemText);
-	if (strchr(title, ':'))
-	    *strchr(title, ':') = 0;
-	state = AddSubMenu(new cMenuText(title, helpTexts[Current()]));
-	free(title);
+	if (msprintf(&title, "%s - %s", tr("Button$Help"), ItemText)!=-1)
+        {
+	     if (strchr(title, ':'))
+	         *strchr(title, ':') = 0;
+	     state = AddSubMenu(new cMenuText(title, helpTexts[Current()]));
+	     free(title);
+        }
     }
     return state;
 }
@@ -840,7 +842,6 @@ cMenuEditDaysOfWeek::cMenuEditDaysOfWeek(int* DaysOfWeek, int Offset, bool Negat
 
 eOSState cMenuEditDaysOfWeek::ProcessKey(eKeys Key)
 {
-   int i=0;
    if (Key == kBack && negate)
       *pDaysOfWeek = -*pDaysOfWeek;
 
@@ -850,7 +851,7 @@ eOSState cMenuEditDaysOfWeek::ProcessKey(eKeys Key)
       switch (Key) {
          case kOk:
             *pDaysOfWeek = 0;
-            for(i=0; i<7; i++)
+            for(int i=0; i<7; i++)
                *pDaysOfWeek += Days[i]?(int)pow(2,(i+7-offset)%7):0;
             if (negate)
                *pDaysOfWeek = -*pDaysOfWeek;
@@ -1124,8 +1125,11 @@ void cMenuCatValuesSelect::Set()
       }
    }
    SetCurrent(Get(current));
-   cString title = cString::sprintf("%s (%d/%d)", tr("Values for EPG category"), selCount, SearchExtCat->nvalues);
-   SetTitle(title);
+   if (SearchExtCat)
+   {
+        cString title = cString::sprintf("%s (%d/%d)", tr("Values for EPG category"), selCount, SearchExtCat->nvalues);
+        if (*title) SetTitle(title);
+   }
    Display();
 }
 

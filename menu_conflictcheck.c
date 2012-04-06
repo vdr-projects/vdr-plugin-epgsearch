@@ -227,9 +227,12 @@ void cMenuConflictCheckDetails::SetHelpKeys()
 {
     cConflictCheckTimerObj* curTimerObj = CurrentTimerObj();
     bool hasTimer = true;
-    if (curTimerObj)
+    bool hasEvent = false;
+    if (curTimerObj) 
+    {
 	hasTimer = curTimerObj->timer->HasFlags(tfActive);
-    bool hasEvent = curTimerObj->Event();
+        hasEvent = curTimerObj->Event();
+    }
     SetHelp(hasEvent?tr("Button$Repeats"):NULL, trVDR("Button$On/Off"), hasTimer?trVDR("Button$Delete"):NULL, tr("Button$Commands"));
 }
 

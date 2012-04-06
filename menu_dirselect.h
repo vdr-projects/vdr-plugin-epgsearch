@@ -36,7 +36,7 @@ class cDirExt : public cListObject {
 private:
     char name[MaxFileName];
 public:
-  cDirExt(void){}
+  cDirExt(void){ name[0]=0; }
   bool Parse(const char *s) {strcpy(name,s); return true;}
   char* Name() {return name;}
 };

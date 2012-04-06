@@ -96,7 +96,7 @@ void cConflictCheckThread::Action(void)
       }
 
     time_t nextUpdate = time(NULL);
-    while (m_Active)
+    while (m_Active && Running())
     {
 	time_t now = time(NULL);
 	if (now >= nextUpdate || m_forceUpdate)
@@ -149,10 +149,10 @@ void cConflictCheckThread::Action(void)
 
 	    nextUpdate = long(m_lastUpdate/60)*60 + (Intervall * 60);
 	}
-	if (m_Active)
+	if (m_Active && Running())
 	    Wait.Wait(2000); // to avoid high system load if time%30==0 ?????????????????????
 	// no waiting in the while loop if m_runOnce is true
-	while (m_Active && time(NULL)%30 != 0 && !m_runOnce) // sync heart beat to a multiple of 5secs
+	while (Running() && m_Active && time(NULL)%30 != 0 && !m_runOnce) // sync heart beat to a multiple of 5secs
 	    Wait.Wait(1000);
     };
 

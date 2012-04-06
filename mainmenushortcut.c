@@ -36,6 +36,7 @@ cMainMenuShortcutSetupPage::cMainMenuShortcutSetupPage(const char *setupText,
 						       int *const setupValue)
 :_setupEntry(setupEntry), _setupValue(setupValue)
 {
+  dummy=0;
   Add(new cMenuEditBoolItem(setupText, _setupValue, trVDR("no"), trVDR("yes")));
 }
 

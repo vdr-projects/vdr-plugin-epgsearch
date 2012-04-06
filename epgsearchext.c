@@ -313,7 +313,7 @@ const char *cSearchExt::ToText()
       while (SearchExtCat)
       {
          char* catvalue = NULL;
-         msprintf(&catvalue, "%s", catvalues[index]);
+         if (msprintf(&catvalue, "%s", catvalues[index])==-1) break;
          while(strstr(catvalue, ":"))
             catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part ofa category value
          while(strstr(catvalue, "|"))

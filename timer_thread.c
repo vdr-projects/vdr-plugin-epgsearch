@@ -84,6 +84,11 @@ void cTimerThread::Action(void)
     }
     while (m_Active)
     {
+	if (!Running()) 
+        {
+            m_Active=false;
+            break;
+        }
 	if (Timers.BeingEdited())
 	{
 	    sleepSec(1);

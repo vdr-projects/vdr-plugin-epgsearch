@@ -68,9 +68,15 @@ cRecDone::cRecDone(cTimer* Timer, const cEvent* Event, cSearchExt* Search)
 	    description = strdup(Event->Description());
 	startTime = Event->StartTime();
 	duration = Event->Duration();
-	channelID = Timer->Channel()->GetChannelID();
-	if (Timer && !isempty(Timer->Aux()))
-	    aux = strdup(Timer->Aux());
+        if (Timer)
+        {
+	    channelID = Timer->Channel()->GetChannelID();
+	    if (!isempty(Timer->Aux()))
+	        aux = strdup(Timer->Aux());
+        } else {
+            channelID = tChannelID::InvalidID;
+            aux = NULL;
+        }
     }
 }
 

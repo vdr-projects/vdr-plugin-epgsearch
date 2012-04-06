@@ -94,8 +94,12 @@ bool cSearchExtCat::Parse(const char *s)
 		while(pstrToken)
 		{
 		    nvalues++;
-		    values = (char**) realloc(values, nvalues * sizeof(char*));
-		    values[nvalues-1] = strdup(pstrToken);
+		    char **tmp = (char**) realloc(values, nvalues * sizeof(char*));
+                    if (tmp) 
+                    {
+                       values=tmp;
+		       values[nvalues-1] = strdup(pstrToken);
+                    }
 		    pstrToken=strtok_r(NULL, ",", &pptr);
 		}
 		free(szBuffer);

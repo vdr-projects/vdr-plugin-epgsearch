@@ -226,7 +226,7 @@ char* GetExtEPGValue(const char* description, const char* catname)
    char* tmp = NULL;
 
    // search the category, must be at beginnig of a line
-   msprintf(&tmp, "\n%s: ", catname);
+   if (msprintf(&tmp, "\n%s: ", catname)==-1) return NULL;
    char* descr = strdup(description);
    char* cat = NULL;
    if ((cat = strstr(descr, tmp)) == NULL)
@@ -912,9 +912,9 @@ ssize_t Readline(int sockd, char *vptr, size_t maxlen) {
 }
 
 /*  Write a line to a socket  */
-ssize_t Writeline(int sockd, const char *vptr, size_t n) {
-    size_t      nleft;
-    size_t     nwritten;
+ssize_t Writeline(int sockd, const char *vptr, ssize_t n) {
+    ssize_t      nleft;
+    ssize_t     nwritten;
     const char *buffer;
 
     buffer = vptr;

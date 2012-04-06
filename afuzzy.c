@@ -52,7 +52,7 @@ ALGORITHM
 ******************************************************************************/
 void afuzzy_init(const char *p, int kerr, int UseFilter, AFUZZY *fuzzy)
 {
-	int cnt, p_len, i, j, l, d, m, dd;
+	int cnt, p_len, i, l, d, m;
 	char PatFilter[sizeof(Uint)*8 + 1];
 
 	fuzzy->k = kerr;
@@ -112,11 +112,11 @@ void afuzzy_init(const char *p, int kerr, int UseFilter, AFUZZY *fuzzy)
 			fuzzy->FilterS = (Uint *)calloc(m + 1, sizeof(Uint));
 
 			/* Not let's fill the interleaved pattern */
-			dd = p_len / (fuzzy->k + 1);
+			int dd = p_len / (fuzzy->k + 1);
 			p_len  = dd * (fuzzy->k + 1);
 
 			for (i = 0, cnt = 0; i < dd; i++)
-				for (j = 0; j < fuzzy->k + 1; j++, cnt++)
+				for (int j = 0; j < fuzzy->k + 1; j++, cnt++)
 					PatFilter[cnt] = (unsigned char)p[j*dd + i];
 			PatFilter[p_len] = 0;
 

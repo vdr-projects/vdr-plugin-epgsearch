@@ -173,6 +173,11 @@ bool cMenuSearchResultsItem::Update(bool Force)
 
 cMenuSearchResultsItem::cMenuSearchResultsItem(cRecording *Recording)
 {
+   previewTimer = false;
+   episodeOnly = false;
+   menuTemplate = NULL;
+   timerMatch = 0;
+   inSwitchList = false;
    event = NULL;
    search = NULL;
    fileName = strdup(Recording->FileName());
@@ -189,6 +194,8 @@ cMenuSearchResults::cMenuSearchResults(cMenuTemplate* MenuTemplate)
   helpKeys = -1;
   menuTemplate = MenuTemplate;
   modeYellow = showTitleEpisode;
+  modeBlue = showAll;
+  m_bSort = false;
   ignoreRunning = false;
 }
 
@@ -783,8 +790,12 @@ bool cMenuSearchResultsForRecs::BuildList()
        }
 
      if (match) {
-       pArray = (cRecording **)realloc(pArray, (num + 1) * sizeof(cRecording *));
-       pArray[num++] = recording;
+       cRecording **tmp = (cRecording **)realloc(pArray, (num + 1) * sizeof(cRecording *));
+       if (tmp)
+       {
+           pArray=tmp;
+           pArray[num++] = recording;
+       }
      }
    }
 

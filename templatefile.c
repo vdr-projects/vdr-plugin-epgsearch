@@ -104,7 +104,8 @@ cTemplLine::~cTemplLine()
 
 bool cTemplLine::Parse(char *s)
 {
-    if (s && s[0] == '#')
+    if (!s) return false;
+    if (s[0] == '#')
 	return true;
     char *p = strchr(s, '=');
     if (p)

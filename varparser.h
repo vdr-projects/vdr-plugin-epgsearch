@@ -65,7 +65,7 @@ class cVarParser
     int connectPort;
     exprType type;
 
- cVarParser() : cmd(NULL), connectPort(-1), type(composed) {}
+ cVarParser() : cmd(NULL), connectPort(-1), type(composed) { condOp=condEq; }
     bool Parse(const string& input);
     bool ParseExp(const string& input);
     bool IsCondExpr();

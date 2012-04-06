@@ -61,6 +61,7 @@ class cPendingNotifications : public cList<cPendingNotification> {
  private:
     char *fileName;
  public:
+    cPendingNotifications() { fileName = NULL; }
     void Clear(void)
 	{
 	    free(fileName);

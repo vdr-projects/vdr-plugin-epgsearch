@@ -59,6 +59,7 @@ class cReadLine {
  private:
     char buffer[MAXPARSEBUFFER];
  public:
+    cReadLine() { buffer[0]=0; }
     char *Read(FILE *f);
 };
 
@@ -106,8 +107,13 @@ class cCat {
 		return;
 	    char* newvalue = (char*) malloc(sizeof(char) * (strlen(value)+1));
 	    strcpy(newvalue, value);
-	    values = (char**) realloc(values, sizeof(char*)*(numvalues+1));
-	    values[numvalues++] = newvalue;
+	    char **tmp = (char**) realloc(values, sizeof(char*)*(numvalues+1));
+	    if (tmp) {
+                 values=tmp;
+   	         values[numvalues++] = newvalue;
+	    } else {
+                 free(newvalue);
+            }
 	}
     bool valueexists(char* value)
 	{
@@ -143,9 +149,16 @@ class cCats {
     cCat* add(char* name)
 	{
 	    cCat* newCat = new cCat(name);
-	    cats = (cCat**) realloc(cats, sizeof(cCat*)*(numcats+1));
-	    cats[numcats++] = newCat;
-	    return newCat;
+	    cCat **tmp = (cCat**) realloc(cats, sizeof(cCat*)*(numcats+1));
+            if (tmp) 
+            {
+               cats=tmp;
+	       cats[numcats++] = newCat;
+	       return newCat;
+            } else {
+               delete newCat;
+               return NULL;
+            }
 	}
 
     cCat* get(int i)

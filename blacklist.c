@@ -216,20 +216,22 @@ const char *cBlacklist::ToText(void)
       while (SearchExtCat)
       {
 	  char* catvalue = NULL;
-	  msprintf(&catvalue, "%s", catvalues[index]);
-	  while(strstr(catvalue, ":"))
-	      catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part ofa category value
-	  while(strstr(catvalue, "|"))
-	      catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression
+	  if (msprintf(&catvalue, "%s", catvalues[index])!=-1)
+          {
+	      while(strstr(catvalue, ":"))
+	          catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part ofa category value
+	      while(strstr(catvalue, "|"))
+	          catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression
 
-	  if (index == 0)
-	      msprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
-	  else
-	  {
-	      char* temp = tmp_catvalues;
-	      msprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
-	      free(temp);
-	  }
+	      if (index == 0)
+	          msprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
+	      else
+	      {
+	          char* temp = tmp_catvalues;
+	          msprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
+	          free(temp);
+	      }
+          }
 	  SearchExtCat = SearchExtCats.Next(SearchExtCat);
 	  index++;
 	  free(catvalue);

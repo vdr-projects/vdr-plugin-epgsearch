@@ -86,11 +86,13 @@ eOSState cMenuSetupSubMenu::Help()
     if(Current() < (int) helpTexts.size())
     {
 	char* title = NULL;
-	msprintf(&title, "%s - %s", tr("Button$Help"), ItemText);
-	if (strchr(title, ':'))
-	    *strchr(title, ':') = 0;
-	state = AddSubMenu(new cMenuText(title, helpTexts[Current()]));
-	free(title);
+	if (msprintf(&title, "%s - %s", tr("Button$Help"), ItemText)!=-1)
+        {
+	     if (strchr(title, ':'))
+	         *strchr(title, ':') = 0;
+	     state = AddSubMenu(new cMenuText(title, helpTexts[Current()]));
+	     free(title);
+        }
     }
     return state;
 }

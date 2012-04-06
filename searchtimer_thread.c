@@ -205,11 +205,11 @@ void cSearchTimerThread::Action(void)
    // let VDR do its startup
    if (!cPluginEpgsearch::VDR_readyafterStartup)
      LogFile.Log(2, "SearchTimerThread: waiting for VDR to become ready...");
-   while(m_Active && !cPluginEpgsearch::VDR_readyafterStartup)
+   while(Running() && m_Active && !cPluginEpgsearch::VDR_readyafterStartup)
       Wait.Wait(1000);
 
    time_t nextUpdate = time(NULL);
-   while (m_Active)
+   while (m_Active && Running())
    {
       time_t now = time(NULL);
       bool needUpdate = NeedUpdate();
@@ -225,7 +225,7 @@ void cSearchTimerThread::Action(void)
 	    {
 	       Wait.Wait(1000);
 	    }
-	    while(EITScanner.Active() && m_Active);
+	    while(EITScanner.Active() && m_Active && Running());
   	    LogFile.Log(1,"EPG scan finished");
 	 }
          if (Timers.BeingEdited())
@@ -245,7 +245,7 @@ void cSearchTimerThread::Action(void)
          cSearchExt *searchExt = localSearchExts->First();
          // reset announcelist
          announceList.Clear();
-         while (searchExt && m_Active)
+         while (searchExt && m_Active && Running())
          {
 	   if (!searchExt->IsActiveAt(now))
             {
@@ -269,6 +269,7 @@ void cSearchTimerThread::Action(void)
                  pResultObj;
                  pResultObj = pSearchResults->Next(pResultObj))
             {
+               if (!Running()) break;
                const cEvent* pEvent = pResultObj->event;
                if (!pEvent)
                   continue;
@@ -534,7 +535,7 @@ void cSearchTimerThread::Action(void)
          LogFile.iSysLog("search timer update finished");
 
          // check for conflicts
-         if (EPGSearchConfig.checkTimerConflictsAfterUpdate && m_Active)
+         if (EPGSearchConfig.checkTimerConflictsAfterUpdate && m_Active && Running())
          {
             LogFile.iSysLog("check for timer conflicts");
             cConflictCheck conflictCheck;
@@ -586,9 +587,9 @@ void cSearchTimerThread::Action(void)
          nextUpdate = long(m_lastUpdate/60)*60 + (EPGSearchConfig.UpdateIntervall * 60);
 	 justRunning = false;
       }
-      if (m_Active)
+      if (m_Active && Running())
 	Wait.Wait(2000); // to avoid high system load if time%30==0
-      while (m_Active && !NeedUpdate() && time(NULL)%30 != 0) // sync heart beat to a multiple of 5secs
+      while (Running() && m_Active && !NeedUpdate() && time(NULL)%30 != 0) // sync heart beat to a multiple of 5secs
          Wait.Wait(1000);
    };
    LogFile.iSysLog("Leaving search timer thread");
