@@ -334,7 +334,7 @@ void cMenuSearchMain::UpdateCurrent()
    cEventObj* cureventObj = eventObjects.GetCurrent();
    if (cureventObj && cureventObj->Event())
       for (cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)First(); item; item = (cMenuMyScheduleItem *)Next(item))
-         if (item->event == cureventObj->Event())
+         if (item->Selectable() && item->event == cureventObj->Event())
          {
             cureventObj->Select(false);
             SetCurrent(item);

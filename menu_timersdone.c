@@ -108,7 +108,7 @@ void cMenuTimersDone::UpdateCurrent()
    cEventObj* cureventObj = eventObjects.GetCurrent();
    if (cureventObj && cureventObj->Event())
       for (cMenuTimerDoneItem *item = (cMenuTimerDoneItem *)First(); item; item = (cMenuTimerDoneItem *)Next(item))
-         if (item->timerDone->GetEvent() == cureventObj->Event())
+         if (item->Selectable() && item->timerDone->GetEvent() == cureventObj->Event())
          {
             cureventObj->Select(false);
             SetCurrent(item);

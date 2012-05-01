@@ -325,7 +325,7 @@ void cMenuConflictCheckDetails::UpdateCurrent()
    cEventObj* cureventObj = eventObjects.GetCurrent();
    if (cureventObj && cureventObj->Event())
       for (cMenuConflictCheckDetailsItem *item = (cMenuConflictCheckDetailsItem *)First(); item; item = (cMenuConflictCheckDetailsItem *)Next(item))
-         if (item->timerObj && item->timerObj->Event() == cureventObj->Event())
+         if (item->Selectable() && item->timerObj && item->timerObj->Event() == cureventObj->Event())
          {
             cureventObj->Select(false);
             SetCurrent(item);
