@@ -38,7 +38,7 @@ Auszug aus einer F<epgsearchcats.conf>:
  - 'ID' should be a unique positive integer
    (changing the id later on will force you to reedit your search timers!)
  - 'category name' is the name in your epg.data
-   you can optinally add a format specifier for numeric values e.g.
+   you can optionally add a format specifier for numeric values e.g.
    Episode,%02i
  - 'name in menu' is the name displayed in epgsearch.
  - 'values' is an optional list of possible values

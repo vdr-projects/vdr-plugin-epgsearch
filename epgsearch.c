@@ -1,5 +1,5 @@
 /*                                                                  -*- c++ -*-
-Copyright (C) 2004-2011 Christian Wieninger
+Copyright (C) 2004-2012 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -69,7 +69,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "confdloader.h"
 #include "pending_notifications.h"
 
-static const char VERSION[]        = "1.0.1";
+static const char VERSION[]        = "1.0.1.beta1";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals

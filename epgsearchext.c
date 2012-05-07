@@ -1,5 +1,5 @@
 /*                                                                  -*- c++ -*-
-Copyright (C) 2004-2011 Christian Wieninger
+Copyright (C) 2004-2012 Christian Wieninger
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

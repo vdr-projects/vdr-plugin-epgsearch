@@ -1,8 +1,10 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2012-05-xx; Version 1.0.1
+2012-05-xx; Version 1.0.1 - maintenance release
 new:
+- new format specifier like %02i in the epgsearchcats.conf, thanks to Joe_D for providing
+  a patch ('man 5 epgsearchcats.conf' for more information).
 - in the menu 'recordings done' you can now toggle the blue key to 'Orphaned' to show
   recordings with vanished search timers.
 - when channel seperators are displayed the filling '-' can cause problems in the output
