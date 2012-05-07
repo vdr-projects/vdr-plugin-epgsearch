@@ -216,10 +216,10 @@ char* GetExtEPGValue(const cEvent* e, cSearchExtCat* SearchExtCat)
 {
    if (!e || !SearchExtCat)
       return NULL;
-   return GetExtEPGValue(e->Description(), SearchExtCat->name);
+   return GetExtEPGValue(e->Description(), SearchExtCat->name, SearchExtCat->format);
 }
 
-char* GetExtEPGValue(const char* description, const char* catname)
+char* GetExtEPGValue(const char* description, const char* catname, const char *format)
 {
    if (isempty(description))
       return NULL;
@@ -247,6 +247,16 @@ char* GetExtEPGValue(const char* description, const char* catname)
 
    char* value = NULL;
    msprintf(&value, "%s", cat + strlen(tmp)-1);
+   if (format)
+   {
+      int ivalue;
+      if (sscanf(value,"%8i",&ivalue)==1)
+      {
+         free(value);
+         value = NULL;
+         msprintf(&value, format, ivalue);
+      }
+   }
    free(descr);
    free(tmp);
 
@@ -659,8 +669,8 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
          {
             if (catvaluesAvoidRepeat & (1<<index))
             {
-               char* CatValue1 = GetExtEPGValue(Descr1, SearchExtCat->name);
-               char* CatValue2 = GetExtEPGValue(Descr2, SearchExtCat->name);
+               char* CatValue1 = GetExtEPGValue(Descr1, SearchExtCat->name, SearchExtCat->format);
+               char* CatValue2 = GetExtEPGValue(Descr2, SearchExtCat->name, SearchExtCat->format);
                if ((!CatValue1 && CatValue2) ||
                    (!CatValue2 && CatValue1) ||
                    (CatValue1 && CatValue2 && strcmp(CatValue1, CatValue2) != 0))

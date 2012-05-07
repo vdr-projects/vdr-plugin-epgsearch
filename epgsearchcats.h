@@ -33,6 +33,7 @@ class cSearchExtCat : public cListObject {
 public:
     int      id;
     char*    name;
+    char*    format;
     char*    menuname;
     int      searchmode; // text comarison:
                          // 0 - substring,

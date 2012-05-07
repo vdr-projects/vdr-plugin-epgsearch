@@ -34,6 +34,7 @@ cSearchExtCat::cSearchExtCat(void)
 {
     id = 0;
     name = NULL;
+    format = NULL;
     menuname = NULL;
     searchmode = 1; // default: all substrings must exist
     values = NULL;
@@ -82,8 +83,19 @@ bool cSearchExtCat::Parse(const char *s)
         switch (parameter) {
 	    case 1:  id = atoi(value);
 	      break;
-	    case 2:  name = strdup(value);
-	      break;
+	    case 2:
+            {
+		name = strdup(value);
+		format=strchr(name,',');
+		if (format) 
+		{
+			*format=0;
+			format++;
+			char cset[]="%0123456789di";
+			if (strspn(format,cset)!=strlen(format)) format=NULL;
+		} 
+		break;
+            }
 	    case 3:  menuname = strdup(value);
 	      break;
 	    case 4:
@@ -128,8 +140,14 @@ const char *cSearchExtCat::ToText(void)
     for(int i=0; i<nvalues; i++)
 	sValues += string(values[i]) + ((i<nvalues-1)?", ":"");
 
-    msprintf(&buffer, "%d|%s|%s|%s|%d",
+    if (format) 
+    {
+        msprintf(&buffer, "%d|%s,%s|%s|%s|%d",
+             id, name, format, menuname, sValues.c_str(), searchmode);
+    } else {
+        msprintf(&buffer, "%d|%s|%s|%s|%d",
 	     id, name, menuname, sValues.c_str(), searchmode);
+    }
     return buffer;
 }
 

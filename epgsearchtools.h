@@ -117,7 +117,7 @@ class cEvent;
 char* IndentMenuItem(const char*, int indentions=1);
 bool MatchesSearchMode(const char* test, const char* values, int searchmode, const char* delim, int tolerance);
 char* GetExtEPGValue(const cEvent* e, cSearchExtCat* SearchExtCat);
-char* GetExtEPGValue(const char* description, const char* catname);
+char* GetExtEPGValue(const char* description, const char* catname, const char *format);
 char* GetAuxValue(const char* aux, const char* name);
 char* GetAuxValue(const cRecording *recording, const char* name);
 char* GetAuxValue(const cTimer* timer, const char* name);

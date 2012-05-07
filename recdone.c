@@ -248,8 +248,8 @@ bool CatValuesMatch(unsigned long catvaluesAvoidRepeat, const string& rDescr, co
     {
       if (catvaluesAvoidRepeat & (1<<index))
 	{
-	  char* eCatValue = GetExtEPGValue(eDescr.c_str(), SearchExtCat->name);
-	  char* rCatValue = GetExtEPGValue(rDescr.c_str(), SearchExtCat->name);
+	  char* eCatValue = GetExtEPGValue(eDescr.c_str(), SearchExtCat->name, SearchExtCat->format);
+	  char* rCatValue = GetExtEPGValue(rDescr.c_str(), SearchExtCat->name, SearchExtCat->format);
 	  if ((!eCatValue && rCatValue) ||
 	      (!rCatValue && eCatValue) ||
 	      (eCatValue && rCatValue && strcmp(eCatValue, rCatValue) != 0))

@@ -1,7 +1,7 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2011-xx-xx: Version 1.0.1
+2012-05-xx: Version 1.0.1
 neu:
 - Im Menu 'Erledigte Aufnahmen' kann nun mit der blauen Taste zu 'Verwaiste' umgeschaltet
   werden, um Aufnahmen anzuzeigen, zu denen es keine Suchtimer mehr gibt.

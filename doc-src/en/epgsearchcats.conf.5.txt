@@ -32,11 +32,13 @@ the category name as also the value.
 
 =head1 SYNTAX
 
- ID|category name|name in menu|values separated by ','(option)|searchmode(option)
+ ID|category name(,format)|name in menu|values separated by ','(option)|searchmode(option)
 
  - 'ID' should be a unique positive integer
    (changing the id later on will force you to re-edit your search timers!)
  - 'category name' is the name as delivered by the EPG provider, e.g. 'Genre'
+   you can optionally provide a format specifier for numeric values, e.g.
+   Episode,%02i
  - 'name in menu' is the name displayed in epgsearch.
  - 'values' is an optional list of possible values
  - 'searchmode' specifies the search mode:
