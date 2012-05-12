@@ -22,8 +22,8 @@ ASK_SID=no
 # What S-ID should be used if no other selected
 DEFAULT_SID=0
 
-# adjust the following lines to your path to svdrpsend.pl
-SVDRPSEND=/usr/local/bin/svdrpsend.pl
+# adjust the following lines to your path to svdrpsend
+SVDRPSEND=/usr/local/bin/svdrpsend
 
 # Home of EPGsearch
 EPGSEARCH_HOME="/etc/vdr/plugins"

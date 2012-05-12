@@ -11,6 +11,7 @@
 
 # CONFIG START
   AUTOTIMER_FILE="$SOURCEDIR/vdradmin/vdradmind.at"
+  SVDRPSEND=/usr/local/bin/svdrpsend
 
 # default autotimer settings
   STATUS=1       # 0 = inactive (by default) / 1 = active
@@ -27,6 +28,6 @@ echo "Done..."
 
 # jump back
 at now <<EOF
-perl -l -e "printf \"\n/usr/local/bin/svdrpsend.pl HITK BACK\" x 2" | sh
+perl -l -e "printf \"\n$SVDRPSEND HITK BACK\" x 2" | sh
 EOF
 

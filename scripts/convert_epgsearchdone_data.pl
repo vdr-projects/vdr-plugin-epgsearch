@@ -18,7 +18,7 @@
 #
 #  z.B. convert_epgsearchdone_data.pl /etc/vdr/plugins/
 #
-#  "svdrpsend.pl plug epgsearch updd" nicht vergesssen.
+#  "svdrpsend plug epgsearch updd" nicht vergesssen.
 #
 # Backup erstellen?
 #

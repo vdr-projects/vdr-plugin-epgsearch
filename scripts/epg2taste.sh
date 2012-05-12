@@ -9,6 +9,7 @@
 
 # CONFIG START
   TASTE_FILE="/etc/vdr/plugins/taste.conf"
+  SVDRPSEND=/usr/local/bin/svdrpsend
 
 # default taste settings
   REGULAR_EXPRESSION=0 # Regular Expression / Regulärer Ausdruck
@@ -21,6 +22,6 @@ echo "Done..."
 
 # jump back
 at now <<EOF
-perl -l -e "printf \"\n/usr/local/bin/svdrpsend.pl HITK BACK\" x 2" | sh
+perl -l -e "printf \"\n$SVDRPSEND HITK BACK\" x 2" | sh
 EOF
 

@@ -16,7 +16,7 @@
 
 # your plugins config dir
 PLUGINCONFDIR=/var/lib/vdr/plugins/epgsearch
-# path to svdrpsend.pl
+# path to svdrpsend
 SVDRPSEND=svdrpsend
 # the key used to call epgsearch
 EPGSEARCHKEY=green

@@ -60,7 +60,7 @@ Teile der Quelltexte basieren auf dem repeating-epg-patch von Gerhard Steiner, d
 
 =item -f file,  --svdrpsendcmd=file
 
-Pfad zu svdrpsend.pl für externe SVDRP-Kommunikation (Standard ist interne
+Pfad zu svdrpsend für externe SVDRP-Kommunikation (Standard ist interne
 Kommunikation, deshalb ist dieser Paramter normalerweise nicht notwendig)
 
 =item -c path,  --config=path
@@ -707,11 +707,11 @@ keine Sendungen zugeordnet sind. Während der neue EPG an VDR übermittelt wird,
 kann diese Situation auftreten. Am einfachsten geht das mit dem SVDRP-Befehl
 SETS im EPG-Update-Skript:
 
-svdrpsend.pl plug epgsearch SETS off
+svdrpsend plug epgsearch SETS off
 
 <das EPG update Skript>
 
-svdrpsend.pl plug epgsearch SETS on
+svdrpsend plug epgsearch SETS on
 
 
 =head3 1.4.6 Timer-Konflikt-Prüfung

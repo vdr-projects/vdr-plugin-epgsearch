@@ -58,7 +58,7 @@ Parts of the sources are based on the repeating-ECG patch from Gerhard Steiner, 
 
 =item -f file,  --svdrpsendcmd=file
 
-the path to svdrpsend.pl for external SVDRP communication (default is
+the path to svdrpsend for external SVDRP communication (default is
 internal communication, so this is usually not needed anymore)
 
 =item -c path,  --config=path
@@ -688,11 +688,11 @@ situation can exist while the new EPG is feeded to VDR. A simple way to
 disable search timer updates is to use the SVDRP command SETS in your EPG
 update script:
 
-svdrpsend.pl plug epgsearch SETS off
+svdrpsend plug epgsearch SETS off
 
 <your EPG update script>
 
-svdrpsend.pl plug epgsearch SETS on
+svdrpsend plug epgsearch SETS on
 
 =head3 1.4.6 Timer conflict checking
 

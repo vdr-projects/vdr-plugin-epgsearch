@@ -15,8 +15,8 @@
 # adjust the following lines to your config
 # your plugins config dir
 PLUGINCONFDIR=/etc/vdr/plugins/epgsearch
-# path to svdrpsend.pl
-SVDRPSEND=/usr/local/src/VDR/svdrpsend.pl
+# path to svdrpsend
+SVDRPSEND=/usr/local/src/VDR/svdrpsend
 # if you are using special subfolders for some recordings, please add them here
 FOLDERS="Comedy,Wissen,Serien,Magazine"
 # the key used to call epgsearch

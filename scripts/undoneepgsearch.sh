@@ -32,7 +32,7 @@ EPGSEARCHDONE_FILE="/etc/vdr/plugins/epgsearch/epgsearchdone.data"
 # Backup epgsearchdone.data before changing it (only once a day)
 BACKUP=yes
 
-SVDRPSEND=svdrpsend.pl
+SVDRPSEND=svdrpsend
 
 # For some debugging infos, set to yes
 DEBUG=no

@@ -1153,7 +1153,7 @@ fixes:
 
 2005-04-14: Version 0.9.3
 - implemented direct SVDRP communication (no more need for
-  svdrpsend.pl. For now, the old external method can still be used when you pass
+  svdrpsend. For now, the old external method can still be used when you pass
   it with -f as parameter, if you omit -f the internal method is used)
 - added buttons '<<' and '>>' in detailed epg view (summary) to jump
   to the previous/next event of the menu behind (schedule, now, next,

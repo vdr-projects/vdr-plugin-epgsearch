@@ -14,6 +14,7 @@
 
 # CONFIG START
   ATD_SPOOL=/var/spool/atjobs
+  SVDRPSEND=svdrpsend
 
 # default settings
   MINSBEFORE=1  # minutes before event for announcement
@@ -36,16 +37,16 @@ case $1 in
         secs=$(($3-$MINSBEFORE*60))
         secs_now=`date +%s`
         if [ $secs -le $secs_now ]; then
-            echo "svdrpsend.pl MESG '$2 already runs!' >/dev/null" | at now
+            echo "$SVDRPSEND MESG '$2 already runs!' >/dev/null" | at now
         else
             if [ -z "$(find $ATD_SPOOL -exec grep -qs "^$entry$" \{} \; -exec rm -v \{} \;)" ]; then
                 at $(date -d "1970-01-01 $FORMAT $secs seconds" +"%H:%M %m/%d/%Y") <<EOT
-                svdrpsend.pl MESG '${switch_time#* }: $2' >/dev/null
+                $SVDRPSEND MESG '${switch_time#* }: $2' >/dev/null
                 sleep $(($MINSBEFORE*60))s
                 if [ $1 -eq 1 ] ; then
-                    svdrpsend.pl CHAN $5 >/dev/null
+                    $SVDRPSEND CHAN $5 >/dev/null
                 else
-                    svdrpsend.pl MESG '$2 starts!' >/dev/null
+                    $SVDRPSEND MESG '$2 starts!' >/dev/null
                 fi
 $entry
 EOT

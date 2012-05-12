@@ -85,7 +85,7 @@ int cLogFile::loglevellimit = 0;
 bool cPluginEpgsearch::VDR_readyafterStartup = false;
 
 // external SVDRPCommand
-const char *cSVDRPClient::SVDRPSendCmd = "svdrpsend.pl";
+const char *cSVDRPClient::SVDRPSendCmd = "svdrpsend";
 
 cPluginEpgsearch::cPluginEpgsearch(void)
 {
@@ -117,7 +117,7 @@ const char* cPluginEpgsearch::Description(void)
 
 const char *cPluginEpgsearch::CommandLineHelp(void)
 {
-   return "  -f file,  --svdrpsendcmd=file  the path to svdrpsend.pl for external\n"
+   return "  -f file,  --svdrpsendcmd=file  the path to svdrpsend for external\n"
       "                           SVDRP communication (default is internal\n"
       "                           communication)\n"
       "  -c path,  --config=path  to specify a specific config dir for epgsearch\n"
@@ -208,7 +208,7 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
 
    if (EPGSearchConfig.useExternalSVDRP && access(cSVDRPClient::SVDRPSendCmd, F_OK) != 0)
    {
-      LogFile.eSysLog("ERROR - can't find SVDRPSend script: '%s'", cSVDRPClient::SVDRPSendCmd);
+      LogFile.eSysLog("ERROR - can't find svdrpsend script: '%s'", cSVDRPClient::SVDRPSendCmd);
       cSVDRPClient::SVDRPSendCmd = NULL;
    }
 

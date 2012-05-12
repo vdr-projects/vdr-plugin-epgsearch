@@ -343,10 +343,10 @@ directory with the following lines in it:
  UseSubtitle=x // 1(default) or 0
  UseDescr=x    // 1(default) or 0
 
-Then call Epgsearch via svdrpsend.pl (you must have assigned a key
+Then call Epgsearch via svdrpsend (you must have assigned a key
 to it), e.g.
 
- svdrpsend.pl HITK green
+ svdrpsend HITK green
 
 At startup Epgsearch will look for this file and give you the
 search results for your search, if it exists. After that the file is
@@ -371,7 +371,7 @@ I have added a quick and dirty dummy plugin
 epgsearch implements a SVDRP interface, that can be accessed for
 example like this
 
- svdrpsend.pl PLUG epgsearch LSTS
+ svdrpsend PLUG epgsearch LSTS
 
 the following commands are available:
 
