@@ -281,7 +281,7 @@ docs:
 	@ln -sf ./doc/en/epgsearch.1.txt README
 	@ln -sf ./doc/de/epgsearch.1.txt README.DE
 
-install-doc:
+install-doc: docs
 	@mkdir -p $(MANDIR)/man1
 	@mkdir -p $(MANDIR)/man4
 	@mkdir -p $(MANDIR)/man5
