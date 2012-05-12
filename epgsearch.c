@@ -118,7 +118,7 @@ const char* cPluginEpgsearch::Description(void)
 const char *cPluginEpgsearch::CommandLineHelp(void)
 {
    return "  -f file,  --svdrpsendcmd=file  the path to svdrpsend.pl for external\n"
-      "                           SVDRP communitcation (default is internal\n"
+      "                           SVDRP communication (default is internal\n"
       "                           communication)\n"
       "  -c path,  --config=path  to specify a specific config dir for epgsearch\n"
       "  -l file,  --logfile=file to specify a specific logfile for epgsearch\n"

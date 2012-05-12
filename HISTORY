@@ -7,7 +7,7 @@ new:
   a patch ('man 5 epgsearchcats.conf' for more information).
 - in the menu 'recordings done' you can now toggle the blue key to 'Orphaned' to show
   recordings with vanished search timers.
-- when channel seperators are displayed the filling '-' can cause problems in the output
+- when channel separators are displayed the filling '-' can cause problems in the output
   of graphlcd. Set PLUGIN_EPGSEARCH_SEP_ITEMS=--- in your Make.config to avoid this. Most
   skins (except classic, st:tng)  will translate '---' into a single line anyway 
   (Feature #857, thanks to 'KeineAhnung' for providing a patch)
