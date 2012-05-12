@@ -50,7 +50,7 @@ my $SENDSVDRP		= $opt_s ? 1 : 0;
 my $EnableRegex		= $opt_r ? 1 : 0;
 my $Searchmode		= defined $opt_m ? $opt_m : 1;
 my $Dest		= $opt_d ? $opt_d : "localhost";
-my $Port		= $opt_p ? $opt_p : 2001;
+my $Port		= $opt_p ? $opt_p : 6419;
 
 my $Timeout = 30; # max. seconds to wait for svdrp  response
 
