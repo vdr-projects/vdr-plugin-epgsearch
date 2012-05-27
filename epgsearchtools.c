@@ -223,20 +223,33 @@ char* GetExtEPGValue(const char* description, const char* catname, const char *f
 {
    if (isempty(description))
       return NULL;
-   char* tmp = NULL;
+   char* tmp1 = NULL;
+   char* tmp2 = NULL;
 
-   // search the category, must be at beginnig of a line
-   if (msprintf(&tmp, "\n%s: ", catname)==-1) return NULL;
+   // search the category, must be the first line or at the beginning of a line
+   if (msprintf(&tmp1, "\n%s: ", catname)==-1 ||
+       msprintf(&tmp2, "%s: ", catname)==-1)
+     return NULL;
    char* descr = strdup(description);
    char* cat = NULL;
-   if ((cat = strstr(descr, tmp)) == NULL)
+   int valueOffset = 0;
+   if ((cat = strstr(descr, tmp1)) != NULL)
+     {
+       cat++; // skip linefeed
+       valueOffset = strlen(tmp1);
+     }
+   else if (strstr(descr, tmp2) == descr) // in first line
+     {
+       cat = descr;
+       valueOffset = strlen(tmp2);
+     }
+   else
    {
       free(descr);
-      free(tmp);
+      free(tmp1);
+      free(tmp2);
       return NULL;
    }
-   else
-      cat++; // skip linefeed
 
    // search the value to appear before the next line feed or end
    char* end = strchr(cat, '\n');
@@ -246,7 +259,7 @@ char* GetExtEPGValue(const char* description, const char* catname, const char *f
    cat[endpos] = 0;
 
    char* value = NULL;
-   msprintf(&value, "%s", cat + strlen(tmp)-1);
+   msprintf(&value, "%s", cat + valueOffset - 1);
    if (format)
    {
       int ivalue;
@@ -258,7 +271,8 @@ char* GetExtEPGValue(const char* description, const char* catname, const char *f
       }
    }
    free(descr);
-   free(tmp);
+   free(tmp1);
+   free(tmp2);
 
    return value;
 }
