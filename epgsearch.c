@@ -443,8 +443,8 @@ bool cPluginEpgsearch::Start(void)
    SearchExtCats.Load(AddDirectory(CONFIGDIR, "epgsearchcats.conf"), true);
 
    LoadMenuTemplates();
-   LoadUserVars();
    LoadConfD();
+   LoadUserVars();
 
    ChannelGroups.Load(AddDirectory(CONFIGDIR, "epgsearchchangrps.conf"), true);
    Blacklists.Load(AddDirectory(CONFIGDIR, "epgsearchblacklists.conf"));
