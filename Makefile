@@ -7,22 +7,22 @@
 ### ------------
 ### CONFIG START
 ###
-### to comment an option just place a '#' at the beginning of the line
-### to uncomment an option please remove the leading '#'
+### to change an option just edit the value: 0 => false, 1 => true
 
-### uncomment one of these lines, if you don't want the addon epgsearchonly,
+
+### edit one of these lines to '1', if you don't want the addon epgsearchonly, 
 ### conflictcheckonly or quickepgsearch
 
-#WITHOUT_EPGSEARCHONLY=1
-#WITHOUT_CONFLICTCHECKONLY=1
-#WITHOUT_QUICKSEARCH=1
+WITHOUT_EPGSEARCHONLY=0
+WITHOUT_CONFLICTCHECKONLY=0
+WITHOUT_QUICKSEARCH=0
 
-### comment this if you don't want epgsearch to auto config itself
+### edit this to '0' if you don't want epgsearch to auto config itself
 AUTOCONFIG=1
 
-### if AUTOCONFIG is not active (i.e. commented) you can manually enable the
+### if AUTOCONFIG is not active you can manually enable the
 ### optional modules or patches for other plugins
-ifndef AUTOCONFIG
+ifeq ($(AUTOCONFIG),0)
 # if you want to use Perl compatible regular expressions (PCRE) or libtre for
 # unlimited fuzzy searching, uncomment this and set the value to pcre or tre
 # also have a look at INSTALL for further notes on this
@@ -70,7 +70,7 @@ LIBDIR = ../../lib
 TMPDIR = /tmp
 
 ### auto configuring modules
-ifdef AUTOCONFIG
+ifeq ($(AUTOCONFIG),1)
 	ifeq (exists, $(shell pkg-config libpcre && echo exists))
 		REGEXLIB = pcre
 	else ifeq (exists, $(shell pkg-config tre && echo exists))
@@ -93,13 +93,13 @@ endif
 -include $(VDRDIR)/Make.config
 
 ALL = libvdr-$(PLUGIN).so createcats
-ifndef WITHOUT_EPGSEARCHONLY
+ifeq ($(WITHOUT_EPGSEARCHONLY), 0)
   ALL += libvdr-$(PLUGIN2).so
 endif
-ifndef WITHOUT_CONFLICTCHECKONLY
+ifeq ($(WITHOUT_CONFLICTCHECKONLY), 0)
   ALL += libvdr-$(PLUGIN3).so
 endif
-ifndef WITHOUT_QUICKSEARCH
+ifeq ($(WITHOUT_QUICKSEARCH), 0)
   ALL += libvdr-$(PLUGIN4).so
 endif
 
