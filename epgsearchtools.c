@@ -241,7 +241,7 @@ char* GetExtEPGValue(const char* description, const char* catname, const char *f
    else if (strstr(descr, tmp2) == descr) // in first line
      {
        cat = descr;
-       valueOffset = strlen(tmp2);
+       valueOffset = strlen(tmp2)+1;
      }
    else
    {
