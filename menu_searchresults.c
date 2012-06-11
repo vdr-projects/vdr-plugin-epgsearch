@@ -826,7 +826,11 @@ eOSState cMenuSearchResultsForRecs::Play(void)
    {
       cRecording *recording = GetRecording(ri);
       if (recording) {
+#if APIVERSNUM < 10728
          cReplayControl::SetRecording(recording->FileName(), recording->Title());
+#else
+         cReplayControl::SetRecording(recording->FileName());
+#endif
          return osReplay;
       }
    }
