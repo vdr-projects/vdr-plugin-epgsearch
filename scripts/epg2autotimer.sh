@@ -11,7 +11,7 @@
 
 # CONFIG START
   AUTOTIMER_FILE="$SOURCEDIR/vdradmin/vdradmind.at"
-  SVDRPSEND=/usr/local/bin/svdrpsend
+  SVDRPSEND=svdrpsend
 
 # default autotimer settings
   STATUS=1       # 0 = inactive (by default) / 1 = active

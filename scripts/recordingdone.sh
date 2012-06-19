@@ -56,8 +56,8 @@ DEFAULT_SID=-1
 # Use the recording-dir's ctime as recording time?
 CTIME_FROM_RECORDING=yes
 
-# adjust the following lines to your path to svdrpsend
-SVDRPSEND=/usr/local/bin/svdrpsend
+# adjust the following line to your path to svdrpsend
+SVDRPSEND=svdrpsend
 
 # Home of EPGsearch
 EPGSEARCH_HOME="/etc/vdr/plugins"

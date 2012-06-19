@@ -9,7 +9,7 @@
 
 # CONFIG START
   TASTE_FILE="/etc/vdr/plugins/taste.conf"
-  SVDRPSEND=/usr/local/bin/svdrpsend
+  SVDRPSEND=svdrpsend
 
 # default taste settings
   REGULAR_EXPRESSION=0 # Regular Expression / Regulärer Ausdruck
