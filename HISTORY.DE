@@ -3,6 +3,9 @@ VDR Plugin 'epgsearch' Revision History
 
 2012-05-xx: Version 1.0.1 - Maintenance Release
 neu:
+- Neue Service-Schnittstelle "Epgsearch-enablesearchtimers-v1.0" zum Ein- und Ausschalten
+  des Suchtimer-Updates im Hintergrund. Das Beispiel in source/vdr-epgsearchclient-0.0.2.tgz
+  wurde aktualisiert und nutzt die neue Schnittstelle.
 - Neuer Format-Eintrag wie z.B. %02i in der epgsearchcats.conf, Danke an Joe_D für den 
   Patch ('man 5 epgsearchcats.conf' für mehr Information).
 - Im Menu 'Erledigte Aufnahmen' kann nun mit der blauen Taste zu 'Verwaiste' umgeschaltet

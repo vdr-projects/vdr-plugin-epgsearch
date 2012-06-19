@@ -258,6 +258,19 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
 
       return true;
    }
+   if (strcmp(Id, "Epgsearch-enablesearchtimers-v1.0") == 0) {
+      if (Data == NULL)
+         return true;
+      else
+      {
+         Epgsearch_enablesearchtimers_v1_0* serviceData = (Epgsearch_enablesearchtimers_v1_0*) Data;
+         if (serviceData->enable && cSearchTimerThread::m_Instance == NULL)
+	   cSearchTimerThread::Init(this);
+	 else if (!serviceData->enable && cSearchTimerThread::m_Instance != NULL)
+	   cSearchTimerThread::Exit();
+      }
+      return true;
+   }
    if (strcmp(Id, "Epgsearch-updatesearchtimers-v1.0") == 0) {
       if (Data == NULL)
          return true;

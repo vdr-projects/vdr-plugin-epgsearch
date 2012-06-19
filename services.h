@@ -55,6 +55,13 @@ struct Epgsearch_exttimeredit_v1_0
       cOsdMenu* pTimerMenu;   // pointer to the menu of results
 };
 
+// Data structure for service "Epgsearch-enablesearchtimers-v1.0"
+struct Epgsearch_enablesearchtimers_v1_0
+{
+// in
+      bool enable;           // enable search timer thread?
+};
+
 // Data structure for service "Epgsearch-updatesearchtimers-v1.0"
 struct Epgsearch_updatesearchtimers_v1_0
 {
