@@ -71,6 +71,9 @@ int cMenuRecDoneItem::Compare(const cListObject &ListObject) const
 cMenuRecsDone::cMenuRecsDone(cSearchExt* Search)
 :cOsdMenu("", 16)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcRecording);
+#endif
     search = Search;
     showMode = SHOW_RECDONE_ALL;
     showEpisodeOnly = false;

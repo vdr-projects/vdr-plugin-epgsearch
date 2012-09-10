@@ -120,6 +120,9 @@ void cDefTimerCheckModes::SetMode(const cChannel* channel, int mode)
 cMenuDefTimerCheckMethod::cMenuDefTimerCheckMethod()
     :cOsdMenu(tr("Default timer check method"), 20)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcSetup);
+#endif
     CheckModes[0] = tr("no check");
     CheckModes[UPD_CHDUR] = tr("by channel and time");
     CheckModes[UPD_EVENTID] = tr("by event ID");

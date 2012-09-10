@@ -191,6 +191,10 @@ const cEvent *cMenuSearchResults::scheduleEventInfo = NULL;
 cMenuSearchResults::cMenuSearchResults(cMenuTemplate* MenuTemplate)
    :cOsdMenu("", MenuTemplate->Tab(0), MenuTemplate->Tab(1), MenuTemplate->Tab(2), MenuTemplate->Tab(3), MenuTemplate->Tab(4))
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcSchedule);
+#endif
+
   helpKeys = -1;
   menuTemplate = MenuTemplate;
   modeYellow = showTitleEpisode;

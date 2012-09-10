@@ -49,6 +49,9 @@ int cMenuSearchMain::forceMenu = 0; // 1 = now, 2 = schedule, 3 = summary
 cMenuSearchMain::cMenuSearchMain(void)
 :cOsdMenu("", GetTab(1), GetTab(2), GetTab(3), GetTab(4), GetTab(5))
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcSchedule);
+#endif
   helpKeys = -1;
   otherChannel = 0;
   toggleKeys = 0;

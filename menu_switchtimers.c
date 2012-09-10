@@ -40,6 +40,10 @@ public:
 cMenuEditSwitchTimer::cMenuEditSwitchTimer(cSwitchTimer* SwitchTimer, bool New)
 :cOsdMenu(tr("Edit entry"),30)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcPlugin);
+#endif
+
   SwitchModes[0] = strdup(tr("Switch"));
   SwitchModes[1] = strdup(tr("Announce only"));
   SwitchModes[2] = strdup(tr("Announce and switch"));
@@ -151,6 +155,10 @@ int cMenuSwitchTimerItem::Compare(const cListObject &ListObject) const
 cMenuSwitchTimers::cMenuSwitchTimers()
 :cOsdMenu(tr("Switch list"), 2, 4, 6, 6, 4)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcPlugin);
+#endif
+
     Set();
     Display();
 }

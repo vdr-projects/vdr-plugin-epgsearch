@@ -64,6 +64,10 @@ int cMenuDirItem::Compare(const cListObject &ListObject) const
 cMenuDirSelect::cMenuDirSelect(char* szDirectory)
     :cOsdMenu(tr("Select directory"))
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcTimer);
+#endif
+
     Directory = szDirectory;
     yellow=NULL;
     MaxLevel = 1;

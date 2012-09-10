@@ -45,6 +45,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 cMenuSearchCommands::cMenuSearchCommands(const char *Title, const cEvent* Event, bool DirectCall, cSearchExt* Search)
    :cOsdMenu(Title)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcCommand);
+#endif
+
    directCall = DirectCall;
    SetHasHotkeys();
    LoadCommands();

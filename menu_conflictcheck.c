@@ -62,6 +62,9 @@ cMenuConflictCheckItem::cMenuConflictCheckItem(cConflictCheckTime* Ct, cConflict
 cMenuConflictCheck::cMenuConflictCheck()
 :cOsdMenu("", 4, 12, 4, 5, 30)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcSchedule);
+#endif
     showAll = false;
     lastSel = -1;
     BuildList();
@@ -194,6 +197,9 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
 cMenuConflictCheckDetails::cMenuConflictCheckDetails(cConflictCheckTimerObj* TimerObj, cConflictCheck* ConflictCheck)
 :cOsdMenu(tr("Timer conflicts"), 2, 4, 13, 3, 2)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcSchedule);
+#endif
     timerObj = TimerObj;
     checktime = timerObj->conflCheckTime;
     conflictCheck = ConflictCheck;

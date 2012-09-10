@@ -49,6 +49,9 @@ cSearchExtCats SearchExtCats;
 cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Template, bool FromEPG)
    :cOsdMenu(tr("Edit search"),32)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcPlugin);
+#endif
    templateMode = Template;
 
    SearchModes[0] = strdup(tr("phrase"));
@@ -824,6 +827,9 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
 cMenuEditDaysOfWeek::cMenuEditDaysOfWeek(int* DaysOfWeek, int Offset, bool Negate)
    :cOsdMenu(tr("Edit user-defined days of week"),30)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcPlugin);
+#endif
    int i=0;
    offset = Offset;
    negate = Negate;
@@ -867,6 +873,9 @@ eOSState cMenuEditDaysOfWeek::ProcessKey(eKeys Key)
 cMenuSearchEditCompCats::cMenuSearchEditCompCats(int* catarrayAvoidRepeats)
    :cOsdMenu(tr("Compare categories"),30)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcPlugin);
+#endif
    search_catarrayAvoidRepeats = catarrayAvoidRepeats;
    edit_catarrayAvoidRepeats = (int*) malloc(SearchExtCats.Count() * sizeof(int));
    cSearchExtCat *SearchExtCat = SearchExtCats.First();
@@ -914,6 +923,9 @@ eOSState cMenuSearchEditCompCats::ProcessKey(eKeys Key)
 cMenuBlacklistsSelection::cMenuBlacklistsSelection(cList<cBlacklistObject>* pBlacklists)
 :cOsdMenu(tr("Select blacklists"),30)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcPlugin);
+#endif
    blacklists = pBlacklists;
    blacklistsSel = new int[Blacklists.Count()];
    cMutexLock BlacklistLock(&Blacklists);
@@ -1056,6 +1068,10 @@ eOSState cMenuBlacklistsSelection::ProcessKey(eKeys Key)
 cMenuCatValuesSelect::cMenuCatValuesSelect(char* CatValues, int CatIndex, int SearchMode)
    :cOsdMenu(tr("Values for EPG category"), 1, 40)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcPlugin);
+#endif
+
    catValues = CatValues;
    catIndex = CatIndex;
    searchMode = SearchMode;
@@ -1185,6 +1201,10 @@ eOSState cMenuCatValuesSelect::ProcessKey(eKeys Key)
 cMenuSearchActivSettings::cMenuSearchActivSettings(cSearchExt *SearchExt)
 :cOsdMenu(tr("Activation of search timer"), 25)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcPlugin);
+#endif
+
   searchExt = SearchExt;
   if (searchExt)
     {

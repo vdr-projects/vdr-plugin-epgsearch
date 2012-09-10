@@ -259,6 +259,10 @@ int cMenuWhatsOnSearch::shiftTime = 0;
 cMenuWhatsOnSearch::cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentChannelNr)
    :cOsdMenu("", GetTab(1), GetTab(2), GetTab(3), GetTab(4), GetTab(5))
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcSchedule);
+#endif
+
   helpKeys = -1;
   shiftTime = 0;
   schedules = Schedules;

@@ -48,6 +48,9 @@ extern int updateForced;
 cMenuSearchActions::cMenuSearchActions(cSearchExt* Search, bool DirectCall)
 :cOsdMenu(tr("Search actions"))
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcCommand);
+#endif
     directCall = DirectCall;
     SetHasHotkeys();
 

@@ -40,6 +40,9 @@ const char *cMenuMyEditTimer::CheckModes[3];
 cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event, const cChannel* forcechannel)
 :cOsdMenu(trVDR("Edit timer"), 14)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcTimer);
+#endif
     CheckModes[0] = tr("no check");
     CheckModes[UPD_CHDUR] = tr("by channel and time");
     CheckModes[UPD_EVENTID] = tr("by event ID");

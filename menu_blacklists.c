@@ -99,6 +99,9 @@ int cMenuBlacklistsItem::Compare(const cListObject &ListObject) const
 cMenuBlacklists::cMenuBlacklists()
 :cOsdMenu(tr("Blacklists"), 3, 20, 11, 6, 5)
 {
+#if VDRVERSNUM >= 10728
+  SetMenuCategory(mcSetup);
+#endif
     cMutexLock BlacklistLock(&Blacklists);
     cBlacklist *Blacklist = Blacklists.First();
     while (Blacklist) {
