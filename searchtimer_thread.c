@@ -551,9 +551,15 @@ void cSearchTimerThread::Action(void)
 
  	       conflictCheck.EvaluateConflCheckCmd();
 
-               cString msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"),
-						 conflictCheck.relevantConflicts,
-						 *DateTime(conflictCheck.nextRelevantConflictDate));
+	       cString msgfmt = "";
+	       if (conflictCheck.relevantConflicts == 1)
+		 msgfmt = cString::sprintf(tr("timer conflict at %s! Show it?"),
+						*DateTime(conflictCheck.nextRelevantConflictDate));
+	       else
+		 msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"),
+						conflictCheck.relevantConflicts,
+						*DateTime(conflictCheck.nextRelevantConflictDate));
+
                bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 ||
                   !cDevice::PrimaryDevice()->Replaying() ||
                   conflictCheck.nextRelevantConflictDate - now < 2*60*60 ||
