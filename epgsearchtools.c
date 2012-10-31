@@ -771,7 +771,7 @@ cString DateTime(time_t t)
       time(&t);
    struct tm tm_r;
    tm *tm = localtime_r(&t, &tm_r);
-   snprintf(buffer, sizeof(buffer), "%02d.%02d %02d:%02d", tm->tm_mday, tm->tm_mon + 1, tm->tm_hour, tm->tm_min);
+   snprintf(buffer, sizeof(buffer), "%02d.%02d. %02d:%02d", tm->tm_mday, tm->tm_mon + 1, tm->tm_hour, tm->tm_min);
    return buffer;
 }
 
