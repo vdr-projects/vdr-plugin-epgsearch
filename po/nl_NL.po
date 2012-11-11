@@ -65,7 +65,7 @@ msgstr "volgende"
 
 #, c-format
 msgid "timer conflict at %s! Show it?"
-msgstr "Timerconflict! Tonen?"
+msgstr "Timerconflict op %s! Tonen?"
 
 #, c-format
 msgid "%d timer conflicts! First at %s. Show them?"

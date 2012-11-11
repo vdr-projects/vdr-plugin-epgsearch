@@ -63,7 +63,7 @@ msgstr "sekantis"
 
 #, c-format
 msgid "timer conflict at %s! Show it?"
-msgstr "Laikmačio konflikas! Rodyti?"
+msgstr "Laikmačio konflikas %s! Rodyti?"
 
 #, c-format
 msgid "%d timer conflicts! First at %s. Show them?"

@@ -63,7 +63,7 @@ msgstr "ďalší"
 
 #, c-format
 msgid "timer conflict at %s! Show it?"
-msgstr "Konflikt plánu! Zobraziť?"
+msgstr "Konflikt plánu o %s! Zobraziť?"
 
 #, c-format
 msgid "%d timer conflicts! First at %s. Show them?"
