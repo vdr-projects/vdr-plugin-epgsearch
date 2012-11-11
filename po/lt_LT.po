@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.10\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-10-31 19:32+0100\n"
+"POT-Creation-Date: 2012-11-11 20:16+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: Lithuanian <vdr@linuxtv.org>\n"
@@ -61,12 +61,12 @@ msgstr "KOnflikto informacija pagrindiniame meniu"
 msgid "next"
 msgstr "sekantis"
 
-#, fuzzy, c-format
+#, c-format
 msgid "timer conflict at %s! Show it?"
 msgstr "Laikmačio konflikas! Rodyti?"
 
 #, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
+msgid "%d timer conflicts! First at %s. Show them?"
 msgstr "%d kaikmačio konfliktas(ų)! Pirmasis %s. Rodyti juos?"
 
 msgid "search the EPG for repeats and more"

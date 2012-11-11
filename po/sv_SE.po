@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-10-31 19:32+0100\n"
+"POT-Creation-Date: 2012-11-11 20:16+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Tomas Prybil <tomas@prybil.se>\n"
 "Language-Team: Swedish <vdr@linuxtv.org>\n"
@@ -67,7 +67,7 @@ msgid "timer conflict at %s! Show it?"
 msgstr ""
 
 #, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
+msgid "%d timer conflicts! First at %s. Show them?"
 msgstr ""
 
 msgid "search the EPG for repeats and more"

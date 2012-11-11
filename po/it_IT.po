@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-10-31 19:32+0100\n"
+"POT-Creation-Date: 2012-11-11 20:16+0100\n"
 "PO-Revision-Date: 2011-07-17 17:46+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: Italian <vdr@linuxtv.org>\n"
@@ -66,12 +66,12 @@ msgstr "Informazioni conflitto nel menu principale"
 msgid "next"
 msgstr "prossimo"
 
-#, fuzzy, c-format
+#, c-format
 msgid "timer conflict at %s! Show it?"
 msgstr "Conflitto timer! Mostrare?"
 
 #, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
+msgid "%d timer conflicts! First at %s. Show them?"
 msgstr "%d conflitto timer! Primo alle %s. Mostrarli?"
 
 msgid "search the EPG for repeats and more"

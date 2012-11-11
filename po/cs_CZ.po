@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.21\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-10-31 19:32+0100\n"
+"POT-Creation-Date: 2012-11-11 20:16+0100\n"
 "PO-Revision-Date: 2011-10-31 20:21+0200\n"
 "Last-Translator: Radek Stastny <dedkus@gmail.com>\n"
 "Language-Team: Czech <vdr@linuxtv.org>\n"
@@ -61,12 +61,12 @@ msgstr "Konflikty do hlavního menu"
 msgid "next"
 msgstr "další"
 
-#, fuzzy, c-format
+#, c-format
 msgid "timer conflict at %s! Show it?"
 msgstr "Konflikt Nahrávání! Zobrazit?"
 
 #, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
+msgid "%d timer conflicts! First at %s. Show them?"
 msgstr "Nahrávání - konflikty (%d)! Od %s. Zobrazit?"
 
 msgid "search the EPG for repeats and more"

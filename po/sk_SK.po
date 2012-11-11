@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-10-31 19:32+0100\n"
+"POT-Creation-Date: 2012-11-11 20:16+0100\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -61,13 +61,13 @@ msgstr "Informácie o konfliktoch v hlav menu"
 msgid "next"
 msgstr "ďalší"
 
-#, fuzzy, c-format
+#, c-format
 msgid "timer conflict at %s! Show it?"
 msgstr "Konflikt plánu! Zobraziť?"
 
 #, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
-msgstr "%d  konflikt(y) plánovania! Prvý o %s. Ukázať"
+msgid "%d timer conflicts! First at %s. Show them?"
+msgstr "%d  konflikty plánovania! Prvý o %s. Ukázať"
 
 msgid "search the EPG for repeats and more"
 msgstr "Prehľadať televízny program, či nebude repríza"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-10-31 19:32+0100\n"
+"POT-Creation-Date: 2012-11-11 20:16+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: Spanish <vdr@linuxtv.org>\n"
@@ -61,13 +61,13 @@ msgstr "Mostrar conflictos en menú principal"
 msgid "next"
 msgstr "siguiente"
 
-#, fuzzy, c-format
+#, c-format
 msgid "timer conflict at %s! Show it?"
 msgstr "¿Mostrar conflicto de programación?"
 
 #, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
-msgstr "¡%d conflicto(s) de programación! El 1º a las %s. ¿Mostrarlos?"
+msgid "%d timer conflicts! First at %s. Show them?"
+msgstr "¡%d conflictos de programación! El 1º a las %s. ¿Mostrarlos?"
 
 msgid "search the EPG for repeats and more"
 msgstr "Buscar repeticiones en la EPG"

@@ -120,7 +120,7 @@ void cConflictCheckThread::Action(void)
 		msgfmt = cString::sprintf(tr("timer conflict at %s! Show it?"),
 						*DateTime(conflictCheck.nextRelevantConflictDate));
 	      else
-		msgfmt = cString::sprintf(tr("%d timer conflict(s)! First at %s. Show them?"),
+		msgfmt = cString::sprintf(tr("%d timer conflicts! First at %s. Show them?"),
 						conflictCheck.relevantConflicts,
 						*DateTime(conflictCheck.nextRelevantConflictDate));
 	      bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 ||

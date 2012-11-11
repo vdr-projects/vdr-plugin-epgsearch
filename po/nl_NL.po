@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-10-31 19:32+0100\n"
+"POT-Creation-Date: 2012-11-11 20:16+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: Dutch <vdr@linuxtv.org>\n"
@@ -63,13 +63,13 @@ msgstr "Conflict info tonen in hoofdmenu"
 msgid "next"
 msgstr "volgende"
 
-#, fuzzy, c-format
+#, c-format
 msgid "timer conflict at %s! Show it?"
 msgstr "Timerconflict! Tonen?"
 
 #, c-format
-msgid "%d timer conflict(s)! First at %s. Show them?"
-msgstr "%d timer conflict(en)! eerste op %s. Tonen?"
+msgid "%d timer conflicts! First at %s. Show them?"
+msgstr "%d timer conflicten! eerste op %s. Tonen?"
 
 msgid "search the EPG for repeats and more"
 msgstr "Zoek in de EPG naar herhalingen en meer"
