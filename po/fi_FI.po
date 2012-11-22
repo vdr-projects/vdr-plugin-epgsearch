@@ -66,11 +66,11 @@ msgstr "seuraava"
 
 #, c-format
 msgid "timer conflict at %s! Show it?"
-msgstr "Päällekkäisiä ajastimia kpl %s! Näytetäänkö?"
+msgstr "Päällekkäinen ajastin (%s)! Näytetäänkö?"
 
 #, c-format
 msgid "%d timer conflicts! First at %s. Show them?"
-msgstr "Päällekkäisiä ajastimia (%d kpl %s)! Näytetäänkö?"
+msgstr "Päällekkäisiä ajastimia %d kpl (%s)! Näytetäänkö?"
 
 msgid "search the EPG for repeats and more"
 msgstr "Monipuolinen ohjelmaopas hakutoiminnolla"
