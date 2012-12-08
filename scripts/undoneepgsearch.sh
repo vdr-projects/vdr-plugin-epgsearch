@@ -103,7 +103,7 @@ else
   printf "\nFound $TitleCnt matching title lines\n"
 
   if [ "$CheckDone" = "yes" ]; then
-    printf "\nDone matching all criterias ?\n\n"
+    printf "\nDone matching all criteria ?\n\n"
 
     if [ -z "$Subtitle" ]; then
       grep -A1 "^T $Title$" $EPGSEARCHDONE_FILE | grep -q "$Description"
@@ -133,7 +133,7 @@ else
   let Try=1
   let Match=1
   while [ $Try -le $TitleCnt ]; do
-    printf "\nDoes $Try. entry match all criterias : "
+    printf "\nDoes $Try. entry match all criteria : "
 
     [ $DEBUG = yes ] && printf "\nMatch=$Match\n"
 
@@ -159,7 +159,7 @@ else
 	fi
         let MatchRLine=$(grep -m$Match -n "^r$" $TempFile |head -n 1| cut -f1 -d ':')
 	let LastMatchLine=MatchLine+MatchRLine
-	# Bugfix - if more than one result then results are seperated by a "--" line
+	# Bugfix - if more than one result then results are separated by a "--" line
 	grep -q "^--$" $TempFile && let LastMatchLine--
         [ $DEBUG = yes ] && printf "Last Matching line : $LastMatchLine\n"
 

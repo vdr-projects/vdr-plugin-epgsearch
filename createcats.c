@@ -331,7 +331,7 @@ int main(int argc, char *argv[])
     fprintf(f, "# - 'name in menu' is the name displayed in epgsearch.\n");
     fprintf(f, "# - 'values' is an optional list of possible values\n");
     fprintf(f, "#   if you omit the list, the entry turns to an edit field in epgsearch,\n");
-    fprintf(f, "#   else it's an list of items to select from\n");
+    fprintf(f, "#   else it's a list of items to select from\n");
     fprintf(f, "# - 'searchmode' is an optional parameter specifying the mode of search:\n");
     fprintf(f, "#     text comparison:\n");
     fprintf(f, "#     0 - the whole term must appear as substring\n");

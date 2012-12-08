@@ -567,7 +567,7 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
           if (NumUsableSlots && !CamSlots.Get(j)->Assign(devices[i].device, true))
              continue; // CAM slot can't be used with this device
           bool ndr;
-          if (devices[i].ProvidesChannel(Channel, Priority, &ndr)) { // this device is basicly able to do the job
+          if (devices[i].ProvidesChannel(Channel, Priority, &ndr)) { // this device is basically able to do the job
              if (NumUsableSlots && devices[i].CamSlot() && devices[i].CamSlot() != CamSlots.Get(j))
                 ndr = true; // using a different CAM slot requires detaching receivers
              // Put together an integer number that reflects the "impact" using

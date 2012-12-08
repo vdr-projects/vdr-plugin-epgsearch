@@ -365,7 +365,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
          if (!serviceData->event)
             return false;
          switch(serviceData->mode){
-            case 0: {// query existance
+            case 0: {// query existence
                cSwitchTimer *lTimer = SwitchTimers.InSwitchList(serviceData->event);
                if (lTimer) {
                   serviceData->switchMinsBefore = lTimer->switchMinsBefore;

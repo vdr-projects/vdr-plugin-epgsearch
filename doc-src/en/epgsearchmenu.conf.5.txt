@@ -29,7 +29,7 @@ and finally the title and subtitle.
 The values for MenuWhatsOnNext, MenuWhatsOnElse, MenuSchedule,
 MenuSearchResults, MenuFavorites specify the menu 'What's on next', 'What's on
 at ...', 'Schedule', 'Search results' and 'Favorites' respectively. If you do
-not specify one entry, epgsearch uses it's default menu look.
+not specify one entry, epgsearch uses its default menu look.
 
 'MenuSearchResults' has something special: If you want to have different
 layouts for your search results depending on the search, you can use more then

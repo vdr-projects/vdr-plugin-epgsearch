@@ -545,7 +545,7 @@ const cEvent* GetEvent(cTimer* timer)
 }
 
 // this extracts the real description from a given epg entry cutting all that looks like a category line
-// we asume, that a category has a name not longer than MAXCATNAMELENGTH and a value not longer than
+// we assume that a category has a name not longer than MAXCATNAMELENGTH and a value not longer than
 // MAXCATVALUELENGTH (so in most cases e.g. the 'cast' category will stay part of the description). name and
 // value are separated with ': '
 #define MAXCATNAMELENGTH 40

@@ -1184,7 +1184,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
       if (records > allowedRepeats) // already recorded
       {
          LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d): already recorded %d equal event(s)", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), records);
-         pResultObj->needsTimer = false; // first asume we need no timer
+         pResultObj->needsTimer = false; // first assume we need no timer
          continue;
       }
 

@@ -24,13 +24,13 @@ REGEXLIB=pcre, if you don't really need it.
 
 libtre
 ------
-epgsearch has a fuzzy search algorithm. Unfortunately it's rescrited to
+epgsearch has a fuzzy search algorithm. Unfortunately it's restricted to
 search patterns with a maximum of 31 characters. This results in empty results
 if more than 31 characters are used. To avoid this limitation you can use the
 TRE package (http://laurikari.net/tre/). Install tre (on debian:
 apt-get install tre-agrep libtre4 libtre-dev) and activate epgsearch's support
 for it in the Makefile by uncommenting '#REGEXLIB = pcre' to 'REGEXLIB = tre' or append
 it to your 'make plugins' call. After recompiling epgsearch will now use an
-algorithm similiar to 'agrep' with no limits.
+algorithm similar to 'agrep' with no limits.
 
 

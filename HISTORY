@@ -75,7 +75,7 @@ new:
   * %date_iso% and %date_iso_now% return the (current) date in 'YYYY-MM-DD' format,
     suggested by Andreas Mair.
   * %search.series% returns 1 or 0 depending on the flag "series recording" of a search and
-    can be used in the directory entry of a search or it's depending variables.
+    can be used in the directory entry of a search or its depending variables.
 - new command 'connect' within internal variables: with this command you can connect to
   a TCP service, pass data and assign the result to a variable. See the MANUAL for
   details.
@@ -340,7 +340,7 @@ new:
   events with the usual functions as in other EPG menus. With "Edit" you can
   modify the announce settings (like "announce again: yes/no" or announce again
   after day x).
-- timer conflict notifications via OSD can now be supressed while replaying.
+- timer conflict notifications via OSD can now be suppressed while replaying.
   Nevertheless, if a conflict comes up within the next 2 hours the message gets
   still displayed.
 - all addon plugins (epgsearchonly, quickepgsearch, conflictcheckonly) now
@@ -492,7 +492,7 @@ fixes:
 
 2006-10-01: Version 0.9.18
 new:
-- IMPORTANT!!! PLEASE READ THIS!: epgsearch expects it's conf files now in a
+- IMPORTANT!!! PLEASE READ THIS!: epgsearch expects its conf files now in a
   separate configuration directory 'epgsearch' and not in the general plugin
   configuration directory as with previous versions! Please create this
   directory in your plugins configuration directory and move all
@@ -716,17 +716,17 @@ new:
   vdr-1.3.38 with one small difference: If the event is already running or
   about to start within MarginStart + 2 minutes, the timer edit menu will be
   popup to allow editing the file/directory entry, because this cannot be
-  changed when the recording immediatly starts. Else, the timer is created
+  changed when the recording immediately starts. Else, the timer is created
   immediately. Can be turned off in setup.
 - with the red button in epgsearch's own timer edit menu one can now delete an
   existing timer, suggested by Rolf Ahrenberg.
-- if the main menu entry is not hidden, it's name can now be set by setup.
+- if the main menu entry is not hidden, its name can now be set by setup.
   (Note: when changing the name to something different than the default, it is
   no more dependent on the OSD language)
 - changed the default main menu entry from 'Search' to 'Program guide'
 - some people requested a separate main menu entry for epgsearch's search
   menu. Therefore I've added a little plugin called 'epgsearchonly' that
-  simply calls epgsearch's search menu. It's main menu entry is
+  simply calls epgsearch's search menu. Its main menu entry is
   'Search'. Compilation of epgsearchonly is automatically done, but can be
   switched off in the Makefile when uncommenting the line
   #WITHOUT_EPGSEARCHONLY=1. To use it simply put '-P epgsearchonly' to your
@@ -956,7 +956,7 @@ ATTENTION: this version converts epgsearch.conf (the file that stores
   bug reports.
     * timer preview
     * recognition of broken recordings
-    * fuzzy event comparision
+    * fuzzy event comparison
 - the menu of search results for a search timer with 'avoid repeats'
   has an additional mode for key 'blue' to preview the timers, that
   will be programmed with it.
@@ -998,7 +998,7 @@ ATTENTION: this version converts epgsearch.conf (the file that stores
 - the channel number is now also listed in menu 'search results', if
   the setup option 'show channel numbers' is set, suggested by Gerhard
   Steiner.
-- short keys (1,2,...) to EPG commands are now also availabe in the
+- short keys (1,2,...) to EPG commands are now also available in the
   EPG summary menu, suggested by Frank Kr�mmelbein
 - if VDR version >= 1.3.31 then setup has now an option to choose
   between epgsearch's timer edit menu and VDR's built-in menu (useful

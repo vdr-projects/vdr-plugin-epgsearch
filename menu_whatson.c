@@ -201,7 +201,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
 
       char* title = NULL;
       title = strdup(event?event->Title():tr(">>> no info! <<<"));
-      title = strreplacei(title, ":", "%colon%"); // asume a title has the form "a?b:c",
+      title = strreplacei(title, ":", "%colon%"); // assume a title has the form "a?b:c",
       // we need to replace the colon to avoid misinterpretation the expression as a condition
       buffer = strreplacei(buffer, "%title%", title);
       free(title);

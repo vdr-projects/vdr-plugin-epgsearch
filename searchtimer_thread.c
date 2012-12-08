@@ -347,7 +347,7 @@ void cSearchTimerThread::Action(void)
                      continue;
                   }
 
-                  char* pFile = NULL; // File is prepared for svdrp, so prepare t->File for comparision too
+                  char* pFile = NULL; // File is prepared for svdrp, so prepare t->File for comparison too
                   msprintf(&pFile, "%s", t->File());
                   pFile = strreplace(pFile, ':', '|');
                   pFile = strreplace(pFile, " ~", "~");
@@ -687,7 +687,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
    strftime(bufStart, sizeof(bufStart), "%H%M", localtime_r(&start, &tm_r));
    strftime(bufEnd, sizeof(bufEnd), "%H%M", localtime_r(&stop, &tm_r));
 
-   // add additonal info
+   // add additional info
    char* tmpSummary = NULL;
    if (Summary)
    {

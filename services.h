@@ -122,7 +122,7 @@ struct Epgsearch_switchtimer_v1_0
 {
 // in
       const cEvent* event;
-      int mode;                  // mode (0=query existance, 1=add/modify, 2=delete)
+      int mode;                  // mode (0=query existence, 1=add/modify, 2=delete)
 // in/out
       int switchMinsBefore;
       int announceOnly;
