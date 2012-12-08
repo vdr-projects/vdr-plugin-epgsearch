@@ -449,7 +449,7 @@ fixes:
   timers.
 - the addon conflictcheckonly was compiled even if WITHOUT_CONFLICTCHECKONLY
   was defined in the Makefile, thanks to Ronny Kornexl for reporting.
-- search term and directory support now the characters '�' (only for language
+- search term and directory support now the characters 'ß' (only for language
   german) and '@'.
 - 'avoid repeats' had a bug (in some special cases) that created a timer for any
   later repeat instead of the first event.
@@ -999,11 +999,11 @@ ATTENTION: this version converts epgsearch.conf (the file that stores
   the setup option 'show channel numbers' is set, suggested by Gerhard
   Steiner.
 - short keys (1,2,...) to EPG commands are now also available in the
-  EPG summary menu, suggested by Frank Kr�mmelbein
+  EPG summary menu, suggested by Frank Krömmelbein
 - if VDR version >= 1.3.31 then setup has now an option to choose
   between epgsearch's timer edit menu and VDR's built-in menu (useful
   when using a patched VDR timer edit menu, suggested by Frank
-  Kr�mmelbein)
+  Krömmelbein)
 - if a subtitle is present the menu for manual timer programming now
   always adds the subtitle to the timer file as default, suggested by
   Gerhard Steiner
