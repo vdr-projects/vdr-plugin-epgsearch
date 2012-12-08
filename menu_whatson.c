@@ -77,7 +77,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
 
    bool result = false;
 
-   int OldTimerMatch = timerMatch;
+   eTimerMatch OldTimerMatch = timerMatch;
    bool OldInSwitchList = inSwitchList;
    bool hasMatch = false;
    cTimer* timer = NULL;
@@ -520,7 +520,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
    {
       if (item->timerMatch == tmFull)
       {
-         int tm = tmNone;
+         eTimerMatch tm = tmNone;
          cTimer *timer = Timers.GetMatch(item->event, &tm);
          if (timer)
 	   {

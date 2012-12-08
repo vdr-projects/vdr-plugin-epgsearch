@@ -49,7 +49,7 @@ string cMailTimerNotification::Format(const string& templ) const
     const cEvent* pEvent = GetEvent();
     if (!pEvent) return "";
 
-    int TimerMatch = tmNone;
+    eTimerMatch TimerMatch = tmNone;
     cTimer* pTimer = Timers.GetMatch(pEvent, &TimerMatch);
     if (!pTimer) return "";
 

@@ -95,7 +95,7 @@ void cMenuEventSearch::Set()
       cEventObj* eventObjPrev = GetPrev(event);
       cEventObj* eventObjNext = GetNext(event);
 
-      int timerMatch = tmNone;
+      eTimerMatch timerMatch = tmNone;
       Timers.GetMatch(event, &timerMatch);
       const char* szRed = trVDR("Button$Record");
       if (timerMatch == tmFull)

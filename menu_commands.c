@@ -121,7 +121,7 @@ eOSState cMenuSearchCommands::Record(void)
 {
    if (!event) return osContinue;
 
-   int timerMatch = tmNone;
+   eTimerMatch timerMatch = tmNone;
    cTimer* timer = Timers.GetMatch(event, &timerMatch);
    if (timerMatch == tmFull)
    {

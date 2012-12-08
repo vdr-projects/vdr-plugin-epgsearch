@@ -50,7 +50,7 @@ class cMenuSearchResultsItem : public cOsdItem {
     bool episodeOnly;
     cMenuTemplate* menuTemplate;
  public:
-    int timerMatch;
+    eTimerMatch timerMatch;
     bool inSwitchList;
     const cEvent *event;
     const cSearchExt* search;

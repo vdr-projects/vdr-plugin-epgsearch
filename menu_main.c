@@ -184,7 +184,7 @@ eOSState cMenuSearchMain::Record(void)
   if (item) {
       if (item->timerMatch == tmFull)
       {
-	  int tm = tmNone;
+	  eTimerMatch tm = tmNone;
 	  cTimer *timer = Timers.GetMatch(item->event, &tm);
 	  if (timer)
 	    {

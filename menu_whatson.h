@@ -35,7 +35,7 @@ public:
   const cEvent *event;
   cChannel *channel;
   showMode mode;
-  int timerMatch;
+  eTimerMatch timerMatch;
   bool inSwitchList;
   cMenuTemplate* menuTemplate;
 
