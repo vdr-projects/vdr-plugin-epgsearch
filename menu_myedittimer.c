@@ -327,8 +327,8 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		cChannel *ch = Channels.GetByNumber(channel);
 		if (!ch)
 		{
-		    Skins.Message(mtError, tr("*** Invalid Channel ***"));
-		    break;
+		  ERROR(tr("*** Invalid Channel ***"));
+		  break;
 		}
 
 		string fullaux = "";

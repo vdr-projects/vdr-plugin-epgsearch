@@ -107,8 +107,8 @@ eOSState cMenuSearchCommands::Switch(void)
       return osEnd;
    else
    {
-      Skins.Message(mtInfo, trVDR("Can't switch channel!"));
-      return osContinue;
+     INFO(trVDR("Can't switch channel!"));
+     return osContinue;
    }
 }
 
@@ -200,7 +200,7 @@ eOSState cMenuSearchCommands::AddToSwitchList(void)
    time_t now = time(NULL);
    if (now >= event->StartTime())
    {
-      Skins.Message(mtError, tr("Already running!"));
+     ERROR(tr("Already running!"));
       return osBack;
    }
    cSwitchTimer* switchTimer = SwitchTimers.InSwitchList(event);

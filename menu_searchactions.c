@@ -99,7 +99,7 @@ eOSState cMenuSearchActions::OnOffSearchtimer(void)
          if (!EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
          {
             cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
-            Skins.Message(mtInfo, tr("Search timers activated in setup."));
+            INFO(tr("Search timers activated in setup."));
          }
       }
   }
@@ -122,7 +122,7 @@ eOSState cMenuSearchActions::Execute()
          if (!EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
          {
             cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
-            Skins.Message(mtInfo, tr("Search timers activated in setup."));
+            INFO(tr("Search timers activated in setup."));
          }
          if (Interface->Confirm(tr("Run search timer update?")))
             updateForced = 3; // with message about completion

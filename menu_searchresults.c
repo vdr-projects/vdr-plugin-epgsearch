@@ -305,7 +305,7 @@ eOSState cMenuSearchResults::Switch(void)
       if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
          return osEnd;
    }
-   Skins.Message(mtInfo, trVDR("Can't switch channel!"));
+   INFO(trVDR("Can't switch channel!"));
    return osContinue;
 }
 
@@ -819,7 +819,7 @@ cRecording *cMenuSearchResultsForRecs::GetRecording(cMenuSearchResultsItem *Item
 {
    cRecording *recording = Recordings.GetByName(Item->FileName());
    if (!recording)
-      Skins.Message(mtError, tr("Error while accessing recording!"));
+     ERROR(tr("Error while accessing recording!"));
    return recording;
 }
 

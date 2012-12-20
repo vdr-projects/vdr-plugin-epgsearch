@@ -523,7 +523,7 @@ void cSearchTimerThread::Action(void)
          if (announceList.Count() > 0)
          {
 	   cString msgfmt = cString::sprintf(tr("%d new broadcast(s) found! Show them?"), announceList.Count());
-	   if (SendMsg(msgfmt, true,7) == kOk)
+	   if (SendMsg(msgfmt, true, 7) == kOk)
 	     {
 	       m_plugin->showAnnounces = true;
 	       cRemote::CallPlugin("epgsearch");
@@ -564,7 +564,7 @@ void cSearchTimerThread::Action(void)
                   !cDevice::PrimaryDevice()->Replaying() ||
                   conflictCheck.nextRelevantConflictDate - now < 2*60*60 ||
 		 (updateForced & UPDS_WITH_OSD);
-               if (doMessage && SendMsg(msgfmt, true,7) == kOk)
+               if (doMessage && SendMsg(msgfmt, true,7,mtWarning) == kOk)
                {
                   m_plugin->showConflicts = true;
                   cRemote::CallPlugin("epgsearch");
@@ -1050,7 +1050,7 @@ void cSearchTimerThread::CheckEPGHours()
       if (EPGSearchConfig.checkEPGWarnByOSD)
 	{
 	  cString msgfmt = cString::sprintf(tr("small EPG content on:%s"), sBuffer.c_str());
-	  SendMsg(msgfmt);
+	  SendMsg(msgfmt, false, 0, mtWarning);
 	}
       if (EPGSearchConfig.checkEPGWarnByMail)
 	{

@@ -109,6 +109,9 @@ using std::string;
 
 #define CONTENT_DESCRIPTOR_MAX 255
 
+#define ERROR(T) Skins.Message(mtError, T)
+#define INFO(I)  Skins.Message(mtInfo, I)
+
 extern const char AllowedChars[];
 
 extern char* ConfigDir;
@@ -148,7 +151,7 @@ inline char *strreplacei(char *s, const char *s1, const char s2)
 void sleepMSec(long ms);
 void sleepSec(long s);
 bool SendViaSVDRP(cString SVDRPcmd);
-int SendMsg(cString Message, bool confirm = false, int seconds = 0);
+int SendMsg(cString Message, bool confirm = false, int seconds = 0, eMessageType messageType = mtInfo);
 bool InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue);
 cSearchExt* TriggeredFromSearchTimer(const cTimer* timer);
 int TriggeredFromSearchTimerID(const cTimer* timer);

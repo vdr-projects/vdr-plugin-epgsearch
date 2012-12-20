@@ -921,7 +921,7 @@ eOSState cMenuSetupMailNotification::TestMailAccount()
    if (M.TestMailAccount(data->MailAddressTo, data->MailAddress, data->MailServer, data->MailAuthUser, data->MailAuthPass))
       return AddSubMenu(new cMenuText("", M.scriptReply.c_str(), fontSml));
    else
-      Skins.Message(mtError, tr("Mail account check failed!"));
+     ERROR(tr("Mail account check failed!"));
    return osContinue;
 }
 

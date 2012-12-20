@@ -351,14 +351,14 @@ eOSState cMenuChannelGroups::Delete(void)
       if (search)
       {
 	cString Message = cString::sprintf("%s %s", tr("Channel group used by:"), search->search);
-	  Skins.Message(mtInfo, Message);
-	  return osContinue;
+	INFO(Message);
+	return osContinue;
       }
       if (Interface->Confirm(tr("Edit$Delete group?"))) {
-	  ChannelGroups.Del(curGroup);
-	  ChannelGroups.Save();
-	  cOsdMenu::Del(Current());
-	  Display();
+	ChannelGroups.Del(curGroup);
+	ChannelGroups.Save();
+	cOsdMenu::Del(Current());
+	Display();
       }
   }
   return osContinue;
@@ -464,13 +464,13 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
 	  case kOk:
 	      if (strlen(name) == 0)
 	      {
-		  Skins.Message(mtError, tr("Group name is empty!"));
-		  return osContinue;
+		ERROR(tr("Group name is empty!"));
+		return osContinue;
 	      }
 	      if (addIfConfirmed && ChannelGroups.GetGroupByName(name))
 	      {
-		  Skins.Message(mtError, tr("Group name already exists!"));
-		  return osContinue;
+		ERROR(tr("Group name already exists!"));
+		return osContinue;
 	      }
 
 	      {

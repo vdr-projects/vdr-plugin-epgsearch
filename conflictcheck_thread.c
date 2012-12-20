@@ -126,7 +126,7 @@ void cConflictCheckThread::Action(void)
 	      bool doMessage = EPGSearchConfig.noConflMsgWhileReplay == 0 ||
 		!cDevice::PrimaryDevice()->Replaying() ||
 		conflictCheck.nextRelevantConflictDate - now < 2*60*60;
-	      if (doMessage && SendMsg(msgfmt, true,7) == kOk)
+	      if (doMessage && SendMsg(msgfmt, true,7, mtWarning) == kOk)
 		{
 		  m_plugin->showConflicts = true;
 		  cRemote::CallPlugin("epgsearch");

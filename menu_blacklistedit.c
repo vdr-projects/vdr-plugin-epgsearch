@@ -356,21 +356,21 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 			data.channelMin = ch;
 		    else
 		    {
-			Skins.Message(mtError, tr("*** Invalid Channel ***"));
-			break;
+		      ERROR(tr("*** Invalid Channel ***"));
+		      break;
 		    }
 		    ch = Channels.GetByNumber(channelMax);
 		    if (ch)
 			data.channelMax = ch;
 		    else
 		    {
-			Skins.Message(mtError, tr("*** Invalid Channel ***"));
-			break;
+		      ERROR(tr("*** Invalid Channel ***"));
+		      break;
 		    }
 		    if (channelMin > channelMax)
 		    {
-			Skins.Message(mtError, tr("Please check channel criteria!"));
-			return osContinue;
+		      ERROR(tr("Please check channel criteria!"));
+		      return osContinue;
 		    }
 		}
 		if (data.useChannel==2)

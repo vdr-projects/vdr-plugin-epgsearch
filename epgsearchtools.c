@@ -435,9 +435,9 @@ bool SendViaSVDRP(cString SVDRPcmd)
    return bSuccess;
 }
 
-int SendMsg(cString Message, bool confirm, int seconds)
+int SendMsg(cString Message, bool confirm, int seconds, eMessageType messageType)
 {
-   int Keys = Skins.QueueMessage(mtInfo, Message, seconds, confirm?seconds+2:0);
+   int Keys = Skins.QueueMessage(messageType, Message, seconds, confirm?seconds+2:0);
    return Keys;
 }
 
