@@ -42,8 +42,8 @@ extern const char AllowedChars[];
 cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
 :cOsdMenu(tr("Edit blacklist"),32)
 {
-#if VDRVERSNUM >= 10728
-  SetMenuCategory(mcSetup);
+#if VDRVERSNUM >= 10734
+  SetMenuCategory(mcSetupPlugins);
 #endif
     SearchModes[0] = strdup(tr("phrase"));
     SearchModes[1] = strdup(tr("all words"));
