@@ -184,6 +184,15 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(cRecording *Recording)
    SetText(Recording->Title('\t'));
 }
 
+void cMenuSearchResultsItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
+{
+#if APIVERSNUM >= 10733
+  cChannel *channel = event?Channels.GetByChannelID(event->ChannelID(), true, true):NULL;
+  if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, true, timerMatch))
+     DisplayMenu->SetItem(Text(), Index, Current, Selectable);
+#endif
+}
+
 // --- cMenuSearchResults -------------------------------------------------------
 
 const cEvent *cMenuSearchResults::scheduleEventInfo = NULL;

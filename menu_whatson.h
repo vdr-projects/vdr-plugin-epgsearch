@@ -41,6 +41,8 @@ public:
 
   cMenuMyScheduleItem(const cEvent *Event, cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);
   bool Update(bool Force = false);
+  virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
+
 };
 
 // --- cMenuWhatsOnSearch ----------------------------------------------------------

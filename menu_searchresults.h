@@ -60,6 +60,7 @@ class cMenuSearchResultsItem : public cOsdItem {
                            const cSearchExt* Search = NULL);
     cMenuSearchResultsItem(cRecording *Recording);
     bool Update(bool Force = false);
+    void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 };
 
 // --- cMenuSearchResults ------------------------------------------------------
