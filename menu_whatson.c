@@ -201,8 +201,9 @@ bool cMenuMyScheduleItem::Update(bool Force)
 
       char* title = NULL;
       title = strdup(event?event->Title():tr(">>> no info! <<<"));
+
       title = strreplacei(title, ":", "%colon%"); // assume a title has the form "a?b:c",
-      // we need to replace the colon to avoid misinterpretation the expression as a condition
+      // we need to replace the colon to avoid misinterpretation of the expression as a condition
       buffer = strreplacei(buffer, "%title%", title);
       free(title);
 
@@ -251,6 +252,45 @@ void cMenuMyScheduleItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, 
 #if APIVERSNUM >= 10733
   bool withDate = (channel == NULL); // search for a better way to determine this
   if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, withDate, timerMatch))
+     DisplayMenu->SetItem(Text(), Index, Current, Selectable);
+#endif
+}
+
+// --- cMenuMyScheduleSepItem ------------------------------------------------------
+cMenuMyScheduleSepItem::cMenuMyScheduleSepItem(const cEvent *Event, cChannel *Channel)
+  : cMenuMyScheduleItem(Event, Channel, showNow, NULL)
+{
+   event = Event;
+   channel = Channel;
+   dummyEvent = NULL;
+   SetSelectable(false);
+   Update(true);
+}
+
+cMenuMyScheduleSepItem::~cMenuMyScheduleSepItem()
+{
+  if (dummyEvent)
+    delete dummyEvent;
+}
+
+bool cMenuMyScheduleSepItem::Update(bool Force)
+{
+  if (channel)
+    SetText(cString::sprintf("%s\t %s %s", MENU_SEPARATOR_ITEMS, channel->Name(), MENU_SEPARATOR_ITEMS));
+  else if (event)
+    {
+      dummyEvent = new cEvent(0);
+      dummyEvent->SetTitle(cString::sprintf("%s\t %s %s", MENU_SEPARATOR_ITEMS, GETDATESTRING(event), MENU_SEPARATOR_ITEMS));
+      SetText(dummyEvent->Title());
+    }
+  return true;
+}
+
+void cMenuMyScheduleSepItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
+{
+#if APIVERSNUM >= 10733
+  bool withDate = (channel == NULL); // search for a better way to determine this
+  if (!DisplayMenu->SetItemEvent(dummyEvent, Index, Current, Selectable, channel, withDate, timerMatch))
      DisplayMenu->SetItem(Text(), Index, Current, Selectable);
 #endif
 }
@@ -432,12 +472,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
       else
       {
 	if (EPGSearchConfig.showChannelGroups && strlen(Channel->Name()))
-         {
-	    cString szGroup = cString::sprintf("%s\t %s %s", MENU_SEPARATOR_ITEMS, Channel->Name(), MENU_SEPARATOR_ITEMS);
-            cOsdItem* pGroupItem = new cOsdItem(szGroup);
-            pGroupItem->SetSelectable(false);
-            Add(pGroupItem);
-         }
+	  Add(new cMenuMyScheduleSepItem(NULL, Channel));
       }
    }
 }
