@@ -157,7 +157,7 @@ eOSState cMenuEventSearch::ProcessKey(eKeys Key)
 {
    if (!HasSubMenu())
    {
-      switch (Key) {
+     switch ((int)Key) {
          case kUp|k_Repeat:
          case kUp:
          case kDown|k_Repeat:

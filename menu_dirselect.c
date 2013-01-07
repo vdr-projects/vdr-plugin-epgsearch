@@ -264,7 +264,7 @@ eOSState cMenuDirSelect::ProcessKey(eKeys Key)
   eOSState state = cOsdMenu::ProcessKey(Key);
 
   if (state == osUnknown) {
-     switch (Key) {
+    switch ((int)Key) {
 	 case kBlue|k_Repeat:
 	 case kYellow:
 	     if (++CurLevel>MaxLevel)

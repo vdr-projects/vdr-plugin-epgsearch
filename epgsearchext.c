@@ -957,7 +957,7 @@ cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const cEven
          {
             time_t tEvent = p->StartTime();
             struct tm tmEvent;
-            tm tm = *localtime_r(&tEvent, &tmEvent);
+            localtime_r(&tEvent, &tmEvent);
             if (DayOfWeek >= 0 && DayOfWeek != tmEvent.tm_wday)
                continue;
             if (DayOfWeek < 0)
