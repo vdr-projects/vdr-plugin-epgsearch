@@ -1,8 +1,9 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2012-06-xx; Version 1.0.1 - maintenance release
+2013-01-xx; Version 1.0.1 - maintenance release
 new:
+- implement device bonding in conflict checker, thanks to Joachim Wilke for providing a patch
 - new service interface "Epgsearch-enablesearchtimers-v1.0" to switch the search timers 
   background update on/off. Updated the sample in source/vdr-epgsearchclient-0.0.2.tgz 
   to use the new service.

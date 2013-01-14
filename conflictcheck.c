@@ -204,7 +204,32 @@ void cConflictCheck::InitDevicesInfo()
     for(int i=0; i<numDevices; i++)
 	devices[i].device = cDevice::GetDevice(i);
 #endif
+
+#if APIVERSNUM > 10721
+    BondDevices(Setup.DeviceBondings);
+#endif
 }
+
+void cConflictCheck::BondDevices(const char *Bondings)
+{
+#if APIVERSNUM > 10721
+  LogFile.Log(3, "Bond Devices");
+  if (Bondings) {
+    cSatCableNumbers SatCableNumbers(MAXDEVICES, Bondings);
+    int* array = SatCableNumbers.Array();
+    for (int i=0; i<SatCableNumbers.Size(); i++) {
+      for (int j=0; j<SatCableNumbers.Size(); j++) {
+	if (array[i] > 0 && array[i] == array[j] && i != j) {
+	  LogFile.Log(3, "Bond devices %i and %i.", i+1, j+1);
+	  devices[i].bondedDevices.push_back(&(devices[j]));
+	}
+      }
+    }
+  }
+  LogFile.Log(3, "Bond Devices done.");
+#endif
+}
+
 
 void cConflictCheck::Check()
 {

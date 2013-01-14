@@ -25,6 +25,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define __EPGSEARCHCONFLCH_H
 
 #include "epgsearchtools.h"
+#include <vdr/diseqc.h>
 #include <vector>
 #include <set>
 #include <list>
@@ -99,6 +100,7 @@ class cConflictCheckDevice
     std::set<cConflictCheckTimerObj*,TimerObjSort> recTimers;
     cDevice* device;
     int devicenr;
+    std::vector<cConflictCheckDevice*> bondedDevices;
 
     cConflictCheckDevice() { device = NULL; devicenr = 0; }
     int Priority() const
@@ -182,10 +184,70 @@ class cConflictCheckDevice
 			needsDetachReceivers = true;
 		}
 	    }
+	    if (result) {
+	      if (!BondingOk(Channel)) {
+		// This device is bonded, so we need to check the priorities of the others:
+		for (size_t i=0; i<bondedDevices.size(); i++) {
+		  if (bondedDevices[i]->Priority() >= Priority) {
+		    LogFile.Log(3, "Attached receiver to bonded device %i has higher priority.", bondedDevices[i]->CardIndex()+1);
+		    result = false;
+		    break;
+		  }
+		}
+		if (result)
+		  LogFile.Log(3, "Bonding ok, but detaches receiver on device %i.", CardIndex());
+		else
+		  LogFile.Log(3, "Bonding not okay on device %i.", CardIndex());
+		needsDetachReceivers = Receiving();
+	      } else {
+		LogFile.Log(3, "Bonding ok on device %i.", CardIndex());
+	      }
+	    }	    
 	    if (NeedsDetachReceivers)
 		*NeedsDetachReceivers = needsDetachReceivers;
 	    return result;
 	}
+
+  bool BondingOk(const cChannel *Channel) const
+  {
+    if (bondedDevices.empty())
+      return true;
+    
+    LogFile.Log(3, "Checking for bonding constraints on device %i", CardIndex()+1);
+    
+    cString BondingParams = GetBondingParams(Channel);
+    for(size_t i=0; i< bondedDevices.size(); i++) {
+      // bonding not okay, if a bonded devices records on another polarization or freq. band
+      if (!bondedDevices[i]->recTimers.empty()) {
+	if (strcmp(BondingParams, GetBondingParams((*bondedDevices[i]->recTimers.begin())->timer->Channel())) != 0) {
+	  LogFile.Log(3, "Bonded device %i has receiver attached. Not safe to use device.", bondedDevices[i]->CardIndex()+1);
+	  return false;
+	} else {
+	  LogFile.Log(3, "Bonded device %i has receiver attached but its safe.", bondedDevices[i]->CardIndex()+1);
+	}
+      } else {
+	LogFile.Log(3, "Bonded device %i has no receivers attached - ok.", bondedDevices[i]->CardIndex()+1);
+      }
+    }
+    return true;
+  }
+
+  cString GetBondingParams(const cChannel *Channel) const //copied from cDVBTuner
+  {
+#if APIVERSNUM > 10721
+    cDvbTransponderParameters dtp(Channel->Parameters());
+    if (Setup.DiSEqC) {
+      if (const cDiseqc *diseqc = Diseqcs.Get(device->CardIndex() + 1, Channel->Source(), Channel->Frequency(), dtp.Polarization(), NULL))
+	return diseqc->Commands();
+    }
+    else {
+      bool ToneOff = Channel->Frequency() < Setup.LnbSLOF;
+      bool VoltOff = dtp.Polarization() == 'V' || dtp.Polarization() == 'R';
+      return cString::sprintf("%c %c", ToneOff ? 't' : 'T', VoltOff ? 'v' : 'V');
+    }
+#endif
+    return "";
+  }
 };
 
 // --- cConflictCheck --------------------------------------------------------
@@ -209,6 +271,7 @@ class cConflictCheck
     ~cConflictCheck();
     void InitDevicesInfo();
     void Check();
+    void BondDevices(const char* bondings);
     cList<cConflictCheckTimerObj>* CreateCurrentTimerList();
     cList<cConflictCheckTime>* CreateEvaluationTimeList(cList<cConflictCheckTimerObj>*);
     cList<cConflictCheckTime>* CreateConflictList(cList<cConflictCheckTime>*, cList<cConflictCheckTimerObj>* timerList);

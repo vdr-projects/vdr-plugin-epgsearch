@@ -3,6 +3,7 @@ VDR Plugin 'epgsearch' Revision History
 
 2012-05-xx: Version 1.0.1 - Maintenance Release
 neu:
+- device bonding in der Timer-Konflikt-Prüfung implementiert, Danke an Joachim Wilke für den Path
 - Neue Service-Schnittstelle "Epgsearch-enablesearchtimers-v1.0" zum Ein- und Ausschalten
   des Suchtimer-Updates im Hintergrund. Das Beispiel in source/vdr-epgsearchclient-0.0.2.tgz
   wurde aktualisiert und nutzt die neue Schnittstelle.
