@@ -86,11 +86,12 @@ int CompareSearchExtPrioDescTerm(const void *p1, const void *p2)
      return strcmp((*(cSearchExt **)p1)->search, (*(cSearchExt **)p2)->search);
 }
 
-char* IndentMenuItem(const char* szString, int indentions)
+cString IndentMenuItem(const char* szString, int indentions)
 {
    char* szIndented = NULL;
    msprintf(&szIndented, "%*s", strlen(szString)+indentions*2, szString);
-   return szIndented;
+   cString szIndentedStr(szIndented, true /*take pointer*/);
+   return szIndentedStr;
 }
 
 bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, const char* delim, int tolerance)

@@ -121,7 +121,7 @@ class cSearchExt;
 class cSearchExtCat;
 class cEvent;
 
-char* IndentMenuItem(const char*, int indentions=1);
+cString IndentMenuItem(const char*, int indentions=1);
 bool MatchesSearchMode(const char* test, const char* values, int searchmode, const char* delim, int tolerance);
 char* GetExtEPGValue(const cEvent* e, cSearchExtCat* SearchExtCat);
 char* GetExtEPGValue(const char* description, const char* catname, const char *format);

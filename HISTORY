@@ -23,6 +23,7 @@ new:
 - czech translation, thanks to Radek Stastny
 
 fixes:
+- fixed a memory leak, thanks to Sundararaj Reel for the patch
 - fixed a crash when editing blacklists
 
 

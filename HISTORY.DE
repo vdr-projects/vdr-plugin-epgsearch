@@ -24,6 +24,7 @@ neu:
 - tschechische Übersetzung, Danke an Radek Stastny
 
 fixes:
+- Speicherleck behoben, Danke an Sundararaj Reel für den Patch
 - Crash beim Editieren von Ausschlusslisten korrigiert
 
 
