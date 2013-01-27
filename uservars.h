@@ -62,7 +62,7 @@ public:
     string EvaluateInternalSearchVars(const string& Expr, const cSearchExt* s);
     string EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool escapeStrings = false);
     string EvaluateUserVars(const string& Expr, const cEvent* e, bool escapeStrings = false);
-    virtual string Name() { return varparser.varName; }
+    virtual string Name(bool = false) { return varparser.varName; }
     virtual bool IsCondExpr() { return varparser.IsCondExpr(); }
     virtual bool IsShellCmd() { return varparser.IsShellCmd(); }
     virtual bool IsConnectCmd() { return varparser.IsConnectCmd(); }
@@ -74,10 +74,11 @@ public:
 };
 
 class cExtEPGVar : public cUserVar {
- public:
     const string name;
+    static string nameSpace;
+ public:
     cExtEPGVar(const string& Name) : name(Name) {}
-    string Name() { return name; }
+  string Name(bool withNamespace = false) { return "%" + (withNamespace?nameSpace + ".":"") + name + "%"; }
     bool IsCondExpr() { return false; }
     bool IsShellCmd() { return false; }
     string Evaluate(const cEvent* e, bool escapeStrings = false)
@@ -88,7 +89,7 @@ class cExtEPGVar : public cUserVar {
 	    while (SearchExtCat)
 	    {
 		string varName = string("%") + SearchExtCat->name + string("%");
-		int varPos = FindIgnoreCase(varName, name);
+		int varPos = FindIgnoreCase(varName, Name());
 		if (varPos == 0)
 		{
 		    char* value = GetExtEPGValue(e, SearchExtCat);
@@ -105,14 +106,14 @@ class cInternalVar : public cUserVar {
     const string name;
  public:
     cInternalVar(const string& Name) : name(Name) {}
-    string Name() { return name; }
+    string Name(bool = false) { return "%" + name + "%"; }
     bool IsCondExpr() { return false; }
     bool IsShellCmd() { return false; }
 };
 
 class cTitleVar : public cInternalVar {
 public:
-    cTitleVar() : cInternalVar("%title%") {}
+    cTitleVar() : cInternalVar("title") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    string res = (e && !isempty(e->Title()))? e->Title() : "";
@@ -122,7 +123,7 @@ public:
 
 class cSubtitleVar : public cInternalVar {
 public:
-    cSubtitleVar() : cInternalVar("%subtitle%") {}
+    cSubtitleVar() : cInternalVar("subtitle") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    string res = (e && !isempty(e->ShortText()))? e->ShortText() : "";
@@ -132,7 +133,7 @@ public:
 
 class cSummaryVar : public cInternalVar {
 public:
-    cSummaryVar() : cInternalVar("%summary%") {}
+    cSummaryVar() : cInternalVar("summary") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    string res = (e && !isempty(e->Description()))? e->Description() : "";
@@ -142,7 +143,7 @@ public:
 
 class cHTMLSummaryVar : public cInternalVar {
 public:
-    cHTMLSummaryVar() : cInternalVar("%htmlsummary%") {}
+    cHTMLSummaryVar() : cInternalVar("htmlsummary") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (e && !isempty(e->Description()))
@@ -157,7 +158,7 @@ public:
 
 class cEventIDVar : public cInternalVar {
 public:
-    cEventIDVar() : cInternalVar("%eventid%") {}
+    cEventIDVar() : cInternalVar("eventid") {}
     string Evaluate(const cEvent* e,  bool escapeStrings = false)
     {
       if (e)
@@ -171,7 +172,7 @@ public:
 
 class cLiveEventIDVar : public cInternalVar {
 public:
-    cLiveEventIDVar() : cInternalVar("%liveeventid%") {}
+    cLiveEventIDVar() : cInternalVar("liveeventid") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -189,7 +190,7 @@ public:
 
 class cTimeVar : public cInternalVar {
 public:
-    cTimeVar() : cInternalVar("%time%") {}
+    cTimeVar() : cInternalVar("time") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    string res = (e? *(e->GetTimeString()) : "");
@@ -199,7 +200,7 @@ public:
 
 class cTimeEndVar : public cInternalVar {
 public:
-    cTimeEndVar() : cInternalVar("%timeend%") {}
+    cTimeEndVar() : cInternalVar("timeend") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    string res = (e? *(e->GetEndTimeString()) : "");
@@ -209,7 +210,7 @@ public:
 
 class cTime_wVar : public cInternalVar {
 public:
-    cTime_wVar() : cInternalVar("%time_w%") {}
+    cTime_wVar() : cInternalVar("time_w") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    string res = (e? WEEKDAYNAME(e->StartTime()) : "");
@@ -219,7 +220,7 @@ public:
 
 class cTime_dVar : public cInternalVar {
 public:
-    cTime_dVar() : cInternalVar("%time_d%") {}
+    cTime_dVar() : cInternalVar("time_d") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -234,7 +235,7 @@ public:
 
 class cTime_lngVar : public cInternalVar {
 public:
-    cTime_lngVar() : cInternalVar("%time_lng%") {}
+    cTime_lngVar() : cInternalVar("time_lng") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -246,7 +247,7 @@ public:
 
 class cTimeSpanVar : public cInternalVar {
 public:
-    cTimeSpanVar() : cInternalVar("%timespan%") {}
+    cTimeSpanVar() : cInternalVar("timespan") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -285,7 +286,7 @@ public:
 
 class cLength_Var : public cInternalVar {
 public:
-    cLength_Var() : cInternalVar("%length%") {}
+    cLength_Var() : cInternalVar("length") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    return (e? NumToString(e->Duration()) : "");
@@ -294,7 +295,7 @@ public:
 
 class cDateVar : public cInternalVar {
 public:
-    cDateVar() : cInternalVar("%date%") {}
+    cDateVar() : cInternalVar("date") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -309,7 +310,7 @@ public:
 
 class cDateShortVar : public cInternalVar {
 public:
-    cDateShortVar() : cInternalVar("%datesh%") {}
+    cDateShortVar() : cInternalVar("datesh") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -324,7 +325,7 @@ public:
 
 class cDateISOVar : public cInternalVar {
 public:
-    cDateISOVar() : cInternalVar("%date_iso%") {}
+    cDateISOVar() : cInternalVar("date_iso") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -339,7 +340,7 @@ public:
 
 class cYearVar : public cInternalVar {
 public:
-    cYearVar() : cInternalVar("%year%") {}
+    cYearVar() : cInternalVar("year") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -354,7 +355,7 @@ public:
 
 class cMonthVar : public cInternalVar {
 public:
-    cMonthVar() : cInternalVar("%month%") {}
+    cMonthVar() : cInternalVar("month") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -369,7 +370,7 @@ public:
 
 class cDayVar : public cInternalVar {
 public:
-    cDayVar() : cInternalVar("%day%") {}
+    cDayVar() : cInternalVar("day") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -384,7 +385,7 @@ public:
 
 class cWeekVar : public cInternalVar {
 public:
-    cWeekVar() : cInternalVar("%week%") {}
+    cWeekVar() : cInternalVar("week") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -399,7 +400,7 @@ public:
 
 class cChannelNrVar : public cInternalVar {
 public:
-    cChannelNrVar() : cInternalVar("%chnr%") {}
+    cChannelNrVar() : cInternalVar("chnr") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    int chnr = ChannelNrFromEvent(e);
@@ -410,7 +411,7 @@ public:
 
 class cChannelShortVar : public cInternalVar {
 public:
-    cChannelShortVar() : cInternalVar("%chsh%") {}
+    cChannelShortVar() : cInternalVar("chsh") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -422,7 +423,7 @@ public:
 
 class cChannelLongVar : public cInternalVar {
 public:
-    cChannelLongVar() : cInternalVar("%chlng%") {}
+    cChannelLongVar() : cInternalVar("chlng") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -434,7 +435,7 @@ public:
 
 class cChannelDataVar : public cInternalVar {
  public:
-    cChannelDataVar() : cInternalVar("%chdata%") {}
+    cChannelDataVar() : cInternalVar("chdata") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -445,7 +446,7 @@ class cChannelDataVar : public cInternalVar {
 
 class cChannelGroupVar : public cInternalVar {
 public:
-    cChannelGroupVar() : cInternalVar("%chgrp%") {}
+    cChannelGroupVar() : cInternalVar("chgrp") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -461,7 +462,7 @@ public:
 
 class cNEWTCmdVar : public cInternalVar {
  public:
-    cNEWTCmdVar() : cInternalVar("%newtcmd%") {}
+    cNEWTCmdVar() : cInternalVar("newtcmd") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
@@ -474,7 +475,7 @@ class cNEWTCmdVar : public cInternalVar {
 // independet variables
 class cColonVar : public cInternalVar {
  public:
-    cColonVar() : cInternalVar("%colon%") {}
+    cColonVar() : cInternalVar("colon") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
 	    return ":";
@@ -483,7 +484,7 @@ class cColonVar : public cInternalVar {
 
 class cDateNowVar : public cInternalVar {
  public:
-    cDateNowVar() : cInternalVar("%datenow%") {}
+    cDateNowVar() : cInternalVar("datenow") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
 	    char date[9] = "";
@@ -497,7 +498,7 @@ class cDateNowVar : public cInternalVar {
 
 class cDateShortNowVar : public cInternalVar {
 public:
-    cDateShortNowVar() : cInternalVar("%dateshnow%") {}
+    cDateShortNowVar() : cInternalVar("dateshnow") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
 	    char dateshort[7] = "";
@@ -511,7 +512,7 @@ public:
 
 class cDateISONowVar : public cInternalVar {
 public:
-    cDateISONowVar() : cInternalVar("%date_iso_now%") {}
+    cDateISONowVar() : cInternalVar("date_iso_now") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
 	    char dateISO[11] = "";
@@ -525,7 +526,7 @@ public:
 
 class cTimeNowVar : public cInternalVar {
 public:
-    cTimeNowVar() : cInternalVar("%timenow%") {}
+    cTimeNowVar() : cInternalVar("timenow") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
 	    return TIMESTRING(time(NULL));
@@ -534,7 +535,7 @@ public:
 
 class cVideodirVar : public cInternalVar {
  public:
-    cVideodirVar() : cInternalVar("%videodir%") {}
+    cVideodirVar() : cInternalVar("videodir") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
 	    return VideoDirectory;
@@ -544,7 +545,7 @@ class cVideodirVar : public cInternalVar {
 class cPlugconfdirVar : public cInternalVar {
  public:
     static string dir;
-    cPlugconfdirVar() : cInternalVar("%plugconfdir%") {}
+    cPlugconfdirVar() : cInternalVar("plugconfdir") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
 	    return dir;
@@ -554,7 +555,7 @@ class cPlugconfdirVar : public cInternalVar {
 class cEpgsearchconfdirVar : public cInternalVar {
  public:
     static string dir;
-    cEpgsearchconfdirVar() : cInternalVar("%epgsearchdir%") {}
+    cEpgsearchconfdirVar() : cInternalVar("epgsearchdir") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
 	    return CONFIGDIR;
@@ -563,17 +564,18 @@ class cEpgsearchconfdirVar : public cInternalVar {
 
 // timer variables
 class cTimerVar {
+    static string nameSpace;
     const string name;
  public:
     cTimerVar(const string& Name) : name(Name) {}
     virtual ~cTimerVar() {}
-    string Name() { return name; }
+    string Name() { return "%" + nameSpace + "." + name + "%"; }
     virtual string Evaluate(const cTimer* t) = 0;
 };
 
 class cTimerDateVar : public cTimerVar {
  public:
-    cTimerDateVar() : cTimerVar("%timer.date%") {}
+    cTimerDateVar() : cTimerVar("date") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t) return "";
@@ -583,7 +585,7 @@ class cTimerDateVar : public cTimerVar {
 
 class cTimerStartVar : public cTimerVar {
  public:
-    cTimerStartVar() : cTimerVar("%timer.start%") {}
+    cTimerStartVar() : cTimerVar("start") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t) return "";
@@ -593,7 +595,7 @@ class cTimerStartVar : public cTimerVar {
 
 class cTimerStopVar : public cTimerVar {
  public:
-    cTimerStopVar() : cTimerVar("%timer.stop%") {}
+    cTimerStopVar() : cTimerVar("stop") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t) return "";
@@ -603,7 +605,7 @@ class cTimerStopVar : public cTimerVar {
 
 class cTimerFileVar : public cTimerVar {
  public:
-    cTimerFileVar() : cTimerVar("%timer.file%") {}
+    cTimerFileVar() : cTimerVar("file") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t) return "";
@@ -613,7 +615,7 @@ class cTimerFileVar : public cTimerVar {
 
 class cTimerChnrVar : public cTimerVar {
  public:
-    cTimerChnrVar() : cTimerVar("%timer.chnr%") {}
+    cTimerChnrVar() : cTimerVar("chnr") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t || !t->Channel()) return "";
@@ -623,7 +625,7 @@ class cTimerChnrVar : public cTimerVar {
 
 class cTimerChannelShortVar : public cTimerVar {
 public:
-    cTimerChannelShortVar() : cTimerVar("%timer.chsh%") {}
+    cTimerChannelShortVar() : cTimerVar("chsh") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t || !t->Channel()) return "";
@@ -633,7 +635,7 @@ public:
 
 class cTimerChannelLongVar : public cTimerVar {
 public:
-    cTimerChannelLongVar() : cTimerVar("%timer.chlng%") {}
+    cTimerChannelLongVar() : cTimerVar("chlng") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t || !t->Channel()) return "";
@@ -643,7 +645,7 @@ public:
 
 class cTimerSearchVar : public cTimerVar {
  public:
-    cTimerSearchVar() : cTimerVar("%timer.search%") {}
+    cTimerSearchVar() : cTimerVar("search") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t) return "";
@@ -655,7 +657,7 @@ class cTimerSearchVar : public cTimerVar {
 
 class cTimerSearchIDVar : public cTimerVar {
  public:
-    cTimerSearchIDVar() : cTimerVar("%timer.searchid%") {}
+    cTimerSearchIDVar() : cTimerVar("searchid") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t) return "";
@@ -667,7 +669,7 @@ class cTimerSearchIDVar : public cTimerVar {
 
 class cTimerLiveIDVar : public cTimerVar {
 public:
-    cTimerLiveIDVar() : cTimerVar("%timer.liveid%") {}
+    cTimerLiveIDVar() : cTimerVar("liveid") {}
     string Evaluate(const cTimer* t)
 	{
 	    if (!t || !t->Channel()) return "";
@@ -686,16 +688,17 @@ public:
 // search variables
 class cSearchVar {
     const string name;
+    static string nameSpace;
  public:
     cSearchVar(const string& Name) : name(Name) {}
     virtual ~cSearchVar() {}
-    string Name() { return name; }
+    string Name() { return "%" + nameSpace + "." + name + "%"; }
     virtual string Evaluate(const cSearchExt* s) = 0;
 };
 
 class cSearchQueryVar : public cSearchVar {
 public:
-    cSearchQueryVar() : cSearchVar("%search.query%") {}
+    cSearchQueryVar() : cSearchVar("query") {}
     string Evaluate(const cSearchExt* s)
 	{
 	    if (!s) return "";
@@ -705,7 +708,7 @@ public:
 
 class cSearchSeriesVar : public cSearchVar {
 public:
-    cSearchSeriesVar() : cSearchVar("%search.series%") {}
+    cSearchSeriesVar() : cSearchVar("series") {}
     string Evaluate(const cSearchExt* s)
 	{
 	    if (!s) return "";
@@ -828,7 +831,7 @@ class cUserVars : public cList<cUserVar> {
 	    cSearchExtCat* SearchExtCat = SearchExtCats.First();
 	    while (SearchExtCat)
 	    {
-		string varName = string("%") + SearchExtCat->name + string("%");
+		string varName = SearchExtCat->name;
 		std::transform(varName.begin(), varName.end(), varName.begin(), tolower);
 		cExtEPGVar* extEPGVar = new cExtEPGVar(varName);
 		extEPGVars[varName] =  extEPGVar;

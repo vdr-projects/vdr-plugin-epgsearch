@@ -35,6 +35,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 cUserVars UserVars;
 
 string cPlugconfdirVar::dir = "";
+string cExtEPGVar::nameSpace = "epg";
+string cTimerVar::nameSpace = "timer";
+string cSearchVar::nameSpace = "search";
 
 // cUserVar
 
@@ -210,8 +213,17 @@ string cUserVar::EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool es
    std::map<string, cExtEPGVar*>::iterator evar;
    for (evar = UserVars.extEPGVars.begin(); evar != UserVars.extEPGVars.end(); ++evar)
    {
-      string varName = evar->second->Name();
+      // replace ext. EPG variables with leading namespace 
+      string varName = evar->second->Name(true);
       int varPos = 0;
+      while((varPos = FindIgnoreCase(expr, varName)) >= 0)
+      {
+         expr.replace(varPos, varName.size(), evar->second->Evaluate(e, escapeStrings));
+         usedVars.insert(evar->second);
+      }
+      // replace ext. EPG variables without leading namespace 
+      varName = evar->second->Name();
+      varPos = 0;
       while((varPos = FindIgnoreCase(expr, varName)) >= 0)
       {
          expr.replace(varPos, varName.size(), evar->second->Evaluate(e, escapeStrings));
