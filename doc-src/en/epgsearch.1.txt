@@ -609,7 +609,7 @@ The update interval of the background scan for search timers in minutes.
 
 =item - B<SVDRP port:>
 
-If you are using a SVDRP port other than 2001 then enter this here
+If you are using a SVDRP port other than default the 6419 (2001 before vdr-1.7.15) then enter this here
 to get the search timers working.
 
 =item - B<Default Priority:>
