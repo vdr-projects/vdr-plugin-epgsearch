@@ -188,7 +188,9 @@ void cMenuSearchResultsItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Inde
 {
 #if APIVERSNUM >= 10733
   cChannel *channel = event?Channels.GetByChannelID(event->ChannelID(), true, true):NULL;
-  if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, true, timerMatch))
+  if (!event)
+     DisplayMenu->SetItem(Text(), Index, Current, Selectable);
+  else if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, true, timerMatch))
      DisplayMenu->SetItem(Text(), Index, Current, Selectable);
 #endif
 }
@@ -748,6 +750,9 @@ bool cMenuSearchResultsForQuery::BuildList()
 cMenuSearchResultsForRecs::cMenuSearchResultsForRecs(const char *query)
    :cMenuSearchResultsForQuery(NULL)
 {
+#if VDRVERSNUM >= 10728
+   SetMenuCategory(mcCommand);
+#endif
    SetTitle(tr("found recordings"));
    if (query)
    {
