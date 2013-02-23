@@ -405,7 +405,7 @@ msgid "Check if EPG exists for ... [h]"
 msgstr "Tarkasta tulevat ohjelmatiedot... [h]"
 
 msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
-msgstr "Määrittelee vaadittavat tulevat ohjelmatietot tunteina hakuajastimien päivityksen yhteydessä, jonka jälkeen käyttäjää varoitetaan."
+msgstr "Määrittelee vaadittavat tulevat ohjelmatiedot tunteina hakuajastimien päivityksen yhteydessä, jonka jälkeen käyttäjää varoitetaan."
 
 msgid "Warn by OSD"
 msgstr "Muistuta kuvaruutunäytöllä"
