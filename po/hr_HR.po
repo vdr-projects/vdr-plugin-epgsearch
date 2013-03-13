@@ -7,15 +7,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-11-11 20:16+0100\n"
+"Report-Msgid-Bugs-To: <see README>\n"
+"POT-Creation-Date: 2013-03-05 20:24+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Drazen Dupor <drazen.dupor@dupor.com>\n"
 "Language-Team: Croatian <vdr@linuxtv.org>\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hr\n"
 
 msgid "Channel groups"
 msgstr ""
@@ -1234,16 +1234,4 @@ msgid "Switch to (%d) '%s'?"
 msgstr ""
 
 msgid "Programming timer failed!"
-msgstr ""
-
-#, c-format
-msgid "in %02ldd"
-msgstr ""
-
-#, c-format
-msgid "in %02ldh"
-msgstr ""
-
-#, c-format
-msgid "in %02ldm"
 msgstr ""

@@ -25,7 +25,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <algorithm>
 #include "conflictcheck.h"
 #include "epgsearchcfg.h"
-#include <libsi/si.h>
+/*#include <libsi/si.h>*/
 #include "conflictcheck_thread.h"
 #include "recstatus.h"
 #include "timerstatus.h"

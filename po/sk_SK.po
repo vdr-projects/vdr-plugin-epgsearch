@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-11-11 20:16+0100\n"
+"Report-Msgid-Bugs-To: <see README>\n"
+"POT-Creation-Date: 2013-03-05 20:24+0100\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 
 msgid "Channel groups"
 msgstr "Skupiny kanálov"
@@ -1296,17 +1296,14 @@ msgstr ""
 msgid "Programming timer failed!"
 msgstr "Chyba programovania plánovača"
 
-#, c-format
-msgid "in %02ldd"
-msgstr "v %02ldd"
+#~ msgid "in %02ldd"
+#~ msgstr "v %02ldd"
 
-#, c-format
-msgid "in %02ldh"
-msgstr "v %02ldh"
+#~ msgid "in %02ldh"
+#~ msgstr "v %02ldh"
 
-#, c-format
-msgid "in %02ldm"
-msgstr "v %02ldm"
+#~ msgid "in %02ldm"
+#~ msgstr "v %02ldm"
 
 #, fuzzy
 #~ msgid "Compare expression"

@@ -3,9 +3,6 @@
 #
 # Christian Wieninger cwieninger at gmx.de
 #
-# Adapted to the new VDR makefile environment by Copperhead,
-# refined by Stefan Hofmann
-#
 
 ### ------------
 ### CONFIG START
@@ -58,25 +55,21 @@ PLUGIN4 = quickepgsearch
 
 ### The version number of this plugin (taken from the main source file):
 
-VERSION = $(shell grep 'static const char \*VERSION *=' $(PLUGIN).c | awk '{ print $$6 }' | sed -e 's/[";]//g')
+VERSION = $(shell grep 'static const char VERSION\[\] *=' $(PLUGIN).c | awk '{ print $$6 }' | sed -e 's/[";]//g')
+
+### The C++ compiler and options:
+
+CXX      ?= g++
+CXXFLAGS ?= -g -O2 -Wall -Woverloaded-virtual -Wno-parentheses -Wno-format-y2k
 
 ### The directory environment:
 
-# Use package data if installed...otherwise assume we're under the VDR source directory:
-PKGCFG   = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell pkg-config --variable=$(1) vdr || pkg-config --variable=$(1) ../../../vdr.pc))
-LIBDIR   = $(call PKGCFG,libdir)
-LOCDIR   = $(call PKGCFG,locdir)
-MANDIR   = $(call PKGCFG,mandir)
-CONFDIR  = $(call PKGCFG,configdir)
-#
-TMPDIR ?= /tmp
+#DVBDIR = ../../../../DVB
+VDRDIR = ../../..
+LIBDIR = ../../lib
+TMPDIR = /tmp
 
-### The compiler options:
-
-export CFLAGS   = $(call PKGCFG,cflags)
-export CXXFLAGS = $(call PKGCFG,cxxflags)
-
-### configuring modules
+### auto configuring modules
 ifeq ($(AUTOCONFIG),1)
 	ifeq (exists, $(shell pkg-config libpcre && echo exists))
 		REGEXLIB = pcre
@@ -91,26 +84,13 @@ ifeq ($(AUTOCONFIG),1)
 	endif
 endif
 
-### The version number of VDR's plugin API:
+### Make sure that necessary options are included:
+-include $(VDRDIR)/Make.global
 
-APIVERSION = $(call PKGCFG,apiversion)
 
-### The name of the distribution archive:
+### Allow user defined options to overwrite defaults:
 
-ARCHIVE = $(PLUGIN)-$(VERSION)
-PACKAGE = vdr-$(ARCHIVE)
-
-### Includes and Defines (add further entries here):
-
-INCLUDES +=
-
-DEFINES += 
-
-ifneq ($(SENDMAIL),)
-DEFINES += -DSENDMAIL='"$(SENDMAIL)"'
-endif
-
-### The object files (add further files here):
+-include $(VDRDIR)/Make.config
 
 ALL = libvdr-$(PLUGIN).so createcats
 ifeq ($(WITHOUT_EPGSEARCHONLY), 0)
@@ -122,6 +102,32 @@ endif
 ifeq ($(WITHOUT_QUICKSEARCH), 0)
   ALL += libvdr-$(PLUGIN4).so
 endif
+
+### The version number of VDR (taken from VDR's "config.h"):
+
+VDRVERSION = $(shell grep 'define VDRVERSION ' $(VDRDIR)/config.h | awk '{ print $$3 }' | sed -e 's/"//g')
+APIVERSION = $(shell grep 'define APIVERSION ' $(VDRDIR)/config.h | awk '{ print $$3 }' | sed -e 's/"//g')
+ifeq ($(strip $(APIVERSION)),)
+   APIVERSION = $(VDRVERSION)
+endif
+
+### The name of the distribution archive:
+
+ARCHIVE = $(PLUGIN)-$(VERSION)
+PACKAGE = vdr-$(ARCHIVE)
+
+### Includes and Defines (add further entries here):
+
+INCLUDES += -I$(VDRDIR)/include -I$(DVBDIR)/include
+#INCLUDES += -I$(VDRDIR)/include
+
+EPGSEARCH_DEFINES += -D_GNU_SOURCE
+ifneq ($(SENDMAIL),)
+EPGSEARCH_DEFINES += -DSENDMAIL='"$(SENDMAIL)"'
+endif
+DEFINES += $(EPGSEARCH_DEFINES)
+
+### The object files (add further files here):
 
 OBJS = afuzzy.o blacklist.o changrp.o confdloader.o conflictcheck.o conflictcheck_thread.o distance.o $(PLUGIN).o epgsearchcats.o epgsearchcfg.o epgsearchext.o epgsearchsetup.o  epgsearchsvdrp.o epgsearchtools.o mail.o md5.o menu_announcelist.o menu_blacklistedit.o menu_blacklists.o menu_commands.o menu_conflictcheck.o menu_deftimercheckmethod.o menu_dirselect.o menu_event.o menu_favorites.o menu_main.o menu_myedittimer.o menu_quicksearch.o menu_recsdone.o menu_search.o menu_searchactions.o menu_searchedit.o menu_searchresults.o menu_searchtemplate.o menu_switchtimers.o menu_templateedit.o menu_timersdone.o menu_whatson.o noannounce.o pending_notifications.o rcfile.o  recdone.o recstatus.o searchtimer_thread.o services.o switchtimer.o switchtimer_thread.o templatefile.o timer_thread.o timerdone.o timerstatus.o uservars.o varparser.o
 
@@ -159,7 +165,7 @@ endif
 
 ### length of the filling '-' in the channel separators, defaults to
 ### "----------------------------------------"
-### overwrite this with PLUGIN_EPGSEARCH_SEP_ITEMS=---
+### overwrite this with PLUGIN_EPGSEARCH_SEP_ITEMS=--- in your Make.config
 ### to avoid problems with graphlcd
 ifdef PLUGIN_EPGSEARCH_SEP_ITEMS
 DEFINES += -DMENU_SEPARATOR_ITEMS='"$(PLUGIN_EPGSEARCH_SEP_ITEMS)"'
@@ -176,20 +182,20 @@ LIBS4    =
 
 ### The main target:
 
-all: $(ALL) i18n docs
+all: $(ALL) i18n
 
 ### Implicit rules:
 
 %.o: %.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN)"' $(INCLUDES) -o $@ $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN)"' $(INCLUDES) $<
 mainmenushortcut.o: mainmenushortcut.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(MAINMENUSHORTCUT)"' $(INCLUDES) -o $@ $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(MAINMENUSHORTCUT)"' $(INCLUDES) $<
 epgsearchonly.o: epgsearchonly.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN2)"' $(INCLUDES) -o $@ $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN2)"' $(INCLUDES) $<
 conflictcheckonly.o: conflictcheckonly.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN3)"' $(INCLUDES) -o $@ $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN3)"' $(INCLUDES) $<
 quickepgsearch.o: quickepgsearch.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"' $(INCLUDES) -o $@ $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"' $(INCLUDES) $<
 
 # Dependencies:
 
@@ -203,84 +209,48 @@ $(DEPFILE): Makefile
 ### Internationalization (I18N):
 
 PODIR     = po
+LOCALEDIR = $(VDRDIR)/locale
 I18Npo    = $(wildcard $(PODIR)/*.po)
-I18Nmo    = $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
-I18Nmsgs  = $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
+I18Nmsgs  = $(addprefix $(LOCALEDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
 I18Npot   = $(PODIR)/$(PLUGIN).pot
 
 %.mo: %.po
 	msgfmt -c -o $@ $<
 
-$(I18Npot): $(wildcard *.c)
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --package-name=vdr-$(PLUGIN) --package-version=$(VERSION) --msgid-bugs-address='<see README>' -o $@ `ls $^`
+$(I18Npot): $(wildcard *.[ch])
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP -kI18nTranslate --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ `ls $^`
 
 %.po: $(I18Npot)
-	msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
+	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<
 	@touch $@
 
-$(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
-	install -D -m644 $< $@
+$(I18Nmsgs): $(LOCALEDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
+	@mkdir -p $(dir $@)
+	cp $< $@
 
 .PHONY: i18n
-i18n: $(I18Nmo) $(I18Npot)
-
-install-i18n: $(I18Nmsgs)
+i18n: $(I18Nmsgs) $(I18Npot)
 
 ### Targets:
 
 libvdr-$(PLUGIN).so: $(OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS) $(LIBS) -o $@
+	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 libvdr-$(PLUGIN2).so: $(OBJS2)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS2) $(LIBS2) -o $@
+	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 libvdr-$(PLUGIN3).so: $(OBJS3)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS3) $(LIBS3) -o $@
+	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 libvdr-$(PLUGIN4).so: $(OBJS4)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS4) $(LIBS4) -o $@
+	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 createcats: createcats.o Makefile
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) createcats.o -o $@
-
-docs:
-	./docsrc2man.sh
-	./docsrc2html.sh
-	ln -sf ./doc/en/epgsearch.4.txt MANUAL
-	ln -sf ./doc/en/epgsearch.1.txt README
-	ln -sf ./doc/de/epgsearch.1.txt README.DE
-
-install-$(PLUGIN): libvdr-$(PLUGIN).so
-	install -D libvdr-$(PLUGIN).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN).so.$(APIVERSION)
-
-install-$(PLUGIN2): libvdr-$(PLUGIN2).so
-	install -D libvdr-$(PLUGIN2).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN2).so.$(APIVERSION)
-
-install-$(PLUGIN3): libvdr-$(PLUGIN3).so
-	install -D libvdr-$(PLUGIN3).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN3).so.$(APIVERSION)
-
-install-$(PLUGIN4): libvdr-$(PLUGIN4).so
-	install -D libvdr-$(PLUGIN4).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN4).so.$(APIVERSION)
-
-install-conf:
-	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)
-	cp -n conf/* $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)
-	
-install-doc:
-	mkdir -p $(DESTDIR)$(MANDIR)/man1
-	mkdir -p $(DESTDIR)$(MANDIR)/man4
-	mkdir -p $(DESTDIR)$(MANDIR)/man5
-	mkdir -p $(DESTDIR)$(MANDIR)/de/man1
-	mkdir -p $(DESTDIR)$(MANDIR)/de/man5
-	cp man/en/*1.gz $(DESTDIR)$(MANDIR)/man1/
-	cp man/en/*4.gz $(DESTDIR)$(MANDIR)/man4/
-	cp man/en/*5.gz $(DESTDIR)$(MANDIR)/man5/
-	cp man/de/*1.gz $(DESTDIR)$(MANDIR)/de/man1/
-	cp man/de/*5.gz $(DESTDIR)$(MANDIR)/de/man5/
-
-install: install-lib install-i18n install-conf install-doc
-
-install-lib: install-$(PLUGIN) install-$(PLUGIN2) install-$(PLUGIN3) install-$(PLUGIN4)
 
 dist: docs clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
@@ -303,6 +273,26 @@ distfull: docs clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@ln -sf README.git README
 	@echo complete distribution package created as $(PACKAGE).tgz
+
+docs:
+	@./docsrc2man.sh
+	@./docsrc2html.sh
+	@ln -sf ./doc/en/epgsearch.4.txt MANUAL
+	@ln -sf ./doc/en/epgsearch.1.txt README
+	@ln -sf ./doc/de/epgsearch.1.txt README.DE
+
+install-doc: docs
+	@mkdir -p $(MANDIR)/man1
+	@mkdir -p $(MANDIR)/man4
+	@mkdir -p $(MANDIR)/man5
+	@mkdir -p $(MANDIR)/de/man1
+	@mkdir -p $(MANDIR)/de/man5
+
+	@cp man/en/*1.gz $(MANDIR)/man1/
+	@cp man/en/*4.gz $(MANDIR)/man4/
+	@cp man/en/*5.gz $(MANDIR)/man5/
+	@cp man/de/*1.gz $(MANDIR)/de/man1/
+	@cp man/de/*5.gz $(MANDIR)/de/man5/
 
 clean:
 	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot

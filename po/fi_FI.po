@@ -7,15 +7,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EPGSearch 0.9.25\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-11-11 20:16+0100\n"
+"Report-Msgid-Bugs-To: <see README>\n"
+"POT-Creation-Date: 2013-03-05 20:24+0100\n"
 "PO-Revision-Date: 2011-01-04 21:07+0200\n"
 "Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
 "Language-Team: Finnish <vdr@linuxtv.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -1284,14 +1284,11 @@ msgstr "Vaihdetaanko kanavalle (%d) '%s'?"
 msgid "Programming timer failed!"
 msgstr "Ajastimen ohjelmointi epäonnistui!"
 
-#, c-format
-msgid "in %02ldd"
-msgstr "%02ldd"
+#~ msgid "in %02ldd"
+#~ msgstr "%02ldd"
 
-#, c-format
-msgid "in %02ldh"
-msgstr "%02ldh"
+#~ msgid "in %02ldh"
+#~ msgstr "%02ldh"
 
-#, c-format
-msgid "in %02ldm"
-msgstr "%02ldm"
+#~ msgid "in %02ldm"
+#~ msgstr "%02ldm"

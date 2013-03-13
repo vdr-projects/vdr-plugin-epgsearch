@@ -9,15 +9,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-11-11 20:16+0100\n"
+"Report-Msgid-Bugs-To: <see README>\n"
+"POT-Creation-Date: 2013-03-05 20:24+0100\n"
 "PO-Revision-Date: 2008-04-30 08:36+0200\n"
 "Last-Translator: Patrice Staudt <patrice.staudt@laposte.net>\n"
 "Language-Team: French <vdr@linuxtv.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 
 msgid "Channel groups"
 msgstr "Groupe de chaînes"
@@ -1288,17 +1288,14 @@ msgstr ""
 msgid "Programming timer failed!"
 msgstr "La programmation a échoué"
 
-#, c-format
-msgid "in %02ldd"
-msgstr "en %02ldd"
+#~ msgid "in %02ldd"
+#~ msgstr "en %02ldd"
 
-#, c-format
-msgid "in %02ldh"
-msgstr "en %02ldh"
+#~ msgid "in %02ldh"
+#~ msgstr "en %02ldh"
 
-#, c-format
-msgid "in %02ldm"
-msgstr "en %02ldm"
+#~ msgid "in %02ldm"
+#~ msgstr "en %02ldm"
 
 #, fuzzy
 #~ msgid "Compare expression"

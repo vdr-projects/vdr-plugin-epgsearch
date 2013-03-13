@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2012-11-11 20:16+0100\n"
+"Report-Msgid-Bugs-To: <see README>\n"
+"POT-Creation-Date: 2013-03-05 20:24+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: German <vdr@linuxtv.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 
 msgid "Channel groups"
 msgstr "Kanalgruppen"
@@ -1280,14 +1280,11 @@ msgstr "Umschalten zu (%d) '%s'?"
 msgid "Programming timer failed!"
 msgstr "Timer-Programmierung fehlschlagen!"
 
-#, c-format
-msgid "in %02ldd"
-msgstr "in %02ldd"
+#~ msgid "in %02ldd"
+#~ msgstr "in %02ldd"
 
-#, c-format
-msgid "in %02ldh"
-msgstr "in %02ldh"
+#~ msgid "in %02ldh"
+#~ msgstr "in %02ldh"
 
-#, c-format
-msgid "in %02ldm"
-msgstr "in %02ldm"
+#~ msgid "in %02ldm"
+#~ msgstr "in %02ldm"

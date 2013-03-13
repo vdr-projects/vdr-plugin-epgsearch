@@ -1,8 +1,11 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2013-01-xx; Version 1.0.1 - maintenance release
+2013-03-xx; Version 1.0.1 - maintenance release
 new:
+- new Makefile style as introduced in vdr-1.7.36, the old Makefile still exists as 
+  Makefile.before.1.7.36 for previous vdr builds. Many thanks to Copperhead, Stefan 
+  Hofmann and Christopher Reimer for their work.
 - implement device bonding in conflict checker, thanks to Joachim Wilke for providing a patch
 - new service interface "Epgsearch-enablesearchtimers-v1.0" to switch the search timers 
   background update on/off. Updated the sample in source/vdr-epgsearchclient-0.0.2.tgz 
