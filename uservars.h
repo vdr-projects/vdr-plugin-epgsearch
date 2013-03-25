@@ -834,7 +834,7 @@ class cUserVars : public cList<cUserVar> {
 		string varName = SearchExtCat->name;
 		std::transform(varName.begin(), varName.end(), varName.begin(), tolower);
 		cExtEPGVar* extEPGVar = new cExtEPGVar(varName);
-		extEPGVars[varName] =  extEPGVar;
+		extEPGVars[extEPGVar->Name()] =  extEPGVar;
 		SearchExtCat = SearchExtCats.Next(SearchExtCat);
 	    }
 	}
