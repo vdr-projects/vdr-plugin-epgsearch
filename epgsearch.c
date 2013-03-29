@@ -329,7 +329,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
 
       Epgsearch_searchresults_v1_0* searchData = (Epgsearch_searchresults_v1_0*) Data;
       searchData->pResultList = NULL;
-      strcpy(SearchExt->search,searchData->query);
+      strn0cpy(SearchExt->search,searchData->query, sizeof(SearchExt->search));
       if (searchData->channelNr > 0)
       {
          SearchExt->useChannel = true;
