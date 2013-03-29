@@ -263,9 +263,9 @@ install-$(PLUGIN4): libvdr-$(PLUGIN4).so
 	install -D libvdr-$(PLUGIN4).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN4).so.$(APIVERSION)
 
 install-conf:
-	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)
+	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/conf.d
 	cp -n conf/* $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)
-	
+
 install-doc:
 	mkdir -p $(DESTDIR)$(MANDIR)/man1
 	mkdir -p $(DESTDIR)$(MANDIR)/man4
