@@ -69,7 +69,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "confdloader.h"
 #include "pending_notifications.h"
 
-static const char VERSION[]        = "1.0.1.beta4";
+static const char VERSION[]        = "1.0.1.beta5";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
@@ -153,7 +153,7 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
    if (argc==8 && !strcmp(argv[0], "searchepg"))
    {
       cSearchExt* SearchExt = new cSearchExt;
-      strcpy(SearchExt->search,argv[2]);
+      strn0cpy(SearchExt->search,argv[2], sizeof(SearchExt->search));
       if (atoi(argv[3]) > 0)
       {
          SearchExt->useChannel = true;
@@ -234,7 +234,7 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
 
       Epgsearch_search_v1_0* searchData = (Epgsearch_search_v1_0*) Data;
       searchData->pResultMenu = NULL;
-      strcpy(SearchExt->search,searchData->query);
+      strn0cpy(SearchExt->search,searchData->query, sizeof(SearchExt->search)); 
       if (searchData->channelNr > 0)
       {
          SearchExt->useChannel = true;
@@ -507,7 +507,7 @@ cOsdObject *cPluginEpgsearch::DoInitialSearch(char* rcFilename)
    if (rcFile.Load(rcFilename))
    {
       cSearchExt* SearchExt = new cSearchExt;
-      strcpy(SearchExt->search,rcFile.Search);
+      strn0cpy(SearchExt->search,rcFile.Search, sizeof(SearchExt->search));
       if (rcFile.ChannelNr != -1)
       {
          SearchExt->useChannel = true;
