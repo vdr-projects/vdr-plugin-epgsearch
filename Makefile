@@ -68,6 +68,7 @@ LIBDIR   = $(call PKGCFG,libdir)
 LOCDIR   = $(call PKGCFG,locdir)
 MANDIR   = $(call PKGCFG,mandir)
 CONFDIR  = $(call PKGCFG,configdir)
+BINDIR   = $(call PKGCFG,bindir)
 #
 TMPDIR ?= /tmp
 
@@ -278,7 +279,11 @@ install-doc:
 	cp man/de/*1.gz $(DESTDIR)$(MANDIR)/de/man1/
 	cp man/de/*5.gz $(DESTDIR)$(MANDIR)/de/man5/
 
-install: install-lib install-i18n install-conf install-doc
+install-bin: createcats
+	mkdir -p $(DESTDIR)$(BINDIR)
+	cp createcats $(DESTDIR)$(BINDIR)
+
+install: install-lib install-i18n install-conf install-doc install-bin
 
 install-lib: install-$(PLUGIN) install-$(PLUGIN2) install-$(PLUGIN3) install-$(PLUGIN4)
 
