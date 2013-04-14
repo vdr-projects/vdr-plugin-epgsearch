@@ -1201,7 +1201,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
 
          if (!pResultObjP->needsTimer) continue;
 
-         if (EventsMatch(pEvent, pEventP, compareTitle, compareSubtitle, compareSummary, compareDate, catvaluesAvoidRepeat))
+         if (EventsMatch(pEvent, pEventP, compareTitle, compareSubtitle, compareSummary, compareDate, catvaluesAvoidRepeat, compareSummaryMatchInPercent))
          {
             if (!pFirstResultMatching) pFirstResultMatching = pResultObjP;
             plannedTimers++;
