@@ -35,6 +35,10 @@ class cMenuFavorites : public cMenuSearchResults {
     cMenuFavorites();
     virtual eOSState ProcessKey(eKeys Key);
     virtual void SetHelpKeys(bool Force=false);
+#ifdef USE_GRAPHTFT
+  virtual const char* MenuKind();
+  virtual void Display(void);
+#endif
 };
 
 
