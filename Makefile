@@ -90,6 +90,9 @@ ifeq ($(AUTOCONFIG),1)
 	ifeq (exists, $(shell test -e ../graphtft && echo exists))
 		USE_GRAPHTFT = 1
 	endif
+	ifeq (exists, $(shell test -e ../graphtftng && echo exists))
+		USE_GRAPHTFT = 1
+	endif
 endif
 
 ### The version number of VDR's plugin API:
