@@ -78,7 +78,7 @@ bool cChannelGroup::Parse(const char *s)
 		int numChannels = sscanf(value, "%31[^|]", channelbuffer);
 #else
 		char *channelbuffer = NULL;
-		int numChannels = sscanf(value, "%a[^|]", &channelbuffer);
+		int numChannels = sscanf(value, "%m[^|]", &channelbuffer);
 #endif
 		if (numChannels == 1)
 		{

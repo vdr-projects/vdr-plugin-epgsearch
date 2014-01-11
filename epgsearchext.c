@@ -478,7 +478,7 @@ bool cSearchExt::Parse(const char *s)
 #else
                         char *channelMinbuffer = NULL;
                         char *channelMaxbuffer = NULL;
-                        int channels = sscanf(value, "%a[^|]|%a[^|]", &channelMinbuffer, &channelMaxbuffer);
+                        int channels = sscanf(value, "%m[^|]|%m[^|]", &channelMinbuffer, &channelMaxbuffer);
 #endif
                         channelMin = Channels.GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
                         if (!channelMin)
