@@ -72,6 +72,9 @@ BINDIR   = $(call PKGCFG,bindir)
 #
 TMPDIR ?= /tmp
 
+PLGCFG = $(call PKGCFG,plgcfg)
+-include $(PLGCFG)
+
 ### The compiler options:
 
 export CFLAGS   = $(call PKGCFG,cflags)
