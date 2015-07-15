@@ -538,7 +538,11 @@ class cVideodirVar : public cInternalVar {
     cVideodirVar() : cInternalVar("videodir") {}
     string Evaluate(const cEvent*, bool escapeStrings = false)
 	{
+#if APIVERSNUM > 20101
+	    return cVideoDirectory::Name();
+#else
 	    return VideoDirectory;
+#endif
 	}
 };
 
