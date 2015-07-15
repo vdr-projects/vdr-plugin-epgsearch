@@ -157,7 +157,7 @@ bool cSwitchTimer::Save(FILE *f)
 
 cSwitchTimer* cSwitchTimers::InSwitchList(const cEvent* event)
 {
-    if (!event) return false;
+    if (!event) return NULL;
     cMutexLock SwitchTimersLock(this);
     cSwitchTimer* switchTimer = SwitchTimers.First();
     while (switchTimer)
