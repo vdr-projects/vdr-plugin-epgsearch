@@ -62,7 +62,7 @@ bool cPendingNotification::Read(FILE *f)
 		tEventID EventID;
 		int Type, TimerMod, SearchID;
 		time_t Start;
-		int n = sscanf(t, "%d %u %d %d %ld", &Type, &EventID, &TimerMod, &SearchID, &Start);
+		int n = sscanf(t, "%d %hu %d %d %ld", &Type, &EventID, &TimerMod, &SearchID, &Start);
 		if (n == 5) {
 		    p = new cPendingNotification;
 		    if (p)
