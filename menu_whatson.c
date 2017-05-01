@@ -52,9 +52,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 extern int exitToMainMenu;
 extern bool isUTF8;
-#if VDRVERSNUM > 20300
-extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
-#endif
 int gl_InfoConflict = 0;
 
 // --- cMenuMyScheduleItem ------------------------------------------------------
@@ -672,7 +669,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
          timer->Matches();
          vdrtimers->SetModified();
 #if VDRVERSNUM > 20300
-         if (!HandleRemoteModifications(timer,NULL)) {
+         if (!HandleRemoteTimerModifications(timer)) {
             vdrtimers->Del(timer);
             delete timer;
          }

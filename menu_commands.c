@@ -40,10 +40,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/menu.h>
 #include "menu_deftimercheckmethod.h"
 
-#if VDRVERSNUM > 20300
-extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
-#endif
-
 // --- cMenuSearchCommands ---------------------------------------------------------
 
 cMenuSearchCommands::cMenuSearchCommands(const char *Title, const cEvent* Event, bool DirectCall, cSearchExt* Search)
@@ -195,7 +191,7 @@ eOSState cMenuSearchCommands::Record(void)
       timer->Matches();
       vdrtimers->SetModified();
 #if VDRVERSNUM > 20300
-      if (!HandleRemoteModifications(timer,NULL)) {
+      if (!HandleRemoteTimerModifications(timer)) {
          vdrtimers->Del(timer);
          delete timer;
       }

@@ -44,9 +44,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 const char* ButtonBlue[3] = {NULL, NULL, NULL};
 extern int gl_InfoConflict;
 extern bool isUTF8;
-#if VDRVERSNUM > 20300
-extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
-#endif
 
 static int CompareRecording(const void *p1, const void *p2)
 {
@@ -329,7 +326,7 @@ eOSState cMenuSearchResults::Record(void)
          timer->Matches();
          vdrtimers->SetModified();
 #if VDRVERSNUM > 20300
-         if (!HandleRemoteModifications(timer,NULL)) {
+         if (!HandleRemoteTimerModifications(timer)) {
             vdrtimers->Del(timer);
             delete timer;
          }

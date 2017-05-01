@@ -52,9 +52,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define DAYBUFFERSIZE 32
 
 extern int updateForced;
-#if VDRVERSNUM > 20300
-extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
-#endif
 
 cSearchTimerThread *cSearchTimerThread::m_Instance = NULL;
 cSearchResults cSearchTimerThread::announceList;
@@ -784,9 +781,9 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
    LogFile.Log(1, "AddModTimer SVDRP done"); //JF
 #if VDRVERSNUM > 20300
    }
-   if (!HandleRemoteModifications(Timer,NULL))
+   if (!HandleRemoteTimerModifications(Timer))
      return false;
-   LogFile.Log(1, "AddModTimer HandleRemoteModifications done"); //JF
+   LogFile.Log(1, "AddModTimer HandleRemoteTimerModifications done"); //JF
 #endif
 
    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised();

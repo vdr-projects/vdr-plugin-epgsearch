@@ -36,9 +36,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <math.h>
 
 const char *cMenuMyEditTimer::CheckModes[3];
-#if VDRVERSNUM > 20300
-extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
-#endif
 
 cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event, const cChannel* forcechannel)
 :cOsdMenu(trVDR("Edit timer"), 14)
@@ -464,7 +461,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
                       vdrtimers->Add(timer);
 #if VDRVERSNUM > 20300
                       vdrtimers->SetModified();
-                      if (!HandleRemoteModifications(timer,NULL)) {
+                      if (!HandleRemoteTimerModifications(timer)) {
                          vdrtimers->Del(timer);
                          delete timer;
                       }
