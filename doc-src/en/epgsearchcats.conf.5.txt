@@ -1,3 +1,4 @@
+=encoding utf8
 =head1 NAME
 
 F<epgsearchcats.conf> - Configuration of the additional EPG information

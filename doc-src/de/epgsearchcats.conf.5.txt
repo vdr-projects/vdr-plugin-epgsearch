@@ -1,3 +1,4 @@
+=encoding utf8
 =head1 NAME
 
 F<epgsearchcats.conf> - Die Kategorien des erweiterten EPGs, sofern vorhanden.
