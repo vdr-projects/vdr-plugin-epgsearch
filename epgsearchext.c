@@ -1181,7 +1181,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
       return;
 
    LogFile.Log(2,"analysing repeats for search timer '%s'...", search);
-   if (action != searchTimerActionRecord)
+   if ((action != searchTimerActionRecord) && (action != searchTimerActionInactiveRecord))
    {
       LogFile.Log(3,"search timer not set to 'record', so skip all");
       return;
@@ -1196,7 +1196,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
 #endif
    for (pResultObj = pResults->First(); pResultObj; pResultObj = pResults->Next(pResultObj))
    {
-      if (action != searchTimerActionRecord) // only announce if there is no timer for the event
+      if ((action != searchTimerActionRecord) && (action != searchTimerActionInactiveRecord)) // only announce if there is no timer for the event
       {
          pResultObj->needsTimer = false;
          continue;

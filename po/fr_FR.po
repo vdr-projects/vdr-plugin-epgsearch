@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-05 20:24+0100\n"
+"POT-Creation-Date: 2015-01-10 16:38+0100\n"
 "PO-Revision-Date: 2008-04-30 08:36+0200\n"
 "Last-Translator: Patrice Staudt <patrice.staudt@laposte.net>\n"
 "Language-Team: French <vdr@linuxtv.org>\n"
@@ -997,6 +997,9 @@ msgstr "Annoncer seulement début d'une programme"
 #, fuzzy
 msgid "Announce by mail"
 msgstr "Annoncer seulement début d'une programme"
+
+msgid "Inactive record"
+msgstr ""
 
 msgid "only globals"
 msgstr ""

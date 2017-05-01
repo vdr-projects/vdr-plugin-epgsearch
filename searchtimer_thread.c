@@ -147,7 +147,7 @@ const cTimer *cSearchTimerThread::GetTimer(const cTimers* vdrtimers, cSearchExt 
          continue;
 
       // ignore manual timers if this search could modify them
-      if (searchExt->action == searchTimerActionRecord && TriggeredFromSearchTimerID(ti) == -1) // manual timer
+      if ((searchExt->action == searchTimerActionRecord || searchExt->action == searchTimerActionInactiveRecord) && TriggeredFromSearchTimerID(ti) == -1) // manual timer
          continue;
 
       if (UseVPS && ti->HasFlags(tfVps))
@@ -727,6 +727,9 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
    }
    else
       Flags = 1; // don't use VPS, if not set in this search
+
+   if (searchExt->action == searchTimerActionInactiveRecord)
+      Flags &= ~tfActive;
 
    // already done the same timer?
    if (!EPGSearchConfig.TimerProgRepeat && index == 0 && TimersDone.InList(start, stop, pEvent, -1))

@@ -80,6 +80,7 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
    SearchTimerModes[2] = strdup(tr("Switch only"));
    SearchTimerModes[3] = strdup(tr("Announce and switch"));
    SearchTimerModes[4] = strdup(tr("Announce by mail"));
+   SearchTimerModes[5] = strdup(tr("Inactive record"));
 
    BlacklistModes[0] = strdup(tr("only globals"));
    BlacklistModes[1] = strdup(tr("Selection"));
@@ -353,7 +354,7 @@ void cMenuEditSearchExt::Set()
    Add(new cMenuEditStraItem( tr("Use as search timer"), &data.useAsSearchTimer, 3, SearchActiveModes));
    if (data.useAsSearchTimer)
    {
-      Add(new cMenuEditStraItem(IndentMenuItem(tr("Action")), &data.action, 5, SearchTimerModes));
+      Add(new cMenuEditStraItem(IndentMenuItem(tr("Action")), &data.action, 6, SearchTimerModes));
       if (data.action == searchTimerActionSwitchOnly)
       {
          Add(new cMenuEditIntItem(IndentMenuItem(tr("Switch ... minutes before start")), &data.switchMinsBefore, 0, 99));
@@ -364,7 +365,7 @@ void cMenuEditSearchExt::Set()
          Add(new cMenuEditIntItem(IndentMenuItem(tr("Ask ... minutes before start")), &data.switchMinsBefore, 0, 99));
          Add(new cMenuEditBoolItem(IndentMenuItem(tr("Unmute sound")), &data.unmuteSoundOnSwitch, trVDR("no"), trVDR("yes")));
       }
-      if (data.action == searchTimerActionRecord)
+      if ((data.action == searchTimerActionRecord) || (data.action == searchTimerActionInactiveRecord))
       {
          Add(new cMenuEditBoolItem( tr("  Series recording"), &data.useEpisode, trVDR("no"), trVDR("yes")));
          Add(new cMenuEditStrItem(IndentMenuItem(tr("Directory")), data.directory, sizeof(data.directory), tr(AllowedChars)));
@@ -409,7 +410,7 @@ void cMenuEditSearchExt::Set()
          Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at stop (min)")), &data.MarginStop, -INT_MAX, INT_MAX));
          Add(new cMenuEditBoolItem(IndentMenuItem(tr("VPS")), &data.useVPS, trVDR("no"), trVDR("yes")));
       }
-      if (data.action == searchTimerActionRecord)
+      if ((data.action == searchTimerActionRecord) || (data.action == searchTimerActionInactiveRecord))
 	{
 	  Add(new cMenuEditStraItem(IndentMenuItem(tr("Auto delete")), &data.delMode, 3, DelModes));
 	  if (data.delMode == 1)
@@ -441,9 +442,9 @@ cMenuEditSearchExt::~cMenuEditSearchExt()
       free(SearchModes[i]);
    for(i=0; i<=7; i++)
       free(DaysOfWeek[i]);
-   for(i=0; i<=2; i++)
+   for(i=0; i<=3; i++)
       free(UseChannelSel[i]);
-   for(i=0; i<=2; i++)
+   for(i=0; i<=5; i++)
       free(SearchTimerModes[i]);
    for(i=0; i<=3; i++)
       free(BlacklistModes[i]);
