@@ -47,8 +47,14 @@ cBlacklist::cBlacklist(void)
     startTime = 0000;
     stopTime = 2359;
     useChannel = false;
-    channelMin = Channels.GetByNumber(cDevice::CurrentChannel());
-    channelMax = Channels.GetByNumber(cDevice::CurrentChannel());
+#if VDRVERSNUM > 20300
+    LOCK_CHANNELS_READ;
+    const cChannels *vdrchannels = Channels;
+#else
+    cChannels *vdrchannels = &Channels;
+#endif
+    channelMin = vdrchannels->GetByNumber(cDevice::CurrentChannel());
+    channelMax = vdrchannels->GetByNumber(cDevice::CurrentChannel());
     channelGroup = NULL;
     useCase = false;
     mode = 0;
@@ -331,7 +337,13 @@ bool cBlacklist::Parse(const char *s)
 			char *channelMaxbuffer = NULL;
 			int channels = sscanf(value, "%m[^|]|%m[^|]", &channelMinbuffer, &channelMaxbuffer);
 #endif
-			channelMin = Channels.GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
+#if VDRVERSNUM > 20300
+			LOCK_CHANNELS_READ;
+			const cChannels *vdrchannels = Channels;
+#else
+			cChannels *vdrchannels = &Channels;
+#endif
+			channelMin = vdrchannels->GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
 			if (!channelMin)
 			{
 			    LogFile.eSysLog("ERROR: channel %s not defined", channelMinbuffer);
@@ -342,7 +354,7 @@ bool cBlacklist::Parse(const char *s)
 			    channelMax = channelMin;
 			else
 			{
-			    channelMax = Channels.GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
+			    channelMax = vdrchannels->GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
 			    if (!channelMax)
 			    {
 				LogFile.eSysLog("ERROR: channel %s not defined", channelMaxbuffer);
@@ -512,10 +524,10 @@ bool cBlacklist::Save(FILE *f)
   return fprintf(f, "%s\n", ToText()) > 0;
 }
 
-cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedules, const cEvent *Start, int MarginStop)
+const cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedules, const cEvent *Start, int MarginStop)
 {
-  cEvent *pe = NULL;
-  cEvent *p1 = NULL;
+  const cEvent *pe = NULL;
+  const cEvent *p1 = NULL;
 
   if (Start)
       p1 = schedules->Events()->Next(Start);
@@ -545,7 +557,7 @@ cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedules, const cEven
       maxSearchDuration = maxDuration/100*60 + maxDuration%100;
   }
 
-  for (cEvent *p = p1; p; p = schedules->Events()->Next(p))
+  for (const cEvent *p = p1; p; p = schedules->Events()->Next(p))
   {
      if(!p)
      {
@@ -633,9 +645,14 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
 {
     LogFile.Log(3,"start search for blacklist '%s'", search);
 
-    cSchedulesLock schedulesLock;
     const cSchedules *schedules;
+#if VDRVERSNUM > 20300
+    LOCK_SCHEDULES_READ;
+    schedules = Schedules;
+#else
+    cSchedulesLock schedulesLock;
     schedules = cSchedules::Schedules(schedulesLock);
+#endif
     if(!schedules) {
 	LogFile.Log(1,"schedules are currently locked! try again later.");
 	return NULL;
@@ -644,7 +661,13 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
     const cSchedule *Schedule = schedules->First();
 
     while (Schedule) {
-	cChannel* channel = Channels.GetByChannelID(Schedule->ChannelID(),true,true);
+#if VDRVERSNUM > 20300
+	LOCK_CHANNELS_READ;
+	const cChannels *vdrchannels = Channels;
+#else
+	cChannels *vdrchannels = &Channels;
+#endif
+	const cChannel* channel = vdrchannels->GetByChannelID(Schedule->ChannelID(),true,true);
 	if (!channel)
 	{
 	    Schedule = (const cSchedule *)schedules->Next(Schedule);
@@ -682,7 +705,13 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
         do {
 	    const cEvent* event = GetEventByBlacklist(Schedule, pPrevEvent, MarginStop);
 	    pPrevEvent = event;
-	    if (event && Channels.GetByChannelID(event->ChannelID(),true,true))
+#if VDRVERSNUM > 20300
+	    LOCK_CHANNELS_READ;
+	    const cChannels *vdrchannels = Channels;
+#else
+	    cChannels *vdrchannels = &Channels;
+#endif
+	    if (event && vdrchannels->GetByChannelID(event->ChannelID(),true,true))
 	    {
 		if (!pSearchResults) pSearchResults = new cSearchResults;
 		pSearchResults->Add(new cSearchResult(event, this));

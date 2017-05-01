@@ -519,7 +519,7 @@ bool DescriptionMatches(const char* eDescr, const char* rDescr, int matchLimit)
    return false;
 }
 
-const cEvent* GetEvent(cTimer* timer)
+const cEvent* GetEvent(const cTimer* timer)
 {
    const cEvent* event = NULL;
    const cChannel *channel = timer->Channel();
@@ -527,10 +527,15 @@ const cEvent* GetEvent(cTimer* timer)
    for (int seconds = 0; seconds <= 3; seconds++)
    {
       {
+#if VDRVERSNUM > 20300
+         LOCK_SCHEDULES_READ;
+         const cSchedules *schedules = Schedules;
+#else
          cSchedulesLock SchedulesLock;
-         const cSchedules *Schedules = cSchedules::Schedules(SchedulesLock);
-         if (Schedules) {
-            const cSchedule *Schedule = Schedules->GetSchedule(channel->GetChannelID());
+         const cSchedules *schedules = cSchedules::Schedules(SchedulesLock);
+#endif
+         if (schedules) {
+            const cSchedule *Schedule = schedules->GetSchedule(channel->GetChannelID());
             if (Schedule) {
                event = Schedule->GetEventAround(Time);
                if (event) return event;
@@ -709,7 +714,13 @@ int ChannelNrFromEvent(const cEvent* pEvent)
 {
    if (!pEvent)
       return -1;
-   cChannel* channel = Channels.GetByChannelID(pEvent->ChannelID(), true, true);
+#if VDRVERSNUM > 20300
+   LOCK_CHANNELS_READ;
+   const cChannels *vdrchannels = Channels;
+#else
+   cChannels *vdrchannels = &Channels;
+#endif
+   const cChannel* channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true, true);
    if (!channel)
       return -1;
    else

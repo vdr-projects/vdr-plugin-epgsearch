@@ -21,34 +21,45 @@ The author can be reached at cwieninger@gmx.de
 The project's page is at http://winni.vdr-developer.org/epgsearch
 */
 
+#ifndef VDR_STATUS_THREAD_H
+#define VDR_STATUS_THREAD_H
+
+#include <vdr/thread.h>
 #include <vdr/status.h>
+#include "epgsearchext.h"
 #include "recdone.h"
 #include "epgsearchtools.h"
+#include "log.h"
 
-// --- cRecDoneTimerObj --------------------------------------------------------
-class cRecDoneTimerObj : public cTimerObj {
-public:
-    int deviceNr;
-    cRecDone* recDone;
-    time_t lastBreak;
-public:
-    cRecDoneTimerObj(const cTimer* Timer, int DeviceNr) : cTimerObj(Timer), deviceNr(DeviceNr), recDone(NULL), lastBreak(0) {}
-    ~cRecDoneTimerObj() { timer = NULL; recDone = NULL; } // do not delete anything!
-};
+extern int gl_StatusProgged;
 
-class cRecStatusMonitor : public cStatus
+typedef enum
 {
-#if VDRVERSNUM > 20300
-public:
-#endif
-    cList<cRecDoneTimerObj> TimersRecording;
+    StatusThreadReady,
+    StatusThreadWorking,
+    StatusThreadError,
+    StatusThreadDone
+} StatusThreadStatus;
+
+class cStatusThread: public cThread {
+private:
+        static cStatusThread *m_Instance;
+	const cDevice * m_device;
+	const char * m_name;
+	const char * m_filename;
+	bool m_on;
+	static StatusThreadStatus m_Status;
 protected:
-    virtual void Recording(const cDevice *Device, const char *Name, const char*, bool On);
- public:
-    cRecStatusMonitor();
-    int TimerRecDevice(const cTimer*);
-    bool IsPesRecording(const cRecording *pRecording);
-    int RecLengthInSecs(const cRecording *pRecording);
+        virtual void Action(void);
+        void Stop(void);
+public:
+        bool m_Active;
+	StatusThreadStatus GetStatus() { return cStatusThread::m_Status; }
+	void SetStatus(StatusThreadStatus Status) { LogFile.eSysLog("%d", int(Status)); cStatusThread::m_Status = Status; }
+        cStatusThread();
+        virtual ~cStatusThread();
+        static void Init(const cDevice *Device, const char *Name, const char *Filename, bool On);
+        void Exit(void);
 };
 
-extern cRecStatusMonitor* gl_recStatusMonitor;
+#endif

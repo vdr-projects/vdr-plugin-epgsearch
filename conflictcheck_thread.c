@@ -102,11 +102,17 @@ void cConflictCheckThread::Action(void)
 	if (now >= nextUpdate || m_forceUpdate)
 	{
 	    m_forceUpdate = false;
+#if VDRVERSNUM > 20300
+            {
+                LOCK_TIMERS_READ;
+            }
+#else
 	    if (Timers.BeingEdited())
 	    {
 		Wait.Wait(1000);
 		continue;
 	    }
+#endif
 	    LogFile.iSysLog("timer conflict check started");
 
 	    cConflictCheck conflictCheck;

@@ -232,8 +232,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             {
                LogFile.Log(1,"search '%s' deleted via SVDRP", search->search);
                cMutexLock SearchExtsLock(&SearchExts);
-               if (delTimers && !Timers.BeingEdited())
-                  search->DeleteAllTimers();
+               if (delTimers
+#if VDRVERSNUM < 20300
+                   && !Timers.BeingEdited()
+#endif
+                  )
+                search->DeleteAllTimers();
                SearchExts.Del(search);
                SearchExts.Save();
                RecsDone.RemoveSearchID(SID);
@@ -562,13 +566,25 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 
             eTimerMatch timerMatch;
             bool hasTimer = false;
-            if (Timers.GetMatch(pEvent, &timerMatch))
+#if VDRVERSNUM > 20300
+            LOCK_TIMERS_READ;
+            const cTimers *vdrtimers = Timers;
+#else
+            cTimers *vdrtimers = &Timers;
+#endif
+            if (vdrtimers->GetMatch(pEvent, &timerMatch))
                hasTimer = (timerMatch == tmFull);
 
             if (!result->search->useAsSearchTimer)
                result->needsTimer = false;
 
-            cChannel *channel = Channels.GetByChannelID(pEvent->ChannelID(), true,true);
+#if VDRVERSNUM > 20300
+            LOCK_CHANNELS_READ;
+            const cChannels *vdrchannels = Channels;
+#else
+            cChannels *vdrchannels = &Channels;
+#endif
+            const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true,true);
             int timerMode = hasTimer?1:(result->needsTimer?2:0);
 
             string title = pEvent->Title()?ReplaceAll(pEvent->Title(), "|", "!^pipe!^"):"";
@@ -1043,7 +1059,13 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                   ReplyCode = 901;
                   return cString::sprintf("invalid channel id");
                }
-               cChannel *ch = Channels.GetByChannelID(chID,true,true);
+#if VDRVERSNUM > 20300
+               LOCK_CHANNELS_READ;
+               const cChannels *vdrchannels = Channels;
+#else
+               cChannels *vdrchannels = &Channels;
+#endif
+               const cChannel *ch = vdrchannels->GetByChannelID(chID,true,true);
                if (!ch)
                {
                   ReplyCode = 901;
@@ -1053,12 +1075,18 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             }
             else
             {
+#if VDRVERSNUM > 20300
+               LOCK_CHANNELS_READ;
+               const cChannels *vdrchannels = Channels;
+#else
+               cChannels *vdrchannels = &Channels;
+#endif
                string sBuffer;
-               for (int i = 0; i < Channels.Count(); i++)
+               for (int i = 0; i < vdrchannels->Count(); i++)
                {
-                  cChannel* ch = Channels.Get(i);
+                  const cChannel* ch = vdrchannels->Get(i);
                   if (ch && !ch->GroupSep())
-                     sBuffer += string(*ch->GetChannelID().ToString()) + string(": ") + NumToString(DefTimerCheckModes.GetMode(ch)) + string((i<Channels.Count()-1)?"\n":"");
+                     sBuffer += string(*ch->GetChannelID().ToString()) + string(": ") + NumToString(DefTimerCheckModes.GetMode(ch)) + string((i<vdrchannels->Count()-1)?"\n":"");
                }
                return sBuffer.c_str();
             }

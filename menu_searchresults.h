@@ -58,8 +58,8 @@ class cMenuSearchResultsItem : public cOsdItem {
     cMenuSearchResultsItem(const cEvent *EventInfo, bool EpisodeOnly = false,
                            bool PreviewTimer = false, cMenuTemplate* MenuTemplate = NULL,
                            const cSearchExt* Search = NULL);
-    cMenuSearchResultsItem(cRecording *Recording);
-    bool Update(bool Force = false);
+    cMenuSearchResultsItem(const cRecording *Recording);
+    bool Update(const cTimers* vdrtimers, bool Force = false);
     void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 };
 
@@ -83,7 +83,7 @@ class cMenuSearchResults : public cOsdMenu {
     eOSState Commands(eKeys Key, cSearchExt* SearchExt = NULL);
     int GetTab(int Tab);
     virtual void SetHelpKeys(bool Force=false)=0;
-    bool Update(void);
+    bool Update(const cTimers* vdrtimers);
     void UpdateCurrent();
 
     static const cEvent *scheduleEventInfo;
@@ -131,7 +131,7 @@ class cMenuSearchResultsForRecs : public cMenuSearchResultsForQuery {
     virtual bool BuildList();
     eOSState ProcessKey(eKeys Key);
     eOSState Play(void);
-    cRecording *GetRecording(cMenuSearchResultsItem *Item);
+    const cRecording *GetRecording(cMenuSearchResultsItem *Item);
   public:
    cMenuSearchResultsForRecs(const char *query);
 };

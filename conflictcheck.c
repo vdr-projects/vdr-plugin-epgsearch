@@ -73,12 +73,17 @@ const cEvent* cConflictCheckTimerObj::Event()
 
 const cEvent* cConflictCheckTimerObj::SetEventFromSchedule()
 {
+#if VDRVERSNUM > 20300
+    LOCK_SCHEDULES_READ;
+    const cSchedules *schedules = Schedules;
+#else
     cSchedulesLock SchedulesLock;
-    const cSchedules* Schedules = NULL;
-    if (!(Schedules = cSchedules::Schedules(SchedulesLock)))
+    const cSchedules* schedules = cSchedules::Schedules(SchedulesLock);
+#endif
+    if (!schedules)
 	return NULL;
 
-    const cSchedule *Schedule = Schedules->GetSchedule(timer->Channel());
+    const cSchedule *Schedule = schedules->GetSchedule(timer->Channel());
     if (Schedule && Schedule->Events()->First())
     {
 	const cEvent *Event = NULL;
@@ -230,15 +235,27 @@ void cConflictCheck::BondDevices(const char *Bondings)
 #endif
 }
 
+#if VDRVERSNUM > 20300
+void cConflictCheck::Check(const cTimers* vdrtimers)
+{
+    Check_(vdrtimers);
+}
+#endif
 
 void cConflictCheck::Check()
+{
+    const cTimers* vdrtimers = NULL;
+    Check_(vdrtimers);
+}
+
+void cConflictCheck::Check_(const cTimers* vdrtimers)
 {
     if (evaltimeList)
 	DELETENULL(evaltimeList);
     if (timerList)
 	DELETENULL(timerList);
 
-    timerList = CreateCurrentTimerList();
+    timerList = CreateCurrentTimerList(vdrtimers);
     if (timerList) evaltimeList = CreateEvaluationTimeList(timerList);
     if (evaltimeList) failedList = CreateConflictList(evaltimeList, timerList);
     if (failedList)
@@ -255,15 +272,23 @@ void cConflictCheck::Check()
       gl_timerStatusMonitor->SetConflictCheckAdvised();
 }
 
-cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
+cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList(const cTimers* vdrtimers)
 {
     LogFile.Log(3,"current timer list creation started");
     cList<cConflictCheckTimerObj>* CurrentTimerList = NULL;
 
     // collect single event timers
     time_t tMax = 0;
-    cTimer* ti = NULL;
-    for (ti = Timers.First(); ti; ti = Timers.Next(ti))
+#if VDRVERSNUM > 20300
+    if (!vdrtimers) {
+        LOCK_TIMERS_READ;
+        vdrtimers = Timers;
+    }
+#else
+    vdrtimers = &Timers;
+#endif
+    const cTimer* ti = NULL;
+    for (ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
     {
 	tMax = max(tMax, ti->StartTime());
 	if (!ti->IsSingleEvent()) continue;
@@ -291,7 +316,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     // collect repeating timers from now until the date of the timer with tMax
     time_t maxCheck = time(NULL) + min(14,EPGSearchConfig.checkMaxDays) * SECSINDAY;
     tMax = max(tMax, maxCheck);
-    for (ti = Timers.First(); ti; ti = Timers.Next(ti))
+    for (ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
     {
 	if (ti->IsSingleEvent()) continue;
 	time_t day = time(NULL);
@@ -669,7 +694,7 @@ void cConflictCheck::AddConflict(cConflictCheckTimerObj* TimerObj, cConflictChec
     LogFile.Log(3,"conflict found for timer '%s' (%s, channel %s)", TimerObj->timer->File(), DAYDATETIME(TimerObj->start), CHANNELNAME(TimerObj->timer->Channel()));
 }
 
-bool cConflictCheck::TimerInConflict(cTimer* timer)
+bool cConflictCheck::TimerInConflict(const cTimers* vdrtimers, const cTimer* timer)
 {
     for(cConflictCheckTime* checkTime = failedList->First(); checkTime; checkTime = failedList->Next(checkTime))
     {
@@ -683,7 +708,7 @@ bool cConflictCheck::TimerInConflict(cTimer* timer)
 		{
 		    for (it2 = (*it)->concurrentTimers->begin(); it2 != (*it)->concurrentTimers->end(); ++it2)
 		    {
-			if ((*it2)->OrigTimer() == timer)
+			if ((*it2)->OrigTimer(vdrtimers) == timer)
 			    return true;
 		    }
 		}
@@ -706,7 +731,13 @@ void cConflictCheck::EvaluateConflCheckCmd()
 	    if ((*it) && !(*it)->ignore)
 	      {
 		string result = EPGSearchConfig.conflCheckCmd;
-		if (!(*it)->OrigTimer())
+#if VDRVERSNUM > 20300
+		LOCK_TIMERS_READ;
+		const cTimers *vdrtimers = Timers;
+#else
+		cTimers *vdrtimers = &Timers;
+#endif
+		if (!(*it)->OrigTimer(vdrtimers))
 		  {
 		    LogFile.Log(3,"timer has disappeared meanwhile");
 		    continue;

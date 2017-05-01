@@ -47,7 +47,7 @@ public:
     static char *buffer;
 
     cRecDone();
-    cRecDone(cTimer*, const cEvent* event, cSearchExt* search);
+    cRecDone(const cTimer*, const cEvent* event, cSearchExt* search);
     ~cRecDone();
 
     static bool Read(FILE *f);

@@ -59,7 +59,20 @@ class cConflictCheckTimerObj : public cTimerObj
     const cEvent* Event();
     const cEvent* SetEventFromSchedule();
     int Matches(const cEvent *Event, int *Overlap) const;
-    cTimer* OrigTimer() {return Timers.GetTimer(timer); }
+    const cTimer* OrigTimer(const cTimers* timers) const
+    {
+      // http://www.vdr-portal.de/board1-news/board2-vdr-news/p1255344-/#post1255344
+      // if patch is accepted, change to
+      //return timers->GetTimer(timer);
+      return ((cTimers*)timers)->GetTimer((cTimer*)timer);
+    }
+    cTimer* OrigTimer(cTimers* timers)
+    {
+      // http://www.vdr-portal.de/board1-news/board2-vdr-news/p1255344-/#post1255344
+      // if patch is accepted, change to
+      //return timers->GetTimer(timer);
+      return timers->GetTimer((cTimer*)timer);
+    }
 };
 
 class TimerObjSort
@@ -262,6 +275,8 @@ class cConflictCheck
     int numDevices;
     time_t maxCheck;
     std::vector<eModuleStatus> camSlotStatusArray;
+ private:
+    void Check_(const cTimers* vdrtimers);
  public:
     int relevantConflicts;
     int numConflicts;
@@ -271,8 +286,11 @@ class cConflictCheck
     ~cConflictCheck();
     void InitDevicesInfo();
     void Check();
+#if VDRVERSNUM > 20300
+    void Check(const cTimers* vdrtimers);
+#endif
     void BondDevices(const char* bondings);
-    cList<cConflictCheckTimerObj>* CreateCurrentTimerList();
+    cList<cConflictCheckTimerObj>* CreateCurrentTimerList(const cTimers* vdrtimers);
     cList<cConflictCheckTime>* CreateEvaluationTimeList(cList<cConflictCheckTimerObj>*);
     cList<cConflictCheckTime>* CreateConflictList(cList<cConflictCheckTime>*, cList<cConflictCheckTimerObj>* timerList);
     int GetDevice(cConflictCheckTimerObj* TimerObj, bool *NeedsDetachReceivers);
@@ -280,7 +298,7 @@ class cConflictCheck
     cList<cConflictCheckTimerObj>* GetTimers() { return timerList; }
     void AddConflict(cConflictCheckTimerObj* TimerObj, cConflictCheckTime* Checktime, std::set<cConflictCheckTimerObj*>& pendingTimers);
     int ProcessCheckTime(cConflictCheckTime* checkTime);
-    bool TimerInConflict(cTimer*);
+    bool TimerInConflict(const cTimers* vdrtimers, const cTimer*);
     void EvaluateConflCheckCmd();
     eModuleStatus CamSlotModuleStatus(cCamSlot *CamSlot);
 };

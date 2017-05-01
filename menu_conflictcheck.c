@@ -50,7 +50,7 @@ cMenuConflictCheckItem::cMenuConflictCheckItem(cConflictCheckTime* Ct, cConflict
     }
     else
     {
-	cTimer* t = timerObj->timer;
+	const cTimer* t = timerObj->timer;
 	int recPart = timerObj->recDuration * 100 / (timerObj->stop - timerObj->start);
 	buffer = cString::sprintf("%d\t%s\t%d\t%2d%%\t%s", t->Channel()->Number(), t->Channel()->ShortName(true), t->Priority(), recPart, t->File());
     }
@@ -165,17 +165,23 @@ eOSState cMenuConflictCheck::ProcessKey(eKeys Key)
 cMenuConflictCheckDetailsItem::cMenuConflictCheckDetailsItem(cConflictCheckTimerObj* TimerObj)
 {
     timerObj = TimerObj;
-    hasTimer = timerObj->OrigTimer()?timerObj->OrigTimer()->HasFlags(tfActive):false;
-    Update(true);
+#if VDRVERSNUM > 20300
+    LOCK_TIMERS_READ;
+    const cTimers *vdrtimers = Timers;
+#else
+    cTimers *vdrtimers = &Timers;
+#endif
+    hasTimer = timerObj->OrigTimer(vdrtimers)?timerObj->OrigTimer(vdrtimers)->HasFlags(tfActive):false;
+    Update(vdrtimers, true);
 }
 
-bool cMenuConflictCheckDetailsItem::Update(bool Force)
+bool cMenuConflictCheckDetailsItem::Update(const cTimers* vdrtimers, bool Force)
 {
     bool oldhasTimer = hasTimer;
-    hasTimer = timerObj->OrigTimer()?timerObj->OrigTimer()->HasFlags(tfActive):false;
+    hasTimer = timerObj->OrigTimer(vdrtimers)?timerObj->OrigTimer(vdrtimers)->HasFlags(tfActive):false;
     if (Force || hasTimer != oldhasTimer)
     {
-	cTimer* timer = timerObj->timer;
+	const cTimer* timer = timerObj->timer;
 	char device[2]="";
 	if (hasTimer)
 	{
@@ -266,19 +272,27 @@ eOSState cMenuConflictCheckDetails::Commands(eKeys Key)
 
 eOSState cMenuConflictCheckDetails::ToggleTimer(cConflictCheckTimerObj* TimerObj)
 {
-  if (!TimerObj || !TimerObj->OrigTimer()) return osContinue;
-  TimerObj->OrigTimer()->OnOff();
-  Timers.SetModified();
-  Update();
+  cTimers *vdrtimers;
+#if VDRVERSNUM > 20300
+  LOCK_TIMERS_WRITE;
+  Timers->SetExplicitModify();
+  vdrtimers = Timers;
+#else
+  vdrtimers = &Timers;
+#endif
+  if (!TimerObj || !TimerObj->OrigTimer(vdrtimers)) return osContinue;
+  TimerObj->OrigTimer(vdrtimers)->OnOff();  // Toggles Timer Flag
+  vdrtimers->SetModified();
+  Update(vdrtimers);
   Display();
   return osContinue;
 }
 
-bool cMenuConflictCheckDetails::Update(bool Force)
+bool cMenuConflictCheckDetails::Update(const cTimers* vdrtimers, bool Force)
 {
     bool result = false;
     for (cOsdItem *item = First(); item; item = Next(item)) {
-	if (item->Selectable() && ((cMenuConflictCheckDetailsItem *)item)->Update(Force))
+	if (item->Selectable() && ((cMenuConflictCheckDetailsItem *)item)->Update(vdrtimers, Force))
 	    result = true;
     }
     return result;
@@ -286,22 +300,33 @@ bool cMenuConflictCheckDetails::Update(bool Force)
 
 eOSState cMenuConflictCheckDetails::DeleteTimer(cConflictCheckTimerObj* TimerObj)
 {
-  cTimer* timer = TimerObj->OrigTimer();
+#if VDRVERSNUM > 20300
+  LOCK_TIMERS_WRITE;
+  Timers->SetExplicitModify();
+  cTimers *vdrtimers = Timers;
+#else
+  cTimers *vdrtimers = &Timers;
+#endif
+  cTimer* timer = TimerObj->OrigTimer(vdrtimers);
   // Check if this timer is active:
   if (timer) {
     if (Interface->Confirm(trVDR("Delete timer?"))) {
       if (timer->Recording()) {
 	if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
 	  timer->Skip();
+#if VDRVERSNUM > 20300
+	  cRecordControls::Process(vdrtimers, time(NULL));
+#else
 	  cRecordControls::Process(time(NULL));
+#endif
 	}
 	else
 	  return osContinue;
       }
       LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
-      Timers.Del(timer);
+      vdrtimers->Del(timer);
       cOsdMenu::Del(Current());
-      Timers.SetModified();
+      vdrtimers->SetModified();
       Display();
       return osBack;
     }
@@ -319,7 +344,13 @@ eOSState cMenuConflictCheckDetails::ShowSummary()
     const cEvent *ei = curTimerObj->Event();
     if (ei)
     {
-	cChannel *channel = Channels.GetByChannelID(ei->ChannelID(), true, true);
+#if VDRVERSNUM > 20300
+	LOCK_CHANNELS_READ;
+	const cChannels *vdrchannels = Channels;
+#else
+	cChannels *vdrchannels = &Channels;
+#endif
+	const cChannel *channel = vdrchannels->GetByChannelID(ei->ChannelID(), true, true);
 	if (channel)
 	    return AddSubMenu(new cMenuEventSearchSimple(ei, eventObjects));
     }
@@ -408,10 +439,16 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 		for (it = timerObj->concurrentTimers->begin(); it != timerObj->concurrentTimers->end(); ++it)
 		{
 		    bool found = false;
-		    for(cTimer* checkT = Timers.First(); checkT; checkT = Timers.Next(checkT))
+#if VDRVERSNUM > 20300
+		    LOCK_TIMERS_WRITE;
+		    cTimers *vdrtimers = Timers;
+#else
+		    cTimers *vdrtimers = &Timers;
+#endif
+		    for(cTimer* checkT = vdrtimers->First(); checkT; checkT = vdrtimers->Next(checkT))
 		    {
 			checkT->Matches();
-			if (checkT == (*it)->OrigTimer()) // ok -> found, check for changes
+			if (checkT == (*it)->OrigTimer(vdrtimers)) // ok -> found, check for changes
 			{
 			    if (checkT->IsSingleEvent())
 			    {
@@ -444,7 +481,13 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 
 	if (Key != kNone)
 	    SetHelpKeys();
-	if ((HadSubMenu || gl_TimerProgged) && Update(true))
+#if VDRVERSNUM > 20300
+        LOCK_TIMERS_READ;
+        const cTimers *vdrtimers = Timers;
+#else
+        cTimers *vdrtimers = &Timers;
+#endif
+	if ((HadSubMenu || gl_TimerProgged) && Update(vdrtimers, true))
 	{
 	    if (gl_TimerProgged) // when using epgsearch's timer edit menu, update is delayed because of SVDRP
 	    {

@@ -44,6 +44,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 const char* ButtonBlue[3] = {NULL, NULL, NULL};
 extern int gl_InfoConflict;
 extern bool isUTF8;
+#if VDRVERSNUM > 20300
+extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
+#endif
 
 static int CompareRecording(const void *p1, const void *p2)
 {
@@ -67,10 +70,16 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(const cEvent *EventInfo, bool Epi
    menuTemplate = MenuTemplate?MenuTemplate:cTemplFile::GetTemplateByName("MenuSearchResults");
    search = Search;
    inSwitchList = false;
-   Update(true);
+#if VDRVERSNUM > 20300
+   LOCK_TIMERS_READ;
+   const cTimers *vdrtimers = Timers;
+#else
+   cTimers *vdrtimers = &Timers;
+#endif
+   Update(vdrtimers, true);
 }
 
-bool cMenuSearchResultsItem::Update(bool Force)
+bool cMenuSearchResultsItem::Update(const cTimers* vdrtimers, bool Force)
 {
    if (!menuTemplate)
       return false;
@@ -80,8 +89,12 @@ bool cMenuSearchResultsItem::Update(bool Force)
    eTimerMatch OldTimerMatch = timerMatch;
    bool OldInSwitchList = inSwitchList;
    bool hasMatch = false;
-   cTimer* timer = NULL;
-   if (event) timer = Timers.GetMatch(event, &timerMatch);
+   const cTimer* timer = NULL;
+#if VDRVERSNUM > 20300
+   if (event) timer = vdrtimers->GetMatch(event, &timerMatch);
+#else
+   if (event) timer = ((cTimers*)vdrtimers)->GetMatch(event, &timerMatch);
+#endif
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
 
@@ -161,8 +174,12 @@ bool cMenuSearchResultsItem::Update(bool Force)
       if (EPGSearchConfig.checkTimerConflAfterTimerProg && !Force && timer && timerMatch && timerMatch != OldTimerMatch)
       {
          cConflictCheck C;
+#if VDRVERSNUM > 20300
+         C.Check(vdrtimers);
+#else
          C.Check();
-         if (C.TimerInConflict(timer))
+#endif
+         if (C.TimerInConflict(vdrtimers, timer))
             gl_InfoConflict = 1;
       }
 
@@ -171,7 +188,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
    return result;
 }
 
-cMenuSearchResultsItem::cMenuSearchResultsItem(cRecording *Recording)
+cMenuSearchResultsItem::cMenuSearchResultsItem(const cRecording *Recording)
 {
    previewTimer = false;
    episodeOnly = false;
@@ -187,7 +204,13 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(cRecording *Recording)
 void cMenuSearchResultsItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
 #if APIVERSNUM >= 10733
-  cChannel *channel = event?Channels.GetByChannelID(event->ChannelID(), true, true):NULL;
+#if VDRVERSNUM > 20300
+  LOCK_CHANNELS_READ;
+  const cChannels *vdrchannels = Channels;
+#else
+  cChannels *vdrchannels = &Channels;
+#endif
+  const cChannel *channel = event?vdrchannels->GetByChannelID(event->ChannelID(), true, true):NULL;
   if (!event)
      DisplayMenu->SetItem(Text(), Index, Current, Selectable);
   else if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, true, timerMatch))
@@ -222,11 +245,11 @@ int cMenuSearchResults::GetTab(int Tab)
    return menuTemplate->Tab(Tab-1);
 }
 
-bool cMenuSearchResults::Update(void)
+bool cMenuSearchResults::Update(const cTimers* vdrtimers)
 {
    bool result = false;
    for (cOsdItem *item = First(); item; item = Next(item)) {
-      if (((cMenuSearchResultsItem *)item)->Update())
+      if (((cMenuSearchResultsItem *)item)->Update(vdrtimers))
          result = true;
    }
    return result;
@@ -237,10 +260,17 @@ eOSState cMenuSearchResults::Record(void)
    UpdateCurrent();
    cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
    if (item) {
+#if VDRVERSNUM > 20300
+      LOCK_TIMERS_WRITE;
+      Timers->SetExplicitModify();
+      cTimers *vdrtimers = Timers;
+#else
+      cTimers *vdrtimers = &Timers;
+#endif
       if (item->timerMatch == tmFull)
       {
          eTimerMatch tm = tmNone;
-         cTimer *timer = Timers.GetMatch(item->event, &tm);
+         cTimer *timer = vdrtimers->GetMatch(item->event, &tm);
          if (timer)
 	   {
 	     if (EPGSearchConfig.useVDRTimerEditMenu)
@@ -252,7 +282,7 @@ eOSState cMenuSearchResults::Record(void)
 
       cTimer *timer = new cTimer(item->event);
       PrepareTimerFile(item->event, timer);
-      cTimer *t = Timers.GetTimer(timer);
+      cTimer *t = vdrtimers->GetTimer(timer);
       if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
       {
          if (t)
@@ -290,15 +320,26 @@ eOSState cMenuSearchResults::Record(void)
 #endif
 
          SetAux(timer, fullaux);
-         Timers.Add(timer);
+#if VDRVERSNUM > 20300
+         if (*Setup.SVDRPDefaultHost)
+            timer->SetRemote(Setup.SVDRPDefaultHost);
+#endif
+         vdrtimers->Add(timer);
 	 gl_timerStatusMonitor->SetConflictCheckAdvised();
          timer->Matches();
-         Timers.SetModified();
+         vdrtimers->SetModified();
+#if VDRVERSNUM > 20300
+         if (!HandleRemoteModifications(timer,NULL)) {
+            vdrtimers->Del(timer);
+            delete timer;
+         }
+#else
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
+#endif
 
          if (HasSubMenu())
             CloseSubMenu();
-         if (Update())
+         if (Update(vdrtimers))
             Display();
          SetHelpKeys();
       }
@@ -312,7 +353,13 @@ eOSState cMenuSearchResults::Switch(void)
    UpdateCurrent();
    cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
    if (item) {
-      cChannel *channel = Channels.GetByChannelID(item->event->ChannelID(), true, true);
+#if VDRVERSNUM > 20300
+      LOCK_CHANNELS_READ;
+      const cChannels *vdrchannels = Channels;
+#else
+      cChannels *vdrchannels = &Channels;
+#endif
+      const cChannel *channel = vdrchannels->GetByChannelID(item->event->ChannelID(), true, true);
       if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
          return osEnd;
    }
@@ -342,7 +389,13 @@ eOSState cMenuSearchResults::ShowSummary()
       const cEvent *ei = ((cMenuSearchResultsItem *)Get(Current()))->event;
       if (ei)
       {
-         cChannel *channel = Channels.GetByChannelID(ei->ChannelID(), true, true);
+#if VDRVERSNUM > 20300
+         LOCK_CHANNELS_READ;
+         const cChannels *vdrchannels = Channels;
+#else
+         cChannels *vdrchannels = &Channels;
+#endif
+         const cChannel *channel = vdrchannels->GetByChannelID(ei->ChannelID(), true, true);
          if (channel)
             return AddSubMenu(new cMenuEventSearch(ei, eventObjects));
       }
@@ -454,7 +507,13 @@ eOSState cMenuSearchResults::ProcessKey(eKeys Key)
    }
    if (!HasSubMenu())
    {
-      if ((HadSubMenu || gl_TimerProgged) && Update())
+#if VDRVERSNUM > 20300
+      LOCK_TIMERS_READ;
+      const cTimers *vdrtimers = Timers;
+#else
+      cTimers *vdrtimers = &Timers;
+#endif
+      if ((HadSubMenu || gl_TimerProgged) && Update(vdrtimers))
       {
          if (gl_TimerProgged) // when using epgsearch's timer edit menu, update is delayed because of SVDRP
          {
@@ -768,12 +827,18 @@ cMenuSearchResultsForRecs::cMenuSearchResultsForRecs(const char *query)
 
 bool cMenuSearchResultsForRecs::BuildList()
 {
-   cRecording **pArray = NULL;
+   const cRecording **pArray = NULL;
    int num = 0;
 
    int current = Current();
    Clear();
-   for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
+#if VDRVERSNUM > 20300
+   LOCK_RECORDINGS_READ;
+   const cRecordings *vdrrecordings = Recordings;
+#else
+   cRecordings *vdrrecordings = &Recordings;
+#endif
+   for (const cRecording *recording = vdrrecordings->First(); recording; recording = vdrrecordings->Next(recording)) {
      const cRecordingInfo *recInfo = recording->Info();
      if (!recInfo) continue;
      string s1 = (recInfo && recInfo->Title())?recInfo->Title():"";
@@ -808,7 +873,7 @@ bool cMenuSearchResultsForRecs::BuildList()
        }
 
      if (match) {
-       cRecording **tmp = (cRecording **)realloc(pArray, (num + 1) * sizeof(cRecording *));
+       const cRecording **tmp = (const cRecording **)realloc(pArray, (num + 1) * sizeof(cRecording *));
        if (tmp)
        {
            pArray=tmp;
@@ -829,9 +894,15 @@ bool cMenuSearchResultsForRecs::BuildList()
    return true;
 }
 
-cRecording *cMenuSearchResultsForRecs::GetRecording(cMenuSearchResultsItem *Item)
+const cRecording *cMenuSearchResultsForRecs::GetRecording(cMenuSearchResultsItem *Item)
 {
-   cRecording *recording = Recordings.GetByName(Item->FileName());
+#if VDRVERSNUM > 20300
+   LOCK_RECORDINGS_READ;
+   const cRecordings *vdrrecordings = Recordings;
+#else
+   cRecordings *vdrrecordings = &Recordings;
+#endif
+   const cRecording *recording = vdrrecordings->GetByName(Item->FileName());
    if (!recording)
      ERROR(tr("Error while accessing recording!"));
    return recording;
@@ -842,7 +913,7 @@ eOSState cMenuSearchResultsForRecs::Play(void)
    cMenuSearchResultsItem *ri = (cMenuSearchResultsItem*)Get(Current());
    if (ri)
    {
-      cRecording *recording = GetRecording(ri);
+      const cRecording *recording = GetRecording(ri);
       if (recording) {
 #if APIVERSNUM < 10728
          cReplayControl::SetRecording(recording->FileName(), recording->Title());

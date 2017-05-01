@@ -156,9 +156,15 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
       strn0cpy(SearchExt->search,argv[2], sizeof(SearchExt->search));
       if (atoi(argv[3]) > 0)
       {
+#if VDRVERSNUM > 20300
+         LOCK_CHANNELS_READ;
+         const cChannels *vdrchannels = Channels;
+#else
+         cChannels *vdrchannels = &Channels;
+#endif
          SearchExt->useChannel = true;
-         SearchExt->channelMin = Channels.GetByNumber(atoi(argv[3]));
-         SearchExt->channelMax = Channels.GetByNumber(atoi(argv[3]));
+         SearchExt->channelMin = vdrchannels->GetByNumber(atoi(argv[3]));
+         SearchExt->channelMax = vdrchannels->GetByNumber(atoi(argv[3]));
       }
       SearchExt->mode = atoi(argv[4]);
       SearchExt->useTitle = atoi(argv[5]);
@@ -237,9 +243,15 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
       strn0cpy(SearchExt->search,searchData->query, sizeof(SearchExt->search)); 
       if (searchData->channelNr > 0)
       {
+#if VDRVERSNUM > 20300
+         LOCK_CHANNELS_READ;
+         const cChannels *vdrchannels = Channels;
+#else
+         cChannels *vdrchannels = &Channels;
+#endif
          SearchExt->useChannel = true;
-         SearchExt->channelMin = Channels.GetByNumber(searchData->channelNr);
-         SearchExt->channelMax = Channels.GetByNumber(searchData->channelNr);
+         SearchExt->channelMin = vdrchannels->GetByNumber(searchData->channelNr);
+         SearchExt->channelMax = vdrchannels->GetByNumber(searchData->channelNr);
       }
       SearchExt->mode = searchData->mode;
       SearchExt->useTitle = searchData->useTitle;
@@ -332,9 +344,15 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
       strn0cpy(SearchExt->search,searchData->query, sizeof(SearchExt->search));
       if (searchData->channelNr > 0)
       {
+#if VDRVERSNUM > 20300
+         LOCK_CHANNELS_READ;
+         const cChannels *vdrchannels = Channels;
+#else
+         cChannels *vdrchannels = &Channels;
+#endif
          SearchExt->useChannel = true;
-         SearchExt->channelMin = Channels.GetByNumber(searchData->channelNr);
-         SearchExt->channelMax = Channels.GetByNumber(searchData->channelNr);
+         SearchExt->channelMin = vdrchannels->GetByNumber(searchData->channelNr);
+         SearchExt->channelMax = vdrchannels->GetByNumber(searchData->channelNr);
       }
       SearchExt->mode = searchData->mode;
       SearchExt->useTitle = searchData->useTitle;
@@ -510,9 +528,15 @@ cOsdObject *cPluginEpgsearch::DoInitialSearch(char* rcFilename)
       strn0cpy(SearchExt->search,rcFile.Search, sizeof(SearchExt->search));
       if (rcFile.ChannelNr != -1)
       {
+#if VDRVERSNUM > 20300
+         LOCK_CHANNELS_READ;
+         const cChannels *vdrchannels = Channels;
+#else
+         cChannels *vdrchannels = &Channels;
+#endif
          SearchExt->useChannel = true;
-         SearchExt->channelMin = Channels.GetByNumber(rcFile.ChannelNr);
-         SearchExt->channelMax = Channels.GetByNumber(rcFile.ChannelNr);
+         SearchExt->channelMin = vdrchannels->GetByNumber(rcFile.ChannelNr);
+         SearchExt->channelMax = vdrchannels->GetByNumber(rcFile.ChannelNr);
       }
       SearchExt->mode = rcFile.SearchMode;
       SearchExt->useTitle = rcFile.UseTitle;

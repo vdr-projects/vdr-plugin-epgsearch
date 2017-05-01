@@ -36,6 +36,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <math.h>
 
 const char *cMenuMyEditTimer::CheckModes[3];
+#if VDRVERSNUM > 20300
+extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
+#endif
 
 cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event, const cChannel* forcechannel)
 :cOsdMenu(trVDR("Edit timer"), 14)
@@ -76,7 +79,9 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
 	Set();
 	SetHelp(addIfConfirmed?NULL:trVDR("Button$Delete"), NULL, NULL, NULL);
     }
+#if VDRVERSNUM < 20300
   Timers.IncBeingEdited();
+#endif
 }
 
 void cMenuMyEditTimer::SplitFile()
@@ -130,7 +135,13 @@ void cMenuMyEditTimer::Set()
 #ifdef USE_PINPLUGIN
     if (cOsd::pinValid || !fskProtection) Add(new cMenuEditChanItem(tr("Channel"), &channel));
     else {
-      cString buf = cString::sprintf("%s\t%s", tr("Channel"), Channels.GetByNumber(channel)->Name());
+#if VDRVERSNUM > 20300
+        LOCK_CHANNELS_READ;
+        const cChannels *vdrchannels = Channels;
+#else
+        cChannels *vdrchannels = &Channels;
+#endif
+      cString buf = cString::sprintf("%s\t%s", tr("Channel"), vdrchannels->GetByNumber(channel)->Name());
       Add(new cOsdItem(buf));
     }
 #else
@@ -162,7 +173,13 @@ void cMenuMyEditTimer::Set()
     }
     else if (IsSingleEvent() && event)
     {
-	checkmode = DefTimerCheckModes.GetMode(Channels.GetByNumber(channel));
+#if VDRVERSNUM > 20300
+	LOCK_CHANNELS_READ;
+	const cChannels *vdrchannels = Channels;
+#else
+	cChannels *vdrchannels = &Channels;
+#endif
+	checkmode = DefTimerCheckModes.GetMode(vdrchannels->GetByNumber(channel));
 	char* checkmodeAux = GetAuxValue(timer, "update");
 	if (checkmodeAux)
 	{
@@ -196,7 +213,9 @@ cMenuMyEditTimer::~cMenuMyEditTimer()
 {
   if (timer && addIfConfirmed)
      delete timer; // apparently it wasn't confirmed
+#if VDRVERSNUM < 20300
   Timers.DecBeingEdited();
+#endif
 }
 
 void cMenuMyEditTimer::HandleSubtitle()
@@ -233,20 +252,36 @@ bool cMenuMyEditTimer::IsSingleEvent(void) const
 eOSState cMenuMyEditTimer::DeleteTimer()
 {
     // Check if this timer is active:
+#if VDRVERSNUM > 20300
+    LOCK_TIMERS_WRITE;
+    if (!Timers) {
+        ERROR("Epgsearch: Recursive LOCK DeleteTimer failed");
+        return osContinue;
+    }
+    Timers->SetExplicitModify();
+    cTimers *vdrtimers = Timers;
+#else
+    cTimers *vdrtimers = &Timers;
+#endif
     if (timer && !addIfConfirmed) {
 	if (Interface->Confirm(trVDR("Delete timer?"))) {
 	    if (timer->Recording()) {
 		if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
 		    timer->Skip();
+#if VDRVERSNUM > 20300
+		    cRecordControls::Process(vdrtimers, time(NULL));
+#else
 		    cRecordControls::Process(time(NULL));
+#endif
 		}
 		else
 		    return osContinue;
 	    }
 	    LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
-	    Timers.Del(timer);
+	    vdrtimers->Del(timer);
+
 	    gl_timerStatusMonitor->SetConflictCheckAdvised();
-	    Timers.SetModified();
+	    vdrtimers->SetModified();
 	    return osBack;
         }
     }
@@ -324,7 +359,13 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 	{
 	    case kOk:
 	    {
-		cChannel *ch = Channels.GetByNumber(channel);
+#if VDRVERSNUM > 20300
+		LOCK_CHANNELS_READ;
+		const cChannels *vdrchannels = Channels;
+#else
+		cChannels *vdrchannels = &Channels;
+#endif
+		const cChannel *ch = vdrchannels->GetByNumber(channel);
 		if (!ch)
 		{
 		  ERROR(tr("*** Invalid Channel ***"));
@@ -405,12 +446,41 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
                     free(tmpFile);
                     free(tmpDir);
 
-                    if (addIfConfirmed)
-                      Timers.Add(timer);
+#if VDRVERSNUM > 20300
+                    {
+                    LOCK_TIMERS_WRITE;
+                    if (!Timers) {
+                        ERROR("Epgsearch: recursive TIMERS LOCK");
+                        return osBack;
+                    }
+                    Timers->SetExplicitModify();
+                    cTimers* vdrtimers = Timers;
+                    if (*Setup.SVDRPDefaultHost)
+                       timer->SetRemote(Setup.SVDRPDefaultHost);
+#else
+                    cTimers* vdrtimers = &Timers;
+#endif
+                    if (addIfConfirmed) {
+                      vdrtimers->Add(timer);
+#if VDRVERSNUM > 20300
+                      vdrtimers->SetModified();
+                      if (!HandleRemoteModifications(timer,NULL)) {
+                         vdrtimers->Del(timer);
+                         delete timer;
+                      }
+                    }
+                    }
+                    LOCK_SCHEDULES_READ;
+                    timer->SetEventFromSchedule(Schedules);
+#else
+                    }
                     timer->SetEventFromSchedule();
+#endif
                     timer->Matches();
                     gl_timerStatusMonitor->SetConflictCheckAdvised();
-                    Timers.SetModified();
+#if VDRVERSNUM < 20300
+                    vdrtimers->SetModified();
+#endif
                     addIfConfirmed = false;
                 } else {
 		    free(tmpFile);

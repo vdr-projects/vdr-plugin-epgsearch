@@ -42,6 +42,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 int toggleKeys=0;
 int exitToMainMenu = 0;
 extern int gl_InfoConflict;
+#if VDRVERSNUM > 20300
+extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
+#endif
 
 int cMenuSearchMain::forceMenu = 0; // 1 = now, 2 = schedule, 3 = summary
 
@@ -58,8 +61,19 @@ cMenuSearchMain::cMenuSearchMain(void)
   shiftTime = 0;
   InWhatsOnMenu = false;
   InFavoritesMenu = false;
-  cChannel *channel = Channels.GetByNumber(cDevice::CurrentChannel());
+#if VDRVERSNUM > 20300
+  LOCK_CHANNELS_READ;
+  const cChannels *vdrchannels = Channels;
+#else
+  cChannels *vdrchannels = &Channels;
+#endif
+  const cChannel *channel = vdrchannels->GetByNumber(cDevice::CurrentChannel());
+#if VDRVERSNUM > 20300
+  LOCK_SCHEDULES_READ;
+  schedules = Schedules;
+#else
   schedules = cSchedules::Schedules(schedulesLock);
+#endif
   if (channel) {
     cMenuWhatsOnSearch::SetCurrentChannel(channel->Number());
     if (EPGSearchConfig.StartMenu == 0 || forceMenu != 0)
@@ -108,7 +122,7 @@ int cMenuSearchMain::GetTab(int Tab)
     return cTemplFile::GetTemplateByName("MenuSchedule")->Tab(Tab-1);
 }
 
-void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
+void cMenuSearchMain::PrepareSchedule(const cChannel *Channel)
 {
     Clear();
     cString buffer = cString::sprintf("%s - %s", trVDR("Schedule"), Channel->Name());
@@ -163,11 +177,11 @@ void cMenuSearchMain::PrepareSchedule(cChannel *Channel)
     }
 }
 
-bool cMenuSearchMain::Update(void)
+bool cMenuSearchMain::Update(const cTimers* vdrtimers)
 {
   bool result = false;
   for (cOsdItem *item = First(); item; item = Next(item)) {
-      if (item->Selectable() && ((cMenuMyScheduleItem *)item)->Update())
+      if (item->Selectable() && ((cMenuMyScheduleItem *)item)->Update(vdrtimers))
          result = true;
       }
   return result;
@@ -176,11 +190,20 @@ bool cMenuSearchMain::Update(void)
 eOSState cMenuSearchMain::Record(void)
 {
   cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)Get(Current());
+  cTimers *vdrtimers;
   if (item) {
+#if VDRVERSNUM > 20300
+      {
+      LOCK_TIMERS_READ;
+      vdrtimers = (cTimers *)Timers;
+      }
+#else
+      vdrtimers = &Timers;
+#endif
       if (item->timerMatch == tmFull)
       {
 	  eTimerMatch tm = tmNone;
-	  cTimer *timer = Timers.GetMatch(item->event, &tm);
+	  cTimer *timer = vdrtimers->GetMatch(item->event, &tm);
 	  if (timer)
 	    {
 	      if (EPGSearchConfig.useVDRTimerEditMenu)
@@ -192,7 +215,13 @@ eOSState cMenuSearchMain::Record(void)
 
      cTimer *timer = new cTimer(item->event);
      PrepareTimerFile(item->event, timer);
-     cTimer *t = Timers.GetTimer(timer);
+#if VDRVERSNUM > 20300
+     {
+     LOCK_TIMERS_READ;
+     vdrtimers = (cTimers *)Timers;
+     }
+#endif
+     cTimer *t = vdrtimers->GetTimer(timer);
      if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
      {
 	 if (t)
@@ -229,15 +258,32 @@ eOSState cMenuSearchMain::Record(void)
 #endif
 
 	 SetAux(timer, fullaux);
-	 Timers.Add(timer);
+#if VDRVERSNUM > 20300
+         if (*Setup.SVDRPDefaultHost)
+                      timer->SetRemote(Setup.SVDRPDefaultHost);
+         {
+            LOCK_TIMERS_WRITE;
+            vdrtimers = Timers;
+	    vdrtimers->Add(timer); // implicit SetModified
+         }
+#else
+	 vdrtimers->Add(timer);
+#endif
 	 gl_timerStatusMonitor->SetConflictCheckAdvised();
 	 timer->Matches();
-	 Timers.SetModified();
+#if VDRVERSNUM < 20300
+	 vdrtimers->SetModified();
+#else
+         if (!HandleRemoteModifications(timer,NULL)) {
+            vdrtimers->Del(timer);
+            delete timer;
+         }
+#endif
 	 LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
 
 	 if (HasSubMenu())
 	     CloseSubMenu();
-	 if (Update())
+	 if (Update(vdrtimers))
 	     Display();
 	 SetHelpKeys();
      }
@@ -249,7 +295,13 @@ eOSState cMenuSearchMain::Switch(void)
 {
   cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)Get(Current());
   if (item) {
-     cChannel *channel = Channels.GetByChannelID(item->event->ChannelID(), true, true);
+#if VDRVERSNUM > 20300
+     LOCK_CHANNELS_READ;
+     const cChannels *vdrchannels = Channels;
+#else
+     cChannels *vdrchannels = &Channels;
+#endif
+     const cChannel *channel = vdrchannels->GetByChannelID(item->event->ChannelID(), true, true);
      if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
         return osEnd;
      }
@@ -306,8 +358,14 @@ void cMenuSearchMain::SetHelpKeys(bool Force)
 	  SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), trVDR("Button$Now"), trVDR("Button$Next"), EPGSearchConfig.bluekeymode==0?trVDR("Button$Switch"):tr("Button$Search"));
 	else
 	  {
-	    const char* szGreenToggled = CHANNELNAME(Channels.GetByNumber(currentChannel-1,-1));
-	    const char* szYellowToggled = CHANNELNAME(Channels.GetByNumber(currentChannel+1,1));
+#if VDRVERSNUM > 20300
+     LOCK_CHANNELS_READ;
+     const cChannels *vdrchannels = Channels;
+#else
+     cChannels *vdrchannels = &Channels;
+#endif
+	    const char* szGreenToggled = CHANNELNAME(vdrchannels->GetByNumber(currentChannel-1,-1));
+	    const char* szYellowToggled = CHANNELNAME(vdrchannels->GetByNumber(currentChannel+1,1));
 
 	    SetHelp((EPGSearchConfig.redkeymode==1?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), (EPGSearchConfig.toggleGreenYellow==0?trVDR("Button$Now"):szGreenToggled), (EPGSearchConfig.toggleGreenYellow==0?trVDR("Button$Next"):szYellowToggled), EPGSearchConfig.bluekeymode==1?trVDR("Button$Switch"):tr("Button$Search"));
 
@@ -319,7 +377,13 @@ void cMenuSearchMain::SetHelpKeys(bool Force)
 eOSState cMenuSearchMain::Shift(int iMinutes)
 {
     shiftTime += iMinutes;
-    cChannel *channel = Channels.GetByNumber(currentChannel);
+#if VDRVERSNUM > 20300
+    LOCK_CHANNELS_READ;
+    const cChannels *vdrchannels = Channels;
+#else
+    cChannels *vdrchannels = &Channels;
+#endif
+    const cChannel *channel = vdrchannels->GetByNumber(currentChannel);
     PrepareSchedule(channel);
     Display();
     SetHelpKeys();
@@ -433,7 +497,13 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 			 cMenuMyScheduleItem* Item = (cMenuMyScheduleItem *)Get(Current());
 			 if (Item && Item->event)
 			 {
-			     cChannel *channel = Channels.GetByChannelID(Item->event->ChannelID(), true, true);
+#if VDRVERSNUM > 20300
+			     LOCK_CHANNELS_READ;
+			     const cChannels *vdrchannels = Channels;
+#else
+			     cChannels *vdrchannels = &Channels;
+#endif
+			     const cChannel *channel = vdrchannels->GetByChannelID(Item->event->ChannelID(), true, true);
 			     if (channel)
 				 ChannelNr = channel->Number();
 			 }
@@ -451,7 +521,13 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		 }
 		 else
 		 {
-		     cChannel *channel = Channels.GetByNumber(currentChannel-1,-1);
+#if VDRVERSNUM > 20300
+		     LOCK_CHANNELS_READ;
+		     const cChannels *vdrchannels = Channels;
+#else
+		     cChannels *vdrchannels = &Channels;
+#endif
+		     const cChannel *channel = vdrchannels->GetByNumber(currentChannel-1,-1);
 
 		     if (channel) {
 			 PrepareSchedule(channel);
@@ -483,7 +559,13 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		 }
 		 else
 		 {
-		     cChannel *channel = Channels.GetByNumber(currentChannel+1,1);
+#if VDRVERSNUM > 20300
+		     LOCK_CHANNELS_READ;
+		     const cChannels *vdrchannels = Channels;
+#else
+		     cChannels *vdrchannels = &Channels;
+#endif
+		     const cChannel *channel = vdrchannels->GetByNumber(currentChannel+1,1);
 		     if (channel) {
 			 PrepareSchedule(channel);
 			 if (channel->Number() != cDevice::CurrentChannel()) {
@@ -517,9 +599,15 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 	}
     }
     if (!HasSubMenu()) {
-      cChannel *ch = cMenuWhatsOnSearch::ScheduleChannel();
+      const cChannel *ch = cMenuWhatsOnSearch::ScheduleChannel();
       InWhatsOnMenu = false;
       InFavoritesMenu = false;
+#if VDRVERSNUM > 20300
+      LOCK_TIMERS_READ;
+      const cTimers *vdrtimers = Timers;
+#else
+      cTimers *vdrtimers = &Timers;
+#endif
       if (ch) {
 	// when switch from the other menus to the schedule, try to keep the same time
        	if (cMenuWhatsOnSearch::shiftTime)
@@ -536,7 +624,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 	}
 	Display();
       }
-      else if ((HadSubMenu || gl_TimerProgged) && Update())
+      else if ((HadSubMenu || gl_TimerProgged) && Update(vdrtimers))
       {
 	  if (gl_TimerProgged) // when using epgsearch's timer edit menu, update is delayed because of SVDRP
 	  {

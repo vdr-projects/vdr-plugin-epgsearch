@@ -33,14 +33,14 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cMenuMyScheduleItem : public cOsdItem {
 public:
   const cEvent *event;
-  cChannel *channel;
+  const cChannel *channel;
   showMode mode;
   eTimerMatch timerMatch;
   bool inSwitchList;
   cMenuTemplate* menuTemplate;
 
-  cMenuMyScheduleItem(const cEvent *Event, cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);
-  virtual bool Update(bool Force = false);
+  cMenuMyScheduleItem(const cEvent *Event, const cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);
+  virtual bool Update(const cTimers* vdrtimers, bool Force = false);
   virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 
 };
@@ -52,9 +52,9 @@ class cMenuMyScheduleSepItem : public cMenuMyScheduleItem {
                       // if VDR had a SetItemSeparator function for this
 public:
 
-  cMenuMyScheduleSepItem(const cEvent *Event, cChannel *Channel = NULL);
+  cMenuMyScheduleSepItem(const cEvent *Event, const cChannel *Channel = NULL);
   ~cMenuMyScheduleSepItem();
-  virtual bool Update(bool Force = false);
+  virtual bool Update(const cTimers* vdrtimers, bool Force = false);
   virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 };
 
@@ -68,7 +68,7 @@ private:
   static int currentChannel;
   cEventObjects eventObjects;
  public:
-  static cChannel *scheduleChannel;
+  static const cChannel *scheduleChannel;
   static cList<cShowMode> showModes;
   static showMode currentShowMode;
   static int shiftTime;
@@ -80,7 +80,7 @@ private:
   void LoadSchedules();
   static int CurrentChannel(void) { return currentChannel; }
   static void SetCurrentChannel(int ChannelNr) { currentChannel = ChannelNr; }
-  static cChannel *ScheduleChannel(cChannel* forceChannel = NULL);
+  static const cChannel *ScheduleChannel(const cChannel* forceChannel = NULL);
   virtual eOSState ProcessKey(eKeys Key);
   virtual eOSState Switch(void);
   virtual eOSState Shift(int);
@@ -88,7 +88,7 @@ private:
   virtual eOSState ShowSummary();
   void SetHelpKeys(bool Force = false);
   int GetTab(int Tab);
-  bool Update(void);
+  bool Update(const cTimers* vdrtimers);
   void CreateShowModes();
   static cShowMode* GetShowMode(showMode mode);
   void UpdateCurrent();

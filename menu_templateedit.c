@@ -187,7 +187,13 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
          case kOk:
             if (data.useChannel==1)
             {
-               cChannel *ch = Channels.GetByNumber(channelMin);
+#if VDRVERSNUM > 20300
+               LOCK_CHANNELS_READ;
+               const cChannels *vdrchannels = Channels;
+#else
+               cChannels *vdrchannels = &Channels;
+#endif
+               const cChannel *ch = vdrchannels->GetByNumber(channelMin);
                if (ch)
                   data.channelMin = ch;
                else
@@ -195,7 +201,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
 		 ERROR(tr("*** Invalid Channel ***"));
 		 break;
                }
-               ch = Channels.GetByNumber(channelMax);
+               ch = vdrchannels->GetByNumber(channelMax);
                if (ch)
                   data.channelMax = ch;
                else

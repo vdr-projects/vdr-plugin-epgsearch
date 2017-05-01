@@ -53,15 +53,15 @@ class cSearchTimerThread: public cThread {
  protected:
     virtual void Action(void);
     bool AddModTimer(cTimer* Timer, int, cSearchExt*, const cEvent*, int Prio, int Lifetime, char* Summary = NULL, uint timerMod = tmNoChange);
-    void RemoveTimer(cTimer* Timer, const cEvent* Event = NULL);
+    void RemoveTimer(const cTimer* Timer, const cEvent* Event = NULL);
     void Stop(void);
     bool NeedUpdate();
-    bool TimerWasModified(cTimer* t);
+    bool TimerWasModified(const cTimer* t);
  public:
     static cSearchResults announceList;
-    static char* SummaryExtended(cSearchExt* searchExt, cTimer* Timer, const cEvent* pEvent);
+    static char* SummaryExtended(cSearchExt* searchExt, const cTimer* Timer, const cEvent* pEvent);
     static cSearchTimerThread *m_Instance;
-    static cTimer* GetTimer(cSearchExt *searchExt, const cEvent *pEvent, bool& bTimesMatchExactly);
+    static const cTimer* GetTimer(const cTimers* vdrtimers, cSearchExt *searchExt, const cEvent *pEvent, bool& bTimesMatchExactly);
     static bool justRunning;
 
     cSearchTimerThread(cPluginEpgsearch* thePlugin);
@@ -70,7 +70,7 @@ class cSearchTimerThread: public cThread {
     static void Exit(void);
     void CheckExpiredRecs();
     void DelRecording(int index);
-    void CheckManualTimers();
+    void CheckManualTimers(void);
     void ModifyManualTimer(const cEvent* event, const cTimer* timer, int bstart, int bstop);
     void CheckEPGHours();
 };

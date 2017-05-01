@@ -40,6 +40,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/menu.h>
 #include "menu_deftimercheckmethod.h"
 
+#if VDRVERSNUM > 20300
+extern bool HandleRemoteModifications(cTimer* NewTimer, cTimer* OldTimer);
+#endif
+
 // --- cMenuSearchCommands ---------------------------------------------------------
 
 cMenuSearchCommands::cMenuSearchCommands(const char *Title, const cEvent* Event, bool DirectCall, cSearchExt* Search)
@@ -102,7 +106,13 @@ void cMenuSearchCommands::LoadCommands()
 
 eOSState cMenuSearchCommands::Switch(void)
 {
-   cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true, true);
+#if VDRVERSNUM > 20300
+   LOCK_CHANNELS_READ;
+   const cChannels *vdrchannels = Channels;
+#else
+   cChannels *vdrchannels = &Channels;
+#endif
+   const cChannel *channel = vdrchannels->GetByChannelID(event->ChannelID(), true, true);
    if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
       return osEnd;
    else
@@ -122,7 +132,14 @@ eOSState cMenuSearchCommands::Record(void)
    if (!event) return osContinue;
 
    eTimerMatch timerMatch = tmNone;
-   cTimer* timer = Timers.GetMatch(event, &timerMatch);
+#if VDRVERSNUM > 20300
+   LOCK_TIMERS_WRITE;
+   Timers->SetExplicitModify();
+   cTimers *vdrtimers = Timers;
+#else
+   cTimers *vdrtimers = &Timers;
+#endif
+   cTimer* timer = vdrtimers->GetMatch(event, &timerMatch);
    if (timerMatch == tmFull)
    {
       if (EPGSearchConfig.useVDRTimerEditMenu)
@@ -133,7 +150,7 @@ eOSState cMenuSearchCommands::Record(void)
 
    timer = new cTimer(event);
    PrepareTimerFile(event, timer);
-   cTimer *t = Timers.GetTimer(timer);
+   cTimer *t = vdrtimers->GetTimer(timer);
 
    if (EPGSearchConfig.onePressTimerCreation == 0 || t || (!t && event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
    {
@@ -170,11 +187,21 @@ eOSState cMenuSearchCommands::Record(void)
 #endif
 
       SetAux(timer, fullaux);
-      Timers.Add(timer);
+#if VDRVERSNUM > 20300
+      if (*Setup.SVDRPDefaultHost)
+         timer->SetRemote(Setup.SVDRPDefaultHost);
+#endif
+      vdrtimers->Add(timer);
       timer->Matches();
-      Timers.SetModified();
-
+      vdrtimers->SetModified();
+#if VDRVERSNUM > 20300
+      if (!HandleRemoteModifications(timer,NULL)) {
+         vdrtimers->Del(timer);
+         delete timer;
+      }
+#else
       LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
+#endif
       return osBack;
    }
    return osContinue;
@@ -232,7 +259,13 @@ eOSState cMenuSearchCommands::CreateSearchTimer(void)
 
    cSearchExt* pNew = new cSearchExt;
    strcpy(pNew->search, event->Title());
-   pNew->channelMin = pNew->channelMax = Channels.GetByChannelID(event->ChannelID());
+#if VDRVERSNUM > 20300
+   LOCK_CHANNELS_READ;
+   const cChannels *vdrchannels = Channels;
+#else
+   cChannels *vdrchannels = &Channels;
+#endif
+   pNew->channelMin = pNew->channelMax = vdrchannels->GetByChannelID(event->ChannelID());
    return AddSubMenu(new cMenuEditSearchExt(pNew, true, false, true));
 }
 
@@ -280,12 +313,18 @@ eOSState cMenuSearchCommands::Execute(void)
 	buffer = cString::sprintf("%s...", command->Title());
 	Skins.Message(mtStatus, buffer);
 
+#if VDRVERSNUM > 20300
+	LOCK_CHANNELS_READ;
+	const cChannels *vdrchannels = Channels;
+#else
+	cChannels *vdrchannels = &Channels;
+#endif
 	buffer = cString::sprintf("'%s' %ld %ld %d '%s' '%s'",
 				  EscapeString(event->Title()).c_str(),
 				  event->StartTime(),
 				  event->EndTime(),
 				  ChannelNrFromEvent(event),
-				  EscapeString(Channels.GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(),
+				  EscapeString(vdrchannels->GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(),
 				  EscapeString(event->ShortText()?event->ShortText():"").c_str());
 	const char *Result = command->Execute(buffer);
 	Skins.Message(mtStatus, NULL);

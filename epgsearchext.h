@@ -140,8 +140,8 @@ public:
   std::string contentsFilter;
   int      useExtEPGInfo;
   char**   catvalues;
-  cChannel *channelMin;
-  cChannel *channelMax;
+  const cChannel *channelMin;
+  const cChannel *channelMax;
   char*    channelGroup;
   int      avoidRepeats;
   int      compareTitle;
@@ -181,9 +181,9 @@ public:
   int StartTime(void) { return startTime; }
   int StopTime(void) { return stopTime; }
   int UseChannel(void) { return useChannel; }
-  cChannel *ChannelMin(void) { return channelMin; }
-  cChannel *ChannelMax(void) { return channelMax; }
-  cEvent * GetEventBySearchExt(const cSchedule *schedules, const cEvent *Start, bool inspectTimerMargin = false);
+  const cChannel *ChannelMin(void) { return channelMin; }
+  const cChannel *ChannelMax(void) { return channelMax; }
+  const cEvent * GetEventBySearchExt(const cSchedule *schedules, const cEvent *Start, bool inspectTimerMargin = false);
   bool MatchesExtEPGInfo(const cEvent* e);
   const char *ToText();
   bool Parse(const char *s);
@@ -199,8 +199,8 @@ public:
   cSearchResults* GetBlacklistEvents(int MarginStop = 0);
   void OnOffTimers(bool);
   void DeleteAllTimers();
-  cTimerObjList* GetTimerList(cTimerObjList* timerList);
-  int GetCountRecordings();
+  cTimerObjList* GetTimerList(const cTimers* vdrtimers, cTimerObjList* timerList);
+  int GetCountRecordings(cRecordings *vdrrecordings);
   bool IsActiveAt(time_t t);
   bool HasContent(int contentID);
   void SetContentFilter(int* contentStringsFlags);

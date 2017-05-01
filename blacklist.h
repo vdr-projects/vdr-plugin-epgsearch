@@ -39,8 +39,8 @@ public:
   int      startTime;
   int      stopTime;
   int      useChannel;
-  cChannel *channelMin;
-  cChannel *channelMax;
+  const cChannel *channelMin;
+  const cChannel *channelMax;
   char*    channelGroup;
   int      useCase;
   int      mode;
@@ -70,9 +70,9 @@ public:
   int StartTime(void) { return startTime; }
   int StopTime(void) { return stopTime; }
   int UseChannel(void) { return useChannel; }
-  cChannel *ChannelMin(void) { return channelMin; }
-  cChannel *ChannelMax(void) { return channelMax; }
-  cEvent * GetEventByBlacklist(const cSchedule *schedules, const cEvent *Start, int MarginStop = 0);
+  const cChannel *ChannelMin(void) { return channelMin; }
+  const cChannel *ChannelMax(void) { return channelMax; }
+  const cEvent * GetEventByBlacklist(const cSchedule *schedules, const cEvent *Start, int MarginStop = 0);
   bool MatchesExtEPGInfo(const cEvent* e);
   const char *ToText(void);
   bool Parse(const char *s);

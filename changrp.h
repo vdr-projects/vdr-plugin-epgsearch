@@ -33,9 +33,9 @@ class cSearchExt;
 // --- cChannelGroupItem --------------------------------------------------------
 class cChannelGroupItem : public cListObject {
 public:
-    cChannel* channel;
+    const cChannel* channel;
 public:
-  cChannelGroupItem(cChannel* ch) : channel(ch) {}
+  cChannelGroupItem(const cChannel* ch) : channel(ch) {}
 };
 
 // --- cChannelGroup --------------------------------------------------------
@@ -52,7 +52,7 @@ public:
   bool Save(FILE *f);
   int* CreateChannelSel();
   void CreateChannelList(int*);
-  bool ChannelInGroup(cChannel*);
+  bool ChannelInGroup(const cChannel*);
 };
 
 // --- cChannelGroups --------------------------------------------------------

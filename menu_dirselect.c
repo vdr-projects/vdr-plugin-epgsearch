@@ -132,9 +132,15 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
     directorySet.clear();
 
     // add distinct directories from current recordings
+#if VDRVERSNUM > 20300
+    LOCK_RECORDINGS_READ;
+    const cRecordings *vdrrecordings = Recordings;
+#else
+    cRecordings *vdrrecordings = &Recordings;
     if (Recordings.Count() == 0)
 	Recordings.Load();
-    for (cRecording *recording = Recordings.First(); recording; recording = Recordings.Next(recording))
+#endif
+    for (const cRecording *recording = vdrrecordings->First(); recording; recording = vdrrecordings->Next(recording))
     {
 	if (recording->HierarchyLevels() > 0)
 	{
@@ -156,7 +162,13 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	}
     }
     // add distinct directories from current timers
-    for (cTimer *timer = Timers.First(); timer; timer = Timers.Next(timer))
+#if VDRVERSNUM > 20300
+    LOCK_TIMERS_READ;
+    const cTimers *vdrtimers = Timers;
+#else
+    const cTimers *vdrtimers = &Timers;
+#endif
+    for (const cTimer *timer = vdrtimers->First(); timer; timer = vdrtimers->Next(timer))
     {
 	char* dir = strdup(timer->File());
 	// strip the trailing name dir

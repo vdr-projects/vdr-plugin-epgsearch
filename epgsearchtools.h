@@ -70,7 +70,7 @@ using std::string;
 #undef CONFIGDIR
 #define CONFIGDIR (!ConfigDir?cPlugin::ConfigDirectory():ConfigDir)
 
-#define CHNUMWIDTH  (numdigits(Channels.MaxNumber()) + 2)
+#define CHNUMWIDTH  (numdigits(vdrchannels->MaxNumber()) + 2)
 
 #define SHORTTEXT(EVENT) \
   (EVENT && EPGSearchConfig.showShortText && !isempty((EVENT)->ShortText()))?" ~ ":"", \
@@ -157,7 +157,7 @@ cSearchExt* TriggeredFromSearchTimer(const cTimer* timer);
 int TriggeredFromSearchTimerID(const cTimer* timer);
 double FuzzyMatch(const char* s1, const char* s2, int maxLength);
 bool DescriptionMatches(const char* eDescr, const char* rDescr, int matchLimit = 90);
-const cEvent* GetEvent(cTimer* timer);
+const cEvent* GetEvent(const cTimer* timer);
 char* GetRawDescription(const char* descr);
 void PrepareTimerFile(const cEvent* event, cTimer* timer);
 int CompareEventTime(const void *p1, const void *p2);
@@ -188,15 +188,15 @@ long getAddrFromString(const char* hostnameOrIp, struct sockaddr_in* addr);
 // --- cTimerObj --------------------------------------------------------
 class cTimerObj : public cListObject {
 public:
-    cTimer* timer;
-    cTimerObj(cTimer* Timer) : timer(Timer) {}
+    const cTimer* timer;
+    cTimerObj(const cTimer* Timer) : timer(Timer) {}
     virtual ~cTimerObj() { timer = NULL;  } // do not delete anything!
 };
 
 // --- cTimerObjList --------------------------------------------------------
 class cTimerObjList : public cList<cTimerObj> {
 public:
-    void DelTimer(cTimer* t)
+    void DelTimer(const cTimer* t)
 	{
 	    for (cTimerObj* pTObj = First(); pTObj; pTObj = Next(pTObj))
 		if (pTObj->timer == t)

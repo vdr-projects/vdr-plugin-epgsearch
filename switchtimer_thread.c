@@ -81,14 +81,20 @@ void cSwitchTimerThread::Action(void)
       if (now >= nextUpdate)
       {
          LogFile.Log(3,"locking switch timers");
-         SwitchTimers.Lock();
+         SwitchTimers.cMutex::Lock();
          LogFile.Log(3,"switch timer check started");
          cSwitchTimer* switchTimer = SwitchTimers.First();
          while (switchTimer && m_Active && Running())
          {
             if (switchTimer->startTime - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
             {
-               cChannel *channel = Channels.GetByChannelID(switchTimer->channelID, true, true);
+#if VDRVERSNUM > 20300
+               LOCK_CHANNELS_READ;
+               const cChannels *vdrchannels = Channels;
+#else
+               cChannels *vdrchannels = &Channels;
+#endif
+               const cChannel *channel = vdrchannels->GetByChannelID(switchTimer->channelID, true, true);
                bool doSwitch = (switchTimer->mode == 0);
                bool doAsk = (switchTimer->mode == 2);
 	       bool doUnmute = switchTimer->unmute;

@@ -176,7 +176,13 @@ public:
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
-	    cChannel *channel = Channels.GetByChannelID(e->ChannelID(), true);
+#if VDRVERSNUM > 20300
+	    LOCK_CHANNELS_READ;
+	    const cChannels *vdrchannels = Channels;
+#else
+	    cChannels *vdrchannels = &Channels;
+#endif
+	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
 	    if (!channel) return "";
 
 	    string res(channel->GetChannelID().ToString());
@@ -415,7 +421,13 @@ public:
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
-	    cChannel *channel = Channels.GetByChannelID(e->ChannelID(), true);
+#if VDRVERSNUM > 20300
+	    LOCK_CHANNELS_READ;
+	    const cChannels *vdrchannels = Channels;
+#else
+	    cChannels *vdrchannels = &Channels;
+#endif
+	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
 	    string res = channel?channel->ShortName(true):"";
 	    if (escapeStrings) return "'" + EscapeString(res) + "'"; else return res;
 	}
@@ -427,7 +439,13 @@ public:
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
-	    cChannel *channel = Channels.GetByChannelID(e->ChannelID(), true);
+#if VDRVERSNUM > 20300
+	    LOCK_CHANNELS_READ;
+	    const cChannels *vdrchannels = Channels;
+#else
+	    cChannels *vdrchannels = &Channels;
+#endif
+	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
 	    string res = channel?channel->Name():"";
 	    if (escapeStrings) return "'" + EscapeString(res) + "'"; else return res;
 	}
@@ -439,7 +457,13 @@ class cChannelDataVar : public cInternalVar {
     string Evaluate(const cEvent* e, bool escapeStrings = false)
 	{
 	    if (!e) return "";
-	    cChannel *channel = Channels.GetByChannelID(e->ChannelID(), true);
+#if VDRVERSNUM > 20300
+	    LOCK_CHANNELS_READ;
+	    const cChannels *vdrchannels = Channels;
+#else
+	    cChannels *vdrchannels = &Channels;
+#endif
+	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
 	    return channel?CHANNELSTRING(channel):"";
 	}
 };
@@ -451,9 +475,15 @@ public:
 	{
 	    if (!e) return "";
 	    ostringstream os;
-	    cChannel *channel = Channels.GetByChannelID(e->ChannelID(), true);
+#if VDRVERSNUM > 20300
+	    LOCK_CHANNELS_READ;
+	    const cChannels *vdrchannels = Channels;
+#else
+	    cChannels *vdrchannels = &Channels;
+#endif
+	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
 	    while(channel && !channel->GroupSep())
-	      channel = Channels.Prev(channel);
+	      channel = vdrchannels->Prev(channel);
 	    if (!channel || !channel->Name()) return "";
 	    string grpName = channel->Name();
 	    if (escapeStrings) return "'" + EscapeString(grpName) + "'"; else return grpName;

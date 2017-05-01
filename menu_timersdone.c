@@ -44,7 +44,13 @@ void cMenuTimerDoneItem::Set(void)
    tm *tm = localtime_r(&timerDone->start, &tm_r);
    strftime(buf, sizeof(buf), "%d.%m.%y %H:%M", tm);
 
-   const cChannel* ch = Channels.GetByChannelID(timerDone->channelID, true, true);
+#if VDRVERSNUM > 20300
+   LOCK_CHANNELS_READ;
+   const cChannels *vdrchannels = Channels;
+#else
+   cChannels *vdrchannels = &Channels;
+#endif
+   const cChannel* ch = vdrchannels->GetByChannelID(timerDone->channelID, true, true);
    msprintf(&buffer, "%d\t%s\t%s~%s", ch?ch->Number():0, buf, timerDone->title.c_str(), timerDone->shorttext.c_str());
    SetText(buffer, false);
 }

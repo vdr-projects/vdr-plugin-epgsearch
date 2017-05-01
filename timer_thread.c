@@ -89,11 +89,17 @@ void cTimerThread::Action(void)
             m_Active=false;
             break;
         }
+#if VDRVERSNUM > 20300
+        {
+	LOCK_TIMERS_READ;
+        }
+#else
 	if (Timers.BeingEdited())
 	{
 	    sleepSec(1);
 	    continue;
 	}
+#endif
 	bool bSuccess = SendViaSVDRP(m_cmd);
 	if (!bSuccess)
 	{

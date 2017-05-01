@@ -82,7 +82,13 @@ bool cChannelGroup::Parse(const char *s)
 #endif
 		if (numChannels == 1)
 		{
-		    cChannel* channel = Channels.GetByChannelID(tChannelID::FromString(channelbuffer), true, true);
+#if VDRVERSNUM > 20300
+		    LOCK_CHANNELS_READ;
+		    const cChannels *vdrchannels = Channels;
+#else
+		    cChannels *vdrchannels = &Channels;
+#endif
+		    const cChannel* channel = vdrchannels->GetByChannelID(tChannelID::FromString(channelbuffer), true, true);
 		    if (channel)
 		    {
 			cChannelGroupItem* channelitem = new cChannelGroupItem(channel);
@@ -110,7 +116,7 @@ const char *cChannelGroup::ToText(void)
     int index = 0;
     while (ChannelGroupItem)
     {
-	cChannel* channel = ChannelGroupItem->channel;
+	const cChannel* channel = ChannelGroupItem->channel;
 	if (index++ == 0)
 	    channelbuffer = strdup(CHANNELSTRING(channel));
 	else
@@ -129,14 +135,20 @@ const char *cChannelGroup::ToText(void)
 
 int* cChannelGroup::CreateChannelSel()
 {
-    int* channelSel = (int*) malloc(Channels.Count() * sizeof(int));
-    cChannel* channel = Channels.First();
+#if VDRVERSNUM > 20300
+    LOCK_CHANNELS_READ;
+    const cChannels *vdrchannels = Channels;
+#else
+    cChannels *vdrchannels = &Channels;
+#endif
+    int* channelSel = (int*) malloc(vdrchannels->Count() * sizeof(int));
+    const cChannel* channel = vdrchannels->First();
     int index = 0;
     while (channel)
     {
 	if (channel->GroupSep())
 	{
-	    channel = Channels.Next(channel);
+	    channel = vdrchannels->Next(channel);
 	    continue;
 	}
 	channelSel[index] = 0;
@@ -151,7 +163,7 @@ int* cChannelGroup::CreateChannelSel()
 	    channelInGroup = channels.Next(channelInGroup);
 	}
 	index++;
-	channel = Channels.Next(channel);
+	channel = vdrchannels->Next(channel);
     }
     return channelSel;
 }
@@ -159,7 +171,13 @@ int* cChannelGroup::CreateChannelSel()
 void cChannelGroup::CreateChannelList(int* channelSel)
 {
     channels.Clear();
-    cChannel* channel = Channels.First();
+#if VDRVERSNUM > 20300
+    LOCK_CHANNELS_READ;
+    const cChannels *vdrchannels = Channels;
+#else
+    cChannels *vdrchannels = &Channels;
+#endif
+    const cChannel* channel = vdrchannels->First();
     int index = 0;
     while (channel)
     {
@@ -169,7 +187,7 @@ void cChannelGroup::CreateChannelList(int* channelSel)
 		channels.Add(new cChannelGroupItem(channel));
 	    index++;
 	}
-	channel = Channels.Next(channel);
+	channel = vdrchannels->Next(channel);
     }
 }
 
@@ -178,7 +196,7 @@ bool cChannelGroup::Save(FILE *f)
     return fprintf(f, "%s\n", ToText()) > 0;
 }
 
-bool cChannelGroup::ChannelInGroup(cChannel* channel)
+bool cChannelGroup::ChannelInGroup(const cChannel* channel)
 {
     cChannelGroupItem* channelInGroup = channels.First();
     while (channelInGroup)
@@ -432,17 +450,23 @@ void cMenuEditChannelGroup::Set()
     Clear();
 
     Add(new cMenuEditStrItem( tr("Group name"), name, sizeof(group->name), trVDR(FileNameChars)));
-    cChannel* channel = Channels.First();
+#if VDRVERSNUM > 20300
+    LOCK_CHANNELS_READ;
+    const cChannels *vdrchannels = Channels;
+#else
+    cChannels *vdrchannels = &Channels;
+#endif
+    const cChannel* channel = vdrchannels->First();
     int index = 0;
     while (channel)
     {
 	if (channel->GroupSep())
 	{
-	    channel = Channels.Next(channel);
+	    channel = vdrchannels->Next(channel);
 	    continue;
 	}
 	Add(new cMenuEditBoolItem( CHANNELNAME(channel), &channelSel[index++], trVDR("no"), trVDR("yes")));
-	channel = Channels.Next(channel);
+	channel = vdrchannels->Next(channel);
     }
 
     SetCurrent(Get(current));
@@ -507,19 +531,25 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
 	  case kGreen:
 	  case kYellow:
 	  {
-	      cChannel* channel = Channels.First();
+#if VDRVERSNUM > 20300
+	      LOCK_CHANNELS_READ;
+	      const cChannels *vdrchannels = Channels;
+#else
+	      cChannels *vdrchannels = &Channels;
+#endif
+	      const cChannel* channel = vdrchannels->First();
 	      int index = 0;
 	      while (channel)
 	      {
 		  if (channel->GroupSep())
 		  {
-		      channel = Channels.Next(channel);
+		      channel = vdrchannels->Next(channel);
 		      continue;
 		  }
 
 		  channelSel[index] = (Key == kGreen?1:(Key == kRed?1-channelSel[index]:0));
 		  index++;
-		  channel = Channels.Next(channel);
+		  channel = vdrchannels->Next(channel);
 	      }
 	      Set();
 	      Display();
