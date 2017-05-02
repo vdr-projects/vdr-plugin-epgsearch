@@ -1,20 +1,23 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2017-05-01; Version 1.0.1beta5
-new:
-- Commit vdr-2.3.2-epgsearch-1.0.1.beta5~git20150715_v2.diff von fnu@vdr-portal.de
+2017-05-xx; Version 2.3.1 - development release
+neu:
+- Anwenden vdr-2.3.2-epgsearch-1.0.1.beta5~git20150715_v2.diff von fnu@vdr-portal.de
   basierend auf Eingaben von kamel5, mini73 & TomJoad @ vdr-portal.de
   => http://www.vdr-portal.de/board17-developer/board97-vdr-core/p1284612-produktive-problem-und-pluginl%C3%B6sungen-f%C3%BCr-vdr-2-3-2-und-h%C3%B6her/#post1284612
-- Commit 0004-Added-patches-vdr.epgsearch-exttimeredit-2.3.3.diff.diff von jasminj@vdr-portal.de
+- Anwenden 0004-Added-patches-vdr.epgsearch-exttimeredit-2.3.3.diff.diff von jasminj@vdr-portal.de
   => http://www.vdr-portal.de/board17-developer/board21-vdr-plugins/p1289938-epgsearch-f%C3%BCr-vdr-2-3-x/#post1289938
-- Commit 0005-epgsearch-inactive-records-v2.diff von jasminj@vdr-portal.de
+- Anwenden 0005-epgsearch-inactive-records-v2.diff von jasminj@vdr-portal.de
   => http://www.vdr-portal.de/board17-developer/board21-vdr-plugins/p1289983-epgsearch-f%C3%BCr-vdr-2-3-x/#post1289983
-- Commit 0001-Fix-warning-in-pending_notifications.c.diff von jasminj@vdr-portal.de
-  Commit 0002-Fixed-warnings-in-man-page-generation.diff von jasminj@vdr-portal.de
+- Anwenden 0001-Fix-warning-in-pending_notifications.c.diff von jasminj@vdr-portal.de
+- Anwenden 0002-Fixed-warnings-in-man-page-generation.diff von jasminj@vdr-portal.de
   => http://www.vdr-portal.de/board17-developer/board21-vdr-plugins/p1289704-epgsearch-f%C3%BCr-vdr-2-3-x/#post1289704
-- Commit 0003-Use-HandleRemoteTimerModifications-instead-of-Handle.diff von jasminj@vdr-portal.de
+- Anwenden 0003-Use-HandleRemoteTimerModifications-instead-of-Handle.diff von jasminj@vdr-portal.de
   => http://www.vdr-portal.de/board17-developer/board21-vdr-plugins/p1289764-epgsearch-f%C3%BCr-vdr-2-3-x/#post1289764
+- Anwenden menu_category_recsdone.diff von tomas & louis @vdr-portal.de
+  http://www.vdr-portal.de/board1-news/board2-vdr-news/p1271995-skindesigner-1-0-0-neuer-default-skin-estuary4vdr/#post1271995
+
 
 2013-03-xx: Version 1.0.1 - Maintenance Release
 neu:

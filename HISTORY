@@ -1,7 +1,7 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2017-05-01; Version 1.0.1beta5
+2017-05-xx; Version 2.3.1 - development release
 new:
 - Commit vdr-2.3.2-epgsearch-1.0.1.beta5~git20150715_v2.diff by fnu@vdr-portal.de
   based on inputs from kamel5, mini73 & TomJoad @ vdr-portal.de
@@ -15,6 +15,8 @@ new:
   => http://www.vdr-portal.de/board17-developer/board21-vdr-plugins/p1289704-epgsearch-f%C3%BCr-vdr-2-3-x/#post1289704
 - Commit 0003-Use-HandleRemoteTimerModifications-instead-of-Handle.diff by jasminj@vdr-portal.de
   => http://www.vdr-portal.de/board17-developer/board21-vdr-plugins/p1289764-epgsearch-f%C3%BCr-vdr-2-3-x/#post1289764
+- Commit menu_category_recsdone.diff by tomas & louis @vdr-portal.de
+  http://www.vdr-portal.de/board1-news/board2-vdr-news/p1271995-skindesigner-1-0-0-neuer-default-skin-estuary4vdr/#post1271995
 
 2013-03-xx; Version 1.0.1 - maintenance release
 new:
