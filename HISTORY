@@ -1,6 +1,15 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
+2017-05-xx; Version 2.2.x
+new:
+- Commit menu_category_recsdone.diff by tomas & louis @vdr-portal.de
+  http://www.vdr-portal.de/board1-news/board2-vdr-news/p1271995-skindesigner-1-0-0-neuer-default-skin-estuary4vdr/#post1271995
+
+2017-05-01; Version 2.2.0 - stable version
+new:
+- make version 1.0.1.beta5 up to the commits from 2015-07-15 a stable version
+
 2013-03-xx; Version 1.0.1 - maintenance release
 new:
 - new Makefile style as introduced in vdr-1.7.36, the old Makefile still exists as 
