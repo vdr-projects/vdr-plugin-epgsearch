@@ -27,14 +27,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "conflictcheck_thread.h"
 #include "epgsearchcfg.h"
 #include <math.h>
-#if VDRVERSNUM > 20300
-#include "status_thread.h"
-#else
 #define ALLOWED_BREAK_INSECS 2
 
 extern int updateForced;
 extern int gl_InfoConflict;
-#endif
 
 
 cRecStatusMonitor* gl_recStatusMonitor = NULL;
@@ -45,9 +41,6 @@ cRecStatusMonitor::cRecStatusMonitor()
 
 void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const char* Filename, bool On)
 {
-#if VDRVERSNUM > 20300
-   cStatusThread::Init(Device,Name,Filename,On);
-#else
    time_t now = time(NULL);
    // insert new timers currently recording in TimersRecording
    if (On && Name)
@@ -55,7 +48,13 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
       if (EPGSearchConfig.checkTimerConflOnRecording)
          cConflictCheckThread::Init((cPluginEpgsearch*)cPluginManager::GetPlugin("epgsearch"), true);
 
-      for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti))
+#if VDRVERSNUM > 20300
+		LOCK_TIMERS_READ;
+		const cTimers *vdrtimers = Timers;
+#else
+		cTimers *vdrtimers = &Timers;
+#endif
+		for (const cTimer *ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
          if (ti->Recording())
          {
             // check if this is a new entry
@@ -119,7 +118,14 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
       {
          // check if timer still exists
          bool found = false;
-         for (cTimer *ti = Timers.First(); ti; ti = Timers.Next(ti))
+
+#if VDRVERSNUM > 20300
+			LOCK_TIMERS_READ;
+			const cTimers *vdrtimers = Timers;
+#else
+			cTimers *vdrtimers = &Timers;
+#endif
+			for (const cTimer *ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
             if (ti == tiR->timer)
             {
                found = true;
@@ -203,7 +209,6 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
          tiR = TimersRecording.Next(tiR);
       }
    }
-#endif
 }
 
 int cRecStatusMonitor::TimerRecDevice(const cTimer* timer)
