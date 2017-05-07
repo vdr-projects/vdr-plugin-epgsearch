@@ -5,6 +5,7 @@ VDR Plugin 'epgsearch' Revision History
 neu:
 - Anwenden menu_category_recsdone.diff von tomas & louis @vdr-portal.de
   http://www.vdr-portal.de/board1-news/board2-vdr-news/p1271995-skindesigner-1-0-0-neuer-default-skin-estuary4vdr/#post1271995
+- Löschen von Alt-Code vor VDR 2.2.0
 
 2017-05-01; Version 2.2.0 - stable version
 new:

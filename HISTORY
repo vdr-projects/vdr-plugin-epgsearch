@@ -5,6 +5,7 @@ VDR Plugin 'epgsearch' Revision History
 new:
 - Commit menu_category_recsdone.diff by tomas & louis @vdr-portal.de
   http://www.vdr-portal.de/board1-news/board2-vdr-news/p1271995-skindesigner-1-0-0-neuer-default-skin-estuary4vdr/#post1271995
+- Drop legacy code prior VDR 2.2.0
 
 2017-05-01; Version 2.2.0 - stable version
 new:
