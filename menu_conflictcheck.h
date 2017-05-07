@@ -56,7 +56,7 @@ class cMenuConflictCheckDetailsItem : public cOsdItem {
 public:
     cConflictCheckTimerObj* timerObj;
     cMenuConflictCheckDetailsItem(cConflictCheckTimerObj* TimerObj = NULL);
-    bool Update(const cTimers *vdrtimers, bool Force = false);
+    bool Update(bool Force = false);
 };
 
 // --- cMenuConflictCheckDetails ------------------------------------------------------
@@ -73,7 +73,7 @@ private:
     void SetHelpKeys();
     eOSState ToggleTimer(cConflictCheckTimerObj* TimerObj);
     eOSState DeleteTimer(cConflictCheckTimerObj* TimerObj);
-    bool Update(const cTimers* vdrtimers, bool Force = false);
+    bool Update(bool Force = false);
     bool BuildList();
     eOSState ShowSummary();
     void UpdateCurrent();

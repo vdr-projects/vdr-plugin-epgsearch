@@ -201,7 +201,7 @@ public:
   void OnOffTimers(bool);
   void DeleteAllTimers();
   cTimerObjList* GetTimerList(const cTimers* vdrtimers, cTimerObjList* timerList);
-  int GetCountRecordings(cRecordings *vdrrecordings);
+  int GetCountRecordings();
   bool IsActiveAt(time_t t);
   bool HasContent(int contentID);
   void SetContentFilter(int* contentStringsFlags);

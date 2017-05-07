@@ -40,7 +40,7 @@ public:
   cMenuTemplate* menuTemplate;
 
   cMenuMyScheduleItem(const cEvent *Event, const cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);
-  virtual bool Update(const cTimers* vdrtimers, bool Force = false);
+  virtual bool Update(bool Force = false);
   virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 
 };
@@ -54,7 +54,7 @@ public:
 
   cMenuMyScheduleSepItem(const cEvent *Event, const cChannel *Channel = NULL);
   ~cMenuMyScheduleSepItem();
-  virtual bool Update(const cTimers* vdrtimers, bool Force = false);
+  virtual bool Update(bool Force = false);
   virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 };
 
@@ -88,7 +88,7 @@ private:
   virtual eOSState ShowSummary();
   void SetHelpKeys(bool Force = false);
   int GetTab(int Tab);
-  bool Update(const cTimers* vdrtimers);
+  bool Update(void);
   void CreateShowModes();
   static cShowMode* GetShowMode(showMode mode);
   void UpdateCurrent();

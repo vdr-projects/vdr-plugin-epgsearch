@@ -63,16 +63,10 @@ cMenuMyScheduleItem::cMenuMyScheduleItem(const cEvent *Event, const cChannel *Ch
    timerMatch = tmNone;
    inSwitchList = false;
    menuTemplate = MenuTemplate;
-#if VDRVERSNUM > 20300
-   LOCK_TIMERS_READ;
-   const cTimers *vdrtimers = Timers;
-#else
-   cTimers *vdrtimers = &Timers;
-#endif
-   Update(vdrtimers, true);
+   Update(true);
 }
 
-bool cMenuMyScheduleItem::Update(const cTimers* vdrtimers, bool Force)
+bool cMenuMyScheduleItem::Update(bool Force)
 {
    if (!menuTemplate)
       return false;
@@ -88,8 +82,11 @@ bool cMenuMyScheduleItem::Update(const cTimers* vdrtimers, bool Force)
    bool hasMatch = false;
    const cTimer* timer = NULL;
 #if VDRVERSNUM > 20300
+	 LOCK_TIMERS_READ;
+	 const cTimers *vdrtimers = Timers;
    if (event) timer = vdrtimers->GetMatch(event, &timerMatch);
 #else
+	 cTimers *vdrtimers = &Timers;
    if (event) timer = ((cTimers*)vdrtimers)->GetMatch(event, &timerMatch);
 #endif
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
@@ -249,7 +246,7 @@ bool cMenuMyScheduleItem::Update(const cTimers* vdrtimers, bool Force)
       {
          cConflictCheck C;
          C.Check();
-         if (C.TimerInConflict(vdrtimers, timer))
+         if (C.TimerInConflict(timer))
             gl_InfoConflict = 1;
       }
       return true;
@@ -274,13 +271,7 @@ cMenuMyScheduleSepItem::cMenuMyScheduleSepItem(const cEvent *Event, const cChann
    channel = Channel;
    dummyEvent = NULL;
    SetSelectable(false);
-#if VDRVERSNUM > 20300
-   LOCK_TIMERS_READ;
-   const cTimers *vdrtimers = Timers;
-#else
-   cTimers *vdrtimers = &Timers;
-#endif
-   Update(vdrtimers, true);
+   Update(true);
 }
 
 cMenuMyScheduleSepItem::~cMenuMyScheduleSepItem()
@@ -289,7 +280,7 @@ cMenuMyScheduleSepItem::~cMenuMyScheduleSepItem()
     delete dummyEvent;
 }
 
-bool cMenuMyScheduleSepItem::Update(const cTimers* vdrtimer, bool Force)
+bool cMenuMyScheduleSepItem::Update(bool Force)
 {
   if (channel)
     SetText(cString::sprintf("%s\t %s %s", MENU_SEPARATOR_ITEMS, channel->Name(), MENU_SEPARATOR_ITEMS));
@@ -679,7 +670,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
 
          if (HasSubMenu())
             CloseSubMenu();
-         if (Update(vdrtimers))
+         if (Update())
             Display();
          SetHelpKeys();
       }
@@ -687,11 +678,11 @@ eOSState cMenuWhatsOnSearch::Record(void)
    return osContinue;
 }
 
-bool cMenuWhatsOnSearch::Update(const cTimers* vdrtimers)
+bool cMenuWhatsOnSearch::Update(void)
 {
    bool result = false;
    for (cOsdItem *item = First(); item; item = Next(item)) {
-      if (item->Selectable() && ((cMenuMyScheduleItem *)item)->Update(vdrtimers))
+      if (item->Selectable() && ((cMenuMyScheduleItem *)item)->Update())
          result = true;
    }
    return result;
@@ -966,13 +957,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
    }
    if (!HasSubMenu())
    {
-#if VDRVERSNUM > 20300
-      LOCK_TIMERS_READ;
-      const cTimers *vdrtimers = Timers;
-#else
-      cTimers *vdrtimers = &Timers;
-#endif
-      if ((HadSubMenu || gl_TimerProgged) && Update(vdrtimers))
+      if ((HadSubMenu || gl_TimerProgged) && Update())
       {
          if (gl_TimerProgged) // when using epgsearch's timer edit menu, update is delayed because of SVDRP
          {

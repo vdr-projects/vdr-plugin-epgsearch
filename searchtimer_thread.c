@@ -237,7 +237,7 @@ void cSearchTimerThread::Action(void)
 #if VDRVERSNUM > 20300
          // wait if TimersWriteLock is set or waited for
          {
-             LOCK_TIMERS_READ;
+             LOCK_TIMERS_WRITE;
          }
 #else
          if (Timers.BeingEdited())
@@ -716,7 +716,6 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
    time_t start = eStart - (searchExt->MarginStart * 60);
    time_t stop  = eStop + (searchExt->MarginStop * 60);
    int Flags = Timer->Flags();
-   LogFile.Log(1, "AddModTimer"); //JF
    if (searchExt->useVPS && pEvent->Vps() && Setup.UseVps)
    {
       start = pEvent->Vps();
@@ -778,12 +777,10 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
 
    if (!SendViaSVDRP(cmdbuf))
      return false;
-   LogFile.Log(1, "AddModTimer SVDRP done"); //JF
 #if VDRVERSNUM > 20300
    }
    if (!HandleRemoteTimerModifications(Timer))
      return false;
-   LogFile.Log(1, "AddModTimer HandleRemoteTimerModifications done"); //JF
 #endif
 
    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised();
@@ -897,7 +894,7 @@ void cSearchTimerThread::CheckExpiredRecs()
    {
       cRecording* recording = recordingObj->recording;
       cSearchExt* search = recordingObj->search;
-      if (search->recordingsKeep > 0 && search->recordingsKeep >= search->GetCountRecordings(vdrrecordings))
+      if (search->recordingsKeep > 0 && search->recordingsKeep >= search->GetCountRecordings())
       {
 #if APIVERSNUM < 10721
          LogFile.Log(1, "recording '%s' from %s expired, but will be kept, search timer %s", recording->Name(), DAYDATETIME(recording->start), recordingObj->search->search);
@@ -968,8 +965,8 @@ void cSearchTimerThread::CheckManualTimers(void)
    LogFile.Log(1, "manual timer check started");
 
 #if VDRVERSNUM > 20300
-    LOCK_TIMERS_WRITE;  // to be checked !!!
-    cTimers *vdrtimers = Timers;
+    LOCK_TIMERS_READ;
+    const cTimers *vdrtimers = Timers;
     LOCK_SCHEDULES_READ;
     const cSchedules *schedules = Schedules;
 #else

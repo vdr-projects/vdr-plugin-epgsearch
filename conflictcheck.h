@@ -275,8 +275,6 @@ class cConflictCheck
     int numDevices;
     time_t maxCheck;
     std::vector<eModuleStatus> camSlotStatusArray;
- private:
-    void Check_(const cTimers* vdrtimers);
  public:
     int relevantConflicts;
     int numConflicts;
@@ -286,11 +284,8 @@ class cConflictCheck
     ~cConflictCheck();
     void InitDevicesInfo();
     void Check();
-#if VDRVERSNUM > 20300
-    void Check(const cTimers* vdrtimers);
-#endif
     void BondDevices(const char* bondings);
-    cList<cConflictCheckTimerObj>* CreateCurrentTimerList(const cTimers* vdrtimers);
+    cList<cConflictCheckTimerObj>* CreateCurrentTimerList();
     cList<cConflictCheckTime>* CreateEvaluationTimeList(cList<cConflictCheckTimerObj>*);
     cList<cConflictCheckTime>* CreateConflictList(cList<cConflictCheckTime>*, cList<cConflictCheckTimerObj>* timerList);
     int GetDevice(cConflictCheckTimerObj* TimerObj, bool *NeedsDetachReceivers);
@@ -298,7 +293,7 @@ class cConflictCheck
     cList<cConflictCheckTimerObj>* GetTimers() { return timerList; }
     void AddConflict(cConflictCheckTimerObj* TimerObj, cConflictCheckTime* Checktime, std::set<cConflictCheckTimerObj*>& pendingTimers);
     int ProcessCheckTime(cConflictCheckTime* checkTime);
-    bool TimerInConflict(const cTimers* vdrtimers, const cTimer*);
+    bool TimerInConflict(const cTimer*);
     void EvaluateConflCheckCmd();
     eModuleStatus CamSlotModuleStatus(cCamSlot *CamSlot);
 };

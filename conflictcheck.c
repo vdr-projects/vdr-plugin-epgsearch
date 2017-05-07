@@ -235,27 +235,14 @@ void cConflictCheck::BondDevices(const char *Bondings)
 #endif
 }
 
-#if VDRVERSNUM > 20300
-void cConflictCheck::Check(const cTimers* vdrtimers)
-{
-    Check_(vdrtimers);
-}
-#endif
-
 void cConflictCheck::Check()
-{
-    const cTimers* vdrtimers = NULL;
-    Check_(vdrtimers);
-}
-
-void cConflictCheck::Check_(const cTimers* vdrtimers)
 {
     if (evaltimeList)
 	DELETENULL(evaltimeList);
     if (timerList)
 	DELETENULL(timerList);
 
-    timerList = CreateCurrentTimerList(vdrtimers);
+    timerList = CreateCurrentTimerList();
     if (timerList) evaltimeList = CreateEvaluationTimeList(timerList);
     if (evaltimeList) failedList = CreateConflictList(evaltimeList, timerList);
     if (failedList)
@@ -272,7 +259,7 @@ void cConflictCheck::Check_(const cTimers* vdrtimers)
       gl_timerStatusMonitor->SetConflictCheckAdvised();
 }
 
-cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList(const cTimers* vdrtimers)
+cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 {
     LogFile.Log(3,"current timer list creation started");
     cList<cConflictCheckTimerObj>* CurrentTimerList = NULL;
@@ -280,12 +267,10 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList(const cTim
     // collect single event timers
     time_t tMax = 0;
 #if VDRVERSNUM > 20300
-    if (!vdrtimers) {
-        LOCK_TIMERS_READ;
-        vdrtimers = Timers;
-    }
+    LOCK_TIMERS_READ;
+		const cTimers *vdrtimers = Timers;
 #else
-    vdrtimers = &Timers;
+    const cTimers *vdrtimers = &Timers;
 #endif
     const cTimer* ti = NULL;
     for (ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
@@ -694,7 +679,7 @@ void cConflictCheck::AddConflict(cConflictCheckTimerObj* TimerObj, cConflictChec
     LogFile.Log(3,"conflict found for timer '%s' (%s, channel %s)", TimerObj->timer->File(), DAYDATETIME(TimerObj->start), CHANNELNAME(TimerObj->timer->Channel()));
 }
 
-bool cConflictCheck::TimerInConflict(const cTimers* vdrtimers, const cTimer* timer)
+bool cConflictCheck::TimerInConflict(const cTimer* timer)
 {
     for(cConflictCheckTime* checkTime = failedList->First(); checkTime; checkTime = failedList->Next(checkTime))
     {
@@ -706,6 +691,12 @@ bool cConflictCheck::TimerInConflict(const cTimers* vdrtimers, const cTimer* tim
 		std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it2;
 		if ((*it)->concurrentTimers)
 		{
+#if VDRVERSNUM > 20300
+        LOCK_TIMERS_READ;
+        const cTimers *vdrtimers = Timers;
+#else
+        cTimers *vdrtimers = &Timers;
+#endif
 		    for (it2 = (*it)->concurrentTimers->begin(); it2 != (*it)->concurrentTimers->end(); ++it2)
 		    {
 			if ((*it2)->OrigTimer(vdrtimers) == timer)

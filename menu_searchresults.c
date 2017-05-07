@@ -171,12 +171,8 @@ bool cMenuSearchResultsItem::Update(const cTimers* vdrtimers, bool Force)
       if (EPGSearchConfig.checkTimerConflAfterTimerProg && !Force && timer && timerMatch && timerMatch != OldTimerMatch)
       {
          cConflictCheck C;
-#if VDRVERSNUM > 20300
-         C.Check(vdrtimers);
-#else
          C.Check();
-#endif
-         if (C.TimerInConflict(vdrtimers, timer))
+         if (C.TimerInConflict(timer))
             gl_InfoConflict = 1;
       }
 

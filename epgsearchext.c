@@ -1304,8 +1304,7 @@ void cSearchExt::CheckExistingRecordings(cSearchResults* pResults)
    LogFile.Log(3,"analysing existing recordings for search timer '%s'...", search);
 
    // how many recordings do we already have?
-   cRecordings *vdrrecordings = NULL;
-   int num = GetCountRecordings(vdrrecordings);
+   int num = GetCountRecordings();
 
    cSearchResult* pResultObj = NULL;
    int remain = pauseOnNrRecordings - num;
@@ -1433,17 +1432,15 @@ cTimerObjList* cSearchExt::GetTimerList(const cTimers* vdrtimers, cTimerObjList*
 }
 
 // counts the currently existent recordings triggered by this search timer
-int cSearchExt::GetCountRecordings(cRecordings *vdrrecordings)
+int cSearchExt::GetCountRecordings()
 {
    int countRecs = 0;
 
 #if VDRVERSNUM > 20300
-   if (!vdrrecordings) {
-       LOCK_RECORDINGS_READ;
-       vdrrecordings = (cRecordings *)Recordings;
-   }
+   LOCK_RECORDINGS_READ;
+	 const cRecordings *vdrrecordings = Recordings;
 #else
-   vdrrecordings = &Recordings;
+   cRecordings *vdrrecordings = &Recordings;
 #endif
    for (const cRecording *recording = vdrrecordings->First(); recording; recording = vdrrecordings->Next(recording))
    {

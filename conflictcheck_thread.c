@@ -104,7 +104,7 @@ void cConflictCheckThread::Action(void)
 	    m_forceUpdate = false;
 #if VDRVERSNUM > 20300
             {
-                LOCK_TIMERS_READ;
+                LOCK_TIMERS_WRITE;
             }
 #else
 	    if (Timers.BeingEdited())

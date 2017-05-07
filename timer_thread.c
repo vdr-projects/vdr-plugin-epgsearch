@@ -91,7 +91,7 @@ void cTimerThread::Action(void)
         }
 #if VDRVERSNUM > 20300
         {
-	LOCK_TIMERS_READ;
+	LOCK_TIMERS_WRITE;
         }
 #else
 	if (Timers.BeingEdited())

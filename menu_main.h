@@ -53,7 +53,7 @@ class cMenuSearchMain : public cOsdMenu {
   eOSState Switch(void);
   eOSState Shift(int iMinutes);
   eOSState ShowSummary();
-  bool Update(const cTimers *vdrtimers);
+  bool Update(void);
   void UpdateCurrent();
 #ifdef USE_GRAPHTFT
   virtual const char* MenuKind() { return "MenuEpgsSchedule"; }
