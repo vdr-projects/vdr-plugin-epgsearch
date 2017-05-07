@@ -122,12 +122,8 @@ eOSState cMenuFavorites::OnYellow()
       cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
       if (item && item->event)
       {
-#if VDRVERSNUM > 20300
          LOCK_CHANNELS_READ;
          const cChannels *vdrchannels = Channels;
-#else
-         cChannels *vdrchannels = &Channels;
-#endif
          const cChannel *channel = vdrchannels->GetByChannelID(item->event->ChannelID(), true, true);
          cMenuWhatsOnSearch::scheduleChannel = channel;
          cMenuWhatsOnSearch::currentShowMode = showNow;

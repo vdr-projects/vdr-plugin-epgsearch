@@ -163,12 +163,8 @@ eOSState cMenuConflictCheck::ProcessKey(eKeys Key)
 cMenuConflictCheckDetailsItem::cMenuConflictCheckDetailsItem(cConflictCheckTimerObj* TimerObj)
 {
     timerObj = TimerObj;
-#if VDRVERSNUM > 20300
     LOCK_TIMERS_READ;
     const cTimers *vdrtimers = Timers;
-#else
-    cTimers *vdrtimers = &Timers;
-#endif
     hasTimer = timerObj->OrigTimer(vdrtimers)?timerObj->OrigTimer(vdrtimers)->HasFlags(tfActive):false;
     Update(true);
 }
@@ -176,12 +172,8 @@ cMenuConflictCheckDetailsItem::cMenuConflictCheckDetailsItem(cConflictCheckTimer
 bool cMenuConflictCheckDetailsItem::Update(bool Force)
 {
     bool oldhasTimer = hasTimer;
-#if VDRVERSNUM > 20300
     LOCK_TIMERS_READ;
     const cTimers *vdrtimers = Timers;
-#else
-    cTimers *vdrtimers = &Timers;
-#endif
     hasTimer = timerObj->OrigTimer(vdrtimers)?timerObj->OrigTimer(vdrtimers)->HasFlags(tfActive):false;
     if (Force || hasTimer != oldhasTimer)
     {
@@ -275,13 +267,9 @@ eOSState cMenuConflictCheckDetails::Commands(eKeys Key)
 eOSState cMenuConflictCheckDetails::ToggleTimer(cConflictCheckTimerObj* TimerObj)
 {
   cTimers *vdrtimers;
-#if VDRVERSNUM > 20300
   LOCK_TIMERS_WRITE;
   Timers->SetExplicitModify();
   vdrtimers = Timers;
-#else
-  vdrtimers = &Timers;
-#endif
   if (!TimerObj || !TimerObj->OrigTimer(vdrtimers)) return osContinue;
   TimerObj->OrigTimer(vdrtimers)->OnOff();  // Toggles Timer Flag
   vdrtimers->SetModified();
@@ -302,13 +290,9 @@ bool cMenuConflictCheckDetails::Update(bool Force)
 
 eOSState cMenuConflictCheckDetails::DeleteTimer(cConflictCheckTimerObj* TimerObj)
 {
-#if VDRVERSNUM > 20300
   LOCK_TIMERS_WRITE;
   Timers->SetExplicitModify();
   cTimers *vdrtimers = Timers;
-#else
-  cTimers *vdrtimers = &Timers;
-#endif
   cTimer* timer = TimerObj->OrigTimer(vdrtimers);
   // Check if this timer is active:
   if (timer) {
@@ -316,11 +300,7 @@ eOSState cMenuConflictCheckDetails::DeleteTimer(cConflictCheckTimerObj* TimerObj
       if (timer->Recording()) {
 	if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
 	  timer->Skip();
-#if VDRVERSNUM > 20300
 	  cRecordControls::Process(vdrtimers, time(NULL));
-#else
-	  cRecordControls::Process(time(NULL));
-#endif
 	}
 	else
 	  return osContinue;
@@ -346,12 +326,8 @@ eOSState cMenuConflictCheckDetails::ShowSummary()
     const cEvent *ei = curTimerObj->Event();
     if (ei)
     {
-#if VDRVERSNUM > 20300
 	LOCK_CHANNELS_READ;
 	const cChannels *vdrchannels = Channels;
-#else
-	cChannels *vdrchannels = &Channels;
-#endif
 	const cChannel *channel = vdrchannels->GetByChannelID(ei->ChannelID(), true, true);
 	if (channel)
 	    return AddSubMenu(new cMenuEventSearchSimple(ei, eventObjects));
@@ -441,12 +417,8 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 		for (it = timerObj->concurrentTimers->begin(); it != timerObj->concurrentTimers->end(); ++it)
 		{
 		    bool found = false;
-#if VDRVERSNUM > 20300
 		    LOCK_TIMERS_READ;
 		    const cTimers *vdrtimers = Timers;
-#else
-		    const cTimers *vdrtimers = &Timers;
-#endif
 		    for(const cTimer* checkT = vdrtimers->First(); checkT; checkT = vdrtimers->Next(checkT))
 		    {
 			checkT->Matches();

@@ -126,12 +126,8 @@ bool cTimerDone::Parse(const char *s)
 
 cString cTimerDone::ToText(void) const
 {
-#if VDRVERSNUM > 20300
    LOCK_CHANNELS_READ;
    const cChannels *vdrchannels = Channels;
-#else
-   cChannels *vdrchannels = &Channels;
-#endif
    const cChannel *channel = vdrchannels->GetByChannelID(channelID, true, true);
    string info = string(DAYDATETIME(start)) + " - " + string(channel?channel->Name():"");
 
@@ -153,13 +149,8 @@ bool cTimerDone::Save(FILE *f)
 
 const cEvent* cTimerDone::GetEvent() const
 {
-#if VDRVERSNUM > 20300
     LOCK_SCHEDULES_READ;
     const cSchedules *schedules = Schedules;
-#else
-    cSchedulesLock SchedulesLock;
-    const cSchedules* schedules = cSchedules::Schedules(SchedulesLock);
-#endif
    if (!schedules) return NULL;
    const cSchedule *Schedule = schedules->GetSchedule(channelID);
    if (!Schedule) return NULL;

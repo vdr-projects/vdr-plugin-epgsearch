@@ -81,14 +81,9 @@ bool cMenuMyScheduleItem::Update(bool Force)
    bool OldInSwitchList = inSwitchList;
    bool hasMatch = false;
    const cTimer* timer = NULL;
-#if VDRVERSNUM > 20300
 	 LOCK_TIMERS_READ;
 	 const cTimers *vdrtimers = Timers;
    if (event) timer = vdrtimers->GetMatch(event, &timerMatch);
-#else
-	 cTimers *vdrtimers = &Timers;
-   if (event) timer = ((cTimers*)vdrtimers)->GetMatch(event, &timerMatch);
-#endif
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
 
@@ -430,12 +425,8 @@ void cMenuWhatsOnSearch::LoadSchedules()
    if (currentChannel > maxChannel)
       maxChannel = 0;
 
-#if VDRVERSNUM > 20300
    LOCK_CHANNELS_READ;
    const cChannels *vdrchannels = Channels;
-#else
-   cChannels *vdrchannels = &Channels;
-#endif
    for (const cChannel *Channel = vdrchannels->First(); Channel; Channel = vdrchannels->Next(Channel))
    {
       if (!Channel->GroupSep())
@@ -575,13 +566,9 @@ eOSState cMenuWhatsOnSearch::Record(void)
    cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)Get(Current());
    if (item)
    {
-#if VDRVERSNUM > 20300
       LOCK_TIMERS_WRITE;
       Timers->SetExplicitModify();
       cTimers *vdrtimers = Timers;
-#else
-      cTimers *vdrtimers = &Timers;
-#endif
       if (item->timerMatch == tmFull)
       {
          eTimerMatch tm = tmNone;
@@ -602,11 +589,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
          PrepareTimerFile(item->event, timer);
       }
       else
-#if VDRVERSNUM > 20300
          timer = new cTimer(false, false, item->channel);
-#else
-         timer = new cTimer(false, false, (cChannel*)item->channel);
-#endif
 
       cTimer *t = vdrtimers->GetTimer(timer);
       if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
@@ -645,25 +628,19 @@ eOSState cMenuWhatsOnSearch::Record(void)
          fullaux = UpdateAuxValue(fullaux, "pin-plugin", aux);
 #endif
          SetAux(timer, fullaux);
-#if VDRVERSNUM > 20300
          if (*Setup.SVDRPDefaultHost)
             timer->SetRemote(Setup.SVDRPDefaultHost);
-#endif
          vdrtimers->Add(timer);
-#if VDRVERSNUM > 20300
          if (!HandleRemoteTimerModifications(timer)) {
             delete timer;
 						ERROR("Epgsearch: RemoteTimerModifications failed");
          }
 				 else {
-#endif
 	 gl_timerStatusMonitor->SetConflictCheckAdvised();
          timer->Matches();
          vdrtimers->SetModified();
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
-#if VDRVERSNUM > 20300
 				 }
-#endif
 
          if (HasSubMenu())
             CloseSubMenu();
@@ -757,12 +734,8 @@ eOSState cMenuWhatsOnSearch::Shift(int iMinutes)
    if (mi)
    {
       currentChannel = mi->channel->Number();
-#if VDRVERSNUM > 20300
       LOCK_CHANNELS_READ;
       const cChannels *vdrchannels = Channels;
-#else
-      cChannels *vdrchannels = &Channels;
-#endif
       scheduleChannel = vdrchannels->GetByNumber(currentChannel);
    }
    LoadSchedules();
@@ -779,12 +752,8 @@ eOSState cMenuWhatsOnSearch::ShowSummary()
       const cEvent *ei = ((cMenuMyScheduleItem *)Get(Current()))->event;
       if (ei)
       {
-#if VDRVERSNUM > 20300
          LOCK_CHANNELS_READ;
          const cChannels *vdrchannels = Channels;
-#else
-         cChannels *vdrchannels = &Channels;
-#endif
          const cChannel *channel = vdrchannels->GetByChannelID(ei->ChannelID(), true, true);
          if (channel)
             return AddSubMenu(new cMenuEventSearch(ei, eventObjects, SurfModeChannel));
@@ -910,12 +879,8 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                   if (mi && mi->Selectable())
                   {
                      currentChannel = mi->channel->Number();
-#if VDRVERSNUM > 20300
                      LOCK_CHANNELS_READ;
                      const cChannels *vdrchannels = Channels;
-#else
-                     cChannels *vdrchannels = &Channels;
-#endif
                      scheduleChannel = vdrchannels->GetByNumber(currentChannel);
                   }
                }

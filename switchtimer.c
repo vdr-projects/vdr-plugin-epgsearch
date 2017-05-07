@@ -114,13 +114,8 @@ const cEvent* cSwitchTimer::Event()
   const cEvent* event = NULL;
   if (startTime > now)
   {
-#if VDRVERSNUM > 20300
       LOCK_SCHEDULES_READ;
       const cSchedules *schedules = Schedules;
-#else
-      cSchedulesLock SchedulesLock;
-      const cSchedules* schedules = cSchedules::Schedules(SchedulesLock);
-#endif
       if (!schedules) return NULL;
       const cSchedule *Schedule = schedules->GetSchedule(channelID);
       if (Schedule)
@@ -141,12 +136,8 @@ cString cSwitchTimer::ToText(bool& ignore)
 	ignore = true;
 	return NULL;
     }
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     const cChannel *channel = vdrchannels->GetByChannelID(channelID, true, true);
     if (!channel) return NULL;
     cString buffer = cString::sprintf("%s:%u:%ld:%d:%d:%d",

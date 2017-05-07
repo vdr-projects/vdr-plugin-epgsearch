@@ -41,8 +41,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/tools.h>
 #include <vdr/plugin.h>
 
-#if VDRVERSNUM > 20300
-
 #define ALLOWED_BREAK_INSECS 2
 
 extern int updateForced;
@@ -250,4 +248,3 @@ void cStatusThread::Action(void)
    }
    m_Active = false;
 }
-#endif

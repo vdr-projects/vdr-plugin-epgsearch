@@ -145,24 +145,16 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
 
          eTimerMatch timerMatch;
          bool hasTimer = false;
-#if VDRVERSNUM > 20300
          LOCK_TIMERS_READ;
          const cTimers *vdrtimers = Timers;
-#else
-         cTimers *vdrtimers = &Timers;
-#endif
          if (vdrtimers->GetMatch(pEvent, &timerMatch))
             hasTimer = (timerMatch == tmFull);
 
          if (!result->search->useAsSearchTimer)
             result->needsTimer = false;
 
-#if VDRVERSNUM > 20300
          LOCK_CHANNELS_READ;
          const cChannels *vdrchannels = Channels;
-#else
-         cChannels *vdrchannels = &Channels;
-#endif
          const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true, true);
          int timerMode = hasTimer?1:(result->needsTimer?2:0);
 

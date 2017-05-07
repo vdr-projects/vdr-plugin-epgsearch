@@ -47,12 +47,8 @@ cBlacklist::cBlacklist(void)
     startTime = 0000;
     stopTime = 2359;
     useChannel = false;
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     channelMin = vdrchannels->GetByNumber(cDevice::CurrentChannel());
     channelMax = vdrchannels->GetByNumber(cDevice::CurrentChannel());
     channelGroup = NULL;
@@ -337,12 +333,8 @@ bool cBlacklist::Parse(const char *s)
 			char *channelMaxbuffer = NULL;
 			int channels = sscanf(value, "%m[^|]|%m[^|]", &channelMinbuffer, &channelMaxbuffer);
 #endif
-#if VDRVERSNUM > 20300
 			LOCK_CHANNELS_READ;
 			const cChannels *vdrchannels = Channels;
-#else
-			cChannels *vdrchannels = &Channels;
-#endif
 			channelMin = vdrchannels->GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
 			if (!channelMin)
 			{
@@ -646,13 +638,8 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
     LogFile.Log(3,"start search for blacklist '%s'", search);
 
     const cSchedules *schedules;
-#if VDRVERSNUM > 20300
     LOCK_SCHEDULES_READ;
     schedules = Schedules;
-#else
-    cSchedulesLock schedulesLock;
-    schedules = cSchedules::Schedules(schedulesLock);
-#endif
     if(!schedules) {
 	LogFile.Log(1,"schedules are currently locked! try again later.");
 	return NULL;
@@ -661,12 +648,8 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
     const cSchedule *Schedule = schedules->First();
 
     while (Schedule) {
-#if VDRVERSNUM > 20300
 	LOCK_CHANNELS_READ;
 	const cChannels *vdrchannels = Channels;
-#else
-	cChannels *vdrchannels = &Channels;
-#endif
 	const cChannel* channel = vdrchannels->GetByChannelID(Schedule->ChannelID(),true,true);
 	if (!channel)
 	{
@@ -705,12 +688,8 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
         do {
 	    const cEvent* event = GetEventByBlacklist(Schedule, pPrevEvent, MarginStop);
 	    pPrevEvent = event;
-#if VDRVERSNUM > 20300
 	    LOCK_CHANNELS_READ;
 	    const cChannels *vdrchannels = Channels;
-#else
-	    cChannels *vdrchannels = &Channels;
-#endif
 	    if (event && vdrchannels->GetByChannelID(event->ChannelID(),true,true))
 	    {
 		if (!pSearchResults) pSearchResults = new cSearchResults;

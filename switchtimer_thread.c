@@ -88,12 +88,8 @@ void cSwitchTimerThread::Action(void)
          {
             if (switchTimer->startTime - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
             {
-#if VDRVERSNUM > 20300
                LOCK_CHANNELS_READ;
                const cChannels *vdrchannels = Channels;
-#else
-               cChannels *vdrchannels = &Channels;
-#endif
                const cChannel *channel = vdrchannels->GetByChannelID(switchTimer->channelID, true, true);
                bool doSwitch = (switchTimer->mode == 0);
                bool doAsk = (switchTimer->mode == 2);

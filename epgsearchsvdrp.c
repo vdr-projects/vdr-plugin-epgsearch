@@ -232,11 +232,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             {
                LogFile.Log(1,"search '%s' deleted via SVDRP", search->search);
                cMutexLock SearchExtsLock(&SearchExts);
-               if (delTimers
-#if VDRVERSNUM < 20300
-                   && !Timers.BeingEdited()
-#endif
-                  )
+               if (delTimers)
                 search->DeleteAllTimers();
                SearchExts.Del(search);
                SearchExts.Save();
@@ -566,24 +562,16 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 
             eTimerMatch timerMatch;
             bool hasTimer = false;
-#if VDRVERSNUM > 20300
             LOCK_TIMERS_READ;
             const cTimers *vdrtimers = Timers;
-#else
-            cTimers *vdrtimers = &Timers;
-#endif
             if (vdrtimers->GetMatch(pEvent, &timerMatch))
                hasTimer = (timerMatch == tmFull);
 
             if (!result->search->useAsSearchTimer)
                result->needsTimer = false;
 
-#if VDRVERSNUM > 20300
             LOCK_CHANNELS_READ;
             const cChannels *vdrchannels = Channels;
-#else
-            cChannels *vdrchannels = &Channels;
-#endif
             const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true,true);
             int timerMode = hasTimer?1:(result->needsTimer?2:0);
 
@@ -1059,12 +1047,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                   ReplyCode = 901;
                   return cString::sprintf("invalid channel id");
                }
-#if VDRVERSNUM > 20300
                LOCK_CHANNELS_READ;
                const cChannels *vdrchannels = Channels;
-#else
-               cChannels *vdrchannels = &Channels;
-#endif
                const cChannel *ch = vdrchannels->GetByChannelID(chID,true,true);
                if (!ch)
                {
@@ -1075,12 +1059,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             }
             else
             {
-#if VDRVERSNUM > 20300
                LOCK_CHANNELS_READ;
                const cChannels *vdrchannels = Channels;
-#else
-               cChannels *vdrchannels = &Channels;
-#endif
                string sBuffer;
                for (int i = 0; i < vdrchannels->Count(); i++)
                {

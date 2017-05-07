@@ -130,17 +130,10 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
     directorySet.clear();
 
     // add distinct directories from current recordings
-#if VDRVERSNUM > 20300
 		LOCK_TIMERS_READ;
 		const cTimers *vdrtimers = Timers;
     LOCK_RECORDINGS_READ;
     const cRecordings *vdrrecordings = Recordings;
-#else
-		const cTimers *vdrtimers = &Timers;
-    cRecordings *vdrrecordings = &Recordings;
-    if (Recordings.Count() == 0)
-	Recordings.Load();
-#endif
     for (const cRecording *recording = vdrrecordings->First(); recording; recording = vdrrecordings->Next(recording))
     {
 	if (recording->HierarchyLevels() > 0)

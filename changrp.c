@@ -82,12 +82,8 @@ bool cChannelGroup::Parse(const char *s)
 #endif
 		if (numChannels == 1)
 		{
-#if VDRVERSNUM > 20300
 		    LOCK_CHANNELS_READ;
 		    const cChannels *vdrchannels = Channels;
-#else
-		    cChannels *vdrchannels = &Channels;
-#endif
 		    const cChannel* channel = vdrchannels->GetByChannelID(tChannelID::FromString(channelbuffer), true, true);
 		    if (channel)
 		    {
@@ -135,12 +131,8 @@ const char *cChannelGroup::ToText(void)
 
 int* cChannelGroup::CreateChannelSel()
 {
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     int* channelSel = (int*) malloc(vdrchannels->Count() * sizeof(int));
     const cChannel* channel = vdrchannels->First();
     int index = 0;
@@ -171,12 +163,8 @@ int* cChannelGroup::CreateChannelSel()
 void cChannelGroup::CreateChannelList(int* channelSel)
 {
     channels.Clear();
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     const cChannel* channel = vdrchannels->First();
     int index = 0;
     while (channel)
@@ -446,12 +434,8 @@ void cMenuEditChannelGroup::Set()
     Clear();
 
     Add(new cMenuEditStrItem( tr("Group name"), name, sizeof(group->name), trVDR(FileNameChars)));
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     const cChannel* channel = vdrchannels->First();
     int index = 0;
     while (channel)
@@ -527,12 +511,8 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
 	  case kGreen:
 	  case kYellow:
 	  {
-#if VDRVERSNUM > 20300
 	      LOCK_CHANNELS_READ;
 	      const cChannels *vdrchannels = Channels;
-#else
-	      cChannels *vdrchannels = &Channels;
-#endif
 	      const cChannel* channel = vdrchannels->First();
 	      int index = 0;
 	      while (channel)

@@ -140,12 +140,8 @@ void cMenuDefTimerCheckMethod::Set()
     Clear();
 
     delete modes;
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     modes = new int[vdrchannels->Count()];
     int i=0;
     for (const cChannel *channel = vdrchannels->First(); channel; channel = vdrchannels->Next(channel), i++)
@@ -168,12 +164,8 @@ eOSState cMenuDefTimerCheckMethod::ProcessKey(eKeys Key)
 	    case kOk:
 	    {
 		int i=0;
-#if VDRVERSNUM > 20300
 		LOCK_CHANNELS_READ;
 		const cChannels *vdrchannels = Channels;
-#else
-		cChannels *vdrchannels = &Channels;
-#endif
 		for (const cChannel *channel = vdrchannels->First(); channel; channel = vdrchannels->Next(channel), i++)
 		    if (!channel->GroupSep() && *channel->Name())
 			DefTimerCheckModes.SetMode(channel, modes[i]);

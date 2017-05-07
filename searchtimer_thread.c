@@ -101,12 +101,8 @@ void cSearchTimerThread::Stop(void) {
 
 const cTimer *cSearchTimerThread::GetTimer(const cTimers* vdrtimers, cSearchExt *searchExt, const cEvent *pEvent, bool& bTimesMatchExactly)
 {
-#if VDRVERSNUM > 20300
    LOCK_CHANNELS_READ;
    const cChannels *vdrchannels = Channels;
-#else
-   cChannels *vdrchannels = &Channels;
-#endif
    const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true, true);
    if (!channel)
       return NULL;
@@ -234,18 +230,10 @@ void cSearchTimerThread::Action(void)
 	    while(EITScanner.Active() && m_Active && Running());
   	    LogFile.Log(1,"EPG scan finished");
 	 }
-#if VDRVERSNUM > 20300
          // wait if TimersWriteLock is set or waited for
          {
              LOCK_TIMERS_WRITE;
          }
-#else
-         if (Timers.BeingEdited())
-         {
-            Wait.Wait(1000);
-            continue;
-         }
-#endif
          LogFile.iSysLog("search timer update started");
 
          UserVars.ResetCache(); // reset internal cache of user vars
@@ -266,12 +254,8 @@ void cSearchTimerThread::Action(void)
                continue;
             }
            {
-#if VDRVERSNUM > 20300
             LOCK_TIMERS_READ;
             const cTimers *vdrtimers = Timers;
-#else
-            cTimers *vdrtimers = &Timers;
-#endif
             pOutdatedTimers = searchExt->GetTimerList(vdrtimers, pOutdatedTimers);
            } // End of Block should release ReadLock
 
@@ -296,12 +280,8 @@ void cSearchTimerThread::Action(void)
                   continue;
 
                {
-#if VDRVERSNUM > 20300
                LOCK_CHANNELS_READ;
                const cChannels *vdrchannels = Channels;
-#else
-               cChannels *vdrchannels = &Channels;
-#endif
                const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true, true);
                if (!channel)
                   continue;
@@ -332,15 +312,11 @@ void cSearchTimerThread::Action(void)
 
                // search for an already existing timer
                bool bTimesMatchExactly = false;
-#if VDRVERSNUM > 20300
                const cTimer *t = NULL;
                {
                LOCK_TIMERS_READ;
                t = GetTimer(Timers,searchExt, pEvent, bTimesMatchExactly);
                }
-#else
-               const cTimer *t = GetTimer(&Timers,searchExt, pEvent, bTimesMatchExactly);
-#endif
 
                char* Summary = NULL;
 	       uint timerMod = tmNoChange;
@@ -534,22 +510,16 @@ void cSearchTimerThread::Action(void)
                   const cTimer* t = tObj->timer;
                   // timer could have been deleted meanwhile, so check if its still there
                   bool found = false;
-#if VDRVERSNUM > 20300
                   {
                   LOCK_TIMERS_READ;
                   const cTimers *vdrtimers = Timers;
-#else
-                  cTimers *vdrtimers = &Timers;
-#endif
                   for(const cTimer* checkT = vdrtimers->First(); checkT; checkT = vdrtimers->Next(checkT))
                      if (checkT == t)
                      {
                         found = true;
                         break;
                      }
-#if VDRVERSNUM > 20300
                   }
-#endif
                   if (!found) continue;
 
                   if (TimerWasModified(t)) continue;
@@ -746,11 +716,9 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
    }
    else
       tmpSummary = SummaryExtended(searchExt, Timer, pEvent);
-#if VDRVERSNUM > 20300
    if (*Setup.SVDRPDefaultHost)
       Timer->SetRemote(Setup.SVDRPDefaultHost);
    else {
-#endif
    if (index==0)
       msprintf(&cmdbuf, "NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s",
                Flags,
@@ -777,11 +745,9 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
 
    if (!SendViaSVDRP(cmdbuf))
      return false;
-#if VDRVERSNUM > 20300
    }
    if (!HandleRemoteTimerModifications(Timer))
      return false;
-#endif
 
    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised();
 
@@ -832,13 +798,8 @@ void cSearchTimerThread::DelRecording(int index)
 void cSearchTimerThread::CheckExpiredRecs()
 {
    LogFile.Log(1, "check for expired recordings started");
-#if VDRVERSNUM > 20300
    LOCK_RECORDINGS_WRITE;
    cRecordings *vdrrecordings = Recordings;
-#else
-   cThreadLock RecordingsLock(&Recordings);
-   cRecordings *vdrrecordings = &Recordings;
-#endif
    cList<cRecordingObj> DelRecordings;
    for (cRecording *recording = vdrrecordings->First(); recording && m_Active; recording = vdrrecordings->Next(recording))
    {
@@ -947,16 +908,10 @@ void cSearchTimerThread::CheckManualTimers(void)
 {
    LogFile.Log(1, "manual timer check started");
 
-#if VDRVERSNUM > 20300
     LOCK_TIMERS_READ;
     const cTimers *vdrtimers = Timers;
     LOCK_SCHEDULES_READ;
     const cSchedules *schedules = Schedules;
-#else
-    cTimers *vdrtimers = &Timers;
-    cSchedulesLock SchedulesLock;
-    const cSchedules* schedules = cSchedules::Schedules(SchedulesLock);
-#endif
 
    for (const cTimer *ti = vdrtimers->First(); ti && m_Active; ti = vdrtimers->Next(ti))
    {
@@ -1068,13 +1023,8 @@ void cSearchTimerThread::CheckEPGHours()
 
   time_t checkTime = time(NULL) + EPGSearchConfig.checkEPGHours * 60 * 60;
 
-#if VDRVERSNUM > 20300
     LOCK_SCHEDULES_READ;
     const cSchedules *schedules = Schedules;
-#else
-    cSchedulesLock SchedulesLock;
-    const cSchedules* schedules = cSchedules::Schedules(SchedulesLock);
-#endif
 
   cChannelGroup channelsWithSmallEPG;
   cChannelGroupItem* channelInGroup = channelGroup->channels.First();

@@ -73,13 +73,8 @@ const cEvent* cConflictCheckTimerObj::Event()
 
 const cEvent* cConflictCheckTimerObj::SetEventFromSchedule()
 {
-#if VDRVERSNUM > 20300
     LOCK_SCHEDULES_READ;
     const cSchedules *schedules = Schedules;
-#else
-    cSchedulesLock SchedulesLock;
-    const cSchedules* schedules = cSchedules::Schedules(SchedulesLock);
-#endif
     if (!schedules)
 	return NULL;
 
@@ -262,12 +257,8 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 
     // collect single event timers
     time_t tMax = 0;
-#if VDRVERSNUM > 20300
     LOCK_TIMERS_READ;
 		const cTimers *vdrtimers = Timers;
-#else
-    const cTimers *vdrtimers = &Timers;
-#endif
     const cTimer* ti = NULL;
     for (ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
     {
@@ -688,12 +679,8 @@ bool cConflictCheck::TimerInConflict(const cTimer* timer)
 		std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it2;
 		if ((*it)->concurrentTimers)
 		{
-#if VDRVERSNUM > 20300
         LOCK_TIMERS_READ;
         const cTimers *vdrtimers = Timers;
-#else
-        cTimers *vdrtimers = &Timers;
-#endif
 		    for (it2 = (*it)->concurrentTimers->begin(); it2 != (*it)->concurrentTimers->end(); ++it2)
 		    {
 			if ((*it2)->OrigTimer(vdrtimers) == timer)
@@ -719,12 +706,8 @@ void cConflictCheck::EvaluateConflCheckCmd()
 	    if ((*it) && !(*it)->ignore)
 	      {
 		string result = EPGSearchConfig.conflCheckCmd;
-#if VDRVERSNUM > 20300
 		LOCK_TIMERS_READ;
 		const cTimers *vdrtimers = Timers;
-#else
-		cTimers *vdrtimers = &Timers;
-#endif
 		if (!(*it)->OrigTimer(vdrtimers))
 		  {
 		    LogFile.Log(3,"timer has disappeared meanwhile");

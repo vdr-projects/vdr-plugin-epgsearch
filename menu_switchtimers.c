@@ -134,12 +134,8 @@ void cMenuSwitchTimerItem::Set()
     tm *tm = localtime_r(&startTime, &tm_r);
     strftime(datebuf, sizeof(datebuf), "%d.%m", tm);
 
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     const cChannel* channel = vdrchannels->GetByChannelID(switchTimer->channelID,true,true);
 
     msprintf(&buffer, "%s\t%d\t%s\t%s\t%d\'\t%s~%s", switchTimer->mode==1?"":">", channel?channel->Number():-1, datebuf, TIMESTRING(startTime), switchTimer->switchMinsBefore, event->Title()?event->Title():"", event->ShortText()?event->ShortText():"");

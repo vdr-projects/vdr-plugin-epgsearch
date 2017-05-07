@@ -636,12 +636,8 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
          case kOk:
             if (data.useChannel==1)
             {
-#if VDRVERSNUM > 20300
                LOCK_CHANNELS_READ;
                const cChannels *vdrchannels = Channels;
-#else
-               cChannels *vdrchannels = &Channels;
-#endif
                const cChannel *ch = vdrchannels->GetByNumber(channelMin);
                if (ch)
                   data.channelMin = ch;

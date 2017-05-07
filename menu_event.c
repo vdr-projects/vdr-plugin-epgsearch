@@ -82,15 +82,10 @@ void cMenuEventSearch::Set()
 
    if (event)
    {
-#if VDRVERSNUM > 20300
 		 LOCK_TIMERS_READ;
 		 const cTimers *vdrtimers = Timers;
       LOCK_CHANNELS_READ;
       const cChannels *vdrchannels = Channels;
-#else
-			cTimers *vdrtimers = &Timers;
-      cChannels *vdrchannels = &Channels;
-#endif
       const cChannel *channel = vdrchannels->GetByChannelID(event->ChannelID(), true, true);
       bool canSwitch = false;
       if (channel)
@@ -243,12 +238,8 @@ void cMenuEventSearchSimple::Set()
 
    if (event)
    {
-#if VDRVERSNUM > 20300
       LOCK_CHANNELS_READ;
       const cChannels *vdrchannels = Channels;
-#else
-      cChannels *vdrchannels = &Channels;
-#endif
       const cChannel *channel = vdrchannels->GetByChannelID(event->ChannelID(), true, true);
       if (channel)
       {

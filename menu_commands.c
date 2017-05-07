@@ -100,12 +100,8 @@ void cMenuSearchCommands::LoadCommands()
 
 eOSState cMenuSearchCommands::Switch(void)
 {
-#if VDRVERSNUM > 20300
    LOCK_CHANNELS_READ;
    const cChannels *vdrchannels = Channels;
-#else
-   cChannels *vdrchannels = &Channels;
-#endif
    const cChannel *channel = vdrchannels->GetByChannelID(event->ChannelID(), true, true);
    if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
       return osEnd;
@@ -126,13 +122,9 @@ eOSState cMenuSearchCommands::Record(void)
    if (!event) return osContinue;
 
    eTimerMatch timerMatch = tmNone;
-#if VDRVERSNUM > 20300
    LOCK_TIMERS_WRITE;
    Timers->SetExplicitModify();
    cTimers *vdrtimers = Timers;
-#else
-   cTimers *vdrtimers = &Timers;
-#endif
    cTimer* timer = vdrtimers->GetMatch(event, &timerMatch);
    if (timerMatch == tmFull)
    {
@@ -181,21 +173,15 @@ eOSState cMenuSearchCommands::Record(void)
 #endif
 
       SetAux(timer, fullaux);
-#if VDRVERSNUM > 20300
       if (*Setup.SVDRPDefaultHost)
          timer->SetRemote(Setup.SVDRPDefaultHost);
-#endif
       vdrtimers->Add(timer);
       timer->Matches();
       vdrtimers->SetModified();
-#if VDRVERSNUM > 20300
       if (!HandleRemoteTimerModifications(timer)) {
          delete timer;
       }
 			else
-#else
-      LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
-#endif
       return osBack;
    }
    return osContinue;
@@ -253,12 +239,8 @@ eOSState cMenuSearchCommands::CreateSearchTimer(void)
 
    cSearchExt* pNew = new cSearchExt;
    strcpy(pNew->search, event->Title());
-#if VDRVERSNUM > 20300
    LOCK_CHANNELS_READ;
    const cChannels *vdrchannels = Channels;
-#else
-   cChannels *vdrchannels = &Channels;
-#endif
    pNew->channelMin = pNew->channelMax = vdrchannels->GetByChannelID(event->ChannelID());
    return AddSubMenu(new cMenuEditSearchExt(pNew, true, false, true));
 }
@@ -307,12 +289,8 @@ eOSState cMenuSearchCommands::Execute(void)
 	buffer = cString::sprintf("%s...", command->Title());
 	Skins.Message(mtStatus, buffer);
 
-#if VDRVERSNUM > 20300
 	LOCK_CHANNELS_READ;
 	const cChannels *vdrchannels = Channels;
-#else
-	cChannels *vdrchannels = &Channels;
-#endif
 	buffer = cString::sprintf("'%s' %ld %ld %d '%s' '%s'",
 				  EscapeString(event->Title()).c_str(),
 				  event->StartTime(),

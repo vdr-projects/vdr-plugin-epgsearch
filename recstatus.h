@@ -38,9 +38,7 @@ public:
 
 class cRecStatusMonitor : public cStatus
 {
-#if VDRVERSNUM > 20300
 public:
-#endif
     cList<cRecDoneTimerObj> TimersRecording;
 protected:
     virtual void Recording(const cDevice *Device, const char *Name, const char*, bool On);

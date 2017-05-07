@@ -210,12 +210,8 @@ bool cTemplFile::Parse(const char *Name, const char *Value)
 void cTemplFile::PrepareDefaultTemplates()
 {
     char channelnr[20] = "";
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     sprintf(channelnr, "%%chnr%%:%d|", CHNUMWIDTH);
 
     bool text2skin = !(strcmp(Setup.OSDSkin, "soppalusikka") == 0 ||

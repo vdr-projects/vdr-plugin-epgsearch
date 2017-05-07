@@ -50,12 +50,8 @@ string cMailTimerNotification::Format(const string& templ) const
     if (!pEvent) return "";
 
     eTimerMatch TimerMatch = tmNone;
-#if VDRVERSNUM > 20300
     LOCK_TIMERS_READ;
     const cTimers *vdrtimers = Timers;
-#else
-    cTimers *vdrtimers = &Timers;
-#endif
     const cTimer* pTimer = vdrtimers->GetMatch(pEvent, &TimerMatch);
     if (!pTimer) return "";
 
@@ -76,13 +72,8 @@ string cMailTimerNotification::Format(const string& templ) const
 
 const cEvent* cMailTimerNotification::GetEvent() const
 {
-#if VDRVERSNUM > 20300
     LOCK_SCHEDULES_READ;
     const cSchedules *schedules = Schedules;
-#else
-    cSchedulesLock schedulesLock;
-    const cSchedules *schedules = cSchedules::Schedules(schedulesLock);
-#endif
     if (!schedules) return NULL;
     const cSchedule *schedule = schedules->GetSchedule(channelID);
     if (!schedule) return NULL;
@@ -91,12 +82,8 @@ const cEvent* cMailTimerNotification::GetEvent() const
 
 bool cMailTimerNotification::operator< (const cMailTimerNotification &N) const
 {
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     const cChannel* channel = vdrchannels->GetByChannelID(channelID,true,true);
     const cChannel* channelOther = vdrchannels->GetByChannelID(N.channelID,true,true);
     if (!channel || !channelOther)
@@ -138,12 +125,8 @@ cMailDelTimerNotification::cMailDelTimerNotification(const string& Formatted, tC
 
 bool cMailDelTimerNotification::operator< (const cMailDelTimerNotification &N) const
 {
-#if VDRVERSNUM > 20300
     LOCK_CHANNELS_READ;
     const cChannels *vdrchannels = Channels;
-#else
-    cChannels *vdrchannels = &Channels;
-#endif
     const cChannel* channel = vdrchannels->GetByChannelID(channelID,true,true);
     const cChannel* channelOther = vdrchannels->GetByChannelID(N.channelID,true,true);
     if (!channel || !channelOther)
