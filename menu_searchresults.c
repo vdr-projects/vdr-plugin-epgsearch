@@ -47,11 +47,7 @@ extern bool isUTF8;
 
 static int CompareRecording(const void *p1, const void *p2)
 {
-#if APIVERSNUM < 10721
-   return (int)((*(cRecording **)p1)->start - (*(cRecording **)p2)->start);
-#else
    return (int)((*(cRecording **)p1)->Start() - (*(cRecording **)p2)->Start());
-#endif
 }
 
 // --- cMenuSearchResultsItem -------------------------------------------------------
@@ -186,13 +182,11 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(cRecording *Recording)
 
 void cMenuSearchResultsItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
-#if APIVERSNUM >= 10733
   cChannel *channel = event?Channels.GetByChannelID(event->ChannelID(), true, true):NULL;
   if (!event)
      DisplayMenu->SetItem(Text(), Index, Current, Selectable);
   else if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, true, timerMatch))
      DisplayMenu->SetItem(Text(), Index, Current, Selectable);
-#endif
 }
 
 // --- cMenuSearchResults -------------------------------------------------------
@@ -202,9 +196,7 @@ const cEvent *cMenuSearchResults::scheduleEventInfo = NULL;
 cMenuSearchResults::cMenuSearchResults(cMenuTemplate* MenuTemplate)
    :cOsdMenu("", MenuTemplate->Tab(0), MenuTemplate->Tab(1), MenuTemplate->Tab(2), MenuTemplate->Tab(3), MenuTemplate->Tab(4))
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcSchedule);
-#endif
 
   helpKeys = -1;
   menuTemplate = MenuTemplate;
@@ -750,9 +742,7 @@ bool cMenuSearchResultsForQuery::BuildList()
 cMenuSearchResultsForRecs::cMenuSearchResultsForRecs(const char *query)
    :cMenuSearchResultsForQuery(NULL)
 {
-#if VDRVERSNUM >= 10728
    SetMenuCategory(mcCommand);
-#endif
    SetTitle(tr("found recordings"));
    if (query)
    {
@@ -844,11 +834,7 @@ eOSState cMenuSearchResultsForRecs::Play(void)
    {
       cRecording *recording = GetRecording(ri);
       if (recording) {
-#if APIVERSNUM < 10728
-         cReplayControl::SetRecording(recording->FileName(), recording->Title());
-#else
          cReplayControl::SetRecording(recording->FileName());
-#endif
          return osReplay;
       }
    }

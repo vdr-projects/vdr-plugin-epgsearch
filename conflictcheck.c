@@ -205,14 +205,11 @@ void cConflictCheck::InitDevicesInfo()
 	devices[i].device = cDevice::GetDevice(i);
 #endif
 
-#if APIVERSNUM > 10721
     BondDevices(Setup.DeviceBondings);
-#endif
 }
 
 void cConflictCheck::BondDevices(const char *Bondings)
 {
-#if APIVERSNUM > 10721
   LogFile.Log(3, "Bond Devices");
   if (Bondings) {
     cSatCableNumbers SatCableNumbers(MAXDEVICES, Bondings);
@@ -227,7 +224,6 @@ void cConflictCheck::BondDevices(const char *Bondings)
     }
   }
   LogFile.Log(3, "Bond Devices done.");
-#endif
 }
 
 

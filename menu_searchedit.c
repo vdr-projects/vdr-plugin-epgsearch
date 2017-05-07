@@ -49,9 +49,7 @@ cSearchExtCats SearchExtCats;
 cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Template, bool FromEPG)
    :cOsdMenu(tr("Edit search"),32)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcPlugin);
-#endif
    templateMode = Template;
 
    SearchModes[0] = strdup(tr("phrase"));
@@ -102,7 +100,6 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
    CompareDateModes[2] = strdup(tr("same week"));
    CompareDateModes[3] = strdup(tr("same month"));
 
-#if APIVERSNUM > 10710
    // collect content string IDs
    std::set<std::string> contentStrings;
    for(unsigned int i=0; i<CONTENT_DESCRIPTOR_MAX;i++)
@@ -114,7 +111,6 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
 	   contentStringIDs.push_back(i);
 	 }
      }
-#endif
    useContentDescriptors = false;
 
    if (!templateMode && New)
@@ -174,13 +170,11 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
       }
 
       contentStringsFlags = NULL;
-#if APIVERSNUM > 10710
       // set the flags for the content descriptors
       contentStringsFlags = (int*) malloc((CONTENT_DESCRIPTOR_MAX+1) * sizeof(int));
       for(unsigned int i=0; i<=CONTENT_DESCRIPTOR_MAX;i++)
 	contentStringsFlags[i] = data.HasContent(i);
       useContentDescriptors = (data.contentsFilter.size() > 0);
-#endif
 
       catarrayAvoidRepeats = NULL;
       catvaluesNumeric = NULL;
@@ -254,7 +248,6 @@ void cMenuEditSearchExt::Set()
    Add(new cMenuEditBoolItem( tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));
    AddHelp(tr("Help$Set this to 'Yes' if you like to search in the summary of an event."));
 
-#if APIVERSNUM > 10710
    Add(new cMenuEditBoolItem( tr("Use content descriptor"), &useContentDescriptors, trVDR("no"), trVDR("yes")));
    AddHelp(tr("Help$Set this to 'Yes' if you want to search the contents by a descriptor."));
    if (useContentDescriptors)
@@ -266,7 +259,6 @@ void cMenuEditSearchExt::Set()
 	   Add(new cMenuEditBoolItem(IndentMenuItem(tr(cEvent::ContentToString(contentStringIDs[i])), level), &contentStringsFlags[contentStringIDs[i]], trVDR("no"), trVDR("yes")));
 	 }
      }
-#endif
 
    // show Categories only if we have them
    if (SearchExtCats.Count() > 0)
@@ -827,9 +819,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
 cMenuEditDaysOfWeek::cMenuEditDaysOfWeek(int* DaysOfWeek, int Offset, bool Negate)
    :cOsdMenu(tr("Edit user-defined days of week"),30)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcPlugin);
-#endif
    int i=0;
    offset = Offset;
    negate = Negate;
@@ -873,9 +863,7 @@ eOSState cMenuEditDaysOfWeek::ProcessKey(eKeys Key)
 cMenuSearchEditCompCats::cMenuSearchEditCompCats(int* catarrayAvoidRepeats)
    :cOsdMenu(tr("Compare categories"),30)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcPlugin);
-#endif
    search_catarrayAvoidRepeats = catarrayAvoidRepeats;
    edit_catarrayAvoidRepeats = (int*) malloc(SearchExtCats.Count() * sizeof(int));
    cSearchExtCat *SearchExtCat = SearchExtCats.First();
@@ -923,9 +911,7 @@ eOSState cMenuSearchEditCompCats::ProcessKey(eKeys Key)
 cMenuBlacklistsSelection::cMenuBlacklistsSelection(cList<cBlacklistObject>* pBlacklists)
 :cOsdMenu(tr("Select blacklists"),30)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcPlugin);
-#endif
    blacklists = pBlacklists;
    blacklistsSel = new int[Blacklists.Count()];
    cMutexLock BlacklistLock(&Blacklists);
@@ -1068,9 +1054,7 @@ eOSState cMenuBlacklistsSelection::ProcessKey(eKeys Key)
 cMenuCatValuesSelect::cMenuCatValuesSelect(char* CatValues, int CatIndex, int SearchMode)
    :cOsdMenu(tr("Values for EPG category"), 1, 40)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcPlugin);
-#endif
 
    catValues = CatValues;
    catIndex = CatIndex;
@@ -1201,9 +1185,7 @@ eOSState cMenuCatValuesSelect::ProcessKey(eKeys Key)
 cMenuSearchActivSettings::cMenuSearchActivSettings(cSearchExt *SearchExt)
 :cOsdMenu(tr("Activation of search timer"), 25)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcPlugin);
-#endif
 
   searchExt = SearchExt;
   if (searchExt)

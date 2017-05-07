@@ -1453,9 +1453,6 @@ void cSearchExt::SetContentFilter(int* contentStringsFlags)
 
 bool cSearchExt::MatchesContentsFilter(const cEvent* e)
 {
-#if APIVERSNUM < 10711
-  return true;
-#else
   if (!e) return false;
   // check if each content filter ID is contained in the events descriptors
   for(unsigned int i=0; i<contentsFilter.size();i+=2)

@@ -67,9 +67,7 @@ int cMenuTimerDoneItem::Compare(const cListObject &ListObject) const
 cMenuTimersDone::cMenuTimersDone(cSearchExt* Search)
    :cOsdMenu("", 4, 15)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcTimer);
-#endif
 
    search = Search;
    showAll = true;
