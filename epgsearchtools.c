@@ -997,7 +997,6 @@ long getAddrFromString(const char* hostnameOrIp, struct sockaddr_in* addr)
     }
 }
 
-#if VDRVERSNUM >= 10712
 char *cCommand::result = NULL;
 
 cCommand::cCommand(void)
@@ -1060,4 +1059,3 @@ const char *cCommand::Execute(const char *Parameters)
      esyslog("ERROR: can't open pipe for command '%s'", cmd);
   return result;
 }
-#endif

@@ -256,11 +256,9 @@ bool cMenuMyScheduleItem::Update(bool Force)
 
 void cMenuMyScheduleItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
-#if APIVERSNUM >= 10733
   bool withDate = (channel == NULL); // search for a better way to determine this
   if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, withDate, timerMatch))
      DisplayMenu->SetItem(Text(), Index, Current, Selectable);
-#endif
 }
 
 // --- cMenuMyScheduleSepItem ------------------------------------------------------
@@ -295,11 +293,9 @@ bool cMenuMyScheduleSepItem::Update(bool Force)
 
 void cMenuMyScheduleSepItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
-#if APIVERSNUM >= 10733
   bool withDate = (channel == NULL); // search for a better way to determine this
   if (!DisplayMenu->SetItemEvent(dummyEvent, Index, Current, Selectable, channel, withDate, timerMatch))
      DisplayMenu->SetItem(Text(), Index, Current, Selectable);
-#endif
 }
 
 
@@ -316,14 +312,12 @@ int cMenuWhatsOnSearch::shiftTime = 0;
 cMenuWhatsOnSearch::cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentChannelNr)
    :cOsdMenu("", GetTab(1), GetTab(2), GetTab(3), GetTab(4), GetTab(5))
 {
-#if VDRVERSNUM >= 10734
   if (currentShowMode == showNow)
     SetMenuCategory(mcScheduleNow);
   else if (currentShowMode == showNext)
     SetMenuCategory(mcScheduleNext);
   else
     SetMenuCategory(mcSchedule);
-#endif
 
   helpKeys = -1;
   shiftTime = 0;

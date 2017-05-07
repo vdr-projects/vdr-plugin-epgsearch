@@ -323,9 +323,7 @@ void cMenuChannelGroupItem::Set(void)
 cMenuChannelGroups::cMenuChannelGroups(char** GroupName)
 :cOsdMenu(tr("Channel groups"),20)
 {
-#if VDRVERSNUM >= 10734
   SetMenuCategory(mcSetupPlugins);
-#endif
     groupSel = -1;
     groupName = GroupName;
     if (groupName && *groupName)
@@ -428,9 +426,7 @@ eOSState cMenuChannelGroups::ProcessKey(eKeys Key)
 cMenuEditChannelGroup::cMenuEditChannelGroup(cChannelGroup *Group, bool New)
 :cOsdMenu(tr("Edit channel group"),30)
 {
-#if VDRVERSNUM >= 10734
   SetMenuCategory(mcSetupPlugins);
-#endif
     group = Group;
     channelSel = group->CreateChannelSel();
     strcpy(name, group->name);

@@ -31,10 +31,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 using std::string;
 
-#if VDRVERSNUM < 10733
-#define eTimerMatch int
-#endif 
-
 #define MAXPARSEBUFFER KILOBYTE(10)
 
 #undef CHANNELNAME
@@ -253,7 +249,6 @@ typedef std::basic_string<char,ignorecase_traits> icstring;
 // --- eTimerMod -------------------------------------------------------------
 enum eTimerMod { tmNoChange=0, tmStartStop=1, tmFile=2, tmAuxEventID=4 };
 
-#if VDRVERSNUM >= 10712
 // --- cCommands -------------------------------------------------------------------
 class cCommand : public cListObject {
 private:
@@ -271,6 +266,5 @@ public:
   };
 
 class cCommands : public cConfig<cCommand> {};
-#endif
 
 #endif

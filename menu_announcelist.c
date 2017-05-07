@@ -88,9 +88,7 @@ eOSState cMenuAnnounceList::ProcessKey(eKeys Key)
 cMenuAnnounceDetails::cMenuAnnounceDetails(const cEvent* Event, const cSearchExt* Search)
    :cOsdMenu("", 25), event(Event)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcEvent);
-#endif
    cMenuAnnounceList::showsDetails = true;
    if (event && !isempty(event->Title()))
    {

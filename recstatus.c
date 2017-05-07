@@ -221,37 +221,10 @@ int cRecStatusMonitor::TimerRecDevice(const cTimer* timer)
 
 bool cRecStatusMonitor::IsPesRecording(const cRecording *pRecording)
 {
-#if VDRVERSNUM < 10703
-  return true;
-#else
   return pRecording && pRecording->IsPesRecording();
-#endif
 }
 
 #define LOC_INDEXFILESUFFIX     "/index"
-
-#if VDRVERSNUM < 10703
-
-int cRecStatusMonitor::RecLengthInSecs(const cRecording *pRecording)
-{
-  struct stat buf;
-  cString fullname = cString::sprintf("%s%s", pRecording->FileName(), "/index.vdr");
-  if (stat(fullname, &buf) == 0)
-  {
-    struct tIndex { int offset; uchar type; uchar number; short reserved; };
-    int delta = buf.st_size % sizeof(tIndex);
-    if (delta)
-    {
-      delta = sizeof(tIndex) - delta;
-      esyslog("ERROR: invalid file size (%ld) in '%s'", buf.st_size, *fullname);
-    }
-    return (buf.st_size + delta) / sizeof(tIndex) / SecondsToFrames(1);
-  }
-  else
-    return -1;
-}
-
-#else
 
 struct tIndexTs {
   uint64_t offset:40; // up to 1TB per file (not using off_t here - must definitely be exactly 64 bit!)
@@ -280,4 +253,3 @@ int cRecStatusMonitor::RecLengthInSecs(const cRecording *pRecording)
     }
   return -1;
 }
-#endif

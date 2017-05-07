@@ -34,9 +34,7 @@ cMenuEventSearch::cMenuEventSearch(const cEvent* Event, cEventObjects& EventObje
    eventObjects(EventObjects),
    surfMode(SurfMode)
 {
-#if VDRVERSNUM >= 10728
   SetMenuCategory(mcEvent);
-#endif
 
    eventObjects.SetCurrent(Event);
    szGreen = szYellow = NULL;

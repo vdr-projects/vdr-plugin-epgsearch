@@ -172,20 +172,12 @@ class cConflictCheckDevice
 				result = true;
 #ifdef DO_REC_AND_PLAY_ON_PRIMARY_DEVICE
 			    else
-#if APIVERSNUM < 10725
-				result = Priority >= Setup.PrimaryLimit;
-#else
 				result = Priority >= 0;
-#endif
 #endif
 #endif
 			}
 			else
-#if APIVERSNUM < 10725
-			    result = !IsPrimaryDevice() || Priority >= Setup.PrimaryLimit;
-#else
 			    result = !IsPrimaryDevice() || Priority >= 0;
-#endif
 		    }
 		    else
 			needsDetachReceivers = true;
@@ -241,7 +233,6 @@ class cConflictCheckDevice
 
   cString GetBondingParams(const cChannel *Channel) const //copied from cDVBTuner
   {
-#if APIVERSNUM > 10721
     cDvbTransponderParameters dtp(Channel->Parameters());
     if (Setup.DiSEqC) {
       if (const cDiseqc *diseqc = Diseqcs.Get(device->CardIndex() + 1, Channel->Source(), Channel->Frequency(), dtp.Polarization(), NULL))
@@ -252,7 +243,6 @@ class cConflictCheckDevice
       bool VoltOff = dtp.Polarization() == 'V' || dtp.Polarization() == 'R';
       return cString::sprintf("%c %c", ToneOff ? 't' : 'T', VoltOff ? 'v' : 'V');
     }
-#endif
     return "";
   }
 };

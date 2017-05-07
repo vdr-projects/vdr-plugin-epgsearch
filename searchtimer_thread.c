@@ -842,13 +842,8 @@ void cSearchTimerThread::CheckExpiredRecs()
    cList<cRecordingObj> DelRecordings;
    for (cRecording *recording = vdrrecordings->First(); recording && m_Active; recording = vdrrecordings->Next(recording))
    {
-#if APIVERSNUM < 10721
-      LogFile.Log(3, "check recording %s from %s for expiration", recording->Name(), DAYDATETIME(recording->start));
-      if (recording->start == 0)
-#else
       LogFile.Log(3, "check recording %s from %s for expiration", recording->Name(), DAYDATETIME(recording->Start()));
       if (recording->Start() == 0)
-#endif
       {
          LogFile.Log(2, "oops, recording %s has no start time, skipped", recording->Name());
          continue;
@@ -880,11 +875,7 @@ void cSearchTimerThread::CheckExpiredRecs()
       if (search->delAfterDays == 0) continue;
       time_t now = time(NULL);
 
-#if APIVERSNUM < 10721
-      int daysBetween = int(double((now - recording->start)) / (60*60*24));
-#else
       int daysBetween = int(double((now - recording->Start())) / (60*60*24));
-#endif
       if (daysBetween  >= search->delAfterDays)
          DelRecordings.Add(new cRecordingObj(recording, search));
       else
@@ -896,18 +887,10 @@ void cSearchTimerThread::CheckExpiredRecs()
       cSearchExt* search = recordingObj->search;
       if (search->recordingsKeep > 0 && search->recordingsKeep >= search->GetCountRecordings())
       {
-#if APIVERSNUM < 10721
-         LogFile.Log(1, "recording '%s' from %s expired, but will be kept, search timer %s", recording->Name(), DAYDATETIME(recording->start), recordingObj->search->search);
-#else
          LogFile.Log(1, "recording '%s' from %s expired, but will be kept, search timer %s", recording->Name(), DAYDATETIME(recording->Start()), recordingObj->search->search);
-#endif
          continue;
       }
-#if APIVERSNUM < 10721
-      LogFile.Log(1, "delete expired recording '%s' from %s, search timer %s", recording->Name(), DAYDATETIME(recording->start), recordingObj->search->search);
-#else
       LogFile.Log(1, "delete expired recording '%s' from %s, search timer %s", recording->Name(), DAYDATETIME(recording->Start()), recordingObj->search->search);
-#endif
       cRecordControl *rc = cRecordControls::GetRecordControl(recording->FileName());
       if (!rc)
       {

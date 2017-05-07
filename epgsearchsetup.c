@@ -54,9 +54,7 @@ const char *cMenuSetupMailNotification::MailBoxChars     = " abcdefghijklmnopqrs
 cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cEPGSearchConfig* Data)
     : cOsdMenu(Title, 33)
 {
-#if VDRVERSNUM >= 10734
   SetMenuCategory(mcSetupPlugins);
-#endif
     data = Data;
 }
 
