@@ -276,6 +276,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     for (ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
     {
 	tMax = max(tMax, ti->StartTime());
+	if (ti->Remote()) continue; // TO BE DONE: remote service request CC
 	if (!ti->IsSingleEvent()) continue;
         // already recording?
 	int deviceNr = gl_recStatusMonitor->TimerRecDevice(ti)-1;

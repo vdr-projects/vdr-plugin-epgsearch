@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2015-01-10 16:38+0100\n"
+"POT-Creation-Date: 2017-05-04 17:01+0200\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -861,6 +861,15 @@ msgstr "S titulkami"
 
 msgid "Button$Without subtitle"
 msgstr "Bez titulkov"
+
+msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
+msgstr ""
+
+msgid "Epgsearch: recursive TIMERS LOCK"
+msgstr ""
+
+msgid "Epgsearch: RemoteTimerModifications failed"
+msgstr ""
 
 msgid "Button$Extended"
 msgstr "Rozšírené"

@@ -61,17 +61,11 @@ class cConflictCheckTimerObj : public cTimerObj
     int Matches(const cEvent *Event, int *Overlap) const;
     const cTimer* OrigTimer(const cTimers* timers) const
     {
-      // http://www.vdr-portal.de/board1-news/board2-vdr-news/p1255344-/#post1255344
-      // if patch is accepted, change to
-      //return timers->GetTimer(timer);
-      return ((cTimers*)timers)->GetTimer((cTimer*)timer);
+      return timers->GetTimer(timer);
     }
     cTimer* OrigTimer(cTimers* timers)
     {
-      // http://www.vdr-portal.de/board1-news/board2-vdr-news/p1255344-/#post1255344
-      // if patch is accepted, change to
-      //return timers->GetTimer(timer);
-      return timers->GetTimer((cTimer*)timer);
+      return timers->GetTimer(timer);
     }
 };
 

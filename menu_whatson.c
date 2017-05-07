@@ -656,16 +656,19 @@ eOSState cMenuWhatsOnSearch::Record(void)
             timer->SetRemote(Setup.SVDRPDefaultHost);
 #endif
          vdrtimers->Add(timer);
+#if VDRVERSNUM > 20300
+         if (!HandleRemoteTimerModifications(timer)) {
+            delete timer;
+						ERROR("Epgsearch: RemoteTimerModifications failed");
+         }
+				 else {
+#endif
 	 gl_timerStatusMonitor->SetConflictCheckAdvised();
          timer->Matches();
          vdrtimers->SetModified();
-#if VDRVERSNUM > 20300
-         if (!HandleRemoteTimerModifications(timer)) {
-            vdrtimers->Del(timer);
-            delete timer;
-         }
-#else
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
+#if VDRVERSNUM > 20300
+				 }
 #endif
 
          if (HasSubMenu())

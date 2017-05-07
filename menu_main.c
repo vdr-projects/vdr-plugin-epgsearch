@@ -272,9 +272,9 @@ eOSState cMenuSearchMain::Record(void)
 	 vdrtimers->SetModified();
 #else
          if (!HandleRemoteTimerModifications(timer)) {
-            vdrtimers->Del(timer);
             delete timer;
          }
+				 else
 #endif
 	 LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
 

@@ -192,9 +192,9 @@ eOSState cMenuSearchCommands::Record(void)
       vdrtimers->SetModified();
 #if VDRVERSNUM > 20300
       if (!HandleRemoteTimerModifications(timer)) {
-         vdrtimers->Del(timer);
          delete timer;
       }
+			else
 #else
       LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
 #endif

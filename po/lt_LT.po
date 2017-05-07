@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.10\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2015-01-10 16:38+0100\n"
+"POT-Creation-Date: 2017-05-04 17:01+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: Lithuanian <vdr@linuxtv.org>\n"
@@ -866,6 +866,15 @@ msgstr "Su subtitrais"
 
 msgid "Button$Without subtitle"
 msgstr "Be subtitrų"
+
+msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
+msgstr ""
+
+msgid "Epgsearch: recursive TIMERS LOCK"
+msgstr ""
+
+msgid "Epgsearch: RemoteTimerModifications failed"
+msgstr ""
 
 msgid "Button$Extended"
 msgstr "Išplėstas"

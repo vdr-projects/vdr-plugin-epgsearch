@@ -252,7 +252,7 @@ eOSState cMenuMyEditTimer::DeleteTimer()
 #if VDRVERSNUM > 20300
     LOCK_TIMERS_WRITE;
     if (!Timers) {
-        ERROR("Epgsearch: Recursive LOCK DeleteTimer failed");
+        ERROR(tr("Epgsearch: Recursive LOCK DeleteTimer failed"));
         return osContinue;
     }
     Timers->SetExplicitModify();
@@ -447,7 +447,7 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
                     {
                     LOCK_TIMERS_WRITE;
                     if (!Timers) {
-                        ERROR("Epgsearch: recursive TIMERS LOCK");
+                        ERROR(tr("Epgsearch: recursive TIMERS LOCK"));
                         return osBack;
                     }
                     Timers->SetExplicitModify();
@@ -462,8 +462,9 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 #if VDRVERSNUM > 20300
                       vdrtimers->SetModified();
                       if (!HandleRemoteTimerModifications(timer)) {
-                         vdrtimers->Del(timer);
                          delete timer;
+												 ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
+												 return osBack;
                       }
                     }
                     }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2015-01-10 16:38+0100\n"
+"POT-Creation-Date: 2017-05-04 17:01+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: German <vdr@linuxtv.org>\n"
@@ -858,6 +858,15 @@ msgstr "Mit Untertitel"
 
 msgid "Button$Without subtitle"
 msgstr "Ohne Untertitel"
+
+msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
+msgstr "Epgsearch: Rekursiver LOCK Problem beim Löschen eines Timers"
+
+msgid "Epgsearch: recursive TIMERS LOCK"
+msgstr "Epgsearch: Rekursiver TIMER Lock"
+
+msgid "Epgsearch: RemoteTimerModifications failed"
+msgstr "Epgsearch: Problem bei RemoteTimerModifications"
 
 msgid "Button$Extended"
 msgstr "Erweitert"

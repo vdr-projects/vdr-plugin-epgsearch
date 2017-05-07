@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2015-01-10 16:38+0100\n"
+"POT-Creation-Date: 2017-05-04 17:01+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Tomas Prybil <tomas@prybil.se>\n"
 "Language-Team: Swedish <vdr@linuxtv.org>\n"
@@ -819,6 +819,15 @@ msgid "Button$With subtitle"
 msgstr ""
 
 msgid "Button$Without subtitle"
+msgstr ""
+
+msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
+msgstr ""
+
+msgid "Epgsearch: recursive TIMERS LOCK"
+msgstr ""
+
+msgid "Epgsearch: RemoteTimerModifications failed"
 msgstr ""
 
 msgid "Button$Extended"

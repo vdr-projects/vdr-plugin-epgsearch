@@ -323,7 +323,6 @@ eOSState cMenuSearchResults::Record(void)
          vdrtimers->SetModified();
 #if VDRVERSNUM > 20300
          if (!HandleRemoteTimerModifications(timer)) {
-            vdrtimers->Del(timer);
             delete timer;
          }
 #else
