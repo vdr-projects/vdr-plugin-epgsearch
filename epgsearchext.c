@@ -1520,7 +1520,6 @@ bool cSearchExt::MatchesContentsFilter(const cEvent* e)
     if (!found) return false;
   }
   return true;
-#endif
 }
 
 // -- cSearchExts ----------------------------------------------------------------

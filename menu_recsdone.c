@@ -71,7 +71,6 @@ int cMenuRecDoneItem::Compare(const cListObject &ListObject) const
 cMenuRecsDone::cMenuRecsDone(cSearchExt* Search)
 :cOsdMenu("", 16)
 {
-  //SetMenuCategory(mcRecordingInfo);
   SetMenuCategory(mcUnknown);
     search = Search;
     showMode = SHOW_RECDONE_ALL;
