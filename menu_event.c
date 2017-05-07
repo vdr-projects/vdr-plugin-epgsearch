@@ -85,9 +85,12 @@ void cMenuEventSearch::Set()
    if (event)
    {
 #if VDRVERSNUM > 20300
+		 LOCK_TIMERS_READ;
+		 const cTimers *vdrtimers = Timers;
       LOCK_CHANNELS_READ;
       const cChannels *vdrchannels = Channels;
 #else
+			cTimers *vdrtimers = &Timers;
       cChannels *vdrchannels = &Channels;
 #endif
       const cChannel *channel = vdrchannels->GetByChannelID(event->ChannelID(), true, true);
@@ -102,12 +105,6 @@ void cMenuEventSearch::Set()
       cEventObj* eventObjNext = GetNext(event);
 
       eTimerMatch timerMatch = tmNone;
-#if VDRVERSNUM > 20300
-      LOCK_TIMERS_READ;
-      const cTimers *vdrtimers = Timers;
-#else
-      cTimers *vdrtimers = &Timers;
-#endif
       vdrtimers->GetMatch(event, &timerMatch);
       const char* szRed = trVDR("Button$Record");
       if (timerMatch == tmFull)

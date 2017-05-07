@@ -1025,10 +1025,13 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
 
    const cSchedules *schedules;
 #if VDRVERSNUM > 20300
+   LOCK_CHANNELS_READ; // Channels must be locked first
+	 const cChannels *vdrchannels = Channels;
    LOCK_SCHEDULES_READ;
    schedules = Schedules;
 #else
    cSchedulesLock schedulesLock;
+	 cChannels *vdrchannels = &Channels;
    schedules = cSchedules::Schedules(schedulesLock);
 #endif
    if(!schedules) {
@@ -1048,12 +1051,6 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
    cSearchResults* pBlacklistResults = GetBlacklistEvents(inspectTimerMargin?MarginStop:0);
 
    int counter = 0;
-#if VDRVERSNUM > 20300
-   LOCK_CHANNELS_READ;
-   const cChannels *vdrchannels = Channels;
-#else
-   cChannels *vdrchannels = &Channels;
-#endif
    while (Schedule) {
       const cChannel* channel = vdrchannels->GetByChannelID(Schedule->ChannelID(),true,true);
       if (!channel)

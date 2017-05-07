@@ -133,9 +133,12 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 
     // add distinct directories from current recordings
 #if VDRVERSNUM > 20300
+		LOCK_TIMERS_READ;
+		const cTimers *vdrtimers = Timers;
     LOCK_RECORDINGS_READ;
     const cRecordings *vdrrecordings = Recordings;
 #else
+		const cTimers *vdrtimers = &Timers;
     cRecordings *vdrrecordings = &Recordings;
     if (Recordings.Count() == 0)
 	Recordings.Load();
@@ -162,12 +165,6 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	}
     }
     // add distinct directories from current timers
-#if VDRVERSNUM > 20300
-    LOCK_TIMERS_READ;
-    const cTimers *vdrtimers = Timers;
-#else
-    const cTimers *vdrtimers = &Timers;
-#endif
     for (const cTimer *timer = vdrtimers->First(); timer; timer = vdrtimers->Next(timer))
     {
 	char* dir = strdup(timer->File());
