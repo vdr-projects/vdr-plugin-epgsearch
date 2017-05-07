@@ -42,9 +42,6 @@ void cTimerStatusMonitor::SetConflictCheckAdvised(bool ConflictCheckAdvised)
 {
   if (!ConflictCheckAdvised)
     conflictCheckAdvised = false;
-#if APIVERSNUM < 10515
-  conflictCheckAdvised = ConflictCheckAdvised;
-#endif
 }
 
 bool cTimerStatusMonitor::ConflictCheckAdvised()
