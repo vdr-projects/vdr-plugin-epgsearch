@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-05 20:24+0100\n"
+"POT-Creation-Date: 2015-01-10 16:38+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Mogens Elneff <mogens@elneff.dk>\n"
 "Language-Team: Danish <vdr@linuxtv.org>\n"
@@ -952,6 +952,9 @@ msgid "Announce and switch"
 msgstr ""
 
 msgid "Announce by mail"
+msgstr ""
+
+msgid "Inactive record"
 msgstr ""
 
 msgid "only globals"

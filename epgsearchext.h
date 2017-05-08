@@ -51,7 +51,8 @@ typedef enum
     searchTimerActionAnnounceViaOSD,
     searchTimerActionSwitchOnly,
     searchTimerActionAnnounceAndSwitch,
-    searchTimerActionAnnounceViaMail
+    searchTimerActionAnnounceViaMail,
+    searchTimerActionInactiveRecord
 } searchTimerAction;
 
 class cSearchExt;

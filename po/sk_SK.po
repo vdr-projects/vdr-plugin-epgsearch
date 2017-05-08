@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-05 20:24+0100\n"
+"POT-Creation-Date: 2015-01-10 16:38+0100\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -997,6 +997,9 @@ msgstr "Iba oznámiť"
 #, fuzzy
 msgid "Announce by mail"
 msgstr "Iba oznámiť"
+
+msgid "Inactive record"
+msgstr ""
 
 msgid "only globals"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-05 20:24+0100\n"
+"POT-Creation-Date: 2015-01-10 16:38+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
 "Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
 "Language-Team: Spanish <vdr@linuxtv.org>\n"
@@ -996,6 +996,9 @@ msgstr "Avisar y cambiar"
 #, fuzzy
 msgid "Announce by mail"
 msgstr "Sólo avisar"
+
+msgid "Inactive record"
+msgstr ""
 
 msgid "only globals"
 msgstr ""

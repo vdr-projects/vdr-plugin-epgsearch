@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EPGSearch 0.9.25\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-05 20:24+0100\n"
+"POT-Creation-Date: 2015-01-10 16:38+0100\n"
 "PO-Revision-Date: 2011-01-04 21:07+0200\n"
 "Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
 "Language-Team: Finnish <vdr@linuxtv.org>\n"
@@ -994,6 +994,9 @@ msgstr "muistutus ja kanavanvaihto"
 
 msgid "Announce by mail"
 msgstr "muistutus sähköpostitse"
+
+msgid "Inactive record"
+msgstr ""
 
 msgid "only globals"
 msgstr "vain globaalit"

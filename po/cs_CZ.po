@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.21\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-05 20:24+0100\n"
+"POT-Creation-Date: 2015-01-10 16:38+0100\n"
 "PO-Revision-Date: 2011-10-31 20:21+0200\n"
 "Last-Translator: Radek Stastny <dedkus@gmail.com>\n"
 "Language-Team: Czech <vdr@linuxtv.org>\n"
@@ -952,6 +952,9 @@ msgstr "Informovat a přepnout"
 
 msgid "Announce by mail"
 msgstr "Informovat mailem"
+
+msgid "Inactive record"
+msgstr ""
 
 msgid "only globals"
 msgstr "globální"

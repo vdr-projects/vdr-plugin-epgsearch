@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-05 20:24+0100\n"
+"POT-Creation-Date: 2015-01-10 16:38+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: Dutch <vdr@linuxtv.org>\n"
@@ -996,6 +996,9 @@ msgstr "Alleen aankondigen (geen timer)"
 #, fuzzy
 msgid "Announce by mail"
 msgstr "Alleen aankondigen (geen timer)"
+
+msgid "Inactive record"
+msgstr ""
 
 msgid "only globals"
 msgstr ""
