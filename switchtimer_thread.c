@@ -89,8 +89,7 @@ void cSwitchTimerThread::Action(void)
             if (switchTimer->startTime - now < switchTimer->switchMinsBefore*60 + MSG_DELAY + 1)
             {
                LOCK_CHANNELS_READ;
-               const cChannels *vdrchannels = Channels;
-               const cChannel *channel = vdrchannels->GetByChannelID(switchTimer->channelID, true, true);
+               const cChannel *channel = Channels->GetByChannelID(switchTimer->channelID, true, true);
                bool doSwitch = (switchTimer->mode == 0);
                bool doAsk = (switchTimer->mode == 2);
 	       bool doUnmute = switchTimer->unmute;

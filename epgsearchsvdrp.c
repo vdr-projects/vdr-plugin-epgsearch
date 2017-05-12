@@ -563,16 +563,14 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             eTimerMatch timerMatch;
             bool hasTimer = false;
             LOCK_TIMERS_READ;
-            const cTimers *vdrtimers = Timers;
-            if (vdrtimers->GetMatch(pEvent, &timerMatch))
+            if (Timers->GetMatch(pEvent, &timerMatch))
                hasTimer = (timerMatch == tmFull);
 
             if (!result->search->useAsSearchTimer)
                result->needsTimer = false;
 
             LOCK_CHANNELS_READ;
-            const cChannels *vdrchannels = Channels;
-            const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true,true);
+            const cChannel *channel = Channels->GetByChannelID(pEvent->ChannelID(), true,true);
             int timerMode = hasTimer?1:(result->needsTimer?2:0);
 
             string title = pEvent->Title()?ReplaceAll(pEvent->Title(), "|", "!^pipe!^"):"";
@@ -1048,8 +1046,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                   return cString::sprintf("invalid channel id");
                }
                LOCK_CHANNELS_READ;
-               const cChannels *vdrchannels = Channels;
-               const cChannel *ch = vdrchannels->GetByChannelID(chID,true,true);
+               const cChannel *ch = Channels->GetByChannelID(chID,true,true);
                if (!ch)
                {
                   ReplyCode = 901;
@@ -1060,13 +1057,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             else
             {
                LOCK_CHANNELS_READ;
-               const cChannels *vdrchannels = Channels;
                string sBuffer;
-               for (int i = 0; i < vdrchannels->Count(); i++)
+               for (int i = 0; i < Channels->Count(); i++)
                {
-                  const cChannel* ch = vdrchannels->Get(i);
+                  const cChannel* ch = Channels->Get(i);
                   if (ch && !ch->GroupSep())
-                     sBuffer += string(*ch->GetChannelID().ToString()) + string(": ") + NumToString(DefTimerCheckModes.GetMode(ch)) + string((i<vdrchannels->Count()-1)?"\n":"");
+                     sBuffer += string(*ch->GetChannelID().ToString()) + string(": ") + NumToString(DefTimerCheckModes.GetMode(ch)) + string((i<Channels->Count()-1)?"\n":"");
                }
                return sBuffer.c_str();
             }

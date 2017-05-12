@@ -83,8 +83,7 @@ bool cChannelGroup::Parse(const char *s)
 		if (numChannels == 1)
 		{
 		    LOCK_CHANNELS_READ;
-		    const cChannels *vdrchannels = Channels;
-		    const cChannel* channel = vdrchannels->GetByChannelID(tChannelID::FromString(channelbuffer), true, true);
+		    const cChannel* channel = Channels->GetByChannelID(tChannelID::FromString(channelbuffer), true, true);
 		    if (channel)
 		    {
 			cChannelGroupItem* channelitem = new cChannelGroupItem(channel);
@@ -132,15 +131,14 @@ const char *cChannelGroup::ToText(void)
 int* cChannelGroup::CreateChannelSel()
 {
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    int* channelSel = (int*) malloc(vdrchannels->Count() * sizeof(int));
-    const cChannel* channel = vdrchannels->First();
+    int* channelSel = (int*) malloc(Channels->Count() * sizeof(int));
+    const cChannel* channel = Channels->First();
     int index = 0;
     while (channel)
     {
 	if (channel->GroupSep())
 	{
-	    channel = vdrchannels->Next(channel);
+	    channel = Channels->Next(channel);
 	    continue;
 	}
 	channelSel[index] = 0;
@@ -155,7 +153,7 @@ int* cChannelGroup::CreateChannelSel()
 	    channelInGroup = channels.Next(channelInGroup);
 	}
 	index++;
-	channel = vdrchannels->Next(channel);
+	channel = Channels->Next(channel);
     }
     return channelSel;
 }
@@ -164,8 +162,7 @@ void cChannelGroup::CreateChannelList(int* channelSel)
 {
     channels.Clear();
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel* channel = vdrchannels->First();
+    const cChannel* channel = Channels->First();
     int index = 0;
     while (channel)
     {
@@ -175,7 +172,7 @@ void cChannelGroup::CreateChannelList(int* channelSel)
 		channels.Add(new cChannelGroupItem(channel));
 	    index++;
 	}
-	channel = vdrchannels->Next(channel);
+	channel = Channels->Next(channel);
     }
 }
 
@@ -434,19 +431,18 @@ void cMenuEditChannelGroup::Set()
     Clear();
 
     Add(new cMenuEditStrItem( tr("Group name"), name, sizeof(group->name), trVDR(FileNameChars)));
-    LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel* channel = vdrchannels->First();
+    LOCK_CHANNELS_READ; // TODO THIS MAY LOCK Channels A LONG TIME!
+    const cChannel* channel = Channels->First();
     int index = 0;
     while (channel)
     {
 	if (channel->GroupSep())
 	{
-	    channel = vdrchannels->Next(channel);
+	    channel = Channels->Next(channel);
 	    continue;
 	}
 	Add(new cMenuEditBoolItem( CHANNELNAME(channel), &channelSel[index++], trVDR("no"), trVDR("yes")));
-	channel = vdrchannels->Next(channel);
+	channel = Channels->Next(channel);
     }
 
     SetCurrent(Get(current));
@@ -512,20 +508,19 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
 	  case kYellow:
 	  {
 	      LOCK_CHANNELS_READ;
-	      const cChannels *vdrchannels = Channels;
-	      const cChannel* channel = vdrchannels->First();
+	      const cChannel* channel = Channels->First();
 	      int index = 0;
 	      while (channel)
 	      {
 		  if (channel->GroupSep())
 		  {
-		      channel = vdrchannels->Next(channel);
+		      channel = Channels->Next(channel);
 		      continue;
 		  }
 
 		  channelSel[index] = (Key == kGreen?1:(Key == kRed?1-channelSel[index]:0));
 		  index++;
-		  channel = vdrchannels->Next(channel);
+		  channel = Channels->Next(channel);
 	      }
 	      Set();
 	      Display();

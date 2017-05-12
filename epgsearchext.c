@@ -58,10 +58,11 @@ cSearchExt::cSearchExt(void)
    startTime = 0000;
    stopTime = 2359;
    useChannel = false;
+   {
    LOCK_CHANNELS_READ;
-   const cChannels *vdrchannels = Channels;
-   channelMin = vdrchannels->GetByNumber(cDevice::CurrentChannel());
-   channelMax = vdrchannels->GetByNumber(cDevice::CurrentChannel());
+   channelMin = Channels->GetByNumber(cDevice::CurrentChannel());
+   channelMax = Channels->GetByNumber(cDevice::CurrentChannel());
+   }
    channelGroup = NULL;
    useCase = false;
    mode = 0;
@@ -483,8 +484,7 @@ bool cSearchExt::Parse(const char *s)
                         int channels = sscanf(value, "%m[^|]|%m[^|]", &channelMinbuffer, &channelMaxbuffer);
 #endif
                         LOCK_CHANNELS_READ;
-                        const cChannels *vdrchannels = Channels;
-                        channelMin = vdrchannels->GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
+                        channelMin = Channels->GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
                         if (!channelMin)
                         {
                            LogFile.eSysLog("ERROR: channel '%s' not defined", channelMinbuffer);
@@ -496,7 +496,7 @@ bool cSearchExt::Parse(const char *s)
                            channelMax = channelMin;
                         else
                         {
-                           channelMax = vdrchannels->GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
+                           channelMax = Channels->GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
                            if (!channelMax)
                            {
                               LogFile.eSysLog("ERROR: channel '%s' not defined", channelMaxbuffer);
@@ -1015,12 +1015,9 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
 {
    LogFile.Log(3,"start search for search timer '%s'", search);
 
-   const cSchedules *schedules;
    LOCK_CHANNELS_READ; // Channels must be locked first
-	 const cChannels *vdrchannels = Channels;
    LOCK_SCHEDULES_READ;
-   schedules = Schedules;
-   if(!schedules) {
+   if(!Schedules) {
       LogFile.Log(1,"schedules are currently locked! try again later.");
       return NULL;
    }
@@ -1032,16 +1029,16 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
       noPayTV = (PayTVMode == 1);
 
    time_t tNow=time(NULL);
-   const cSchedule *Schedule = schedules->First();
+   const cSchedule *Schedule = Schedules->First();
    cSearchResults* pSearchResults = pPrevResults;
    cSearchResults* pBlacklistResults = GetBlacklistEvents(inspectTimerMargin?MarginStop:0);
 
    int counter = 0;
    while (Schedule) {
-      const cChannel* channel = vdrchannels->GetByChannelID(Schedule->ChannelID(),true,true);
+      const cChannel* channel = Channels->GetByChannelID(Schedule->ChannelID(),true,true);
       if (!channel)
       {
-         Schedule = (const cSchedule *)schedules->Next(Schedule);
+         Schedule = (const cSchedule *)Schedules->Next(Schedule);
          continue;
       }
 
@@ -1049,7 +1046,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
       {
          if (channelMin->Number() > channel->Number() || channelMax->Number() < channel->Number())
          {
-            Schedule = (const cSchedule *)schedules->Next(Schedule);
+            Schedule = (const cSchedule *)Schedules->Next(Schedule);
             continue;
          }
       }
@@ -1058,7 +1055,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
          cChannelGroup* group = ChannelGroups.GetGroupByName(channelGroup);
          if (!group || !group->ChannelInGroup(channel))
          {
-            Schedule = (const cSchedule *)schedules->Next(Schedule);
+            Schedule = (const cSchedule *)Schedules->Next(Schedule);
             continue;
          }
       }
@@ -1067,7 +1064,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
       {
          if (channel->Ca() >= CA_ENCRYPTED_MIN)
          {
-            Schedule = (const cSchedule *)schedules->Next(Schedule);
+            Schedule = (const cSchedule *)Schedules->Next(Schedule);
             continue;
          }
       }
@@ -1076,7 +1073,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
       {
          if (channel->Ca() >= CA_ENCRYPTED_MIN)
          {
-            Schedule = (const cSchedule *)schedules->Next(Schedule);
+            Schedule = (const cSchedule *)Schedules->Next(Schedule);
             continue;
          }
       }
@@ -1090,7 +1087,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
             if (tNow + evalLimitMins*60 <= event->EndTime())
                break;
          }
-         if (event && vdrchannels->GetByChannelID(event->ChannelID(),true,true))
+         if (event && Channels->GetByChannelID(event->ChannelID(),true,true))
          {
             if (pBlacklistResults && pBlacklistResults->Lookup(event))
             {
@@ -1102,7 +1099,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
             counter++;
          }
       } while(pPrevEvent);
-      Schedule = (const cSchedule *)schedules->Next(Schedule);
+      Schedule = (const cSchedule *)Schedules->Next(Schedule);
    }
    LogFile.Log(3,"found %d event(s) for search timer '%s'", counter, search);
 
@@ -1344,8 +1341,7 @@ bool cSearchExt::MatchesExtEPGInfo(const cEvent* e)
 void cSearchExt::OnOffTimers(bool bOn)
 {
    LOCK_TIMERS_WRITE;
-   cTimers *vdrtimers = Timers;
-   for (cTimer *ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
+   for (cTimer *ti = Timers->First(); ti; ti = Timers->Next(ti))
    {
       if (((!bOn && ti->HasFlags(tfActive)) || (bOn && !ti->HasFlags(tfActive))) && TriggeredFromSearchTimerID(ti) == ID)
          ti->OnOff();
@@ -1357,20 +1353,19 @@ void cSearchExt::DeleteAllTimers()
    cList<cTimerObj> DelTimers;
    LOCK_TIMERS_WRITE;
    Timers->SetExplicitModify();
-   cTimers *vdrtimers = Timers;
-   cTimer *ti = vdrtimers->First();
+   cTimer *ti = Timers->First();
    while(ti)
    {
       if (!ti->Recording() && TriggeredFromSearchTimerID(ti) == ID)
       {
-         cTimer* tiNext = vdrtimers->Next(ti);
+         cTimer* tiNext = Timers->Next(ti);
          LogFile.iSysLog("deleting timer %s", *ti->ToDescr());
-         vdrtimers->Del(ti);
-         vdrtimers->SetModified();
+         Timers->Del(ti);
+         Timers->SetModified();
          ti = tiNext;
       }
       else
-         ti = vdrtimers->Next(ti);
+         ti = Timers->Next(ti);
    };
 }
 
@@ -1406,8 +1401,7 @@ int cSearchExt::GetCountRecordings()
    int countRecs = 0;
 
    LOCK_RECORDINGS_READ;
-	 const cRecordings *vdrrecordings = Recordings;
-   for (const cRecording *recording = vdrrecordings->First(); recording; recording = vdrrecordings->Next(recording))
+   for (const cRecording *recording = Recordings->First(); recording; recording = Recordings->Next(recording))
    {
       if (recording->IsEdited()) continue; // ignore recordings edited
       if (!recording->Info()) continue;

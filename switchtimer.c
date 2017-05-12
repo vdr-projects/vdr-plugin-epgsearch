@@ -115,9 +115,8 @@ const cEvent* cSwitchTimer::Event()
   if (startTime > now)
   {
       LOCK_SCHEDULES_READ;
-      const cSchedules *schedules = Schedules;
-      if (!schedules) return NULL;
-      const cSchedule *Schedule = schedules->GetSchedule(channelID);
+      if (!Schedules) return NULL;
+      const cSchedule *Schedule = Schedules->GetSchedule(channelID);
       if (Schedule)
       {
 	  event = Schedule->GetEvent(eventID, startTime);
@@ -137,8 +136,7 @@ cString cSwitchTimer::ToText(bool& ignore)
 	return NULL;
     }
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel *channel = vdrchannels->GetByChannelID(channelID, true, true);
+    const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
     if (!channel) return NULL;
     cString buffer = cString::sprintf("%s:%u:%ld:%d:%d:%d",
 				      CHANNELSTRING(channel), eventID,

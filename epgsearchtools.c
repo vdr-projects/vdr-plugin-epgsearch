@@ -528,9 +528,8 @@ const cEvent* GetEvent(const cTimer* timer)
    {
       {
          LOCK_SCHEDULES_READ;
-         const cSchedules *schedules = Schedules;
-         if (schedules) {
-            const cSchedule *Schedule = schedules->GetSchedule(channel->GetChannelID());
+         if (Schedules) {
+            const cSchedule *Schedule = Schedules->GetSchedule(channel->GetChannelID());
             if (Schedule) {
                event = Schedule->GetEventAround(Time);
                if (event) return event;
@@ -710,8 +709,7 @@ int ChannelNrFromEvent(const cEvent* pEvent)
    if (!pEvent)
       return -1;
    LOCK_CHANNELS_READ;
-   const cChannels *vdrchannels = Channels;
-   const cChannel* channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true, true);
+   const cChannel* channel = Channels->GetByChannelID(pEvent->ChannelID(), true, true);
    if (!channel)
       return -1;
    else

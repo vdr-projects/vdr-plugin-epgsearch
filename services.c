@@ -146,16 +146,14 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
          eTimerMatch timerMatch;
          bool hasTimer = false;
          LOCK_TIMERS_READ;
-         const cTimers *vdrtimers = Timers;
-         if (vdrtimers->GetMatch(pEvent, &timerMatch))
+         if (Timers->GetMatch(pEvent, &timerMatch))
             hasTimer = (timerMatch == tmFull);
 
          if (!result->search->useAsSearchTimer)
             result->needsTimer = false;
 
          LOCK_CHANNELS_READ;
-         const cChannels *vdrchannels = Channels;
-         const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true, true);
+         const cChannel *channel = Channels->GetByChannelID(pEvent->ChannelID(), true, true);
          int timerMode = hasTimer?1:(result->needsTimer?2:0);
 
          std::string title = pEvent->Title()?ReplaceAll(pEvent->Title(), "|", "!^pipe!^"):"";

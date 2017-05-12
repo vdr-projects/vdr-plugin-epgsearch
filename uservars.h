@@ -177,8 +177,7 @@ public:
 	{
 	    if (!e) return "";
 	    LOCK_CHANNELS_READ;
-	    const cChannels *vdrchannels = Channels;
-	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
+	    const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
 	    if (!channel) return "";
 
 	    string res(channel->GetChannelID().ToString());
@@ -418,8 +417,7 @@ public:
 	{
 	    if (!e) return "";
 	    LOCK_CHANNELS_READ;
-	    const cChannels *vdrchannels = Channels;
-	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
+	    const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
 	    string res = channel?channel->ShortName(true):"";
 	    if (escapeStrings) return "'" + EscapeString(res) + "'"; else return res;
 	}
@@ -432,8 +430,7 @@ public:
 	{
 	    if (!e) return "";
 	    LOCK_CHANNELS_READ;
-	    const cChannels *vdrchannels = Channels;
-	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
+	    const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
 	    string res = channel?channel->Name():"";
 	    if (escapeStrings) return "'" + EscapeString(res) + "'"; else return res;
 	}
@@ -446,8 +443,7 @@ class cChannelDataVar : public cInternalVar {
 	{
 	    if (!e) return "";
 	    LOCK_CHANNELS_READ;
-	    const cChannels *vdrchannels = Channels;
-	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
+	    const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
 	    return channel?CHANNELSTRING(channel):"";
 	}
 };
@@ -460,10 +456,9 @@ public:
 	    if (!e) return "";
 	    ostringstream os;
 	    LOCK_CHANNELS_READ;
-	    const cChannels *vdrchannels = Channels;
-	    const cChannel *channel = vdrchannels->GetByChannelID(e->ChannelID(), true);
+	    const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
 	    while(channel && !channel->GroupSep())
-	      channel = vdrchannels->Prev(channel);
+	      channel = Channels->Prev(channel);
 	    if (!channel || !channel->Name()) return "";
 	    string grpName = channel->Name();
 	    if (escapeStrings) return "'" + EscapeString(grpName) + "'"; else return grpName;

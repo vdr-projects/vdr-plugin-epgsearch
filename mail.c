@@ -51,8 +51,7 @@ string cMailTimerNotification::Format(const string& templ) const
 
     eTimerMatch TimerMatch = tmNone;
     LOCK_TIMERS_READ;
-    const cTimers *vdrtimers = Timers;
-    const cTimer* pTimer = vdrtimers->GetMatch(pEvent, &TimerMatch);
+    const cTimer* pTimer = Timers->GetMatch(pEvent, &TimerMatch);
     if (!pTimer) return "";
 
     string result = templ;
@@ -73,9 +72,8 @@ string cMailTimerNotification::Format(const string& templ) const
 const cEvent* cMailTimerNotification::GetEvent() const
 {
     LOCK_SCHEDULES_READ;
-    const cSchedules *schedules = Schedules;
-    if (!schedules) return NULL;
-    const cSchedule *schedule = schedules->GetSchedule(channelID);
+    if (!Schedules) return NULL;
+    const cSchedule *schedule = Schedules->GetSchedule(channelID);
     if (!schedule) return NULL;
     return schedule->GetEvent(eventID);
 }
@@ -83,9 +81,8 @@ const cEvent* cMailTimerNotification::GetEvent() const
 bool cMailTimerNotification::operator< (const cMailTimerNotification &N) const
 {
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel* channel = vdrchannels->GetByChannelID(channelID,true,true);
-    const cChannel* channelOther = vdrchannels->GetByChannelID(N.channelID,true,true);
+    const cChannel* channel = Channels->GetByChannelID(channelID,true,true);
+    const cChannel* channelOther = Channels->GetByChannelID(N.channelID,true,true);
     if (!channel || !channelOther)
 	return false;
     const cEvent* event = GetEvent();
@@ -126,9 +123,8 @@ cMailDelTimerNotification::cMailDelTimerNotification(const string& Formatted, tC
 bool cMailDelTimerNotification::operator< (const cMailDelTimerNotification &N) const
 {
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel* channel = vdrchannels->GetByChannelID(channelID,true,true);
-    const cChannel* channelOther = vdrchannels->GetByChannelID(N.channelID,true,true);
+    const cChannel* channel = Channels->GetByChannelID(channelID,true,true);
+    const cChannel* channelOther = Channels->GetByChannelID(N.channelID,true,true);
     if (!channel || !channelOther)
 	return false;
     if (channel != channelOther)

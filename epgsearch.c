@@ -161,10 +161,9 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
       if (atoi(argv[3]) > 0)
       {
          LOCK_CHANNELS_READ;
-         const cChannels *vdrchannels = Channels;
          SearchExt->useChannel = true;
-         SearchExt->channelMin = vdrchannels->GetByNumber(atoi(argv[3]));
-         SearchExt->channelMax = vdrchannels->GetByNumber(atoi(argv[3]));
+         SearchExt->channelMin = Channels->GetByNumber(atoi(argv[3]));
+         SearchExt->channelMax = Channels->GetByNumber(atoi(argv[3]));
       }
       SearchExt->mode = atoi(argv[4]);
       SearchExt->useTitle = atoi(argv[5]);
@@ -244,10 +243,9 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
       if (searchData->channelNr > 0)
       {
          LOCK_CHANNELS_READ;
-         const cChannels *vdrchannels = Channels;
          SearchExt->useChannel = true;
-         SearchExt->channelMin = vdrchannels->GetByNumber(searchData->channelNr);
-         SearchExt->channelMax = vdrchannels->GetByNumber(searchData->channelNr);
+         SearchExt->channelMin = Channels->GetByNumber(searchData->channelNr);
+         SearchExt->channelMax = Channels->GetByNumber(searchData->channelNr);
       }
       SearchExt->mode = searchData->mode;
       SearchExt->useTitle = searchData->useTitle;
@@ -341,10 +339,9 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
       if (searchData->channelNr > 0)
       {
          LOCK_CHANNELS_READ;
-         const cChannels *vdrchannels = Channels;
          SearchExt->useChannel = true;
-         SearchExt->channelMin = vdrchannels->GetByNumber(searchData->channelNr);
-         SearchExt->channelMax = vdrchannels->GetByNumber(searchData->channelNr);
+         SearchExt->channelMin = Channels->GetByNumber(searchData->channelNr);
+         SearchExt->channelMax = Channels->GetByNumber(searchData->channelNr);
       }
       SearchExt->mode = searchData->mode;
       SearchExt->useTitle = searchData->useTitle;
@@ -521,10 +518,9 @@ cOsdObject *cPluginEpgsearch::DoInitialSearch(char* rcFilename)
       if (rcFile.ChannelNr != -1)
       {
          LOCK_CHANNELS_READ;
-         const cChannels *vdrchannels = Channels;
          SearchExt->useChannel = true;
-         SearchExt->channelMin = vdrchannels->GetByNumber(rcFile.ChannelNr);
-         SearchExt->channelMax = vdrchannels->GetByNumber(rcFile.ChannelNr);
+         SearchExt->channelMin = Channels->GetByNumber(rcFile.ChannelNr);
+         SearchExt->channelMax = Channels->GetByNumber(rcFile.ChannelNr);
       }
       SearchExt->mode = rcFile.SearchMode;
       SearchExt->useTitle = rcFile.UseTitle;

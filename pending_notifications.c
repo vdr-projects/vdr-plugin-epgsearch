@@ -122,8 +122,7 @@ const char *cPendingNotification::ToText(void) const
     buffer = NULL;
 
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel *channel = vdrchannels->GetByChannelID(channelID, true, true);
+    const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
     if (!channel)
 	LogFile.Log(3,"invalid channel in pending notifications!");
 

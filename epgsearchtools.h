@@ -66,7 +66,7 @@ using std::string;
 #undef CONFIGDIR
 #define CONFIGDIR (!ConfigDir?cPlugin::ConfigDirectory():ConfigDir)
 
-#define CHNUMWIDTH  (numdigits(vdrchannels->MaxNumber()) + 2)
+#define CHNUMWIDTH  (numdigits(Channels->MaxNumber()) + 2)
 
 #define SHORTTEXT(EVENT) \
   (EVENT && EPGSearchConfig.showShortText && !isempty((EVENT)->ShortText()))?" ~ ":"", \

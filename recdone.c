@@ -201,8 +201,7 @@ const char *cRecDone::ToText(void)
     buffer = NULL;
 
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel *channel = vdrchannels->GetByChannelID(channelID, true, true);
+    const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
     if (!channel)
 	LogFile.Log(3,"invalid channel in recs done!");
 
@@ -229,8 +228,7 @@ bool cRecDone::Save(FILE *f)
 int cRecDone::ChannelNr()
 {
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel* channel = vdrchannels->GetByChannelID(channelID, true, true);
+    const cChannel* channel = Channels->GetByChannelID(channelID, true, true);
     if (!channel)
 	return -1;
     else

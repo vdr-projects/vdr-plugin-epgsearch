@@ -49,8 +49,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
          cConflictCheckThread::Init((cPluginEpgsearch*)cPluginManager::GetPlugin("epgsearch"), true);
 
 		LOCK_TIMERS_READ;
-		const cTimers *vdrtimers = Timers;
-		for (const cTimer *ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
+		for (const cTimer *ti = Timers->First(); ti; ti = Timers->Next(ti))
          if (ti->Recording())
          {
             // check if this is a new entry
@@ -116,8 +115,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
          bool found = false;
 
 			LOCK_TIMERS_READ;
-			const cTimers *vdrtimers = Timers;
-			for (const cTimer *ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
+			for (const cTimer *ti = Timers->First(); ti; ti = Timers->Next(ti))
             if (ti == tiR->timer)
             {
                found = true;
@@ -134,9 +132,11 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                // check if recording has ended before timer end
 
                bool complete = true;
-	       LOCK_RECORDINGS_READ;
-	       const cRecordings *vdrrecordings = Recordings;
-	       const cRecording *pRecording = vdrrecordings->GetByName(Filename);
+			   const cRecording *pRecording;
+			   {
+	             LOCK_RECORDINGS_READ;
+	             pRecording = Recordings->GetByName(Filename);
+			   }
 	       long timerLengthSecs = tiR->timer->StopTime()-tiR->timer->StartTime();
 	       int recFraction = 100;
 	       if (pRecording && timerLengthSecs)

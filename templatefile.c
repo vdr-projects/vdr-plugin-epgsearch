@@ -210,9 +210,10 @@ bool cTemplFile::Parse(const char *Name, const char *Value)
 void cTemplFile::PrepareDefaultTemplates()
 {
     char channelnr[20] = "";
-    LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
+	{
+	LOCK_CHANNELS_READ;  // Channels used in CHNUMWIDTH
     sprintf(channelnr, "%%chnr%%:%d|", CHNUMWIDTH);
+	}
 
     bool text2skin = !(strcmp(Setup.OSDSkin, "soppalusikka") == 0 ||
 		       strcmp(Setup.OSDSkin, "classic") == 0 ||

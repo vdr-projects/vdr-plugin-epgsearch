@@ -74,11 +74,10 @@ const cEvent* cConflictCheckTimerObj::Event()
 const cEvent* cConflictCheckTimerObj::SetEventFromSchedule()
 {
     LOCK_SCHEDULES_READ;
-    const cSchedules *schedules = Schedules;
-    if (!schedules)
+    if (!Schedules)
 	return NULL;
 
-    const cSchedule *Schedule = schedules->GetSchedule(timer->Channel());
+    const cSchedule *Schedule = Schedules->GetSchedule(timer->Channel());
     if (Schedule && Schedule->Events()->First())
     {
 	const cEvent *Event = NULL;
@@ -258,9 +257,8 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     // collect single event timers
     time_t tMax = 0;
     LOCK_TIMERS_READ;
-		const cTimers *vdrtimers = Timers;
     const cTimer* ti = NULL;
-    for (ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
+    for (ti = Timers->First(); ti; ti = Timers->Next(ti))
     {
 	tMax = max(tMax, ti->StartTime());
 	if (ti->Remote()) continue; // TO BE DONE: remote service request CC
@@ -289,7 +287,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     // collect repeating timers from now until the date of the timer with tMax
     time_t maxCheck = time(NULL) + min(14,EPGSearchConfig.checkMaxDays) * SECSINDAY;
     tMax = max(tMax, maxCheck);
-    for (ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
+    for (ti = Timers->First(); ti; ti = Timers->Next(ti))
     {
 	if (ti->IsSingleEvent()) continue;
 	time_t day = time(NULL);
@@ -680,10 +678,9 @@ bool cConflictCheck::TimerInConflict(const cTimer* timer)
 		if ((*it)->concurrentTimers)
 		{
         LOCK_TIMERS_READ;
-        const cTimers *vdrtimers = Timers;
 		    for (it2 = (*it)->concurrentTimers->begin(); it2 != (*it)->concurrentTimers->end(); ++it2)
 		    {
-			if ((*it2)->OrigTimer(vdrtimers) == timer)
+			if ((*it2)->OrigTimer(Timers) == timer)
 			    return true;
 		    }
 		}
@@ -707,8 +704,7 @@ void cConflictCheck::EvaluateConflCheckCmd()
 	      {
 		string result = EPGSearchConfig.conflCheckCmd;
 		LOCK_TIMERS_READ;
-		const cTimers *vdrtimers = Timers;
-		if (!(*it)->OrigTimer(vdrtimers))
+		if (!(*it)->OrigTimer(Timers))
 		  {
 		    LogFile.Log(3,"timer has disappeared meanwhile");
 		    continue;

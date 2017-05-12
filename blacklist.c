@@ -47,10 +47,11 @@ cBlacklist::cBlacklist(void)
     startTime = 0000;
     stopTime = 2359;
     useChannel = false;
+	{
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    channelMin = vdrchannels->GetByNumber(cDevice::CurrentChannel());
-    channelMax = vdrchannels->GetByNumber(cDevice::CurrentChannel());
+    channelMin = Channels->GetByNumber(cDevice::CurrentChannel());
+    channelMax = Channels->GetByNumber(cDevice::CurrentChannel());
+	}
     channelGroup = NULL;
     useCase = false;
     mode = 0;
@@ -334,8 +335,7 @@ bool cBlacklist::Parse(const char *s)
 			int channels = sscanf(value, "%m[^|]|%m[^|]", &channelMinbuffer, &channelMaxbuffer);
 #endif
 			LOCK_CHANNELS_READ;
-			const cChannels *vdrchannels = Channels;
-			channelMin = vdrchannels->GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
+			channelMin = Channels->GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
 			if (!channelMin)
 			{
 			    LogFile.eSysLog("ERROR: channel %s not defined", channelMinbuffer);
@@ -346,7 +346,7 @@ bool cBlacklist::Parse(const char *s)
 			    channelMax = channelMin;
 			else
 			{
-			    channelMax = vdrchannels->GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
+			    channelMax = Channels->GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
 			    if (!channelMax)
 			    {
 				LogFile.eSysLog("ERROR: channel %s not defined", channelMaxbuffer);
@@ -516,15 +516,15 @@ bool cBlacklist::Save(FILE *f)
   return fprintf(f, "%s\n", ToText()) > 0;
 }
 
-const cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedules, const cEvent *Start, int MarginStop)
+const cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedule, const cEvent *Start, int MarginStop)
 {
   const cEvent *pe = NULL;
   const cEvent *p1 = NULL;
 
   if (Start)
-      p1 = schedules->Events()->Next(Start);
+      p1 = schedule->Events()->Next(Start);
   else
-      p1 = schedules->Events()->First();
+      p1 = schedule->Events()->First();
 
   time_t tNow=time(NULL);
   char* szTest = NULL;
@@ -549,7 +549,7 @@ const cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedules, const
       maxSearchDuration = maxDuration/100*60 + maxDuration%100;
   }
 
-  for (const cEvent *p = p1; p; p = schedules->Events()->Next(p))
+  for (const cEvent *p = p1; p; p = schedule->Events()->Next(p))
   {
      if(!p)
      {
@@ -637,23 +637,20 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
 {
     LogFile.Log(3,"start search for blacklist '%s'", search);
 
-    const cSchedules *schedules;
-    LOCK_SCHEDULES_READ;
-    schedules = Schedules;
-    if(!schedules) {
+    LOCK_SCHEDULES_WRITE;
+    if(!Schedules) {
 	LogFile.Log(1,"schedules are currently locked! try again later.");
 	return NULL;
     }
 
-    const cSchedule *Schedule = schedules->First();
+    const cSchedule *Schedule = Schedules->First();
 
     while (Schedule) {
 	LOCK_CHANNELS_READ;
-	const cChannels *vdrchannels = Channels;
-	const cChannel* channel = vdrchannels->GetByChannelID(Schedule->ChannelID(),true,true);
+	const cChannel* channel = Channels->GetByChannelID(Schedule->ChannelID(),true,true);
 	if (!channel)
 	{
-	    Schedule = (const cSchedule *)schedules->Next(Schedule);
+	    Schedule = (const cSchedule *)Schedules->Next(Schedule);
 	    continue;
 	}
 
@@ -661,7 +658,7 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
 	{
 	    if (channelMin->Number() > channel->Number() || channelMax->Number() < channel->Number())
 	    {
-		Schedule = (const cSchedule *)schedules->Next(Schedule);
+		Schedule = (const cSchedule *)Schedules->Next(Schedule);
 		continue;
 	    }
 	}
@@ -670,7 +667,7 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
 	    cChannelGroup* group = ChannelGroups.GetGroupByName(channelGroup);
 	    if (!group || !group->ChannelInGroup(channel))
 	    {
-		Schedule = (const cSchedule *)schedules->Next(Schedule);
+		Schedule = (const cSchedule *)Schedules->Next(Schedule);
 		continue;
 	    }
 	}
@@ -679,7 +676,7 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
 	{
 	    if (channel->Ca() >= CA_ENCRYPTED_MIN)
 	    {
-		Schedule = (const cSchedule *)schedules->Next(Schedule);
+		Schedule = (const cSchedule *)Schedules->Next(Schedule);
 		continue;
 	    }
 	}
@@ -689,14 +686,13 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
 	    const cEvent* event = GetEventByBlacklist(Schedule, pPrevEvent, MarginStop);
 	    pPrevEvent = event;
 	    LOCK_CHANNELS_READ;
-	    const cChannels *vdrchannels = Channels;
-	    if (event && vdrchannels->GetByChannelID(event->ChannelID(),true,true))
+	    if (event && Channels->GetByChannelID(event->ChannelID(),true,true))
 	    {
 		if (!pSearchResults) pSearchResults = new cSearchResults;
 		pSearchResults->Add(new cSearchResult(event, this));
 	    }
         } while(pPrevEvent);
-        Schedule = (const cSchedule *)schedules->Next(Schedule);
+        Schedule = (const cSchedule *)Schedules->Next(Schedule);
     }
     LogFile.Log(3,"found %d event(s) for blacklist '%s'", pSearchResults?pSearchResults->Count():0, search);
 
