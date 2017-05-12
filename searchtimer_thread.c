@@ -99,11 +99,11 @@ void cSearchTimerThread::Stop(void) {
 }
 
 
-const cTimer *cSearchTimerThread::GetTimer(const cTimers* vdrtimers, cSearchExt *searchExt, const cEvent *pEvent, bool& bTimesMatchExactly)
+const cTimer *cSearchTimerThread::GetTimer(cSearchExt *searchExt, const cEvent *pEvent, bool& bTimesMatchExactly)
 {
+   LOCK_TIMERS_READ;
    LOCK_CHANNELS_READ;
-   const cChannels *vdrchannels = Channels;
-   const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true, true);
+   const cChannel *channel = Channels->GetByChannelID(pEvent->ChannelID(), true, true);
    if (!channel)
       return NULL;
 
@@ -131,7 +131,7 @@ const cTimer *cSearchTimerThread::GetTimer(const cTimers* vdrtimers, cSearchExt 
 
    tm *tmStartEv = localtime_r(&eStart, &tm_r);
 
-   for (const cTimer *ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
+   for (const cTimer *ti = Timers->First(); ti; ti = Timers->Next(ti))
    {
       if (ti->Channel() != channel)
          continue;
@@ -255,8 +255,7 @@ void cSearchTimerThread::Action(void)
             }
            {
             LOCK_TIMERS_READ;
-            const cTimers *vdrtimers = Timers;
-            pOutdatedTimers = searchExt->GetTimerList(vdrtimers, pOutdatedTimers);
+            pOutdatedTimers = searchExt->GetTimerList(Timers, pOutdatedTimers);
            } // End of Block should release ReadLock
 
             cSearchResults* pSearchResults = searchExt->Run(-1, true);
@@ -281,8 +280,7 @@ void cSearchTimerThread::Action(void)
 
                {
                LOCK_CHANNELS_READ;
-               const cChannels *vdrchannels = Channels;
-               const cChannel *channel = vdrchannels->GetByChannelID(pEvent->ChannelID(), true, true);
+               const cChannel *channel = Channels->GetByChannelID(pEvent->ChannelID(), true, true);
                if (!channel)
                   continue;
                }
@@ -313,10 +311,7 @@ void cSearchTimerThread::Action(void)
                // search for an already existing timer
                bool bTimesMatchExactly = false;
                const cTimer *t = NULL;
-               {
-               LOCK_TIMERS_READ;
-               t = GetTimer(Timers,searchExt, pEvent, bTimesMatchExactly);
-               }
+               t = GetTimer(searchExt, pEvent, bTimesMatchExactly);
 
                char* Summary = NULL;
 	       uint timerMod = tmNoChange;
@@ -512,8 +507,7 @@ void cSearchTimerThread::Action(void)
                   bool found = false;
                   {
                   LOCK_TIMERS_READ;
-                  const cTimers *vdrtimers = Timers;
-                  for(const cTimer* checkT = vdrtimers->First(); checkT; checkT = vdrtimers->Next(checkT))
+                  for(const cTimer* checkT = Timers->First(); checkT; checkT = Timers->Next(checkT))
                      if (checkT == t)
                      {
                         found = true;
@@ -799,9 +793,8 @@ void cSearchTimerThread::CheckExpiredRecs()
 {
    LogFile.Log(1, "check for expired recordings started");
    LOCK_RECORDINGS_WRITE;
-   cRecordings *vdrrecordings = Recordings;
    cList<cRecordingObj> DelRecordings;
-   for (cRecording *recording = vdrrecordings->First(); recording && m_Active; recording = vdrrecordings->Next(recording))
+   for (cRecording *recording = Recordings->First(); recording && m_Active; recording = Recordings->Next(recording))
    {
       LogFile.Log(3, "check recording %s from %s for expiration", recording->Name(), DAYDATETIME(recording->Start()));
       if (recording->Start() == 0)
@@ -858,7 +851,7 @@ void cSearchTimerThread::CheckExpiredRecs()
          if (!recording->Delete())
             LogFile.Log(1, "error deleting recording!");
          else
-            vdrrecordings->DelByName(recording->FileName());
+            Recordings->DelByName(recording->FileName());
       }
       else
          LogFile.Log(1, "recording already in use by a timer!");
@@ -909,11 +902,9 @@ void cSearchTimerThread::CheckManualTimers(void)
    LogFile.Log(1, "manual timer check started");
 
     LOCK_TIMERS_READ;
-    const cTimers *vdrtimers = Timers;
     LOCK_SCHEDULES_READ;
-    const cSchedules *schedules = Schedules;
 
-   for (const cTimer *ti = vdrtimers->First(); ti && m_Active; ti = vdrtimers->Next(ti))
+   for (const cTimer *ti = Timers->First(); ti && m_Active; ti = Timers->Next(ti))
    {
       if (TriggeredFromSearchTimerID(ti) != -1) continue; // manual timer?
 
@@ -935,7 +926,7 @@ void cSearchTimerThread::CheckManualTimers(void)
       if (updateMethod && atoi(updateMethod) == UPD_EVENTID) // by event ID?
       {
          // get the channels schedule
-         const cSchedule* schedule = schedules->GetSchedule(ti->Channel());
+         const cSchedule* schedule = Schedules->GetSchedule(ti->Channel());
          if (schedule)
          {
             tEventID eventID = 0;
@@ -958,7 +949,7 @@ void cSearchTimerThread::CheckManualTimers(void)
       if (updateMethod && atoi(updateMethod) == UPD_CHDUR) // by channel and time?
       {
          // get the channels schedule
-         const cSchedule* schedule = schedules->GetSchedule(ti->Channel());
+         const cSchedule* schedule = Schedules->GetSchedule(ti->Channel());
          if (schedule)
          {
             // collect all events touching the old timer margins
@@ -1024,7 +1015,6 @@ void cSearchTimerThread::CheckEPGHours()
   time_t checkTime = time(NULL) + EPGSearchConfig.checkEPGHours * 60 * 60;
 
     LOCK_SCHEDULES_READ;
-    const cSchedules *schedules = Schedules;
 
   cChannelGroup channelsWithSmallEPG;
   cChannelGroupItem* channelInGroup = channelGroup->channels.First();
@@ -1032,7 +1022,7 @@ void cSearchTimerThread::CheckEPGHours()
     {
       const cChannel* channel = channelInGroup->channel;
       // get the channels schedule
-      const cSchedule* schedule = schedules->GetSchedule(channel);
+      const cSchedule* schedule = Schedules->GetSchedule(channel);
       if (!schedule || !schedule->GetEventAround(checkTime))
 	{
 	  LogFile.Log(3,"less than %d hours of EPG for channel %s!", EPGSearchConfig.checkEPGHours, channel->Name());

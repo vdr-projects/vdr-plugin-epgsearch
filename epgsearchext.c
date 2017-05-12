@@ -1171,8 +1171,6 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
    }
 
    cSearchResult* pResultObj = NULL;
-   LOCK_TIMERS_READ;
-   const cTimers* vdrtimers = Timers;
    for (pResultObj = pResults->First(); pResultObj; pResultObj = pResults->Next(pResultObj))
    {
       if ((action != searchTimerActionRecord) && (action != searchTimerActionInactiveRecord)) // only announce if there is no timer for the event
@@ -1261,7 +1259,7 @@ void cSearchExt::CheckRepeatTimers(cSearchResults* pResults)
          }
       }
       bool dummy;
-      const cTimer* timer = cSearchTimerThread::GetTimer(vdrtimers, this, pEvent, dummy);
+      const cTimer* timer = cSearchTimerThread::GetTimer(this, pEvent, dummy);
       if (timer && !timer->HasFlags(tfActive))
       {
          LogFile.Log(3,"skip '%s~%s' (%s - %s, channel %d), existing timer disabled", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));

@@ -81,9 +81,8 @@ bool cMenuMyScheduleItem::Update(bool Force)
    bool OldInSwitchList = inSwitchList;
    bool hasMatch = false;
    const cTimer* timer = NULL;
-	 LOCK_TIMERS_READ;
-	 const cTimers *vdrtimers = Timers;
-   if (event) timer = vdrtimers->GetMatch(event, &timerMatch);
+   LOCK_TIMERS_READ;
+   if (event) timer = Timers->GetMatch(event, &timerMatch);
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
 
@@ -237,7 +236,7 @@ bool cMenuMyScheduleItem::Update(bool Force)
 
       SetText(buffer, false);
 
-      if (gl_InfoConflict == 0 && EPGSearchConfig.checkTimerConflAfterTimerProg && !Force && timer && timerMatch && timerMatch != OldTimerMatch)
+      if (gl_InfoConflict == 0 && EPGSearchConfig.checkTimerConflAfterTimerProg && !Force && timer && timerMatch && timerMatch != OldTimerMatch && !(timer->Remote()))
       {
          cConflictCheck C;
          C.Check();
@@ -426,8 +425,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
       maxChannel = 0;
 
    LOCK_CHANNELS_READ;
-   const cChannels *vdrchannels = Channels;
-   for (const cChannel *Channel = vdrchannels->First(); Channel; Channel = vdrchannels->Next(Channel))
+   for (const cChannel *Channel = Channels->First(); Channel; Channel = Channels->Next(Channel))
    {
       if (!Channel->GroupSep())
       {
@@ -568,11 +566,10 @@ eOSState cMenuWhatsOnSearch::Record(void)
    {
       LOCK_TIMERS_WRITE;
       Timers->SetExplicitModify();
-      cTimers *vdrtimers = Timers;
       if (item->timerMatch == tmFull)
       {
          eTimerMatch tm = tmNone;
-         cTimer *timer = vdrtimers->GetMatch(item->event, &tm);
+         cTimer *timer = Timers->GetMatch(item->event, &tm);
          if (timer)
 	   {
 	     if (EPGSearchConfig.useVDRTimerEditMenu)
@@ -591,7 +588,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
       else
          timer = new cTimer(false, false, item->channel);
 
-      cTimer *t = vdrtimers->GetTimer(timer);
+      cTimer *t = Timers->GetTimer(timer);
       if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
       {
          if (t)
@@ -630,7 +627,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
          SetAux(timer, fullaux);
          if (*Setup.SVDRPDefaultHost)
             timer->SetRemote(Setup.SVDRPDefaultHost);
-         vdrtimers->Add(timer);
+         Timers->Add(timer);
          if (!HandleRemoteTimerModifications(timer)) {
             delete timer;
 						ERROR("Epgsearch: RemoteTimerModifications failed");
@@ -638,7 +635,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
 				 else {
 	 gl_timerStatusMonitor->SetConflictCheckAdvised();
          timer->Matches();
-         vdrtimers->SetModified();
+         Timers->SetModified();
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
 				 }
 
@@ -735,8 +732,7 @@ eOSState cMenuWhatsOnSearch::Shift(int iMinutes)
    {
       currentChannel = mi->channel->Number();
       LOCK_CHANNELS_READ;
-      const cChannels *vdrchannels = Channels;
-      scheduleChannel = vdrchannels->GetByNumber(currentChannel);
+      scheduleChannel = Channels->GetByNumber(currentChannel);
    }
    LoadSchedules();
    Display();
@@ -753,8 +749,7 @@ eOSState cMenuWhatsOnSearch::ShowSummary()
       if (ei)
       {
          LOCK_CHANNELS_READ;
-         const cChannels *vdrchannels = Channels;
-         const cChannel *channel = vdrchannels->GetByChannelID(ei->ChannelID(), true, true);
+         const cChannel *channel = Channels->GetByChannelID(ei->ChannelID(), true, true);
          if (channel)
             return AddSubMenu(new cMenuEventSearch(ei, eventObjects, SurfModeChannel));
       }
@@ -880,8 +875,7 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                   {
                      currentChannel = mi->channel->Number();
                      LOCK_CHANNELS_READ;
-                     const cChannels *vdrchannels = Channels;
-                     scheduleChannel = vdrchannels->GetByNumber(currentChannel);
+                     scheduleChannel = Channels->GetByNumber(currentChannel);
                   }
                }
                else
