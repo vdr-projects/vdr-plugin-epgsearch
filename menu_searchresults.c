@@ -63,12 +63,10 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(const cEvent *EventInfo, bool Epi
    menuTemplate = MenuTemplate?MenuTemplate:cTemplFile::GetTemplateByName("MenuSearchResults");
    search = Search;
    inSwitchList = false;
-   LOCK_TIMERS_READ;
-   const cTimers *vdrtimers = Timers;
-   Update(vdrtimers, true);
+   Update(true);
 }
 
-bool cMenuSearchResultsItem::Update(const cTimers* vdrtimers, bool Force)
+bool cMenuSearchResultsItem::Update(bool Force)
 {
    if (!menuTemplate)
       return false;
@@ -79,7 +77,8 @@ bool cMenuSearchResultsItem::Update(const cTimers* vdrtimers, bool Force)
    bool OldInSwitchList = inSwitchList;
    bool hasMatch = false;
    const cTimer* timer = NULL;
-   if (event) timer = vdrtimers->GetMatch(event, &timerMatch);
+   LOCK_TIMERS_READ;
+   if (event) timer = Timers->GetMatch(event, &timerMatch);
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
 
@@ -185,8 +184,7 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(const cRecording *Recording)
 void cMenuSearchResultsItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
   LOCK_CHANNELS_READ;
-  const cChannels *vdrchannels = Channels;
-  const cChannel *channel = event?vdrchannels->GetByChannelID(event->ChannelID(), true, true):NULL;
+  const cChannel *channel = event?Channels->GetByChannelID(event->ChannelID(), true, true):NULL;
   if (!event)
      DisplayMenu->SetItem(Text(), Index, Current, Selectable);
   else if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, true, timerMatch))
@@ -218,11 +216,12 @@ int cMenuSearchResults::GetTab(int Tab)
    return menuTemplate->Tab(Tab-1);
 }
 
-bool cMenuSearchResults::Update(const cTimers* vdrtimers)
+bool cMenuSearchResults::Update(void)
 {
    bool result = false;
+   LOCK_TIMERS_READ;
    for (cOsdItem *item = First(); item; item = Next(item)) {
-      if (((cMenuSearchResultsItem *)item)->Update(vdrtimers))
+      if (((cMenuSearchResultsItem *)item)->Update(Timers))
          result = true;
    }
    return result;
@@ -235,11 +234,10 @@ eOSState cMenuSearchResults::Record(void)
    if (item) {
       LOCK_TIMERS_WRITE;
       Timers->SetExplicitModify();
-      cTimers *vdrtimers = Timers;
       if (item->timerMatch == tmFull)
       {
          eTimerMatch tm = tmNone;
-         cTimer *timer = vdrtimers->GetMatch(item->event, &tm);
+         cTimer *timer = Timers->GetMatch(item->event, &tm);
          if (timer)
 	   {
 	     if (EPGSearchConfig.useVDRTimerEditMenu)
@@ -251,7 +249,7 @@ eOSState cMenuSearchResults::Record(void)
 
       cTimer *timer = new cTimer(item->event);
       PrepareTimerFile(item->event, timer);
-      cTimer *t = vdrtimers->GetTimer(timer);
+      cTimer *t = Timers->GetTimer(timer);
       if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
       {
          if (t)
@@ -291,17 +289,18 @@ eOSState cMenuSearchResults::Record(void)
          SetAux(timer, fullaux);
          if (*Setup.SVDRPDefaultHost)
             timer->SetRemote(Setup.SVDRPDefaultHost);
-         vdrtimers->Add(timer);
+         Timers->Add(timer);
 	 gl_timerStatusMonitor->SetConflictCheckAdvised();
          timer->Matches();
-         vdrtimers->SetModified();
+         Timers->SetModified();
          if (!HandleRemoteTimerModifications(timer)) {
-            delete timer;
+		 ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
+			Timers->Del(timer);
          }
 
          if (HasSubMenu())
             CloseSubMenu();
-         if (Update(vdrtimers))
+         if (Update())
             Display();
          SetHelpKeys();
       }
@@ -316,8 +315,7 @@ eOSState cMenuSearchResults::Switch(void)
    cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
    if (item) {
       LOCK_CHANNELS_READ;
-      const cChannels *vdrchannels = Channels;
-      const cChannel *channel = vdrchannels->GetByChannelID(item->event->ChannelID(), true, true);
+      const cChannel *channel = Channels->GetByChannelID(item->event->ChannelID(), true, true);
       if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
          return osEnd;
    }
@@ -348,8 +346,7 @@ eOSState cMenuSearchResults::ShowSummary()
       if (ei)
       {
          LOCK_CHANNELS_READ;
-         const cChannels *vdrchannels = Channels;
-         const cChannel *channel = vdrchannels->GetByChannelID(ei->ChannelID(), true, true);
+         const cChannel *channel = Channels->GetByChannelID(ei->ChannelID(), true, true);
          if (channel)
             return AddSubMenu(new cMenuEventSearch(ei, eventObjects));
       }
@@ -461,9 +458,7 @@ eOSState cMenuSearchResults::ProcessKey(eKeys Key)
    }
    if (!HasSubMenu())
    {
-      LOCK_TIMERS_READ;
-      const cTimers *vdrtimers = Timers;
-      if ((HadSubMenu || gl_TimerProgged) && Update(vdrtimers))
+      if ((HadSubMenu || gl_TimerProgged) && Update())
       {
          if (gl_TimerProgged) // when using epgsearch's timer edit menu, update is delayed because of SVDRP
          {
@@ -781,8 +776,7 @@ bool cMenuSearchResultsForRecs::BuildList()
    int current = Current();
    Clear();
    LOCK_RECORDINGS_READ;
-   const cRecordings *vdrrecordings = Recordings;
-   for (const cRecording *recording = vdrrecordings->First(); recording; recording = vdrrecordings->Next(recording)) {
+   for (const cRecording *recording = Recordings->First(); recording; recording = Recordings->Next(recording)) {
      const cRecordingInfo *recInfo = recording->Info();
      if (!recInfo) continue;
      string s1 = (recInfo && recInfo->Title())?recInfo->Title():"";
@@ -841,8 +835,7 @@ bool cMenuSearchResultsForRecs::BuildList()
 const cRecording *cMenuSearchResultsForRecs::GetRecording(cMenuSearchResultsItem *Item)
 {
    LOCK_RECORDINGS_READ;
-   const cRecordings *vdrrecordings = Recordings;
-   const cRecording *recording = vdrrecordings->GetByName(Item->FileName());
+   const cRecording *recording = Recordings->GetByName(Item->FileName());
    if (!recording)
      ERROR(tr("Error while accessing recording!"));
    return recording;

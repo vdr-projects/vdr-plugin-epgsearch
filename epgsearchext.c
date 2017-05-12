@@ -1369,12 +1369,13 @@ void cSearchExt::DeleteAllTimers()
    };
 }
 
-cTimerObjList* cSearchExt::GetTimerList(const cTimers* vdrtimers, cTimerObjList* timerList)
+cTimerObjList* cSearchExt::GetTimerList(cTimerObjList* timerList)
 {
    if (!timerList)
       timerList = new cTimerObjList;
 
-   for (const cTimer *ti = vdrtimers->First(); ti; ti = vdrtimers->Next(ti))
+   LOCK_TIMERS_READ;
+   for (const cTimer *ti = Timers->First(); ti; ti = Timers->Next(ti))
    {
       if (TriggeredFromSearchTimerID(ti) == ID)
       {

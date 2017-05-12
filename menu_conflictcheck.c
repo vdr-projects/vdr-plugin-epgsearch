@@ -164,8 +164,7 @@ cMenuConflictCheckDetailsItem::cMenuConflictCheckDetailsItem(cConflictCheckTimer
 {
     timerObj = TimerObj;
     LOCK_TIMERS_READ;
-    const cTimers *vdrtimers = Timers;
-    hasTimer = timerObj->OrigTimer(vdrtimers)?timerObj->OrigTimer(vdrtimers)->HasFlags(tfActive):false;
+    hasTimer = timerObj->OrigTimer(Timers)?timerObj->OrigTimer(Timers)->HasFlags(tfActive):false;
     Update(true);
 }
 
@@ -173,8 +172,7 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
 {
     bool oldhasTimer = hasTimer;
     LOCK_TIMERS_READ;
-    const cTimers *vdrtimers = Timers;
-    hasTimer = timerObj->OrigTimer(vdrtimers)?timerObj->OrigTimer(vdrtimers)->HasFlags(tfActive):false;
+    hasTimer = timerObj->OrigTimer(Timers)?timerObj->OrigTimer(Timers)->HasFlags(tfActive):false;
     if (Force || hasTimer != oldhasTimer)
     {
 	const cTimer* timer = timerObj->timer;
@@ -266,13 +264,11 @@ eOSState cMenuConflictCheckDetails::Commands(eKeys Key)
 
 eOSState cMenuConflictCheckDetails::ToggleTimer(cConflictCheckTimerObj* TimerObj)
 {
-  cTimers *vdrtimers;
   LOCK_TIMERS_WRITE;
   Timers->SetExplicitModify();
-  vdrtimers = Timers;
-  if (!TimerObj || !TimerObj->OrigTimer(vdrtimers)) return osContinue;
-  TimerObj->OrigTimer(vdrtimers)->OnOff();  // Toggles Timer Flag
-  vdrtimers->SetModified();
+  if (!TimerObj || !TimerObj->OrigTimer(Timers)) return osContinue;
+  TimerObj->OrigTimer(Timers)->OnOff();  // Toggles Timer Flag
+  Timers->SetModified();
   Update();
   Display();
   return osContinue;
@@ -292,23 +288,22 @@ eOSState cMenuConflictCheckDetails::DeleteTimer(cConflictCheckTimerObj* TimerObj
 {
   LOCK_TIMERS_WRITE;
   Timers->SetExplicitModify();
-  cTimers *vdrtimers = Timers;
-  cTimer* timer = TimerObj->OrigTimer(vdrtimers);
+  cTimer* timer = TimerObj->OrigTimer(Timers);
   // Check if this timer is active:
   if (timer) {
     if (Interface->Confirm(trVDR("Delete timer?"))) {
       if (timer->Recording()) {
 	if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
 	  timer->Skip();
-	  cRecordControls::Process(vdrtimers, time(NULL));
+	  cRecordControls::Process(Timers, time(NULL));
 	}
 	else
 	  return osContinue;
       }
       LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
-      vdrtimers->Del(timer);
+      Timers->Del(timer);
       cOsdMenu::Del(Current());
-      vdrtimers->SetModified();
+      Timers->SetModified();
       Display();
       return osBack;
     }
@@ -326,9 +321,11 @@ eOSState cMenuConflictCheckDetails::ShowSummary()
     const cEvent *ei = curTimerObj->Event();
     if (ei)
     {
+	const cChannel *channel;
+	{
 	LOCK_CHANNELS_READ;
-	const cChannels *vdrchannels = Channels;
-	const cChannel *channel = vdrchannels->GetByChannelID(ei->ChannelID(), true, true);
+	channel = Channels->GetByChannelID(ei->ChannelID(), true, true);
+	}
 	if (channel)
 	    return AddSubMenu(new cMenuEventSearchSimple(ei, eventObjects));
     }
@@ -418,11 +415,10 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
 		{
 		    bool found = false;
 		    LOCK_TIMERS_READ;
-		    const cTimers *vdrtimers = Timers;
-		    for(const cTimer* checkT = vdrtimers->First(); checkT; checkT = vdrtimers->Next(checkT))
+		    for(const cTimer* checkT = Timers->First(); checkT; checkT = Timers->Next(checkT))
 		    {
 			checkT->Matches();
-			if (checkT == (*it)->OrigTimer(vdrtimers)) // ok -> found, check for changes
+			if (checkT == (*it)->OrigTimer(Timers)) // ok -> found, check for changes
 			{
 			    if (checkT->IsSingleEvent())
 			    {

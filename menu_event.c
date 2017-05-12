@@ -82,11 +82,9 @@ void cMenuEventSearch::Set()
 
    if (event)
    {
-		 LOCK_TIMERS_READ;
-		 const cTimers *vdrtimers = Timers;
+	  LOCK_TIMERS_READ;
       LOCK_CHANNELS_READ;
-      const cChannels *vdrchannels = Channels;
-      const cChannel *channel = vdrchannels->GetByChannelID(event->ChannelID(), true, true);
+      const cChannel *channel = Channels->GetByChannelID(event->ChannelID(), true, true);
       bool canSwitch = false;
       if (channel)
       {
@@ -98,7 +96,7 @@ void cMenuEventSearch::Set()
       cEventObj* eventObjNext = GetNext(event);
 
       eTimerMatch timerMatch = tmNone;
-      vdrtimers->GetMatch(event, &timerMatch);
+      Timers->GetMatch(event, &timerMatch);
       const char* szRed = trVDR("Button$Record");
       if (timerMatch == tmFull)
          szRed = trVDR("Button$Timer");
@@ -114,9 +112,9 @@ void cMenuEventSearch::Set()
       else if (surfMode == SurfModeChannel)
       {
          if (eventObjPrev && eventObjPrev->Event())
-            szGreen = strdup(CHANNELNAME(vdrchannels->GetByChannelID(eventObjPrev->Event()->ChannelID(), true, true)));
+            szGreen = strdup(CHANNELNAME(Channels->GetByChannelID(eventObjPrev->Event()->ChannelID(), true, true)));
          if (eventObjNext && eventObjNext->Event())
-            szYellow = strdup(CHANNELNAME(vdrchannels->GetByChannelID(eventObjNext->Event()->ChannelID(), true, true)));
+            szYellow = strdup(CHANNELNAME(Channels->GetByChannelID(eventObjNext->Event()->ChannelID(), true, true)));
          SetHelp(szRed, szGreen, szYellow, canSwitch ? trVDR("Button$Switch") : NULL);
       }
    }
@@ -239,8 +237,7 @@ void cMenuEventSearchSimple::Set()
    if (event)
    {
       LOCK_CHANNELS_READ;
-      const cChannels *vdrchannels = Channels;
-      const cChannel *channel = vdrchannels->GetByChannelID(event->ChannelID(), true, true);
+      const cChannel *channel = Channels->GetByChannelID(event->ChannelID(), true, true);
       if (channel)
       {
          SetTitle(channel->Name());

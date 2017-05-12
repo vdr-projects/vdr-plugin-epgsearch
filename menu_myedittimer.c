@@ -127,9 +127,8 @@ void cMenuMyEditTimer::Set()
 #ifdef USE_PINPLUGIN
     if (cOsd::pinValid || !fskProtection) Add(new cMenuEditChanItem(tr("Channel"), &channel));
     else {
-        LOCK_CHANNELS_READ;
-        const cChannels *vdrchannels = Channels;
-      cString buf = cString::sprintf("%s\t%s", tr("Channel"), vdrchannels->GetByNumber(channel)->Name());
+      LOCK_CHANNELS_READ;
+      cString buf = cString::sprintf("%s\t%s", tr("Channel"), Channels->GetByNumber(channel)->Name());
       Add(new cOsdItem(buf));
     }
 #else
@@ -161,9 +160,10 @@ void cMenuMyEditTimer::Set()
     }
     else if (IsSingleEvent() && event)
     {
+		{
 	LOCK_CHANNELS_READ;
-	const cChannels *vdrchannels = Channels;
-	checkmode = DefTimerCheckModes.GetMode(vdrchannels->GetByNumber(channel));
+	checkmode = DefTimerCheckModes.GetMode(Channels->GetByNumber(channel));
+		}
 	char* checkmodeAux = GetAuxValue(timer, "update");
 	if (checkmodeAux)
 	{
@@ -239,22 +239,21 @@ eOSState cMenuMyEditTimer::DeleteTimer()
         return osContinue;
     }
     Timers->SetExplicitModify();
-    cTimers *vdrtimers = Timers;
     if (timer && !addIfConfirmed) {
 	if (Interface->Confirm(trVDR("Delete timer?"))) {
 	    if (timer->Recording()) {
 		if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
 		    timer->Skip();
-		    cRecordControls::Process(vdrtimers, time(NULL));
+		    cRecordControls::Process(Timers, time(NULL));
 		}
 		else
 		    return osContinue;
 	    }
 	    LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
-	    vdrtimers->Del(timer);
+	    Timers->Del(timer);
 
 	    gl_timerStatusMonitor->SetConflictCheckAdvised();
-	    vdrtimers->SetModified();
+	    Timers->SetModified();
 	    return osBack;
         }
     }
@@ -332,9 +331,11 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 	{
 	    case kOk:
 	    {
+		const cChannel *ch;
+			{
 		LOCK_CHANNELS_READ;
-		const cChannels *vdrchannels = Channels;
-		const cChannel *ch = vdrchannels->GetByNumber(channel);
+		ch = Channels->GetByNumber(channel);
+			}
 		if (!ch)
 		{
 		  ERROR(tr("*** Invalid Channel ***"));
@@ -422,15 +423,14 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
                         return osBack;
                     }
                     Timers->SetExplicitModify();
-                    cTimers* vdrtimers = Timers;
                     if (*Setup.SVDRPDefaultHost)
                        timer->SetRemote(Setup.SVDRPDefaultHost);
                     if (addIfConfirmed) {
-                      vdrtimers->Add(timer);
-                      vdrtimers->SetModified();
+                      Timers->Add(timer);
+                      Timers->SetModified();
                       if (!HandleRemoteTimerModifications(timer)) {
-                         delete timer;
-												 ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
+						 Timers->Del(timer);
+                         ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
 												 return osBack;
                       }
                     }

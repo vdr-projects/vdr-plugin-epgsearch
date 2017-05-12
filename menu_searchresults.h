@@ -59,7 +59,7 @@ class cMenuSearchResultsItem : public cOsdItem {
                            bool PreviewTimer = false, cMenuTemplate* MenuTemplate = NULL,
                            const cSearchExt* Search = NULL);
     cMenuSearchResultsItem(const cRecording *Recording);
-    bool Update(const cTimers* vdrtimers, bool Force = false);
+    bool Update(bool Force = false);
     void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 };
 
@@ -83,7 +83,7 @@ class cMenuSearchResults : public cOsdMenu {
     eOSState Commands(eKeys Key, cSearchExt* SearchExt = NULL);
     int GetTab(int Tab);
     virtual void SetHelpKeys(bool Force=false)=0;
-    bool Update(const cTimers* vdrtimers);
+    bool Update(void);
     void UpdateCurrent();
 
     static const cEvent *scheduleEventInfo;

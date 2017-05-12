@@ -141,10 +141,9 @@ void cMenuDefTimerCheckMethod::Set()
 
     delete modes;
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    modes = new int[vdrchannels->Count()];
+    modes = new int[Channels->Count()];
     int i=0;
-    for (const cChannel *channel = vdrchannels->First(); channel; channel = vdrchannels->Next(channel), i++)
+    for (const cChannel *channel = Channels->First(); channel; channel = Channels->Next(channel), i++)
     {
 	if (!channel->GroupSep() && *channel->Name())
 	{
@@ -165,8 +164,7 @@ eOSState cMenuDefTimerCheckMethod::ProcessKey(eKeys Key)
 	    {
 		int i=0;
 		LOCK_CHANNELS_READ;
-		const cChannels *vdrchannels = Channels;
-		for (const cChannel *channel = vdrchannels->First(); channel; channel = vdrchannels->Next(channel), i++)
+		for (const cChannel *channel = Channels->First(); channel; channel = Channels->Next(channel), i++)
 		    if (!channel->GroupSep() && *channel->Name())
 			DefTimerCheckModes.SetMode(channel, modes[i]);
 		DefTimerCheckModes.Save();

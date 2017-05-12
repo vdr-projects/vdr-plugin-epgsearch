@@ -101,8 +101,7 @@ void cMenuSearchCommands::LoadCommands()
 eOSState cMenuSearchCommands::Switch(void)
 {
    LOCK_CHANNELS_READ;
-   const cChannels *vdrchannels = Channels;
-   const cChannel *channel = vdrchannels->GetByChannelID(event->ChannelID(), true, true);
+   const cChannel *channel = Channels->GetByChannelID(event->ChannelID(), true, true);
    if (channel && cDevice::PrimaryDevice()->SwitchChannel(channel, true))
       return osEnd;
    else
@@ -124,8 +123,7 @@ eOSState cMenuSearchCommands::Record(void)
    eTimerMatch timerMatch = tmNone;
    LOCK_TIMERS_WRITE;
    Timers->SetExplicitModify();
-   cTimers *vdrtimers = Timers;
-   cTimer* timer = vdrtimers->GetMatch(event, &timerMatch);
+   cTimer* timer = Timers->GetMatch(event, &timerMatch);
    if (timerMatch == tmFull)
    {
       if (EPGSearchConfig.useVDRTimerEditMenu)
@@ -136,7 +134,7 @@ eOSState cMenuSearchCommands::Record(void)
 
    timer = new cTimer(event);
    PrepareTimerFile(event, timer);
-   cTimer *t = vdrtimers->GetTimer(timer);
+   cTimer *t = Timers->GetTimer(timer);
 
    if (EPGSearchConfig.onePressTimerCreation == 0 || t || (!t && event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
    {
@@ -175,11 +173,12 @@ eOSState cMenuSearchCommands::Record(void)
       SetAux(timer, fullaux);
       if (*Setup.SVDRPDefaultHost)
          timer->SetRemote(Setup.SVDRPDefaultHost);
-      vdrtimers->Add(timer);
+      Timers->Add(timer);
       timer->Matches();
-      vdrtimers->SetModified();
+      Timers->SetModified();
       if (!HandleRemoteTimerModifications(timer)) {
-         delete timer;
+         ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
+		 Timers->Del(timer);
       }
 			else
       return osBack;
@@ -240,8 +239,7 @@ eOSState cMenuSearchCommands::CreateSearchTimer(void)
    cSearchExt* pNew = new cSearchExt;
    strcpy(pNew->search, event->Title());
    LOCK_CHANNELS_READ;
-   const cChannels *vdrchannels = Channels;
-   pNew->channelMin = pNew->channelMax = vdrchannels->GetByChannelID(event->ChannelID());
+   pNew->channelMin = pNew->channelMax = Channels->GetByChannelID(event->ChannelID());
    return AddSubMenu(new cMenuEditSearchExt(pNew, true, false, true));
 }
 
@@ -289,15 +287,16 @@ eOSState cMenuSearchCommands::Execute(void)
 	buffer = cString::sprintf("%s...", command->Title());
 	Skins.Message(mtStatus, buffer);
 
+	{
 	LOCK_CHANNELS_READ;
-	const cChannels *vdrchannels = Channels;
 	buffer = cString::sprintf("'%s' %ld %ld %d '%s' '%s'",
 				  EscapeString(event->Title()).c_str(),
 				  event->StartTime(),
 				  event->EndTime(),
 				  ChannelNrFromEvent(event),
-				  EscapeString(vdrchannels->GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(),
+				  EscapeString(Channels->GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(),
 				  EscapeString(event->ShortText()?event->ShortText():"").c_str());
+	}
 	const char *Result = command->Execute(buffer);
 	Skins.Message(mtStatus, NULL);
 	if (Result)

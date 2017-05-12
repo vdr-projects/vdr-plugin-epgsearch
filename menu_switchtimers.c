@@ -135,8 +135,7 @@ void cMenuSwitchTimerItem::Set()
     strftime(datebuf, sizeof(datebuf), "%d.%m", tm);
 
     LOCK_CHANNELS_READ;
-    const cChannels *vdrchannels = Channels;
-    const cChannel* channel = vdrchannels->GetByChannelID(switchTimer->channelID,true,true);
+    const cChannel* channel = Channels->GetByChannelID(switchTimer->channelID,true,true);
 
     msprintf(&buffer, "%s\t%d\t%s\t%s\t%d\'\t%s~%s", switchTimer->mode==1?"":">", channel?channel->Number():-1, datebuf, TIMESTRING(startTime), switchTimer->switchMinsBefore, event->Title()?event->Title():"", event->ShortText()?event->ShortText():"");
     SetText(buffer, false);

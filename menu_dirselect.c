@@ -130,11 +130,9 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
     directorySet.clear();
 
     // add distinct directories from current recordings
-		LOCK_TIMERS_READ;
-		const cTimers *vdrtimers = Timers;
+	{
     LOCK_RECORDINGS_READ;
-    const cRecordings *vdrrecordings = Recordings;
-    for (const cRecording *recording = vdrrecordings->First(); recording; recording = vdrrecordings->Next(recording))
+    for (const cRecording *recording = Recordings->First(); recording; recording = Recordings->Next(recording))
     {
 	if (recording->HierarchyLevels() > 0)
 	{
@@ -155,8 +153,11 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	    free(dir);
 	}
     }
+	} // give up Recordings Lock
     // add distinct directories from current timers
-    for (const cTimer *timer = vdrtimers->First(); timer; timer = vdrtimers->Next(timer))
+	{
+	LOCK_TIMERS_READ;
+    for (const cTimer *timer = Timers->First(); timer; timer = Timers->Next(timer))
     {
 	char* dir = strdup(timer->File());
 	// strip the trailing name dir
@@ -176,6 +177,7 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
 	}
 	free(dir);
     }
+	}
 
     // add distinct directories from folders.conf
     for(cNestedItem* item = Folders.First(); item; item = Folders.Next(item))

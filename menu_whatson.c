@@ -629,8 +629,8 @@ eOSState cMenuWhatsOnSearch::Record(void)
             timer->SetRemote(Setup.SVDRPDefaultHost);
          Timers->Add(timer);
          if (!HandleRemoteTimerModifications(timer)) {
-            delete timer;
-						ERROR("Epgsearch: RemoteTimerModifications failed");
+			Timers->Del(timer);
+		    ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
          }
 				 else {
 	 gl_timerStatusMonitor->SetConflictCheckAdvised();

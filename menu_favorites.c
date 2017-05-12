@@ -123,8 +123,7 @@ eOSState cMenuFavorites::OnYellow()
       if (item && item->event)
       {
          LOCK_CHANNELS_READ;
-         const cChannels *vdrchannels = Channels;
-         const cChannel *channel = vdrchannels->GetByChannelID(item->event->ChannelID(), true, true);
+         const cChannel *channel = Channels->GetByChannelID(item->event->ChannelID(), true, true);
          cMenuWhatsOnSearch::scheduleChannel = channel;
          cMenuWhatsOnSearch::currentShowMode = showNow;
       }

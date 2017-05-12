@@ -253,10 +253,7 @@ void cSearchTimerThread::Action(void)
                searchExt = localSearchExts->Next(searchExt);
                continue;
             }
-           {
-            LOCK_TIMERS_READ;
-            pOutdatedTimers = searchExt->GetTimerList(Timers, pOutdatedTimers);
-           } // End of Block should release ReadLock
+            pOutdatedTimers = searchExt->GetTimerList(pOutdatedTimers);
 
             cSearchResults* pSearchResults = searchExt->Run(-1, true);
             if (!pSearchResults)
@@ -310,8 +307,7 @@ void cSearchTimerThread::Action(void)
 
                // search for an already existing timer
                bool bTimesMatchExactly = false;
-               const cTimer *t = NULL;
-               t = GetTimer(searchExt, pEvent, bTimesMatchExactly);
+               const cTimer *t = GetTimer(searchExt, pEvent, bTimesMatchExactly);
 
                char* Summary = NULL;
 	       uint timerMod = tmNoChange;

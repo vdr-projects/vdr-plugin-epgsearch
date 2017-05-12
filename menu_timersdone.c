@@ -45,8 +45,7 @@ void cMenuTimerDoneItem::Set(void)
    strftime(buf, sizeof(buf), "%d.%m.%y %H:%M", tm);
 
    LOCK_CHANNELS_READ;
-   const cChannels *vdrchannels = Channels;
-   const cChannel* ch = vdrchannels->GetByChannelID(timerDone->channelID, true, true);
+   const cChannel* ch = Channels->GetByChannelID(timerDone->channelID, true, true);
    msprintf(&buffer, "%d\t%s\t%s~%s", ch?ch->Number():0, buf, timerDone->title.c_str(), timerDone->shorttext.c_str());
    SetText(buffer, false);
 }

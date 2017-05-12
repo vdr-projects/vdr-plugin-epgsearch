@@ -350,8 +350,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 		if (data.useChannel==1)
 		{
 		    LOCK_CHANNELS_READ;
-		    const cChannels *vdrchannels = Channels;
-		    const cChannel *ch = vdrchannels->GetByNumber(channelMin);
+		    const cChannel *ch = Channels->GetByNumber(channelMin);
 		    if (ch)
 			data.channelMin = ch;
 		    else
@@ -359,7 +358,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 		      ERROR(tr("*** Invalid Channel ***"));
 		      break;
 		    }
-		    ch = vdrchannels->GetByNumber(channelMax);
+		    ch = Channels->GetByNumber(channelMax);
 		    if (ch)
 			data.channelMax = ch;
 		    else
