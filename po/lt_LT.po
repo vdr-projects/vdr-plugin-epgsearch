@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.10\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-05-04 17:01+0200\n"
+"POT-Creation-Date: 2017-05-12 12:04+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: Lithuanian <vdr@linuxtv.org>\n"
@@ -786,6 +786,9 @@ msgstr "Sukurti juodajį sąrašą"
 msgid "EPG Commands"
 msgstr "EPG komandos"
 
+msgid "Epgsearch: RemoteTimerModifications failed"
+msgstr ""
+
 msgid "Already running!"
 msgstr "Jau groja!"
 
@@ -855,6 +858,9 @@ msgstr "Kanalas"
 msgid "Childlock"
 msgstr "Paveldėtojo užraktas"
 
+msgid "Record on"
+msgstr ""
+
 msgid "Timer check"
 msgstr "Laikmačio patikra"
 
@@ -871,9 +877,6 @@ msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
 msgstr ""
 
 msgid "Epgsearch: recursive TIMERS LOCK"
-msgstr ""
-
-msgid "Epgsearch: RemoteTimerModifications failed"
 msgstr ""
 
 msgid "Button$Extended"

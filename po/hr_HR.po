@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-05-04 17:01+0200\n"
+"POT-Creation-Date: 2017-05-12 12:04+0200\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Drazen Dupor <drazen.dupor@dupor.com>\n"
 "Language-Team: Croatian <vdr@linuxtv.org>\n"
@@ -741,6 +741,9 @@ msgstr ""
 msgid "EPG Commands"
 msgstr ""
 
+msgid "Epgsearch: RemoteTimerModifications failed"
+msgstr ""
+
 msgid "Already running!"
 msgstr ""
 
@@ -810,6 +813,9 @@ msgstr ""
 msgid "Childlock"
 msgstr ""
 
+msgid "Record on"
+msgstr ""
+
 msgid "Timer check"
 msgstr ""
 
@@ -826,9 +832,6 @@ msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
 msgstr ""
 
 msgid "Epgsearch: recursive TIMERS LOCK"
-msgstr ""
-
-msgid "Epgsearch: RemoteTimerModifications failed"
 msgstr ""
 
 msgid "Button$Extended"

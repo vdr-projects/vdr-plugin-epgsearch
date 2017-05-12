@@ -26,11 +26,13 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <vdr/menuitems.h>
 #include "timer_thread.h"
+#include <vdr/svdrp.h>
 
 // --- cMenuMyEditTimer --------------------------------------------------------
 class cMenuMyEditTimer : public cOsdMenu {
 private:
   cTimer *timer;
+  cTimer oldtimer;
   const cEvent* event;
   int channel;
   bool addIfConfirmed;
@@ -49,6 +51,8 @@ private:
 #ifdef USE_PINPLUGIN
   int fskProtection;
 #endif
+  cStringList svdrpServerNames;
+  char remote[HOST_NAME_MAX];
   int checkmode;
 public:
   cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* event, const cChannel* forcechannel=NULL);

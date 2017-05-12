@@ -47,11 +47,13 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
 
     strcpy(file, "");
     strcpy(directory, "");
+    strcpy(remote, "");
     UserDefDaysOfWeek = 0;
     checkmode = 0;
     if (Timer)
     {
 	timer = Timer;
+	oldtimer = *timer;
 	event = Event;
 	flags = Timer->Flags();
 	day = Timer->Day();
@@ -66,6 +68,8 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
 #ifdef USE_PINPLUGIN
 	fskProtection = Timer->FskProtection();
 #endif
+	if (Timer->Remote())
+	    strcpy(remote, Timer->Remote());
 	if (forcechannel)
 	    channel = forcechannel->Number();
 	SplitFile();
@@ -151,7 +155,11 @@ void cMenuMyEditTimer::Set()
       Add(new cOsdItem(buf));
     }
 #endif
-
+	if (GetSVDRPServerNames(&svdrpServerNames)) {
+	  svdrpServerNames.Sort(true);
+	  svdrpServerNames.Insert(strdup(""));
+	  Add(new cMenuEditStrlItem(tr("Record on"), remote, sizeof(remote),  &svdrpServerNames));
+	}
     if (search)
     {
 	cMenuEditStrItem* searchtimerItem = new cMenuEditStrItem( tr("Search timer"), search->search, MaxFileName, tr(AllowedChars));
@@ -423,17 +431,23 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
                         return osBack;
                     }
                     Timers->SetExplicitModify();
-                    if (*Setup.SVDRPDefaultHost)
-                       timer->SetRemote(Setup.SVDRPDefaultHost);
+                    timer->SetRemote(*remote ? remote : NULL);
                     if (addIfConfirmed) {
                       Timers->Add(timer);
                       Timers->SetModified();
-                      if (!HandleRemoteTimerModifications(timer)) {
+                      if (!HandleRemoteTimerModifications(timer, &oldtimer)) {
 						 Timers->Del(timer);
                          ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
 												 return osBack;
                       }
                     }
+					else {
+					  if (!HandleRemoteTimerModifications(timer, &oldtimer))
+						 return osContinue;
+					  if (oldtimer.Local() && oldtimer.Recording() && timer->Remote())
+						 cRecordControls::Stop(&oldtimer);
+					  oldtimer = timer;
+					}
                     }
                     LOCK_SCHEDULES_READ;
                     timer->SetEventFromSchedule(Schedules);

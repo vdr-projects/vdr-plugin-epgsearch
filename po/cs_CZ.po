@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.21\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-05-04 17:01+0200\n"
+"POT-Creation-Date: 2017-05-12 12:04+0200\n"
 "PO-Revision-Date: 2011-10-31 20:21+0200\n"
 "Last-Translator: Radek Stastny <dedkus@gmail.com>\n"
 "Language-Team: Czech <vdr@linuxtv.org>\n"
@@ -739,6 +739,9 @@ msgstr "Vytvořit blacklist"
 msgid "EPG Commands"
 msgstr "EPG příkazy"
 
+msgid "Epgsearch: RemoteTimerModifications failed"
+msgstr ""
+
 msgid "Already running!"
 msgstr "Již běží!"
 
@@ -808,6 +811,9 @@ msgstr "Stanice"
 msgid "Childlock"
 msgstr "Dětská pojistka"
 
+msgid "Record on"
+msgstr ""
+
 msgid "Timer check"
 msgstr "Kontrola Nahrávání"
 
@@ -824,9 +830,6 @@ msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
 msgstr ""
 
 msgid "Epgsearch: recursive TIMERS LOCK"
-msgstr ""
-
-msgid "Epgsearch: RemoteTimerModifications failed"
 msgstr ""
 
 msgid "Button$Extended"
