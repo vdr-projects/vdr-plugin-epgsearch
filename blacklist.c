@@ -637,16 +637,12 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
 {
     LogFile.Log(3,"start search for blacklist '%s'", search);
 
-    LOCK_SCHEDULES_WRITE;
-    if(!Schedules) {
-	LogFile.Log(1,"schedules are currently locked! try again later.");
-	return NULL;
-    }
+	LOCK_CHANNELS_READ;
+   LOCK_SCHEDULES_READ;
 
     const cSchedule *Schedule = Schedules->First();
 
     while (Schedule) {
-	LOCK_CHANNELS_READ;
 	const cChannel* channel = Channels->GetByChannelID(Schedule->ChannelID(),true,true);
 	if (!channel)
 	{
