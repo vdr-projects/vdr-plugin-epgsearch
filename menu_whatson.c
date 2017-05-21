@@ -106,9 +106,9 @@ bool cMenuMyScheduleItem::Update(bool Force)
 		    frac = ((now - startTime) * 8 + (dur >> 1)) / dur;
 		}
 	      if (mode == showNext)
-		frac = (  ( 30*60 - min((time_t)30*60, startTime - now) ) * 8 + 15*60  ) / (30*60);
+		frac = (  ( 30*60 - std::min((time_t)30*60, startTime - now) ) * 8 + 15*60  ) / (30*60);
 
-	      frac = min(8,max(0, frac));
+	      frac = std::min(8,std::max(0, frac));
 
 	      szProgressPartT2S[0] = '[';
 	      memset(szProgressPartT2S + 1,'|',frac);

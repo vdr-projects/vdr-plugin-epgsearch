@@ -114,7 +114,7 @@ class cConflictCheckDevice
 	{
 	    int prio = -1;
 	    for(std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it = recTimers.begin(); it != recTimers.end(); ++it)
-		prio = max(prio, (*it)->timer->Priority());
+		prio = std::max(prio, (*it)->timer->Priority());
 	    return prio;
 	};
     int CardIndex(void) const { if (device) return device->CardIndex(); else return devicenr;}

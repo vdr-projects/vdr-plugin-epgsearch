@@ -101,7 +101,7 @@ int cMenuDirSelect::Level(const char* szDir)
 void cMenuDirSelect::AddDistinct(const char* szText)
 {
     int iLevel = Level(szText);
-    MaxLevel = max(MaxLevel, iLevel);
+    MaxLevel = std::max(MaxLevel, iLevel);
 
     if (iLevel > CurLevel) // only show Items of the specified level, except those with vars
 	return;

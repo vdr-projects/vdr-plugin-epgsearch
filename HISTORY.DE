@@ -30,6 +30,8 @@ neu:
   http://www.vdr-portal.de/board17-developer/board21-vdr-plugins/p1291771-epgsearch-f%C3%BCr-vdr-2-3-x/#post1291771
 - Anwenden fixblacklist_handling.diff von TomJoad@vdr-portal.de
   http://www.vdr-portal.de/board16-video-disk-recorder/board99-distributionen/board107-mld/p1292085-epgsearch-in-verbindung-mit-epgd-epg2vdr-live-absturz-unter-vdr-2-3-4/#post1292085
+- Anwenden epgsearch_min_max_from_stl.diff von jasminj@vdr-portal.de
+  http://www.vdr-portal.de/board17-developer/board21-vdr-plugins/p1292145-epgsearch-f%C3%BCr-vdr-2-3-x/#post1292145
 
 2013-03-xx: Version 1.0.1 - Maintenance Release
 neu:

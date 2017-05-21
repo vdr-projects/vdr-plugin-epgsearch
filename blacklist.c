@@ -737,7 +737,7 @@ int cBlacklists::GetNewID()
     cMutexLock BlacklistLock(this);
     cBlacklist *l = (cBlacklist *)First();
     while (l) {
-	newID = max(newID, l->ID);
+	newID = std::max(newID, l->ID);
 	l = (cBlacklist *)l->Next();
     }
     return newID+1;

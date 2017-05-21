@@ -1538,7 +1538,7 @@ int cSearchExts::GetNewID()
    int newID = -1;
    cSearchExt *l = (cSearchExt *)First();
    while (l) {
-      newID = max(newID, l->ID);
+      newID = std::max(newID, l->ID);
       l = (cSearchExt *)l->Next();
    }
    return newID+1;

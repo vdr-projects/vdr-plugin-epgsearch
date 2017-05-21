@@ -483,7 +483,7 @@ double FuzzyMatch(const char* s1, const char* s2, int maxLength)
 {
    Distance D;
    int dist = D.LD (s1, s2, maxLength);
-   double fMaxLength = max(strlen(s1), strlen(s2));
+   double fMaxLength = std::max(strlen(s1), strlen(s2));
    return (fMaxLength - dist)/fMaxLength;
 }
 
@@ -498,8 +498,8 @@ bool DescriptionMatches(const char* eDescr, const char* rDescr, int matchLimit)
 
    // partial match:
    // first check the length, should only be different at match limit
-   int minLength = min(l_eDescr, l_rDescr);
-   int maxLength = max(l_eDescr, l_rDescr);
+   int minLength = std::min(l_eDescr, l_rDescr);
+   int maxLength = std::max(l_eDescr, l_rDescr);
    if (100*double(minLength)/double(maxLength) < matchLimit)
       return false;
 

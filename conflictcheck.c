@@ -146,7 +146,7 @@ int cConflictCheckTimerObj::Matches(const cEvent *Event, int *Overlap) const
         else if (stop <= Event->StartTime() || Event->EndTime() <= start)
            overlap = 0;
         else
-           overlap = (min(stop, Event->EndTime()) - max(start, Event->StartTime())) * FULLMATCH / max(Event->Duration(), 1);
+           overlap = (std::min(stop, Event->EndTime()) - std::max(start, Event->StartTime())) * FULLMATCH / std::max(Event->Duration(), 1);
         }
      if (Overlap)
         *Overlap = overlap;
@@ -260,7 +260,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     const cTimer* ti = NULL;
     for (ti = Timers->First(); ti; ti = Timers->Next(ti))
     {
-	tMax = max(tMax, ti->StartTime());
+	tMax = std::max(tMax, ti->StartTime());
 	if (ti->Remote()) continue; // TO BE DONE: remote service request CC
 	if (!ti->IsSingleEvent()) continue;
         // already recording?
@@ -285,8 +285,8 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     }
 
     // collect repeating timers from now until the date of the timer with tMax
-    time_t maxCheck = time(NULL) + min(14,EPGSearchConfig.checkMaxDays) * SECSINDAY;
-    tMax = max(tMax, maxCheck);
+    time_t maxCheck = time(NULL) + std::min(14,EPGSearchConfig.checkMaxDays) * SECSINDAY;
+    tMax = std::max(tMax, maxCheck);
     for (ti = Timers->First(); ti; ti = Timers->Next(ti))
     {
 	if (ti->IsSingleEvent()) continue;
@@ -402,7 +402,7 @@ cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictChe
     LogFile.Log(3,"create conflict list");
     relevantConflicts = 0;
     numConflicts = 0;
-    maxCheck = time(NULL) + min(14, EPGSearchConfig.checkMaxDays) * SECSINDAY;
+    maxCheck = time(NULL) + std::min(14, EPGSearchConfig.checkMaxDays) * SECSINDAY;
 
     // check each time
     for(cConflictCheckTime* checkTime = EvalTimeList->First(); checkTime; checkTime = EvalTimeList->Next(checkTime))
@@ -439,7 +439,7 @@ cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictChe
 		    if (!nextRelevantConflictDate)
 			nextRelevantConflictDate = checkTime->evaltime;
 		    else
-			nextRelevantConflictDate = min(nextRelevantConflictDate, checkTime->evaltime);
+			nextRelevantConflictDate = std::min(nextRelevantConflictDate, checkTime->evaltime);
 
 		    relevantConflicts++;
 		    allTimersIgnored = false;
@@ -605,9 +605,9 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
 	     // avoid devices that are receiving
              imp <<= 1; imp |= devices[i].Receiving();
 	     // use the device with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
-             imp <<= 8; imp |= min(max(devices[i].Priority() + MAXPRIORITY, 0), 0xFF);
+             imp <<= 8; imp |= std::min(std::max(devices[i].Priority() + MAXPRIORITY, 0), 0xFF);
 	     // use the CAM slot with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
-             imp <<= 8; imp |= min(max((NumUsableSlots ? SlotPriority[j] : 0) + MAXPRIORITY, 0), 0xFF);
+             imp <<= 8; imp |= std::min(std::max((NumUsableSlots ? SlotPriority[j] : 0) + MAXPRIORITY, 0), 0xFF);
 	     // avoid devices if we need to detach existing receivers
              imp <<= 1; imp |= ndr;
 	     // avoid the primary device
