@@ -29,10 +29,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 
 // --- cMenuEventSearch ------------------------------------------------------------
-cMenuEventSearch::cMenuEventSearch(const cEvent* Event, cEventObjects& EventObjects,  MenuEventSurfMode SurfMode)
-   :cOsdMenu(tr("Event")),
-   eventObjects(EventObjects),
-   surfMode(SurfMode)
+cMenuEventSearch::cMenuEventSearch(const cEvent* Event, cEventObjects& EventObjects, MenuEventSurfMode SurfMode)
+:cOsdMenu(tr("Event")),
+eventObjects(EventObjects),
+surfMode(SurfMode)
 {
   SetMenuCategory(mcEvent);
 

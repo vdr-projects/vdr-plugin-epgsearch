@@ -62,7 +62,7 @@ int cMenuDirItem::Compare(const cListObject &ListObject) const
 // --- cMenuDirSelect ---------------------------------------------------------
 
 cMenuDirSelect::cMenuDirSelect(char* szDirectory)
-    :cOsdMenu(tr("Select directory"))
+:cOsdMenu(tr("Select directory"))
 {
   SetMenuCategory(mcTimerEdit);
 

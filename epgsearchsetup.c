@@ -52,7 +52,7 @@ const char *cMenuSetupMailNotification::MailBoxChars     = " abcdefghijklmnopqrs
 // ------------------
 // cMenuSetupSubMenu
 cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cEPGSearchConfig* Data)
-: cOsdMenu(Title, 33)
+:cOsdMenu(Title, 33)
 {
   SetMenuCategory(mcSetupPlugins);
     data = Data;

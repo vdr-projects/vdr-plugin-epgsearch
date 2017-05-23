@@ -310,7 +310,7 @@ void cSearchTimerThread::Action(void)
                const cTimer *t = GetTimer(searchExt, pEvent, bTimesMatchExactly);
 
                char* Summary = NULL;
-	       uint timerMod = tmNoChange;
+               uint timerMod = tmNoChange;
 
                if (t)
                { // already exists

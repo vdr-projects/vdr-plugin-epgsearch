@@ -43,7 +43,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 // --- cMenuSearchCommands ---------------------------------------------------------
 
 cMenuSearchCommands::cMenuSearchCommands(const char *Title, const cEvent* Event, bool DirectCall, cSearchExt* Search)
-   :cOsdMenu(Title)
+:cOsdMenu(Title)
 {
   SetMenuCategory(mcCommand);
 

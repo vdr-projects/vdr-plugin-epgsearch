@@ -636,10 +636,8 @@ const cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedule, const 
 cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
 {
     LogFile.Log(3,"start search for blacklist '%s'", search);
-
-	LOCK_CHANNELS_READ;
-   LOCK_SCHEDULES_READ;
-
+    LOCK_CHANNELS_READ;
+    LOCK_SCHEDULES_READ;
     const cSchedule *Schedule = Schedules->First();
 
     while (Schedule) {

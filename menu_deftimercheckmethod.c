@@ -118,7 +118,7 @@ void cDefTimerCheckModes::SetMode(const cChannel* channel, int mode)
 // --- cMenuDefTimerCheckMethod ---------------------------------------------------------
 
 cMenuDefTimerCheckMethod::cMenuDefTimerCheckMethod()
-    :cOsdMenu(tr("Default timer check method"), 20)
+:cOsdMenu(tr("Default timer check method"), 20)
 {
   SetMenuCategory(mcSetupPlugins);
     CheckModes[0] = tr("no check");

@@ -66,7 +66,7 @@ int cMenuTimerDoneItem::Compare(const cListObject &ListObject) const
 
 // --- cMenuTimersDone ----------------------------------------------------------
 cMenuTimersDone::cMenuTimersDone(cSearchExt* Search)
-   :cOsdMenu("", 4, 15)
+:cOsdMenu("", 4, 15)
 {
   SetMenuCategory(mcTimer);
 

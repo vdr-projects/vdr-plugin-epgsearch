@@ -86,7 +86,7 @@ eOSState cMenuAnnounceList::ProcessKey(eKeys Key)
 
 // --- cMenuAnnounceDetails -------------------------------------------------------
 cMenuAnnounceDetails::cMenuAnnounceDetails(const cEvent* Event, const cSearchExt* Search)
-   :cOsdMenu("", 25), event(Event)
+:cOsdMenu("", 25), event(Event)
 {
   SetMenuCategory(mcEvent);
    cMenuAnnounceList::showsDetails = true;

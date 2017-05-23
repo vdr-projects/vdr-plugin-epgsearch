@@ -47,7 +47,7 @@ cSearchExtCats SearchExtCats;
 
 // --- cMenuEditSearchExt --------------------------------------------------------
 cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Template, bool FromEPG)
-   :cOsdMenu(tr("Edit search"),32)
+:cOsdMenu(tr("Edit search"),32)
 {
   SetMenuCategory(mcPlugin);
    templateMode = Template;
@@ -819,7 +819,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
 
 // --- cMenuEditDaysOfWeek --------------------------------------------------------
 cMenuEditDaysOfWeek::cMenuEditDaysOfWeek(int* DaysOfWeek, int Offset, bool Negate)
-   :cOsdMenu(tr("Edit user-defined days of week"),30)
+:cOsdMenu(tr("Edit user-defined days of week"),30)
 {
   SetMenuCategory(mcPlugin);
    int i=0;
@@ -863,7 +863,7 @@ eOSState cMenuEditDaysOfWeek::ProcessKey(eKeys Key)
 
 // --- cMenuSearchEditCompCats --------------------------------------------------------
 cMenuSearchEditCompCats::cMenuSearchEditCompCats(int* catarrayAvoidRepeats)
-   :cOsdMenu(tr("Compare categories"),30)
+:cOsdMenu(tr("Compare categories"),30)
 {
   SetMenuCategory(mcPlugin);
    search_catarrayAvoidRepeats = catarrayAvoidRepeats;
@@ -1054,7 +1054,7 @@ eOSState cMenuBlacklistsSelection::ProcessKey(eKeys Key)
 
 // --- cMenuCatValuesSelect --------------------------------------------------------
 cMenuCatValuesSelect::cMenuCatValuesSelect(char* CatValues, int CatIndex, int SearchMode)
-   :cOsdMenu(tr("Values for EPG category"), 1, 40)
+:cOsdMenu(tr("Values for EPG category"), 1, 40)
 {
   SetMenuCategory(mcPlugin);
 

@@ -304,7 +304,7 @@ time_t cMenuWhatsOnSearch::seekTime = 0;
 int cMenuWhatsOnSearch::shiftTime = 0;
 
 cMenuWhatsOnSearch::cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentChannelNr)
-   :cOsdMenu("", GetTab(1), GetTab(2), GetTab(3), GetTab(4), GetTab(5))
+:cOsdMenu("", GetTab(1), GetTab(2), GetTab(3), GetTab(4), GetTab(5))
 {
   if (currentShowMode == showNow)
     SetMenuCategory(mcScheduleNow);
@@ -633,7 +633,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
 		    ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
          }
 				 else {
-	 gl_timerStatusMonitor->SetConflictCheckAdvised();
+         gl_timerStatusMonitor->SetConflictCheckAdvised();
          timer->Matches();
          Timers->SetModified();
          LogFile.iSysLog("timer %s added (active)", *timer->ToDescr());
