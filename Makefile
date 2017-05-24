@@ -207,7 +207,19 @@ DEPFILE = .dependencies
 $(DEPFILE): Makefile
 	@$(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(OBJS:%.o=%.c) $(OBJS2:%.o=%.c) $(OBJS3:%.o=%.c) $(OBJS4:%.o=%.c)> $@
 
+ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
+endif
+
+DEPFILE_DOC = .dependencies_doc
+DEPFILE_stmp = .doc_stmp
+$(DEPFILE_DOC): Makefile
+	@rm -f $(DEPFILE_DOC)
+	@./docsrc2man.sh --depend $(DEPFILE_stmp) > $(DEPFILE_DOC)
+
+ifneq ($(MAKECMDGOALS),clean)
+-include $(DEPFILE_DOC)
+endif
 
 ### Internationalization (I18N):
 
@@ -252,12 +264,16 @@ libvdr-$(PLUGIN4).so: $(OBJS4)
 createcats: createcats.o Makefile
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) createcats.o -o $@
 
-docs:
+$(DEPFILE_stmp):
 	./docsrc2man.sh
 	./docsrc2html.sh
 	ln -sf ./doc/en/epgsearch.4.txt MANUAL
 	ln -sf ./doc/en/epgsearch.1.txt README
 	ln -sf ./doc/de/epgsearch.1.txt README.DE
+	@rm -f $(DEPFILE_stmp)
+	@date > $(DEPFILE_stmp)
+
+docs: $(DEPFILE_stmp)
 
 install-$(PLUGIN): libvdr-$(PLUGIN).so
 	install -D libvdr-$(PLUGIN).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN).so.$(APIVERSION)
@@ -322,3 +338,4 @@ clean:
 	@-rm -f $(OBJS) $(OBJS2) $(OBJS3) $(OBJS4) $(DEPFILE) *.so *.tgz core* createcats createcats.o pod2*.tmp
 	@-find . \( -name "*~" -o -name "#*#" \) -print0 | xargs -0r rm -f
 	@-rm -rf doc html man
+	@-rm -f $(DEPFILE_stmp) $(DEPFILE_DOC)
