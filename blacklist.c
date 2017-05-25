@@ -48,9 +48,9 @@ cBlacklist::cBlacklist(void)
     stopTime = 2359;
     useChannel = false;
 	{
-    LOCK_CHANNELS_READ;
-    channelMin = Channels->GetByNumber(cDevice::CurrentChannel());
-    channelMax = Channels->GetByNumber(cDevice::CurrentChannel());
+        LOCK_CHANNELS_READ;
+        channelMin = Channels->GetByNumber(cDevice::CurrentChannel());
+        channelMax = channelMin;
 	}
     channelGroup = NULL;
     useCase = false;
@@ -679,7 +679,6 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
         do {
 	    const cEvent* event = GetEventByBlacklist(Schedule, pPrevEvent, MarginStop);
 	    pPrevEvent = event;
-	    LOCK_CHANNELS_READ;
 	    if (event && Channels->GetByChannelID(event->ChannelID(),true,true))
 	    {
 		if (!pSearchResults) pSearchResults = new cSearchResults;
