@@ -52,7 +52,6 @@ public:
   int      maxDuration;
   int      useDayOfWeek;
   int      DayOfWeek;
-  int      useEpisode;
   int      useExtEPGInfo;
   int      ignoreMissingEPGCats;
   char**   catvalues;
