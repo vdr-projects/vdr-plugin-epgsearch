@@ -60,6 +60,7 @@ class cShowMode: public cListObject
 	    else
 		sprintf(description, "%02d:%02d", iTime/100, iTime%100);
 	}
+    cShowMode& operator= (const cShowMode &ShowMode);
     const char* GetDescription() { return description; }
     int GetTime() const { return itime; }
     bool GetUsage() const { return useIt; }

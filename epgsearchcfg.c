@@ -94,6 +94,16 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   sendMailOnConflicts = 0;
 }
 
+cShowMode& cShowMode::operator= (const cShowMode &ShowMode)
+{
+	this->mode = ShowMode.mode;
+	this->seekTime = ShowMode.seekTime;
+    memcpy(this->description, ShowMode.description, sizeof(ShowMode.description));
+    this->useIt = ShowMode.useIt;
+    this->itime = ShowMode.itime;
+    return *this;
+}
+
 int cShowMode::Compare(const cListObject &ListObject) const
 {
     cShowMode *p = (cShowMode *)&ListObject;

@@ -181,7 +181,7 @@ cSwitchTimer* cMenuSwitchTimers::CurrentSwitchTimer(void)
 {
     cMenuSwitchTimerItem *item = (cMenuSwitchTimerItem *)Get(Current());
     if (item && SwitchTimers.Exists(item->switchTimer))
-	return item->switchTimer;
+        return item->switchTimer;
     return NULL;
 }
 

@@ -49,6 +49,17 @@ cSwitchTimer::cSwitchTimer(const cEvent* Event, int SwitchMinsBefore, int Mode, 
     unmute = Unmute;
 }
 
+cSwitchTimer& cSwitchTimer::operator= (const cSwitchTimer &SwitchTimer)
+{
+    this->eventID = SwitchTimer.eventID;
+    this->startTime = SwitchTimer.startTime;
+    this->channelID = SwitchTimer.channelID;
+    this->switchMinsBefore = SwitchTimer.switchMinsBefore;
+    this->mode = SwitchTimer.mode;
+    this->unmute = SwitchTimer.unmute;
+    return *this;
+}
+
 bool cSwitchTimer::Parse(const char *s)
 {
   char *line;
