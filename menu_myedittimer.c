@@ -53,7 +53,7 @@ cMenuMyEditTimer::cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* Event,
     if (Timer)
     {
 	timer = Timer;
-	oldtimer = *timer;
+	newtimer = *timer;
 	event = Event;
 	flags = Timer->Flags();
 	day = Timer->Day();
@@ -242,29 +242,34 @@ eOSState cMenuMyEditTimer::DeleteTimer()
 {
     // Check if this timer is active:
     LOCK_TIMERS_WRITE;
-    if (!Timers) {
-        ERROR(tr("Epgsearch: Recursive LOCK DeleteTimer failed"));
-        return osContinue;
-    }
     Timers->SetExplicitModify();
     if (timer && !addIfConfirmed) {
 	if (Interface->Confirm(trVDR("Delete timer?"))) {
 	    if (timer->Recording()) {
 		if (Interface->Confirm(trVDR("Timer still recording - really delete?"))) {
-		    timer->Skip();
-		    cRecordControls::Process(Timers, time(NULL));
+			if (!timer->Remote()) {
+		        timer->Skip();
+		        cRecordControls::Process(Timers, time(NULL));
+			}
 		}
 		else
-		    return osContinue;
+		    timer = NULL;
 	    }
-	    LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
-	    Timers->Del(timer);
+		if (timer) {
+			if (!HandleRemoteTimerModifications(NULL, timer))
+			{
+				LogFile.Log(2,"HandleRemoteTimerModifications failed");
+				return osContinue;
+			}
+	        LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
+	        Timers->Del(timer);
 
-	    gl_timerStatusMonitor->SetConflictCheckAdvised();
-	    Timers->SetModified();
-	    return osBack;
+	        gl_timerStatusMonitor->SetConflictCheckAdvised();
+	        Timers->SetModified();
+	        return osBack;
         }
     }
+	}
     return osContinue;
 }
 
@@ -339,17 +344,6 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 	{
 	    case kOk:
 	    {
-		const cChannel *ch;
-			{
-		LOCK_CHANNELS_READ;
-		ch = Channels->GetByNumber(channel);
-			}
-		if (!ch)
-		{
-		  ERROR(tr("*** Invalid Channel ***"));
-		  break;
-		}
-
 		string fullaux = "";
         string aux = "";
 		if (timer && timer->Aux())
@@ -374,6 +368,14 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 			aux = epgsearchaux;
 			free(epgsearchaux);
 		    }
+			LOCK_CHANNELS_READ;
+		    const cChannel *ch = Channels->GetByNumber(channel);
+		    if (!ch)
+		    {
+		         ERROR(tr("*** Invalid Channel ***"));
+		         break;
+		    }
+
 		    aux = UpdateAuxValue(aux, "channel", NumToString(ch->Number()) + " - " + CHANNELNAME(ch));
 		    aux = UpdateAuxValue(aux, "update", checkmode);
 		    aux = UpdateAuxValue(aux, "eventid", event->EventID());
@@ -397,18 +399,36 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
 		strreplace(tmpFile, ':', '|');
 		char* tmpDir = strdup(directory);
 		strreplace(tmpDir, ':', '|');
-		if (strlen(tmpFile) == 0)
-		{
-		    free(tmpFile);
-		    tmpFile = strdup(CHANNELNAME(ch));
-		}
 
                 if (timer)
                 {
+					LOCK_TIMERS_WRITE;
+					if (!addIfConfirmed && !Timers->Contains(timer))
+					{
+						if (cTimer *t = Timers->GetById(timer->Id(), timer->Remote()))
+							timer = t;
+						else
+						{
+							ERROR(tr("Timer has been deleted"));
+							break;
+						}
+					}
+				    LOCK_CHANNELS_READ;
+		            const cChannel *ch = Channels->GetByNumber(channel);
+		            if (!ch)
+		            {
+		                ERROR(tr("*** Invalid Channel ***"));
+		                break;
+		            }
+		            if (strlen(tmpFile) == 0)
+		            {
+		                free(tmpFile);
+		                tmpFile = strdup(CHANNELNAME(ch));
+		            }
                     cString cmdbuf;
                     cmdbuf = cString::sprintf("%d:%d:%s:%04d:%04d:%d:%d:%s%s%s:%s",
                        flags,
-                       ch->Number(),
+                       channel,
                        PRINTDAY(day, weekdays, true),
                        start,
                        stop,
@@ -419,36 +439,29 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
                        tmpFile,
                        fullaux.c_str());
 
-                    timer->Parse(cmdbuf);
+                    newtimer.Parse(cmdbuf);
 
                     free(tmpFile);
                     free(tmpDir);
 
-                    {
-                    LOCK_TIMERS_WRITE;
-                    if (!Timers) {
-                        ERROR(tr("Epgsearch: recursive TIMERS LOCK"));
-                        return osBack;
-                    }
-                    Timers->SetExplicitModify();
-                    timer->SetRemote(*remote ? remote : NULL);
+                    newtimer.SetRemote(*remote ? remote : NULL);
                     if (addIfConfirmed) {
+					  *timer = newtimer;
                       Timers->Add(timer);
-                      Timers->SetModified();
-                      if (!HandleRemoteTimerModifications(timer, &oldtimer)) {
+                      if (!HandleRemoteTimerModifications(timer)) {
 						 Timers->Del(timer);
                          ERROR(tr("Epgsearch: RemoteTimerModifications failed"));
-												 return osBack;
+												 return osContinue;
                       }
                     }
 					else {
-					  if (!HandleRemoteTimerModifications(timer, &oldtimer))
+					  if (!HandleRemoteTimerModifications(&newtimer, timer)) {
 						 return osContinue;
-					  if (oldtimer.Local() && oldtimer.Recording() && timer->Remote())
-						 cRecordControls::Stop(&oldtimer);
-					  oldtimer = timer;
+					  }
+					  if (timer->Local() && timer->Recording() && newtimer.Remote())
+						 cRecordControls::Stop(timer);
+					  *timer = newtimer;
 					}
-                    }
                     LOCK_SCHEDULES_READ;
                     timer->SetEventFromSchedule(Schedules);
                     timer->Matches();

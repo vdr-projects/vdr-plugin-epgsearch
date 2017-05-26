@@ -171,7 +171,7 @@ eOSState cMenuSearchCommands::Record(void)
 #endif
 
       SetAux(timer, fullaux);
-      if (*Setup.SVDRPDefaultHost)
+      if (Setup.SVDRPPeering && *Setup.SVDRPDefaultHost)
          timer->SetRemote(Setup.SVDRPDefaultHost);
       Timers->Add(timer);
       timer->Matches();

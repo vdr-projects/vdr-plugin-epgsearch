@@ -104,6 +104,7 @@ void cConflictCheckThread::Action(void)
 	    m_forceUpdate = false;
             {
                 LOCK_TIMERS_WRITE;
+                Timers->SetExplicitModify();
             }
 	    LogFile.iSysLog("timer conflict check started");
 

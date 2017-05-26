@@ -338,4 +338,5 @@ clean:
 	@-rm -f $(OBJS) $(OBJS2) $(OBJS3) $(OBJS4) $(DEPFILE) *.so *.tgz core* createcats createcats.o pod2*.tmp
 	@-find . \( -name "*~" -o -name "#*#" \) -print0 | xargs -0r rm -f
 	@-rm -rf doc html man
+	@-rm -f MANUAL README README.DE
 	@-rm -f $(DEPFILE_stmp) $(DEPFILE_DOC)

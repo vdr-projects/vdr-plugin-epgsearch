@@ -32,7 +32,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cMenuMyEditTimer : public cOsdMenu {
 private:
   cTimer *timer;
-  cTimer oldtimer;
+  cTimer newtimer;
   const cEvent* event;
   int channel;
   bool addIfConfirmed;

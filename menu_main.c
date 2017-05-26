@@ -234,7 +234,7 @@ eOSState cMenuSearchMain::Record(void)
 #endif
 
 	 SetAux(timer, fullaux);
-         if (*Setup.SVDRPDefaultHost)
+         if (Setup.SVDRPPeering && *Setup.SVDRPDefaultHost)
                       timer->SetRemote(Setup.SVDRPDefaultHost);
             LOCK_TIMERS_WRITE;
 	        Timers->Add(timer); // implicit SetModified

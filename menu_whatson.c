@@ -625,7 +625,7 @@ eOSState cMenuWhatsOnSearch::Record(void)
          fullaux = UpdateAuxValue(fullaux, "pin-plugin", aux);
 #endif
          SetAux(timer, fullaux);
-         if (*Setup.SVDRPDefaultHost)
+         if (Setup.SVDRPPeering && *Setup.SVDRPDefaultHost)
             timer->SetRemote(Setup.SVDRPDefaultHost);
          Timers->Add(timer);
          if (!HandleRemoteTimerModifications(timer)) {

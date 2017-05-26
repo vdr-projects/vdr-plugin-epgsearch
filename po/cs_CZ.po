@@ -826,10 +826,7 @@ msgstr "S Názvem dílu"
 msgid "Button$Without subtitle"
 msgstr "Bez Názvu dílu"
 
-msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
-msgstr ""
-
-msgid "Epgsearch: recursive TIMERS LOCK"
+msgid "Timer has been deleted"
 msgstr ""
 
 msgid "Button$Extended"

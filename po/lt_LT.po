@@ -873,10 +873,7 @@ msgstr "Su subtitrais"
 msgid "Button$Without subtitle"
 msgstr "Be subtitrų"
 
-msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
-msgstr ""
-
-msgid "Epgsearch: recursive TIMERS LOCK"
+msgid "Timer has been deleted"
 msgstr ""
 
 msgid "Button$Extended"

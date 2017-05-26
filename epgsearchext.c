@@ -1017,10 +1017,6 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
 
    LOCK_CHANNELS_READ; // Channels must be locked first
    LOCK_SCHEDULES_READ;
-   if(!Schedules) {
-      LogFile.Log(1,"schedules are currently locked! try again later.");
-      return NULL;
-   }
 
    bool noPayTV = false;
    if (PayTVMode == -1) // use search's setting
@@ -1029,11 +1025,11 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
       noPayTV = (PayTVMode == 1);
 
    time_t tNow=time(NULL);
-   const cSchedule *Schedule = Schedules->First();
    cSearchResults* pSearchResults = pPrevResults;
    cSearchResults* pBlacklistResults = GetBlacklistEvents(inspectTimerMargin?MarginStop:0);
 
    int counter = 0;
+   const cSchedule *Schedule = Schedules->First();
    while (Schedule) {
       const cChannel* channel = Channels->GetByChannelID(Schedule->ChannelID(),true,true);
       if (!channel)

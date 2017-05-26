@@ -865,11 +865,8 @@ msgstr "Mit Untertitel"
 msgid "Button$Without subtitle"
 msgstr "Ohne Untertitel"
 
-msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
-msgstr "Epgsearch: Rekursiver LOCK Problem beim Löschen eines Timers"
-
-msgid "Epgsearch: recursive TIMERS LOCK"
-msgstr "Epgsearch: Rekursiver TIMER Lock"
+msgid "Timer has been deleted"
+msgstr "Timer wurde gelöscht!"
 
 msgid "Button$Extended"
 msgstr "Erweitert"
@@ -1294,6 +1291,12 @@ msgstr "Umschalten zu (%d) '%s'?"
 
 msgid "Programming timer failed!"
 msgstr "Timer-Programmierung fehlschlagen!"
+
+#~ msgid "Epgsearch: recursive TIMERS LOCK"
+#~ msgstr "Epgsearch: Rekursiver TIMER Lock"
+
+#~ msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
+#~ msgstr "Epgsearch: Rekursiver LOCK Problem beim Löschen eines Timers"
 
 #~ msgid "in %02ldd"
 #~ msgstr "in %02ldd"

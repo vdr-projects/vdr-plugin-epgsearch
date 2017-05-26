@@ -89,9 +89,10 @@ void cTimerThread::Action(void)
             m_Active=false;
             break;
         }
-        {
-	LOCK_TIMERS_WRITE;
-        }
+    {
+        LOCK_TIMERS_WRITE;
+        Timers->SetExplicitModify();
+    }
 	bool bSuccess = SendViaSVDRP(m_cmd);
 	if (!bSuccess)
 	{

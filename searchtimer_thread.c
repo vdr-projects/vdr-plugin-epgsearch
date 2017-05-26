@@ -233,6 +233,7 @@ void cSearchTimerThread::Action(void)
          // wait if TimersWriteLock is set or waited for
          {
              LOCK_TIMERS_WRITE;
+             Timers->SetExplicitModify();
          }
          LogFile.iSysLog("search timer update started");
 
@@ -391,7 +392,7 @@ void cSearchTimerThread::Action(void)
                         if (timerMod & tmAuxEventID)
 			  LogFile.Log(3,"timer for '%s~%s' (%s - %s, channel %d) : aux info for event id has changed", pEvent->Title()?pEvent->Title():"no title", pEvent->ShortText()?pEvent->ShortText():"no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
 		      }
-		    index = t->Index()+1;
+		    index = t->Id();
 		    Priority = t->Priority();
 		    Lifetime = t->Lifetime();
                   }
@@ -706,7 +707,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
    }
    else
       tmpSummary = SummaryExtended(searchExt, Timer, pEvent);
-   if (*Setup.SVDRPDefaultHost)
+   if (Setup.SVDRPPeering && *Setup.SVDRPDefaultHost)
       Timer->SetRemote(Setup.SVDRPDefaultHost);
    else {
    if (index==0)
@@ -775,7 +776,7 @@ void cSearchTimerThread::RemoveTimer(const cTimer* t, const cEvent* e)
          TimersDone.Save();
       }
    }
-   DelTimer(t->Index()+1);
+   DelTimer(t->Id());
 }
 
 void cSearchTimerThread::DelRecording(int index)
@@ -857,7 +858,7 @@ void cSearchTimerThread::CheckExpiredRecs()
 
 void cSearchTimerThread::ModifyManualTimer(const cEvent* event, const cTimer* timer, int bstart, int bstop)
 {
-   LogFile.Log(1,"modified manual timer %d for '%s~%s' (%s - %s)", timer->Index()+1, event->Title(), event->ShortText()?event->ShortText():"", GETDATESTRING(event), GETTIMESTRING(event));
+   LogFile.Log(1,"modified manual timer %d for '%s~%s' (%s - %s)", timer->Id(), event->Title(), event->ShortText()?event->ShortText():"", GETDATESTRING(event), GETTIMESTRING(event));
 
    time_t start = event->StartTime() - bstart;
    time_t stop = event->EndTime() + bstop;
@@ -874,7 +875,7 @@ void cSearchTimerThread::ModifyManualTimer(const cEvent* event, const cTimer* ti
 
    char* cmdbuf = NULL;
    msprintf(&cmdbuf, "MODT %d %d:%d:%s:%s:%s:%d:%d:%s:%s",
-            timer->Index()+1,
+            timer->Id(),
             timer->Flags(),
             timer->Channel()->Number(),
             daybuffer,
@@ -929,7 +930,7 @@ void cSearchTimerThread::CheckManualTimers(void)
             char* szEventID = GetAuxValue(ti, "eventid");
             if (szEventID)
                eventID = atol(szEventID);
-            LogFile.Log(3,"checking manual timer %d by event ID %u", ti->Index()+1, eventID);
+            LogFile.Log(3,"checking manual timer %d by event ID %u", ti->Id(), eventID);
             const cEvent* event = schedule->GetEvent(eventID);
             if (event)
             {
@@ -937,7 +938,7 @@ void cSearchTimerThread::CheckManualTimers(void)
                   ModifyManualTimer(event, ti, bstart, bstop);
             }
             else
-               LogFile.Log(1,"ooops - no event found with id %u for manual timer %d", eventID, ti->Index()+1);
+               LogFile.Log(1,"ooops - no event found with id %u for manual timer %d", eventID, ti->Id());
 
             if (szEventID) free(szEventID);
          }
@@ -955,7 +956,7 @@ void cSearchTimerThread::CheckManualTimers(void)
                if (testevent->StartTime() < ti->StopTime() && testevent->EndTime() > ti->StartTime())
                   eventlist.Add(new cSearchResult(testevent, (const cSearchExt*)NULL));
             }
-            LogFile.Log(3,"checking manual timer %d by channel and time, found %d candidates", ti->Index()+1, eventlist.Count());
+            LogFile.Log(3,"checking manual timer %d by channel and time, found %d candidates", ti->Id(), eventlist.Count());
             if (eventlist.Count() > 0)
             {
                // choose the event with the best match by duration
@@ -982,7 +983,7 @@ void cSearchTimerThread::CheckManualTimers(void)
 		 LogFile.Log(3,"selected candidate is too bad");
             }
             else
-               LogFile.Log(1,"ooops - no events found touching manual timer %d", ti->Index()+1);
+               LogFile.Log(1,"ooops - no events found touching manual timer %d", ti->Id());
          }
          if (updateMethod) free(updateMethod);
       }

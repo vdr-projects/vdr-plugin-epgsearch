@@ -869,11 +869,8 @@ msgstr "Kuvaus"
 msgid "Button$Without subtitle"
 msgstr "Ei kuvausta"
 
-msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
-msgstr ""
-
-msgid "Epgsearch: recursive TIMERS LOCK"
-msgstr ""
+msgid "Timer has been deleted"
+msgstr "Ajastin on poistettu!"
 
 msgid "Button$Extended"
 msgstr "Laaja"

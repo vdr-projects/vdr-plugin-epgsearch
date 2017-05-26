@@ -740,6 +740,9 @@ msgstr ""
 msgid "EPG Commands"
 msgstr ""
 
+msgid "Epgsearch: RemoteTimerModifications failed"
+msgstr ""
+
 msgid "Already running!"
 msgstr ""
 
@@ -809,6 +812,9 @@ msgstr ""
 msgid "Childlock"
 msgstr ""
 
+msgid "Record on"
+msgstr ""
+
 msgid "Timer check"
 msgstr ""
 
@@ -821,13 +827,7 @@ msgstr ""
 msgid "Button$Without subtitle"
 msgstr ""
 
-msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
-msgstr ""
-
-msgid "Epgsearch: recursive TIMERS LOCK"
-msgstr ""
-
-msgid "Epgsearch: RemoteTimerModifications failed"
+msgid "Timer has been deleted"
 msgstr ""
 
 msgid "Button$Extended"

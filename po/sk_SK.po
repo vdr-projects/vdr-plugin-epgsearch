@@ -781,6 +781,9 @@ msgstr "Vytvoriť čiernu listinu"
 msgid "EPG Commands"
 msgstr "EPG príkazy"
 
+msgid "Epgsearch: RemoteTimerModifications failed"
+msgstr ""
+
 msgid "Already running!"
 msgstr "Práve spustené!"
 
@@ -850,6 +853,9 @@ msgstr "Kanál"
 msgid "Childlock"
 msgstr "Detský zámok"
 
+msgid "Record on"
+msgstr ""
+
 msgid "Timer check"
 msgstr "Kontrola plánu"
 
@@ -862,13 +868,7 @@ msgstr "S titulkami"
 msgid "Button$Without subtitle"
 msgstr "Bez titulkov"
 
-msgid "Epgsearch: Recursive LOCK DeleteTimer failed"
-msgstr ""
-
-msgid "Epgsearch: recursive TIMERS LOCK"
-msgstr ""
-
-msgid "Epgsearch: RemoteTimerModifications failed"
+msgid "Timer has been deleted"
 msgstr ""
 
 msgid "Button$Extended"
