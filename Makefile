@@ -190,15 +190,20 @@ all: $(ALL) i18n docs
 ### Implicit rules:
 
 %.o: %.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN)"' $(INCLUDES) -o $@ $<
+	@echo CC $@
+	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN)"' $(INCLUDES) -o $@ $<
 mainmenushortcut.o: mainmenushortcut.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(MAINMENUSHORTCUT)"' $(INCLUDES) -o $@ $<
+	@echo CC $@
+	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(MAINMENUSHORTCUT)"' $(INCLUDES) -o $@ $<
 epgsearchonly.o: epgsearchonly.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN2)"' $(INCLUDES) -o $@ $<
+	@echo CC $@
+	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN2)"' $(INCLUDES) -o $@ $<
 conflictcheckonly.o: conflictcheckonly.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN3)"' $(INCLUDES) -o $@ $<
+	@echo CC $@
+	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN3)"' $(INCLUDES) -o $@ $<
 quickepgsearch.o: quickepgsearch.c
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"' $(INCLUDES) -o $@ $<
+	@echo CC $@
+	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) -DPLUGIN_NAME_I18N='"$(PLUGIN4)"' $(INCLUDES) -o $@ $<
 
 # Dependencies:
 
@@ -230,17 +235,21 @@ I18Nmsgs  = $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLU
 I18Npot   = $(PODIR)/$(PLUGIN).pot
 
 %.mo: %.po
-	msgfmt -c -o $@ $<
+	@echo MO $@
+	$(Q)msgfmt -c -o $@ $<
 
 $(I18Npot): $(wildcard *.c)
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --package-name=vdr-$(PLUGIN) --package-version=$(VERSION) --msgid-bugs-address='<see README>' -o $@ `ls $^`
+	@echo GT$@
+	$(Q)xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --package-name=vdr-$(PLUGIN) --package-version=$(VERSION) --msgid-bugs-address='<see README>' -o $@ `ls $^`
 
 %.po: $(I18Npot)
-	msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
+	@echo PO $@
+	$(Q)msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
 	@touch $@
 
 $(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
-	install -D -m644 $< $@
+	@echo IN $@
+	$(Q)install -D -m644 $< $@
 
 .PHONY: i18n
 i18n: $(I18Nmo) $(I18Npot)
@@ -250,19 +259,24 @@ install-i18n: $(I18Nmsgs)
 ### Targets:
 
 libvdr-$(PLUGIN).so: $(OBJS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS) $(LIBS) -o $@
+	@echo LD $@
+	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS) $(LIBS) -o $@
 
 libvdr-$(PLUGIN2).so: $(OBJS2)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS2) $(LIBS2) -o $@
+	@echo LD $@
+	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS2) $(LIBS2) -o $@
 
 libvdr-$(PLUGIN3).so: $(OBJS3)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS3) $(LIBS3) -o $@
+	@echo LD $@
+	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS3) $(LIBS3) -o $@
 
 libvdr-$(PLUGIN4).so: $(OBJS4)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS4) $(LIBS4) -o $@
+	@echo LD $@
+	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS4) $(LIBS4) -o $@
 
 createcats: createcats.o Makefile
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) createcats.o -o $@
+	@echo LD $@
+	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS) createcats.o -o $@
 
 $(DEPFILE_stmp):
 	./docsrc2man.sh
@@ -276,16 +290,20 @@ $(DEPFILE_stmp):
 docs: $(DEPFILE_stmp)
 
 install-$(PLUGIN): libvdr-$(PLUGIN).so
-	install -D libvdr-$(PLUGIN).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN).so.$(APIVERSION)
+	@echo IN $@
+	$(Q)install -D libvdr-$(PLUGIN).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN).so.$(APIVERSION)
 
 install-$(PLUGIN2): libvdr-$(PLUGIN2).so
-	install -D libvdr-$(PLUGIN2).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN2).so.$(APIVERSION)
+	@echo IN $@
+	$(Q)install -D libvdr-$(PLUGIN2).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN2).so.$(APIVERSION)
 
 install-$(PLUGIN3): libvdr-$(PLUGIN3).so
-	install -D libvdr-$(PLUGIN3).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN3).so.$(APIVERSION)
+	@echo IN $@
+	$(Q)install -D libvdr-$(PLUGIN3).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN3).so.$(APIVERSION)
 
 install-$(PLUGIN4): libvdr-$(PLUGIN4).so
-	install -D libvdr-$(PLUGIN4).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN4).so.$(APIVERSION)
+	@echo IN $@
+	$(Q)install -D libvdr-$(PLUGIN4).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN4).so.$(APIVERSION)
 
 install-conf:
 	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/conf.d
