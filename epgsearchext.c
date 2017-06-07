@@ -1015,9 +1015,6 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
 {
    LogFile.Log(3,"start search for search timer '%s'", search);
 
-   LOCK_CHANNELS_READ; // Channels must be locked first
-   LOCK_SCHEDULES_READ;
-
    bool noPayTV = false;
    if (PayTVMode == -1) // use search's setting
       noPayTV = (useChannel == 3);
@@ -1027,6 +1024,10 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
    time_t tNow=time(NULL);
    cSearchResults* pSearchResults = pPrevResults;
    cSearchResults* pBlacklistResults = GetBlacklistEvents(inspectTimerMargin?MarginStop:0);
+
+   {
+   LOCK_CHANNELS_READ;
+   LOCK_SCHEDULES_READ;
 
    int counter = 0;
    const cSchedule *Schedule = Schedules->First();
@@ -1098,6 +1099,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
       Schedule = (const cSchedule *)Schedules->Next(Schedule);
    }
    LogFile.Log(3,"found %d event(s) for search timer '%s'", counter, search);
+   } // Give up locks
 
    if (pBlacklistResults) delete pBlacklistResults;
 

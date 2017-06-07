@@ -56,10 +56,11 @@ cMenuSearchMain::cMenuSearchMain(void)
   shiftTime = 0;
   InWhatsOnMenu = false;
   InFavoritesMenu = false;
+  const cChannel *channel;
+  {
   LOCK_CHANNELS_READ;
-  LOCK_SCHEDULES_READ;
-  schedules = Schedules;
-  const cChannel *channel = Channels->GetByNumber(cDevice::CurrentChannel());
+  channel = Channels->GetByNumber(cDevice::CurrentChannel());
+  }
   if (channel) {
     cMenuWhatsOnSearch::SetCurrentChannel(channel->Number());
     if (EPGSearchConfig.StartMenu == 0 || forceMenu != 0)
@@ -73,8 +74,9 @@ cMenuSearchMain::cMenuSearchMain(void)
   }
   if ((EPGSearchConfig.StartMenu == 1 || forceMenu == 1) && forceMenu != 2)
     {
+      LOCK_SCHEDULES_READ;
       InWhatsOnMenu = true;
-      AddSubMenu(new cMenuWhatsOnSearch(schedules, cDevice::CurrentChannel()));
+      AddSubMenu(new cMenuWhatsOnSearch(Schedules, cDevice::CurrentChannel()));
     }
   if (forceMenu == 3)
       ShowSummary();
@@ -117,8 +119,11 @@ void cMenuSearchMain::PrepareSchedule(const cChannel *Channel)
     cMenuTemplate* ScheduleTemplate = cTemplFile::GetTemplateByName("MenuSchedule");
     eventObjects.Clear();
 
-   if (schedules) {
-	const cSchedule *Schedule = schedules->GetSchedule(Channel);
+	const cSchedule *Schedule;
+	{
+	LOCK_SCHEDULES_READ;
+	Schedule = Schedules->GetSchedule(Channel);
+	}
 	currentChannel = Channel->Number();
 	if (Schedule && Schedule->Events()->First())
 	{
@@ -153,7 +158,6 @@ void cMenuSearchMain::PrepareSchedule(const cChannel *Channel)
 	    //	    	    timeb tnow;
 		    //	    ftime(&tnow);
 		    //	    isyslog("duration epgs prepsched:  %d (%d)", tnow.millitm - tstart.millitm + ((tnow.millitm - tstart.millitm<0)?1000:0), Count());
-        }
     }
     if (shiftTime)
     {
@@ -431,7 +435,10 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		 state = osContinue;
 	     break;
 	 case kGreen:
-	     if (schedules)
+		 {
+		 LOCK_CHANNELS_READ;
+		 LOCK_SCHEDULES_READ;
+	     if (Schedules)
 	     {
 		 if (HasSubMenu() && !InWhatsOnMenu && !InFavoritesMenu)
 		 {
@@ -448,7 +455,6 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 			 cMenuMyScheduleItem* Item = (cMenuMyScheduleItem *)Get(Current());
 			 if (Item && Item->event)
 			 {
-			     LOCK_CHANNELS_READ;
 			     const cChannel *channel = Channels->GetByChannelID(Item->event->ChannelID(), true, true);
 			     if (channel)
 				 ChannelNr = channel->Number();
@@ -462,12 +468,11 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		     else
 		     {
 			 InWhatsOnMenu = true;
-			 return AddSubMenu(new cMenuWhatsOnSearch(schedules, ChannelNr));
+			 return AddSubMenu(new cMenuWhatsOnSearch(Schedules, ChannelNr));
 		     }
 		 }
 		 else
 		 {
-		     LOCK_CHANNELS_READ;
 		     const cChannel *channel = Channels->GetByNumber(currentChannel-1,-1);
 
 		     if (channel) {
@@ -481,8 +486,12 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		     return osContinue;
 		 }
 	     }
+		 }
 	 case kYellow:
-	     if (schedules)
+		 {
+		 LOCK_CHANNELS_READ;
+		 LOCK_SCHEDULES_READ;
+	     if (Schedules)
 	     {
 		 if (HasSubMenu())
 		 {
@@ -496,11 +505,10 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		 {
 		     cMenuWhatsOnSearch::currentShowMode = showNext;
 		     InWhatsOnMenu = true;
-		     return AddSubMenu(new cMenuWhatsOnSearch(schedules, cMenuWhatsOnSearch::CurrentChannel()));
+		     return AddSubMenu(new cMenuWhatsOnSearch(Schedules, cMenuWhatsOnSearch::CurrentChannel()));
 		 }
 		 else
 		 {
-		     LOCK_CHANNELS_READ;
 		     const cChannel *channel = Channels->GetByNumber(currentChannel+1,1);
 		     if (channel) {
 			 PrepareSchedule(channel);
@@ -514,6 +522,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		 }
 	     }
 	     break;
+		 }
 	 case kBlue:
         if (HasSubMenu())
         {

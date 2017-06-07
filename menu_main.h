@@ -32,8 +32,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cMenuSearchMain : public cOsdMenu {
  private:
   int helpKeys;
-  cSchedulesLock schedulesLock;
-  const cSchedules *schedules;
   int otherChannel;
   int currentChannel;
   eOSState Record(void);
