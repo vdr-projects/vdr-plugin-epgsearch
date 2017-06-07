@@ -139,6 +139,8 @@ const cTimer *cSearchTimerThread::GetTimer(cSearchExt *searchExt, const cEvent *
       if (ti->WeekDays()) // ignore serial timers
          continue;
 
+	  if (ti->Remote()) // ignore remote timers
+		 continue;
       // ignore manual timers if this search could modify them
       if ((searchExt->action == searchTimerActionRecord || searchExt->action == searchTimerActionInactiveRecord) && TriggeredFromSearchTimerID(ti) == -1) // manual timer
          continue;
@@ -501,17 +503,11 @@ void cSearchTimerThread::Action(void)
                {
                   const cTimer* t = tObj->timer;
                   // timer could have been deleted meanwhile, so check if its still there
-                  bool found = false;
                   {
                   LOCK_TIMERS_READ;
-                  for(const cTimer* checkT = Timers->First(); checkT; checkT = Timers->Next(checkT))
-                     if (checkT == t)
-                     {
-                        found = true;
-                        break;
-                     }
+                  if (!Timers->Contains(t))
+                     continue;
                   }
-                  if (!found) continue;
 
                   if (TimerWasModified(t)) continue;
                   if (!t->Event()) continue; // if there is no event, we keep the timer, since EPG could have been cleared
@@ -790,6 +786,7 @@ void cSearchTimerThread::CheckExpiredRecs()
 {
    LogFile.Log(1, "check for expired recordings started");
    LOCK_RECORDINGS_WRITE;
+   Recordings->SetExplicitModify();
    cList<cRecordingObj> DelRecordings;
    for (cRecording *recording = Recordings->First(); recording && m_Active; recording = Recordings->Next(recording))
    {
@@ -848,7 +845,10 @@ void cSearchTimerThread::CheckExpiredRecs()
          if (!recording->Delete())
             LogFile.Log(1, "error deleting recording!");
          else
+         {
             Recordings->DelByName(recording->FileName());
+            Recordings->SetModified();
+         }
       }
       else
          LogFile.Log(1, "recording already in use by a timer!");
