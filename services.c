@@ -299,13 +299,13 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 	       if (relOnly && (*it)->ignore) continue;
 	       std::ostringstream timerpart;
 	       int recPart = (*it)->recDuration * 100 / ((*it)->stop - (*it)->start);
-	       timerpart << (*it)->origIndex+1 << "|" << recPart << "|";
+	       timerpart << (*it)->timer->Id() << "|" << recPart << "|";
 	       std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator itcc;
 	       if ((*it)->concurrentTimers)
 		 {
 		   std::ostringstream cctimers;
 		   for (itcc = (*it)->concurrentTimers->begin(); itcc != (*it)->concurrentTimers->end(); ++itcc)
-		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->origIndex+1;
+		     cctimers << (cctimers.str().empty()?"":"#") << (*itcc)->timer->Id();
 		   timerpart << cctimers.str();
 		 }
 	       timerparts << (timerparts.str().empty()?"":":") << timerpart.str();

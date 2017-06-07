@@ -61,11 +61,11 @@ class cConflictCheckTimerObj : public cTimerObj
     int Matches(const cEvent *Event, int *Overlap) const;
     const cTimer* OrigTimer(const cTimers* timers) const
     {
-      return timers->GetTimer(timer);
+      return timers->GetById(timer->Id(),timer->Remote());
     }
     cTimer* OrigTimer(cTimers* timers)
     {
-      return timers->GetTimer(timer);
+      return timers->GetById(timer->Id(),timer->Remote());
     }
 };
 
