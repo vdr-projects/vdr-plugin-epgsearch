@@ -6,10 +6,5 @@ Description of patches
   patches vdr to allow plugins to replace main menu items like 'Schedule', 'Recordings',...
   Use this one, if epgsearch shall replace the schedules menu. This patch is also used
   by other plugins like the extrec-plugin.
-- timercmd-0.1_1.x.diff:
-  this patch adds a timer commands menu to VDR's timer menu, that can be called with '0'.
-  It can be used e.g. to search for repeats of a timer.
-- vdr-1.5.17-progressbar-support-0.0.1.diff:
-  this patch adds progressbar support to VDR's skins 'classic' and 'st:tng'
-- vdr.epgsearch-exttimeredit.diff:
+- vdr.epgsearch-exttimeredit-2.3.6.diff
   this patch against VDR integrates epgsearch's timer edit menu to VDR's timer menu.

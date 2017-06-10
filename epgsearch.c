@@ -69,8 +69,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "confdloader.h"
 #include "pending_notifications.h"
 
-#if defined(APIVERSNUM) && APIVERSNUM < 20304
-#error "VDR-2.3.4 API version or greater is required!"
+#if defined(APIVERSNUM) && APIVERSNUM < 20306
+#error "VDR-2.3.6 API version or greater is required!"
 #endif
 
 static const char VERSION[]        = "2.3.1";
