@@ -345,8 +345,11 @@ eOSState cMenuSearchResults::ShowSummary()
       const cEvent *ei = ((cMenuSearchResultsItem *)Get(Current()))->event;
       if (ei)
       {
+				const cChannel *channel;
+				{
          LOCK_CHANNELS_READ;
-         const cChannel *channel = Channels->GetByChannelID(ei->ChannelID(), true, true);
+         channel = Channels->GetByChannelID(ei->ChannelID(), true, true);
+				}
          if (channel)
             return AddSubMenu(new cMenuEventSearch(ei, eventObjects));
       }

@@ -55,7 +55,7 @@ extern bool isUTF8;
 int gl_InfoConflict = 0;
 
 // --- cMenuMyScheduleItem ------------------------------------------------------
-cMenuMyScheduleItem::cMenuMyScheduleItem(const cEvent *Event, const cChannel *Channel, showMode Mode, cMenuTemplate* MenuTemplate)
+cMenuMyScheduleItem::cMenuMyScheduleItem(const cTimers *Timers, const cEvent *Event, const cChannel *Channel, showMode Mode, cMenuTemplate* MenuTemplate)
 {
    event = Event;
    channel = Channel;
@@ -63,10 +63,10 @@ cMenuMyScheduleItem::cMenuMyScheduleItem(const cEvent *Event, const cChannel *Ch
    timerMatch = tmNone;
    inSwitchList = false;
    menuTemplate = MenuTemplate;
-   Update(true);
+   Update(Timers, true);
 }
 
-bool cMenuMyScheduleItem::Update(bool Force)
+bool cMenuMyScheduleItem::Update(const cTimers* Timers, bool Force)
 {
    if (!menuTemplate)
       return false;
@@ -81,7 +81,6 @@ bool cMenuMyScheduleItem::Update(bool Force)
    bool OldInSwitchList = inSwitchList;
    bool hasMatch = false;
    const cTimer* timer = NULL;
-   LOCK_TIMERS_READ;
    if (event) timer = Timers->GetMatch(event, &timerMatch);
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
@@ -256,14 +255,14 @@ void cMenuMyScheduleItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, 
 }
 
 // --- cMenuMyScheduleSepItem ------------------------------------------------------
-cMenuMyScheduleSepItem::cMenuMyScheduleSepItem(const cEvent *Event, const cChannel *Channel)
-  : cMenuMyScheduleItem(Event, Channel, showNow, NULL)
+cMenuMyScheduleSepItem::cMenuMyScheduleSepItem(const cTimers *Timers, const cEvent *Event, const cChannel *Channel)
+  : cMenuMyScheduleItem(Timers, Event, Channel, showNow, NULL)
 {
    event = Event;
    channel = Channel;
    dummyEvent = NULL;
    SetSelectable(false);
-   Update(true);
+   Update(Timers, true);
 }
 
 cMenuMyScheduleSepItem::~cMenuMyScheduleSepItem()
@@ -272,7 +271,7 @@ cMenuMyScheduleSepItem::~cMenuMyScheduleSepItem()
     delete dummyEvent;
 }
 
-bool cMenuMyScheduleSepItem::Update(bool Force)
+bool cMenuMyScheduleSepItem::Update(const cTimers *Timers, bool Force)
 {
   if (channel)
     SetText(cString::sprintf("%s\t %s %s", MENU_SEPARATOR_ITEMS, channel->Name(), MENU_SEPARATOR_ITEMS));
@@ -303,7 +302,7 @@ cList<cShowMode> cMenuWhatsOnSearch::showModes;
 time_t cMenuWhatsOnSearch::seekTime = 0;
 int cMenuWhatsOnSearch::shiftTime = 0;
 
-cMenuWhatsOnSearch::cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentChannelNr)
+cMenuWhatsOnSearch::cMenuWhatsOnSearch(int CurrentChannelNr)
 :cOsdMenu("", GetTab(1), GetTab(2), GetTab(3), GetTab(4), GetTab(5))
 {
   if (currentShowMode == showNow)
@@ -315,7 +314,6 @@ cMenuWhatsOnSearch::cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentC
 
   helpKeys = -1;
   shiftTime = 0;
-  schedules = Schedules;
 
   CreateShowModes();
 
@@ -424,6 +422,7 @@ void cMenuWhatsOnSearch::LoadSchedules()
    if (currentChannel > maxChannel)
       maxChannel = 0;
 
+	 LOCK_TIMERS_READ; // needed in MyScheduleItem
    LOCK_CHANNELS_READ;
    for (const cChannel *Channel = Channels->First(); Channel; Channel = Channels->Next(Channel))
    {
@@ -433,7 +432,11 @@ void cMenuWhatsOnSearch::LoadSchedules()
          if (EPGSearchConfig.showRadioChannels == 0 && ISRADIO(Channel))
             continue;
 
-         const cSchedule *Schedule = schedules->GetSchedule(Channel);
+				 const cSchedule *Schedule;
+				 {
+				 LOCK_SCHEDULES_READ;
+         Schedule = Schedules->GetSchedule(Channel);
+				 }
          const cEvent *Event = NULL;
          if (Schedule)
          {
@@ -462,13 +465,13 @@ void cMenuWhatsOnSearch::LoadSchedules()
 	     if (!EPGSearchConfig.showEmptyChannels && !Event)
             continue;
 
-	     Add(new cMenuMyScheduleItem(Event, Channel, currentShowMode, currentTemplate), Channel->Number() == currentChannel);
+	     Add(new cMenuMyScheduleItem(Timers, Event, Channel, currentShowMode, currentTemplate), Channel->Number() == currentChannel);
          if (Event) eventObjects.Add(Event);
       }
       else
       {
 	if (EPGSearchConfig.showChannelGroups && strlen(Channel->Name()))
-	  Add(new cMenuMyScheduleSepItem(NULL, Channel));
+	  Add(new cMenuMyScheduleSepItem(NULL, NULL, Channel));
       }
    }
 }
@@ -652,8 +655,9 @@ eOSState cMenuWhatsOnSearch::Record(void)
 bool cMenuWhatsOnSearch::Update(void)
 {
    bool result = false;
+	 LOCK_TIMERS_READ;
    for (cOsdItem *item = First(); item; item = Next(item)) {
-      if (item->Selectable() && ((cMenuMyScheduleItem *)item)->Update())
+      if (item->Selectable() && ((cMenuMyScheduleItem *)item)->Update(Timers))
          result = true;
    }
    return result;
@@ -838,7 +842,8 @@ eOSState cMenuWhatsOnSearch::ProcessKey(eKeys Key)
                   cMenuMyScheduleItem *mi = (cMenuMyScheduleItem *)Get(Current());
                   if (mi && mi->Selectable() && mi->channel)
                   {
-                     const cSchedule *Schedule = schedules->GetSchedule(mi->channel);
+										LOCK_SCHEDULES_READ;
+                     const cSchedule *Schedule = Schedules->GetSchedule(mi->channel);
                      if (Schedule)
                      {
                         time_t now = time(NULL);

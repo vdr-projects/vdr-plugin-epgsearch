@@ -39,8 +39,8 @@ public:
   bool inSwitchList;
   cMenuTemplate* menuTemplate;
 
-  cMenuMyScheduleItem(const cEvent *Event, const cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);
-  virtual bool Update(bool Force = false);
+  cMenuMyScheduleItem(const cTimers *Timers, const cEvent *Event, const cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);
+  virtual bool Update(const cTimers *Timers, bool Force = false);
   virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 
 };
@@ -52,9 +52,9 @@ class cMenuMyScheduleSepItem : public cMenuMyScheduleItem {
                       // if VDR had a SetItemSeparator function for this
 public:
 
-  cMenuMyScheduleSepItem(const cEvent *Event, const cChannel *Channel = NULL);
+  cMenuMyScheduleSepItem(const cTimers *Timers = NULL, const cEvent *Event = NULL, const cChannel *Channel = NULL);
   ~cMenuMyScheduleSepItem();
-  virtual bool Update(bool Force = false);
+  virtual bool Update(const cTimers *Timers = NULL,bool Force = false);
   virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 };
 
@@ -62,7 +62,6 @@ public:
 class cMenuWhatsOnSearch : public cOsdMenu {
 private:
   int helpKeys;
-  const cSchedules* schedules;
   eOSState Record(void);
   eOSState ExtendedSearch(void);
   static int currentChannel;
@@ -75,7 +74,7 @@ private:
   static time_t seekTime;
   time_t GetTimeT(int iTime);
   static showMode GetNextMode();
-  cMenuWhatsOnSearch(const cSchedules *Schedules, int CurrentChannelNr);
+  cMenuWhatsOnSearch(int CurrentChannelNr);
   ~cMenuWhatsOnSearch();
   void LoadSchedules();
   static int CurrentChannel(void) { return currentChannel; }

@@ -73,11 +73,10 @@ cMenuSearchMain::cMenuSearchMain(void)
 
   }
   if ((EPGSearchConfig.StartMenu == 1 || forceMenu == 1) && forceMenu != 2)
-    {
-      LOCK_SCHEDULES_READ;
+	  {
       InWhatsOnMenu = true;
-      AddSubMenu(new cMenuWhatsOnSearch(Schedules, cDevice::CurrentChannel()));
-    }
+      AddSubMenu(new cMenuWhatsOnSearch(cDevice::CurrentChannel()));
+		}
   if (forceMenu == 3)
       ShowSummary();
 }
@@ -119,6 +118,7 @@ void cMenuSearchMain::PrepareSchedule(const cChannel *Channel)
     cMenuTemplate* ScheduleTemplate = cTemplFile::GetTemplateByName("MenuSchedule");
     eventObjects.Clear();
 
+		LOCK_TIMERS_READ;
 	const cSchedule *Schedule;
 	{
 	LOCK_SCHEDULES_READ;
@@ -148,10 +148,10 @@ void cMenuSearchMain::PrepareSchedule(const cChannel *Channel)
 			struct tm *t_event = localtime_r(&EventDate, &tm_rEvent);
 			struct tm *t_lastevent = localtime_r(&lastEventDate, &tm_rLastEvent);
 			if (t_event->tm_mday != t_lastevent->tm_mday)
-			  Add(new cMenuMyScheduleSepItem(Event));
+			  Add(new cMenuMyScheduleSepItem(NULL, Event));
 			lastEventDate = EventDate;
 		    }
-		    Add(new cMenuMyScheduleItem(Event, NULL, showNow, ScheduleTemplate), Event == PresentEvent);
+		    Add(new cMenuMyScheduleItem(Timers, Event, NULL, showNow, ScheduleTemplate), Event == PresentEvent);
 		    eventObjects.Add(Event);
 		}
             }
@@ -170,8 +170,9 @@ void cMenuSearchMain::PrepareSchedule(const cChannel *Channel)
 bool cMenuSearchMain::Update(void)
 {
   bool result = false;
+	LOCK_TIMERS_READ;
   for (cOsdItem *item = First(); item; item = Next(item)) {
-      if (item->Selectable() && ((cMenuMyScheduleItem *)item)->Update())
+      if (item->Selectable() && ((cMenuMyScheduleItem *)item)->Update(Timers))
          result = true;
       }
   return result;
@@ -436,10 +437,6 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 	     break;
 	 case kGreen:
 		 {
-		 LOCK_CHANNELS_READ;
-		 LOCK_SCHEDULES_READ;
-	     if (Schedules)
-	     {
 		 if (HasSubMenu() && !InWhatsOnMenu && !InFavoritesMenu)
 		 {
 		     if (Count())
@@ -455,6 +452,7 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 			 cMenuMyScheduleItem* Item = (cMenuMyScheduleItem *)Get(Current());
 			 if (Item && Item->event)
 			 {
+				 LOCK_CHANNELS_READ;
 			     const cChannel *channel = Channels->GetByChannelID(Item->event->ChannelID(), true, true);
 			     if (channel)
 				 ChannelNr = channel->Number();
@@ -468,12 +466,16 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		     else
 		     {
 			 InWhatsOnMenu = true;
-			 return AddSubMenu(new cMenuWhatsOnSearch(Schedules, ChannelNr));
+			 return AddSubMenu(new cMenuWhatsOnSearch(ChannelNr));
 		     }
 		 }
 		 else
 		 {
-		     const cChannel *channel = Channels->GetByNumber(currentChannel-1,-1);
+			 const cChannel *channel;
+			 {
+			 LOCK_CHANNELS_READ;
+		     channel = Channels->GetByNumber(currentChannel-1,-1);
+			 }
 
 		     if (channel) {
 			 PrepareSchedule(channel);
@@ -485,14 +487,9 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		     SetHelpKeys(true);
 		     return osContinue;
 		 }
-	     }
 		 }
 	 case kYellow:
 		 {
-		 LOCK_CHANNELS_READ;
-		 LOCK_SCHEDULES_READ;
-	     if (Schedules)
-	     {
 		 if (HasSubMenu())
 		 {
 		     if (Count())
@@ -505,11 +502,15 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		 {
 		     cMenuWhatsOnSearch::currentShowMode = showNext;
 		     InWhatsOnMenu = true;
-		     return AddSubMenu(new cMenuWhatsOnSearch(Schedules, cMenuWhatsOnSearch::CurrentChannel()));
+		     return AddSubMenu(new cMenuWhatsOnSearch(cMenuWhatsOnSearch::CurrentChannel()));
 		 }
 		 else
 		 {
-		     const cChannel *channel = Channels->GetByNumber(currentChannel+1,1);
+			 const cChannel *channel;
+			 {
+			 LOCK_CHANNELS_READ;
+		     channel = Channels->GetByNumber(currentChannel+1,1);
+			 }
 		     if (channel) {
 			 PrepareSchedule(channel);
 			 if (channel->Number() != cDevice::CurrentChannel()) {
@@ -520,7 +521,6 @@ eOSState cMenuSearchMain::ProcessKey(eKeys Key)
 		     SetHelpKeys(true);
 		     return osContinue;
 		 }
-	     }
 	     break;
 		 }
 	 case kBlue:
