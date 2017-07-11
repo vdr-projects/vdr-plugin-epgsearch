@@ -223,6 +223,7 @@ void cMenuEPGSearchSetup::Store(void)
     SetupStore("CheckConflictsAfterTimerProg",  EPGSearchConfig.checkTimerConflAfterTimerProg);
     SetupStore("CheckConflictsOnRecording",  EPGSearchConfig.checkTimerConflOnRecording);
     SetupStore("NoConflMsgWhileReplay",  EPGSearchConfig.noConflMsgWhileReplay);
+    SetupStore("RemoteConflictCheck",  EPGSearchConfig.RemoteConflictCheck);
     SetupStore("CheckEPGHours",  EPGSearchConfig.checkEPGHours);
     SetupStore("CheckEPGWarnByOSD",  EPGSearchConfig.checkEPGWarnByOSD);
     SetupStore("CheckEPGWarnByMail",  EPGSearchConfig.checkEPGWarnByMail);
@@ -789,6 +790,9 @@ void cMenuSetupTimerConflicts::Set()
   AddHelp(tr("Help$If a conflicts duration is less then the given number of minutes it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."));
   Add(new cMenuEditIntItem(tr("Only check within next ... days"), &data->checkMaxDays, 1, 14));
   AddHelp(tr("Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."));
+
+  Add(new cMenuEditBoolItem(tr("Check also remote conflicts"), &data->RemoteConflictCheck, trVDR("no"), trVDR("yes")));
+  AddHelp(tr("Help$Set this to 'yes' if the conflict check should be done for timers set on remote hosts. This needs SVDRPPeering to be set in vdr and Plugin epgsearch running on the remote host."));
 
   cOsdItem* sep = new cOsdItem(tr("--- Automatic checking ---"));
   sep->SetSelectable(false);

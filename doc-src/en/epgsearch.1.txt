@@ -603,6 +603,9 @@ If yes, the plugin makes a background scan of the EPG and adds timers
 if it finds matching entries. This applies only to searches that are
 marked with 'use as search timer'.
 
+Search timers will always be created local, even if SVDRPDefaulthost
+is set to a different host.
+
 =item - B<Update interval:>
 
 The update interval of the background scan for search timers in minutes.
@@ -713,6 +716,12 @@ in the conflicts overview.
 
 Here you can specify the day range that should be used for the conflict
 check.
+
+=item - B<Check also remote conflicts:>
+
+If SVDRPPeering is active, conflicts for remote timers will be checked, if
+set to "yes". For this to work epgseach-plugin has to be active on the
+remote host too. Default is "no".
 
 =item - B<After each timer programming:>
 

@@ -182,9 +182,15 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
 	    if (!timerObj->conflCheckTime && timerObj->device > -1)
 		sprintf(device, "%d", timerObj->device+1);
 	    else
-		strcpy(device, tr("C"));
+		{
+		if (timer->Local())
+			strcpy(device, tr("C"));
+		else
+			strcpy(device, "R"); //Remote Timer
+		}
 	}
 
+//	cString buffer = cString::sprintf("%s\t%s\t%d\t%s - %s\t%d\t%s\t%s", hasTimer?">":"", timer->Remote()?timer->Remote():"", timer->Channel()->Number(), TIMESTRING(timerObj->start), TIMESTRING(timerObj->stop), timer->Priority(), device, timer->File());
 	cString buffer = cString::sprintf("%s\t%d\t%s - %s\t%d\t%s\t%s", hasTimer?">":"", timer->Channel()->Number(), TIMESTRING(timerObj->start), TIMESTRING(timerObj->stop), timer->Priority(), device, timer->File());
 
 	SetText(buffer);
@@ -299,6 +305,11 @@ eOSState cMenuConflictCheckDetails::DeleteTimer(cConflictCheckTimerObj* TimerObj
 	}
 	else
 	  return osContinue;
+      }
+      if (!HandleRemoteTimerModifications(NULL,timer))
+      {
+         LogFile.Log(2,"HandleRemoteTimerModifications failed");
+         return osContinue;
       }
       LogFile.iSysLog("deleting timer %s", *timer->ToDescr());
       Timers->Del(timer);

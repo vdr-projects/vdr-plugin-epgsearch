@@ -61,6 +61,7 @@ cMenuMyScheduleItem::cMenuMyScheduleItem(const cTimers *Timers, const cEvent *Ev
    channel = Channel;
    mode = Mode;
    timerMatch = tmNone;
+   isRemote = false;
    inSwitchList = false;
    menuTemplate = MenuTemplate;
    Update(Timers, true);
@@ -78,14 +79,17 @@ bool cMenuMyScheduleItem::Update(const cTimers* Timers, bool Force)
    bool result = false;
 
    eTimerMatch OldTimerMatch = timerMatch;
+   bool OldIsRemote = isRemote;
    bool OldInSwitchList = inSwitchList;
    bool hasMatch = false;
    const cTimer* timer = NULL;
    if (event) timer = Timers->GetMatch(event, &timerMatch);
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
+   if (timer) isRemote = timer->Remote();
 
-   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList)
+   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList
+		   || isRemote != OldIsRemote)
    {
      char szProgressPart[Utf8BufSize(12)] = "";
       char szProgressPartT2S[12] = "";
@@ -235,7 +239,7 @@ bool cMenuMyScheduleItem::Update(const cTimers* Timers, bool Force)
 
       SetText(buffer, false);
 
-      if (gl_InfoConflict == 0 && EPGSearchConfig.checkTimerConflAfterTimerProg && !Force && timer && timerMatch && timerMatch != OldTimerMatch && !(timer->Remote()))
+      if (gl_InfoConflict == 0 && EPGSearchConfig.checkTimerConflAfterTimerProg && !Force && timer && ((timerMatch && timerMatch != OldTimerMatch) || (isRemote != OldIsRemote)))
       {
          cConflictCheck C;
          C.Check();

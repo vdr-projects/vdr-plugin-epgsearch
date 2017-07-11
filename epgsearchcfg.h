@@ -129,6 +129,7 @@ cEPGSearchConfig(void);
     int useOkForSwitch;
     int sendMailOnSearchtimers;
     int sendMailOnConflicts;
+    int RemoteConflictCheck;
     char MailAddressTo[MaxFileName];
     char MailAddress[MaxFileName];
     char MailServer[MaxFileName];

@@ -652,6 +652,7 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
    if      (!strcasecmp(Name, "CheckTimerConflicts"))  EPGSearchConfig.checkTimerConflictsAfterUpdate = atoi(Value);
    if      (!strcasecmp(Name, "CheckTimerConflictsPriority"))  EPGSearchConfig.checkMinPriority = atoi(Value);
    if      (!strcasecmp(Name, "CheckTimerConflictsDays"))  EPGSearchConfig.checkMaxDays = atoi(Value);
+   if      (!strcasecmp(Name, "RemoteConflictCheck"))  EPGSearchConfig.RemoteConflictCheck = atoi(Value);
    if      (!strcasecmp(Name, "CheckConflictsIntervall"))  EPGSearchConfig.conflictCheckIntervall = atoi(Value);
    if      (!strcasecmp(Name, "CheckConflictsWithinLimit"))  EPGSearchConfig.conflictCheckWithinLimit = atoi(Value);
    if      (!strcasecmp(Name, "CheckConflictsIntervall2"))  EPGSearchConfig.conflictCheckIntervall2 = atoi(Value);

@@ -36,6 +36,7 @@ public:
   const cChannel *channel;
   showMode mode;
   eTimerMatch timerMatch;
+  bool isRemote;
   bool inSwitchList;
   cMenuTemplate* menuTemplate;
 

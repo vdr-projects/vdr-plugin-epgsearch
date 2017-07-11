@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EPGSearch 0.9.25\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-05-12 12:04+0200\n"
+"POT-Creation-Date: 2017-06-15 11:15+0200\n"
 "PO-Revision-Date: 2011-01-04 21:07+0200\n"
 "Last-Translator: Ville Skyttä <ville.skytta@iki.fi>\n"
 "Language-Team: Finnish <vdr@linuxtv.org>\n"
@@ -463,6 +463,12 @@ msgstr "Tarkista vain seuraavat ... päivää"
 
 msgid "Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."
 msgstr "Asettaa ajanjakson päivinä päällekkäisyyksien tarkistukselle. Muita päällekkäisyyksiä ei pidetä vielä merkitsevinä."
+
+msgid "Check also remote conflicts"
+msgstr ""
+
+msgid "Help$Set this to 'yes' if the conflict check should be done for timers set on remote hosts. This needs SVDRPPeering to be set in vdr and Plugin epgsearch running on the remote host."
+msgstr ""
 
 msgid "--- Automatic checking ---"
 msgstr "--- Automaattinen tarkistus ---"

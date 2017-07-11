@@ -626,6 +626,9 @@ erzeugt Timer, falls passende Einträge gefunden werden. Dies
 betrifft nur Sucheinträge, die mit 'Als Suchtimer verwenden'
 markiert sind.
 
+Suchtimer werden immer lokal erzeugt, auch wenn ein anderer Defaulthost
+für Aufnahmen definiert ist.
+
 =item - B<Aktualisierungsintervall:>
 
 Das Intervall in Minuten, in dem die Hintergrundsuche vorgenommen
@@ -734,6 +737,12 @@ wird darauf nicht per OSD-Nachricht hingewiesen und der Konflikt wird als
 =item - B<Prüfe nur die nächsten ... Tage:>
 
 Hier kann der Zeitraum der Prüfung angegeben werden.
+
+=item - B<Konflikte auch für Remote-Timer prüfen:>
+
+Falls SVDRPPeering aktiv ist, werden auch Konflikte bei entfernten Timern
+überpüft. Dazu muss am entsprechenden Remote-Rechner das epgsearch-Plugin
+ebenfalls aktiviert sein. Default ist nein.
 
 =item - B<Nach jeder Timer-Programmierung:>
 

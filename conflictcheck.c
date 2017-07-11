@@ -30,6 +30,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "recstatus.h"
 #include "timerstatus.h"
 #include "uservars.h"
+#include <vdr/svdrp.h>
 
 #define FULLMATCH 1000
 #define EPGLIMITBEFORE   (1 * 3600) // Time in seconds before a timer's start time and
@@ -166,6 +167,7 @@ cConflictCheck::cConflictCheck()
     relevantConflicts = 0;
     numConflicts = 0;
     devices = NULL;
+    localConflicts = !(EPGSearchConfig.RemoteConflictCheck && Setup.SVDRPPeering);
     InitDevicesInfo();
 }
 
@@ -232,18 +234,23 @@ void cConflictCheck::Check()
     if (timerList)
 	DELETENULL(timerList);
 
+    LogFile.Log(3, "check only local conflicts = %s",GetLocal()?"yes":"no");
     timerList = CreateCurrentTimerList();
     if (timerList) evaltimeList = CreateEvaluationTimeList(timerList);
     if (evaltimeList) failedList = CreateConflictList(evaltimeList, timerList);
+    if ((!localConflicts) && timerList) CreateRemoteConflictList(timerList,failedList);
     if (failedList)
-    {
 	for(cConflictCheckTime* checkTime = failedList->First(); checkTime; checkTime = failedList->Next(checkTime))
 	{
 	    LogFile.Log(2,"result of conflict check for %s:", DAYDATETIME(checkTime->evaltime));
 	    std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;
 	    for (it = checkTime->failedTimers.begin(); it != checkTime->failedTimers.end(); ++it)
-		LogFile.Log(2,"timer '%s' (%s, channel %s) failed", (*it)->timer->File(), DAYDATETIME((*it)->timer->StartTime()), CHANNELNAME((*it)->timer->Channel()));
-	}
+        {
+            if (!localConflicts)
+               LogFile.Log(2,"timer '%s' (%s, channel %s) %s%s failed", (*it)->timer->File(), DAYDATETIME((*it)->timer->StartTime()), CHANNELNAME((*it)->timer->Channel()), (*it)->timer->Remote()?"@":"",(*it)->timer->Remote()?(*it)->timer->Remote():"");
+            else
+               LogFile.Log(2,"timer '%s' (%s, channel %s) failed", (*it)->timer->File(), DAYDATETIME((*it)->timer->StartTime()), CHANNELNAME((*it)->timer->Channel()));
+        }
     }
     if (numConflicts > 0 && gl_timerStatusMonitor)
       gl_timerStatusMonitor->SetConflictCheckAdvised();
@@ -261,14 +268,16 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     for (ti = Timers->First(); ti; ti = Timers->Next(ti))
     {
 	tMax = std::max(tMax, ti->StartTime());
-	if (ti->Remote()) continue; // TO BE DONE: remote service request CC
+    if (localConflicts && ti->Remote()) continue;
 	if (!ti->IsSingleEvent()) continue;
         // already recording?
-	int deviceNr = gl_recStatusMonitor->TimerRecDevice(ti)-1;
+	int deviceNr = -1;
+	if (ti->Local()) // we check devices only for local timers
+	   deviceNr = gl_recStatusMonitor->TimerRecDevice(ti)-1;
 
-        // create a copy of this timer
-        cTimer* clone = new cTimer(*ti);
-        clone->SetEvent(ti->Event());
+	// create a copy of this timer
+	cTimer* clone = new cTimer(*ti);
+	clone->SetEvent(ti->Event());
 
 	cConflictCheckTimerObj* timerObj = new cConflictCheckTimerObj(clone, ti->StartTime(), ti->StopTime(), deviceNr, ti->Id());
 	if (deviceNr >= 0)
@@ -290,6 +299,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     for (ti = Timers->First(); ti; ti = Timers->Next(ti))
     {
 	if (ti->IsSingleEvent()) continue;
+	if (localConflicts && ti->Remote()) continue;  //JF???
 	time_t day = time(NULL);
 	while(day < tMax)
 	{
@@ -300,7 +310,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 		if (Start < time(NULL))
 		{
 #ifndef DEBUG_CONFL
-		    if (ti->Recording())
+			if (ti->Local() && ti->Recording())
 		        deviceNr = gl_recStatusMonitor->TimerRecDevice(ti)-1;
 #else
 		    if (Start + ti->StopTime() - ti->StartTime() > time(NULL))
@@ -335,7 +345,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
 	    }
 	    day += SECSINDAY;
 	}
-    }
+	}
 
     if (CurrentTimerList) CurrentTimerList->Sort();
     LogFile.Log(3,"current timer list created");
@@ -350,6 +360,8 @@ cList<cConflictCheckTime>* cConflictCheck::CreateEvaluationTimeList(cList<cConfl
     for(cConflictCheckTimerObj* TimerObj= TimerList->First(); TimerObj; TimerObj = TimerList->Next(TimerObj))
     {
 	if (!TimerObj->timer->HasFlags(tfActive)) continue;
+
+	if (TimerObj->timer->Remote()) continue; // here we check local timers only
 
 	if (!EvalTimeList) EvalTimeList = new cList<cConflictCheckTime>;
 
@@ -460,6 +472,140 @@ cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictChe
     LogFile.Log(3,"create conflict list - done");
 
     return EvalTimeList;
+}
+
+void cConflictCheck::CreateRemoteConflictList(cList<cConflictCheckTimerObj>* TimerList, cList<cConflictCheckTime>* failedList)
+{
+   LogFile.Log(3,"add remote conflicts to list");
+   bool foundRemote = false;
+   cStringList RemoteHosts;
+   // check  if we have any Remote timers
+   RemoteHosts.Clear();
+   for(cConflictCheckTimerObj* TimerObj= TimerList->First(); TimerObj; TimerObj = TimerList->Next(TimerObj))
+   {
+       if (!TimerObj->timer->HasFlags(tfActive)) continue;
+
+       if (TimerObj->timer->Remote())
+       {
+           if (RemoteHosts.Find(TimerObj->timer->Remote()) < 0)
+           {
+              foundRemote = true;
+              RemoteHosts.Append(strdup(TimerObj->timer->Remote()));
+           }
+       }
+   }
+
+   if (!foundRemote)
+   {
+      LogFile.Log(3,"no remote timers to add");
+      return;
+   }
+
+   RemoteHosts.Sort();
+
+   cStringList Response;
+   // for all RemoteHosts
+   for (int i=0; i< RemoteHosts.Size(); i++)
+   {
+      Response.Clear();
+      if (ExecSVDRPCommand(RemoteHosts[i], "PLUG epgsearch LSCC REL", &Response))
+      {
+         for  (int j = 0; j < Response.Size(); j++)
+         {
+            const char *s = Response[j];
+            int Code = SVDRPCode(s);
+            if (Code == 901)
+            {
+               LogFile.Log(3,"conflictcheck %s no remote conflicts found",RemoteHosts[i]);
+               continue;
+            }  else if (Code != 900)
+            {
+               LogFile.Log(2,"Invalid remote response %d %s", Code,
+                  SVDRPValue(s));
+               break;
+            }  else if (const char* line = SVDRPValue(s))
+            {
+               LogFile.Log(2,"remote conflictcheck line %s",line);
+               int Id,recPart;
+               char rest[256];
+               time_t evaltime;
+               sscanf(line,"%ld:%d|%s",&evaltime,&Id,rest);
+               cConflictCheckTime* checkTime = new cConflictCheckTime(evaltime);
+               if (!failedList)
+                  failedList = new cList<cConflictCheckTime>;
+               LogFile.Log(2,"added remote checkTime %s to failedList",DAYDATETIME(evaltime));
+               failedList->Add(checkTime);
+               numConflicts++;
+               // find TimerObj with id Id in timerList
+               cConflictCheckTimerObj* failedTimer = NULL;
+               bool foundfT = false;
+               for(failedTimer = TimerList->First(); failedTimer; failedTimer = TimerList->Next(failedTimer))
+               {
+                  if (failedTimer->timer->Id() == Id)
+                  {
+                     foundfT = true;
+                     break;
+                  }
+               }
+               if (!foundfT)
+               {
+                  LogFile.Log(2,"remote failed Timer disappeared");
+                  continue;
+               }
+               LogFile.Log(2,"create remote failedTimer with Id %d",Id);
+               failedTimer->conflCheckTime = checkTime;
+               failedTimer->origIndex = Id;
+               sscanf(rest,"%d|%s",&recPart,rest);
+               failedTimer->recDuration=((failedTimer->stop-failedTimer->start)* recPart / 100);
+               cConflictCheckTimerObj* concurrentTimer = NULL;
+               while (strlen(rest) > 0)
+               {
+                  int n = sscanf(rest,"%d#%s",&Id,rest);
+                  if (n < 2)
+                  {
+                     if (sscanf(rest,"%d",&Id) <= 0)
+                     {
+                        LogFile.Log(2,"error scanning rest of line %s",rest);
+                        break;
+                     }
+                     *rest = 0;  // TODO :<more timers> possible ??
+                  }
+                  // find TimerObj itcc for with Id in timerList
+                  bool foundcT = false;
+                  for(concurrentTimer = TimerList->First(); concurrentTimer; concurrentTimer = TimerList->Next(concurrentTimer))
+                  {
+                     if (concurrentTimer->timer->Id() == Id)
+                     {
+                        foundcT = true;
+                        break;
+                     }
+                  }
+                  if (!foundcT)
+                  {
+                     LogFile.Log(2,"remote concurrent Timer disappeared");
+                     continue;
+                  }
+                  if (!failedTimer->concurrentTimers)
+                     failedTimer->concurrentTimers = new std::set<cConflictCheckTimerObj*,TimerObjSort>;
+                  LogFile.Log(2,"insert remote Id %d into concurrentTimers",concurrentTimer->timer->Id());
+                  failedTimer->concurrentTimers->insert(concurrentTimer);
+               } // while concurrent Timers
+               LogFile.Log(2,"insert Id %d into checkTime->failedTimers",failedTimer->timer->Id());
+               checkTime->failedTimers.insert(failedTimer);
+               relevantConflicts++;
+            }
+            else
+               LogFile.Log(2,"got Code %d, but no Value from %s",Code,RemoteHosts[i]);
+         } // received response
+      }
+      else
+      {
+         LogFile.Log(2,"ExecSVDRPCommand failed for %s",RemoteHosts[i]);
+      }
+   } // for all RemoteHosts
+   cConflictCheckThread::m_cacheTotalConflicts = numConflicts;
+   cConflictCheckThread::m_cacheRelevantConflicts = relevantConflicts;
+   LogFile.Log(3,"add remote conflicts done");
 }
 
 // checks for conflicts at one special time
@@ -667,6 +813,8 @@ void cConflictCheck::AddConflict(cConflictCheckTimerObj* TimerObj, cConflictChec
 
 bool cConflictCheck::TimerInConflict(const cTimer* timer)
 {
+    if (!failedList)
+        return false;
     for(cConflictCheckTime* checkTime = failedList->First(); checkTime; checkTime = failedList->Next(checkTime))
     {
 	std::set<cConflictCheckTimerObj*,TimerObjSort>::iterator it;

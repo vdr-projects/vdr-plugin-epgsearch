@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-05-12 12:04+0200\n"
+"POT-Creation-Date: 2017-06-15 11:15+0200\n"
 "PO-Revision-Date: 2008-04-30 08:36+0200\n"
 "Last-Translator: Patrice Staudt <patrice.staudt@laposte.net>\n"
 "Language-Team: French <vdr@linuxtv.org>\n"
@@ -470,6 +470,12 @@ msgstr "Ne vérifier que les prochains ... jours"
 
 msgid "Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."
 msgstr "Avec cette valeur vous définissez l'interval de temps de la vérification de conflits. Tous ces conflits en dehors de cet interval sont qualifés comme 'pas encore importants."
+
+msgid "Check also remote conflicts"
+msgstr ""
+
+msgid "Help$Set this to 'yes' if the conflict check should be done for timers set on remote hosts. This needs SVDRPPeering to be set in vdr and Plugin epgsearch running on the remote host."
+msgstr ""
 
 msgid "--- Automatic checking ---"
 msgstr "--- Vérifications automatiques ---"

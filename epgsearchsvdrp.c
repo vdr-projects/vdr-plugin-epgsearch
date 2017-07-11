@@ -128,7 +128,7 @@ const char **cPluginEpgsearch::SVDRPHelpPages(void)
       "    Returns the ID of the default search template\n"
       "    or activates a search template with ID as default",
       "LSCC [ REL ]\n"
-      "    Returns the current timer conflicts. With the option\n"
+      "    Returns the current (local) timer conflicts. With the option\n"
       "    'REL' only relevant conflicts are listed",
       "MENU [ NOW|PRG|SUM ]\n"
       "    Calls one of the main menus of epgsearch or the summary\n"
@@ -1255,7 +1255,9 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
      if (*Option && strcasecmp(Option, "REL") == 0)
        relOnly = true;
 
+     LogFile.Log(3,"svdrp LSCC");
      cConflictCheck conflictCheck;
+     conflictCheck.SetLocal(); // including remote timers results in an infinite loop
      conflictCheck.Check();
 
      if ((relOnly && conflictCheck.numConflicts > 0) ||

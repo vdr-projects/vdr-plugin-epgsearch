@@ -92,6 +92,7 @@ cEPGSearchConfig::cEPGSearchConfig(void)
   ReplaceOrgSchedule = 0;
   sendMailOnSearchtimers = 0;
   sendMailOnConflicts = 0;
+  RemoteConflictCheck = 0;
 }
 
 cShowMode& cShowMode::operator= (const cShowMode &ShowMode)

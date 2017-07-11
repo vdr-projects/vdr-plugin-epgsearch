@@ -262,6 +262,7 @@ class cConflictCheck
  public:
     int relevantConflicts;
     int numConflicts;
+    bool localConflicts;
     time_t nextRelevantConflictDate;
 
     cConflictCheck();
@@ -269,9 +270,12 @@ class cConflictCheck
     void InitDevicesInfo();
     void Check();
     void BondDevices(const char* bondings);
+    void SetLocal() { localConflicts = true; }
+    bool GetLocal() { return localConflicts; }
     cList<cConflictCheckTimerObj>* CreateCurrentTimerList();
     cList<cConflictCheckTime>* CreateEvaluationTimeList(cList<cConflictCheckTimerObj>*);
     cList<cConflictCheckTime>* CreateConflictList(cList<cConflictCheckTime>*, cList<cConflictCheckTimerObj>* timerList);
+    void CreateRemoteConflictList(cList<cConflictCheckTimerObj>* timerList, cList<cConflictCheckTime>* failedList);
     int GetDevice(cConflictCheckTimerObj* TimerObj, bool *NeedsDetachReceivers);
     cList<cConflictCheckTime>* GetFailed() { return failedList; }
     cList<cConflictCheckTimerObj>* GetTimers() { return timerList; }

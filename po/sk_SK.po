@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-05-04 17:01+0200\n"
+"POT-Creation-Date: 2017-06-15 11:15+0200\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -467,6 +467,12 @@ msgstr "Skontrolovať iba do budúcich ... dní"
 
 msgid "Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."
 msgstr "Táto hodnota znižuje konflikty podľa daného rozsahu dní. Všetky ostatné konflikty sú klasifikované ako 'ešte dôležité'."
+
+msgid "Check also remote conflicts"
+msgstr ""
+
+msgid "Help$Set this to 'yes' if the conflict check should be done for timers set on remote hosts. This needs SVDRPPeering to be set in vdr and Plugin epgsearch running on the remote host."
+msgstr ""
 
 msgid "--- Automatic checking ---"
 msgstr "--- Automatická kontrola ---"
