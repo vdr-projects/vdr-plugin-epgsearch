@@ -703,9 +703,6 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
    }
    else
       tmpSummary = SummaryExtended(searchExt, Timer, pEvent);
-   if (Setup.SVDRPPeering && *Setup.SVDRPDefaultHost)
-      Timer->SetRemote(Setup.SVDRPDefaultHost);
-   else {
    if (index==0)
       msprintf(&cmdbuf, "NEWT %d:%d:%s:%s:%s:%d:%d:%s:%s",
                Flags,
@@ -733,8 +730,6 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
    if (!SendViaSVDRP(cmdbuf))
      return false;
    }
-   if (!HandleRemoteTimerModifications(Timer))
-     return false;
 
    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised();
 
