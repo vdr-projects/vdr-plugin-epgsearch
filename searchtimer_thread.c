@@ -729,7 +729,6 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
 
    if (!SendViaSVDRP(cmdbuf))
      return false;
-   }
 
    if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised();
 
