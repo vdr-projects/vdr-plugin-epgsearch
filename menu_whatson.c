@@ -756,8 +756,11 @@ eOSState cMenuWhatsOnSearch::ShowSummary()
       const cEvent *ei = ((cMenuMyScheduleItem *)Get(Current()))->event;
       if (ei)
       {
-         LOCK_CHANNELS_READ;
-         const cChannel *channel = Channels->GetByChannelID(ei->ChannelID(), true, true);
+         const cChannel *channel;
+		 {
+            LOCK_CHANNELS_READ;
+            channel = Channels->GetByChannelID(ei->ChannelID(), true, true);
+		 }
          if (channel)
             return AddSubMenu(new cMenuEventSearch(ei, eventObjects, SurfModeChannel));
       }
