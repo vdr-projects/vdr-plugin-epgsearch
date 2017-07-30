@@ -1,5 +1,7 @@
 /createcats
 /.dependencies
+/.dependencies_doc
+/.doc_stmp
 /MANUAL
 /README.DE
 /doc/

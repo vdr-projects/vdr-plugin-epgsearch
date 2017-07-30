@@ -21,6 +21,9 @@ The author can be reached at cwieninger@gmx.de
 The project's page is at http://winni.vdr-developer.org/epgsearch
 */
 
+#ifndef __RECSTATUS_H
+#define __RECSTATUS_H
+
 #include <vdr/status.h>
 #include "recdone.h"
 #include "epgsearchtools.h"
@@ -36,17 +39,20 @@ public:
     ~cRecDoneTimerObj() { timer = NULL; recDone = NULL; } // do not delete anything!
 };
 
+class cTimersRecording: public cList<cRecDoneTimerObj>, public cMutex {
+};
+
+extern cTimersRecording TimersRecording;
+
 class cRecStatusMonitor : public cStatus
 {
-public:
-    cList<cRecDoneTimerObj> TimersRecording;
 protected:
     virtual void Recording(const cDevice *Device, const char *Name, const char*, bool On);
  public:
     cRecStatusMonitor();
     int TimerRecDevice(const cTimer*);
-    bool IsPesRecording(const cRecording *pRecording);
-    int RecLengthInSecs(const cRecording *pRecording);
 };
 
 extern cRecStatusMonitor* gl_recStatusMonitor;
+
+#endif
