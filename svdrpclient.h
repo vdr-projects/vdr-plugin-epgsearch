@@ -31,6 +31,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define SVDRPDISCONNECT 221
 #define CMDSUCCESS 250
 
+namespace epgsSVDRP {
+
 class cSVDRPClient {
  private:
     int sock;
@@ -140,6 +142,8 @@ public:
 	}
 
     static const char *SVDRPSendCmd;
+};
+
 };
 
 #endif

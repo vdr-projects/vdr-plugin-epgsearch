@@ -198,7 +198,7 @@ bool cSearchTimerThread::TimerWasModified(const cTimer* t)
 
 void cSearchTimerThread::Action(void)
 {
-   if (EPGSearchConfig.useExternalSVDRP && !cSVDRPClient::SVDRPSendCmd)
+   if (EPGSearchConfig.useExternalSVDRP && !epgsSVDRP::cSVDRPClient::SVDRPSendCmd)
    {
       LogFile.eSysLog("ERROR - SVDRPSend script not specified or does not exist (use -f option)");
       return;

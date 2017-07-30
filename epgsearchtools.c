@@ -409,7 +409,7 @@ bool SendViaSVDRP(cString SVDRPcmd)
    if (EPGSearchConfig.useExternalSVDRP)
    {
      cmdbuf = cString::sprintf("%s -p %d \"%s\"",
-               cSVDRPClient::SVDRPSendCmd,
+               epgsSVDRP::cSVDRPClient::SVDRPSendCmd,
                EPGSearchConfig.SVDRPPort,
                *SVDRPcmd);
 
@@ -425,7 +425,7 @@ bool SendViaSVDRP(cString SVDRPcmd)
    else
    {
       cmdbuf = SVDRPcmd;
-      cSVDRPClient client;
+      epgsSVDRP::cSVDRPClient client;
       if (!client.SendCmd(*cmdbuf))
       {
          LogFile.eSysLog("command '%s' failed", *cmdbuf);
