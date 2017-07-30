@@ -38,6 +38,7 @@ public:
   eTimerMatch timerMatch;
   bool isRemote;
   bool inSwitchList;
+  bool timerActive;
   cMenuTemplate* menuTemplate;
 
   cMenuMyScheduleItem(const cTimers *Timers, const cEvent *Event, const cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);

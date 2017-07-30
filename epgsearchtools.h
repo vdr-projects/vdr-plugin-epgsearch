@@ -91,6 +91,7 @@ using std::string;
 #define ICON_BAR_EMPTY         0x89
 #define ICON_BAR_CLOSE         0x8A
 #define ICON_VPS               0x93
+#define ICON_TIMER_INACT       0x95
 
 // UTF-8 Icons
 #define ICON_BAR_OPEN_UTF8     "\uE007"
@@ -102,6 +103,7 @@ using std::string;
 #define ICON_CLOCK_HALF_UTF8   "\uE014"
 #define ICON_RUNNING_UTF8      "\uE012"
 #define ICON_VPS_UTF8          "\uE013"
+#define ICON_TIMER_INACT_UTF8  "\uE015"
 
 #define CONTENT_DESCRIPTOR_MAX 255
 

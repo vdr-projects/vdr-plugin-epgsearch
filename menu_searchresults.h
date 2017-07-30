@@ -52,6 +52,7 @@ class cMenuSearchResultsItem : public cOsdItem {
  public:
     eTimerMatch timerMatch;
     bool inSwitchList;
+    bool timerActive;
     const cEvent *event;
     const cSearchExt* search;
     const char *FileName(void) { return fileName; }

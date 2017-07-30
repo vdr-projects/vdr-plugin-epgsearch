@@ -63,6 +63,7 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(const cEvent *EventInfo, bool Epi
    menuTemplate = MenuTemplate?MenuTemplate:cTemplFile::GetTemplateByName("MenuSearchResults");
    search = Search;
    inSwitchList = false;
+   timerActive = false;
    Update(true);
 }
 
@@ -75,14 +76,16 @@ bool cMenuSearchResultsItem::Update(bool Force)
 
    eTimerMatch OldTimerMatch = timerMatch;
    bool OldInSwitchList = inSwitchList;
+   bool OldtimerActive = timerActive;
    bool hasMatch = false;
    const cTimer* timer = NULL;
    LOCK_TIMERS_READ;
    if (event) timer = Timers->GetMatch(event, &timerMatch);
    if (event) inSwitchList = (SwitchTimers.InSwitchList(event)!=NULL);
    if (timer) hasMatch = true;
+   if (timer) timerActive = timer->HasFlags(tfActive);
 
-   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList)
+   if (Force || timerMatch != OldTimerMatch || inSwitchList != OldInSwitchList || timerActive != OldtimerActive)
    {
      char t[Utf8BufSize(2)]="",v[Utf8BufSize(2)]="",r[Utf8BufSize(2)]="";
      char szStatus[Utf8BufSize(4)] = "";
@@ -90,7 +93,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
       {
 	if (!isUTF8)
 	  {
-	    t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC:ICON_CLOCK) : ICON_CLOCK_HALF : ' ';
+	    t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording()) ? ICON_REC : (timerActive ? ICON_CLOCK : ICON_TIMER_INACT)) : (timerActive ? ICON_CLOCK_HALF : ' ') : ' ';
 	    t[1] = '\0';
 	    v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS : ' ';
 	    v[1] = '\0';
@@ -102,7 +105,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
 	  {
 #if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96
 #else
-	    sprintf(t, "%s", (event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?ICON_REC_UTF8:ICON_CLOCK_UTF8) : ICON_CLOCK_HALF_UTF8 : " "));
+	    sprintf(t, "%s", (event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording()) ? ICON_REC_UTF8 : (timerActive ? ICON_CLOCK_UTF8 : ICON_TIMER_INACT_UTF8)) : (timerActive ? ICON_CLOCK_HALF_UTF8: " ") : " "));
 	    sprintf(v, "%s", event && event->Vps() && (event->Vps() - event->StartTime()) ? ICON_VPS_UTF8 : " ");
 	    sprintf(r, "%s", (event && event->IsRunning() ? ICON_RUNNING_UTF8 : " "));
 #endif
@@ -110,7 +113,7 @@ bool cMenuSearchResultsItem::Update(bool Force)
       }
       else
       {
-         t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording())?'R':'T') : 't' : ' ';
+         t[0] = event && hasMatch ? (timerMatch == tmFull) ? ((timer && timer->Recording()) ? 'R' : (timerActive ? 'T' : 'i')) : (timerActive ? 't' :' ') : ' ';
          t[1] = '\0';
          v[0] = event && event->Vps() && (event->Vps() - event->StartTime()) ? 'V' : ' ';
          v[1] = '\0';
