@@ -81,6 +81,7 @@ void cRecdoneThread::Action(void)
     time_t now = time(NULL);
     // remove timers that finished recording from TimersRecording
     // incomplete recordings are kept for a while, perhaps they will be resumed
+    LOCK_TIMERS_READ;
     cMutexLock TimersRecordingLock(&TimersRecording);
     cRecDoneTimerObj *tiR = TimersRecording.First();
     while(tiR)
@@ -88,7 +89,6 @@ void cRecdoneThread::Action(void)
         // check if timer still exists
         bool found = false;
 
-        LOCK_TIMERS_READ;
         for (const cTimer *ti = Timers->First(); ti; ti = Timers->Next(ti))
             if (ti == tiR->timer)
         {
