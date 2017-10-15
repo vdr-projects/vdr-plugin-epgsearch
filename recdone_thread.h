@@ -21,18 +21,24 @@ Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 #ifndef VDR_RECDONE_THREAD_H
 #define VDR_RECDONE_THREAD_H
 
+#include <vector>
+#include <string>
 #include <vdr/thread.h>
 #include "recstatus.h"
 
+using std::vector;
+using std::string;
+
 class cRecdoneThread: public cThread {
 private:
-        char * m_filename;
+    vector<string>m_fnames;
 public:
         virtual void Action(void);
         cRecdoneThread(void);
         virtual ~cRecdoneThread();
         void SetFilename(const char *FileName) {
-            m_filename = strdup(FileName); };
+            m_fnames.push_back(FileName);
+        }
         int RecLengthInSecs(const cRecording *pRecording);
         bool IsPesRecording(const cRecording *pRecording);
 };

@@ -107,8 +107,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
    if (!On)
    {
       // must be done in a different thread because we hold timer and scheduling lock here
-      while (RecdoneThread.Active()) cCondWait::SleepMs(100); // wait before changing filename
-      RecdoneThread.SetFilename(Filename);
+      RecdoneThread.SetFilename(Filename);  // push_back Filename for processing
       RecdoneThread.Start();
    }
 }
