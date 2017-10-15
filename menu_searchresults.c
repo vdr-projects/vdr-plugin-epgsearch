@@ -781,6 +781,7 @@ bool cMenuSearchResultsForRecs::BuildList()
 
    int current = Current();
    Clear();
+   {
    LOCK_RECORDINGS_READ;
    for (const cRecording *recording = Recordings->First(); recording; recording = Recordings->Next(recording)) {
      const cRecordingInfo *recInfo = recording->Info();
@@ -830,6 +831,7 @@ bool cMenuSearchResultsForRecs::BuildList()
    for (int a = 0; a < num; a++)
       Add(new cMenuSearchResultsItem(pArray[a]));
    delete pArray;
+   } // Recordinglock must be released before Display() is called
 
    SetHelp(NULL);
 
