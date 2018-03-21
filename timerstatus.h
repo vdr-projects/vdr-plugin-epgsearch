@@ -25,13 +25,13 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 class cTimerStatusMonitor : public cStatus
 {
-  bool conflictCheckAdvised;
- protected:
-  virtual void TimerChange(const cTimer *Timer, eTimerChange Change);
- public:
-  cTimerStatusMonitor();
-  void SetConflictCheckAdvised(bool ConflictCheckAdvised = true);
-  bool ConflictCheckAdvised();
+    bool conflictCheckAdvised;
+protected:
+    virtual void TimerChange(const cTimer *Timer, eTimerChange Change);
+public:
+    cTimerStatusMonitor();
+    void SetConflictCheckAdvised(bool ConflictCheckAdvised = true);
+    bool ConflictCheckAdvised();
 };
 
 extern cTimerStatusMonitor* gl_timerStatusMonitor;

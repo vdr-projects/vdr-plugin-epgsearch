@@ -29,36 +29,39 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 // --- cMenuSearchMain ---------------------------------------------------------
 
-class cMenuSearchMain : public cOsdMenu {
- private:
-  int helpKeys;
-  int otherChannel;
-  int currentChannel;
-  eOSState Record(void);
-  eOSState ExtendedSearch(void);
-  void PrepareSchedule(const cChannel *Channel);
-  eOSState Commands(eKeys Key);
-  void SetHelpKeys(bool Force = false);
-  int GetTab(int Tab);
-  int shiftTime;
-  bool InWhatsOnMenu;
-  bool InFavoritesMenu;
-  cEventObjects eventObjects;
- public:
-  cMenuSearchMain(void);
-  virtual ~cMenuSearchMain();
-  virtual eOSState ProcessKey(eKeys Key);
-  eOSState Switch(void);
-  eOSState Shift(int iMinutes);
-  eOSState ShowSummary();
-  bool Update(void);
-  void UpdateCurrent();
+class cMenuSearchMain : public cOsdMenu
+{
+private:
+    int helpKeys;
+    int otherChannel;
+    int currentChannel;
+    eOSState Record(void);
+    eOSState ExtendedSearch(void);
+    void PrepareSchedule(const cChannel *Channel);
+    eOSState Commands(eKeys Key);
+    void SetHelpKeys(bool Force = false);
+    int GetTab(int Tab);
+    int shiftTime;
+    bool InWhatsOnMenu;
+    bool InFavoritesMenu;
+    cEventObjects eventObjects;
+public:
+    cMenuSearchMain(void);
+    virtual ~cMenuSearchMain();
+    virtual eOSState ProcessKey(eKeys Key);
+    eOSState Switch(void);
+    eOSState Shift(int iMinutes);
+    eOSState ShowSummary();
+    bool Update(void);
+    void UpdateCurrent();
 #ifdef USE_GRAPHTFT
-  virtual const char* MenuKind() { return "MenuEpgsSchedule"; }
-  virtual void Display(void);
+    virtual const char* MenuKind() {
+        return "MenuEpgsSchedule";
+    }
+    virtual void Display(void);
 #endif
 
-  static int forceMenu;
+    static int forceMenu;
 };
 
 #endif

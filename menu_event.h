@@ -26,8 +26,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <list>
 
-typedef enum
-{
+typedef enum {
     SurfModeUnknown,
     SurfModeTime,
     SurfModeChannel
@@ -35,84 +34,105 @@ typedef enum
 
 class cEventObj
 {
-   const cEvent *event;
-   bool selected;
-  public:
-   cEventObj(const cEvent* Event, bool Selected = false) : event(Event), selected(Selected) {}
-   const cEvent* Event() { return event; }
-   bool Selected() { return selected; }
-   void Select(bool Selected) { selected = Selected; }
+    const cEvent *event;
+    bool selected;
+public:
+    cEventObj(const cEvent* Event, bool Selected = false) : event(Event), selected(Selected) {}
+    const cEvent* Event() {
+        return event;
+    }
+    bool Selected() {
+        return selected;
+    }
+    void Select(bool Selected) {
+        selected = Selected;
+    }
 };
 
 class cEventObjects
 {
 public:
-	typedef std::list< cEventObj* > EventObjectList;
-	typedef EventObjectList::size_type size_type;
-	typedef EventObjectList::iterator iterator;
-	typedef EventObjectList::const_iterator const_iterator;
+    typedef std::list< cEventObj* > EventObjectList;
+    typedef EventObjectList::size_type size_type;
+    typedef EventObjectList::iterator iterator;
+    typedef EventObjectList::const_iterator const_iterator;
 
-	cEventObjects() {}
-    ~cEventObjects()
-       {
-          for(EventObjectList::iterator i = m_list.begin(); i != m_list.end(); ++i)
-             delete (*i);
-       }
+    cEventObjects() {}
+    ~cEventObjects() {
+        for (EventObjectList::iterator i = m_list.begin(); i != m_list.end(); ++i)
+            delete(*i);
+    }
 
-	size_type size() const { return m_list.size(); }
+    size_type size() const {
+        return m_list.size();
+    }
 
-	iterator begin() { return m_list.begin(); }
-	const_iterator begin() const { return m_list.begin(); }
-	iterator end() { return m_list.end(); }
-	const_iterator end() const { return m_list.end(); }
+    iterator begin() {
+        return m_list.begin();
+    }
+    const_iterator begin() const {
+        return m_list.begin();
+    }
+    iterator end() {
+        return m_list.end();
+    }
+    const_iterator end() const {
+        return m_list.end();
+    }
 
-    void Add(const cEvent* Event) { m_list.push_back(new cEventObj(Event)); }
-    void Clear() { m_list.clear(); }
-    void SetCurrent(const cEvent* Event)
-       {
-          for(EventObjectList::iterator i = m_list.begin(); i != m_list.end(); ++i)
-             (*i)->Select((*i)->Event() == Event);
-       }
-    cEventObj* GetCurrent()
-       {
-          for(EventObjectList::iterator i = m_list.begin(); i != m_list.end(); ++i)
-             if ((*i)->Selected())
+    void Add(const cEvent* Event) {
+        m_list.push_back(new cEventObj(Event));
+    }
+    void Clear() {
+        m_list.clear();
+    }
+    void SetCurrent(const cEvent* Event) {
+        for (EventObjectList::iterator i = m_list.begin(); i != m_list.end(); ++i)
+            (*i)->Select((*i)->Event() == Event);
+    }
+    cEventObj* GetCurrent() {
+        for (EventObjectList::iterator i = m_list.begin(); i != m_list.end(); ++i)
+            if ((*i)->Selected())
                 return (*i);
-          return NULL;
-       }
+        return NULL;
+    }
 
 private:
-	EventObjectList m_list;
+    EventObjectList m_list;
 };
 
-class cMenuEventSearch : public cOsdMenu {
+class cMenuEventSearch : public cOsdMenu
+{
 protected:
-  const cEvent *event;
-  char* szGreen;
-  char* szYellow;
-  cEventObjects& eventObjects;
-  MenuEventSurfMode surfMode;
+    const cEvent *event;
+    char* szGreen;
+    char* szYellow;
+    cEventObjects& eventObjects;
+    MenuEventSurfMode surfMode;
 
-  virtual void Set();
-  cEventObj* GetPrev(const cEvent* Event);
-  cEventObj* GetNext(const cEvent* Event);
+    virtual void Set();
+    cEventObj* GetPrev(const cEvent* Event);
+    cEventObj* GetNext(const cEvent* Event);
 
-  virtual void Display(void);
-  virtual eOSState ProcessKey(eKeys Key);
-  eOSState Commands(eKeys Key);
+    virtual void Display(void);
+    virtual eOSState ProcessKey(eKeys Key);
+    eOSState Commands(eKeys Key);
 public:
-  cMenuEventSearch(const cEvent* Event, cEventObjects& EventObjects, MenuEventSurfMode SurfMode = SurfModeUnknown);
-  ~cMenuEventSearch();
+    cMenuEventSearch(const cEvent* Event, cEventObjects& EventObjects, MenuEventSurfMode SurfMode = SurfModeUnknown);
+    ~cMenuEventSearch();
 #ifdef USE_GRAPHTFT
-      const char* MenuKind() { return "MenuEvent"; }
+    const char* MenuKind() {
+        return "MenuEvent";
+    }
 #endif
 };
 
-class cMenuEventSearchSimple : public cMenuEventSearch {
+class cMenuEventSearchSimple : public cMenuEventSearch
+{
 private:
-  virtual void Set();
+    virtual void Set();
 public:
-  cMenuEventSearchSimple(const cEvent* Event, cEventObjects& EventObjects);
+    cMenuEventSearchSimple(const cEvent* Event, cEventObjects& EventObjects);
 };
 
 #endif

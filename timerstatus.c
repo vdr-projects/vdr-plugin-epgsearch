@@ -27,25 +27,25 @@ cTimerStatusMonitor* gl_timerStatusMonitor = NULL;
 
 cTimerStatusMonitor::cTimerStatusMonitor()
 {
-  conflictCheckAdvised = true;
+    conflictCheckAdvised = true;
 }
 
 void cTimerStatusMonitor::TimerChange(const cTimer *Timer, eTimerChange Change)
 {
-  // vdr-1.5.15 and above will inform us, when there are any timer changes.
-  // so timer changes (within epgsearch) in previous versions have to be tracked
-  // at the correspondig places.
-  conflictCheckAdvised = true;
+    // vdr-1.5.15 and above will inform us, when there are any timer changes.
+    // so timer changes (within epgsearch) in previous versions have to be tracked
+    // at the correspondig places.
+    conflictCheckAdvised = true;
 }
 
 void cTimerStatusMonitor::SetConflictCheckAdvised(bool ConflictCheckAdvised)
 {
-  if (!ConflictCheckAdvised)
-    conflictCheckAdvised = false;
+    if (!ConflictCheckAdvised)
+        conflictCheckAdvised = false;
 }
 
 bool cTimerStatusMonitor::ConflictCheckAdvised()
 {
-  return conflictCheckAdvised;
+    return conflictCheckAdvised;
 }
 

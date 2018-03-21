@@ -31,32 +31,35 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cSearchExt;
 
 // --- cChannelGroupItem --------------------------------------------------------
-class cChannelGroupItem : public cListObject {
+class cChannelGroupItem : public cListObject
+{
 public:
     const cChannel* channel;
 public:
-  cChannelGroupItem(const cChannel* ch) : channel(ch) {}
+    cChannelGroupItem(const cChannel* ch) : channel(ch) {}
 };
 
 // --- cChannelGroup --------------------------------------------------------
-class cChannelGroup : public cListObject {
+class cChannelGroup : public cListObject
+{
 public:
     char name[MaxFileName];
     cList<cChannelGroupItem> channels;
 public:
-  cChannelGroup(void);
-  virtual ~cChannelGroup(void);
+    cChannelGroup(void);
+    virtual ~cChannelGroup(void);
 
-  bool Parse(const char *s);
-  const char *ToText(void);
-  bool Save(FILE *f);
-  int* CreateChannelSel();
-  void CreateChannelList(int*);
-  bool ChannelInGroup(const cChannel*);
+    bool Parse(const char *s);
+    const char *ToText(void);
+    bool Save(FILE *f);
+    int* CreateChannelSel();
+    void CreateChannelList(int*);
+    bool ChannelInGroup(const cChannel*);
 };
 
 // --- cChannelGroups --------------------------------------------------------
-class cChannelGroups : public cConfig<cChannelGroup> {
+class cChannelGroups : public cConfig<cChannelGroup>
+{
 private:
 public:
     cChannelGroups(void) {}
@@ -70,41 +73,44 @@ public:
 extern cChannelGroups ChannelGroups;
 
 // --- cMenuChannelGroupItem ----------------------------------------------------------
-class cMenuChannelGroupItem : public cOsdItem {
-  private:
+class cMenuChannelGroupItem : public cOsdItem
+{
+private:
 public:
     cChannelGroup* group;
     cMenuChannelGroupItem(cChannelGroup*);
     void Set(void);
-  };
+};
 
 // --- cMenuChannelGroups --------------------------------------------------------
-class cMenuChannelGroups : public cOsdMenu {
-  private:
+class cMenuChannelGroups : public cOsdMenu
+{
+private:
     cChannelGroup *CurrentGroup(void);
     eOSState New(void);
     eOSState Delete(void);
     int groupSel;
     char** groupName;
 
- protected:
+protected:
     virtual eOSState ProcessKey(eKeys Key);
- public:
+public:
     cMenuChannelGroups(char** groupName = NULL);
 };
 
 // --- cMenuEditChannelGroup --------------------------------------------------------
-class cMenuEditChannelGroup : public cOsdMenu {
+class cMenuEditChannelGroup : public cOsdMenu
+{
 private:
-  cChannelGroup *group;
-  bool addIfConfirmed;
-  char name[MaxFileName];
-  int* channelSel;
+    cChannelGroup *group;
+    bool addIfConfirmed;
+    char name[MaxFileName];
+    int* channelSel;
 public:
-  cMenuEditChannelGroup(cChannelGroup *group, bool New = false);
-  ~cMenuEditChannelGroup();
-  void Set();
-  virtual eOSState ProcessKey(eKeys Key);
+    cMenuEditChannelGroup(cChannelGroup *group, bool New = false);
+    ~cMenuEditChannelGroup();
+    void Set();
+    virtual eOSState ProcessKey(eKeys Key);
 };
 
 #endif

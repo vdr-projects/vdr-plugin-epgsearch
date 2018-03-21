@@ -26,18 +26,19 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include "menu_searchresults.h"
 
-class cMenuFavorites : public cMenuSearchResults {
- private:
+class cMenuFavorites : public cMenuSearchResults
+{
+private:
     bool BuildList();
     virtual eOSState OnGreen();
     virtual eOSState OnYellow();
- public:
+public:
     cMenuFavorites();
     virtual eOSState ProcessKey(eKeys Key);
-    virtual void SetHelpKeys(bool Force=false);
+    virtual void SetHelpKeys(bool Force = false);
 #ifdef USE_GRAPHTFT
-  virtual const char* MenuKind();
-  virtual void Display(void);
+    virtual const char* MenuKind();
+    virtual void Display(void);
 #endif
 };
 

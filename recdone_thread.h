@@ -29,18 +29,19 @@ Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 using std::vector;
 using std::string;
 
-class cRecdoneThread: public cThread {
+class cRecdoneThread: public cThread
+{
 private:
     vector<string>m_fnames;
 public:
-        virtual void Action(void);
-        cRecdoneThread(void);
-        virtual ~cRecdoneThread();
-        void SetFilename(const char *FileName) {
-            m_fnames.push_back(FileName);
-        }
-        int RecLengthInSecs(const cRecording *pRecording);
-        bool IsPesRecording(const cRecording *pRecording);
+    virtual void Action(void);
+    cRecdoneThread(void);
+    virtual ~cRecdoneThread();
+    void SetFilename(const char *FileName) {
+        m_fnames.push_back(FileName);
+    }
+    int RecLengthInSecs(const cRecording *pRecording);
+    bool IsPesRecording(const cRecording *pRecording);
 };
 
 #endif

@@ -30,8 +30,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/menuitems.h>
 
 // --- cMenuRecDoneItem ----------------------------------------------------------
-class cMenuRecDoneItem : public cOsdItem {
- public:
+class cMenuRecDoneItem : public cOsdItem
+{
+public:
     cRecDone* recDone;
     bool showEpisodeOnly;
     cMenuRecDoneItem(cRecDone* RecDone, bool ShowEpisodeOnly = false);
@@ -40,30 +41,32 @@ class cMenuRecDoneItem : public cOsdItem {
 };
 
 // --- cMenuRecDone ----------------------------------------------------------
-class cMenuRecsDone : public cOsdMenu {
-  private:
+class cMenuRecsDone : public cOsdMenu
+{
+private:
     cSearchExt* search;
     eOSState Delete(void);
     eOSState DeleteAll(void);
     const char* ButtonBlue(cSearchExt* Search);
     int showMode;
     bool showEpisodeOnly;
-  protected:
+protected:
     void Set();
     virtual eOSState ProcessKey(eKeys Key);
     void UpdateTitle();
     eOSState Summary(void);
     cRecDone* CurrentRecDone(void);
- public:
+public:
     cMenuRecsDone(cSearchExt* search = NULL);
 };
 
 // --- cMenuTextDone ----------------------------------------------------------
-class cMenuTextDone : public cMenuText {
+class cMenuTextDone : public cMenuText
+{
     cRecDone* recDone;
 public:
     cMenuTextDone(const char *Title, cRecDone* RecDone, eDvbFont Font = fontOsd);
     virtual eOSState ProcessKey(eKeys Key);
-  };
+};
 
 #endif

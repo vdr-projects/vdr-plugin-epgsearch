@@ -32,7 +32,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cSearchExt;
 
 // --- cRecDone --------------------------------------------------------
-class cRecDone : public cListObject {
+class cRecDone : public cListObject
+{
 public:
     char *title;             // Title of this event
     char *shortText;         // Short description of this event
@@ -57,17 +58,19 @@ public:
     int ChannelNr();
 };
 
-class cRecsDone : public cList<cRecDone>, public cMutex {
- private:
+class cRecsDone : public cList<cRecDone>, public cMutex
+{
+private:
     char *fileName;
- public:
-    void Clear(void)
-	{
-	    free(fileName);
-	    fileName = NULL;
-	    cList<cRecDone>::Clear();
-	}
-    cRecsDone(void) { fileName = NULL; }
+public:
+    void Clear(void) {
+        free(fileName);
+        fileName = NULL;
+        cList<cRecDone>::Clear();
+    }
+    cRecsDone(void) {
+        fileName = NULL;
+    }
     int GetCountRecordings(const cEvent* event, cSearchExt* search, cRecDone** first = NULL, int matchLimit = 90);
     int GetCountRecordings(const cEvent*, bool compareTitle, int compareSubtitle, bool compareSummary, int compareDate, unsigned long, cRecDone** first = NULL, int matchLimit = 90);
     int GetTotalCountRecordings(cSearchExt* search, cRecDone** first);

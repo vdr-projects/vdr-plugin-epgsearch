@@ -30,32 +30,33 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchext.h"
 #include "menu_event.h"
 
-typedef enum
-{
+typedef enum {
     showTitleEpisode,
     showEpisode
 } ModeYellowSR;
 
-typedef enum
-{
+typedef enum {
     showAll,
     showNoPayTV,
     showTimerPreview
 } ModeBlueSR;
 
 // --- cMenuSearchResultsItem ------------------------------------------------------
-class cMenuSearchResultsItem : public cOsdItem {
+class cMenuSearchResultsItem : public cOsdItem
+{
     char *fileName; // for search in recordings
     bool previewTimer;
     bool episodeOnly;
     cMenuTemplate* menuTemplate;
- public:
+public:
     eTimerMatch timerMatch;
     bool inSwitchList;
     bool timerActive;
     const cEvent *event;
     const cSearchExt* search;
-    const char *FileName(void) { return fileName; }
+    const char *FileName(void) {
+        return fileName;
+    }
     cMenuSearchResultsItem(const cEvent *EventInfo, bool EpisodeOnly = false,
                            bool PreviewTimer = false, cMenuTemplate* MenuTemplate = NULL,
                            const cSearchExt* Search = NULL);
@@ -65,15 +66,16 @@ class cMenuSearchResultsItem : public cOsdItem {
 };
 
 // --- cMenuSearchResults ------------------------------------------------------
-class cMenuSearchResults : public cOsdMenu {
+class cMenuSearchResults : public cOsdMenu
+{
     friend class cMenuFavorites;
- protected:
+protected:
     int helpKeys;
     cMenuTemplate* menuTemplate;
     bool ignoreRunning;
     cEventObjects eventObjects;
 
-    virtual bool BuildList()=0;
+    virtual bool BuildList() = 0;
     virtual eOSState ProcessKey(eKeys Key);
     eOSState ShowSummary(void);
     virtual eOSState OnRed(cSearchExt* searchExt = NULL);
@@ -83,68 +85,73 @@ class cMenuSearchResults : public cOsdMenu {
     eOSState Switch(void);
     eOSState Commands(eKeys Key, cSearchExt* SearchExt = NULL);
     int GetTab(int Tab);
-    virtual void SetHelpKeys(bool Force=false)=0;
+    virtual void SetHelpKeys(bool Force = false) = 0;
     bool Update(void);
     void UpdateCurrent();
 
     static const cEvent *scheduleEventInfo;
     ModeYellowSR modeYellow;
     ModeBlueSR modeBlue;
- public:
+public:
     bool m_bSort;
 
     cMenuSearchResults(cMenuTemplate* MenuTemplate);
 };
 
 // --- cMenuSearchResultsForSearch ------------------------------------------------------
-class cMenuSearchResultsForSearch : public cMenuSearchResults {
-  protected:
+class cMenuSearchResultsForSearch : public cMenuSearchResults
+{
+protected:
     cSearchExt* searchExt;
     virtual bool BuildList();
-    virtual void SetHelpKeys(bool Force=false);
+    virtual void SetHelpKeys(bool Force = false);
     eOSState ProcessKey(eKeys Key);
-  public:
+public:
     cMenuSearchResultsForSearch(cSearchExt*, cMenuTemplate* MenuTemplate);
     virtual ~cMenuSearchResultsForSearch() {}
 };
 
 class cBlacklist;
 // --- cMenuSearchResultsForBlacklist ------------------------------------------------------
-class cMenuSearchResultsForBlacklist : public cMenuSearchResults {
+class cMenuSearchResultsForBlacklist : public cMenuSearchResults
+{
     cBlacklist* blacklist;
     virtual bool BuildList();
-    virtual void SetHelpKeys(bool Force=false);
+    virtual void SetHelpKeys(bool Force = false);
     eOSState ProcessKey(eKeys Key);
-  public:
+public:
     cMenuSearchResultsForBlacklist(cBlacklist*);
 };
 
 // --- cMenuSearchResultsForQuery ------------------------------------------------------
-class cMenuSearchResultsForQuery : public cMenuSearchResultsForSearch {
-  public:
-   cMenuSearchResultsForQuery(const char *query, bool IgnoreRunning = false);
-   ~cMenuSearchResultsForQuery();
-   virtual bool BuildList();
+class cMenuSearchResultsForQuery : public cMenuSearchResultsForSearch
+{
+public:
+    cMenuSearchResultsForQuery(const char *query, bool IgnoreRunning = false);
+    ~cMenuSearchResultsForQuery();
+    virtual bool BuildList();
 };
 
 // --- cMenuSearchResultsForRecs ------------------------------------------------------
-class cMenuSearchResultsForRecs : public cMenuSearchResultsForQuery {
+class cMenuSearchResultsForRecs : public cMenuSearchResultsForQuery
+{
     virtual bool BuildList();
     eOSState ProcessKey(eKeys Key);
     eOSState Play(void);
     const cRecording *GetRecording(cMenuSearchResultsItem *Item);
-  public:
-   cMenuSearchResultsForRecs(const char *query);
+public:
+    cMenuSearchResultsForRecs(const char *query);
 };
 
 // --- cMenuSearchResultsForList ------------------------------------------------------
-class cMenuSearchResultsForList : public cMenuSearchResults {
-  protected:
+class cMenuSearchResultsForList : public cMenuSearchResults
+{
+protected:
     cSearchResults* searchResults;
     virtual bool BuildList();
-    virtual void SetHelpKeys(bool Force=false);
+    virtual void SetHelpKeys(bool Force = false);
     virtual eOSState ProcessKey(eKeys Key);
-  public:
+public:
     cMenuSearchResultsForList(cSearchResults& SearchResults, const char* Title, bool IgnoreRunning = false);
 };
 

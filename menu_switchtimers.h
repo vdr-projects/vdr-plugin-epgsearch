@@ -29,8 +29,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "switchtimer.h"
 
 // --- cMenuSwitchTimerItem ----------------------------------------------------------
-class cMenuSwitchTimerItem : public cOsdItem {
- public:
+class cMenuSwitchTimerItem : public cOsdItem
+{
+public:
     cSwitchTimer* switchTimer;
     const cEvent* event;
     cMenuSwitchTimerItem(cSwitchTimer* SwitchTimer, const cEvent* event);
@@ -39,16 +40,17 @@ class cMenuSwitchTimerItem : public cOsdItem {
 };
 
 
-class cMenuSwitchTimers : public cOsdMenu {
-  private:
+class cMenuSwitchTimers : public cOsdMenu
+{
+private:
     eOSState Delete(void);
     eOSState DeleteAll(void);
-  protected:
+protected:
     void Set();
     virtual eOSState ProcessKey(eKeys Key);
     eOSState Summary(void);
     cSwitchTimer* CurrentSwitchTimer(void);
- public:
+public:
     cMenuSwitchTimers();
 };
 

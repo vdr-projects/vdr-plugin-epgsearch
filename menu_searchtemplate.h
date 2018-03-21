@@ -28,17 +28,18 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchext.h"
 #include "blacklist.h"
 
-class cMenuEPGSearchTemplate : public cOsdMenu {
-  private:
+class cMenuEPGSearchTemplate : public cOsdMenu
+{
+private:
     bool newSearch;
     eOSState New(void);
     eOSState Delete(void);
     eOSState DefaultTemplate(void);
     cSearchExt* search;
     cBlacklist* blacklist;
- protected:
+protected:
     virtual eOSState ProcessKey(eKeys Key);
- public:
+public:
     cMenuEPGSearchTemplate(cSearchExt* Search, cBlacklist* Blacklist, bool New);
     cSearchExt* CurrentSearchTemplate(void);
 };

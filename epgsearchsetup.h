@@ -30,105 +30,107 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 class cPluginEpgsearch;
 
-class cMenuSetupSubMenu : public cOsdMenu {
-  protected:
+class cMenuSetupSubMenu : public cOsdMenu
+{
+protected:
     cEPGSearchConfig* data;
     std::vector<const char*> helpTexts;
     eOSState Help();
     void AddHelp(const char* helpText);
     virtual eOSState ProcessKey(eKeys Key);
     virtual void Set(void) = 0;
-  public:
+public:
     cMenuSetupSubMenu(const char* Title, cEPGSearchConfig* Data);
-  };
+};
 
 
 class cMenuSetupGeneral : public cMenuSetupSubMenu
 {
- protected:
+protected:
     virtual eOSState ProcessKey(eKeys Key);
     void Set(void);
- public:
+public:
     cMenuSetupGeneral(cEPGSearchConfig* Data);
 };
 
 class cMenuSetupEPGMenus : public cMenuSetupSubMenu
 {
- protected:
+protected:
     void Set(void);
     void SetHelpKeys();
- public:
+public:
     cMenuSetupEPGMenus(cEPGSearchConfig* Data);
 };
 
 class cMenuSetupUserdefTimes : public cMenuSetupSubMenu
 {
- protected:
+protected:
     virtual eOSState ProcessKey(eKeys Key);
     void Set(void);
- public:
+public:
     cMenuSetupUserdefTimes(cEPGSearchConfig* Data);
 };
 
 class cMenuSetupTimers : public cMenuSetupSubMenu
 {
- protected:
+protected:
     virtual eOSState ProcessKey(eKeys Key);
     void Set(void);
     void SetHelpKeys();
- public:
+public:
     cMenuSetupTimers(cEPGSearchConfig* Data);
 };
 
 class cMenuSetupSearchtimers : public cMenuSetupSubMenu
 {
-     char** menuitemsChGr;
- protected:
+    char** menuitemsChGr;
+protected:
     virtual eOSState ProcessKey(eKeys Key);
     void Set(void);
     void SetHelpKeys();
- public:
+public:
     cMenuSetupSearchtimers(cEPGSearchConfig* Data);
     ~cMenuSetupSearchtimers();
 };
 
 class cMenuSetupTimerConflicts : public cMenuSetupSubMenu
 {
- protected:
+protected:
     virtual eOSState ProcessKey(eKeys Key);
     void Set(void);
- public:
+public:
     cMenuSetupTimerConflicts(cEPGSearchConfig* Data);
 };
 
 class cMenuSetupMailNotification : public cMenuSetupSubMenu
 {
-   char tmpMailAuthPass[MaxFileName];
-   void SetHelpKeys();
-  protected:
-   virtual eOSState ProcessKey(eKeys Key);
-   void Set(void);
-  public:
-   cMenuSetupMailNotification(cEPGSearchConfig* Data);
-   eOSState TestMailAccount();
+    char tmpMailAuthPass[MaxFileName];
+    void SetHelpKeys();
+protected:
+    virtual eOSState ProcessKey(eKeys Key);
+    void Set(void);
+public:
+    cMenuSetupMailNotification(cEPGSearchConfig* Data);
+    eOSState TestMailAccount();
 
-   static const char *HostNameChars;
-   static const char *UserNameChars;
-   static const char *PasswordChars;
-   static const char *MailBoxChars;
+    static const char *HostNameChars;
+    static const char *UserNameChars;
+    static const char *PasswordChars;
+    static const char *MailBoxChars;
 };
 
-class cMenuEPGSearchSetup : public cMenuSetupPage {
-  private:
+class cMenuEPGSearchSetup : public cMenuSetupPage
+{
+private:
     virtual void Setup(void);
     cEPGSearchConfig data;
     int delaySearchTimerThreadMode;
-  protected:
+protected:
     virtual eOSState ProcessKey(eKeys Key);
     virtual void Store(void);
     void Set(void);
-  public:
+public:
     cMenuEPGSearchSetup(void);
-  };
+};
 
 #endif

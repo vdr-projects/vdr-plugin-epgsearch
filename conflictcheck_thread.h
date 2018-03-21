@@ -28,18 +28,19 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "conflictcheck.h"
 #include "epgsearch.h"
 
-class cConflictCheckThread: public cThread {
- private:
+class cConflictCheckThread: public cThread
+{
+private:
     bool m_Active;
     time_t m_lastUpdate;
     cPluginEpgsearch* m_plugin;
     static bool m_runOnce;
     static bool m_forceUpdate;
     cCondWait Wait;
- protected:
+protected:
     virtual void Action(void);
     void Stop(void);
- public:
+public:
     static cConflictCheckThread *m_Instance;
     static time_t m_cacheNextConflict;
     static int m_cacheRelevantConflicts;

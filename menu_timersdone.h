@@ -32,8 +32,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 
 // --- cMenuTimerDoneItem ----------------------------------------------------------
-class cMenuTimerDoneItem : public cOsdItem {
- public:
+class cMenuTimerDoneItem : public cOsdItem
+{
+public:
     cTimerDone* timerDone;
     cMenuTimerDoneItem(cTimerDone* TimerDone);
     void Set(void);
@@ -41,21 +42,22 @@ class cMenuTimerDoneItem : public cOsdItem {
 };
 
 
-class cMenuTimersDone : public cOsdMenu {
-  private:
+class cMenuTimersDone : public cOsdMenu
+{
+private:
     cSearchExt* search;
     eOSState Delete(void);
     eOSState DeleteAll(void);
     bool showAll;
-   cEventObjects eventObjects;
-  protected:
+    cEventObjects eventObjects;
+protected:
     void Set();
     virtual eOSState ProcessKey(eKeys Key);
     void UpdateTitle();
     eOSState Summary(void);
     cTimerDone* CurrentTimerDone(void);
     void UpdateCurrent();
- public:
+public:
     cMenuTimersDone(cSearchExt* search = NULL);
 };
 

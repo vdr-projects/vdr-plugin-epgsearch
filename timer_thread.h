@@ -30,30 +30,35 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 extern int gl_TimerProgged;
 
-typedef enum
-{
+typedef enum {
     TimerThreadReady,
     TimerThreadWorking,
     TimerThreadError,
     TimerThreadDone
 } TimerThreadStatus;
 
-class cTimerThread: public cThread {
+class cTimerThread: public cThread
+{
 private:
-        static cTimerThread *m_Instance;
-	cString m_cmd;
-	static TimerThreadStatus m_Status;
+    static cTimerThread *m_Instance;
+    cString m_cmd;
+    static TimerThreadStatus m_Status;
 protected:
-        virtual void Action(void);
-        void Stop(void);
+    virtual void Action(void);
+    void Stop(void);
 public:
-        bool m_Active;
-	TimerThreadStatus GetStatus() { return cTimerThread::m_Status; }
-	void SetStatus(TimerThreadStatus Status) { LogFile.eSysLog("%d", int(Status)); cTimerThread::m_Status = Status; }
-        cTimerThread();
-        virtual ~cTimerThread();
-        void Init(cString);
-        void Exit(void);
+    bool m_Active;
+    TimerThreadStatus GetStatus() {
+        return cTimerThread::m_Status;
+    }
+    void SetStatus(TimerThreadStatus Status) {
+        LogFile.eSysLog("%d", int(Status));
+        cTimerThread::m_Status = Status;
+    }
+    cTimerThread();
+    virtual ~cTimerThread();
+    void Init(cString);
+    void Exit(void);
 };
 
 #endif

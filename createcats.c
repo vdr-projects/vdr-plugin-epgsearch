@@ -44,32 +44,35 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 bool isnumber(const char *s)
 {
-  if (!*s)
-     return false;
-  while (*s) {
+    if (!*s)
+        return false;
+    while (*s) {
         if (!isdigit(*s))
-           return false;
+            return false;
         s++;
-        }
-  return true;
+    }
+    return true;
 }
 
 // --- cReadLine -------------------------------------------------------------
-class cReadLine {
- private:
+class cReadLine
+{
+private:
     char buffer[MAXPARSEBUFFER];
- public:
-    cReadLine() { buffer[0]=0; }
+public:
+    cReadLine() {
+        buffer[0] = 0;
+    }
     char *Read(FILE *f);
 };
 
 char *cReadLine::Read(FILE *f)
 {
     if (fgets(buffer, sizeof(buffer), f) > 0) {
-	int l = strlen(buffer) - 1;
-	if (l >= 0 && buffer[l] == '\n')
-	    buffer[l] = 0;
-	return buffer;
+        int l = strlen(buffer) - 1;
+        if (l >= 0 && buffer[l] == '\n')
+            buffer[l] = 0;
+        return buffer;
     }
     return NULL;
 }
@@ -81,7 +84,7 @@ char *skipspace(const char *s)
     return (char *)s;
 }
 
-int comparevalue( const void *arg1, const void *arg2 )
+int comparevalue(const void *arg1, const void *arg2)
 {
     char* value1 = *(char**) arg1;
     char* value2 = *(char**) arg2;
@@ -89,99 +92,95 @@ int comparevalue( const void *arg1, const void *arg2 )
 }
 
 // --- cCat -------------------------------------------------------------
-class cCat {
- public:
+class cCat
+{
+public:
     int appeared;
     char name[MAXPARSEBUFFER];
     int numvalues;
     char** values;
 
     cCat(char* n)
-	:appeared(0), numvalues(0), values(NULL)
-	{
-	    strcpy(name, n);
-	}
-    void addvalue(char* value)
-	{
-	    if (valueexists(value))
-		return;
-	    char* newvalue = (char*) malloc(sizeof(char) * (strlen(value)+1));
-	    strcpy(newvalue, value);
-	    char **tmp = (char**) realloc(values, sizeof(char*)*(numvalues+1));
-	    if (tmp) {
-                 values=tmp;
-   	         values[numvalues++] = newvalue;
-	    } else {
-                 free(newvalue);
-            }
-	}
-    bool valueexists(char* value)
-	{
-	    for(int i=0; i<numvalues; i++)
-		if (strcmp(values[i], value) == 0)
-		    return true;
-	    return false;
-	}
-    void sort()
-	{
-	    qsort(values, numvalues, sizeof(char*), comparevalue );
-	}
+        : appeared(0), numvalues(0), values(NULL) {
+        strcpy(name, n);
+    }
+    void addvalue(char* value) {
+        if (valueexists(value))
+            return;
+        char* newvalue = (char*) malloc(sizeof(char) * (strlen(value) + 1));
+        strcpy(newvalue, value);
+        char **tmp = (char**) realloc(values, sizeof(char*) * (numvalues + 1));
+        if (tmp) {
+            values = tmp;
+            values[numvalues++] = newvalue;
+        } else {
+            free(newvalue);
+        }
+    }
+    bool valueexists(char* value) {
+        for (int i = 0; i < numvalues; i++)
+            if (strcmp(values[i], value) == 0)
+                return true;
+        return false;
+    }
+    void sort() {
+        qsort(values, numvalues, sizeof(char*), comparevalue);
+    }
 };
 
-int comparecat( const void *arg1, const void *arg2 )
+int comparecat(const void *arg1, const void *arg2)
 {
     cCat* cat1 = *(cCat**) arg1;
     cCat* cat2 = *(cCat**) arg2;
     if (cat1->appeared == cat2->appeared) return 0;
-    if (cat1->appeared < cat2->appeared) return 1; else return -1;
+    if (cat1->appeared < cat2->appeared) return 1;
+    else return -1;
 }
 
 // --- cCats -------------------------------------------------------------
-class cCats {
- private:
+class cCats
+{
+private:
     int numcats;
     cCat** cats;
- public:
-    cCats():numcats(0), cats(NULL) {}
+public:
+    cCats(): numcats(0), cats(NULL) {}
 
-    int num() {return numcats;}
+    int num() {
+        return numcats;
+    }
 
-    cCat* add(char* name)
-	{
-	    cCat* newCat = new cCat(name);
-	    cCat **tmp = (cCat**) realloc(cats, sizeof(cCat*)*(numcats+1));
-            if (tmp) 
-            {
-               cats=tmp;
-	       cats[numcats++] = newCat;
-	       return newCat;
-            } else {
-               delete newCat;
-               return NULL;
-            }
-	}
+    cCat* add(char* name) {
+        cCat* newCat = new cCat(name);
+        cCat **tmp = (cCat**) realloc(cats, sizeof(cCat*) * (numcats + 1));
+        if (tmp) {
+            cats = tmp;
+            cats[numcats++] = newCat;
+            return newCat;
+        } else {
+            delete newCat;
+            return NULL;
+        }
+    }
 
-    cCat* get(int i)
-	{
-	    if (i>=0 && i<numcats)
-		return cats[i];
-	    else
-		return NULL;
-	}
+    cCat* get(int i) {
+        if (i >= 0 && i < numcats)
+            return cats[i];
+        else
+            return NULL;
+    }
 
-    cCat* exists(char* name)
-	{
-	    for(int i=0; i<numcats; i++)
-		if (strcmp(cats[i]->name, name) == 0)
-		    return cats[i];
-	    return NULL;
-	}
-    void sort()
-	{
-	    for(int i=0; i<numcats; i++)
-		cats[i]->sort();
-	    qsort(cats, numcats, sizeof( cCat* ), comparecat );
-	}
+    cCat* exists(char* name) {
+        for (int i = 0; i < numcats; i++)
+            if (strcmp(cats[i]->name, name) == 0)
+                return cats[i];
+        return NULL;
+    }
+    void sort() {
+        for (int i = 0; i < numcats; i++)
+            cats[i]->sort();
+        qsort(cats, numcats, sizeof(cCat*), comparecat);
+    }
 };
 
 int main(int argc, char *argv[])
@@ -193,118 +192,106 @@ int main(int argc, char *argv[])
     unsigned int maxlength = MAXNAMELENGTH;
 
     static const struct option long_options[] = {
-      { "minappearance", required_argument, NULL, 'm' },
-      { "maxvalues",   required_argument, NULL, 'v' },
-      { "maxlength",   required_argument,       NULL, 'l' },
-      { "help",     no_argument,       NULL, 'h' },
-      { NULL,     no_argument,       NULL, 0 }
+        { "minappearance", required_argument, NULL, 'm' },
+        { "maxvalues",   required_argument, NULL, 'v' },
+        { "maxlength",   required_argument,       NULL, 'l' },
+        { "help",     no_argument,       NULL, 'h' },
+        { NULL,     no_argument,       NULL, 0 }
     };
 
     int c;
-    while ((c = getopt_long(argc, argv, "m:v:l:h", long_options, NULL)) != -1)
-    {
-        switch (c)
-	{
-	    case 'm':
-		if (isnumber(optarg))
-		{
-		    minappearance = atoi(optarg);
-		    break;
-		}
-		fprintf(stderr, "invalid parameter minappearance: %s\n", optarg);
-		return 2;
-		break;
-	    case 'v':
-		if (isnumber(optarg))
-		{
-		    maxvalues = atoi(optarg);
-		    break;
-		}
-		fprintf(stderr, "invalid parameter maxvalues: %s\n", optarg);
-		return 2;
-		break;
-	    case 'l':
-		if (isnumber(optarg))
-		{
-		    maxlength = atoi(optarg);
-		    break;
-		}
-		fprintf(stderr, "invalid parameter maxlength: %s\n", optarg);
-		return 2;
-		break;
-	    case 'h':
-		printf("usage: createcats [OPTIONS] /path_to/epg.data\n\n");
-		printf("-m N, --minappearance=N    the minimum number a category has to appear\n");
-		printf("                           to be used\n");
-		printf("-v N, --maxvalues=N        values of a category are omitted if they exceed\n");
-		printf("                           this number\n");
-		printf("-l N, --maxlength=N        the maximum length of a text to be accepted\n");
-		printf("                           as a category value\n");
-		printf("-h, --help                 this help\n\n");
-		return 0;
-	     default:
-	        break;
-	}
+    while ((c = getopt_long(argc, argv, "m:v:l:h", long_options, NULL)) != -1) {
+        switch (c) {
+        case 'm':
+            if (isnumber(optarg)) {
+                minappearance = atoi(optarg);
+                break;
+            }
+            fprintf(stderr, "invalid parameter minappearance: %s\n", optarg);
+            return 2;
+            break;
+        case 'v':
+            if (isnumber(optarg)) {
+                maxvalues = atoi(optarg);
+                break;
+            }
+            fprintf(stderr, "invalid parameter maxvalues: %s\n", optarg);
+            return 2;
+            break;
+        case 'l':
+            if (isnumber(optarg)) {
+                maxlength = atoi(optarg);
+                break;
+            }
+            fprintf(stderr, "invalid parameter maxlength: %s\n", optarg);
+            return 2;
+            break;
+        case 'h':
+            printf("usage: createcats [OPTIONS] /path_to/epg.data\n\n");
+            printf("-m N, --minappearance=N    the minimum number a category has to appear\n");
+            printf("                           to be used\n");
+            printf("-v N, --maxvalues=N        values of a category are omitted if they exceed\n");
+            printf("                           this number\n");
+            printf("-l N, --maxlength=N        the maximum length of a text to be accepted\n");
+            printf("                           as a category value\n");
+            printf("-h, --help                 this help\n\n");
+            return 0;
+        default:
+            break;
+        }
     }
 
-    if (argc < 2)
-    {
-	fprintf(stderr, "ERROR: please pass your epg.data\nusage: createcats epg.data\n");
-	return 1;
+    if (argc < 2) {
+        fprintf(stderr, "ERROR: please pass your epg.data\nusage: createcats epg.data\n");
+        return 1;
     }
 
-    f = fopen(argv[argc-1], "r");
-    if (f == NULL)
-    {
-	fprintf(stderr, "ERROR: could not open: %s\n", argv[1]);
-	return 1;
+    f = fopen(argv[argc - 1], "r");
+    if (f == NULL) {
+        fprintf(stderr, "ERROR: could not open: %s\n", argv[1]);
+        return 1;
     }
 
     char *s;
     cReadLine ReadLine;
-    while ((s = ReadLine.Read(f)) != NULL)
-    {
-        if (*s == 'D')
-	{
-	    s = strchr(s,'|'); // jump to possibly first category
-	    if (!s)
-		continue;
-	    s++;
-	    char *pstrSearchToken;
-	    char *pstrSearch=strdup(s);
-	    pstrSearchToken=strtok(pstrSearch, "|");
+    while ((s = ReadLine.Read(f)) != NULL) {
+        if (*s == 'D') {
+            s = strchr(s, '|'); // jump to possibly first category
+            if (!s)
+                continue;
+            s++;
+            char *pstrSearchToken;
+            char *pstrSearch = strdup(s);
+            pstrSearchToken = strtok(pstrSearch, "|");
 
-	    while(pstrSearchToken)
-	    {
-		// must have a ':'
-		char* szPos = NULL;
-		if ((szPos = strchr(pstrSearchToken, ':')) == NULL)
-		{
-		    pstrSearchToken=strtok(NULL, "|");
-		    continue;
-		}
+            while (pstrSearchToken) {
+                // must have a ':'
+                char* szPos = NULL;
+                if ((szPos = strchr(pstrSearchToken, ':')) == NULL) {
+                    pstrSearchToken = strtok(NULL, "|");
+                    continue;
+                }
 
-		char catname[MAXPARSEBUFFER] = "";
-		char catvalue[MAXPARSEBUFFER] = "";
+                char catname[MAXPARSEBUFFER] = "";
+                char catvalue[MAXPARSEBUFFER] = "";
 
-		strncpy(catname, pstrSearchToken, szPos - pstrSearchToken);
-		catname[szPos - pstrSearchToken] = 0;
-		strcpy(catvalue, skipspace(szPos+1));
+                strncpy(catname, pstrSearchToken, szPos - pstrSearchToken);
+                catname[szPos - pstrSearchToken] = 0;
+                strcpy(catvalue, skipspace(szPos + 1));
 
-		cCat* cat = catlist.exists(catname);
-		if (!cat && strlen(catname) < maxlength) // accept only names up to 30 chars
-		    cat = catlist.add(catname);
+                cCat* cat = catlist.exists(catname);
+                if (!cat && strlen(catname) < maxlength) // accept only names up to 30 chars
+                    cat = catlist.add(catname);
 
-		if (cat)
-		{
-		    cat->appeared++;
-		    if (strlen(catvalue) < maxlength) // accept only values up to 30 chars
-			cat->addvalue(catvalue);
-		}
+                if (cat) {
+                    cat->appeared++;
+                    if (strlen(catvalue) < maxlength) // accept only values up to 30 chars
+                        cat->addvalue(catvalue);
+                }
 
-		pstrSearchToken=strtok(NULL, "|");
-	    }
-	    free(pstrSearch);
+                pstrSearchToken = strtok(NULL, "|");
+            }
+            free(pstrSearch);
         }
     }
     fclose(f);
@@ -312,10 +299,9 @@ int main(int argc, char *argv[])
     catlist.sort();
 
     f = fopen("epgsearchcats.conf", "w");
-    if (f == NULL)
-    {
-	fprintf(stderr, "ERROR: could not open outputfile\n");
-	return 1;
+    if (f == NULL) {
+        fprintf(stderr, "ERROR: could not open outputfile\n");
+        return 1;
     }
     fprintf(f, "# -----------------------------------------------------------------------------\n");
     fprintf(f, "# This is just a template based on your current epg.data. Please edit!\n");
@@ -350,17 +336,15 @@ int main(int argc, char *argv[])
     fprintf(f, "#     15 - not equal\n");
     fprintf(f, "# -----------------------------------------------------------------------------\n\n");
     int id = 1;
-    for(int i=0; i<catlist.num(); i++)
-    {
-	cCat* cat = catlist.get(i);
-	if (cat->appeared > (int)minappearance && cat->numvalues > 1) // accept only category, that have at least 2 values and appear more than MINAPPEARANCE timers
-	{
-	    fprintf(f, "# '%s' found %d times with %d different values %s\n", cat->name, cat->appeared, cat->numvalues, cat->numvalues>=(int)maxvalues?"(values omitted, too much)":"");
-	    fprintf(f, "%d|%s|%s|", id++, cat->name, cat->name);
-	    for(int j=0; cat->numvalues < (int)maxvalues && j<cat->numvalues; j++)
-		fprintf(f, "%s%s", cat->values[j], (j == cat->numvalues-1?"":","));
-	    fprintf(f, "|1\n\n");
-	}
+    for (int i = 0; i < catlist.num(); i++) {
+        cCat* cat = catlist.get(i);
+        if (cat->appeared > (int)minappearance && cat->numvalues > 1) { // accept only category, that have at least 2 values and appear more than MINAPPEARANCE timers
+            fprintf(f, "# '%s' found %d times with %d different values %s\n", cat->name, cat->appeared, cat->numvalues, cat->numvalues >= (int)maxvalues ? "(values omitted, too much)" : "");
+            fprintf(f, "%d|%s|%s|", id++, cat->name, cat->name);
+            for (int j = 0; cat->numvalues < (int)maxvalues && j < cat->numvalues; j++)
+                fprintf(f, "%s%s", cat->values[j], (j == cat->numvalues - 1 ? "" : ","));
+            fprintf(f, "|1\n\n");
+        }
     }
     fclose(f);
 

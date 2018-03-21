@@ -29,25 +29,26 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 // --- cMenuSearchCommands ---------------------------------------------------------
 
-class cMenuSearchCommands : public cOsdMenu {
+class cMenuSearchCommands : public cOsdMenu
+{
 private:
-  cCommands commands;
-  eOSState Execute(void);
-  const cEvent* event;
-  cSearchExt* search;
-  bool directCall;
+    cCommands commands;
+    eOSState Execute(void);
+    const cEvent* event;
+    cSearchExt* search;
+    bool directCall;
 public:
-  cMenuSearchCommands(const char *Title, const cEvent* Event, bool DirectCall = false, cSearchExt* Search = NULL);
-  virtual ~cMenuSearchCommands();
-  virtual eOSState ProcessKey(eKeys Key);
-  virtual eOSState Record(void);
-  virtual eOSState Switch(void);
-  virtual eOSState ExtendedSearch(void);
-  virtual eOSState CreateSearchTimer(void);
-  virtual eOSState MarkAsRecorded(void);
-  virtual eOSState AddToSwitchList(void);
-  virtual eOSState CreateBlacklist(void);
-  void LoadCommands();
+    cMenuSearchCommands(const char *Title, const cEvent* Event, bool DirectCall = false, cSearchExt* Search = NULL);
+    virtual ~cMenuSearchCommands();
+    virtual eOSState ProcessKey(eKeys Key);
+    virtual eOSState Record(void);
+    virtual eOSState Switch(void);
+    virtual eOSState ExtendedSearch(void);
+    virtual eOSState CreateSearchTimer(void);
+    virtual eOSState MarkAsRecorded(void);
+    virtual eOSState AddToSwitchList(void);
+    virtual eOSState CreateBlacklist(void);
+    void LoadCommands();
 };
 
 #endif

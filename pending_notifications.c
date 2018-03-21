@@ -33,21 +33,23 @@ char *cPendingNotification::buffer = NULL;
 cPendingNotification::~cPendingNotification(void)
 {
     if (buffer) {
-	free(buffer);
-	buffer = NULL;
+        free(buffer);
+        buffer = NULL;
     }
 }
 bool cPendingNotification::Parse(const char *s)
 {
     char *t = skipspace(s + 1);
     switch (*s) {
-	case 'F': strreplace(t, '|', '\n');
-	    formatted = strdup(t);
-	    break;
-	default:  LogFile.eSysLog("ERROR: unexpected tag while reading epgsearch pending notifications data: %s", s);
-	    return false;
+    case 'F':
+        strreplace(t, '|', '\n');
+        formatted = strdup(t);
+        break;
+    default:
+        LogFile.eSysLog("ERROR: unexpected tag while reading epgsearch pending notifications data: %s", s);
+        return false;
     }
-  return true;
+    return true;
 }
 
 bool cPendingNotification::Read(FILE *f)
@@ -56,56 +58,54 @@ bool cPendingNotification::Read(FILE *f)
     char *s;
     cReadLine ReadLine;
     while ((s = ReadLine.Read(f)) != NULL) {
-	char *t = skipspace(s + 1);
-	switch (*s) {
-	    case 'N': if (!p) {
-		tEventID EventID;
-		int Type, TimerMod, SearchID;
-		time_t Start;
-		int n = sscanf(t, "%d %u %d %d %ld", &Type, &EventID, &TimerMod, &SearchID, &Start);
-		if (n == 5) {
-		    p = new cPendingNotification;
-		    if (p)
-		    {
-		        p->type = Type;
-			p->eventID = EventID;
-			p->timerMod = TimerMod;
-			p->searchID = SearchID;
-			p->start = Start;
+        char *t = skipspace(s + 1);
+        switch (*s) {
+        case 'N':
+            if (!p) {
+                tEventID EventID;
+                int Type, TimerMod, SearchID;
+                time_t Start;
+                int n = sscanf(t, "%d %u %d %d %ld", &Type, &EventID, &TimerMod, &SearchID, &Start);
+                if (n == 5) {
+                    p = new cPendingNotification;
+                    if (p) {
+                        p->type = Type;
+                        p->eventID = EventID;
+                        p->timerMod = TimerMod;
+                        p->searchID = SearchID;
+                        p->start = Start;
 
-			PendingNotifications.Add(p);
-		    }
-		}
-	    }
-		break;
-	    case 'C':
-	    {
-		s = skipspace(s + 1);
-		char *pC = strchr(s, ' ');
-		if (pC)
-		    *pC = 0; // strips optional channel name
-		if (*s) {
-		    tChannelID channelID = tChannelID::FromString(s);
-		    if (channelID.Valid()) {
-			if (p)
-			    p->channelID = channelID;
+                        PendingNotifications.Add(p);
                     }
-		    else {
-			LogFile.Log(3, "ERROR: illegal channel ID: %s", s);
-			return false;
-                    }
-		}
-	    }
-	    break;
-	    case 'n':
-		p = NULL;
-		break;
-	    default:  if (p && !p->Parse(s))
-	    {
-		LogFile.Log(1,"ERROR: parsing %s", s);
-		return false;
-	    }
-	}
+                }
+            }
+            break;
+        case 'C': {
+            s = skipspace(s + 1);
+            char *pC = strchr(s, ' ');
+            if (pC)
+                *pC = 0; // strips optional channel name
+            if (*s) {
+                tChannelID channelID = tChannelID::FromString(s);
+                if (channelID.Valid()) {
+                    if (p)
+                        p->channelID = channelID;
+                } else {
+                    LogFile.Log(3, "ERROR: illegal channel ID: %s", s);
+                    return false;
+                }
+            }
+        }
+        break;
+        case 'n':
+            p = NULL;
+            break;
+        default:
+            if (p && !p->Parse(s)) {
+                LogFile.Log(1, "ERROR: parsing %s", s);
+                return false;
+            }
+        }
     }
     return true;
 }
@@ -113,26 +113,26 @@ bool cPendingNotification::Read(FILE *f)
 
 const char *cPendingNotification::ToText(void) const
 {
-  char* tmpFormatted = formatted!=""?strdup(formatted.c_str()):NULL;
+    char* tmpFormatted = formatted != "" ? strdup(formatted.c_str()) : NULL;
     if (tmpFormatted)
-	strreplace(tmpFormatted, '\n', '|');
+        strreplace(tmpFormatted, '\n', '|');
 
     if (buffer)
-	free(buffer);
+        free(buffer);
     buffer = NULL;
 
     LOCK_CHANNELS_READ;
     const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
     if (!channel)
-	LogFile.Log(3,"invalid channel in pending notifications!");
+        LogFile.Log(3, "invalid channel in pending notifications!");
 
     msprintf(&buffer, "N %d %u %d %d %ld\nC %s\n%s%s%sn",
-	     type, eventID, timerMod, searchID, start,
-	     channel?CHANNELSTRING(channel):"",
-	     tmpFormatted?"F ":"",tmpFormatted?tmpFormatted:"", tmpFormatted?"\n":"");
+             type, eventID, timerMod, searchID, start,
+             channel ? CHANNELSTRING(channel) : "",
+             tmpFormatted ? "F " : "", tmpFormatted ? tmpFormatted : "", tmpFormatted ? "\n" : "");
 
     if (tmpFormatted)
-	free(tmpFormatted);
+        free(tmpFormatted);
 
     return buffer;
 }
@@ -146,23 +146,23 @@ bool cPendingNotifications::Load(const char *FileName)
 {
     Clear();
     if (FileName) {
-	free(fileName);
-	fileName = strdup(FileName);
+        free(fileName);
+        fileName = strdup(FileName);
     }
 
     if (fileName && access(fileName, F_OK) == 0) {
-	LogFile.iSysLog("loading %s", fileName);
-	FILE *f = fopen(fileName, "r");
-	bool result = false;
-	if (f) {
-	    result = cPendingNotification::Read(f);
-	    fclose(f);
-	}
-	if (result)
-	    LogFile.Log(2,"loaded pending notifications from %s (count: %d)", fileName, Count());
-	else
-	    LogFile.Log(1,"error loading pending notifications from %s (count: %d)", fileName, Count());
-	return result;
+        LogFile.iSysLog("loading %s", fileName);
+        FILE *f = fopen(fileName, "r");
+        bool result = false;
+        if (f) {
+            result = cPendingNotification::Read(f);
+            fclose(f);
+        }
+        if (result)
+            LogFile.Log(2, "loaded pending notifications from %s (count: %d)", fileName, Count());
+        else
+            LogFile.Log(1, "error loading pending notifications from %s (count: %d)", fileName, Count());
+        return result;
     }
     return false;
 }
@@ -173,19 +173,18 @@ bool cPendingNotifications::Save(void)
     cPendingNotification* l = (cPendingNotification*)this->First();
     cSafeFile f(fileName);
     if (f.Open()) {
-	while (l) {
-	    if (!l->Save(f)) {
+        while (l) {
+            if (!l->Save(f)) {
                 result = false;
                 break;
-	    }
-	    l = (cPendingNotification*)l->Next();
-	}
-	if (!f.Close())
-	    result = false;
-    }
-    else
-	result = false;
-    LogFile.Log(2,"saved pending notifications (count: %d)", Count());
+            }
+            l = (cPendingNotification*)l->Next();
+        }
+        if (!f.Close())
+            result = false;
+    } else
+        result = false;
+    LogFile.Log(2, "saved pending notifications (count: %d)", Count());
     return result;
 }
 

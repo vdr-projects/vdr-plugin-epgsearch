@@ -30,8 +30,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define UPD_CHDUR 1
 #define UPD_EVENTID 2
 
-class cDefTimerCheckMode : public cListObject {
- public:
+class cDefTimerCheckMode : public cListObject
+{
+public:
     tChannelID channelID;
     int mode;
 
@@ -42,8 +43,9 @@ class cDefTimerCheckMode : public cListObject {
     bool Save(FILE *f);
 };
 
-class cDefTimerCheckModes : public cConfig<cDefTimerCheckMode> {
- public:
+class cDefTimerCheckModes : public cConfig<cDefTimerCheckMode>
+{
+public:
     int GetMode(const cChannel* channel);
     void SetMode(const cChannel* channel, int mode);
 };
@@ -52,9 +54,10 @@ extern cDefTimerCheckModes DefTimerCheckModes;
 
 // --- cMenuDefTimerCheckMethod ---------------------------------------------------------
 
-class cMenuDefTimerCheckMethod : public cOsdMenu {
+class cMenuDefTimerCheckMethod : public cOsdMenu
+{
     int* modes;
- public:
+public:
     cMenuDefTimerCheckMethod();
     ~cMenuDefTimerCheckMethod();
     void Set();

@@ -34,74 +34,75 @@ static const char SETUPTEXT[]     = trNOOP("Conflict info in main menu");
 
 cString DateTime(time_t t)
 {
-  char buffer[32];
-  if (t == 0) {
-    time(&t);
-  }
-  struct tm tm_r;
-  tm *tm = localtime_r(&t, &tm_r);
-  snprintf(buffer, sizeof(buffer), "%02d.%02d. %02d:%02d", tm->tm_mday,
-	   tm->tm_mon + 1, tm->tm_hour, tm->tm_min);
-  return buffer;
+    char buffer[32];
+    if (t == 0) {
+        time(&t);
+    }
+    struct tm tm_r;
+    tm *tm = localtime_r(&t, &tm_r);
+    snprintf(buffer, sizeof(buffer), "%02d.%02d. %02d:%02d", tm->tm_mday,
+             tm->tm_mon + 1, tm->tm_hour, tm->tm_min);
+    return buffer;
 }
 
-class cPluginConflictcheckonly:public cMainMenuShortcut {
+class cPluginConflictcheckonly: public cMainMenuShortcut
+{
 private:
-  char *_menuText;
+    char *_menuText;
 
 public:
-   cPluginConflictcheckonly();
-  ~cPluginConflictcheckonly();
-  virtual const char *Version() {
-    return VERSION;
-  }
-  virtual const char *Description() {
-    return I18nTranslate(DESCRIPTION, I18nEpgsearch);
-  }
-  virtual bool Initialize();
-  virtual cOsdObject *MainMenuAction() {
-    return GetEpgSearchMenu("Epgsearch-conflictmenu-v1.0");
-  }
+    cPluginConflictcheckonly();
+    ~cPluginConflictcheckonly();
+    virtual const char *Version() {
+        return VERSION;
+    }
+    virtual const char *Description() {
+        return I18nTranslate(DESCRIPTION, I18nEpgsearch);
+    }
+    virtual bool Initialize();
+    virtual cOsdObject *MainMenuAction() {
+        return GetEpgSearchMenu("Epgsearch-conflictmenu-v1.0");
+    }
 
 protected:
-  virtual const char *SetupText() {
-    return I18nTranslate(SETUPTEXT, I18nEpgsearch);
-  }
-  virtual const char *MainMenuText(void);
+    virtual const char *SetupText() {
+        return I18nTranslate(SETUPTEXT, I18nEpgsearch);
+    }
+    virtual const char *MainMenuText(void);
 };
 
-cPluginConflictcheckonly::cPluginConflictcheckonly():_menuText(NULL)
+cPluginConflictcheckonly::cPluginConflictcheckonly(): _menuText(NULL)
 {
 }
 
 cPluginConflictcheckonly::~cPluginConflictcheckonly()
 {
-  free(_menuText);
+    free(_menuText);
 }
 
 const char *cPluginConflictcheckonly::MainMenuText(void)
 {
-  const char *menuText = I18nTranslate(MAINMENUENTRY, I18nEpgsearch);
+    const char *menuText = I18nTranslate(MAINMENUENTRY, I18nEpgsearch);
 
-  cPlugin *epgSearchPlugin = cPluginManager::GetPlugin("epgsearch");
-  if (epgSearchPlugin) {
-    Epgsearch_lastconflictinfo_v1_0 *serviceData = new Epgsearch_lastconflictinfo_v1_0;
-    if (epgSearchPlugin->Service("Epgsearch-lastconflictinfo-v1.0", serviceData)) {
-      if (serviceData->relevantConflicts > 0) {
-	free(_menuText);
-	if (asprintf(&_menuText, "%s (%d, %s: %s)", menuText, serviceData->relevantConflicts,
-		     I18nTranslate(trNOOP("next"), I18nEpgsearch), *DateTime(serviceData->nextConflict)))
-            menuText = _menuText;
-      }
+    cPlugin *epgSearchPlugin = cPluginManager::GetPlugin("epgsearch");
+    if (epgSearchPlugin) {
+        Epgsearch_lastconflictinfo_v1_0 *serviceData = new Epgsearch_lastconflictinfo_v1_0;
+        if (epgSearchPlugin->Service("Epgsearch-lastconflictinfo-v1.0", serviceData)) {
+            if (serviceData->relevantConflicts > 0) {
+                free(_menuText);
+                if (asprintf(&_menuText, "%s (%d, %s: %s)", menuText, serviceData->relevantConflicts,
+                             I18nTranslate(trNOOP("next"), I18nEpgsearch), *DateTime(serviceData->nextConflict)))
+                    menuText = _menuText;
+            }
+        }
+        delete serviceData;
     }
-    delete serviceData;
-  }
-  return menuText;
+    return menuText;
 }
 
 bool cPluginConflictcheckonly::Initialize(void)
 {
-  return cMainMenuShortcut::Initialize();
+    return cMainMenuShortcut::Initialize();
 }
 
-VDRPLUGINCREATOR(cPluginConflictcheckonly);	// Don't touch this!
+VDRPLUGINCREATOR(cPluginConflictcheckonly); // Don't touch this!

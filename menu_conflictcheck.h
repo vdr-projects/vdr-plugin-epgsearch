@@ -29,7 +29,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_event.h"
 
 // --- cMenuConflictCheckItem ------------------------------------------------------
-class cMenuConflictCheckItem : public cOsdItem {
+class cMenuConflictCheckItem : public cOsdItem
+{
 public:
     cConflictCheckTime* checktime;
     cConflictCheckTimerObj* timerObj;
@@ -37,7 +38,8 @@ public:
 };
 
 // --- cMenuConflictCheck ------------------------------------------------------
-class cMenuConflictCheck : public cOsdMenu {
+class cMenuConflictCheck : public cOsdMenu
+{
 private:
     cConflictCheck conflictCheck;
     bool showAll;
@@ -46,12 +48,13 @@ private:
     cConflictCheckTimerObj* CurrentTimerObj(void);
     void Update();
     bool BuildList();
- public:
+public:
     cMenuConflictCheck();
 };
 
 // --- cMenuConflictCheckDetailsItem ------------------------------------------------------
-class cMenuConflictCheckDetailsItem : public cOsdItem {
+class cMenuConflictCheckDetailsItem : public cOsdItem
+{
     bool hasTimer;
 public:
     cConflictCheckTimerObj* timerObj;
@@ -60,7 +63,8 @@ public:
 };
 
 // --- cMenuConflictCheckDetails ------------------------------------------------------
-class cMenuConflictCheckDetails : public cOsdMenu {
+class cMenuConflictCheckDetails : public cOsdMenu
+{
 private:
     cConflictCheck* conflictCheck;
     cConflictCheckTimerObj* timerObj;
@@ -77,7 +81,7 @@ private:
     bool BuildList();
     eOSState ShowSummary();
     void UpdateCurrent();
- public:
+public:
     cMenuConflictCheckDetails(cConflictCheckTimerObj* TimerObj = NULL, cConflictCheck* ConflictCheck = NULL);
 };
 

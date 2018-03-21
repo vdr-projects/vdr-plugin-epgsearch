@@ -27,13 +27,14 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/plugin.h>
 #include "blacklist.h"
 
-class cMenuBlacklists : public cOsdMenu {
-  private:
+class cMenuBlacklists : public cOsdMenu
+{
+private:
     eOSState New(void);
     eOSState Delete(void);
- protected:
+protected:
     virtual eOSState ProcessKey(eKeys Key);
- public:
+public:
     cMenuBlacklists();
     cBlacklist* CurrentBlacklist(void);
 };

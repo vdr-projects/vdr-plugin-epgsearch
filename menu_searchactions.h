@@ -29,17 +29,18 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 // --- cMenuSearchActions ---------------------------------------------------------
 
-class cMenuSearchActions : public cOsdMenu {
+class cMenuSearchActions : public cOsdMenu
+{
 private:
-  cSearchExt* search;
-  bool directCall;
-  eOSState Search(void);
-  eOSState OnOffSearchtimer(void);
-  eOSState Execute();
+    cSearchExt* search;
+    bool directCall;
+    eOSState Search(void);
+    eOSState OnOffSearchtimer(void);
+    eOSState Execute();
 public:
-  cMenuSearchActions(cSearchExt* Search, bool DirectCall = false);
-  virtual ~cMenuSearchActions();
-  virtual eOSState ProcessKey(eKeys Key);
+    cMenuSearchActions(cSearchExt* Search, bool DirectCall = false);
+    virtual ~cMenuSearchActions();
+    virtual eOSState ProcessKey(eKeys Key);
 };
 
 #endif

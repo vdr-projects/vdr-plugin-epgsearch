@@ -32,11 +32,12 @@ Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 extern int updateForced;
 
 cRecdoneThread::cRecdoneThread()
-: cThread("EPGSearch: recdone")
+    : cThread("EPGSearch: recdone")
 {
 }
 
-cRecdoneThread::~cRecdoneThread() {
+cRecdoneThread::~cRecdoneThread()
+{
 }
 
 bool cRecdoneThread::IsPesRecording(const cRecording *pRecording)
@@ -47,16 +48,15 @@ bool cRecdoneThread::IsPesRecording(const cRecording *pRecording)
 #define LOC_INDEXFILESUFFIX     "/index"
 
 struct tIndexTs {
-    uint64_t offset:40; // up to 1TB per file (not using off_t here - must definitely be exactly 64 bit!)
-    int reserved:7;     // reserved for future use
-    int independent:1;  // marks frames that can be displayed by themselves (for trick modes)
-    uint16_t number:16; // up to 64K files per recording
-    tIndexTs(off_t Offset, bool Independent, uint16_t Number)
-    {
-       offset = Offset;
-       reserved = 0;
-       independent = Independent;
-       number = Number;
+    uint64_t offset: 40; // up to 1TB per file (not using off_t here - must definitely be exactly 64 bit!)
+    int reserved: 7;    // reserved for future use
+    int independent: 1; // marks frames that can be displayed by themselves (for trick modes)
+    uint16_t number: 16; // up to 64K files per recording
+    tIndexTs(off_t Offset, bool Independent, uint16_t Number) {
+        offset = Offset;
+        reserved = 0;
+        independent = Independent;
+        number = Number;
     }
 };
 
@@ -64,47 +64,41 @@ int cRecdoneThread::RecLengthInSecs(const cRecording *pRecording)
 {
     struct stat buf;
     cString fullname = cString::sprintf("%s%s", pRecording->FileName(), IsPesRecording(pRecording) ? LOC_INDEXFILESUFFIX ".vdr" : LOC_INDEXFILESUFFIX);
-    if (pRecording->FileName() && *fullname && access(fullname, R_OK) == 0 && stat(fullname, &buf) == 0)
-    {
-       double frames = buf.st_size ? (buf.st_size - 1) / sizeof(tIndexTs) + 1 : 0;
-       double Seconds = 0;
-       modf((frames + 0.5) / pRecording->FramesPerSecond(), &Seconds);
-       return Seconds;
+    if (pRecording->FileName() && *fullname && access(fullname, R_OK) == 0 && stat(fullname, &buf) == 0) {
+        double frames = buf.st_size ? (buf.st_size - 1) / sizeof(tIndexTs) + 1 : 0;
+        double Seconds = 0;
+        modf((frames + 0.5) / pRecording->FramesPerSecond(), &Seconds);
+        return Seconds;
     }
     return -1;
 }
 
 void cRecdoneThread::Action(void)
 {
-    LogFile.Log(1,"started recdone_thread");
+    LogFile.Log(1, "started recdone_thread");
     cMutexLock RecsDoneLock(&RecsDone);
     time_t now = time(NULL);
     // remove timers that finished recording from TimersRecording
     // incomplete recordings are kept for a while, perhaps they will be resumed
     LOCK_TIMERS_READ;
-    while (m_fnames.size())
-    {
-        vector<string>::iterator it=m_fnames.begin();
-        const char *m_filename=(*it).c_str();
-        LogFile.Log(1,"recdone_thread processing %s",m_filename);
+    while (m_fnames.size()) {
+        vector<string>::iterator it = m_fnames.begin();
+        const char *m_filename = (*it).c_str();
+        LogFile.Log(1, "recdone_thread processing %s", m_filename);
         cMutexLock TimersRecordingLock(&TimersRecording);
         cRecDoneTimerObj *tiR = TimersRecording.First();
-        while(tiR)
-        {
+        while (tiR) {
             // check if timer still exists
             bool found = false;
 
             for (const cTimer *ti = Timers->First(); ti; ti = Timers->Next(ti))
-                if (ti == tiR->timer)
-                {
+                if (ti == tiR->timer) {
                     found = true;
                     break;
                 }
 
-            if (found && !tiR->timer->Recording())
-            {
-                if (tiR->recDone)
-                {
+            if (found && !tiR->timer->Recording()) {
+                if (tiR->recDone) {
                     cSearchExt* search = SearchExts.GetSearchFromID(tiR->recDone->searchID);
                     if (!search) return;
                     // check if recording has ended before timer end
@@ -115,31 +109,26 @@ void cRecdoneThread::Action(void)
                         LOCK_RECORDINGS_READ;
                         pRecording = Recordings->GetByName(m_filename);
                     }
-                    long timerLengthSecs = tiR->timer->StopTime()-tiR->timer->StartTime();
+                    long timerLengthSecs = tiR->timer->StopTime() - tiR->timer->StartTime();
                     int recFraction = 100;
-                    if (pRecording && timerLengthSecs)
-                    {
+                    if (pRecording && timerLengthSecs) {
                         int recLen = RecLengthInSecs(pRecording);
                         recFraction = double(recLen) * 100 / timerLengthSecs;
                     }
                     bool vpsUsed = tiR->timer->HasFlags(tfVps) && tiR->timer->Event() && tiR->timer->Event()->Vps();
-                    if ((!vpsUsed && now < tiR->timer->StopTime()) || recFraction < (vpsUsed ? 90: 98)) // assure timer has reached its end or at least 98% were recorded
-                    {
+                    if ((!vpsUsed && now < tiR->timer->StopTime()) || recFraction < (vpsUsed ? 90 : 98)) { // assure timer has reached its end or at least 98% were recorded
                         complete = false;
-                        LogFile.Log(1,"finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", tiR->timer->File(), recFraction, search->search, vpsUsed ? "Yes": "No");
-                    }
-                    else
-                    {
-                        LogFile.Log(1,"finished: '%s'; search timer: '%s'; VPS used: %s", tiR->timer->File(), search->search, vpsUsed ? "Yes": "No");
+                        LogFile.Log(1, "finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", tiR->timer->File(), recFraction, search->search, vpsUsed ? "Yes" : "No");
+                    } else {
+                        LogFile.Log(1, "finished: '%s'; search timer: '%s'; VPS used: %s", tiR->timer->File(), search->search, vpsUsed ? "Yes" : "No");
                         if (recFraction < 100)
-                            LogFile.Log(2,"recorded %d%%'", recFraction);
+                            LogFile.Log(2, "recorded %d%%'", recFraction);
                     }
-                    if (complete)
-                    {
+                    if (complete) {
                         RecsDone.Add(tiR->recDone);
-                        LogFile.Log(1,"added rec done for '%s~%s';%s", tiR->recDone->title?tiR->recDone->title:"unknown title",
-                            tiR->recDone->shortText?tiR->recDone->shortText:"unknown subtitle",
-                            search->search);
+                        LogFile.Log(1, "added rec done for '%s~%s';%s", tiR->recDone->title ? tiR->recDone->title : "unknown title",
+                                    tiR->recDone->shortText ? tiR->recDone->shortText : "unknown subtitle",
+                                    search->search);
                         RecsDone.Save();
                         tiR->recDone = NULL; // prevent deletion
                         tiR->lastBreak = 0;
@@ -150,12 +139,11 @@ void cRecdoneThread::Action(void)
                         // trigger a search timer update (skip running events)
                         search->skipRunningEvents = true;
                         updateForced = 1;
-                    }
-                    else if (tiR->lastBreak == 0) // store first break
+                    } else if (tiR->lastBreak == 0) // store first break
                         tiR->lastBreak = now;
                 }
-                if (tiR->lastBreak == 0 || (now - tiR->lastBreak) > ALLOWED_BREAK_INSECS)
-                { // remove finished recordings or those with an unallowed break
+                if (tiR->lastBreak == 0 || (now - tiR->lastBreak) > ALLOWED_BREAK_INSECS) {
+                    // remove finished recordings or those with an unallowed break
                     if (tiR->recDone) delete tiR->recDone; // clean up
                     cRecDoneTimerObj *tiRNext = TimersRecording.Next(tiR);
                     TimersRecording.Del(tiR);
@@ -164,8 +152,7 @@ void cRecdoneThread::Action(void)
                 }
                 break;
             }
-            if (!found)
-            {
+            if (!found) {
                 if (tiR->recDone) delete tiR->recDone; // clean up
                 cRecDoneTimerObj *tiRNext = TimersRecording.Next(tiR);
                 TimersRecording.Del(tiR);
@@ -176,5 +163,5 @@ void cRecdoneThread::Action(void)
         }
         m_fnames.erase(it);
     } // while fnames
-    LogFile.Log(1,"recdone_thread ended");
+    LogFile.Log(1, "recdone_thread ended");
 }

@@ -34,15 +34,25 @@ static const char SETUPTEXT[]      = trNOOP("Show in main menu");
 
 class cPluginQuicksearch : public cMainMenuShortcut
 {
-    public:
-        virtual const char* Version() { return VERSION; }
-        virtual const char* Description() { return I18nTranslate(DESCRIPTION, I18nEpgsearch); }
-        virtual bool Initialize();
-        virtual cOsdObject* MainMenuAction() { return GetEpgSearchMenu("Epgsearch-quicksearch-v1.0"); };
+public:
+    virtual const char* Version() {
+        return VERSION;
+    }
+    virtual const char* Description() {
+        return I18nTranslate(DESCRIPTION, I18nEpgsearch);
+    }
+    virtual bool Initialize();
+    virtual cOsdObject* MainMenuAction() {
+        return GetEpgSearchMenu("Epgsearch-quicksearch-v1.0");
+    };
 
-    protected:
-        virtual const char* SetupText() { return I18nTranslate(SETUPTEXT, I18nEpgsearch); }
-        virtual const char* MainMenuText() { return I18nTranslate(MAINMENUENTRY, I18nEpgsearch); }
+protected:
+    virtual const char* SetupText() {
+        return I18nTranslate(SETUPTEXT, I18nEpgsearch);
+    }
+    virtual const char* MainMenuText() {
+        return I18nTranslate(MAINMENUENTRY, I18nEpgsearch);
+    }
 };
 
 bool cPluginQuicksearch::Initialize()

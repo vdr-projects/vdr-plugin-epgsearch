@@ -27,29 +27,30 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "blacklist.h"
 
 // --- cMenuBlacklistEdit --------------------------------------------------------
-class cMenuBlacklistEdit: public cOsdMenu {
+class cMenuBlacklistEdit: public cOsdMenu
+{
 protected:
-  cBlacklist *blacklist;
-  cBlacklist data;
-  int channelMin;
-  int channelMax;
-  bool addIfConfirmed;
-  int UserDefDayOfWeek;
-  int channelGroupNr;
-  char* channelGroupName;
-  char** menuitemsChGr;
-  int* catvaluesNumeric;
+    cBlacklist *blacklist;
+    cBlacklist data;
+    int channelMin;
+    int channelMax;
+    bool addIfConfirmed;
+    int UserDefDayOfWeek;
+    int channelGroupNr;
+    char* channelGroupName;
+    char** menuitemsChGr;
+    int* catvaluesNumeric;
 
-  char *SearchModes[6];
-  char *DaysOfWeek[8];
-  char *UseChannelSel[4];
+    char *SearchModes[6];
+    char *DaysOfWeek[8];
+    char *UseChannelSel[4];
 
- public:
-  cMenuBlacklistEdit(cBlacklist *Blacklist, bool New = false);
-  virtual eOSState ProcessKey(eKeys Key);
-  virtual ~cMenuBlacklistEdit();
-  virtual void Set();
-  void CreateMenuitemsChannelGroups();
+public:
+    cMenuBlacklistEdit(cBlacklist *Blacklist, bool New = false);
+    virtual eOSState ProcessKey(eKeys Key);
+    virtual ~cMenuBlacklistEdit();
+    virtual void Set();
+    void CreateMenuitemsChannelGroups();
 };
 
 #endif

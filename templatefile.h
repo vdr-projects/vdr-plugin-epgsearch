@@ -34,38 +34,47 @@ using std::set;
 
 class cMenuTemplate
 {
- private:
+private:
     char name[MAXTEMPLLEN];
     char* menuTemplate;
     int  menuTabs[cSkinDisplayMenu::MaxTabs];
- public:
-    cMenuTemplate(const char* Name)
-      {
-	strcpy(name, Name);
-	menuTemplate = 0;
-	for(int i=0; i<cSkinDisplayMenu::MaxTabs; i++) menuTabs[i] = 0;
-      }
-    ~cMenuTemplate()
-      {
-	if (menuTemplate) free(menuTemplate);
-      }
-    const char* Name(void) {return name;}
-    const char* MenuTemplate(void) {return menuTemplate;}
-    int Tab(int i) {return menuTabs[i];}
+public:
+    cMenuTemplate(const char* Name) {
+        strcpy(name, Name);
+        menuTemplate = 0;
+        for (int i = 0; i < cSkinDisplayMenu::MaxTabs; i++) menuTabs[i] = 0;
+    }
+    ~cMenuTemplate() {
+        if (menuTemplate) free(menuTemplate);
+    }
+    const char* Name(void) {
+        return name;
+    }
+    const char* MenuTemplate(void) {
+        return menuTemplate;
+    }
+    int Tab(int i) {
+        return menuTabs[i];
+    }
     bool PrepareTemplate(const char* templateLine);
 };
 
-class cTemplLine : public cListObject {
+class cTemplLine : public cListObject
+{
 private:
-  char *name;
-  char *value;
+    char *name;
+    char *value;
 public:
-  cTemplLine(void);
-  cTemplLine(const char *Name, const char *Value);
-  virtual ~cTemplLine();
-  const char *Name(void) { return name; }
-  const char *Value(void) { return value; }
-  bool Parse(char *s);
+    cTemplLine(void);
+    cTemplLine(const char *Name, const char *Value);
+    virtual ~cTemplLine();
+    const char *Name(void) {
+        return name;
+    }
+    const char *Value(void) {
+        return value;
+    }
+    bool Parse(char *s);
 };
 
 

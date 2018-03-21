@@ -30,9 +30,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 extern int toggleKeys;
 
-typedef enum
-{
-    showNow=0,
+typedef enum {
+    showNow = 0,
     showNext,
     showUserMode1,
     showUserMode2,
@@ -46,44 +45,57 @@ class cShowMode: public cListObject
 {
     showMode mode;
     time_t seekTime;
- public:
+public:
     char description[30];
     int useIt;
     int itime;
 
-    cShowMode() : mode(showNow), seekTime(0), useIt(0), itime(0)  { description[0]=0;}
-    cShowMode(showMode Mode, const char* Description, int UseIt=1, int iTime=0, time_t SeekTime=0)
-	: mode(Mode), seekTime(SeekTime), useIt(UseIt), itime(iTime)
-	{
-	    if (strlen(Description) > 0)
-		SetDescription(Description);
-	    else
-		sprintf(description, "%02d:%02d", iTime/100, iTime%100);
-	}
+    cShowMode() : mode(showNow), seekTime(0), useIt(0), itime(0)  {
+        description[0] = 0;
+    }
+    cShowMode(showMode Mode, const char* Description, int UseIt = 1, int iTime = 0, time_t SeekTime = 0)
+        : mode(Mode), seekTime(SeekTime), useIt(UseIt), itime(iTime) {
+        if (strlen(Description) > 0)
+            SetDescription(Description);
+        else
+            sprintf(description, "%02d:%02d", iTime / 100, iTime % 100);
+    }
     cShowMode& operator= (const cShowMode &ShowMode);
-    const char* GetDescription() { return description; }
-    int GetTime() const { return itime; }
-    bool GetUsage() const { return useIt; }
+    const char* GetDescription() {
+        return description;
+    }
+    int GetTime() const {
+        return itime;
+    }
+    bool GetUsage() const {
+        return useIt;
+    }
 
-    void SetDescription(const char* szD) { if (szD)  strncpy(description, szD, sizeof(description)); }
-    void SetTime(int iT) { itime = iT; }
-    void SetUsage(bool bU) { useIt = bU; }
+    void SetDescription(const char* szD) {
+        if (szD)  strncpy(description, szD, sizeof(description));
+    }
+    void SetTime(int iT) {
+        itime = iT;
+    }
+    void SetUsage(bool bU) {
+        useIt = bU;
+    }
     int Compare(const cListObject &ListObject) const;
-    showMode GetMode() const { return mode; }
+    showMode GetMode() const {
+        return mode;
+    }
 };
 
 
-typedef enum
-{
-    addSubtitleNever=0,
+typedef enum {
+    addSubtitleNever = 0,
     addSubtitleAlways,
     addSubtitleSmart
 } addSubtitleToTimerMode;
 
-struct cEPGSearchConfig
-{
+struct cEPGSearchConfig {
 public:
-cEPGSearchConfig(void);
+    cEPGSearchConfig(void);
     int hidemenu;
     int ReplaceOrgSchedule;
     int redkeymode;
@@ -149,7 +161,7 @@ cEPGSearchConfig(void);
     int checkEPGWarnByMail;
     int checkEPGchannelGroupNr;
     time_t lastMailOnSearchtimerAt;
-    char conflCheckCmd[MaxFileName*10];
+    char conflCheckCmd[MaxFileName * 10];
 };
 
 extern cEPGSearchConfig EPGSearchConfig;

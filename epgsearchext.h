@@ -37,17 +37,15 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #define MAXOSDTEXTWIDTH 45
 
-typedef enum
-{
+typedef enum {
     blacklistsOnlyGlobal = 0,
     blacklistsSelection,
     blacklistsAll,
     blacklistsNone
 } blacklistModes;
 
-typedef enum
-{
-    searchTimerActionRecord=0,
+typedef enum {
+    searchTimerActionRecord = 0,
     searchTimerActionAnnounceViaOSD,
     searchTimerActionSwitchOnly,
     searchTimerActionAnnounceAndSwitch,
@@ -58,8 +56,9 @@ typedef enum
 class cSearchExt;
 class cBlacklist;
 
-class cSearchResult : public cListObject {
- public:
+class cSearchResult : public cListObject
+{
+public:
     const cEvent* event;
     const cSearchExt* search;
     const cBlacklist* blacklist;
@@ -69,38 +68,36 @@ class cSearchResult : public cListObject {
     cSearchResult(const cEvent* Event, const cBlacklist* Blacklist) : event(Event), search(NULL), blacklist(Blacklist), needsTimer(true) {}
 };
 
-class cSearchResults : public cList<cSearchResult> {
- public:
+class cSearchResults : public cList<cSearchResult>
+{
+public:
 
-    void SortBy(int(*compar)(const void *, const void *))
-	{
-	    int n = Count();
-	    cListObject *a[n];
-	    cListObject *object = objects;
-	    int i = 0;
-	    while (object && i < n) {
-		a[i++] = object;
-		object = object->Next();
-	    }
-	    qsort(a, n, sizeof(cListObject *), compar);
-	    objects = lastObject = NULL;
-	    for (i = 0; i < n; i++) {
-		a[i]->Unlink();
-		count--;
-		Add(a[i]);
-	    }
-	}
-    bool Lookup(const cEvent* Event)
-	{
-	    cSearchResult* r = First();
-	    while(r)
-	    {
-		if (r->event == Event)
-		    return true;
-		r = Next(r);
-	    }
-	    return false;
-	}
+    void SortBy(int(*compar)(const void *, const void *)) {
+        int n = Count();
+        cListObject *a[n];
+        cListObject *object = objects;
+        int i = 0;
+        while (object && i < n) {
+            a[i++] = object;
+            object = object->Next();
+        }
+        qsort(a, n, sizeof(cListObject *), compar);
+        objects = lastObject = NULL;
+        for (i = 0; i < n; i++) {
+            a[i]->Unlink();
+            count--;
+            Add(a[i]);
+        }
+    }
+    bool Lookup(const cEvent* Event) {
+        cSearchResult* r = First();
+        while (r) {
+            if (r->event == Event)
+                return true;
+            r = Next(r);
+        }
+        return false;
+    }
 
 };
 
@@ -108,120 +105,141 @@ class cBlacklistObject;
 class cTimerObj;
 class cTimerObjList;
 
-class cSearchExt : public cListObject {
-  friend class cMenuEditSearchExt;
-  friend class cMenuEditTemplate;
+class cSearchExt : public cListObject
+{
+    friend class cMenuEditSearchExt;
+    friend class cMenuEditTemplate;
 public:
-  int      ID;
-  char     search[MaxFileName];
-  int      options;
-  int      useTime;
-  int      startTime;
-  int      stopTime;
-  int      useChannel;
-  int      useCase;
-  int      mode;
-  int      useTitle;
-  int      useSubtitle;
-  int      useDescription;
-  int      useDuration;
-  int      minDuration;
-  int      maxDuration;
-  int      useAsSearchTimer;
-  int      useDayOfWeek;
-  int      DayOfWeek;
-  int      useEpisode;
-  char     directory[MaxFileName];
-  int      Priority;
-  int      Lifetime;
-  int      MarginStart;
-  int      MarginStop;
-  int      useVPS;
-  int      action;
-  std::string contentsFilter;
-  int      useExtEPGInfo;
-  char**   catvalues;
-  const cChannel *channelMin;
-  const cChannel *channelMax;
-  char*    channelGroup;
-  int      avoidRepeats;
-  int      compareTitle;
-  int      compareSubtitle;
-  int      compareSummary;
-  int      compareSummaryMatchInPercent;
-  int      compareDate;
-  int      allowedRepeats;
-  unsigned long catvaluesAvoidRepeat;
-  int      repeatsWithinDays;
-  int      delAfterDays;
-  int      recordingsKeep;
-  int      switchMinsBefore;
-  int      pauseOnNrRecordings;
-  int      blacklistMode;
-  cList<cBlacklistObject> blacklists;
-  int      fuzzyTolerance;
-  int      useInFavorites;
-  int      menuTemplate;
-  int      delMode;
-  int      delAfterCountRecs;
-  int      delAfterDaysOfFirstRec;
-  time_t   useAsSearchTimerFrom;
-  time_t   useAsSearchTimerTil;
-  int      ignoreMissingEPGCats;
-  int      unmuteSoundOnSwitch;
-  bool     skipRunningEvents;
-  static char *buffer;
+    int      ID;
+    char     search[MaxFileName];
+    int      options;
+    int      useTime;
+    int      startTime;
+    int      stopTime;
+    int      useChannel;
+    int      useCase;
+    int      mode;
+    int      useTitle;
+    int      useSubtitle;
+    int      useDescription;
+    int      useDuration;
+    int      minDuration;
+    int      maxDuration;
+    int      useAsSearchTimer;
+    int      useDayOfWeek;
+    int      DayOfWeek;
+    int      useEpisode;
+    char     directory[MaxFileName];
+    int      Priority;
+    int      Lifetime;
+    int      MarginStart;
+    int      MarginStop;
+    int      useVPS;
+    int      action;
+    std::string contentsFilter;
+    int      useExtEPGInfo;
+    char**   catvalues;
+    const cChannel *channelMin;
+    const cChannel *channelMax;
+    char*    channelGroup;
+    int      avoidRepeats;
+    int      compareTitle;
+    int      compareSubtitle;
+    int      compareSummary;
+    int      compareSummaryMatchInPercent;
+    int      compareDate;
+    int      allowedRepeats;
+    unsigned long catvaluesAvoidRepeat;
+    int      repeatsWithinDays;
+    int      delAfterDays;
+    int      recordingsKeep;
+    int      switchMinsBefore;
+    int      pauseOnNrRecordings;
+    int      blacklistMode;
+    cList<cBlacklistObject> blacklists;
+    int      fuzzyTolerance;
+    int      useInFavorites;
+    int      menuTemplate;
+    int      delMode;
+    int      delAfterCountRecs;
+    int      delAfterDaysOfFirstRec;
+    time_t   useAsSearchTimerFrom;
+    time_t   useAsSearchTimerTil;
+    int      ignoreMissingEPGCats;
+    int      unmuteSoundOnSwitch;
+    bool     skipRunningEvents;
+    static char *buffer;
 public:
-  cSearchExt(void);
-  virtual ~cSearchExt(void);
-  cSearchExt& operator= (const cSearchExt &SearchExt);
-  virtual bool operator< (const cListObject &ListObject);
+    cSearchExt(void);
+    virtual ~cSearchExt(void);
+    cSearchExt& operator= (const cSearchExt &SearchExt);
+    virtual bool operator< (const cListObject &ListObject);
 
-  const char *Search(void) { return search; }
-  int Options(void) { return options; }
-  int StartTime(void) { return startTime; }
-  int StopTime(void) { return stopTime; }
-  int UseChannel(void) { return useChannel; }
-  const cChannel *ChannelMin(void) { return channelMin; }
-  const cChannel *ChannelMax(void) { return channelMax; }
-  const cEvent * GetEventBySearchExt(const cSchedule *schedules, const cEvent *Start, bool inspectTimerMargin = false);
-  bool MatchesExtEPGInfo(const cEvent* e);
-  const char *ToText();
-  bool Parse(const char *s);
-  bool ParseExtEPGValues(const char *s);
-  bool ParseExtEPGEntry(const char *s);
-  bool ParseBlacklistIDs(const char *s);
-  bool Save(FILE *f);
-  char* BuildFile(const cEvent* pEvent) const;
-  cSearchResults* Run(int PayTVMode = -1, bool inspectTimerMargin = false, int evalLimitMins = 0, cSearchResults* pPrevResults = NULL, bool suppressRepeatCheck = false);
-  void CheckRepeatTimers(cSearchResults* pResults);
-  void CheckExistingRecordings(cSearchResults* pResults);
-  void CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSettings = false);
-  cSearchResults* GetBlacklistEvents(int MarginStop = 0);
-  void OnOffTimers(bool);
-  void DeleteAllTimers();
-  cTimerObjList* GetTimerList(cTimerObjList* timerList);
-  int GetCountRecordings();
-  bool IsActiveAt(time_t t);
-  bool HasContent(int contentID);
-  void SetContentFilter(int* contentStringsFlags);
-  bool MatchesContentsFilter(const cEvent* e);
+    const char *Search(void) {
+        return search;
+    }
+    int Options(void) {
+        return options;
+    }
+    int StartTime(void) {
+        return startTime;
+    }
+    int StopTime(void) {
+        return stopTime;
+    }
+    int UseChannel(void) {
+        return useChannel;
+    }
+    const cChannel *ChannelMin(void) {
+        return channelMin;
+    }
+    const cChannel *ChannelMax(void) {
+        return channelMax;
+    }
+    const cEvent * GetEventBySearchExt(const cSchedule *schedules, const cEvent *Start, bool inspectTimerMargin = false);
+    bool MatchesExtEPGInfo(const cEvent* e);
+    const char *ToText();
+    bool Parse(const char *s);
+    bool ParseExtEPGValues(const char *s);
+    bool ParseExtEPGEntry(const char *s);
+    bool ParseBlacklistIDs(const char *s);
+    bool Save(FILE *f);
+    char* BuildFile(const cEvent* pEvent) const;
+    cSearchResults* Run(int PayTVMode = -1, bool inspectTimerMargin = false, int evalLimitMins = 0, cSearchResults* pPrevResults = NULL, bool suppressRepeatCheck = false);
+    void CheckRepeatTimers(cSearchResults* pResults);
+    void CheckExistingRecordings(cSearchResults* pResults);
+    void CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSettings = false);
+    cSearchResults* GetBlacklistEvents(int MarginStop = 0);
+    void OnOffTimers(bool);
+    void DeleteAllTimers();
+    cTimerObjList* GetTimerList(cTimerObjList* timerList);
+    int GetCountRecordings();
+    bool IsActiveAt(time_t t);
+    bool HasContent(int contentID);
+    void SetContentFilter(int* contentStringsFlags);
+    bool MatchesContentsFilter(const cEvent* e);
 };
 
-class cSearchExts : public cList<cSearchExt>, public cMutex {
- private:
+class cSearchExts : public cList<cSearchExt>, public cMutex
+{
+private:
     char *fileName;
     bool allowComments;
-    virtual void Clear(void)
-	{
-	    cMutexLock SearchExtsLock(this);
-	    free(fileName);
-	    fileName = NULL;
-	    cList<cSearchExt>::Clear();
-	}
- public:
-  cSearchExts(void) { fileName = NULL; allowComments = false; }
-  virtual ~cSearchExts() { Clear(); free(fileName); }
+    virtual void Clear(void) {
+        cMutexLock SearchExtsLock(this);
+        free(fileName);
+        fileName = NULL;
+        cList<cSearchExt>::Clear();
+    }
+public:
+    cSearchExts(void) {
+        fileName = NULL;
+        allowComments = false;
+    }
+    virtual ~cSearchExts() {
+        Clear();
+        free(fileName);
+    }
 
 public:
     bool Load(const char *FileName = NULL);

@@ -32,31 +32,32 @@ static const char *DESCRIPTION   = trNOOP("Direct access to epgsearch's search m
 static const char *MAINMENUENTRY = trNOOP("Search");
 static const char *SETUPTEXT     = trNOOP("EpgSearch-Search in main menu");
 
-class cPluginEpgsearchonly:public cMainMenuShortcut {
+class cPluginEpgsearchonly: public cMainMenuShortcut
+{
 public:
-  virtual const char *Version() {
-    return VERSION;
-  }
-  virtual const char *Description() {
-    return I18nTranslate(DESCRIPTION, I18nEpgsearch);
-  }
-  virtual bool Initialize();
-  virtual cOsdObject *MainMenuAction() {
-    return GetEpgSearchMenu("Epgsearch-searchmenu-v1.0");
-  };
+    virtual const char *Version() {
+        return VERSION;
+    }
+    virtual const char *Description() {
+        return I18nTranslate(DESCRIPTION, I18nEpgsearch);
+    }
+    virtual bool Initialize();
+    virtual cOsdObject *MainMenuAction() {
+        return GetEpgSearchMenu("Epgsearch-searchmenu-v1.0");
+    };
 
 protected:
-  virtual const char *SetupText() {
-    return I18nTranslate(SETUPTEXT, I18nEpgsearch);
-  }
-  virtual const char *MainMenuText() {
-    return I18nTranslate(MAINMENUENTRY, I18nEpgsearch);
-  }
+    virtual const char *SetupText() {
+        return I18nTranslate(SETUPTEXT, I18nEpgsearch);
+    }
+    virtual const char *MainMenuText() {
+        return I18nTranslate(MAINMENUENTRY, I18nEpgsearch);
+    }
 };
 
 bool cPluginEpgsearchonly::Initialize()
 {
-  return cMainMenuShortcut::Initialize();
+    return cMainMenuShortcut::Initialize();
 }
 
-VDRPLUGINCREATOR(cPluginEpgsearchonly);	// Don't touch this!
+VDRPLUGINCREATOR(cPluginEpgsearchonly); // Don't touch this!

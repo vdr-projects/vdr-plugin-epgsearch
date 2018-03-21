@@ -28,12 +28,13 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 
 // --- cMenuQuickSearch --------------------------------------------------------
-class cMenuQuickSearch : public cMenuEditSearchExt {
+class cMenuQuickSearch : public cMenuEditSearchExt
+{
     int editmode;
     virtual void Set();
 public:
     cMenuQuickSearch(cSearchExt*);
     virtual eOSState ProcessKey(eKeys Key);
-  };
+};
 
 #endif

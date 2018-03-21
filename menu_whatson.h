@@ -30,72 +30,79 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_event.h"
 
 // --- cMenuMyScheduleItem ------------------------------------------------------
-class cMenuMyScheduleItem : public cOsdItem {
+class cMenuMyScheduleItem : public cOsdItem
+{
 public:
-  const cEvent *event;
-  const cChannel *channel;
-  showMode mode;
-  eTimerMatch timerMatch;
-  bool isRemote;
-  bool inSwitchList;
-  bool timerActive;
-  cMenuTemplate* menuTemplate;
+    const cEvent *event;
+    const cChannel *channel;
+    showMode mode;
+    eTimerMatch timerMatch;
+    bool isRemote;
+    bool inSwitchList;
+    bool timerActive;
+    cMenuTemplate* menuTemplate;
 
-  cMenuMyScheduleItem(const cTimers *Timers, const cEvent *Event, const cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);
-  virtual bool Update(const cTimers *Timers, bool Force = false);
-  virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
+    cMenuMyScheduleItem(const cTimers *Timers, const cEvent *Event, const cChannel *Channel = NULL, showMode ShowMode = showNow, cMenuTemplate* menuTemplate = NULL);
+    virtual bool Update(const cTimers *Timers, bool Force = false);
+    virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 
 };
 
 // --- cMenuMyScheduleSepItem ------------------------------------------------------
-class cMenuMyScheduleSepItem : public cMenuMyScheduleItem {
-  cEvent *dummyEvent; // this event is used to store the text of the separator in its title
-                      // to pass it in SetMenuItem via the event argument. Would be nice
-                      // if VDR had a SetItemSeparator function for this
+class cMenuMyScheduleSepItem : public cMenuMyScheduleItem
+{
+    cEvent *dummyEvent; // this event is used to store the text of the separator in its title
+    // to pass it in SetMenuItem via the event argument. Would be nice
+    // if VDR had a SetItemSeparator function for this
 public:
 
-  cMenuMyScheduleSepItem(const cTimers *Timers = NULL, const cEvent *Event = NULL, const cChannel *Channel = NULL);
-  ~cMenuMyScheduleSepItem();
-  virtual bool Update(const cTimers *Timers = NULL,bool Force = false);
-  virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
+    cMenuMyScheduleSepItem(const cTimers *Timers = NULL, const cEvent *Event = NULL, const cChannel *Channel = NULL);
+    ~cMenuMyScheduleSepItem();
+    virtual bool Update(const cTimers *Timers = NULL, bool Force = false);
+    virtual void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 };
 
 // --- cMenuWhatsOnSearch ----------------------------------------------------------
-class cMenuWhatsOnSearch : public cOsdMenu {
+class cMenuWhatsOnSearch : public cOsdMenu
+{
 private:
-  int helpKeys;
-  eOSState Record(void);
-  eOSState ExtendedSearch(void);
-  static int currentChannel;
-  cEventObjects eventObjects;
- public:
-  static const cChannel *scheduleChannel;
-  static cList<cShowMode> showModes;
-  static showMode currentShowMode;
-  static int shiftTime;
-  static time_t seekTime;
-  time_t GetTimeT(int iTime);
-  static showMode GetNextMode();
-  cMenuWhatsOnSearch(int CurrentChannelNr);
-  ~cMenuWhatsOnSearch();
-  void LoadSchedules();
-  static int CurrentChannel(void) { return currentChannel; }
-  static void SetCurrentChannel(int ChannelNr) { currentChannel = ChannelNr; }
-  static const cChannel *ScheduleChannel(const cChannel* forceChannel = NULL);
-  virtual eOSState ProcessKey(eKeys Key);
-  virtual eOSState Switch(void);
-  virtual eOSState Shift(int);
-  virtual eOSState Commands(eKeys Key);
-  virtual eOSState ShowSummary();
-  void SetHelpKeys(bool Force = false);
-  int GetTab(int Tab);
-  bool Update(void);
-  void CreateShowModes();
-  static cShowMode* GetShowMode(showMode mode);
-  void UpdateCurrent();
+    int helpKeys;
+    eOSState Record(void);
+    eOSState ExtendedSearch(void);
+    static int currentChannel;
+    cEventObjects eventObjects;
+public:
+    static const cChannel *scheduleChannel;
+    static cList<cShowMode> showModes;
+    static showMode currentShowMode;
+    static int shiftTime;
+    static time_t seekTime;
+    time_t GetTimeT(int iTime);
+    static showMode GetNextMode();
+    cMenuWhatsOnSearch(int CurrentChannelNr);
+    ~cMenuWhatsOnSearch();
+    void LoadSchedules();
+    static int CurrentChannel(void) {
+        return currentChannel;
+    }
+    static void SetCurrentChannel(int ChannelNr) {
+        currentChannel = ChannelNr;
+    }
+    static const cChannel *ScheduleChannel(const cChannel* forceChannel = NULL);
+    virtual eOSState ProcessKey(eKeys Key);
+    virtual eOSState Switch(void);
+    virtual eOSState Shift(int);
+    virtual eOSState Commands(eKeys Key);
+    virtual eOSState ShowSummary();
+    void SetHelpKeys(bool Force = false);
+    int GetTab(int Tab);
+    bool Update(void);
+    void CreateShowModes();
+    static cShowMode* GetShowMode(showMode mode);
+    void UpdateCurrent();
 #ifdef USE_GRAPHTFT
-  virtual const char* MenuKind();
-  virtual void Display(void);
+    virtual const char* MenuKind();
+    virtual void Display(void);
 #endif
 };
 

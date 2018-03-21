@@ -29,45 +29,48 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 using std::string;
 
 // --- cPendingNotification --------------------------------------------------------
-class cPendingNotification : public cListObject {
+class cPendingNotification : public cListObject
+{
 public:
-  int type;
-  tEventID eventID;
-  tChannelID channelID;
-  time_t start;
-  uint timerMod;
-  int searchID;
-  string formatted;
+    int type;
+    tEventID eventID;
+    tChannelID channelID;
+    time_t start;
+    uint timerMod;
+    int searchID;
+    string formatted;
 
 
-  static char *buffer;
+    static char *buffer;
 
-  cPendingNotification()
-    : type(-1), start(-1), timerMod(-1), searchID(-1) {}
- cPendingNotification(int Type, tEventID EventID, tChannelID ChannelID,  time_t Start, uint TimerMod = -1,
-		      int SearchID = -1, string Formatted = "")
-   : type(Type), eventID(EventID), channelID(ChannelID), start(Start), timerMod(TimerMod),
-     searchID(SearchID), formatted(Formatted) {}
-  ~cPendingNotification();
+    cPendingNotification()
+        : type(-1), start(-1), timerMod(-1), searchID(-1) {}
+    cPendingNotification(int Type, tEventID EventID, tChannelID ChannelID,  time_t Start, uint TimerMod = -1,
+                         int SearchID = -1, string Formatted = "")
+        : type(Type), eventID(EventID), channelID(ChannelID), start(Start), timerMod(TimerMod),
+          searchID(SearchID), formatted(Formatted) {}
+    ~cPendingNotification();
 
-  static bool Read(FILE *f);
-  bool Parse(const char *s);
-  const char *ToText(void) const;
-  bool Save(FILE *f);
+    static bool Read(FILE *f);
+    bool Parse(const char *s);
+    const char *ToText(void) const;
+    bool Save(FILE *f);
 };
 
-class cPendingNotifications : public cList<cPendingNotification> {
- public:
- private:
+class cPendingNotifications : public cList<cPendingNotification>
+{
+public:
+private:
     char *fileName;
- public:
-    cPendingNotifications() { fileName = NULL; }
-    void Clear(void)
-	{
-	    free(fileName);
-	    fileName = NULL;
-	    cList<cPendingNotification>::Clear();
-	}
+public:
+    cPendingNotifications() {
+        fileName = NULL;
+    }
+    void Clear(void) {
+        free(fileName);
+        fileName = NULL;
+        cList<cPendingNotification>::Clear();
+    }
     bool Load(const char *FileName = NULL);
     bool Save(void);
 };

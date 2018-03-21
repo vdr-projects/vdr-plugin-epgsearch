@@ -38,7 +38,7 @@ public:
     int unmute;
 
     cSwitchTimer(void);
-    cSwitchTimer(const cEvent* Event, int SwitchMinsBefore=1, int mode=0, int unmute=0);
+    cSwitchTimer(const cEvent* Event, int SwitchMinsBefore = 1, int mode = 0, int unmute = 0);
     cSwitchTimer& operator= (const cSwitchTimer &SwitchTimer);
     const cEvent* Event();
     bool Parse(const char *s);

@@ -26,7 +26,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include "epgsearchext.h"
 
-class cPluginEpgsearch : public cPlugin {
+class cPluginEpgsearch : public cPlugin
+{
 public:
     bool showConflicts;
     bool showAnnounces;

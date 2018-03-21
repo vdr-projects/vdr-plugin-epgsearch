@@ -30,7 +30,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 using std::string;
 
 // --- cTimerDone --------------------------------------------------------
-class cTimerDone : public cListObject {
+class cTimerDone : public cListObject
+{
 public:
     time_t start;        // Start time of the timer
     time_t stop;         // Stop time of the timer
@@ -50,8 +51,9 @@ public:
     const cEvent* GetEvent() const;
 };
 
-class cTimersDone : public cConfig<cTimerDone>, public cMutex {
- public:
+class cTimersDone : public cConfig<cTimerDone>, public cMutex
+{
+public:
     cTimerDone* InList(const time_t Start, const time_t Stop, const cEvent* pEvent, const int SearchID);
     void Update(const time_t Start, const time_t Stop, const cEvent* pEvent, const int SearchID, cTimerDone* timerdone);
     void ClearOutdated(void);

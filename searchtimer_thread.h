@@ -32,32 +32,36 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cPluginEpgsearch;
 
 // --- cRecordingObj --------------------------------------------------------
-class cRecordingObj : public cListObject {
+class cRecordingObj : public cListObject
+{
 public:
     cRecording* recording;
     cSearchExt* search;
 public:
     cRecordingObj(cRecording* r, cSearchExt* s) : recording(r), search(s) {}
-    ~cRecordingObj() { recording = NULL;} // do not delete anything!
+    ~cRecordingObj() {
+        recording = NULL;   // do not delete anything!
+    }
 };
 
 // --- cSearchTimerThread----------------------------------------------------
-class cSearchTimerThread: public cThread {
- private:
+class cSearchTimerThread: public cThread
+{
+private:
     bool m_Active;
     time_t m_lastUpdate;
     cPluginEpgsearch* m_plugin;
     cMailUpdateNotifier mailNotifier;
     cCondWait Wait;
 
- protected:
+protected:
     virtual void Action(void);
     bool AddModTimer(cTimer* Timer, int, cSearchExt*, const cEvent*, int Prio, int Lifetime, char* Summary = NULL, uint timerMod = tmNoChange);
     void RemoveTimer(const cTimer* Timer, const cEvent* Event = NULL);
     void Stop(void);
     bool NeedUpdate();
     bool TimerWasModified(const cTimer* t);
- public:
+public:
     static cSearchResults announceList;
     static char* SummaryExtended(cSearchExt* searchExt, const cTimer* Timer, const cEvent* pEvent);
     static cSearchTimerThread *m_Instance;

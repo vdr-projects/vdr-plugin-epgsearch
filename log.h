@@ -30,70 +30,67 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 class cLogFile: public cFile
 {
- public:
+public:
     static int loglevellimit;
-    void Open(const char* filename, const char* version)
-	{
-	    if (loglevellimit == 0) return;
-	    if (!cFile::Open(filename, O_CREAT|O_APPEND|O_WRONLY))
-		esyslog("EPGSEARCH: could not open log file: %s", filename);
-	    Log(1, "---------------------------------------", loglevellimit);
-	    Log(1, "EPGSearch log started (verbose level %d, version %s)", loglevellimit, version);
-	}
-    void Log(int LogLevel, const char *text, ...)
-	{
-	    if (LogLevel > loglevellimit) return;
-	    if(IsOpen())
-	    {
-		char* buffer = NULL;
-		va_list Arg;
-		va_start(Arg,text);
-		if (vasprintf(&buffer, text, Arg) < 0)
-		   esyslog("EPGSearch: vasprintf error");
-		va_end(Arg);
-		time_t now = time(NULL);
+    void Open(const char* filename, const char* version) {
+        if (loglevellimit == 0) return;
+        if (!cFile::Open(filename, O_CREAT | O_APPEND | O_WRONLY))
+            esyslog("EPGSEARCH: could not open log file: %s", filename);
+        Log(1, "---------------------------------------", loglevellimit);
+        Log(1, "EPGSearch log started (verbose level %d, version %s)", loglevellimit, version);
+    }
+    void Log(int LogLevel, const char *text, ...) {
+        if (LogLevel > loglevellimit) return;
+        if (IsOpen()) {
+            char* buffer = NULL;
+            va_list Arg;
+            va_start(Arg, text);
+            if (vasprintf(&buffer, text, Arg) < 0)
+                esyslog("EPGSearch: vasprintf error");
+            va_end(Arg);
+            time_t now = time(NULL);
 
-		char datebuf[32];
-		struct tm tm_r;
-		tm *tm = localtime_r(&now, &tm_r);
+            char datebuf[32];
+            struct tm tm_r;
+            tm *tm = localtime_r(&now, &tm_r);
 
-		char *p = stpcpy(datebuf, WeekDayName(tm->tm_wday));
-		*p++ = ' ';
-		strftime(p, sizeof(datebuf) - (p - datebuf), "%d.%m.%Y", tm);
+            char *p = stpcpy(datebuf, WeekDayName(tm->tm_wday));
+            *p++ = ' ';
+            strftime(p, sizeof(datebuf) - (p - datebuf), "%d.%m.%Y", tm);
 
-		char timebuf[25];
-		strftime(timebuf, sizeof(timebuf), "%T", localtime_r(&now, &tm_r));
+            char timebuf[25];
+            strftime(timebuf, sizeof(timebuf), "%T", localtime_r(&now, &tm_r));
 
-		cString log = cString::sprintf("%s %s: %s\n", datebuf, timebuf, buffer);
-		free(buffer);
-		safe_write(*this, log, strlen(log));
-	    }
-	}
-    void eSysLog(const char *text, ...)
-	{
-	    char* buffer = NULL;
-	    va_list Arg;
-	    va_start(Arg,text);
-	    if (vasprintf(&buffer, text, Arg) < 0)
-	       esyslog("EPGSearch: vasprintf error");
-	    va_end(Arg);
-	    esyslog("EPGSearch: %s", buffer);
-	    Log(1, "%s", buffer);
-	    free(buffer);
-	}
-    void iSysLog(const char *text, ...)
-	{
-	    char* buffer = NULL;
-	    va_list Arg;
-	    va_start(Arg,text);
-	    if (vasprintf(&buffer, text, Arg) < 0)
-	       esyslog("EPGSearch: vasprintf error");
-	    va_end(Arg);
-	    isyslog("EPGSearch: %s", buffer);
-	    Log(1, "%s", buffer);
-	    free(buffer);
-	}
-    int Level() { return loglevellimit; }
+            cString log = cString::sprintf("%s %s: %s\n", datebuf, timebuf, buffer);
+            free(buffer);
+            safe_write(*this, log, strlen(log));
+        }
+    }
+    void eSysLog(const char *text, ...) {
+        char* buffer = NULL;
+        va_list Arg;
+        va_start(Arg, text);
+        if (vasprintf(&buffer, text, Arg) < 0)
+            esyslog("EPGSearch: vasprintf error");
+        va_end(Arg);
+        esyslog("EPGSearch: %s", buffer);
+        Log(1, "%s", buffer);
+        free(buffer);
+    }
+    void iSysLog(const char *text, ...) {
+        char* buffer = NULL;
+        va_list Arg;
+        va_start(Arg, text);
+        if (vasprintf(&buffer, text, Arg) < 0)
+            esyslog("EPGSearch: vasprintf error");
+        va_end(Arg);
+        isyslog("EPGSearch: %s", buffer);
+        Log(1, "%s", buffer);
+        free(buffer);
+    }
+    int Level() {
+        return loglevellimit;
+    }
 
     static char *LogFileName;
 };

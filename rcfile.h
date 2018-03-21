@@ -28,17 +28,22 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #define MAXSTRINGLEN 256
 
-class cRCLine : public cListObject {
+class cRCLine : public cListObject
+{
 private:
-  char *name;
-  char *value;
+    char *name;
+    char *value;
 public:
-  cRCLine(void);
-  cRCLine(const char *Name, const char *Value);
-  virtual ~cRCLine();
-  const char *Name(void) { return name; }
-  const char *Value(void) { return value; }
-  bool Parse(char *s);
+    cRCLine(void);
+    cRCLine(const char *Name, const char *Value);
+    virtual ~cRCLine();
+    const char *Name(void) {
+        return name;
+    }
+    const char *Value(void) {
+        return value;
+    }
+    bool Parse(char *s);
 };
 
 

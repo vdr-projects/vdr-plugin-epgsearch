@@ -31,7 +31,8 @@ using std::string;
 
 // --- cNoAnnouce --------------------------------------------------------
 // an event that should not be announced again
-class cNoAnnounce : public cListObject {
+class cNoAnnounce : public cListObject
+{
 public:
     string title;             // Title of this event
     string shortText;         // Short description of this event
@@ -50,11 +51,14 @@ public:
     bool Parse(const char *s);
     const char *ToText(void) const;
     bool Save(FILE *f);
-    bool Valid() { return startTime > 0; }
+    bool Valid() {
+        return startTime > 0;
+    }
 };
 
-class cNoAnnounces : public cConfig<cNoAnnounce> {
- public:
+class cNoAnnounces : public cConfig<cNoAnnounce>
+{
+public:
     cNoAnnounce* InList(const cEvent* e);
     void ClearOutdated(void);
     void UpdateNextAnnounce(const cEvent* e, time_t NextAnnounce);

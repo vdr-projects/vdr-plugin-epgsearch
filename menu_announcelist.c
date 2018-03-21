@@ -30,175 +30,159 @@ bool cMenuAnnounceList::showsDetails;
 
 // --- cMenuAnnounceList -------------------------------------------------------
 cMenuAnnounceList::cMenuAnnounceList(cSearchResults& SearchResults)
-   :cMenuSearchResultsForList(SearchResults,  tr("%d new broadcast"), false)
+    : cMenuSearchResultsForList(SearchResults,  tr("%d new broadcast"), false)
 {
-   showsDetails = false;
+    showsDetails = false;
 }
 
 void cMenuAnnounceList::SetHelpKeys(bool Force)
 {
-  cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
-  int NewHelpKeys = 0;
-  if (item) {
-    if (item->Selectable() && item->timerMatch == tmFull)
-      NewHelpKeys = 2;
-    else
-      NewHelpKeys = 1;
-  }
+    cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
+    int NewHelpKeys = 0;
+    if (item) {
+        if (item->Selectable() && item->timerMatch == tmFull)
+            NewHelpKeys = 2;
+        else
+            NewHelpKeys = 1;
+    }
 
-  bool hasTimer = (NewHelpKeys == 2);
-  if (NewHelpKeys != helpKeys || Force)
-    {
-      if (toggleKeys==0)
-	SetHelp((EPGSearchConfig.redkeymode==0?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), m_bSort? tr("Button$by channel"):tr("Button$by time"), modeYellow==showTitleEpisode?tr("Button$Episode"):tr("Button$Title"), trVDR("Button$Edit"));
-      else
-	SetHelp((EPGSearchConfig.redkeymode==1?(hasTimer?trVDR("Button$Timer"):trVDR("Button$Record")):tr("Button$Commands")), m_bSort? tr("Button$by channel"):tr("Button$by time"), modeYellow==showTitleEpisode?tr("Button$Episode"):tr("Button$Title"), trVDR("Button$Edit"));
-      helpKeys = NewHelpKeys;
+    bool hasTimer = (NewHelpKeys == 2);
+    if (NewHelpKeys != helpKeys || Force) {
+        if (toggleKeys == 0)
+            SetHelp((EPGSearchConfig.redkeymode == 0 ? (hasTimer ? trVDR("Button$Timer") : trVDR("Button$Record")) : tr("Button$Commands")), m_bSort ? tr("Button$by channel") : tr("Button$by time"), modeYellow == showTitleEpisode ? tr("Button$Episode") : tr("Button$Title"), trVDR("Button$Edit"));
+        else
+            SetHelp((EPGSearchConfig.redkeymode == 1 ? (hasTimer ? trVDR("Button$Timer") : trVDR("Button$Record")) : tr("Button$Commands")), m_bSort ? tr("Button$by channel") : tr("Button$by time"), modeYellow == showTitleEpisode ? tr("Button$Episode") : tr("Button$Title"), trVDR("Button$Edit"));
+        helpKeys = NewHelpKeys;
     }
 }
 
 eOSState cMenuAnnounceList::ProcessKey(eKeys Key)
 {
-   eOSState state = cMenuSearchResultsForList::ProcessKey(Key);
-   if (state == osUnknown)
-   {
-      switch (Key) {
-         case kBlue:
-         {
+    eOSState state = cMenuSearchResultsForList::ProcessKey(Key);
+    if (state == osUnknown) {
+        switch (Key) {
+        case kBlue: {
             cMenuSearchResultsItem *item = (cMenuSearchResultsItem *)Get(Current());
-            if (item)
-            {
-               if (!HasSubMenu())
-                  return AddSubMenu(new cMenuAnnounceDetails(item->event, item->search));
-               else if (!showsDetails)
-                  return Switch();
-               else
-                  return osContinue;
+            if (item) {
+                if (!HasSubMenu())
+                    return AddSubMenu(new cMenuAnnounceDetails(item->event, item->search));
+                else if (!showsDetails)
+                    return Switch();
+                else
+                    return osContinue;
             }
-         }
-         break;
-         default:
+        }
+        break;
+        default:
             break;
-      }
-   }
-   return state;
+        }
+    }
+    return state;
 }
 
 // --- cMenuAnnounceDetails -------------------------------------------------------
 cMenuAnnounceDetails::cMenuAnnounceDetails(const cEvent* Event, const cSearchExt* Search)
-:cOsdMenu("", 25), event(Event)
+    : cOsdMenu("", 25), event(Event)
 {
-  SetMenuCategory(mcEvent);
-   cMenuAnnounceList::showsDetails = true;
-   if (event && !isempty(event->Title()))
-   {
-     cString szTitle = cString::sprintf("%s: %s", tr("announce details"), event->Title());
-     SetTitle(szTitle);
-   }
-   search = Search;
+    SetMenuCategory(mcEvent);
+    cMenuAnnounceList::showsDetails = true;
+    if (event && !isempty(event->Title())) {
+        cString szTitle = cString::sprintf("%s: %s", tr("announce details"), event->Title());
+        SetTitle(szTitle);
+    }
+    search = Search;
 
-   announceAgain = 1;
-   announceWithNextUpdate = 1;
-   announceAgainDay = 0;
+    announceAgain = 1;
+    announceWithNextUpdate = 1;
+    announceAgainDay = 0;
 
-   cNoAnnounce* noAnnounce = NoAnnounces.InList(event);
-   if (noAnnounce)
-   {
-      if (noAnnounce->nextAnnounce > 0)
-      {
-         announceAgainDay = noAnnounce->nextAnnounce;
-         announceWithNextUpdate = 0;
-      }
-      else
-         announceAgain = 0;
-   }
-   Set();
+    cNoAnnounce* noAnnounce = NoAnnounces.InList(event);
+    if (noAnnounce) {
+        if (noAnnounce->nextAnnounce > 0) {
+            announceAgainDay = noAnnounce->nextAnnounce;
+            announceWithNextUpdate = 0;
+        } else
+            announceAgain = 0;
+    }
+    Set();
 }
 
 cMenuAnnounceDetails::~cMenuAnnounceDetails()
 {
-   cMenuAnnounceList::showsDetails = false;
+    cMenuAnnounceList::showsDetails = false;
 }
 
 void cMenuAnnounceDetails::Set()
 {
-   int current = Current();
-   Clear();
+    int current = Current();
+    Clear();
 
-   Add(new cMenuEditBoolItem(tr("announce again"), &announceAgain, trVDR("no"), trVDR("yes")));
-   if (announceAgain)
-   {
-      Add(new cMenuEditBoolItem(IndentMenuItem(tr("with next update")), &announceWithNextUpdate, trVDR("no"), trVDR("yes")));
-      if (!announceWithNextUpdate)
-         Add(new cMenuEditDateItem(IndentMenuItem(IndentMenuItem(tr("again from"))), &announceAgainDay, NULL));
-   }
-   else
-      announceAgainDay = 0;
+    Add(new cMenuEditBoolItem(tr("announce again"), &announceAgain, trVDR("no"), trVDR("yes")));
+    if (announceAgain) {
+        Add(new cMenuEditBoolItem(IndentMenuItem(tr("with next update")), &announceWithNextUpdate, trVDR("no"), trVDR("yes")));
+        if (!announceWithNextUpdate)
+            Add(new cMenuEditDateItem(IndentMenuItem(IndentMenuItem(tr("again from"))), &announceAgainDay, NULL));
+    } else
+        announceAgainDay = 0;
 
-   if (search)
-   {
-      cOsdItem* pInfoItem = new cOsdItem("");
-      pInfoItem->SetSelectable(false);
-      Add(pInfoItem);
+    if (search) {
+        cOsdItem* pInfoItem = new cOsdItem("");
+        pInfoItem->SetSelectable(false);
+        Add(pInfoItem);
 
-      cString info = cString::sprintf("%s: %s", tr("Search timer"), search->search);
-      pInfoItem = new cOsdItem(info);
-      pInfoItem->SetSelectable(false);
-      Add(pInfoItem);
-   }
+        cString info = cString::sprintf("%s: %s", tr("Search timer"), search->search);
+        pInfoItem = new cOsdItem(info);
+        pInfoItem->SetSelectable(false);
+        Add(pInfoItem);
+    }
 
-   SetCurrent(Get(current));
-   Display();
+    SetCurrent(Get(current));
+    Display();
 }
 
 eOSState cMenuAnnounceDetails::ProcessKey(eKeys Key)
 {
-   int iTemp_announceAgain = announceAgain;
-   int iTemp_announceWithNextUpdate = announceWithNextUpdate;
+    int iTemp_announceAgain = announceAgain;
+    int iTemp_announceWithNextUpdate = announceWithNextUpdate;
 
-   eOSState state = cOsdMenu::ProcessKey(Key);
+    eOSState state = cOsdMenu::ProcessKey(Key);
 
-   if (iTemp_announceAgain != announceAgain ||
-       iTemp_announceWithNextUpdate != announceWithNextUpdate)
-   {
-      Set();
-      Display();
-   }
+    if (iTemp_announceAgain != announceAgain ||
+        iTemp_announceWithNextUpdate != announceWithNextUpdate) {
+        Set();
+        Display();
+    }
 
-   if (state == osUnknown) {
-      switch (Key) {
-         case kRed:
-         case kGreen:
-         case kBlue:
-         case kYellow:
-         case kFastRew:
-         case kFastFwd:
-         case kRecord:
-         case k0...k9:
+    if (state == osUnknown) {
+        switch (Key) {
+        case kRed:
+        case kGreen:
+        case kBlue:
+        case kYellow:
+        case kFastRew:
+        case kFastFwd:
+        case kRecord:
+        case k0...k9:
             return osContinue;
-         case kOk:
-         {
+        case kOk: {
             cNoAnnounce* noAnnounce = NoAnnounces.InList(event);
-            if (!announceAgain || !announceWithNextUpdate)
-            {
-               if (!noAnnounce)
-               {
-                  noAnnounce = new cNoAnnounce(event, announceAgainDay);
-                  NoAnnounces.Add(noAnnounce);
-               }
-               else
-                  NoAnnounces.UpdateNextAnnounce(event, announceAgainDay);
-               NoAnnounces.ClearOutdated();
+            if (!announceAgain || !announceWithNextUpdate) {
+                if (!noAnnounce) {
+                    noAnnounce = new cNoAnnounce(event, announceAgainDay);
+                    NoAnnounces.Add(noAnnounce);
+                } else
+                    NoAnnounces.UpdateNextAnnounce(event, announceAgainDay);
+                NoAnnounces.ClearOutdated();
             }
             if (announceAgain && announceWithNextUpdate && noAnnounce)
-               NoAnnounces.Del(noAnnounce);
+                NoAnnounces.Del(noAnnounce);
             NoAnnounces.Save();
-         }
-         return osBack;
-         default:
+        }
+        return osBack;
+        default:
             break;
-      }
-   }
+        }
+    }
 
-   return state;
+    return state;
 }

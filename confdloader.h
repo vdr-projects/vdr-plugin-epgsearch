@@ -24,11 +24,12 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #ifndef VDR_EPGSEARCH_CONFDLOADER_INC
 #define VDR_EPGSEARCH_CONFDLOADER_INC
 
-class cConfDLoader {
- public:
-  cConfDLoader() {}
-  bool Load();
-  bool LoadFile(const char *FileName);
+class cConfDLoader
+{
+public:
+    cConfDLoader() {}
+    bool Load();
+    bool LoadFile(const char *FileName);
 };
 
 #endif

@@ -29,17 +29,22 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 
 // --- cRecDoneTimerObj --------------------------------------------------------
-class cRecDoneTimerObj : public cTimerObj {
+class cRecDoneTimerObj : public cTimerObj
+{
 public:
     int deviceNr;
     cRecDone* recDone;
     time_t lastBreak;
 public:
     cRecDoneTimerObj(const cTimer* Timer, int DeviceNr) : cTimerObj(Timer), deviceNr(DeviceNr), recDone(NULL), lastBreak(0) {}
-    ~cRecDoneTimerObj() { timer = NULL; recDone = NULL; } // do not delete anything!
+    ~cRecDoneTimerObj() {
+        timer = NULL;    // do not delete anything!
+        recDone = NULL;
+    }
 };
 
-class cTimersRecording: public cList<cRecDoneTimerObj>, public cMutex {
+class cTimersRecording: public cList<cRecDoneTimerObj>, public cMutex
+{
 };
 
 extern cTimersRecording TimersRecording;
@@ -48,7 +53,7 @@ class cRecStatusMonitor : public cStatus
 {
 protected:
     virtual void Recording(const cDevice *Device, const char *Name, const char*, bool On);
- public:
+public:
     cRecStatusMonitor();
     int TimerRecDevice(const cTimer*);
 };

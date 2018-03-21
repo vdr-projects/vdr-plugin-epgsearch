@@ -30,35 +30,35 @@ static const char I18nEpgsearch[] = "vdr-epgsearch";
 
 class cMainMenuShortcutSetupPage : public cMenuSetupPage
 {
- private:
-  const char* _setupEntry;
-  int* const _setupValue;
-  int dummy; // don't know why, but this is necessary to avoid a crash with ext-patch and active USE_LIEMIKUUTIO
+private:
+    const char* _setupEntry;
+    int* const _setupValue;
+    int dummy; // don't know why, but this is necessary to avoid a crash with ext-patch and active USE_LIEMIKUUTIO
 
- public:
-  cMainMenuShortcutSetupPage(const char* setupText, const char* setupEntry, int* const setupValue);
+public:
+    cMainMenuShortcutSetupPage(const char* setupText, const char* setupEntry, int* const setupValue);
 
- protected:
-  virtual void Store(void);
+protected:
+    virtual void Store(void);
 };
 
 class cMainMenuShortcut : public cPlugin
 {
-    private:
-        int _mainMenuEntryEnabled;
+private:
+    int _mainMenuEntryEnabled;
 
-    public:
-        cMainMenuShortcut();
-        virtual ~cMainMenuShortcut();
-        virtual bool Initialize();
-        virtual bool SetupParse(const char* Name, const char* Value);
-        virtual cMenuSetupPage* SetupMenu();
-        virtual const char* MainMenuEntry();
+public:
+    cMainMenuShortcut();
+    virtual ~cMainMenuShortcut();
+    virtual bool Initialize();
+    virtual bool SetupParse(const char* Name, const char* Value);
+    virtual cMenuSetupPage* SetupMenu();
+    virtual const char* MainMenuEntry();
 
-    protected:
-        cOsdMenu* GetEpgSearchMenu(const char* serviceName);
-        virtual const char* SetupText() = 0;
-        virtual const char* MainMenuText() = 0;
+protected:
+    cOsdMenu* GetEpgSearchMenu(const char* serviceName);
+    virtual const char* SetupText() = 0;
+    virtual const char* MainMenuText() = 0;
 };
 
 #endif

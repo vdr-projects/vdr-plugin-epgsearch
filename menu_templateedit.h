@@ -27,10 +27,11 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_searchedit.h"
 
 // --- cMenuEditTemplate --------------------------------------------------------
-class cMenuEditTemplate: public cMenuEditSearchExt {
- public:
-  cMenuEditTemplate(cSearchExt *SearchExt, bool New = false);
-  virtual eOSState ProcessKey(eKeys Key);
+class cMenuEditTemplate: public cMenuEditSearchExt
+{
+public:
+    cMenuEditTemplate(cSearchExt *SearchExt, bool New = false);
+    virtual eOSState ProcessKey(eKeys Key);
 };
 
 #endif

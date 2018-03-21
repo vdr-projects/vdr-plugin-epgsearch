@@ -30,71 +30,75 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 
 // --- cMenuEditSearchExt --------------------------------------------------------
-class cMenuEditSearchExt : public cOsdMenu {
+class cMenuEditSearchExt : public cOsdMenu
+{
 protected:
-  cSearchExt *searchExt;
-  cSearchExt data;
-  int channelMin;
-  int channelMax;
-  bool addIfConfirmed;
-  int UserDefDayOfWeek;
-  int channelGroupNr;
-  char* channelGroupName;
-  char** menuitemsChGr;
-  int* catarrayAvoidRepeats;
-  int* catvaluesNumeric;
-  cList<cBlacklistObject> blacklists;
+    cSearchExt *searchExt;
+    cSearchExt data;
+    int channelMin;
+    int channelMax;
+    bool addIfConfirmed;
+    int UserDefDayOfWeek;
+    int channelGroupNr;
+    char* channelGroupName;
+    char** menuitemsChGr;
+    int* catarrayAvoidRepeats;
+    int* catvaluesNumeric;
+    cList<cBlacklistObject> blacklists;
 
-  char *SearchModes[6];
-  char *DaysOfWeek[8];
-  char *UseChannelSel[4];
-  char *SearchTimerModes[6];
-  char *BlacklistModes[4];
-  char *DelModes[3];
-  char *SearchActiveModes[3];
-  char *CompareSubtitleModes[2];
-  char *CompareDateModes[4];
-  std::vector<int> contentStringIDs;
-  int useContentDescriptors;
-  int *contentStringsFlags;
-  bool templateMode;
-  std::vector<const char*> helpTexts;
-  void AddHelp(const char* helpText);
+    char *SearchModes[6];
+    char *DaysOfWeek[8];
+    char *UseChannelSel[4];
+    char *SearchTimerModes[6];
+    char *BlacklistModes[4];
+    char *DelModes[3];
+    char *SearchActiveModes[3];
+    char *CompareSubtitleModes[2];
+    char *CompareDateModes[4];
+    std::vector<int> contentStringIDs;
+    int useContentDescriptors;
+    int *contentStringsFlags;
+    bool templateMode;
+    std::vector<const char*> helpTexts;
+    void AddHelp(const char* helpText);
 
 public:
-  cMenuEditSearchExt(cSearchExt *SearchExt, bool New = false, bool Template = false, bool FromEPG = false);
-  virtual ~cMenuEditSearchExt();
-  virtual void Set();
-  virtual eOSState ProcessKey(eKeys Key);
-  eOSState Help();
-  };
+    cMenuEditSearchExt(cSearchExt *SearchExt, bool New = false, bool Template = false, bool FromEPG = false);
+    virtual ~cMenuEditSearchExt();
+    virtual void Set();
+    virtual eOSState ProcessKey(eKeys Key);
+    eOSState Help();
+};
 
 // --- cMenuEditDaysOfWeek --------------------------------------------------------
-class cMenuEditDaysOfWeek : public cOsdMenu {
+class cMenuEditDaysOfWeek : public cOsdMenu
+{
 private:
-  int* pDaysOfWeek;
-  int Days[7];
-  int offset;
-  bool negate;
+    int* pDaysOfWeek;
+    int Days[7];
+    int offset;
+    bool negate;
 public:
-  cMenuEditDaysOfWeek(int* DaysOfWeek, int Offset=0, bool Negate = true);
-  virtual eOSState ProcessKey(eKeys Key);
-  };
+    cMenuEditDaysOfWeek(int* DaysOfWeek, int Offset = 0, bool Negate = true);
+    virtual eOSState ProcessKey(eKeys Key);
+};
 
 // --- cMenuSearchEditCompCats --------------------------------------------------------
-class cMenuSearchEditCompCats : public cOsdMenu {
- private:
+class cMenuSearchEditCompCats : public cOsdMenu
+{
+private:
     int* search_catarrayAvoidRepeats;
     int* edit_catarrayAvoidRepeats;
 public:
-  cMenuSearchEditCompCats(int* catarrayAvoidRepeats);
-  ~cMenuSearchEditCompCats();
-  eOSState ProcessKey(eKeys Key);
-  };
+    cMenuSearchEditCompCats(int* catarrayAvoidRepeats);
+    ~cMenuSearchEditCompCats();
+    eOSState ProcessKey(eKeys Key);
+};
 
 // --- cMenuBlacklistsSelection --------------------------------------------------------
-class cMenuBlacklistsSelection : public cOsdMenu {
- private:
+class cMenuBlacklistsSelection : public cOsdMenu
+{
+private:
     int* blacklistsSel;
     cList<cBlacklistObject>* blacklists;
 public:
@@ -105,26 +109,28 @@ public:
 };
 
 // --- cMenuCatValuesSelect --------------------------------------------------------
-class cMenuCatValuesSelect : public cOsdMenu {
- private:
+class cMenuCatValuesSelect : public cOsdMenu
+{
+private:
     char* catValues;
     int catIndex;
     int searchMode;
     std::vector<bool> sel_cats;
 public:
-  cMenuCatValuesSelect(char* CatValues, int CatIndex, int SearchMode);
-  void Set();
-  eOSState ProcessKey(eKeys Key);
-  };
+    cMenuCatValuesSelect(char* CatValues, int CatIndex, int SearchMode);
+    void Set();
+    eOSState ProcessKey(eKeys Key);
+};
 
 
 // --- cMenuSearchActivSettings --------------------------------------------------------
-class cMenuSearchActivSettings : public cOsdMenu {
- private:
-  cSearchExt *searchExt;
+class cMenuSearchActivSettings : public cOsdMenu
+{
+private:
+    cSearchExt *searchExt;
 public:
-  cMenuSearchActivSettings(cSearchExt *SearchExt);
-  eOSState ProcessKey(eKeys Key);
-  };
+    cMenuSearchActivSettings(cSearchExt *SearchExt);
+    eOSState ProcessKey(eKeys Key);
+};
 
 #endif

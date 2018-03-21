@@ -32,13 +32,21 @@ using std::string;
 using std::set;
 
 
-class cDirExt : public cListObject {
+class cDirExt : public cListObject
+{
 private:
     char name[MaxFileName];
 public:
-  cDirExt(void){ name[0]=0; }
-  bool Parse(const char *s) {strcpy(name,s); return true;}
-  char* Name() {return name;}
+    cDirExt(void) {
+        name[0] = 0;
+    }
+    bool Parse(const char *s) {
+        strcpy(name, s);
+        return true;
+    }
+    char* Name() {
+        return name;
+    }
 };
 
 class cDirExts : public cConfig<cDirExt> {};
@@ -49,13 +57,14 @@ extern cConfDDirExts ConfDDirExts;
 
 // --- cMenuDirSelect ---------------------------------------------------------
 
-class cMenuDirSelect : public cOsdMenu {
+class cMenuDirSelect : public cOsdMenu
+{
 private:
     int CurLevel;
     int MaxLevel;
     char* Directory;
     char* yellow;
- public:
+public:
 
     static set<string> directorySet;
 
@@ -68,7 +77,7 @@ private:
     int Level(const char* szDir);
     void ReplaceDirVars();
 
-    static void CreateDirSet(bool extraDirs=true);
-  };
+    static void CreateDirSet(bool extraDirs = true);
+};
 
 #endif

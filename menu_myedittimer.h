@@ -29,42 +29,43 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/svdrp.h>
 
 // --- cMenuMyEditTimer --------------------------------------------------------
-class cMenuMyEditTimer : public cOsdMenu {
+class cMenuMyEditTimer : public cOsdMenu
+{
 private:
-  cTimer *timer;
-  cTimer newtimer;
-  const cEvent* event;
-  int channel;
-  bool addIfConfirmed;
-  int UserDefDaysOfWeek;
-  cMenuEditStrItem* m_DirItem;
+    cTimer *timer;
+    cTimer newtimer;
+    const cEvent* event;
+    int channel;
+    bool addIfConfirmed;
+    int UserDefDaysOfWeek;
+    cMenuEditStrItem* m_DirItem;
 
-  uint flags;
-  time_t day;
-  int weekdays;
-  int start;
-  int stop;
-  int priority;
-  int lifetime;
-  char file[MaxFileName];
-  char directory[MaxFileName];
+    uint flags;
+    time_t day;
+    int weekdays;
+    int start;
+    int stop;
+    int priority;
+    int lifetime;
+    char file[MaxFileName];
+    char directory[MaxFileName];
 #ifdef USE_PINPLUGIN
-  int fskProtection;
+    int fskProtection;
 #endif
-  cStringList svdrpServerNames;
-  char remote[HOST_NAME_MAX];
-  int checkmode;
+    cStringList svdrpServerNames;
+    char remote[HOST_NAME_MAX];
+    int checkmode;
 public:
-  cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* event, const cChannel* forcechannel=NULL);
-  virtual ~cMenuMyEditTimer();
-  virtual eOSState ProcessKey(eKeys Key);
-  void HandleSubtitle();
-  void Set();
-  void ReplaceDirVars();
-  bool IsSingleEvent(void) const;
-  void SplitFile();
-  eOSState DeleteTimer();
+    cMenuMyEditTimer(cTimer *Timer, bool New, const cEvent* event, const cChannel* forcechannel = NULL);
+    virtual ~cMenuMyEditTimer();
+    virtual eOSState ProcessKey(eKeys Key);
+    void HandleSubtitle();
+    void Set();
+    void ReplaceDirVars();
+    bool IsSingleEvent(void) const;
+    void SplitFile();
+    eOSState DeleteTimer();
 
-  static const char* CheckModes[3];
+    static const char* CheckModes[3];
 };
 #endif

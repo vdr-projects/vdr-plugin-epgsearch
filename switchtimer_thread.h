@@ -27,15 +27,16 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "switchtimer.h"
 #include <vdr/thread.h>
 
-class cSwitchTimerThread: public cThread {
- private:
+class cSwitchTimerThread: public cThread
+{
+private:
     bool m_Active;
     time_t m_lastUpdate;
     cCondWait Wait;
- protected:
+protected:
     virtual void Action(void);
     void Stop(void);
- public:
+public:
     static cSwitchTimerThread *m_Instance;
 
     cSwitchTimerThread(void);

@@ -35,13 +35,13 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 class Distance
 {
-  public:
-    int LD (char const *s, char const *t, int maxLength);
-  private:
-    int Minimum (int a, int b, int c);
-    int *GetCellPointer (int *pOrigin, int col, int row, int nCols);
-    int GetAt (int *pOrigin, int col, int row, int nCols);
-    void PutAt (int *pOrigin, int col, int row, int nCols, int x);
+public:
+    int LD(char const *s, char const *t, int maxLength);
+private:
+    int Minimum(int a, int b, int c);
+    int *GetCellPointer(int *pOrigin, int col, int row, int nCols);
+    int GetAt(int *pOrigin, int col, int row, int nCols);
+    void PutAt(int *pOrigin, int col, int row, int nCols, int x);
 };
 
 #endif

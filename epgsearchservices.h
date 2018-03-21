@@ -31,7 +31,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cEpgsearchServiceHandler: public cServiceHandler_v1_2
 {
     virtual std::list<std::string> TranslateResults(cSearchResults* pCompleteSearchResults);
- public:
+public:
     virtual std::list<std::string> SearchTimerList();
     virtual int AddSearchTimer(const std::string&);
     virtual bool ModSearchTimer(const std::string&);
@@ -44,7 +44,7 @@ class cEpgsearchServiceHandler: public cServiceHandler_v1_2
     virtual std::set<std::string> DirectoryList();
     virtual std::string ReadSetupValue(const std::string& entry);
     virtual bool WriteSetupValue(const std::string& entry, const std::string& value);
-    virtual std::list<std::string> TimerConflictList(bool relOnly=false);
+    virtual std::list<std::string> TimerConflictList(bool relOnly = false);
     virtual bool IsConflictCheckAdvised();
     virtual std::set<std::string> ShortDirectoryList();
     virtual std::string Evaluate(const std::string& expr, const cEvent* event);

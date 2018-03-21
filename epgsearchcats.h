@@ -29,42 +29,44 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/tools.h>
 
 // --- cSearchExtCat --------------------------------------------------------
-class cSearchExtCat : public cListObject {
+class cSearchExtCat : public cListObject
+{
 public:
     int      id;
     char*    name;
     char*    format;
     char*    menuname;
     int      searchmode; // text comarison:
-                         // 0 - substring,
-                         // 1 - substring-and,
-                         // 2 - substring or,
-                         // 3 - equal,
-                         // 4 - regular expression,
-                         // 5 - fuzzy (not available for categories)
-                         // numerical comparison:
-                         // 10 - less
-                         // 11 - less or equal
-                         // 12 - greater
-                         // 13 - greater or equal
-                         // 14 - equal
-                         // 15 - not equal
+    // 0 - substring,
+    // 1 - substring-and,
+    // 2 - substring or,
+    // 3 - equal,
+    // 4 - regular expression,
+    // 5 - fuzzy (not available for categories)
+    // numerical comparison:
+    // 10 - less
+    // 11 - less or equal
+    // 12 - greater
+    // 13 - greater or equal
+    // 14 - equal
+    // 15 - not equal
     char**   values;
     int      nvalues;
 public:
-  cSearchExtCat(void);
-  virtual ~cSearchExtCat(void);
+    cSearchExtCat(void);
+    virtual ~cSearchExtCat(void);
 
-  bool Parse(const char *s);
-  const char* ToText(void);
+    bool Parse(const char *s);
+    const char* ToText(void);
 };
 
-class cSearchExtCats : public cConfig<cSearchExtCat> {
+class cSearchExtCats : public cConfig<cSearchExtCat>
+{
 private:
 public:
-  cSearchExtCats(void) {}
-  int GetIndexFromID(int id);
-  };
+    cSearchExtCats(void) {}
+    int GetIndexFromID(int id);
+};
 
 extern cSearchExtCats SearchExtCats;
 

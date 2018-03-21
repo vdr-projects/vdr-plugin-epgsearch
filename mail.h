@@ -37,15 +37,15 @@ using std::set;
 // --- cMailNotifier --------------------------------------------------------
 class cMailNotifier
 {
- protected:
+protected:
     string subject;
     string body;
 
     bool SendMailViaSendmail();
     bool SendMailViaScript();
-    bool SendMail(bool force=false);
+    bool SendMail(bool force = false);
     bool ExecuteMailScript(string ScriptArgs);
- public:
+public:
     string scriptReply;
 
     cMailNotifier() {}
@@ -59,42 +59,44 @@ class cMailNotifier
 
 class cMailTimerNotification
 {
-  friend class cMailUpdateNotifier;
+    friend class cMailUpdateNotifier;
     tEventID eventID;
     tChannelID channelID;
     uint timerMod;
 
- protected:
+protected:
     virtual const cEvent* GetEvent() const;
 
- public:
- cMailTimerNotification(tEventID EventID, tChannelID ChannelID, uint TimerMod = tmNoChange)
-   : eventID(EventID), channelID(ChannelID), timerMod(TimerMod) {}
+public:
+    cMailTimerNotification(tEventID EventID, tChannelID ChannelID, uint TimerMod = tmNoChange)
+        : eventID(EventID), channelID(ChannelID), timerMod(TimerMod) {}
     virtual bool operator< (const cMailTimerNotification &N) const;
     virtual string Format(const string& templ) const;
 };
 
 class cMailDelTimerNotification
 {
-  friend class cMailUpdateNotifier;
+    friend class cMailUpdateNotifier;
     time_t start;
     tChannelID channelID;
- public:
+public:
     string formatted;
 
     cMailDelTimerNotification(const cTimer* t, const cEvent* pEvent, const string& templ);
     cMailDelTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start);
     bool operator< (const cMailDelTimerNotification &N) const;
-    string Format(const string& templ) const { return formatted; }
+    string Format(const string& templ) const {
+        return formatted;
+    }
 };
 
 class cMailAnnounceEventNotification : public cMailTimerNotification
 {
-  friend class cMailUpdateNotifier;
-  int searchextID;
- public:
- cMailAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID)
-   : cMailTimerNotification(EventID, ChannelID), searchextID(SearchExtID) {}
+    friend class cMailUpdateNotifier;
+    int searchextID;
+public:
+    cMailAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID)
+        : cMailTimerNotification(EventID, ChannelID), searchextID(SearchExtID) {}
     string Format(const string& templ) const;
 };
 
@@ -106,7 +108,7 @@ class cMailUpdateNotifier : public cMailNotifier
     set<cMailAnnounceEventNotification> announceEvents;
 
     string mailTemplate;
- public:
+public:
     cMailUpdateNotifier();
     void AddNewTimerNotification(tEventID EventID, tChannelID ChannelID);
     void AddModTimerNotification(tEventID EventID, tChannelID ChannelID, uint timerMod = tmNoChange);
@@ -118,7 +120,7 @@ class cMailUpdateNotifier : public cMailNotifier
 
 class cMailConflictNotifier : public cMailNotifier
 {
- public:
+public:
     void SendConflictNotifications(cConflictCheck& conflictcheck);
 };
 

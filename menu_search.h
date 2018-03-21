@@ -27,17 +27,18 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/plugin.h>
 #include "epgsearchext.h"
 
-class cMenuEPGSearchExt : public cOsdMenu {
-  private:
-	eOSState New(void);
-	eOSState Delete(void);
-	eOSState Actions(eKeys Key);
-  protected:
-    	virtual eOSState ProcessKey(eKeys Key);
-  public:
-    	cMenuEPGSearchExt();
-	cSearchExt* CurrentSearchExt(void);
-	void UpdateTitle();
+class cMenuEPGSearchExt : public cOsdMenu
+{
+private:
+    eOSState New(void);
+    eOSState Delete(void);
+    eOSState Actions(eKeys Key);
+protected:
+    virtual eOSState ProcessKey(eKeys Key);
+public:
+    cMenuEPGSearchExt();
+    cSearchExt* CurrentSearchExt(void);
+    void UpdateTitle();
 };
 
 #endif

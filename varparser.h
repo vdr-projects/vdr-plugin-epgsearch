@@ -32,24 +32,22 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 using std::string;
 using std::vector;
 
-typedef enum
-{
+typedef enum {
     condEq = 0,
     condNeq
 } condOperator;
 
 class cVarParser
 {
-  typedef enum
-  {
-    composed=0,
-    condition,
-    shellcmd,
-    connectcmd,
-    lengthcmd
-  } exprType;
+    typedef enum {
+        composed = 0,
+        condition,
+        shellcmd,
+        connectcmd,
+        lengthcmd
+    } exprType;
 
- public:
+public:
     string varName;
     string condEqLeft;
     string condEqRight;
@@ -65,14 +63,16 @@ class cVarParser
     int connectPort;
     exprType type;
 
- cVarParser() : cmd(NULL), connectPort(-1), type(composed) { condOp=condEq; }
+    cVarParser() : cmd(NULL), connectPort(-1), type(composed) {
+        condOp = condEq;
+    }
     bool Parse(const string& input);
     bool ParseExp(const string& input);
     bool IsCondExpr();
     bool IsShellCmd();
     bool IsConnectCmd();
     bool IsLengthCmd();
- private:
+private:
     bool ParseAssign(const string& input);
     bool ParseShellCmd(const string& input);
     bool ParseConnectCmd(const string& input);
