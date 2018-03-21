@@ -182,13 +182,12 @@ eOSState cMenuSearchMain::Record(void)
 {
   cMenuMyScheduleItem *item = (cMenuMyScheduleItem *)Get(Current());
   if (item) {
-	  cTimer *timer, *t;
-	  {
-      LOCK_TIMERS_READ;
+      LOCK_TIMERS_WRITE;
+      Timers->SetExplicitModify();
       if (item->timerMatch == tmFull)
       {
 	  eTimerMatch tm = tmNone;
-	  cTimer *timer = (cTimer*)Timers->GetMatch(item->event, &tm);
+	  cTimer *timer = Timers->GetMatch(item->event, &tm);
 	  if (timer)
 	    {
 	      if (EPGSearchConfig.useVDRTimerEditMenu)
@@ -198,11 +197,10 @@ eOSState cMenuSearchMain::Record(void)
 	    }
       }
 
-     timer = new cTimer(item->event);
+     cTimer *timer = new cTimer(item->event);
      PrepareTimerFile(item->event, timer);
 
-     t = (cTimer*)Timers->GetTimer(timer);
-	  } // release TIMERS_READ
+     cTimer *t = Timers->GetTimer(timer);
      if (EPGSearchConfig.onePressTimerCreation == 0 || t || !item->event || (!t && item->event && item->event->StartTime() - (Setup.MarginStart+2) * 60 < time(NULL)))
      {
 	 if (t)
@@ -241,8 +239,8 @@ eOSState cMenuSearchMain::Record(void)
 	 SetAux(timer, fullaux);
          if (Setup.SVDRPPeering && *Setup.SVDRPDefaultHost)
                       timer->SetRemote(Setup.SVDRPDefaultHost);
-            LOCK_TIMERS_WRITE;
-	        Timers->Add(timer); // implicit SetModified
+	        Timers->Add(timer);
+	        Timers->SetModified();
 	 gl_timerStatusMonitor->SetConflictCheckAdvised();
 	 timer->Matches();
          if (!HandleRemoteTimerModifications(timer)) {
