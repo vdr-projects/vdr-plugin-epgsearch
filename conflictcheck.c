@@ -165,6 +165,12 @@ cConflictCheck::cConflictCheck()
 
 cConflictCheck::~cConflictCheck()
 {
+    if (failedList && (failedList != evaltimeList)) {
+        // if no local active timers but remote failed
+        // we have a new list
+        failedList->Clear();
+        DELETENULL(failedList);
+    }
     if (evaltimeList) {
         evaltimeList->Clear();
         DELETENULL(evaltimeList);
@@ -218,16 +224,20 @@ void cConflictCheck::BondDevices(const char *Bondings)
 
 void cConflictCheck::Check()
 {
+    if (failedList && (failedList != evaltimeList))
+        DELETENULL(failedList);
     if (evaltimeList)
         DELETENULL(evaltimeList);
     if (timerList)
         DELETENULL(timerList);
+    relevantConflicts = 0;
+    numConflicts = 0;
 
     LogFile.Log(3, "check only local conflicts = %s", GetLocal() ? "yes" : "no");
     timerList = CreateCurrentTimerList();
     if (timerList) evaltimeList = CreateEvaluationTimeList(timerList);
     if (evaltimeList) failedList = CreateConflictList(evaltimeList, timerList);
-    if ((!localConflicts) && timerList) CreateRemoteConflictList(timerList, failedList);
+    if ((!localConflicts) && timerList) failedList = CreateRemoteConflictList(timerList, failedList);
     if (failedList)
         for (cConflictCheckTime* checkTime = failedList->First(); checkTime; checkTime = failedList->Next(checkTime)) {
             LogFile.Log(2, "result of conflict check for %s:", DAYDATETIME(checkTime->evaltime));
@@ -382,8 +392,6 @@ cList<cConflictCheckTime>* cConflictCheck::CreateEvaluationTimeList(cList<cConfl
 cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictCheckTime>* EvalTimeList, cList<cConflictCheckTimerObj>* TimerList)
 {
     LogFile.Log(3, "create conflict list");
-    relevantConflicts = 0;
-    numConflicts = 0;
     maxCheck = time(NULL) + std::min(14, EPGSearchConfig.checkMaxDays) * SECSINDAY;
 
     // check each time
@@ -437,7 +445,7 @@ cList<cConflictCheckTime>* cConflictCheck::CreateConflictList(cList<cConflictChe
     return EvalTimeList;
 }
 
-void cConflictCheck::CreateRemoteConflictList(cList<cConflictCheckTimerObj>* TimerList, cList<cConflictCheckTime>* failedList)
+cList<cConflictCheckTime>* cConflictCheck::CreateRemoteConflictList(cList<cConflictCheckTimerObj>* TimerList, cList<cConflictCheckTime>* failedList)
 {
     LogFile.Log(3, "add remote conflicts to list");
     bool foundRemote = false;
@@ -457,7 +465,7 @@ void cConflictCheck::CreateRemoteConflictList(cList<cConflictCheckTimerObj>* Tim
 
     if (!foundRemote) {
         LogFile.Log(3, "no remote timers to add");
-        return;
+        return failedList;
     }
 
     RemoteHosts.Sort();
@@ -547,6 +555,7 @@ void cConflictCheck::CreateRemoteConflictList(cList<cConflictCheckTimerObj>* Tim
     cConflictCheckThread::m_cacheTotalConflicts = numConflicts;
     cConflictCheckThread::m_cacheRelevantConflicts = relevantConflicts;
     LogFile.Log(3, "add remote conflicts done");
+    return failedList;
 }
 
 // checks for conflicts at one special time

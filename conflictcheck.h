@@ -285,7 +285,7 @@ public:
     cList<cConflictCheckTimerObj>* CreateCurrentTimerList();
     cList<cConflictCheckTime>* CreateEvaluationTimeList(cList<cConflictCheckTimerObj>*);
     cList<cConflictCheckTime>* CreateConflictList(cList<cConflictCheckTime>*, cList<cConflictCheckTimerObj>* timerList);
-    void CreateRemoteConflictList(cList<cConflictCheckTimerObj>* timerList, cList<cConflictCheckTime>* failedList);
+    cList<cConflictCheckTime>* CreateRemoteConflictList(cList<cConflictCheckTimerObj>* timerList, cList<cConflictCheckTime>* failedList);
     int GetDevice(cConflictCheckTimerObj* TimerObj, bool *NeedsDetachReceivers);
     cList<cConflictCheckTime>* GetFailed() {
         return failedList;
