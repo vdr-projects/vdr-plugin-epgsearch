@@ -630,7 +630,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
         start = pEvent->Vps();
         stop = start + pEvent->Duration();
     } else
-        Flags = 1; // don't use VPS, if not set in this search
+        Flags &= ~tfVps; // don't use VPS, if not set in this search
 
     if (searchExt->action == searchTimerActionInactiveRecord)
         Flags &= ~tfActive;
