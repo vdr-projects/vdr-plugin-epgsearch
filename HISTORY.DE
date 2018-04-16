@@ -1,6 +1,28 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
+2018-04-16; Version 2.4.0
+neu:
+- Create man pages only once. by jasminj@vdr-portal.de
+- Remove useless member "useEpisode" from cBlacklist by jasminj@vdr-portal.de
+- Remove useless member "useEpisode" from cBlacklist by jasminj@vdr-portal.de
+- Remove useless "LOCK_CHANNELS_READ" in cBlacklist run by jasminj@vdr-portal.de
+- Change shell in docsrc2*.sh to /bin/bash, suggested by TomJoad@vdr-portal.de
+- Added operator to cListObject derived classes by jasminj@vdr-portal.de
+- Add patches/vdr.epgsearch-exttimeredit-2.3.5.diff by Dietmar Spingler <d_spingler@gmx.de>
+- Adapt new makefile style of VDR 2.3.6 by TomJoad@vdr-portal.de
+- Use vdr timerids instead of index by TomJoad@vdr-portal.de
+- Fix many lock sequences by TomJoad@vdr-portal.de
+- New vdr.epgsearch-exttimeredit-2.3.6.diff (thx to Claus Muus)
+- Add conflict check for remote timers by Johann Friedrichs <johann.friedrichs@web.de>
+- Search timers should create only local timers
+- Use namespace for svdrpclient
+- Add icon for inactive timer
+- Use separate thread for recdone processing
+- get rid of some casts
+- unified indentation
+- Preserve timerflags in searchtimerupdate
+
 2017-05-xx; Version 2.3.1 - development release
 neu:
 - Anwenden vdr-2.3.2-epgsearch-1.0.1.beta5~git20150715_v2.diff von fnu@vdr-portal.de

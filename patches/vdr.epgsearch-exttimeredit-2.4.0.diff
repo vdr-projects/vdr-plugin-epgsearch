@@ -1,6 +1,8 @@
---- a/menu.c.orig	2017-06-04 19:18:37.423036244 +0200
-+++ b/menu.c	2017-06-09 21:33:53.775782116 +0200
-@@ -1155,6 +1155,7 @@
+diff --git a/menu.c b/menu.c
+index c8a557c..ae2dc30 100644
+--- a/menu.c
++++ b/menu.c
+@@ -1159,6 +1159,7 @@ eOSState cMenuEditTimer::ProcessKey(eKeys Key)
  class cMenuTimerItem : public cOsdItem {
  private:
    const cTimer *timer;
@@ -8,7 +10,7 @@
  public:
    cMenuTimerItem(const cTimer *Timer);
    virtual int Compare(const cListObject &ListObject) const;
-@@ -1166,7 +1167,7 @@
+@@ -1170,7 +1171,7 @@ public:
  cMenuTimerItem::cMenuTimerItem(const cTimer *Timer)
  {
    timer = Timer;
@@ -17,7 +19,7 @@
  }
  
  int cMenuTimerItem::Compare(const cListObject &ListObject) const
-@@ -1176,6 +1177,20 @@
+@@ -1180,6 +1181,20 @@ int cMenuTimerItem::Compare(const cListObject &ListObject) const
  
  void cMenuTimerItem::Set(void)
  {
@@ -38,7 +40,7 @@
    cString day, name("");
    if (timer->WeekDays())
       day = timer->PrintDay(0, timer->WeekDays(), false);
-@@ -1223,8 +1238,7 @@
+@@ -1227,8 +1242,7 @@ private:
    cStateKey timersStateKey;
    int helpKeys;
    void Set(void);
@@ -48,23 +50,23 @@
    eOSState Delete(void);
    eOSState OnOff(void);
    eOSState Info(void);
-@@ -1316,21 +1330,34 @@
+@@ -1322,21 +1336,34 @@ eOSState cMenuTimers::OnOff(void)
    return osContinue;
  }
  
 -eOSState cMenuTimers::Edit(void)
-+eOSState cMenuTimers::Edit(bool New)
- {
+-{
 -  if (HasSubMenu() || Count() == 0)
-+  if (HasSubMenu() || Count() == 0 && !New)
-      return osContinue;
+-     return osContinue;
 -  return AddSubMenu(new cMenuEditTimer(GetTimer()));
 -}
 -
 -eOSState cMenuTimers::New(void)
--{
++eOSState cMenuTimers::Edit(bool New)
+ {
 -  if (HasSubMenu())
--     return osContinue;
++  if (HasSubMenu() || Count() == 0 && !New)
+      return osContinue;
 -  cTimer *Timer = new cTimer;
 +  cTimer *Timer;
 +  if (New)
@@ -94,7 +96,7 @@
  }
  
  eOSState cMenuTimers::Delete(void)
-@@ -1386,7 +1413,7 @@
+@@ -1392,7 +1419,7 @@ eOSState cMenuTimers::ProcessKey(eKeys Key)
       switch (Key) {
         case kOk:     return Edit();
         case kRed:    state = OnOff(); break; // must go through SetHelpKeys()!
@@ -103,8 +105,8 @@
         case kYellow: state = Delete(); break;
         case kInfo:
         case kBlue:   return Info();
-@@ -1400,6 +1427,14 @@
-      Add(new cMenuTimerItem(Timer), true);
+@@ -1410,6 +1437,14 @@ eOSState cMenuTimers::ProcessKey(eKeys Key)
+      SetHelpKeys();
       Display();
       }
 +  if (!HasSubMenu()) {
