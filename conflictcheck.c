@@ -494,8 +494,8 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
     {
 	if ((*it) && (*it)->stop > checkTime->evaltime)
 	    checkTime->startingTimers.insert(*it);
-	pendingTimers.erase(*it);
     }
+    pendingTimers.clear();
 
     LogFile.Log(3,"attach starting timers");
     // handle starting timers
@@ -514,9 +514,9 @@ int cConflictCheck::ProcessCheckTime(cConflictCheckTime* checkTime)
 		{
 		    LogFile.Log(3,"stopping timer '%s' (%s, channel %s) at %s on device %d because of higher priority", (*it2)->timer->File(), DAYDATETIME((*it2)->start), CHANNELNAME((*it2)->timer->Channel()), DAYDATETIME(checkTime->evaltime), device+1);
 		    AddConflict((*it2), checkTime, pendingTimers);
-		    devices[device].recTimers.erase(*it2);
 		    Conflicts++;
 		}
+		devices[device].recTimers.clear();
 	    }
 	    devices[device].recTimers.insert(*it);
 	    (*it)->device = device;
