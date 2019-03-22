@@ -496,6 +496,10 @@ cList<cConflictCheckTime>* cConflictCheck::CreateRemoteConflictList(cList<cConfl
                         failedList = new cList<cConflictCheckTime>;
                     LogFile.Log(2, "added remote checkTime %s to failedList", DAYDATETIME(evaltime));
                     failedList->Add(checkTime);
+                    if (!nextRelevantConflictDate)
+                        nextRelevantConflictDate = checkTime->evaltime;
+                    else
+                        nextRelevantConflictDate = std::min(nextRelevantConflictDate, checkTime->evaltime);
                     numConflicts++;
                     // find TimerObj with id Id in timerList
                     cConflictCheckTimerObj* failedTimer = NULL;
@@ -552,6 +556,7 @@ cList<cConflictCheckTime>* cConflictCheck::CreateRemoteConflictList(cList<cConfl
             LogFile.Log(2, "ExecSVDRPCommand failed for %s", RemoteHosts[i]);
         }
     } // for all RemoteHosts
+    cConflictCheckThread::m_cacheNextConflict = nextRelevantConflictDate;
     cConflictCheckThread::m_cacheTotalConflicts = numConflicts;
     cConflictCheckThread::m_cacheRelevantConflicts = relevantConflicts;
     LogFile.Log(3, "add remote conflicts done");
@@ -732,6 +737,7 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
 void cConflictCheck::AddConflict(cConflictCheckTimerObj* TimerObj, cConflictCheckTime* CheckTime, std::set<cConflictCheckTimerObj*>& pendingTimers)
 {
     for (cConflictCheckTimerObj* concTimer = timerList->First(); concTimer; concTimer = timerList->Next(concTimer)) {
+        if (concTimer->timer->Remote()) continue; // ignore overlapping remote timers
         if (concTimer->start >= TimerObj->stop) continue;
         if (concTimer->stop <= TimerObj->start) continue;
         if (!TimerObj->concurrentTimers) TimerObj->concurrentTimers = new std::set<cConflictCheckTimerObj*, TimerObjSort>;

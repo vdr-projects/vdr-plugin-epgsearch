@@ -262,6 +262,7 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 {
     std::list<std::string> list;
     cConflictCheck conflictCheck;
+    conflictCheck.SetLocal(); // remote Timers would give a wrong Id
     conflictCheck.Check();
 
     if ((relOnly && conflictCheck.numConflicts > 0) ||
