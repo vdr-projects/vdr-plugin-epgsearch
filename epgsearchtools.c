@@ -428,6 +428,11 @@ bool InEditMode(const char* ItemText, const char* ItemName, const char* ItemValu
 // checks if the timer was triggered from a search timer and return a pointer to the search
 cSearchExt* TriggeredFromSearchTimer(const cTimer* timer)
 {
+// searches will create local timers only.
+// But, an epgsearch running on a remote VDR might create a timer. And this timer has a search ID ...
+// Therefore, we must first ensure that the timer is local
+    if(timer->Remote())
+        return NULL;
     char* searchID = GetAuxValue(timer, "s-id");
     if (!searchID)
         return NULL;
