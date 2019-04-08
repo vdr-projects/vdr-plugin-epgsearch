@@ -414,16 +414,26 @@ bool cPluginEpgsearch::Service(const char *Id, void *Data)
         if (Data == NULL)
             return true;
         Epgsearch_services_v1_0* serviceData = (Epgsearch_services_v1_0*) Data;
+#if __cplusplus < 201103L
         std::auto_ptr<cEpgsearchServiceHandler> autoHandler(new cEpgsearchServiceHandler);
         serviceData->handler = autoHandler;
+#else
+	 std::unique_ptr<cEpgsearchServiceHandler> autoHandler(new cEpgsearchServiceHandler);
+         serviceData->handler = std::move(autoHandler);
+#endif
         return true;
     }
     if (strcmp(Id, "Epgsearch-services-v1.1") == 0) {
         if (Data == NULL)
             return true;
         Epgsearch_services_v1_1* serviceData = (Epgsearch_services_v1_1*) Data;
+#if __cplusplus < 201103L
         std::auto_ptr<cEpgsearchServiceHandler> autoHandler(new cEpgsearchServiceHandler);
         serviceData->handler = autoHandler;
+#else
+        std::unique_ptr<cEpgsearchServiceHandler> autoHandler(new cEpgsearchServiceHandler);
+        serviceData->handler = std::move(autoHandler);
+#endif
         return true;
     }
     return false;
