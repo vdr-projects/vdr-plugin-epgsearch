@@ -1,16 +1,16 @@
 =encoding utf8
 =head1 NAME
 
-F<epgsearchmenu.conf> - Konfiguration der Menüdarstellung
+F<epgsearchmenu.conf> - Konfiguration der MenÃ¼darstellung
 
 =head1 BESCHREIBUNG
 
-Die Darstellung des Menüs des Plugins kann auf die eigenen Wünsche
+Die Darstellung des MenÃ¼s des Plugins kann auf die eigenen WÃ¼nsche
 angepasst werden. Die Konfiguration erfolgt mit Hilfe dieser Datei.
 
 =head1 FORMAT
 
- In dieser Datei können den Variablen
+ In dieser Datei kÃ¶nnen den Variablen
 
  MenuWhatsOnNow
  MenuWhatsOnNext
@@ -18,19 +18,19 @@ angepasst werden. Die Konfiguration erfolgt mit Hilfe dieser Datei.
  MenuSchedule
  MenuSearchResults
 
-Zeichenketten zugewiesen werden die die Darstellung der Menüs im OSD regeln.
+Zeichenketten zugewiesen werden die die Darstellung der MenÃ¼s im OSD regeln.
 
 Eine Besonderheit stellt MenuSearchResults. Hier kann man der Variablen
-MenuSearchResults eine beliebige Zeichenkette anhängen:
+MenuSearchResults eine beliebige Zeichenkette anhÃ¤ngen:
 
  MenuSearchResultsSerienlayout=...
 
 Dies bewirkt das man beim Editieren eines Suchtimers nun auch dieses Layout
-unter dem Namen "Serienlayout" auswählen kann.
+unter dem Namen "Serienlayout" auswÃ¤hlen kann.
 
 So kann man jedem Suchtimer seine eigene OSD Darstellung verpassen.
 
-Es können alle Variablen verwendet werden. Die Variablen aus dem erweiterten
+Es kÃ¶nnen alle Variablen verwendet werden. Die Variablen aus dem erweiterten
 EPG, die in der F<epgsearchuservars.conf> konfigurierten sowie die folgenden
 internen:
 
@@ -48,16 +48,16 @@ internen:
  %status%     - Kompletter Status, das selbe wie
                 '%t_status%%v_status%%r_status%'
 
-Für die Menüs "Was läuft jetzt" und "Suchergebniss", also die Variablen
-MenuWhatsOnNow und MenuSearchResults, stehen fünf weitere Variablen
-zur Verfügung:
+FÃ¼r die MenÃ¼s "Was lÃ¤uft jetzt" und "Suchergebniss", also die Variablen
+MenuWhatsOnNow und MenuSearchResults, stehen fÃ¼nf weitere Variablen
+zur VerfÃ¼gung:
 
  %chnr%       - Kanalnummer
  %chsh%       - Kanalname kurz
  %chlng%      - Kanalname lang
  %chdata%     - VDR's interne Kanaldarstellung (z.B. 'S19.2E-1-1101-28106')
- %progr%      - Grafischer Fortschrittsbalken (nicht für das Menü "Suchergenis")
- %progrT2S%   - Fortschrittsbalken im text2skin Stil (nicht für das Menü "Suchergenis")
+ %progr%      - Grafischer Fortschrittsbalken (nicht fÃ¼r das MenÃ¼ "Suchergenis")
+ %progrT2S%   - Fortschrittsbalken im text2skin Stil (nicht fÃ¼r das MenÃ¼ "Suchergenis")
 
 Es wird bei den Variablen nicht zwischen Gross-/Kleinschreibung unterschieden.
 
@@ -71,11 +71,11 @@ trennen, z.B. %title% ~ %subtitle%, dann achtet epgsearch darauf das ein
 solcher Trenner nicht am Ende einer Spalte steht.
 
 Die einzelnen Spaltenbreiten sollten angepasst werden, das Aussehen ist vom
-verwendeten Skin abhängig.
+verwendeten Skin abhÃ¤ngig.
 
-Wenn diese Datei verändert werden soll während VDR läuft kann man dem Plugin
-den Startparamter '-r' oder '--reloadmenuconf' übergeben, die Datei wird dann
-bei jedem öffnen des Menüs neu eingelesen.
+Wenn diese Datei verÃ¤ndert werden soll wÃ¤hrend VDR lÃ¤uft kann man dem Plugin
+den Startparamter '-r' oder '--reloadmenuconf' Ã¼bergeben, die Datei wird dann
+bei jedem Ã¶ffnen des MenÃ¼s neu eingelesen.
 
 =head1 BEISPIELE
 
@@ -106,16 +106,16 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LIZENZ
 
-Copyright © 2004-2010 Christian Wieninger
+Copyright Â© 2004-2010 Christian Wieninger
 
-Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+Dieses Programm ist freie Software. Sie kÃ¶nnen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
-veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
-der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+verÃ¶ffentlicht, weitergeben und/oder modifizieren, entweder gemÃ¤ÃŸ Version 2
+der Lizenz oder (nach Ihrer Option) jeder spÃ¤teren Version.
 
-Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Die VerÃ¶ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
 Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
-implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÃœR EINEN BESTIMMTEN
 ZWECK. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
@@ -124,7 +124,7 @@ Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307
 Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der Author kann Ã¼ber cwieninger@gmx.de erreicht werden.
 
 Die Projektseite ist http://winni.vdr-developer.org/epgsearch
 

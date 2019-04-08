@@ -5,11 +5,11 @@ F<epgsearchblacklists.conf> - Die gespeicherten Auschlusslisten-Suchtimer
 
 =head1 BESCHREIBUNG
 
-In epgsearch können Ausschlusslisten (Blacklists) angelegt werden.
+In epgsearch kÃ¶nnen Ausschlusslisten (Blacklists) angelegt werden.
 
 Dies sind im Grunde normale Suchtimer die in der Datei
 F<epgsearchblacklists.conf> gespeichert werden. Zu jedem Suchtimer kann
-man dann einen oder mehrere Einträge aus der Ausschlussliste auswählen.
+man dann einen oder mehrere EintrÃ¤ge aus der Ausschlussliste auswÃ¤hlen.
 
 =head2 Funktion
 
@@ -22,7 +22,7 @@ Ergebnisse auf den Ausschlusssuchtimer zutrifft. Dieses wird dann verworfen.
 
 =head1 FORMAT
 
-Diese Datei hat dasselbe Format wie die Datei F<epgsearch.conf>. Für den
+Diese Datei hat dasselbe Format wie die Datei F<epgsearch.conf>. FÃ¼r den
 Aufbau verweise ich auf C<epgsearch.conf(5)>.
 
 =head1 SIEHE AUCH
@@ -45,16 +45,16 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LIZENZ
 
-Copyright © 2004-2010 Christian Wieninger
+Copyright Â© 2004-2010 Christian Wieninger
 
-Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+Dieses Programm ist freie Software. Sie kÃ¶nnen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
-veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
-der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+verÃ¶ffentlicht, weitergeben und/oder modifizieren, entweder gemÃ¤ÃŸ Version 2
+der Lizenz oder (nach Ihrer Option) jeder spÃ¤teren Version.
 
-Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Die VerÃ¶ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
 Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
-implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÃœR EINEN BESTIMMTEN
 ZWECK. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
@@ -63,7 +63,7 @@ Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307
 Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der Author kann Ã¼ber cwieninger@gmx.de erreicht werden.
 
 Die Projektseite ist http://winni.vdr-developer.org/epgsearch
 

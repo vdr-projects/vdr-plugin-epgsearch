@@ -5,12 +5,12 @@ F<epgsearchcats.conf> - Die Kategorien des erweiterten EPGs, sofern vorhanden.
 
 =head1 BESCHREIBUNG
 
-Wenn man das EPG aus dem Internet bezieht, z.B. von Hörzu, enthält das EPG
-erweiterte Daten. Zusätzlich zum Titel, Untertitel un der Beschreibung findet
+Wenn man das EPG aus dem Internet bezieht, z.B. von HÃ¶rzu, enthÃ¤lt das EPG
+erweiterte Daten. ZusÃ¤tzlich zum Titel, Untertitel un der Beschreibung findet
 man dann eine Liste der Darsteller, Jahr des Drehs, Episode der Serie, Kategorie
 und Genre des Film, etc.
 
-Damit epgsearch diese verwenden kann müssen die Felder des erweiterten EPGs
+Damit epgsearch diese verwenden kann mÃ¼ssen die Felder des erweiterten EPGs
 Variablen zugeordnet werden.
 
 Einige Beispieldateien werden dem Plugin mitgeliefert und finden sich im
@@ -20,7 +20,7 @@ Um eine eigene F<epgsearchcats.conf> zu erstellen dient das mitgelieferte Tool
 F<createcats>.
 
 Es scannt das vorhandene EPG und erstellt eine F<epgsearchcats.conf>. Diese
-sollte an die eigenen Wünscche angepasst werden, eine Formatbeschreibung
+sollte an die eigenen WÃ¼nscche angepasst werden, eine Formatbeschreibung
 findet sich im Kopf der Datei.
 
 =head1 FORMAT
@@ -66,9 +66,9 @@ Auszug aus einer F<epgsearchcats.conf>:
 
 =head1 BEISPIELE
 
-(Die Zeilen sind gekürzt, daher unvollständig)
+(Die Zeilen sind gekÃ¼rzt, daher unvollstÃ¤ndig)
 
-Beispiel für EPG von Hörzu, bezogen von epgdata.com mit tvmovie2vdr.
+Beispiel fÃ¼r EPG von HÃ¶rzu, bezogen von epgdata.com mit tvmovie2vdr.
 
  1|Category|Kategorie|Information,Kinder,Musik,Serie,Show,Spielfilm,Sport|2
 
@@ -86,7 +86,7 @@ Beispiel für EPG von Hörzu, bezogen von epgdata.com mit tvmovie2vdr.
 
  8|Moderator|Moderation||2
 
- 9|Rating|Bewertung|Großartig besonders wertvoll,Annehmbar,Schwach|2
+ 9|Rating|Bewertung|GroÃŸartig besonders wertvoll,Annehmbar,Schwach|2
 
  10|FSK|FSK|6,12,16,18|2
 
@@ -116,16 +116,16 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LIZENZ
 
-Copyright © 2004-2010 Christian Wieninger
+Copyright Â© 2004-2010 Christian Wieninger
 
-Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+Dieses Programm ist freie Software. Sie kÃ¶nnen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
-veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
-der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+verÃ¶ffentlicht, weitergeben und/oder modifizieren, entweder gemÃ¤ÃŸ Version 2
+der Lizenz oder (nach Ihrer Option) jeder spÃ¤teren Version.
 
-Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Die VerÃ¶ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
 Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
-implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÃœR EINEN BESTIMMTEN
 ZWECK. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
@@ -134,7 +134,7 @@ Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307
 Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der Author kann Ã¼ber cwieninger@gmx.de erreicht werden.
 
 Die Projektseite ist http://winni.vdr-developer.org/epgsearch
 

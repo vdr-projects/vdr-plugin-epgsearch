@@ -5,7 +5,7 @@ F<epgsearchswitchtimer.conf> - Die gespeicherten Umschalttimer
 
 =head1 BESCHREIBUNG
 
-In epgsearch kann man über das Programmenü und die Suchtimer
+In epgsearch kann man Ã¼ber das ProgrammenÃ¼ und die Suchtimer
 Umschalttimer anlegen, die einem zu beginn der Sendung auf die
 Sendung hinweisen oder gleich umschalten.
 
@@ -15,13 +15,13 @@ Die Umschalttimer werden in dieser Datei gespeichert.
 
 Der allgemeine Feldtrenner ist C<':'>.
 
-Folgende Felder sind möglich:
+Folgende Felder sind mÃ¶glich:
 
  1 - Kanal
  2 - Event ID
  3 - Startzeit
  4 - Vorlaufzeit
- 5 - Nur ankündigen
+ 5 - Nur ankÃ¼ndigen
 
 =head1 BEISPIELE
 
@@ -47,16 +47,16 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LIZENZ
 
-Copyright © 2004-2010 Christian Wieninger
+Copyright Â© 2004-2010 Christian Wieninger
 
-Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+Dieses Programm ist freie Software. Sie kÃ¶nnen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
-veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
-der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+verÃ¶ffentlicht, weitergeben und/oder modifizieren, entweder gemÃ¤ÃŸ Version 2
+der Lizenz oder (nach Ihrer Option) jeder spÃ¤teren Version.
 
-Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Die VerÃ¶ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
 Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
-implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÃœR EINEN BESTIMMTEN
 ZWECK. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
@@ -65,7 +65,7 @@ Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307
 Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der Author kann Ã¼ber cwieninger@gmx.de erreicht werden.
 
 Die Projektseite ist http://winni.vdr-developer.org/epgsearch
 

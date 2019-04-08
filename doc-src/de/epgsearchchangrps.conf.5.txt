@@ -6,9 +6,9 @@ F<epgsearchchangrps.conf> - Liste der Kanalgruppen
 =head1 BESCHREIBUNG
 
 In epgsearch kann man Sender zu Kanalgruppen zusammenfassen die dann in
-den Suchtimern verwendet werden können.
+den Suchtimern verwendet werden kÃ¶nnen.
 
-Hierdurch können für viele Suchtimer auf einmal die durchsuchten Kanäle zentral
+Hierdurch kÃ¶nnen fÃ¼r viele Suchtimer auf einmal die durchsuchten KanÃ¤le zentral
 neu konfiguriert werden.
 
 In dieser Datei werden die Kanalgruppen gespeichert.
@@ -16,11 +16,11 @@ In dieser Datei werden die Kanalgruppen gespeichert.
 =head1 FORMAT
 
 Jede Zeile eine Kanalgruppe. Jede Zeile beginnt mit dem Gruppennamen, dahinter, getrennt durch '|',
-die Liste der Kanäle.
+die Liste der KanÃ¤le.
 
 =head1 BEISPIELE
 
-(Die Zeilen sind gekürzt, daher unvollständig)
+(Die Zeilen sind gekÃ¼rzt, daher unvollstÃ¤ndig)
 
  Private|S19.2E-133-33-46|S19.2E-133-33-51
  ProsiebenSat.1|S19.2E-133-33-46|S19.2E-133-33-47
@@ -46,16 +46,16 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LIZENZ
 
-Copyright © 2004-2010 Christian Wieninger
+Copyright Â© 2004-2010 Christian Wieninger
 
-Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+Dieses Programm ist freie Software. Sie kÃ¶nnen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
-veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
-der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+verÃ¶ffentlicht, weitergeben und/oder modifizieren, entweder gemÃ¤ÃŸ Version 2
+der Lizenz oder (nach Ihrer Option) jeder spÃ¤teren Version.
 
-Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Die VerÃ¶ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
 Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
-implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÃœR EINEN BESTIMMTEN
 ZWECK. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
@@ -64,7 +64,7 @@ Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307
 Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der Author kann Ã¼ber cwieninger@gmx.de erreicht werden.
 
 Die Projektseite ist http://winni.vdr-developer.org/epgsearch
 

@@ -1,19 +1,19 @@
 =encoding utf8
 =head1 NAME
 
-F<noannounce.conf> - Liste von Sendungen, die nicht mehr per OSD angekündigt
+F<noannounce.conf> - Liste von Sendungen, die nicht mehr per OSD angekÃ¼ndigt
 werden sollen.
 
 =head1 BESCHREIBUNG
 
-Diese Datei enthält eine Liste von Sendungen die markiert wurden, sodass diese
-nicht mehr durch den Suchtimer-Hintergrund-Thread per OSD angekündigt werden.
+Diese Datei enthÃ¤lt eine Liste von Sendungen die markiert wurden, sodass diese
+nicht mehr durch den Suchtimer-Hintergrund-Thread per OSD angekÃ¼ndigt werden.
 
-Wenn während der Ankündigung einer Sendung eine der Tasten '0', ... '9' oder
-'Ok' gedrückt wird, wird nachgefragt, ob zukünftige Ankündigungen vollständig
-(bei den Tasten '0'  oder 'Ok') oder nur für die nächsten  x  Tage (bei den
-Tasten '1' bis '9') unterdrückt werden sollen. Bestätigt man diese Abfrage
-durch ein erneutes 'Ok', wird die Einstellung entsprechend übernommen.
+Wenn wÃ¤hrend der AnkÃ¼ndigung einer Sendung eine der Tasten '0', ... '9' oder
+'Ok' gedrÃ¼ckt wird, wird nachgefragt, ob zukÃ¼nftige AnkÃ¼ndigungen vollstÃ¤ndig
+(bei den Tasten '0'  oder 'Ok') oder nur fÃ¼r die nÃ¤chsten  x  Tage (bei den
+Tasten '1' bis '9') unterdrÃ¼ckt werden sollen. BestÃ¤tigt man diese Abfrage
+durch ein erneutes 'Ok', wird die Einstellung entsprechend Ã¼bernommen.
 
 =head1 FORMAT
 
@@ -25,7 +25,7 @@ Folgende Felder existieren:
   2 - Episode
   3 - Kanal-Kennung
   4 - Startzeit
-  5 - Zeitpunkt für nächste Ankündigung
+  5 - Zeitpunkt fÃ¼r nÃ¤chste AnkÃ¼ndigung
 
 =head1 SIEHE AUCH
 
@@ -47,8 +47,8 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT und LIZENZ
 
-Copyright © 2005 - 2007 Christian Wieninger
+Copyright Â© 2005 - 2007 Christian Wieninger
 
 Dieses Dokument wird unter den Bedingungen der Gnu Public License
-(GPL) veröffentlicht. Alle Angaben sind nach bestem Wissen, aber
-natürlich ohne Gewähr (no warranty in any kind).
+(GPL) verÃ¶ffentlicht. Alle Angaben sind nach bestem Wissen, aber
+natÃ¼rlich ohne GewÃ¤hr (no warranty in any kind).

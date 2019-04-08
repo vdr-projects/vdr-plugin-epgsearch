@@ -40,7 +40,7 @@ function man_gen () {
 			echo -ne "create man page: ($1) $(basename "$i" ".txt")..."
 			name=$(echo "$(basename "$i")" | sed -e 's/\.[0-9]\..*$//')
 			sect=$(echo "$i" | sed -e 's/.*\.\([0-9]\)\.txt/\1/')
-			pod2man -c "Epgsearch Version $VERSION" -n "$name" --section="$sect" "$i" >"man/$1/$(basename "$i" ".txt")"
+			pod2man -u -c "Epgsearch Version $VERSION" -n "$name" --section="$sect" "$i" >"man/$1/$(basename "$i" ".txt")"
 			if [ $? -eq 0 ]; then
 				echo " done."
 			else
@@ -80,7 +80,7 @@ if [ $PRINT_DEPS -eq 0 ]; then
 
 		for i in man/$LANGUAGE/*.gz; do
 			echo -ne "create doc file from man page: ($LANGUAGE) $(basename "$i")..."
-			zcat "$i" | nroff -man - | col -xbp > "doc/$LANGUAGE/$(basename "$i" ".gz").txt"
+			zcat "$i" | preconv | nroff -man - | col -xbp > "doc/$LANGUAGE/$(basename "$i" ".gz").txt"
 			echo " done"
 		done
 

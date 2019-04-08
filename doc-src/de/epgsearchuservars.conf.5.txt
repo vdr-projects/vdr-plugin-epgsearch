@@ -5,8 +5,8 @@ F<epgsearchuservars.conf> - Die Uservariablen
 
 =head1 BESCHREIBUNG
 
-In dieser Datei können Variablen definiert werden die dann in epgsearch
-in allen Feldern, in denen Variablen möglich sind, zur Verfügung stehen.
+In dieser Datei kÃ¶nnen Variablen definiert werden die dann in epgsearch
+in allen Feldern, in denen Variablen mÃ¶glich sind, zur VerfÃ¼gung stehen.
 
 =head1 FORMAT
 
@@ -17,7 +17,7 @@ und Sonderzeichen sind nicht erlaubt.
 
 Zwischen Gross-/und Kleinschreibung wird nicht unterscheiden.
 
-Beispiele für mögliche Namen:
+Beispiele fÃ¼r mÃ¶gliche Namen:
 
  %Serie% %DokuVar1% %ThemesSubtitleDate1%
 
@@ -30,23 +30,23 @@ Die Zuweisung eines Wertes erfolgt so:
 Hier wird der Variablen %Serie% die Zeichenkette "Neue Serie~Krimi" zugewiesen.
 
 Es wird immer eine Zeichenkette zugewiesen. Leerzeichen werden daher auch
-als Leerzeichen mit übernommen.
+als Leerzeichen mit Ã¼bernommen.
 
  %Pfad%=%Serie%
 
 Hier wird der Variablen %Pfad% der Inhalt der Variablen %Serie% zugewiesen.
 
-Das lässt sich beliebig verwenden.
+Das lÃ¤sst sich beliebig verwenden.
 
  %Pfad%=%Serie%~Tatort
 
-Pfad enthält hier den String "Neue Serie~Krimi~Tatort".
+Pfad enthÃ¤lt hier den String "Neue Serie~Krimi~Tatort".
 
 =head2 Kontroll-Strukturen
 
-Einfache "if then else" Konstrukte sind mögliche.
+Einfache "if then else" Konstrukte sind mÃ¶gliche.
 
-Innerhalb dieser Konstrukte können keine Strings, wohl aber Variablen
+Innerhalb dieser Konstrukte kÃ¶nnen keine Strings, wohl aber Variablen
 zugwiesen werden. Leerzeichen werden ignoriert.
 
  %Foo%=Verschiedenes
@@ -56,28 +56,28 @@ zugwiesen werden. Leerzeichen werden ignoriert.
 Ist Pfad nicht leer, weise %Variable% den Inhalt aus %Pfad% zu, sonst
 den Inhalt aus %Foo%.
 
-"%Pfad% ?" bedeutet also "nicht leer?". Es sind auch andere Prüfungen
-möglich.
+"%Pfad% ?" bedeutet also "nicht leer?". Es sind auch andere PrÃ¼fungen
+mÃ¶glich.
 
  %Variable%=%Pfad%!=5 ? %Pfad% : %Foo%
 
 "%Pfad%!=5 ?" bedeutet "ist %Pfad% ungleich 5?"
 
-Es können auch Variablen verglichen werden.
+Es kÃ¶nnen auch Variablen verglichen werden.
 
  %Fuenf%=5
 
  %Variable%=%Pfad%!=%Fuenf% ? %Pfad% : %Foo%
 
 
-Folgende Prüfungen sind möglich:
+Folgende PrÃ¼fungen sind mÃ¶glich:
 
  ==   ist gleich
  !=   ist nicht gleich
 
 =head2 Systemaufruf
 
-Es können auch externe Programme/Scripte aufgerufen werden. Die zurück-
+Es kÃ¶nnen auch externe Programme/Scripte aufgerufen werden. Die zurÃ¼ck-
 gegebene Zeichenkette wird dann einer Variablen zugewiesen.
 
  %Ergebnis%=system(scriptname,%Variable1% %Variable2% -f %Variable3% --dir=%Variable4% --dummy)
@@ -86,18 +86,18 @@ Ruft das Script "scriptname" mit den Parametern "%Variable1%",
 "%Variable2%", usw. auf. Das Ergebnis wird der Variablen %Ergebnis%
 zugewiesen.
 
-Es sind beliebig viele Variablen möglich.
+Es sind beliebig viele Variablen mÃ¶glich.
 
-Wenn nötig, umfasst epgsearch die Variablen automatisch mit "".
+Wenn nÃ¶tig, umfasst epgsearch die Variablen automatisch mit "".
 
-Das Script darf nur eine Zeichenkette ohne Zeilenumbruch zurückgeben.
+Das Script darf nur eine Zeichenkette ohne Zeilenumbruch zurÃ¼ckgeben.
 
-Erfolgt keine Rückgabe wird der Variablen %Ergebnis% eine leere Zeichenkette
+Erfolgt keine RÃ¼ckgabe wird der Variablen %Ergebnis% eine leere Zeichenkette
 zugewiesen.
 
-=head2 Verfügbare Variablen
+=head2 VerfÃ¼gbare Variablen
 
-Folgende Variablen sind bereits intern definiert und können verwendet
+Folgende Variablen sind bereits intern definiert und kÃ¶nnen verwendet
 werden.
 
  %title%          - Title der Sendung
@@ -123,10 +123,10 @@ werden.
  %dateshnow%      - Aktuelles Datum im Format TT.MM.
  %timenow%        - Aktuelle Zeit im Format HH:MM
  %videodir%       - VDRs Aufnahme-Verzeichnis (z.B. /video)
- %plugconfdir%    - VDRs Verzeichnis für Plugin-Konfigurationsdateien (z.B. /etc/vdr/plugins)
- %epgsearchdir%   - epgsearchs Verzeichnis für Konfiguratzionsdateien (z.B. /etc/vdr/plugins/epgsearch)
+ %plugconfdir%    - VDRs Verzeichnis fÃ¼r Plugin-Konfigurationsdateien (z.B. /etc/vdr/plugins)
+ %epgsearchdir%   - epgsearchs Verzeichnis fÃ¼r Konfiguratzionsdateien (z.B. /etc/vdr/plugins/epgsearch)
 
-Desweiteren können die in der Datei F<epgsearchcats.conf> definierten Variablen
+Desweiteren kÃ¶nnen die in der Datei F<epgsearchcats.conf> definierten Variablen
 verwendet werden. Siehe dazu C<epgsearchcats.conf(5)>.
 
 =head1 BEISPIELE
@@ -162,16 +162,16 @@ L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
 
 =head1 COPYRIGHT and LIZENZ
 
-Copyright © 2004-2010 Christian Wieninger
+Copyright Â© 2004-2010 Christian Wieninger
 
-Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+Dieses Programm ist freie Software. Sie kÃ¶nnen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
-veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
-der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+verÃ¶ffentlicht, weitergeben und/oder modifizieren, entweder gemÃ¤ÃŸ Version 2
+der Lizenz oder (nach Ihrer Option) jeder spÃ¤teren Version.
 
-Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Die VerÃ¶ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
 Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
-implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÃœR EINEN BESTIMMTEN
 ZWECK. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
@@ -180,7 +180,7 @@ Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307
 Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der Author kann Ã¼ber cwieninger@gmx.de erreicht werden.
 
 Die Projektseite ist http://winni.vdr-developer.org/epgsearch
 
