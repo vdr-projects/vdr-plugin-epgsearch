@@ -164,10 +164,10 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
     hasTimer = timerObj->OrigTimer(Timers) ? timerObj->OrigTimer(Timers)->HasFlags(tfActive) : false;
     if (Force || hasTimer != oldhasTimer) {
         const cTimer* timer = timerObj->timer;
-        char device[2] = "";
+        char device[3] = ""; // compiler warns if MAXDEVICES too big 
         if (hasTimer) {
             if (!timerObj->conflCheckTime && timerObj->device > -1)
-                sprintf(device, "%d", timerObj->device + 1);
+                sprintf(device, "%d", (timerObj->device + 1)&MAXDEVICES);
             else {
                 if (timer->Local())
                     strcpy(device, tr("C"));
@@ -176,7 +176,6 @@ bool cMenuConflictCheckDetailsItem::Update(bool Force)
             }
         }
 
-//  cString buffer = cString::sprintf("%s\t%s\t%d\t%s - %s\t%d\t%s\t%s", hasTimer?">":"", timer->Remote()?timer->Remote():"", timer->Channel()->Number(), TIMESTRING(timerObj->start), TIMESTRING(timerObj->stop), timer->Priority(), device, timer->File());
         cString buffer = cString::sprintf("%s\t%d\t%s - %s\t%d\t%s\t%s", hasTimer ? ">" : "", timer->Channel()->Number(), TIMESTRING(timerObj->start), TIMESTRING(timerObj->stop), timer->Priority(), device, timer->File());
 
         SetText(buffer);
