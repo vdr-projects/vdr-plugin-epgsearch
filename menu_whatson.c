@@ -407,11 +407,9 @@ void cMenuWhatsOnSearch::LoadSchedules()
             if (EPGSearchConfig.showRadioChannels == 0 && ISRADIO(Channel))
                 continue;
 
+            LOCK_SCHEDULES_READ;
             const cSchedule *Schedule;
-            {
-                LOCK_SCHEDULES_READ;
-                Schedule = Schedules->GetSchedule(Channel);
-            }
+            Schedule = Schedules->GetSchedule(Channel);
             const cEvent *Event = NULL;
             if (Schedule) {
                 if (shiftTime != 0)

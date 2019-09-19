@@ -117,11 +117,9 @@ void cMenuSearchMain::PrepareSchedule(const cChannel *Channel)
     eventObjects.Clear();
 
     LOCK_TIMERS_READ;
+    LOCK_SCHEDULES_READ;
     const cSchedule *Schedule;
-    {
-        LOCK_SCHEDULES_READ;
-        Schedule = Schedules->GetSchedule(Channel);
-    }
+    Schedule = Schedules->GetSchedule(Channel);
     currentChannel = Channel->Number();
     if (Schedule && Schedule->Events()->First()) {
         const cEvent *PresentEvent = Schedule->GetPresentEvent();
