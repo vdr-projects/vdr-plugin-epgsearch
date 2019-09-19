@@ -317,8 +317,11 @@ void cMenuSearchMain::SetHelpKeys(bool Force)
 eOSState cMenuSearchMain::Shift(int iMinutes)
 {
     shiftTime += iMinutes;
-    LOCK_CHANNELS_READ;
-    const cChannel *channel = Channels->GetByNumber(currentChannel);
+    const cChannel *channel;
+    {
+        LOCK_CHANNELS_READ;
+        channel = Channels->GetByNumber(currentChannel);
+    }
     PrepareSchedule(channel);
     Display();
     SetHelpKeys();
