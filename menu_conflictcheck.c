@@ -159,15 +159,16 @@ cMenuConflictCheckDetailsItem::cMenuConflictCheckDetailsItem(cConflictCheckTimer
 
 bool cMenuConflictCheckDetailsItem::Update(bool Force)
 {
+#define MAXJFS 4096
     bool oldhasTimer = hasTimer;
     LOCK_TIMERS_READ;
     hasTimer = timerObj->OrigTimer(Timers) ? timerObj->OrigTimer(Timers)->HasFlags(tfActive) : false;
     if (Force || hasTimer != oldhasTimer) {
         const cTimer* timer = timerObj->timer;
-        char device[3] = ""; // compiler warns if MAXDEVICES too big 
+        char device[11] = "";
         if (hasTimer) {
             if (!timerObj->conflCheckTime && timerObj->device > -1)
-                sprintf(device, "%d", (timerObj->device + 1)&MAXDEVICES);
+                sprintf(device, "%d", (timerObj->device + 1));
             else {
                 if (timer->Local())
                     strcpy(device, tr("C"));
