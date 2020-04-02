@@ -1,4 +1,5 @@
 =encoding utf8
+
 =head1 NAME
 
 F<noannounce.conf> - Liste von Sendungen, die nicht mehr per OSD angekündigt

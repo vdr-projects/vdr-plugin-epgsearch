@@ -1,4 +1,5 @@
 =encoding utf8
+
 =head1 NAME
 
 F<epgsearchblacklists.conf> - Die gespeicherten Auschlusslisten-Suchtimer

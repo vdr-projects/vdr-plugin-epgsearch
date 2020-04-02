@@ -1,4 +1,5 @@
 =encoding utf8
+
 =head1 NAME
 
 F<timersdone.conf> - Liste von anstehenden Timern, die von Suchtimern erzeugt

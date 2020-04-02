@@ -1,4 +1,5 @@
 =encoding utf8
+
 =head1 NAME
 
 F<epgsearch> - Suchtimer und Ersatz für VDR's Standard-Programm-Menü

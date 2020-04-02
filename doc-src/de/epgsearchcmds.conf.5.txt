@@ -1,4 +1,5 @@
 =encoding utf8
+
 =head1 NAME
 
 F<epgsearchcmds.conf> - EPG-Befehle
