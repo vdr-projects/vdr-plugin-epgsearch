@@ -63,8 +63,11 @@ VERSION = $(shell grep 'static const char VERSION\[\] *=' $(PLUGIN).c | awk '{ p
 ### The directory environment:
 
 # Use package data if installed...otherwise assume we're under the VDR source directory:
-#PKGCFG   = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell pkg-config --variable=$(1) vdr || pkg-config --variable=$(1) ../../../vdr.pc))
-PKGCFG   = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." pkg-config --variable=$(1) vdr))
+
+PKG_CONFIG ?= pkg-config
+
+#PKGCFG   = $(if $(VDRDIR),$(shell $(PKG_CONFIG) --variable=$(1) $(VDRDIR)/vdr.pc),$(shell $(PKG_CONFIG) --variable=$(1) vdr || $(PKG_CONFIG) --variable=$(1) ../../../vdr.pc))
+PKGCFG   = $(if $(VDRDIR),$(shell $(PKG_CONFIG) --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." $(PKG_CONFIG) --variable=$(1) vdr))
  
 LIBDIR   = $(call PKGCFG,libdir)
 LOCDIR   = $(call PKGCFG,locdir)
@@ -84,9 +87,9 @@ export CXXFLAGS = $(call PKGCFG,cxxflags)
 
 ### configuring modules
 ifeq ($(AUTOCONFIG),1)
-	ifeq (exists, $(shell pkg-config libpcre && echo exists))
+	ifeq (exists, $(shell $(PKG_CONFIG) libpcre && echo exists))
 		REGEXLIB = pcre
-	else ifeq (exists, $(shell pkg-config tre && echo exists))
+	else ifeq (exists, $(shell $(PKG_CONFIG) tre && echo exists))
 		REGEXLIB = tre
 	endif
 	ifeq (exists, $(shell test -e ../pin && echo exists))
@@ -140,10 +143,10 @@ LIBS += $(shell pcre-config --libs-posix)
 INCLUDE += $(shell pcre-config --cflags)
 DEFINES += -DHAVE_PCREPOSIX
 else ifeq ($(REGEXLIB), tre)
-LIBS += -L$(shell pkg-config --variable=libdir tre) $(shell pkg-config --libs tre)
+LIBS += -L$(shell $(PKG_CONFIG) --variable=libdir tre) $(shell $(PKG_CONFIG) --libs tre)
 #LIBS += -L/usr/lib -ltre
 DEFINES += -DHAVE_LIBTRE
-INCLUDE += $(shell pkg-config --cflags tre)
+INCLUDE += $(shell $(PKG_CONFIG) --cflags tre)
 endif
 
 ifdef USE_PINPLUGIN
