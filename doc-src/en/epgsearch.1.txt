@@ -614,6 +614,10 @@ The update interval of the background scan for search timers in minutes.
 
 For VDR versions through 1.7.14, the default SVDRP port was 2001. Starting with vdr-1.7.15 it was changed to 6419. If you want to use a port other than the default, set it here to get the search timers working.
 
+=item - B<Delay threads:>
+
+The start of the Searchtimer-Update Thread and the following Conflict check can be delayed after VDR-Ready between 0 and 300 seconds (Default is 10 secs).
+
 =item - B<Default Priority:>
 
 Default priority of generated timers.

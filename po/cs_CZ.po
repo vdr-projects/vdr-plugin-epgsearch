@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.21\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-06-15 11:15+0200\n"
+"POT-Creation-Date: 2021-01-25 18:04+0100\n"
 "PO-Revision-Date: 2011-10-31 20:21+0200\n"
 "Last-Translator: Radek Stastny <dedkus@gmail.com>\n"
 "Language-Team: Czech <vdr@linuxtv.org>\n"
@@ -342,6 +342,12 @@ msgid "  SVDRP port"
 msgstr ""
 
 msgid "Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."
+msgstr ""
+
+msgid "Delay internal threads ... seconds"
+msgstr ""
+
+msgid "Help$This value delays starting the searchtimer update thread for the given range of seconds"
 msgstr ""
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."

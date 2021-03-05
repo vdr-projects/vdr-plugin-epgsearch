@@ -43,6 +43,7 @@ cEPGSearchConfig::cEPGSearchConfig(void)
     DefLifetime       = Setup.DefaultLifetime;
     DefMarginStart    = Setup.MarginStart;
     DefMarginStop     = Setup.MarginStop;
+    delayThreads      = 10;
     checkTimerConflictsAfterUpdate = 0;
     checkMinPriority = 0;
     checkMinDuration = 0;

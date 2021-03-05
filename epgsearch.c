@@ -639,6 +639,7 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
     if (!strcasecmp(Name, "UseSearchTimers"))  EPGSearchConfig.useSearchTimers = atoi(Value);
     if (!strcasecmp(Name, "UpdateIntervall"))  EPGSearchConfig.UpdateIntervall = atoi(Value);
     if (!strcasecmp(Name, "SVDRPPort"))  EPGSearchConfig.SVDRPPort = atoi(Value);
+    if (!strcasecmp(Name, "DelayThreads"))  EPGSearchConfig.delayThreads = atoi(Value);
     if (!strcasecmp(Name, "CheckTimerConflicts"))  EPGSearchConfig.checkTimerConflictsAfterUpdate = atoi(Value);
     if (!strcasecmp(Name, "CheckTimerConflictsPriority"))  EPGSearchConfig.checkMinPriority = atoi(Value);
     if (!strcasecmp(Name, "CheckTimerConflictsDays"))  EPGSearchConfig.checkMaxDays = atoi(Value);

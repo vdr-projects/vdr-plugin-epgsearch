@@ -206,6 +206,10 @@ void cSearchTimerThread::Action(void)
         LogFile.Log(2, "SearchTimerThread: waiting for VDR to become ready...");
     while (Running() && m_Active && !cPluginEpgsearch::VDR_readyafterStartup)
         Wait.Wait(1000);
+    if (EPGSearchConfig.delayThreads > 0)
+        LogFile.Log(2, "SearchTimerThread: startup delayed %d seconds", EPGSearchConfig.delayThreads);
+    cCondWait::SleepMs(EPGSearchConfig.delayThreads * 1000);
+
 
     time_t nextUpdate = time(NULL);
     while (m_Active && Running()) {

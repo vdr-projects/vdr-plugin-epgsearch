@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-06-15 11:33+0200\n"
+"POT-Creation-Date: 2021-01-25 18:04+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: German <vdr@linuxtv.org>\n"
@@ -373,6 +373,12 @@ msgstr "  SVDRP Port"
 
 msgid "Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."
 msgstr "Die Programmierung neuer Timer oder Timer-Änderungen erfolgt mit SVDRP. Der Vorgabewert hier sollte immer korrekt sein, also nur ändern, wenn man weiß, was man tut."
+
+msgid "Delay internal threads ... seconds"
+msgstr "Verzögerung der internen threads um ... Sekunden"
+
+msgid "Help$This value delays starting the searchtimer update thread for the given range of seconds"
+msgstr "Dieser Wert verzögert das Starten des Suchtimerthreads nach VDR-Start um die angegebenen Sekunden"
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Hier wird die Standard-Priorität für Timer angegeben, die von diesem Plugin erzeugt werden. Dieser Wert kann aber auch bei jeder Suche einzeln gesetzt werden."
@@ -1297,6 +1303,9 @@ msgstr "Umschalten zu (%d) '%s'?"
 
 msgid "Programming timer failed!"
 msgstr "Timer-Programmierung fehlschlagen!"
+
+#~ msgid "Help$This value delays starting the initial searchtimer update thread for the given range of seconds"
+#~ msgstr "Dieser Wert verzögert das erste Starten des Suchtimerthreads um die angegebenen Sekunden"
 
 #~ msgid "Epgsearch: recursive TIMERS LOCK"
 #~ msgstr "Epgsearch: Rekursiver TIMER Lock"

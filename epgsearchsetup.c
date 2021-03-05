@@ -210,6 +210,7 @@ void cMenuEPGSearchSetup::Store(void)
     SetupStore("UseSearchTimers",  EPGSearchConfig.useSearchTimers);
     SetupStore("UpdateIntervall",  EPGSearchConfig.UpdateIntervall);
     SetupStore("SVDRPPort",  EPGSearchConfig.SVDRPPort);
+    SetupStore("DelayThreads",  EPGSearchConfig.delayThreads);
     SetupStore("CheckTimerConflicts",  EPGSearchConfig.checkTimerConflictsAfterUpdate);
     SetupStore("CheckTimerConflictsPriority",  EPGSearchConfig.checkMinPriority);
     SetupStore("CheckTimerConflictsDays",  EPGSearchConfig.checkMaxDays);
@@ -642,6 +643,8 @@ void cMenuSetupSearchtimers::Set()
         AddHelp(tr("Help$Specify here the time intervall to be used when searching for events in the background."));
         Add(new cMenuEditIntItem(tr("  SVDRP port"), &data->SVDRPPort, 1, 99999));
         AddHelp(tr("Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."));
+        Add(new cMenuEditIntItem(tr("Delay internal threads ... seconds"), &data->delayThreads, 0, 300));
+        AddHelp(tr("Help$This value delays starting the searchtimer update thread for the given range of seconds"));
         Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Default priority")), &data->DefPriority, 0, MAXPRIORITY));
         AddHelp(tr("Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."));
         Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Default lifetime (d)")), &data->DefLifetime, 0, MAXLIFETIME));

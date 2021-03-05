@@ -640,6 +640,10 @@ wird.
 Falls nicht der Standard-SVDRP-Port 6419 (2001 vor vdr-1.7.15) verwendet wird, dann bitte
 hier anpassen, damit die Suchtimer funktionieren.
 
+=item - B<Verzögerung der internen Threads:>
+
+Der Start des Suchtimer-Updatethreads und des folgenden Konflikt-Checks kann um 0...300 Sekunden nach VDR-Ready verzögert werden. Default sind 10 Sekunden
+
 =item - B<Priorität, Lebensdauer und Zeitpuffer für Anfang und Ende:>
 
 Voreinstellungen

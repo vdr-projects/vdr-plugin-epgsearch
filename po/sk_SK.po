@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2017-06-15 11:15+0200\n"
+"POT-Creation-Date: 2021-01-25 18:04+0100\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -373,6 +373,12 @@ msgstr "  SVDRP port"
 
 msgid "Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."
 msgstr "Programovanie nových plánov alebo úpravy plánov sa vykonávajú so SVDRP. Predvolená hodnota by mala byť v poriadku, takže ho zmente len vtedy, ak viete, čo robíte."
+
+msgid "Delay internal threads ... seconds"
+msgstr ""
+
+msgid "Help$This value delays starting the searchtimer update thread for the given range of seconds"
+msgstr ""
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Uveďte predvolenú prioritu plánov nahrávania vytvorených s týmto modulom. Túto hodnotu možno upraviť aj pre každé samostatné hľadanie."
