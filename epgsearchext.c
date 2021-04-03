@@ -1424,7 +1424,7 @@ bool cSearchExts::Load(const char *FileName)
             int line = 0;
             char buffer[MAXPARSEBUFFER];
             result = true;
-            while (fgets(buffer, sizeof(buffer), f) > 0) {
+            while (fgets(buffer, sizeof(buffer), f) != 0) {
                 line++;
                 char *p = strchr(buffer, '#');
                 if (p == buffer) *p = 0;
