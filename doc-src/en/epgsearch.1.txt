@@ -339,8 +339,10 @@ compared.
 =item - B<Compare subtitle:>
 
 When comparing to events then specify here if the subtitle should be
-compared. With 'if present' epgsearch will classify two events only as equal if
+compared. With 'yes' epgsearch will classify two events only as equal if
 their episode names match and are not empty.
+With 'allow empty' two events may be equal if both subtitles are empty.
+Normally you would choose "no" in this case.
 
 =item - B<Compare description:>
 

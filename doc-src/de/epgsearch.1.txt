@@ -346,8 +346,10 @@ Titel verglichen werden soll.
 =item - B<Vergleiche Untertitel>
 
 Einstellung, ob beim Test, ob eine Sendung identisch ist, auch der
-Untertitel verglichen werden soll. Bei 'falls vorhanden' stuft epgsearch zwei Sendungen nur dann als
+Untertitel verglichen werden soll. Bei 'ja' stuft epgsearch zwei Sendungen nur dann als
 identisch ein, wenn die Episodennamen gleich sind und nicht leer.
+Bei 'erlaube leere' können auch Sendungen identisch sein, wenn beide Unterttitel leer
+sind. Im Normalfall sollte dann auf "nein" gestellt werden.
 
 =item - B<Vergleiche Beschreibung>
 

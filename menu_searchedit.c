@@ -94,7 +94,8 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
     SearchActiveModes[2] = strdup(tr("user-defined"));
 
     CompareSubtitleModes[0] = strdup(trVDR("no"));
-    CompareSubtitleModes[1] = strdup(tr("if present"));
+    CompareSubtitleModes[1] = strdup(trVDR("yes"));
+    CompareSubtitleModes[2] = strdup(tr("allow empty"));
 
     CompareDateModes[0] = strdup(trVDR("no"));
     CompareDateModes[1] = strdup(tr("same day"));
@@ -336,7 +337,7 @@ void cMenuEditSearchExt::Set()
                 if (data.allowedRepeats > 0)
                     Add(new cMenuEditIntItem(IndentMenuItem(tr("Only repeats within ... days"), 2), &data.repeatsWithinDays, 0, 999));
                 Add(new cMenuEditBoolItem(IndentMenuItem(tr("Compare title"), 2), &data.compareTitle, trVDR("no"), trVDR("yes")));
-                Add(new cMenuEditStraItem(IndentMenuItem(tr("Compare subtitle"), 2), &data.compareSubtitle, 2, CompareSubtitleModes));
+                Add(new cMenuEditStraItem(IndentMenuItem(tr("Compare subtitle"), 3), &data.compareSubtitle, 3, CompareSubtitleModes));
                 Add(new cMenuEditBoolItem(IndentMenuItem(tr("Compare summary"), 2), &data.compareSummary, trVDR("no"), trVDR("yes")));
                 if (data.compareSummary)
                     Add(new cMenuEditIntItem(IndentMenuItem(tr("Min. match in %"), 3), &data.compareSummaryMatchInPercent, 1, 100));
@@ -405,7 +406,7 @@ cMenuEditSearchExt::~cMenuEditSearchExt()
         free(DelModes[i]);
     for (i = 0; i <= 2; i++)
         free(SearchActiveModes[i]);
-    for (i = 0; i <= 1; i++)
+    for (i = 0; i <= 2; i++)
         free(CompareSubtitleModes[i]);
     for (i = 0; i <= 3; i++)
         free(CompareDateModes[i]);

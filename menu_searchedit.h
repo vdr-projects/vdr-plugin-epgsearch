@@ -53,7 +53,7 @@ protected:
     char *BlacklistModes[4];
     char *DelModes[3];
     char *SearchActiveModes[3];
-    char *CompareSubtitleModes[2];
+    char *CompareSubtitleModes[3];
     char *CompareDateModes[4];
     std::vector<int> contentStringIDs;
     int useContentDescriptors;

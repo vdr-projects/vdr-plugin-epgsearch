@@ -1,6 +1,20 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
+2021-04-12
+new:
+- Improved handling of remote timers
+- Replace auto_ptr with unique_ptr for c++11 (kfb77@vdr-portal.de)
+- Delay threads after pluginstart 10 secs (configurable)
+- Changed fgets to allow compiling with clang
+- Clarified "avoid repeats". Forced subtitle-comparison is named "yes" again
+  New option "allow empty"
+fixes:
+- Fixed several lock sequence errors
+- Fix utf-8 encoding in docs and manpages (kfb77 and seahawk1986@vdr-portal.de)
+- Fixed possible format overflow
+- Fixed displaying NAME in generated manpages thanks to etobi
+
 2018-04-16; Version 2.4.0
 new:
 - Create man pages only once. by jasminj@vdr-portal.de

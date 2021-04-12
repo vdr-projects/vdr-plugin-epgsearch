@@ -341,7 +341,8 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
         }
 
         if ((!compareTitle || rTitle == eTitle) &&
-            (!compareSubtitle || (rSubtitle == eSubtitle && rSubtitle != "")) &&
+            (!compareSubtitle || (rSubtitle == eSubtitle &&
+                (compareSubtitle==2 || rSubtitle != ""))) &&
             (!compareSummary || DescriptionMatches(eRawDescr.c_str(), rRawDescr.c_str(), matchLimit)) &&
             (catvaluesAvoidRepeat == 0 || CatValuesMatch(catvaluesAvoidRepeat, rDescr, eDescr)) &&
             (compareExpression.size() == 0 || MatchesInExpression(compareExpression, recDone, event))) {

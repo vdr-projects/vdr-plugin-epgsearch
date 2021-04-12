@@ -616,7 +616,11 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
 
     bool match = false;
     if ((!compareTitle || Title1 == Title2) &&
-        (!compareSubtitle || (Subtitle1 == Subtitle2 && Subtitle1 != ""))) {
+        // try if we don't compare Title or Title is equal
+        (!compareSubtitle ||
+            (Subtitle1 == Subtitle2 && (compareSubtitle==2 || Subtitle1 != "")))) {
+        // try if we don't compare Subtitle or Subtitle is equal
+        // and not empty in case compareSubtitle is set to "yes"
         const char* Descr1    = event1->Description();
         const char* Descr2    = event2->Description();
         if (compareSummary) {

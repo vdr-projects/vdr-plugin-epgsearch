@@ -70,7 +70,7 @@ is B<':'>:
  32 - compare subtitle when testing for a repeat? 0/1/2
       0 - no
       1 - yes
-      2 - yes, if present
+      2 - yes or both empty
  33 - compare description when testing for a repeat? 0/1
  34 - compare extended EPG info when testing for a repeat?
       This entry is a bit field of the category IDs.
