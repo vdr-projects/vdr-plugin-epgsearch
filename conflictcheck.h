@@ -115,6 +115,14 @@ public:
             prio = std::max(prio, (*it)->timer->Priority());
         return prio;
     };
+    bool HasInternalCam(void) {
+        if (device) return device->HasInternalCam();
+        else return false;
+    }
+    int NumProvidedSystems(void) const {
+        if (device) return device->NumProvidedSystems();
+        else return 1;
+    }
     int CardIndex(void) const {
         if (device) return device->CardIndex();
         else return devicenr;
