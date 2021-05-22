@@ -194,8 +194,8 @@ ALGORITHM
 ******************************************************************************/
 int afuzzy_checkSUB(const char *t, AFUZZY *fuzzy)
 {
-    register char c;
-    register int j, d;
+    char c;
+    int j, d;
 
     /* For eficciency this case should be little bit optimized */
     if (!fuzzy->k) {
@@ -207,7 +207,7 @@ int afuzzy_checkSUB(const char *t, AFUZZY *fuzzy)
 
             if (R1 & fuzzy->mask_ok)
                 return 1;
-        } /* end for (register int j = 0 ... */
+        } /* end for (int j = 0 ... */
         return 0;
     }
 
@@ -229,16 +229,16 @@ int afuzzy_checkSUB(const char *t, AFUZZY *fuzzy)
 
         memcpy(fuzzy->R, fuzzy->R1, fuzzy->r_size);
 
-    } /* end for (register int j = 0 ... */
+    } /* end for (int j = 0 ... */
 
     return 0;
 }
 
 static int afuzzy_checkFLT(const char *t, AFUZZY *fuzzy)
 {
-    register Uint FilterR = 0;
-    register Uint FilterR1;
-    register int j;
+    Uint FilterR = 0;
+    Uint FilterR1;
+    int j;
 
     for (j = 0; t[j] != '\0'; j++) {
         FilterR1 = (((FilterR << (fuzzy->k + 1)) | fuzzy->filter_shift) &
@@ -246,7 +246,7 @@ static int afuzzy_checkFLT(const char *t, AFUZZY *fuzzy)
         if (FilterR1 & fuzzy->filter_ok)
             return 1;
         FilterR = FilterR1;
-    } /* end for (register int j = 0 ... */
+    } /* end for (int j = 0 ... */
 
     return 0;
 }

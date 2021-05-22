@@ -70,7 +70,7 @@ public:
 class TimerObjSort
 {
 public:
-    bool operator()(cConflictCheckTimerObj* a, cConflictCheckTimerObj* b) {
+    bool operator()(const cConflictCheckTimerObj* a, const cConflictCheckTimerObj* b) const {
         return (a->Compare(*b) < 0);
     }
 };
