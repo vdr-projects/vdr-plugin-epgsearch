@@ -235,7 +235,7 @@ bool cMenuMyScheduleItem::Update(const cTimers* Timers, bool Force)
 void cMenuMyScheduleItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
     bool withDate = (channel == NULL); // search for a better way to determine this
-    if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, withDate, timerMatch))
+    if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, withDate, timerMatch, timerActive))
         DisplayMenu->SetItem(Text(), Index, Current, Selectable);
 }
 
@@ -271,7 +271,7 @@ bool cMenuMyScheduleSepItem::Update(const cTimers *Timers, bool Force)
 void cMenuMyScheduleSepItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
     bool withDate = (channel == NULL); // search for a better way to determine this
-    if (!DisplayMenu->SetItemEvent(dummyEvent, Index, Current, Selectable, channel, withDate, timerMatch))
+    if (!DisplayMenu->SetItemEvent(dummyEvent, Index, Current, Selectable, channel, withDate, timerMatch, timerActive))
         DisplayMenu->SetItem(Text(), Index, Current, Selectable);
 }
 

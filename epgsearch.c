@@ -26,6 +26,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
  *
  */
 
+#define DISABLE_TEMPLATES_COLLIDING_WITH_STL
 #include <vector>
 #include <vdr/plugin.h>
 #include <vdr/status.h>
