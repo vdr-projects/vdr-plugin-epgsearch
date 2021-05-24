@@ -1,6 +1,14 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
+2021-05-24; Version 2.4.1
+fixes:
+- Fixed conflictcheck for encrypted channels with internal CAMs
+- Fixed compiling with gcc11
+- Updated deprecated calls to SetItemEvent
+- Temporally(?) added #define DISABLE_TEMPLATES_COLLIDING_WITH_STL for
+  compatibility with vdr 2.5.4
+
 2021-04-12
 new:
 - Improved handling of remote timers

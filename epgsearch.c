@@ -74,7 +74,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #error "VDR-2.3.6 API version or greater is required!"
 #endif
 
-static const char VERSION[]        = "2.4.0";
+static const char VERSION[]        = "2.4.1";
 static const char DESCRIPTION[]    =  trNOOP("search the EPG for repeats and more");
 
 // globals
