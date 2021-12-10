@@ -704,10 +704,11 @@ int cConflictCheck::GetDevice(cConflictCheckTimerObj* TimerObj, bool* NeedsDetac
                 imp |= devices[i].Receiving();
                 // do we have GetClippedNumProvidedSystems ???  uses MaxNumProvidedSystems in vdr since V1.7 !!
                 // but should not be needed
-                imp <<= 2;
-                imp |= devices[i].NumProvidedSystems(); // avoid cards which support multiple delivery systems
-                // imp <<= 2;
-                // imp |= GetClippedNumProvidedSystems(2, device[i]) - 1;  // avoid cards which support multiple delivery systems
+                imp <<= 5; // headroom for 31 Systems
+                int ProvidedSystems=devices[i].NumProvidedSystems();
+                if (ProvidedSystems <= 0)  // invalid return
+                    ProvidedSystems = 1;
+                imp |= std::min(ProvidedSystems,31); // avoid cards which support multiple delivery systems
                 // use the device with the lowest priority (+MAXPRIORITY to assure that values -99..99 can be used)
                 imp <<= 8;
                 imp |= std::min(std::max(devices[i].Priority() + MAXPRIORITY, 0), 0xFF);
