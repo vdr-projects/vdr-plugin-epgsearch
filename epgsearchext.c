@@ -566,7 +566,7 @@ bool cSearchExt::Parse(const char *s)
                     compareTitle = atoi(value);
                     break;
                 case 32:
-                    compareSubtitle = atoi(value) > 0 ? 1 : 0;
+                    compareSubtitle = atoi(value);
                     break;
                 case 33:
                     compareSummary = atoi(value);
