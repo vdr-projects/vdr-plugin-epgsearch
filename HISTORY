@@ -1,6 +1,16 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
+2022-01-30
+new:
+- Allow missing timer-Object in Recording-Done-Processing
+  (vdr > 2.5.x compatibility)
+
+2021-12-10
+fixes:
+- Wrong device selection for conflict check
+- compareSubtitle supports more than 2 values
+
 2021-05-24; Version 2.4.1
 fixes:
 - Fixed conflictcheck for encrypted channels with internal CAMs

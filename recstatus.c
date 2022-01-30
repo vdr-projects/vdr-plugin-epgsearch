@@ -47,12 +47,12 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
         if (EPGSearchConfig.checkTimerConflOnRecording)
             cConflictCheckThread::Init((cPluginEpgsearch*)cPluginManager::GetPlugin("epgsearch"), true);
 
-        LOCK_TIMERS_READ;
+        LOCK_TIMERS_READ; // already set (thread is vdr-main)
         for (const cTimer *ti = Timers->First(); ti; ti = Timers->Next(ti))
             if (ti->Recording()) {
                 // check if this is a new entry
                 cRecDoneTimerObj *tiRFound = NULL;
-                cMutexLock TimersRecordingLock(&TimersRecording);
+                cMutexLock TimersRecordingLock(&TimersRecording); // lock after TIMERS
                 for (cRecDoneTimerObj *tiR = TimersRecording.First(); tiR; tiR = TimersRecording.Next(tiR))
                     if (tiR->timer == ti) {
                         tiRFound = tiR;
@@ -61,7 +61,7 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
 
                 if (tiRFound) { // already handled, perhaps a resume
                     if (tiRFound->lastBreak > 0 && now - tiRFound->lastBreak <= ALLOWED_BREAK_INSECS) {
-                        LogFile.Log(1, "accepting resume of '%s' on device %d", Name, Device->CardIndex());
+                        LogFile.Log(1, "assuming resume of '%s' on device %d", Name, Device->CardIndex());
                         tiRFound->lastBreak = 0;
                     }
                     continue;
@@ -70,8 +70,9 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                 cRecDoneTimerObj* timerObj = new cRecDoneTimerObj(ti, Device->DeviceNumber());
                 TimersRecording.Add(timerObj);
 
+                // ignore if not avoid repeats and no auto-delete
                 cSearchExt* search = TriggeredFromSearchTimer(ti);
-                if (!search || (search->avoidRepeats == 0 && search->delMode == 0)) // ignore if not avoid repeats and no auto-delete
+                if (!search || (search->avoidRepeats == 0 && search->delMode == 0))
                     continue;
 
                 bool vpsUsed = ti->HasFlags(tfVps) && ti->Event() && ti->Event()->Vps();
@@ -87,11 +88,14 @@ void cRecStatusMonitor::Recording(const cDevice *Device, const char *Name, const
                     continue;
                 }
                 time_t now = time(NULL);
+                timerObj->recDone = new cRecDone(ti, event, search, Filename);
+                LogFile.Log(3, "epgsearch: created recDone for %s",Filename);
                 if (vpsUsed || now < ti->StartTime() + 60) { // allow a delay of one minute
-                    timerObj->recDone = new cRecDone(ti, event, search);
                     return;
-                } else
+                } else {
+                    timerObj->lastBreak = -1; // mark as incomplete
                     LogFile.Log(1, "recording started too late! will be ignored");
+                }
             }
     }
 

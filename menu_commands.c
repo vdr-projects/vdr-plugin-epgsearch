@@ -182,7 +182,7 @@ eOSState cMenuSearchCommands::MarkAsRecorded(void)
         return osContinue;
     cTimer* dummyTimer = new cTimer(event);
     cMutexLock RecsDoneLock(&RecsDone);
-    RecsDone.Add(new cRecDone(dummyTimer, event, search));
+    RecsDone.Add(new cRecDone(dummyTimer, event, search, "Unused"));
     RecsDone.Save();
     delete dummyTimer;
     return osBack;

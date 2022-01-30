@@ -48,15 +48,20 @@ cRecDone::cRecDone()
     buffer = NULL;
     searchID = -1;
     rawdescription = NULL;
+    fileName = NULL;
 }
 
-cRecDone::cRecDone(const cTimer* Timer, const cEvent* Event, cSearchExt* Search)
+cRecDone::cRecDone(const cTimer* Timer, const cEvent* Event, cSearchExt* Search, const char* Name)
 {
     title = shortText = description = aux = rawdescription = NULL;
     startTime = 0;
+    timerStart = 0;
+    timerStop = 0;
+    vpsused = false;
     duration = 0;
     searchID = Search ? Search->ID : -1;
     buffer = NULL;
+    fileName = strdup(Name);
 
     if (Event) {
         if (Event->Title())
@@ -71,6 +76,9 @@ cRecDone::cRecDone(const cTimer* Timer, const cEvent* Event, cSearchExt* Search)
             channelID = Timer->Channel()->GetChannelID();
             if (!isempty(Timer->Aux()))
                 aux = strdup(Timer->Aux());
+            timerStart = Timer->StartTime();
+            timerStop = Timer->StopTime();
+            vpsused = Timer->HasFlags(tfVps) && Event->Vps();
         } else {
             channelID = tChannelID::InvalidID;
             aux = NULL;
@@ -103,6 +111,10 @@ cRecDone::~cRecDone()
     if (aux) {
         free(aux);
         aux = NULL;
+    }
+    if (fileName) {
+        free(fileName);
+        fileName = NULL;
     }
 
 }
