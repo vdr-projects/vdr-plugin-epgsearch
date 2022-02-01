@@ -650,6 +650,11 @@ Der Start des Suchtimer-Updatethreads und des folgenden Konflikt-Checks kann um 
 
 Voreinstellungen
 
+=item - B<Erlaubte Fehler:>
+
+Erlaubte Aufnahmefehler, bevor eine Aufnahme als unvollständig gekennzeichnet
+wird (nicht verfügbar in vdr 2.4)
+
 =item - B<Keine Ankündigung bei Wiedergabe:>
 
 zum Unterdrücken von Sendungs-Ankündigungen während einer aktiven Wiedergabe.
@@ -975,7 +980,9 @@ aufgenommen, die bezüglich der Timerangaben korrekt begonnen und auch
 beendet wurden. D.h. dass teilweise unvollständige Aufnahmen nicht
 registriert werden und somit beim nächsten Suchtimer-Update
 automatisch ein neuer Timer für diese Sendung erzeugt wird, falls
-gefunden.
+gefunden. Seit vdr 2.5.x werden auch Aufnahmen mit Fehlern nicht
+registriert. Möchte man eine bestimmte Anzahl von Aufnahmefehlern
+zulassen, kann der Wert für "Erlaubte Fehler" hochgesetzt werden.
 
 B<Wie verwenden?>
 

@@ -94,6 +94,9 @@ cEPGSearchConfig::cEPGSearchConfig(void)
     sendMailOnSearchtimers = 0;
     sendMailOnConflicts = 0;
     RemoteConflictCheck = 0;
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+    AllowedErrors = 0;
+#endif
 }
 
 cShowMode& cShowMode::operator= (const cShowMode &ShowMode)

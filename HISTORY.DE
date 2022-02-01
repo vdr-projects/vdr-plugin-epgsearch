@@ -1,8 +1,10 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 
-2022-01-30
+2022-02-01
 neu:
+- Evaluate vdr's Errorcount (vdr > 2.5.x)
+  New config "Allowed Errors (Erlaubte Fehler)"
 - Allow missing timer-Object in Recording-Done-Processing
   (vdr > 2.5.x compatibility)
 

@@ -113,6 +113,9 @@ public:
     int DefLifetime;
     int DefMarginStart;
     int DefMarginStop;
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+    int AllowedErrors;
+#endif
     int checkTimerConflictsAfterUpdate;
     int checkMinPriority;
     int checkMinDuration;

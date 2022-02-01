@@ -135,7 +135,7 @@ item. There are 8 built-in commands:
    Search the recordings for a broadcast with the same name
 
  - Mark as 'already recorded':
-   This puts the selected event in the file epgsearchdone.data and instructs
+   This puts the selected event into the file epgsearchdone.data and instructs
    epgsearch to avoid recording this event if an according search timer is set
    to "avoid repeats". An already created timer will be automatically removed
    with the next search timer update.
@@ -632,6 +632,11 @@ Default lifetime of generated timers.
 
 Default margins of generated timers.
 
+=item - B<Allowed Errors:>
+
+Allowed errors before a recording is marked as incomplete.
+(not available in vdr 2.4)
+
 =item - B<No announcements when replaying:>
 
 suppress event announcements while any replay is active.
@@ -931,7 +936,9 @@ calling 'show recordings done' in the 'actions' of the searches menu.
 This file only stores info about recordings that are complete,
 i.e. that started and stopped just in time. So a broken recording will
 not be stored in this file and epgsearch will automatically try to
-record the next repeat, if there is any.
+record the next repeat, if there is any. Starting with vdr 2.5.x also
+recordings with errors are not stored. If you would like to allow a
+certain amount of errors, you can raise the value of "Allowd Errors".
 
 B<How to use it?>
 

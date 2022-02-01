@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-04-12 13:50+0200\n"
+"POT-Creation-Date: 2022-01-31 14:45+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: German <vdr@linuxtv.org>\n"
@@ -392,6 +392,12 @@ msgstr "Hier wird die Standard-Vorlaufzeit für Timer angegeben, die von diesem 
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Hier wird die Standard-Nachlaufzeit für Timer angegeben, die von diesem Plugin erzeugt werden. Dieser Wert kann aber auch bei jeder Suche einzeln gesetzt werden."
 
+msgid "AllowedErrors"
+msgstr "Erlaubte Fehler"
+
+msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgstr "Erlaubte Aufnahmefehler bevor eine Aufnahme als unvollständig betrachtet wird"
+
 msgid "No announcements when replaying"
 msgstr "Keine Ankündigungen bei Wiedergabe"
 
@@ -622,10 +628,10 @@ msgid "No new events to announce."
 msgstr "Keine neuen Sendungen anzukündigen."
 
 msgid "This version of EPGSearch does not support this service!"
-msgstr ""
+msgstr "Diese Version unterstützt diesen service nicht!"
 
 msgid "EPGSearch does not exist!"
-msgstr ""
+msgstr "EPGSearch nicht vorhanden"
 
 #, c-format
 msgid "%d new broadcast"
@@ -761,7 +767,7 @@ msgid "Button$Templates"
 msgstr "Vorlagen"
 
 msgid "*** Invalid Channel ***"
-msgstr ""
+msgstr "*** Ungültiger Kanal ***"
 
 msgid "Please check channel criteria!"
 msgstr "Bitte Senderkriterien prüfen!"
@@ -842,7 +848,7 @@ msgid "Button$Level"
 msgstr "Ebene"
 
 msgid "Event"
-msgstr ""
+msgstr "Ereignis"
 
 msgid "Favorites"
 msgstr "Favoriten"
@@ -857,7 +863,7 @@ msgid "Directory"
 msgstr "Verzeichnis"
 
 msgid "Channel"
-msgstr ""
+msgstr "Kanal"
 
 msgid "Childlock"
 msgstr "Kindersicherung"
@@ -905,7 +911,7 @@ msgid "Button$Delete all"
 msgstr "Alle löschen"
 
 msgid "Recordings"
-msgstr ""
+msgstr "Aufnahmen"
 
 msgid "Edit$Delete entry?"
 msgstr "Eintrag löschen?"
@@ -1230,7 +1236,7 @@ msgid "found recordings"
 msgstr "gefundene Aufnahmen"
 
 msgid "Error while accessing recording!"
-msgstr ""
+msgstr "Fehler beim Zugriff auf Aufnahme!"
 
 msgid "Button$Default"
 msgstr "Standard"
@@ -1263,7 +1269,7 @@ msgid "Edit template"
 msgstr "Vorlage editieren"
 
 msgid "Timers"
-msgstr ""
+msgstr "Timer"
 
 msgid ">>> no info! <<<"
 msgstr ">>> keine Info! <<<"
@@ -1303,6 +1309,9 @@ msgstr "Umschalten zu (%d) '%s'?"
 
 msgid "Programming timer failed!"
 msgstr "Timer-Programmierung fehlschlagen!"
+
+#~ msgid "Help$Specify here the allowed reception errors before a recording is marked incomplete"
+#~ msgstr "Erlaubte Aufnahmefehler bevor eine Aufnahme als unvollständig betrachtet wird"
 
 #~ msgid "if present"
 #~ msgstr "wenn vorhanden"

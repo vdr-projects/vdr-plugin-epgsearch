@@ -668,6 +668,9 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
     if (!strcasecmp(Name, "DefLifetime"))  EPGSearchConfig.DefLifetime = atoi(Value);
     if (!strcasecmp(Name, "DefMarginStart"))  EPGSearchConfig.DefMarginStart = atoi(Value);
     if (!strcasecmp(Name, "DefMarginStop"))  EPGSearchConfig.DefMarginStop = atoi(Value);
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+    if (!strcasecmp(Name, "AllowedErrors"))  EPGSearchConfig.AllowedErrors = atoi(Value);
+#endif
 
     if (!strcasecmp(Name, "IgnorePayTV"))  EPGSearchConfig.ignorePayTV = atoi(Value);
 

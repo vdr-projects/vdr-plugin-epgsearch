@@ -229,6 +229,9 @@ void cMenuEPGSearchSetup::Store(void)
 
     SetupStore("NoAnnounceWhileReplay",  EPGSearchConfig.noAnnounceWhileReplay);
     SetupStore("TimerProgRepeat",  EPGSearchConfig.TimerProgRepeat);
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+    SetupStore("AllowedErrors",  EPGSearchConfig.AllowedErrors);
+#endif
 
     SetupStore("TimeIntervallFRFF",  EPGSearchConfig.timeShiftValue);
     SetupStore("ToggleGreenYellow",  EPGSearchConfig.toggleGreenYellow);
@@ -653,6 +656,10 @@ void cMenuSetupSearchtimers::Set()
         AddHelp(tr("Help$Specify here the default start recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."));
         Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at stop (min)")), &data->DefMarginStop));
         AddHelp(tr("Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."));
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+        Add(new cMenuEditIntItem(IndentMenuItem(tr("AllowedErrors")), &data->AllowedErrors));
+        AddHelp(tr("Specify here the allowed reception errors before a recording is marked incomplete"));
+#endif
         Add(new cMenuEditBoolItem(IndentMenuItem(tr("No announcements when replaying")), &data->noAnnounceWhileReplay, trVDR("no"), trVDR("yes")));
         AddHelp(tr("Help$Set this to 'yes' if you don't like to get any announcements of broadcasts if you currently replay anything."));
         Add(new cMenuEditBoolItem(IndentMenuItem(tr("Recreate timers after deletion")), &data->TimerProgRepeat, trVDR("no"), trVDR("yes")));

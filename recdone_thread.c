@@ -24,6 +24,7 @@ Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 #endif
 #include "recdone_thread.h"
 #include "recdone.h"
+#include "epgsearchcfg.h"
 
 #include <vdr/tools.h>
 #include <vdr/plugin.h>
@@ -114,6 +115,9 @@ void cRecdoneThread::Action(void)
                 bool complete = true;
                 cSearchExt* search = SearchExts.GetSearchFromID(tiR->recDone->searchID);
                 int recFraction = 100;
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+                int recordingErrors = 0;
+#endif
                 time_t stopTime = found ? tiR->timer->StopTime() : tiR->recDone->timerStop;
 
                 if (tiR->lastBreak == -1 || !search) { // started too late or missing searchID
@@ -132,13 +136,33 @@ void cRecdoneThread::Action(void)
                             recLen = RecLengthInSecs(pRecording);
                             recFraction = double(recLen) * 100 / timerLengthSecs;
                         }
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+                        if (pRecording) {
+                            const cRecordingInfo *Info = pRecording->Info();
+                            recordingErrors = Info->Errors();
+                            if (recordingErrors)
+                                LogFile.Log(2, "Recording had %d errors", recordingErrors);
+                        }
+#endif
                     }
                     bool vpsUsed = found ? tiR->timer->HasFlags(tfVps) && tiR->timer->Event() && tiR->timer->Event()->Vps():tiR->recDone->vpsused;
                     if ((!vpsUsed && now < stopTime) || recFraction < (vpsUsed ? 90 : 98)) { // assure timer has reached its end or at least 98% were recorded
                         complete = false;
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+                        LogFile.Log(1, "finished: '%s' (not complete! - recorded only %d%% %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
+                        dsyslog("epgsearch: finished: '%s' (not complete! - recorded only %d%% %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
+#else
                         LogFile.Log(1, "finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, search->search, vpsUsed ? "Yes" : "No");
                         dsyslog("epgsearch: finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, search->search, vpsUsed ? "Yes" : "No");
+#endif
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+                    } else  if (recordingErrors > EPGSearchConfig.AllowedErrors) {
+                            complete = false;  // reception errors
+                            LogFile.Log(1, "finished: '%s' but %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
+                            dsyslog("epgsearch: finished: '%s' but %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
+#endif
                     } else {
+                        // recording complete
                         LogFile.Log(1, "finished: '%s' (complete); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, search->search, vpsUsed ? "Yes" : "No");
                         if (recFraction < 100) {
                             LogFile.Log(2, "recorded %d%%'", recFraction);
