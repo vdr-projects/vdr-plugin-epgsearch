@@ -110,86 +110,90 @@ void cRecdoneThread::Action(void)
             }
 
             LogFile.Log(2, "recdone: processing tiR for %s",tiR->recDone->fileName);
-            if (strcmp(tiR->recDone->fileName,m_filename) == 0) {
-                // we have the correct entry for the check
-                bool complete = true;
-                cSearchExt* search = SearchExts.GetSearchFromID(tiR->recDone->searchID);
-                int recFraction = 100;
-#if defined(APIVERSNUM) && APIVERSNUM > 20503
-                int recordingErrors = 0;
-#endif
-                time_t stopTime = found ? tiR->timer->StopTime() : tiR->recDone->timerStop;
+            if (strcmp(tiR->recDone->fileName,m_filename) != 0) {
+                LogFile.Log(3, "recdone: tiR not the same filename");
+                tiR = TimersRecording.Next(tiR);
+                continue;
+            }
 
-                if (tiR->lastBreak == -1 || !search) { // started too late or missing searchID
-                    LogFile.Log(2, "started too late : '%s' or missing searchID %d", found?tiR->timer->File():m_filename, tiR->recDone->searchID);
-                    tiR->lastBreak = 0; // triggers deletion
-                }
-                else {
-                    // check if recording length is as expected
-                    const cRecording *pRecording;
-                    {
-                        LOCK_RECORDINGS_READ;
-                        pRecording = Recordings->GetByName(m_filename);
-                        long timerLengthSecs = found ? tiR->timer->StopTime() - tiR->timer->StartTime() : tiR->recDone->timerStop - tiR->recDone->timerStart;
-                        int recLen = 0;
-                        if (pRecording && timerLengthSecs) {
-                            recLen = RecLengthInSecs(pRecording);
-                            recFraction = double(recLen) * 100 / timerLengthSecs;
-                        }
+            // we have the correct entry for the check
+            bool complete = true;
+            cSearchExt* search = SearchExts.GetSearchFromID(tiR->recDone->searchID);
+            int recFraction = 100;
 #if defined(APIVERSNUM) && APIVERSNUM > 20503
-                        if (pRecording) {
-                            const cRecordingInfo *Info = pRecording->Info();
-                            recordingErrors = Info->Errors();
-                            if (recordingErrors)
-                                LogFile.Log(2, "Recording had %d errors", recordingErrors);
-                        }
+            int recordingErrors = 0;
 #endif
+            time_t stopTime = found ? tiR->timer->StopTime() : tiR->recDone->timerStop;
+
+            if (tiR->lastBreak == -1 || !search) { // started too late or missing searchID
+                LogFile.Log(2, "started too late : '%s' or missing searchID %d", found?tiR->timer->File():m_filename, tiR->recDone->searchID);
+                tiR->lastBreak = 0; // triggers deletion
+            }
+            else {
+                // check if recording length is as expected
+                const cRecording *pRecording;
+                {
+                    LOCK_RECORDINGS_READ;
+                    pRecording = Recordings->GetByName(m_filename);
+                    long timerLengthSecs = found ? tiR->timer->StopTime() - tiR->timer->StartTime() : tiR->recDone->timerStop - tiR->recDone->timerStart;
+                    int recLen = 0;
+                    if (pRecording && timerLengthSecs) {
+                        recLen = RecLengthInSecs(pRecording);
+                        recFraction = double(recLen) * 100 / timerLengthSecs;
                     }
-                    bool vpsUsed = found ? tiR->timer->HasFlags(tfVps) && tiR->timer->Event() && tiR->timer->Event()->Vps():tiR->recDone->vpsused;
-                    if ((!vpsUsed && now < stopTime) || recFraction < (vpsUsed ? 90 : 98)) { // assure timer has reached its end or at least 98% were recorded
-                        complete = false;
 #if defined(APIVERSNUM) && APIVERSNUM > 20503
-                        LogFile.Log(1, "finished: '%s' (not complete! - recorded only %d%% %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
-                        dsyslog("epgsearch: finished: '%s' (not complete! - recorded only %d%% %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
+                    if (pRecording) {
+                        const cRecordingInfo *Info = pRecording->Info();
+                        recordingErrors = Info->Errors();
+                        if (recordingErrors)
+                            LogFile.Log(2, "Recording had %d errors", recordingErrors);
+                    }
+#endif
+                }
+                bool vpsUsed = found ? tiR->timer->HasFlags(tfVps) && tiR->timer->Event() && tiR->timer->Event()->Vps():tiR->recDone->vpsused;
+                if ((!vpsUsed && now < stopTime) || recFraction < (vpsUsed ? 90 : 98)) { // assure timer has reached its end or at least 98% were recorded
+                    complete = false;
+#if defined(APIVERSNUM) && APIVERSNUM > 20503
+                    LogFile.Log(1, "finished: '%s' (not complete! - recorded only %d%% %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
+                    dsyslog("epgsearch: finished: '%s' (not complete! - recorded only %d%% %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
 #else
-                        LogFile.Log(1, "finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, search->search, vpsUsed ? "Yes" : "No");
-                        dsyslog("epgsearch: finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, search->search, vpsUsed ? "Yes" : "No");
+                    LogFile.Log(1, "finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, search->search, vpsUsed ? "Yes" : "No");
+                    dsyslog("epgsearch: finished: '%s' (not complete! - recorded only %d%%); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recFraction, search->search, vpsUsed ? "Yes" : "No");
 #endif
 #if defined(APIVERSNUM) && APIVERSNUM > 20503
-                    } else  if (recordingErrors > EPGSearchConfig.AllowedErrors) {
-                            complete = false;  // reception errors
-                            LogFile.Log(1, "finished: '%s' but %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
-                            dsyslog("epgsearch: finished: '%s' but %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
+                } else  if (recordingErrors > EPGSearchConfig.AllowedErrors) {
+                        complete = false;  // reception errors
+                        LogFile.Log(1, "finished: '%s' but %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
+                        dsyslog("epgsearch: finished: '%s' but %d errors); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, recordingErrors, search->search, vpsUsed ? "Yes" : "No");
 #endif
-                    } else {
-                        // recording complete
-                        LogFile.Log(1, "finished: '%s' (complete); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, search->search, vpsUsed ? "Yes" : "No");
-                        if (recFraction < 100) {
-                            LogFile.Log(2, "recorded %d%%'", recFraction);
-                            dsyslog("epgsearch: finished: '%s' (complete) recorded %d%%", found?tiR->timer->File():m_filename, (recFraction<100) ? recFraction : 100);
-                        }
-                        else
-                            dsyslog("epgsearch: finished: '%s' (complete)", found?tiR->timer->File():m_filename);
+                } else {
+                    // recording complete
+                    LogFile.Log(1, "finished: '%s' (complete); search timer: '%s'; VPS used: %s", found?tiR->timer->File():m_filename, search->search, vpsUsed ? "Yes" : "No");
+                    if (recFraction < 100) {
+                        LogFile.Log(2, "recorded %d%%'", recFraction);
+                        dsyslog("epgsearch: finished: '%s' (complete) recorded %d%%", found?tiR->timer->File():m_filename, (recFraction<100) ? recFraction : 100);
                     }
-                    if (complete) { // add to epgsearchdone.data
-                        RecsDone.Add(tiR->recDone);
-                        LogFile.Log(1, "added rec done for '%s~%s';%s", tiR->recDone->title ? tiR->recDone->title : "unknown title",
-                                    tiR->recDone->shortText ? tiR->recDone->shortText : "unknown subtitle",
-                                    search->search);
-                        RecsDone.Save();
-                        tiR->recDone = NULL; // prevent deletion (now in RecsDone)
-                        tiR->lastBreak = 0;
-
-                        // check for search timers to delete automatically
-                        SearchExts.CheckForAutoDelete(search);
-
-                        // trigger a search timer update (skip running events)
-                        search->skipRunningEvents = true;
-                        updateForced = 1;
-                    } else if (tiR->lastBreak == 0) // not complete: assure break is set
-                        tiR->lastBreak = now;
+                    else
+                        dsyslog("epgsearch: finished: '%s' (complete)", found?tiR->timer->File():m_filename);
                 }
-            } // handled only tiR with correct filename
+                if (complete) { // add to epgsearchdone.data
+                    RecsDone.Add(tiR->recDone);
+                    LogFile.Log(1, "added rec done for '%s~%s';%s", tiR->recDone->title ? tiR->recDone->title : "unknown title",
+                                tiR->recDone->shortText ? tiR->recDone->shortText : "unknown subtitle",
+                                search->search);
+                    RecsDone.Save();
+                    tiR->recDone = NULL; // prevent deletion (now in RecsDone)
+                    tiR->lastBreak = 0;
+
+                    // check for search timers to delete automatically
+                    SearchExts.CheckForAutoDelete(search);
+
+                    // trigger a search timer update (skip running events)
+                    search->skipRunningEvents = true;
+                    updateForced = 1;
+                } else if (tiR->lastBreak == 0) // not complete: assure break is set
+                    tiR->lastBreak = now;
+            }
             // cleanup
             if (!tiR->lastBreak || (now - tiR->lastBreak) > ALLOWED_BREAK_INSECS) {
                 // remove finished recordings or those with an unallowed break
