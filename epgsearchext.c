@@ -673,7 +673,7 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
     if (!pEvent)
         return file;
 
-    const char *Subtitle = pEvent ? pEvent->ShortText() : NULL;
+    const char *Subtitle = pEvent->ShortText();
     char SubtitleBuffer[Utf8BufSize(MAX_SUBTITLE_LENGTH)];
     if (isempty(Subtitle)) {
         time_t Start = pEvent->StartTime();
@@ -688,7 +688,6 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
 
     if (useEpisode) {
         cString pFile = cString::sprintf("%s~%s", pEvent->Title(), Subtitle);
-        if (file) free(file);
         file = strdup(pFile);
     } else if (pEvent->Title())
         file = strdup(pEvent->Title());
@@ -1373,7 +1372,6 @@ bool cSearchExt::HasContent(int contentID)
 void cSearchExt::SetContentFilter(int* contentStringsFlags)
 {
     // create the hex array of content descriptor IDs
-    string tmp;
     contentsFilter = "";
     for (unsigned int i = 0; contentStringsFlags && i <= CONTENT_DESCRIPTOR_MAX; i++) {
         if (contentStringsFlags[i]) {

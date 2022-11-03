@@ -92,11 +92,9 @@ bool cConfDLoader::LoadFile(const char *FileName)
         FILE *f = fopen(FileName, "r");
         if (f) {
             char *s;
-            int line = 0;
             cReadLine ReadLine;
             std::string section;
             while ((s = ReadLine.Read(f)) != NULL) {
-                line++;
                 char *p = strchr(s, '#');
                 if (p)
                     *p = 0;
