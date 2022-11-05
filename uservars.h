@@ -489,7 +489,6 @@ public:
     cChannelGroupVar() : cInternalVar("chgrp") {}
     string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
-        ostringstream os;
         LOCK_CHANNELS_READ;
         const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
         while (channel && !channel->GroupSep())

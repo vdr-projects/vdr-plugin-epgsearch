@@ -661,11 +661,6 @@ void cMenuSearchResultsForBlacklist::SetHelpKeys(bool Force)
 
     bool hasTimer = (NewHelpKeys == 2);
     if (NewHelpKeys != helpKeys || Force) {
-
-        ModeBlueSR nextModeBlue = (ModeBlueSR)(((int)modeBlue + 1) % 3);
-        if (nextModeBlue == showTimerPreview)
-            nextModeBlue = (ModeBlueSR)(((int)nextModeBlue + 1) % 3);
-
         if (toggleKeys == 0)
             SetHelp((EPGSearchConfig.redkeymode == 0 ? (hasTimer ? trVDR("Button$Timer") : trVDR("Button$Record")) : tr("Button$Commands")), m_bSort ? tr("Button$by channel") : tr("Button$by time"), modeYellow == showTitleEpisode ? tr("Button$Episode") : tr("Button$Title"), NULL);
         else
