@@ -392,6 +392,12 @@ msgstr "Uveďte predvolený nadbytok úvodného záznamu plánu / nahrávky vytv
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Uveďte predvolený nadbytok pri ukončení nahrávania plánu / nahrávky vytvoreným s týmto modulom. Túto hodnotu možno upraviť aj pre každé samostatné hľadanie."
 
+msgid "AllowedErrors"
+msgstr ""
+
+msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgstr ""
+
 msgid "No announcements when replaying"
 msgstr "Neoznamovať pri prehrávaní"
 

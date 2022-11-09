@@ -393,6 +393,12 @@ msgstr "Čia nurodyti šiuo įskiepu sukurtą numatytąjį laikmačio/įrašo pr
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Čia nurodyti šiuo įskiepu sukurtą numatytąjį laikmačio/įrašo pabaigos uždelsimo laiką po įrašymo pabaigos. Šis parametras taip pat gali būti nustatytas kiekvienai paieškai atskirai."
 
+msgid "AllowedErrors"
+msgstr ""
+
+msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgstr ""
+
 msgid "No announcements when replaying"
 msgstr "Nerodyti pranšimų pakartojimo metu"
 

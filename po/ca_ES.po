@@ -365,6 +365,12 @@ msgstr ""
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr ""
 
+msgid "AllowedErrors"
+msgstr ""
+
+msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgstr ""
+
 msgid "No announcements when replaying"
 msgstr ""
 

@@ -396,6 +396,12 @@ msgstr "Specifica qui il margine predefinito di inizio della registrazione dei t
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Specifica qui il margine predefinito di fine registrazione dei timer/registrazioni creati con questo plugin. Questo valore può anche essere adattato per ciascuna ricerca."
 
+msgid "AllowedErrors"
+msgstr ""
+
+msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgstr ""
+
 msgid "No announcements when replaying"
 msgstr "Nessun annuncio durante riproduzione"
 
