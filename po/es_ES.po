@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-04-12 14:45+0200\n"
+"POT-Creation-Date: 2022-11-02 18:42+0100\n"
 "PO-Revision-Date: 2007-11-18 20:09+0200\n"
-"Last-Translator: bittor from open7x0.org <bittor7x0 _at_ gmail.com>\n"
+"Last-Translator: bittor from github.com/bittor7x0 <bittor7x0 _at_ protonmail.com>\n"
 "Language-Team: Spanish <vdr@linuxtv.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "siguiente"
 
 #, c-format
 msgid "timer conflict at %s! Show it?"
-msgstr "¿Mostrar conflicto de programación a las %s?"
+msgstr "¡Conflicto de programación a las %s! ¿Mostrarlo?"
 
 #, c-format
 msgid "%d timer conflicts! First at %s. Show them?"
@@ -374,10 +374,10 @@ msgid "Help$Programming of new timers or timer changes is done with SVDRP. The d
 msgstr "Las nuevas programaciones o cambios de programación se realizan con SVDRP. El valor por defecto debe ser correcto, sólo modifíquelo si sabe lo que está haciendo."
 
 msgid "Delay internal threads ... seconds"
-msgstr ""
+msgstr "Retraso de hilos internos ... segundos"
 
 msgid "Help$This value delays starting the searchtimer update thread for the given range of seconds"
-msgstr ""
+msgstr "Este valor retrasa el inicio del hilo de actualización de la programación por búsqueda durante el rango de segundos dado"
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Especifique la prioridad por defecto de las programaciones creadas con este plugin. Éste valor también lo puede establecer para cada búsqueda."
@@ -390,6 +390,12 @@ msgstr "Especifique el margen de tiempo por defecto para el inicio de las progra
 
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Especifique el margen de tiempo por defecto para el final de las programaciones/grabaciones creadas con este plugin. Éste valor también lo puede establecer para cada búsqueda."
+
+msgid "AllowedErrors"
+msgstr "Errores permitidos"
+
+msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgstr "Especifique los errores de recepción permitidos antes de que una grabación se marque como incompleta"
 
 msgid "No announcements when replaying"
 msgstr "Sin avisos mientras se reproduce"
@@ -404,35 +410,28 @@ msgid "Help$Set this to 'yes' if you want timers to be recreated with the next s
 msgstr "Establecer a 'sí' cuando desee que las programaciones se creen de nuevo con la siguiente actualización de programación por búsqueda después de borrarlas."
 
 msgid "Check if EPG exists for ... [h]"
-msgstr ""
+msgstr "Comprobar si hay EPG durante ... [h]"
 
-#, fuzzy
 msgid "Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."
-msgstr "Establecer a 'sí' cuando desee comprobar conflictos después de actualizar cada programación por búsqueda."
+msgstr "Especifique el número de horas futuras de EPG que debería haber y si no las hay será avisado después de actualizar una programación por búsqueda."
 
-#, fuzzy
 msgid "Warn by OSD"
-msgstr "Sólo avisar"
+msgstr "Avisar por el OSD"
 
-#, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."
-msgstr "Establecer a 'sí' cuando desee recibir una notificación por correo sobre los conflictos de programación."
+msgstr "Establecer a 'sí' cuando desee recibir avisos de las comprobaciones EPG por el OSD."
 
-#, fuzzy
 msgid "Warn by mail"
-msgstr "Sólo avisar"
+msgstr "Avisar por correo"
 
-#, fuzzy
 msgid "Help$Set this to 'yes' if you want get warnings from the EPG check by mail."
-msgstr "Establecer a 'sí' cuando su cuenta necesite autenticación para enviar correos."
+msgstr "Establecer a 'sí' cuando desee recibir avisos de las comprobaciones EPG por correo."
 
-#, fuzzy
 msgid "Channel group to check"
-msgstr "Grupo de canales"
+msgstr "Grupo de canales a comprobar"
 
-#, fuzzy
 msgid "Help$Specify the channel group to check."
-msgstr "Especifique el nombre de la plantilla."
+msgstr "Especifique el grupo de canales a comprobar."
 
 msgid "Ignore PayTV channels"
 msgstr "Ignorar los canales de pago"
@@ -474,10 +473,10 @@ msgid "Help$This value reduces the conflict check to the given range of days. Al
 msgstr "Este valor reduce la comprobación de conflictos al rango de días dados. El resto de conflictos son clasificados como 'no importantes'."
 
 msgid "Check also remote conflicts"
-msgstr ""
+msgstr "Comprobar también conflictos remotos"
 
 msgid "Help$Set this to 'yes' if the conflict check should be done for timers set on remote hosts. This needs SVDRPPeering to be set in vdr and Plugin epgsearch running on the remote host."
-msgstr ""
+msgstr "Establecer a 'sí' cuando desee realizar la comprobación de conflictos para las programaciones establecidas en los hosts remotos. Esto necesita que SVDRPPeering esté configurado en vdr y que el plugin epgsearch se ejecute en el host remoto."
 
 msgid "--- Automatic checking ---"
 msgstr "--- Comprobación automática ---"
@@ -529,7 +528,7 @@ msgid "Help$Set this to 'yes' if you want to get an email notification about the
 msgstr "Establecer a 'sí' cuando desee tener una notificación por correo de las programaciones por búsqueda que fueron creadas automáticamente."
 
 msgid "Time between mails [h]"
-msgstr ""
+msgstr "Tiempo entre correos [h]"
 
 msgid ""
 "Help$Specifiy how much time in [h] you would\n"
@@ -537,6 +536,10 @@ msgid ""
 "With '0' you get a new mail after each\n"
 "search timer update with new results."
 msgstr ""
+"Especifique cuánto tiempo en [h] le gustaría\n"
+"tener como mínimo entre dos correos.\n"
+"Con '0' obtendrá un nuevo correo después de cada\n"
+"programación por búsqueda con nuevos resultados."
 
 msgid "Timer conflict notification"
 msgstr "Notificar conflicto en programación"
@@ -622,7 +625,7 @@ msgid "No timers were deleted."
 msgstr "No se borraron programaciones."
 
 msgid "No new events to announce."
-msgstr ""
+msgstr "No hay nuevos eventos que avisar."
 
 msgid "This version of EPGSearch does not support this service!"
 msgstr "¡Esta versión de EPGSearch no soporta este servicio!"
@@ -758,7 +761,7 @@ msgid "Day of week"
 msgstr "Día de la semana"
 
 msgid "Use global"
-msgstr ""
+msgstr "Usar global"
 
 msgid "Button$Templates"
 msgstr "Plantillas"
@@ -794,7 +797,7 @@ msgid "EPG Commands"
 msgstr "Órdenes EPG"
 
 msgid "Epgsearch: RemoteTimerModifications failed"
-msgstr ""
+msgstr "Epgsearch: RemoteTimerModifications ha fallado"
 
 msgid "Already running!"
 msgstr "¡Ya se está ejecutando!"
@@ -866,7 +869,7 @@ msgid "Childlock"
 msgstr "Bloqueo niños"
 
 msgid "Record on"
-msgstr ""
+msgstr "Grabar en"
 
 msgid "Timer check"
 msgstr "Comprobación"
@@ -881,7 +884,7 @@ msgid "Button$Without subtitle"
 msgstr "Sin subtítulo"
 
 msgid "Timer has been deleted"
-msgstr ""
+msgstr "La programación ha sido borrada"
 
 msgid "Button$Extended"
 msgstr "Ampliado"
@@ -895,9 +898,8 @@ msgstr "Usar listas negras"
 msgid "Edit$Search text too short - use anyway?"
 msgstr "El texto a buscar es muy corto - ¿usar de todas formas?"
 
-#, fuzzy
 msgid "Button$Orphaned"
-msgstr "por canal"
+msgstr "Huérfano"
 
 msgid "Button$by name"
 msgstr "por nombre"
@@ -1004,9 +1006,8 @@ msgstr "Editar búsqueda"
 msgid "Record"
 msgstr "Grabar"
 
-#, fuzzy
 msgid "Announce by OSD"
-msgstr "Sólo avisar"
+msgstr "Avisar por el OSD"
 
 msgid "Switch only"
 msgstr "Cambiar de canal"
@@ -1014,15 +1015,14 @@ msgstr "Cambiar de canal"
 msgid "Announce and switch"
 msgstr "Avisar y cambiar"
 
-#, fuzzy
 msgid "Announce by mail"
-msgstr "Sólo avisar"
+msgstr "Avisar por correo"
 
 msgid "Inactive record"
-msgstr ""
+msgstr "Grabación inactiva"
 
 msgid "only globals"
-msgstr ""
+msgstr "sólo globales"
 
 msgid "Selection"
 msgstr "selección"
@@ -1037,18 +1037,16 @@ msgid "count days"
 msgstr "incluir días"
 
 msgid "allow empty"
-msgstr ""
+msgstr "permitir vacío"
 
-#, fuzzy
 msgid "same day"
-msgstr "Último día"
+msgstr "mismo día"
 
-#, fuzzy
 msgid "same week"
-msgstr "Día de la semana"
+msgstr "misma semana"
 
 msgid "same month"
-msgstr ""
+msgstr "mismo mes"
 
 msgid "Template name"
 msgstr "Nombre de la plantilla"
@@ -1093,13 +1091,11 @@ msgstr "Establecer a 'Sí' cuando desee buscar en el episodio de una emisión."
 msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
 msgstr "Establecer a 'Sí' cuando desee buscar en el resumen de una emisión."
 
-#, fuzzy
 msgid "Use content descriptor"
-msgstr "Usar descripción"
+msgstr "Usar tipo de contenido"
 
-#, fuzzy
 msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
-msgstr "Establecer a 'Sí' cuando desee buscar en el título de una emisión."
+msgstr "Establecer a 'Sí' cuando desee buscar contenidos por un tipo."
 
 msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
 msgstr "El resumen de una emisión puede contener información adicional como 'Género', 'Categoría', 'Año', ... llamada 'categorías EPG' en el EPGSearch. A menudo los proveedores EPG externos ofrecen esta información. Esto permite refinar una búsqueda y otras funcionalidades atractivas, como buscar por el 'consejo del día'. Para usarlo, establecer a 'Sí'."
@@ -1161,13 +1157,11 @@ msgstr "Comparar subtítulo"
 msgid "Compare summary"
 msgstr "Comparar resumen"
 
-#, fuzzy
 msgid "Min. match in %"
-msgstr "  Duración mín."
+msgstr "  Coincidencia mín. en %"
 
-#, fuzzy
 msgid "Compare date"
-msgstr "Comparar título"
+msgstr "Comparar fecha"
 
 msgid "Compare categories"
 msgstr "Comparar categorías"
@@ -1304,10 +1298,10 @@ msgstr "¡Programación por búsqueda actualizada!"
 
 #, c-format
 msgid "small EPG content on:%s"
-msgstr ""
+msgstr "poco contenido EPG en:%s"
 
 msgid "VDR EPG check warning"
-msgstr ""
+msgstr "VDR aviso al comprobar EPG"
 
 #, c-format
 msgid "Switch to (%d) '%s'?"
@@ -1315,19 +1309,3 @@ msgstr "¿Cambiar a (%d) '%s'?"
 
 msgid "Programming timer failed!"
 msgstr "¡La programación ha fallado!"
-
-#~ msgid "if present"
-#~ msgstr "si existe"
-
-#~ msgid "in %02ldd"
-#~ msgstr "en %02ldd"
-
-#~ msgid "in %02ldh"
-#~ msgstr "en %02ldh"
-
-#~ msgid "in %02ldm"
-#~ msgstr "en %02ldm"
-
-#, fuzzy
-#~ msgid "Compare expression"
-#~ msgstr "expresión regular"
