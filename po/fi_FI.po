@@ -395,6 +395,12 @@ msgstr "Määrittelee oletusmarginaalin tallennuksen aloitukselle tämän laajen
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Määrittelee oletusmarginaalin tallennuksen lopetukselle tämän laajennoksen kautta luotaville ajastimille. Marginaaleja voidaan muokata ajastinkohtaisesti."
 
+msgid "AllowedErrors"
+msgstr ""
+
+msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgstr ""
+
 msgid "No announcements when replaying"
 msgstr "Älä muistuta toiston aikana"
 

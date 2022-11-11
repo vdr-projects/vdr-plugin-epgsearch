@@ -395,6 +395,12 @@ msgstr "Ici vous définissez la marge antérieure à la programmation crée par 
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Ici vous définissez la marge postérieure de la programmation crée par le plugin. Cette valeur peut être réglée de facon individuelle pour chaque recherche."
 
+msgid "AllowedErrors"
+msgstr ""
+
+msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgstr ""
+
 msgid "No announcements when replaying"
 msgstr "Pas d'annonces lors de la lecture"
 
