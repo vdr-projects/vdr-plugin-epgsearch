@@ -113,11 +113,13 @@ string cUserVar::EvaluateConnectCmd(const cEvent* e)
 
     if (getAddrFromString(varparser.connectAddr.c_str(), &servaddr) != 0) {
         LogFile.eSysLog("Invalid remote address");
+        close(conn_s);
         return "";
     }
 
     if (connect(conn_s, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0) {
         LogFile.eSysLog("Error calling connect()");
+        close(conn_s);
         return "";
     }
 
