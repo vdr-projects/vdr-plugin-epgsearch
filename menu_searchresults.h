@@ -61,6 +61,7 @@ public:
                            bool PreviewTimer = false, cMenuTemplate* MenuTemplate = NULL,
                            const cSearchExt* Search = NULL);
     cMenuSearchResultsItem(const cRecording *Recording);
+    ~cMenuSearchResultsItem();
     bool Update(bool Force = false);
     void SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable);
 };
