@@ -175,6 +175,11 @@ cMenuSearchResultsItem::cMenuSearchResultsItem(const cRecording *Recording)
     SetText(Recording->Title('\t'));
 }
 
+cMenuSearchResultsItem::~cMenuSearchResultsItem()
+{
+    free(fileName);
+}
+
 void cMenuSearchResultsItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
     LOCK_CHANNELS_READ;
