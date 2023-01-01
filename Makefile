@@ -312,7 +312,7 @@ install-conf:
 	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/conf.d
 	cp -n conf/* $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)
 
-install-doc:
+install-doc: docs
 	mkdir -p $(DESTDIR)$(MANDIR)/man1
 	mkdir -p $(DESTDIR)$(MANDIR)/man4
 	mkdir -p $(DESTDIR)$(MANDIR)/man5
