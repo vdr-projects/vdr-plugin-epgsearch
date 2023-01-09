@@ -27,10 +27,10 @@ AUTOCONFIG=1
 ### optional modules or patches for other plugins
 ifeq ($(AUTOCONFIG),0)
 # if you want to use Perl compatible regular expressions (PCRE) or libtre for
-# unlimited fuzzy searching, uncomment this and set the value to pcre or tre
-# also have a look at INSTALL for further notes on this
+# unlimited fuzzy searching, uncomment this and set the value to pcre/pcre2
+# or tre -  also have a look at INSTALL for further notes on this
 
-#REGEXLIB = pcre
+#REGEXLIB = pcre2
 
 # uncomment this to enable support for the pin plugin.
 
@@ -87,11 +87,14 @@ export CXXFLAGS = $(call PKGCFG,cxxflags)
 
 ### configuring modules
 ifeq ($(AUTOCONFIG),1)
-	ifeq (exists, $(shell $(PKG_CONFIG) libpcre && echo exists))
+	ifeq (exists, $(shell $(PKG_CONFIG) libpcre2-posix && echo exists))
+    REGEXLIB = pcre2
+	else ifeq (exists, $(shell $(PKG_CONFIG) libpcre && echo exists))
 		REGEXLIB = pcre
 	else ifeq (exists, $(shell $(PKG_CONFIG) tre && echo exists))
 		REGEXLIB = tre
 	endif
+
 	ifeq (exists, $(shell test -e ../pin && echo exists))
 		USE_PINPLUGIN = 1
 	endif
@@ -137,14 +140,16 @@ endif
 
 OBJS = afuzzy.o blacklist.o changrp.o confdloader.o conflictcheck.o conflictcheck_thread.o distance.o $(PLUGIN).o epgsearchcats.o epgsearchcfg.o epgsearchext.o epgsearchsetup.o  epgsearchsvdrp.o epgsearchtools.o mail.o md5.o menu_announcelist.o menu_blacklistedit.o menu_blacklists.o menu_commands.o menu_conflictcheck.o menu_deftimercheckmethod.o menu_dirselect.o menu_event.o menu_favorites.o menu_main.o menu_myedittimer.o menu_quicksearch.o menu_recsdone.o menu_search.o menu_searchactions.o menu_searchedit.o menu_searchresults.o menu_searchtemplate.o menu_switchtimers.o menu_templateedit.o menu_timersdone.o menu_whatson.o noannounce.o pending_notifications.o rcfile.o  recdone.o recdone_thread.o recstatus.o searchtimer_thread.o services.o switchtimer.o switchtimer_thread.o templatefile.o timer_thread.o timerdone.o timerstatus.o uservars.o varparser.o
 
-ifeq ($(REGEXLIB), pcre)
+ifeq ($(REGEXLIB), pcre2)
+LIBS += $(shell pcre2-config --libs-posix)
+INCLUDE += $(shell pcre2-config --cflags)
+DEFINES += -DHAVE_PCRE2POSIX
+else ifeq ($(REGEXLIB), pcre)
 LIBS += $(shell pcre-config --libs-posix)
-#LIBS += -L/usr/lib -lpcreposix -lpcre
 INCLUDE += $(shell pcre-config --cflags)
 DEFINES += -DHAVE_PCREPOSIX
 else ifeq ($(REGEXLIB), tre)
 LIBS += -L$(shell $(PKG_CONFIG) --variable=libdir tre) $(shell $(PKG_CONFIG) --libs tre)
-#LIBS += -L/usr/lib -ltre
 DEFINES += -DHAVE_LIBTRE
 INCLUDE += $(shell $(PKG_CONFIG) --cflags tre)
 endif

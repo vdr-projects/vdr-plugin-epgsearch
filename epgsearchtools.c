@@ -43,7 +43,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "timerstatus.h"
 #include <langinfo.h>
 
-#ifdef HAVE_PCREPOSIX
+#ifdef HAVE_PCRE2POSIX
+#include <pcre2posix.h>
+#elif defined(HAVE_PCREPOSIX)
 #include <pcreposix.h>
 #elif defined(HAVE_LIBTRE)
 #include <tre/regex.h>

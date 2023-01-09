@@ -8,14 +8,15 @@ libpcre
 -------
 For support of Perl compatible regular expressions in a search you have to use
 libpcre:
-simply edit the plugins Makefile and uncomment '#REGEXLIB = pcre' to
-'REGEXLIB = pcre' or append 'REGEXLIB=pcre' to your 'make plugins'
-call. (you will need pcreposix installed, comes with libpcre from
-www.pcre.org, but it's already part of most distributions
+simply edit the plugins Makefile and uncomment '#REGEXLIB = pcre2' to
+'REGEXLIB = pcre2' or append 'REGEXLIB=pcre2' to your 'make plugins'
+call.
+pcre2 is the newer maintained library from pcre.org. You can also use pcre which
+refers to the old perl compatible library.
+(you will need libpcre2-dev installed (or libpcre3-dev which is the older lib))
+
 HINT: if all compiles well, but after starting VDR you get:
-
 ERROR: /usr/lib/libpcreposix.so.0: undefined symbol: pcre_free).
-
 update libpcre from www.pcre.org and recompile the plugin.
 
 There seems to be a problem with PCRE on some systems, that produce a crash
