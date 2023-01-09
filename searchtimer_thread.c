@@ -100,6 +100,45 @@ void cSearchTimerThread::Stop(void)
     Cancel(6);
 }
 
+void cSearchTimerThread::FixSummerWinterStartTime(const char* text, time_t* time) {
+// bring timer and events start out of the double hour from sommertime to wintertime
+// if timer or event starts in the last hour of the summertime, subtract 1h
+    time_t time_tmp = *time +60*60;
+//    LogFile.Log(2,"time %d", *time);
+//    LogFile.Log(2,"time_tmp %d", time_tmp);
+    if ( localtime(time)->tm_hour == localtime(&time_tmp)->tm_hour ) {
+       LogFile.Log(2, "time from %s starts in the last hour of summetime, subtract 1h", text);
+       *time  = *time - 60*60;
+//       LogFile.Log(2,"time %d", *time);
+    } else {
+// if timer or event starts in the first hour after wintertime begins, subtract 2h
+        time_tmp = *time -60*60;
+        if ( localtime(time)->tm_hour == localtime(&time_tmp)->tm_hour ) {
+           LogFile.Log(2, "time from %s starts in the first hour of wintertime, subtract 2h", text);
+           *time  = *time - 2*60*60;
+        }
+    }
+}
+
+void cSearchTimerThread::FixSummerWinterStopTime(const char* text, time_t* time) {
+// bring timer and events stop out of the double hour from sommertime to wintertime
+// if timer or event ends in the last hour of the summertime, add 2h
+    time_t time_tmp = *time +60*60;
+//    LogFile.Log(2,"time %d", *time);
+//    LogFile.Log(2,"time_tmp %d", time_tmp);
+    if ( localtime(time)->tm_hour == localtime(&time_tmp)->tm_hour ) {
+       LogFile.Log(2, "time from %s ends in the last hour of summetime, add 2h", text);
+       *time  = *time + 2*60*60;
+//       LogFile.Log(2,"time %d", *time);
+    } else {
+// if timer or event ends in the first hour after wintertime begins, add 1h
+        time_tmp = *time -60*60;
+        if ( localtime(time)->tm_hour == localtime(&time_tmp)->tm_hour ) {
+           LogFile.Log(2, "time from %s ends in the first hour of wintertime, add 1h", text);
+           *time  = *time + 60*60;
+        }
+    }
+}
 
 const cTimer *cSearchTimerThread::GetTimer(cSearchExt *searchExt, const cEvent *pEvent, bool& bTimesMatchExactly)
 {
@@ -158,9 +197,21 @@ const cTimer *cSearchTimerThread::GetTimer(cSearchExt *searchExt, const cEvent *
         } else {
             time_t tStart = ti->StartTime() + searchExt->MarginStart * 60;
             time_t tStop = ti->StopTime() - searchExt->MarginStop * 60;
+
             tm *tmStartTi = localtime_r(&tStart, &tm_r);
             if (tmStartEv->tm_mday != tmStartTi->tm_mday)
                 continue;
+            if (!UseVPS) {
+                eStart = eStart - searchExt->MarginStart * 60;        // event - MarginStart can be before summertime to wintertime double hour
+                FixSummerWinterStartTime(pEvent->Title(), &eStart);
+                eStart = eStart + searchExt->MarginStart * 60;
+
+                eStop = eStop + searchExt->MarginStop * 60;        // event + MarginStop can be after summertime to wintertime double hour
+                FixSummerWinterStopTime(pEvent->Title(), &eStop);
+                eStop = eStop - searchExt->MarginStop * 60;
+           }
+//                LogFile.Log(2,"eStop %d", eStop);
+//                LogFile.Log(2,"eStop %d", eStop);
 
             // some providers change EPG times only for a few seconds
             // ignore this to avoid search timer mails because of such changes
@@ -184,6 +235,8 @@ bool cSearchTimerThread::TimerWasModified(const cTimer* t)
     if (start || stop) {
         time_t StartTime = time_t(atol(start));
         time_t StopTime = time_t(atol(stop));
+        FixSummerWinterStartTime(t->File(), &StartTime);
+        FixSummerWinterStopTime(t->File(), &StopTime);
         if (abs(t->StartTime() - StartTime) >= 60 || abs(t->StopTime() - StopTime) >= 60)
             bMod = true;
     }
@@ -630,11 +683,15 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
     time_t start = eStart - (searchExt->MarginStart * 60);
     time_t stop  = eStop + (searchExt->MarginStop * 60);
     int Flags = Timer->Flags();
+
     if (searchExt->useVPS && pEvent->Vps() && Setup.UseVps) {
         start = pEvent->Vps();
         stop = start + pEvent->Duration();
-    } else
+    } else {
         Flags &= ~tfVps; // don't use VPS, if not set in this search
+        FixSummerWinterStartTime(Timer->File(), &start);
+        FixSummerWinterStopTime(Timer->File(), &stop);
+    }
 
     if (searchExt->action == searchTimerActionInactiveRecord)
         Flags &= ~tfActive;

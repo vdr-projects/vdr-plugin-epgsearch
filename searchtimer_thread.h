@@ -61,6 +61,8 @@ protected:
     void Stop(void);
     bool NeedUpdate();
     bool TimerWasModified(const cTimer* t);
+    static void FixSummerWinterStartTime(const char* text, time_t* time);
+    static void FixSummerWinterStopTime(const char* text, time_t* time);
 public:
     static cSearchResults announceList;
     static char* SummaryExtended(cSearchExt* searchExt, const cTimer* Timer, const cEvent* pEvent);
