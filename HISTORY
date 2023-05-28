@@ -1,5 +1,10 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2023-05-28
+fixes:
+- Changed wenig to Wenig in German messages
+- Avoid division by zero if StopTime-Starttime=0
+
 2023-01-09; Version 2.4.2
 new:
 - Use perlregex-library pcre2 if available

@@ -1298,7 +1298,7 @@ msgstr "Suchtimer-Update durchgeführt!"
 
 #, c-format
 msgid "small EPG content on:%s"
-msgstr "wenig EPG Inhalt für:%s"
+msgstr "Wenig EPG Inhalt für:%s"
 
 msgid "VDR EPG check warning"
 msgstr "VDR EPG Check Warnung"
