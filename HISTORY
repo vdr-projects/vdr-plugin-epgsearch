@@ -3,6 +3,7 @@ VDR Plugin 'epgsearch' Revision History
 2023-06-08
 fixes:
 - removed subtitle limit (firefly)
+- fix title containing more than one colon (firefly)
 
 2023-05-28
 fixes:

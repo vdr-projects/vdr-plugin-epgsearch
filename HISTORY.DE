@@ -3,6 +3,7 @@ VDR Plugin 'epgsearch' Revision History
 2023-06-08
 fixes:
 - Begrenzung Untertitellänge aufgehoben (firefly)
+- Titel kann mehrere : enthalten (firefly)
 
 2023-05-28
 fixes:
