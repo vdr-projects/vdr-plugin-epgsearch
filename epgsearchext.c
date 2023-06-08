@@ -42,10 +42,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 cSearchExts SearchExts;
 cSearchExts SearchTemplates;
 
-#ifndef MAX_SUBTITLE_LENGTH
-#define MAX_SUBTITLE_LENGTH 40
-#endif
-
 // -- cSearchExt -----------------------------------------------------------------
 char *cSearchExt::buffer = NULL;
 
@@ -673,21 +669,17 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
     if (!pEvent)
         return file;
 
-    const char *Subtitle = pEvent->ShortText();
-    char SubtitleBuffer[Utf8BufSize(MAX_SUBTITLE_LENGTH)];
-    if (isempty(Subtitle)) {
+    const char *ShortText = pEvent->ShortText();
+    if (isempty(ShortText)) {
+        char ShortTextBuffer[Utf8BufSize(40)];
         time_t Start = pEvent->StartTime();
         struct tm tm_r;
-        strftime(SubtitleBuffer, sizeof(SubtitleBuffer), "%Y.%m.%d-%R-%a", localtime_r(&Start, &tm_r));
-        Subtitle = SubtitleBuffer;
-    } else if (Utf8StrLen(Subtitle) > MAX_SUBTITLE_LENGTH) {
-        Utf8Strn0Cpy(SubtitleBuffer, Subtitle, sizeof(SubtitleBuffer));
-        SubtitleBuffer[Utf8SymChars(SubtitleBuffer, MAX_SUBTITLE_LENGTH)] = 0;
-        Subtitle = SubtitleBuffer;
+        strftime(ShortTextBuffer, sizeof(ShortTextBuffer), "%Y.%m.%d-%R-%a", localtime_r(&Start, &tm_r));
+        ShortText = ShortTextBuffer;
     }
 
     if (useEpisode) {
-        cString pFile = cString::sprintf("%s~%s", pEvent->Title(), Subtitle);
+        cString pFile = cString::sprintf("%s~%s", pEvent->Title(), ShortText);
         file = strdup(pFile);
     } else if (pEvent->Title())
         file = strdup(pEvent->Title());

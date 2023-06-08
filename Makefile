@@ -170,10 +170,6 @@ ifdef DEBUG_CONFL
 DEFINES += -DDEBUG_CONFL
 endif
 
-ifdef PLUGIN_EPGSEARCH_MAX_SUBTITLE_LENGTH
-DEFINES += -DMAX_SUBTITLE_LENGTH='$(PLUGIN_EPGSEARCH_MAX_SUBTITLE_LENGTH)'
-endif
-
 ### length of the filling '-' in the channel separators, defaults to
 ### "----------------------------------------"
 ### overwrite this with PLUGIN_EPGSEARCH_SEP_ITEMS=---
