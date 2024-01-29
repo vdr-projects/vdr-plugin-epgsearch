@@ -788,7 +788,7 @@ bool cMenuSearchResultsForRecs::BuildList()
         qsort(pArray, num, sizeof(cRecording *), CompareRecording);
         for (int a = 0; a < num; a++)
             Add(new cMenuSearchResultsItem(pArray[a]));
-        delete pArray;
+        free(pArray);
     } // Recordinglock must be released before Display() is called
 
     SetHelp(NULL);
