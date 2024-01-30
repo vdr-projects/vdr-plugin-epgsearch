@@ -311,7 +311,11 @@ install-$(PLUGIN4): libvdr-$(PLUGIN4).so
 
 install-conf:
 	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/conf.d
-	cp -n conf/* $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)
+	@for i in conf/*; do\
+	    if ! [ -e $(DESTDIR)$(CONFDIR)/plugins/$$i ] ; then\
+	        cp -p $$i $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN);\
+	        fi\
+	    done
 
 install-doc: docs
 	mkdir -p $(DESTDIR)$(MANDIR)/man1
