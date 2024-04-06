@@ -117,8 +117,8 @@ int Distance::LD(char const *s, char const *t, int maxLength)
 
     // Step 1
 
-    n = min((int)strlen(s), maxLength);
-    m = min((int)strlen(t), maxLength);
+    n = std::min((int)strlen(s), maxLength);
+    m = std::min((int)strlen(t), maxLength);
     if (n == 0) {
         return m;
     }
