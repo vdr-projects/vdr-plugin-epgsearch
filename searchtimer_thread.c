@@ -918,7 +918,11 @@ void cSearchTimerThread::CheckManualTimers(void)
                 if (szEventID)
                     eventID = atol(szEventID);
                 LogFile.Log(3, "checking manual timer %d by event ID %u", ti->Id(), eventID);
+#if APIVERSNUM >= 20502
+                const cEvent* event = schedule->GetEventById(eventID);
+#else
                 const cEvent* event = schedule->GetEvent(eventID);
+#endif
                 if (event) {
                     if (event->StartTime() - bstart != ti->StartTime() || event->EndTime() + bstop != ti->StopTime())
                         ModifyManualTimer(event, ti, bstart, bstop);
