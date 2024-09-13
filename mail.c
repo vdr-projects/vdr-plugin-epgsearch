@@ -75,7 +75,11 @@ const cEvent* cMailTimerNotification::GetEvent() const
     if (!Schedules) return NULL;
     const cSchedule *schedule = Schedules->GetSchedule(channelID);
     if (!schedule) return NULL;
+#if APIVERSNUM >= 20502
+    return schedule->GetEventById(eventID);
+#else
     return schedule->GetEvent(eventID);
+#endif
 }
 
 bool cMailTimerNotification::operator< (const cMailTimerNotification &N) const
