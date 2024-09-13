@@ -1,5 +1,18 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2024-09-13; Version 2.4.3
+fixes:
+- fix deprecated funtion GetEvent()
+
+2024-04-07
+fixes:
+- add missing std::namespace (amair)
+
+2024-01-31
+fixes:
+- fix Makefile for coreutils >= 9.4 (kfb77)
+- add missing free (kfb77)
+
 2023-06-08
 fixes:
 - removed subtitle limit (firefly)
