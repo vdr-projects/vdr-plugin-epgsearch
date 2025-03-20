@@ -50,9 +50,10 @@ cTimerDone::cTimerDone(const time_t Start, const time_t Stop, const cEvent* pEve
 bool cTimerDone::operator== (const cTimerDone &arg) const
 {
     if (start == arg.start && stop == arg.stop && channelID == arg.channelID) {
-        if (title != arg.title) return false;
-        if (shorttext != "" && arg.shorttext != "" && shorttext != arg.shorttext) return false;
 
+// the following will not match if EPG-event has changed!
+//      if (title != arg.title) return false;
+//      if (shorttext != "" && arg.shorttext != "" && shorttext != arg.shorttext) return false;
         if (searchID > -1 && arg.searchID > -1)
             return searchID == arg.searchID;
         else

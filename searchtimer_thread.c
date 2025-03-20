@@ -765,8 +765,11 @@ void cSearchTimerThread::RemoveTimer(const cTimer* t, const cEvent* e)
     if (EPGSearchConfig.sendMailOnSearchtimers)
         mailNotifier.AddRemoveTimerNotification(t, e);
     if (!EPGSearchConfig.TimerProgRepeat) {
-        cTimerDone * TimerDone = TimersDone.InList(t->StartTime(), t->StopTime(), e, -1);
+        cSearchExt* trigger = TriggeredFromSearchTimer(t);
+
+        cTimerDone * TimerDone = TimersDone.InList(t->StartTime(), t->StopTime(), e, trigger->ID);
         if (TimerDone) {
+            LogFile.Log(3, "Remove Timer from timersdone.conf");
             cMutexLock TimersDoneLock(&TimersDone);
             TimersDone.Del(TimerDone);
             TimersDone.Save();

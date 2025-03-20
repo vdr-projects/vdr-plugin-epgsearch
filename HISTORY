@@ -1,5 +1,10 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2025-03-20
+fixes:
+- fix timerdone processing if EPG has changed
+- prevent crash in vdr 2.7.4
+
 2024-09-13; Version 2.4.3
 fixes:
 - fix deprecated funtion GetEvent()
