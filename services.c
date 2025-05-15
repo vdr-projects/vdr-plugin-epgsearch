@@ -280,7 +280,7 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
             for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); ++it) {
                 if (relOnly && (*it)->ignore) continue;
                 std::ostringstream timerpart;
-                int recPart = (*it)->recDuration * 100 / ((*it)->stop - (*it)->start);
+                int recPart = (*it)->stop - (*it)->start > 0 ? (*it)->recDuration * 100 / ((*it)->stop - (*it)->start) : 0;
                 timerpart << (*it)->timer->Id() << "|" << recPart << "|";
                 std::set<cConflictCheckTimerObj*, TimerObjSort>::iterator itcc;
                 if ((*it)->concurrentTimers) {

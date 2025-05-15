@@ -136,8 +136,7 @@ bool cMenuMyScheduleItem::Update(const cTimers* Timers, bool Force)
 #endif
                     }
                 } else {
-                    strncpy(szProgressPart, *event->GetTimeString(), 12);
-                    szProgressPart[11] = 0;
+                    strn0cpy(szProgressPart, *event->GetTimeString(), 12);
                     memcpy(szProgressPartT2S, szProgressPart, 12);
                 }
             }

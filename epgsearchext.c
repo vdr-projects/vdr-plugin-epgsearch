@@ -235,6 +235,7 @@ void cSearchExt::CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSet
     useAsSearchTimerTil = templ->useAsSearchTimerTil;
     ignoreMissingEPGCats = templ->ignoreMissingEPGCats;
     unmuteSoundOnSwitch = templ->unmuteSoundOnSwitch;
+    skipRunningEvents = templ->skipRunningEvents;
 }
 
 bool cSearchExt::operator< (const cListObject &ListObject)
@@ -247,7 +248,7 @@ char* replaceSpecialChars(const char* in)
 {
     char* tmp_in = strdup(in);
     while (strstr(tmp_in, "|"))
-        tmp_in = strreplace(tmp_in, "|", "!^pipe^!"); // ugly: replace a pipe with something,
+        tmp_in = strreplace(tmp_in, "|", "!^pipe^!"); // ugly: replace a pipe with something
     strreplace(tmp_in, ':', '|');
     return tmp_in;
 }
@@ -298,7 +299,7 @@ const char *cSearchExt::ToText()
             char* catvalue = NULL;
             if (msprintf(&catvalue, "%s", catvalues[index]) == -1) break;
             while (strstr(catvalue, ":"))
-                catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part ofa category value
+                catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part of a category value
             while (strstr(catvalue, "|"))
                 catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression
 
@@ -384,7 +385,7 @@ const char *cSearchExt::ToText()
              ignoreMissingEPGCats,
              unmuteSoundOnSwitch,
              compareSummaryMatchInPercent,
-             contentsFilter.c_str(),
+             tmp_contentsFilter,
              compareDate);
 
     if (tmp_search) free(tmp_search);
@@ -402,8 +403,8 @@ bool cSearchExt::Parse(const char *s)
     char *pos;
     char *pos_next;
     int parameter = 1;
-    int valuelen;
-    char value[MaxFileName];
+    size_t valuelen;
+    char value[MaxFileName * 10];;       // assume 10-byte patterns for special characters
     bool disableSearchtimer = false;
 
     *directory = 0;
@@ -420,7 +421,7 @@ bool cSearchExt::Parse(const char *s)
                 if (!pos_next)
                     pos_next = pos + strlen(pos);
                 valuelen = pos_next - pos + 1;
-                if (valuelen > MaxFileName) valuelen = MaxFileName;
+                if (valuelen > sizeof(value)) valuelen = sizeof(value);
                 strn0cpy(value, pos, valuelen);
                 pos = pos_next;
                 switch (parameter) {
@@ -429,7 +430,9 @@ bool cSearchExt::Parse(const char *s)
                     ID = atoi(value);
                     break;
                 case 2:
-                    strcpy(search, value);
+                    strreplace(value, '|', ':');
+                    while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
+                    strn0cpy(search, value, sizeof(search));
                     break;
                 case 3:
                     useTime = atoi(value);
@@ -522,7 +525,9 @@ bool cSearchExt::Parse(const char *s)
                     useEpisode = atoi(value);
                     break;
                 case 20:
-                    strcpy(directory, value);
+                    strreplace(value, '|', ':');
+                    while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
+                    strn0cpy(directory, value, sizeof(directory));
                     break;
                 case 21:
                     Priority = atoi(value);
@@ -629,6 +634,9 @@ bool cSearchExt::Parse(const char *s)
                     compareSummaryMatchInPercent = atoi(value);
                     break;
                 case 53:
+                    strreplace(value, '|', ':');
+                    while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
+                    value[MaxFileName - 1] = '\0';  // simulate strn0cpy()
                     contentsFilter = value;
                     break;
                 case 54:
@@ -642,16 +650,6 @@ bool cSearchExt::Parse(const char *s)
         }
         if (*pos) pos++;
     } //while
-
-    strreplace(directory, '|', ':');
-    strreplace(search, '|', ':');
-    strreplace(contentsFilter, "|", ":");
-
-    while (strstr(search, "!^pipe^!"))
-        strreplace(search, "!^pipe^!", "|");
-    while (strstr(directory, "!^pipe^!"))
-        strreplace(directory, "!^pipe^!", "|");
-    strreplace(contentsFilter, "!^pipe^!", "|");
 
     if (disableSearchtimer && useAsSearchTimer) {
         useAsSearchTimer = false;

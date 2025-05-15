@@ -99,7 +99,7 @@ char* PrintMD5(uchar md5Digest[16])
 
     for (nCount = 0; nCount < 16; nCount++) {
         sprintf(chEach, "%02x", md5Digest[nCount]);
-        strncat(chBuffer, chEach, sizeof(chEach));
+        strncat(chBuffer, chEach, 10);
     }
 
     return strdup(chBuffer);
