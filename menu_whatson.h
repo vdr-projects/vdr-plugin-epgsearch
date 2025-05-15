@@ -37,6 +37,7 @@ public:
     const cChannel *channel;
     showMode mode;
     eTimerMatch timerMatch;
+    const cTimer* timer;
     bool isRemote;
     bool inSwitchList;
     bool timerActive;

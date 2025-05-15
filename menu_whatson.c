@@ -65,6 +65,7 @@ cMenuMyScheduleItem::cMenuMyScheduleItem(const cTimers *Timers, const cEvent *Ev
     inSwitchList = false;
     timerActive = false;
     menuTemplate = MenuTemplate;
+    timer = NULL;
     Update(Timers, true);
 }
 
@@ -84,7 +85,6 @@ bool cMenuMyScheduleItem::Update(const cTimers* Timers, bool Force)
     bool OldInSwitchList = inSwitchList;
     bool OldtimerActive = timerActive;
     bool hasMatch = false;
-    const cTimer* timer = NULL;
     if (event) timer = Timers->GetMatch(event, &timerMatch);
     if (event) inSwitchList = (SwitchTimers.InSwitchList(event) != NULL);
     if (timer) hasMatch = true;
@@ -235,8 +235,13 @@ bool cMenuMyScheduleItem::Update(const cTimers* Timers, bool Force)
 void cMenuMyScheduleItem::SetMenuItem(cSkinDisplayMenu *DisplayMenu, int Index, bool Current, bool Selectable)
 {
     bool withDate = (channel == NULL); // search for a better way to determine this
+#if defined(APIVERSNUM) & APIVERSNUM >= 30007
+    if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, withDate, timerMatch, timer))
+        DisplayMenu->SetItem(Text(), Index, Current, Selectable);
+#else
     if (!DisplayMenu->SetItemEvent(event, Index, Current, Selectable, channel, withDate, timerMatch, timerActive))
         DisplayMenu->SetItem(Text(), Index, Current, Selectable);
+#endif
 }
 
 // --- cMenuMyScheduleSepItem ------------------------------------------------------

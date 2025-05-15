@@ -1,6 +1,7 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
 2025-05-15
+- provide timer in SetItemEvent with vdr 2.7.5
 thanks to Stefan Hofmann:
 - remove compiler warnings
 - some small fixes and annotations
