@@ -88,7 +88,7 @@ export CXXFLAGS = $(call PKGCFG,cxxflags)
 ### configuring modules
 ifeq ($(AUTOCONFIG),1)
 	ifeq (exists, $(shell $(PKG_CONFIG) libpcre2-posix && echo exists))
-    REGEXLIB = pcre2
+		REGEXLIB = pcre2
 	else ifeq (exists, $(shell $(PKG_CONFIG) libpcre && echo exists))
 		REGEXLIB = pcre
 	else ifeq (exists, $(shell $(PKG_CONFIG) tre && echo exists))

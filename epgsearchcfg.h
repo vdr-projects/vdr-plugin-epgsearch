@@ -72,7 +72,7 @@ public:
     }
 
     void SetDescription(const char* szD) {
-        if (szD)  strncpy(description, szD, sizeof(description));
+        if (szD)  strn0cpy(description, szD, sizeof(description));
     }
     void SetTime(int iT) {
         itime = iT;

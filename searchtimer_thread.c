@@ -765,8 +765,11 @@ void cSearchTimerThread::RemoveTimer(const cTimer* t, const cEvent* e)
     if (EPGSearchConfig.sendMailOnSearchtimers)
         mailNotifier.AddRemoveTimerNotification(t, e);
     if (!EPGSearchConfig.TimerProgRepeat) {
-        cTimerDone * TimerDone = TimersDone.InList(t->StartTime(), t->StopTime(), e, -1);
+        cSearchExt* trigger = TriggeredFromSearchTimer(t);
+
+        cTimerDone * TimerDone = TimersDone.InList(t->StartTime(), t->StopTime(), e, trigger->ID);
         if (TimerDone) {
+            LogFile.Log(3, "Remove Timer from timersdone.conf");
             cMutexLock TimersDoneLock(&TimersDone);
             TimersDone.Del(TimerDone);
             TimersDone.Save();
@@ -918,7 +921,11 @@ void cSearchTimerThread::CheckManualTimers(void)
                 if (szEventID)
                     eventID = atol(szEventID);
                 LogFile.Log(3, "checking manual timer %d by event ID %u", ti->Id(), eventID);
+#if APIVERSNUM >= 20502
+                const cEvent* event = schedule->GetEventById(eventID);
+#else
                 const cEvent* event = schedule->GetEvent(eventID);
+#endif
                 if (event) {
                     if (event->StartTime() - bstart != ti->StartTime() || event->EndTime() + bstop != ti->StopTime())
                         ModifyManualTimer(event, ti, bstart, bstop);

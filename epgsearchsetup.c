@@ -571,6 +571,8 @@ void cMenuSetupTimers::Set()
 
 void cMenuSetupTimers::SetHelpKeys()
 {
+    if (Current() < 0)       // prevent crash in vdr 2.7.4
+        SetCurrent(Get(0));
     const char* ItemText = Get(Current())->Text();
     if (!HasSubMenu()) {
         if (strstr(ItemText, tr("Default recording dir")) == ItemText) {
@@ -696,6 +698,8 @@ void cMenuSetupSearchtimers::Set()
 
 void cMenuSetupSearchtimers::SetHelpKeys()
 {
+    if (Current() < 0)       // prevent crash in vdr 2.7.4
+        SetCurrent(Get(0));
     const char* ItemText = Get(Current())->Text();
     if (!HasSubMenu()) {
         if (strstr(ItemText, tr("Channel groups")) == ItemText)
@@ -914,6 +918,8 @@ void cMenuSetupMailNotification::SetHelpKeys()
 {
     bool showTestButton = strlen(data->MailAddress) > 0 && strlen(data->MailServer) > 0 && data->mailViaScript;
 
+    if (Current() < 0)
+        SetCurrent(Get(0));
     const char* ItemText = Get(Current())->Text();
     if (!HasSubMenu()) {
         if (strstr(ItemText, tr("Email address")) == ItemText) {

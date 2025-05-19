@@ -59,7 +59,7 @@ void cMenuBlacklistsItem::Set(void)
         line << setiosflags(ios::left) << "G";
     line << "\t";
 
-    if (blacklist->search && strlen(blacklist->search) > 0)
+    if (strlen(blacklist->search) > 0)
         line << setiosflags(ios::left) << string(blacklist->search);
     else
         line << setiosflags(ios::left) << "*";

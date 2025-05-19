@@ -127,7 +127,11 @@ const cEvent* cSwitchTimer::Event()
         if (!Schedules) return NULL;
         const cSchedule *Schedule = Schedules->GetSchedule(channelID);
         if (Schedule) {
+#if APIVERSNUM >= 20502
+            event = Schedule->GetEventByTime(startTime);
+#else
             event = Schedule->GetEvent(eventID, startTime);
+#endif
             if (!event)
                 event = Schedule->GetEventAround(startTime);
         }
