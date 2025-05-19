@@ -359,6 +359,10 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
                 state = osContinue;
             break;
         case kRed:
+            if (!HasSubMenu())
+                state = ToggleTimer(CurrentTimerObj());
+            break;
+        case kGreen:
             if (!HasSubMenu()) {
                 if (CurrentTimerObj() && CurrentTimerObj()->Event())
                     return Commands(k1);
@@ -366,10 +370,6 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
                     state = osContinue;
             } else
                 state = osContinue;
-            break;
-        case kGreen:
-            if (!HasSubMenu())
-                state = ToggleTimer(CurrentTimerObj());
             break;
         case kYellow:
             if (!HasSubMenu())
