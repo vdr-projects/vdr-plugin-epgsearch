@@ -227,7 +227,7 @@ void cMenuConflictCheckDetails::SetHelpKeys()
         hasTimer = curTimerObj->timer->HasFlags(tfActive);
         hasEvent = curTimerObj->Event();
     }
-    SetHelp(hasEvent ? tr("Button$Repeats") : NULL, trVDR("Button$On/Off"), hasTimer ? trVDR("Button$Delete") : NULL, tr("Button$Commands"));
+    SetHelp(trVDR("Button$On/Off"), hasEvent ? tr("Button$Repeats") : NULL, hasTimer ? trVDR("Button$Delete") : NULL, tr("Button$Commands"));
 }
 
 cConflictCheckTimerObj* cMenuConflictCheckDetails::CurrentTimerObj(void)
@@ -359,6 +359,10 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
                 state = osContinue;
             break;
         case kRed:
+            if (!HasSubMenu())
+                state = ToggleTimer(CurrentTimerObj());
+            break;
+        case kGreen:
             if (!HasSubMenu()) {
                 if (CurrentTimerObj() && CurrentTimerObj()->Event())
                     return Commands(k1);
@@ -366,10 +370,6 @@ eOSState cMenuConflictCheckDetails::ProcessKey(eKeys Key)
                     state = osContinue;
             } else
                 state = osContinue;
-            break;
-        case kGreen:
-            if (!HasSubMenu())
-                state = ToggleTimer(CurrentTimerObj());
             break;
         case kYellow:
             if (!HasSubMenu())
