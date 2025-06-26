@@ -40,11 +40,11 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 extern bool isUTF8;
 using namespace std;
 
-string cMailNotifier::MailCmd = "sendEmail.pl";
+std::string cMailNotifier::MailCmd = "sendEmail.pl";
 
 // ----------------------
 // cMailTimerNotification
-string cMailTimerNotification::Format(const string& templ) const
+std::string cMailTimerNotification::Format(const std::string& templ) const
 {
     const cEvent* pEvent = GetEvent();
     if (!pEvent) return "";
@@ -54,7 +54,7 @@ string cMailTimerNotification::Format(const string& templ) const
     const cTimer* pTimer = Timers->GetMatch(pEvent, &TimerMatch);
     if (!pTimer) return "";
 
-    string result = templ;
+    std::string result = templ;
     cVarExpr varExprEvent(result);
     result =  varExprEvent.Evaluate(pEvent);
     cVarExpr varExprTimer(result);
@@ -102,21 +102,21 @@ bool cMailTimerNotification::operator< (const cMailTimerNotification &N) const
 
 // -------------------------
 // cMailDelTimerNotification
-cMailDelTimerNotification::cMailDelTimerNotification(const cTimer* pTimer, const cEvent* pEvent, const string& templ)
+cMailDelTimerNotification::cMailDelTimerNotification(const cTimer* pTimer, const cEvent* pEvent, const std::string& templ)
 {
     if (!pTimer || !pTimer->Channel()) return;
 
     channelID = pTimer->Channel()->GetChannelID();
     start = pTimer->StartTime();
 
-    string result = templ;
+    std::string result = templ;
     cVarExpr varExprEvent(result);
     result =  varExprEvent.Evaluate(pEvent);
     cVarExpr varExprTimer(result);
     formatted =  varExprTimer.Evaluate(pTimer);
 }
 
-cMailDelTimerNotification::cMailDelTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start)
+cMailDelTimerNotification::cMailDelTimerNotification(const std::string& Formatted, tChannelID ChannelID, time_t Start)
 {
     formatted = Formatted;
     channelID = ChannelID;
@@ -138,12 +138,12 @@ bool cMailDelTimerNotification::operator< (const cMailDelTimerNotification &N) c
 
 // ----------------------
 // cMailAnnounceEventNotification
-string cMailAnnounceEventNotification::Format(const string& templ) const
+std::string cMailAnnounceEventNotification::Format(const std::string& templ) const
 {
     const cEvent* pEvent = GetEvent();
     if (!pEvent) return "";
 
-    string result = templ;
+    std::string result = templ;
     cVarExpr varExprEvent(result);
     result =  varExprEvent.Evaluate(pEvent);
 
@@ -156,7 +156,7 @@ string cMailAnnounceEventNotification::Format(const string& templ) const
 
 // -------------
 // cMailNotifier
-cMailNotifier::cMailNotifier(string Subject, string Body)
+cMailNotifier::cMailNotifier(string Subject, std::string Body)
     : subject(Subject), body(Body)
 {
     if (subject.size() > 0)
@@ -170,7 +170,7 @@ bool cMailNotifier::SendMailViaSendmail()
     const char* mailproc = SENDMAIL;
     FILE* mail;
 
-    string to = EPGSearchConfig.MailAddressTo;
+    std::string to = EPGSearchConfig.MailAddressTo;
     snprintf(mailcmd, sizeof(mailcmd), mailargs, mailproc, to.c_str());
 
     if (!(mail = popen(mailcmd, "w"))) {
@@ -197,7 +197,7 @@ bool cMailNotifier::SendMailViaSendmail()
 bool cMailNotifier::SendMailViaScript()
 {
     // create a temporary file for the message body
-    string filename = *AddDirectory(CONFIGDIR, "epgsearchmail.temp");
+    std::string filename = *AddDirectory(CONFIGDIR, "epgsearchmail.temp");
     std::ofstream bodyfile(filename.c_str());
     if (!bodyfile) {
         LogFile.eSysLog("error opening file %s", filename.c_str());
@@ -206,10 +206,10 @@ bool cMailNotifier::SendMailViaScript()
     bodyfile << body;
     bodyfile.close();
 
-    string AuthUser = EPGSearchConfig.MailAuthUser;
-    string AuthPass = EPGSearchConfig.MailAuthPass;
-    string cmdArgs =
-        string(" -f \"VDR <") + EPGSearchConfig.MailAddress + ">\"" +
+    std::string AuthUser = EPGSearchConfig.MailAuthUser;
+    std::string AuthPass = EPGSearchConfig.MailAuthPass;
+    std::string cmdArgs =
+        std::string(" -f \"VDR <") + EPGSearchConfig.MailAddress + ">\"" +
         " -t " + EPGSearchConfig.MailAddressTo +
         " -s " + EPGSearchConfig.MailServer +
         " -u \"" + subject + "\"" +
@@ -245,13 +245,13 @@ bool cMailNotifier::SendMail(bool force)
 
 bool cMailNotifier::ExecuteMailScript(string ScriptArgs)
 {
-    string mailCmd = MailCmd;
+    std::string mailCmd = MailCmd;
     LogFile.Log(3, "starting mail script: %s with parameters: %s", mailCmd.c_str(), ScriptArgs.c_str());
     if (mailCmd == "sendEmail.pl") // beautify output for standard script
         ScriptArgs += " | cut -d\" \" -f 6-";
 
     cCommand cmd;
-    string fullcmd = "mailcmd: " + mailCmd;
+    std::string fullcmd = "mailcmd: " + mailCmd;
     if (!cmd.Parse(fullcmd.c_str())) {
         LogFile.eSysLog("error parsing cmd: %s", MailCmd.c_str());
         return false;
@@ -264,10 +264,10 @@ bool cMailNotifier::ExecuteMailScript(string ScriptArgs)
     return true;
 }
 
-bool cMailNotifier::TestMailAccount(string MailAddressTo, string MailAddress, string MailServer, string AuthUser, string AuthPass)
+bool cMailNotifier::TestMailAccount(string MailAddressTo, std::string MailAddress, std::string MailServer, std::string AuthUser, std::string AuthPass)
 {
-    string cmdArgs =
-        string("-v -f \"VDR <") + MailAddress + ">\"" +
+    std::string cmdArgs =
+        std::string("-v -f \"VDR <") + MailAddress + ">\"" +
         " -t " + MailAddressTo +
         " -s " + MailServer +
         " -u \"VDR-Testmail\"" +
@@ -278,10 +278,10 @@ bool cMailNotifier::TestMailAccount(string MailAddressTo, string MailAddress, st
     return ExecuteMailScript(cmdArgs);
 }
 
-string cMailNotifier::LoadTemplate(const string& templtype)
+std::string cMailNotifier::LoadTemplate(const std::string& templtype)
 {
-    string filename = *AddDirectory(CONFIGDIR, templtype.c_str());
-    string templ = "";
+    std::string filename = *AddDirectory(CONFIGDIR, templtype.c_str());
+    std::string templ = "";
     if (filename != "" && access(filename.c_str(), F_OK) == 0) {
         LogFile.iSysLog("loading %s", filename.c_str());
         FILE *f = fopen(filename.c_str(), "r");
@@ -292,7 +292,7 @@ string cMailNotifier::LoadTemplate(const string& templtype)
             while ((s = ReadLine.Read(f)) != NULL) {
                 if (strlen(s) > 0 && s[0] == '#')
                     continue;
-                templ += string(s) + "\n";
+                templ += std::string(s) + "\n";
             }
             fclose(f);
         }
@@ -300,17 +300,17 @@ string cMailNotifier::LoadTemplate(const string& templtype)
     return templ;
 }
 
-string cMailNotifier::GetTemplValue(const string& templ, const string& entry)
+std::string cMailNotifier::GetTemplValue(const std::string& templ, const std::string& entry)
 {
     if (templ == "" || entry == "") return "";
 
-    string start = "<" + entry + ">";
-    string end = "</" + entry + ">";
+    std::string start = "<" + entry + ">";
+    std::string end = "</" + entry + ">";
 
     int eBegin = FindIgnoreCase(templ, start);
     int eEnd = FindIgnoreCase(templ, end);
     if (eBegin < 0 || eEnd < 0) return "";
-    string value(templ.begin() + eBegin + start.length(), templ.begin() + eEnd);
+    std::string value(templ.begin() + eBegin + start.length(), templ.begin() + eEnd);
     return value;
 }
 
@@ -337,12 +337,12 @@ void cMailUpdateNotifier::AddModTimerNotification(tEventID EventID, tChannelID C
 
 void cMailUpdateNotifier::AddRemoveTimerNotification(const cTimer* t, const cEvent* e)
 {
-    string templTimer = GetTemplValue(mailTemplate, "timer");
+    std::string templTimer = GetTemplValue(mailTemplate, "timer");
     cMailDelTimerNotification N(t, e, templTimer);
     delTimers.insert(N);
 }
 
-void cMailUpdateNotifier::AddRemoveTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start)
+void cMailUpdateNotifier::AddRemoveTimerNotification(const std::string& Formatted, tChannelID ChannelID, time_t Start)
 {
     cMailDelTimerNotification N(Formatted, ChannelID, Start);
     delTimers.insert(N);
@@ -381,48 +381,48 @@ void cMailUpdateNotifier::SendUpdateNotifications()
         LogFile.eSysLog("error loading %s", *AddDirectory(CONFIGDIR, "epgsearchupdmail.templ"));
         return;
     }
-    string templSubject = GetTemplValue(mailTemplate, "subject");
-    string templBody = GetTemplValue(mailTemplate, "mailbody");
-    string templTimer = GetTemplValue(mailTemplate, "timer");
-    string templEvent = GetTemplValue(mailTemplate, "event");
+    std::string templSubject = GetTemplValue(mailTemplate, "subject");
+    std::string templBody = GetTemplValue(mailTemplate, "mailbody");
+    std::string templTimer = GetTemplValue(mailTemplate, "timer");
+    std::string templEvent = GetTemplValue(mailTemplate, "event");
 
     // create the timer list for new timers
-    string newtimers;
+    std::string newtimers;
     if (newTimers.empty())
         newtimers = tr("No new timers were added.");
     std::set<cMailTimerNotification>::iterator itnt;
     for (itnt = newTimers.begin(); itnt != newTimers.end(); ++itnt) {
-        string message = (*itnt).Format(templTimer);
+        std::string message = (*itnt).Format(templTimer);
         if (message != "") newtimers += message;
     }
 
     // create the timer list for modified timers
-    string modtimers;
+    std::string modtimers;
     if (modTimers.empty())
         modtimers = tr("No timers were modified.");
     std::set<cMailTimerNotification>::iterator itmt;
     for (itmt = modTimers.begin(); itmt != modTimers.end(); ++itmt) {
-        string message = (*itmt).Format(templTimer);
+        std::string message = (*itmt).Format(templTimer);
         if (message != "") modtimers += message;
     }
 
     // create the timer list for removed timers
-    string deltimers;
+    std::string deltimers;
     if (delTimers.empty())
         deltimers = tr("No timers were deleted.");
     std::set<cMailDelTimerNotification>::iterator itdt;
     for (itdt = delTimers.begin(); itdt != delTimers.end(); ++itdt) {
-        string message = (*itdt).Format("");
+        std::string message = (*itdt).Format("");
         if (message != "") deltimers += message;
     }
 
     // create the list of events to announce
-    string announceevents;
+    std::string announceevents;
     if (announceEvents.empty())
         announceevents = tr("No new events to announce.");
     std::set<cMailAnnounceEventNotification>::iterator itae;
     for (itae = announceEvents.begin(); itae != announceEvents.end(); ++itae) {
-        string message = (*itae).Format(templEvent);
+        std::string message = (*itae).Format(templEvent);
         if (message != "") announceevents += message;
     }
 
@@ -510,7 +510,7 @@ void cMailConflictNotifier::SendConflictNotifications(cConflictCheck& conflictCh
                                  << channelID;
             }
     }
-    string newMailConflictsMD5 = MD5(newMailConflicts.str());
+    std::string newMailConflictsMD5 = MD5(newMailConflicts.str());
     if (newMailConflictsMD5 == EPGSearchConfig.LastMailConflicts) {
         LogFile.Log(3, "conflicts unchanged - no new notification needed.");
         return;
@@ -518,7 +518,7 @@ void cMailConflictNotifier::SendConflictNotifications(cConflictCheck& conflictCh
 
 
     // open the template
-    string templ = LoadTemplate("epgsearchconflmail.templ");
+    std::string templ = LoadTemplate("epgsearchconflmail.templ");
     if (templ == "") {
         LogFile.eSysLog("error loading %s", *AddDirectory(CONFIGDIR, "epgsearchconflmail.templ"));
         return;
@@ -526,27 +526,27 @@ void cMailConflictNotifier::SendConflictNotifications(cConflictCheck& conflictCh
 
     // extract single templates
     LogFile.Log(3, "extracting templates");
-    string templSubject = GetTemplValue(templ, "subject");
-    string templBody = GetTemplValue(templ, "mailbody");
-    string templConflictsAt = GetTemplValue(templ, "conflictsat");
-    string templConflictTimer = GetTemplValue(templ, "conflicttimer");
+    std::string templSubject = GetTemplValue(templ, "subject");
+    std::string templBody = GetTemplValue(templ, "mailbody");
+    std::string templConflictsAt = GetTemplValue(templ, "conflictsat");
+    std::string templConflictTimer = GetTemplValue(templ, "conflicttimer");
     LogFile.Log(3, "extracting templates - done");
 
     // create the conflict list
-    string conflicts;
+    std::string conflicts;
     for (cConflictCheckTime* ct = failedList->First(); ct; ct = failedList->Next(ct)) {
         if (ct->ignore) continue;
         // format conflict time
-        string conflictsAt = templConflictsAt;
+        std::string conflictsAt = templConflictsAt;
         conflictsAt = ReplaceAll(conflictsAt, "%conflict.time%", TIMESTRING(ct->evaltime));
         conflictsAt = ReplaceAll(conflictsAt, "%conflict.date%", DATESTRING(ct->evaltime));
 
-        string conflicttimers;
+        std::string conflicttimers;
         std::set<cConflictCheckTimerObj*, TimerObjSort>::iterator it;
         for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); ++it)
             if (!(*it)->ignore && (*it)->Event()) {
                 cMailTimerNotification M((*it)->Event()->EventID(), (*it)->Event()->ChannelID());
-                string message = M.Format(templConflictTimer);
+                std::string message = M.Format(templConflictTimer);
                 if (message != "") {
                     message = ReplaceAll(message, "%device%", NumToString((*it)->device));
                     conflicttimers += message;

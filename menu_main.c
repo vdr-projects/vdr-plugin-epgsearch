@@ -201,8 +201,8 @@ eOSState cMenuSearchMain::Record(void)
             else
                 return AddSubMenu(new cMenuMyEditTimer(timer, !t, item->event));
         } else {
-            string fullaux = "";
-            string aux = "";
+            std::string fullaux = "";
+            std::string aux = "";
             if (item->event) {
                 const cEvent* event = item->event;
                 int bstart = event->StartTime() - timer->StartTime();

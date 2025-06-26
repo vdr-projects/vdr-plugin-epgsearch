@@ -146,7 +146,7 @@ bool MatchesSearchMode(const char* szTest, const char* searchText, int mode, con
             return false;
         } else if (mode == 5) { // fuzzy
             AFUZZY af = { NULL, NULL, NULL, NULL, NULL, NULL, { 0 }, { 0 }, 0, 0, 0, 0, 0, 0 };
-            string query = searchText ? searchText : "";
+            std::string query = searchText ? searchText : "";
             if (query.size() > 32) query = query.substr(0, 32);
             afuzzy_init(query.c_str(), tolerance, 0, &af);
             /* Checking substring */
@@ -314,15 +314,15 @@ char* GetAuxValue(const cTimer *timer, const char* name)
     return GetAuxValue(timer->Aux(), name);
 }
 
-string UpdateAuxValue(string aux, string section, long num)
+std::string UpdateAuxValue(std::string aux, std::string section, long num)
 {
     return UpdateAuxValue(aux, section, NumToString(num));
 }
 
-string UpdateAuxValue(string aux, string section, string value)
+std::string UpdateAuxValue(std::string aux, std::string section, std::string value)
 {
-    string secStart = "<" + section + ">";
-    string secEnd = "</" + section + ">";
+    std::string secStart = "<" + section + ">";
+    std::string secEnd = "</" + section + ">";
     int valueStartPos = aux.find(secStart);
     int valueEndPos = aux.find(secEnd);
     if (valueStartPos >= 0 && valueEndPos >= 0)
@@ -591,27 +591,27 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
     if (event1 == event2) return true;
 
     // only compare the alphanumeric portions
-    string Title1 = "";
-    string Title2 = "";
+    std::string Title1 = "";
+    std::string Title2 = "";
     if (compareTitle) {
-        string s1 = event1->Title() ? event1->Title() : "";
-        string s2 = event2->Title() ? event2->Title() : "";
+        std::string s1 = event1->Title() ? event1->Title() : "";
+        std::string s2 = event2->Title() ? event2->Title() : "";
         Title1 = GetAlNum(s1);
         Title2 = GetAlNum(s2);
         std::transform(Title1.begin(), Title1.end(), Title1.begin(), tolower);
         std::transform(Title2.begin(), Title2.end(), Title2.begin(), tolower);
     }
-    string Subtitle1 = "";
-    string Subtitle2 = "";
+    std::string Subtitle1 = "";
+    std::string Subtitle2 = "";
     if (compareSubtitle) {
-        string s1 = event1->ShortText() ? event1->ShortText() : "";
-        string s2 = event2->ShortText() ? event2->ShortText() : "";
+        std::string s1 = event1->ShortText() ? event1->ShortText() : "";
+        std::string s2 = event2->ShortText() ? event2->ShortText() : "";
         Subtitle1 = GetAlNum(s1);
         Subtitle2 = GetAlNum(s2);
         std::transform(Subtitle1.begin(), Subtitle1.end(), Subtitle1.begin(), tolower);
         std::transform(Subtitle2.begin(), Subtitle2.end(), Subtitle2.begin(), tolower);
     }
-    string compareExpression = "";
+    std::string compareExpression = "";
     if (compareDate == 1) compareExpression = "%date%";
     if (compareDate == 2) compareExpression = "%year%-%week%";
     if (compareDate == 3) compareExpression = "%year%-%month%";
@@ -635,8 +635,8 @@ bool EventsMatch(const cEvent* event1, const cEvent* event2, bool compareTitle, 
         }
         if (compareExpression.size() > 0) {
             cVarExpr varExpr(compareExpression);
-            string resEvent1 = varExpr.Evaluate(event1);
-            string resEvent2 = varExpr.Evaluate(event2);
+            std::string resEvent1 = varExpr.Evaluate(event1);
+            std::string resEvent2 = varExpr.Evaluate(event2);
             if (resEvent1 != resEvent2)
                 return false;
         }
@@ -738,14 +738,14 @@ cString DateTime(time_t t)
     return buffer;
 }
 
-string NumToString(long num)
+std::string NumToString(long num)
 {
-    ostringstream os;
+    std::ostringstream os;
     os << num;
     return os.str();
 }
 
-int FindIgnoreCase(const string& expr, const string& query)
+int FindIgnoreCase(const std::string& expr, const std::string& query)
 {
     const char *p = expr.c_str();
     const char *r = strcasestr(p, query.c_str());
@@ -755,35 +755,35 @@ int FindIgnoreCase(const string& expr, const string& query)
     return r - p;
 }
 
-bool EqualsNoCase(const string& a, const string& b)
+bool EqualsNoCase(const std::string& a, const std::string& b)
 {
     return strcasecmp(a.c_str(), b.c_str()) == 0;
 }
 
-string Strip(const string& input)
+std::string Strip(const std::string& input)
 {
-    string str = input;
-    string::size_type pos = str.find_last_not_of(' ');
-    if (pos != string::npos) {
+    std::string str = input;
+    std::string::size_type pos = str.find_last_not_of(' ');
+    if (pos != std::string::npos) {
         str.erase(pos + 1);
         pos = str.find_first_not_of(' ');
-        if (pos != string::npos) str.erase(0, pos);
+        if (pos != std::string::npos) str.erase(0, pos);
     } else str.erase(str.begin(), str.end());
     return str;
 }
 
-string GetAlNum(const string& s)
+std::string GetAlNum(const std::string& s)
 {
-    string res;
+    std::string res;
     for (unsigned int i = 0; i < s.size(); i++)
         if (isalnum(s[i]))
             res += s[i];
     return res;
 }
 
-string ReplaceAll(const string& input, const string& what, const string& with)
+std::string ReplaceAll(const std::string& input, const std::string& what, const std::string& with)
 {
-    string result = input;
+    std::string result = input;
     int pos = 0;
 
     while ((pos = FindIgnoreCase(result, what)) >= 0)
@@ -791,9 +791,9 @@ string ReplaceAll(const string& input, const string& what, const string& with)
     return result;
 }
 
-string EscapeString(const string& S)
+std::string EscapeString(const std::string& S)
 {
-    string tmp = S;
+    std::string tmp = S;
     int apostrophPos = 0;
     int apostrophTempPos = 0;
     while ((apostrophPos = tmp.find("'", apostrophTempPos)) >= apostrophTempPos) {
@@ -803,9 +803,9 @@ string EscapeString(const string& S)
     return tmp;
 }
 
-string QuoteApostroph(const string& S)
+std::string QuoteApostroph(const std::string& S)
 {
-    string tmp = S;
+    std::string tmp = S;
     int apostrophPos = 0;
     int apostrophTempPos = 0;
     while ((apostrophPos = tmp.find("\"", apostrophTempPos)) >= apostrophTempPos) {
@@ -815,25 +815,25 @@ string QuoteApostroph(const string& S)
     return tmp;
 }
 
-string MD5(const string& input)
+std::string MD5(const std::string& input)
 {
     char* szInput = strdup(input.c_str());
     if (!szInput) return "";
     char* szRes = MD5String(szInput);
-    string res = szRes;
+    std::string res = szRes;
     free(szRes);
     free(szInput);
     return res;
 }
 
-void SetAux(cTimer* timer, string aux)
+void SetAux(cTimer* timer, std::string aux)
 {
     if (!timer) return;
-    string timerText = *timer->ToText();
-    string::size_type auxPos = string::npos;
+    std::string timerText = *timer->ToText();
+    std::string::size_type auxPos = std::string::npos;
     for (int i = 0; i <= 7; i++) // get aux value
-        auxPos = timerText.find(":", auxPos == string::npos ? 0 : auxPos + 1);
-    if (auxPos == string::npos) return;
+        auxPos = timerText.find(":", auxPos == std::string::npos ? 0 : auxPos + 1);
+    if (auxPos == std::string::npos) return;
     timerText.replace(auxPos + 1, timerText.size() - auxPos + 1, aux);
     timer->Parse(timerText.c_str());
 }

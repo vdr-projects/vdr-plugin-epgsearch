@@ -254,7 +254,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, cSearchExt* search, cRecD
     return GetCountRecordings(event, search->compareTitle, search->compareSubtitle, search->compareSummary, search->compareDate, search->catvaluesAvoidRepeat, first, matchLimit);
 }
 
-bool CatValuesMatch(unsigned long catvaluesAvoidRepeat, const string& rDescr, const string& eDescr)
+bool CatValuesMatch(unsigned long catvaluesAvoidRepeat, const std::string& rDescr, const std::string& eDescr)
 {
     bool bCatMatch = ((rDescr != "" && eDescr != "") || (rDescr == "" && eDescr == ""));
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
@@ -276,7 +276,7 @@ bool CatValuesMatch(unsigned long catvaluesAvoidRepeat, const string& rDescr, co
     return bCatMatch;
 }
 
-bool MatchesInExpression(const string& expression, const cRecDone* recDone, const cEvent* event)
+bool MatchesInExpression(const std::string& expression, const cRecDone* recDone, const cEvent* event)
 {
     cVarExpr varExpr(expression);
 
@@ -287,8 +287,8 @@ bool MatchesInExpression(const string& expression, const cRecDone* recDone, cons
     recDoneEvent.SetStartTime(recDone->startTime);
     recDoneEvent.SetDuration(recDone->duration);
 
-    string resRecDone = varExpr.Evaluate(&recDoneEvent);
-    string resEvent = varExpr.Evaluate(event);
+    std::string resRecDone = varExpr.Evaluate(&recDoneEvent);
+    std::string resEvent = varExpr.Evaluate(event);
     return resRecDone == resEvent;
 }
 
@@ -302,20 +302,20 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
     cMutexLock RecsDoneLock(this);
     int count = 0;
 
-    string eTitle = "";
+    std::string eTitle = "";
     if (compareTitle) {
-        string s = event->Title() ? event->Title() : "";
+        std::string s = event->Title() ? event->Title() : "";
         eTitle = GetAlNum(s);
         std::transform(eTitle.begin(), eTitle.end(), eTitle.begin(), tolower);
     }
-    string eSubtitle = "";
+    std::string eSubtitle = "";
     if (compareSubtitle) {
-        string s = event->ShortText() ? event->ShortText() : "";
+        std::string s = event->ShortText() ? event->ShortText() : "";
         eSubtitle = GetAlNum(s);
         std::transform(eSubtitle.begin(), eSubtitle.end(), eSubtitle.begin(), tolower);
     }
-    string eDescr = "";
-    string eRawDescr = "";
+    std::string eDescr = "";
+    std::string eRawDescr = "";
     if ((compareSummary || catvaluesAvoidRepeat != 0) && event->Description()) {
         eDescr = event->Description();
         char* rawDescr = GetRawDescription(event->Description());
@@ -323,7 +323,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
         if (rawDescr) free(rawDescr);
     }
 
-    string compareExpression = "";
+    std::string compareExpression = "";
     if (compareDate == 1) compareExpression = "%date%";
     if (compareDate == 2) compareExpression = "%year%-%week%";
     if (compareDate == 3) compareExpression = "%year%-%month%";
@@ -331,20 +331,20 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
     cRecDone* firstrecDone = NULL;
     cRecDone* recDone = First();
     while (recDone) {
-        string rTitle = "";
+        std::string rTitle = "";
         if (compareTitle) {
-            string s = recDone->title ? recDone->title : "";
+            std::string s = recDone->title ? recDone->title : "";
             rTitle = GetAlNum(s);
             std::transform(rTitle.begin(), rTitle.end(), rTitle.begin(), tolower);
         }
-        string rSubtitle = "";
+        std::string rSubtitle = "";
         if (compareSubtitle) {
-            string s = recDone->shortText ? recDone->shortText : "";
+            std::string s = recDone->shortText ? recDone->shortText : "";
             rSubtitle = GetAlNum(s);
             std::transform(rSubtitle.begin(), rSubtitle.end(), rSubtitle.begin(), tolower);
         }
-        string rDescr = "";
-        string rRawDescr = "";
+        std::string rDescr = "";
+        std::string rRawDescr = "";
         if ((compareSummary || catvaluesAvoidRepeat != 0) && recDone->description) {
             rDescr = recDone->description;
             char* rawDescr = recDone->rawdescription ? recDone->rawdescription : GetRawDescription(recDone->description);

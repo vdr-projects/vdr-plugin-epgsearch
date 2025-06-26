@@ -30,8 +30,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "timer_thread.h"
 #include <vdr/menu.h>
 
-using std::string;
-
 // --- cMenuConflictCheckItem -------------------------------------------------------
 cMenuConflictCheckItem::cMenuConflictCheckItem(cConflictCheckTime* Ct, cConflictCheckTimerObj* TimerObj)
 {

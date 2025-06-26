@@ -27,15 +27,13 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <string>
 #include <vdr/plugin.h>
 
-using std::string;
-
 // --- cNoAnnouce --------------------------------------------------------
 // an event that should not be announced again
 class cNoAnnounce : public cListObject
 {
 public:
-    string title;             // Title of this event
-    string shortText;         // Short description of this event
+    std::string title;       // Title of this event
+    std::string shortText;   // Short description of this event
     time_t startTime;        // Start time of the timer
     time_t nextAnnounce;     // time of the next announce
     tChannelID channelID;

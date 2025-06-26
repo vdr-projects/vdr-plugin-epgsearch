@@ -26,7 +26,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchcats.h"
 #include "epgsearchtools.h"
 
-set<string> cMenuDirSelect::directorySet;
+std::set<std::string> cMenuDirSelect::directorySet;
 
 cDirExts DirExts;
 cConfDDirExts ConfDDirExts;
@@ -196,10 +196,10 @@ void cMenuDirSelect::CreateDirSet(bool extraDirs)
     }
 }
 
-void cMenuDirSelect::AddVDRFolders(cNestedItem* folder, string parentDirectory)
+void cMenuDirSelect::AddVDRFolders(cNestedItem* folder, std::string parentDirectory)
 {
     if (folder == NULL) return;
-    string folderDirectory = string((parentDirectory.size() == 0) ? "" : parentDirectory + "~") + folder->Text();
+    std::string folderDirectory = std::string((parentDirectory.size() == 0) ? "" : parentDirectory + "~") + folder->Text();
     directorySet.insert(folderDirectory);
     if (folder->SubItems() == NULL) return;
     for (cNestedItem* subfolder = folder->SubItems()->First(); subfolder; subfolder = folder->SubItems()->Next(subfolder))
@@ -215,7 +215,7 @@ void cMenuDirSelect::Load()
     Clear();
 
     CreateDirSet();
-    std::set<string>::iterator it;
+    std::set<std::string>::iterator it;
     for (it = directorySet.begin(); it != directorySet.end(); ++it)
         AddDistinct((*it).c_str());
 

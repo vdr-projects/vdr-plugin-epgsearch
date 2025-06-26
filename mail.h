@@ -31,30 +31,27 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/plugin.h>
 #include "conflictcheck.h"
 
-using std::string;
-using std::set;
-
 // --- cMailNotifier --------------------------------------------------------
 class cMailNotifier
 {
 protected:
-    string subject;
-    string body;
+    std::string subject;
+    std::string body;
 
     bool SendMailViaSendmail();
     bool SendMailViaScript();
     bool SendMail(bool force = false);
-    bool ExecuteMailScript(string ScriptArgs);
+    bool ExecuteMailScript(std::string ScriptArgs);
 public:
-    string scriptReply;
+    std::string scriptReply;
 
     cMailNotifier() {}
-    cMailNotifier(string Subject, string Body);
-    bool TestMailAccount(string MailAddressTo, string MailAddress, string MailServer, string AuthUser, string AuthPass);
-    static string LoadTemplate(const string& templtype);
-    static string GetTemplValue(const string& templ, const string& entry);
+    cMailNotifier(std::string Subject, std::string Body);
+    bool TestMailAccount(std::string MailAddressTo, std::string MailAddress, std::string MailServer, std::string AuthUser, std::string AuthPass);
+    static std::string LoadTemplate(const std::string& templtype);
+    static std::string GetTemplValue(const std::string& templ, const std::string& entry);
 
-    static string MailCmd;
+    static std::string MailCmd;
 };
 
 class cMailTimerNotification
@@ -71,7 +68,7 @@ public:
     cMailTimerNotification(tEventID EventID, tChannelID ChannelID, uint TimerMod = tmNoChange)
         : eventID(EventID), channelID(ChannelID), timerMod(TimerMod) {}
     virtual bool operator< (const cMailTimerNotification &N) const;
-    virtual string Format(const string& templ) const;
+    virtual std::string Format(const std::string& templ) const;
 };
 
 class cMailDelTimerNotification
@@ -80,12 +77,12 @@ class cMailDelTimerNotification
     time_t start;
     tChannelID channelID;
 public:
-    string formatted;
+    std::string formatted;
 
-    cMailDelTimerNotification(const cTimer* t, const cEvent* pEvent, const string& templ);
-    cMailDelTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start);
+    cMailDelTimerNotification(const cTimer* t, const cEvent* pEvent, const std::string& templ);
+    cMailDelTimerNotification(const std::string& Formatted, tChannelID ChannelID, time_t Start);
     bool operator< (const cMailDelTimerNotification &N) const;
-    string Format(const string& templ) const {
+    std::string Format(const std::string& templ) const {
         return formatted;
     }
 };
@@ -97,23 +94,23 @@ class cMailAnnounceEventNotification : public cMailTimerNotification
 public:
     cMailAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID)
         : cMailTimerNotification(EventID, ChannelID), searchextID(SearchExtID) {}
-    string Format(const string& templ) const;
+    std::string Format(const std::string& templ) const;
 };
 
 class cMailUpdateNotifier : public cMailNotifier
 {
-    set<cMailTimerNotification> newTimers;
-    set<cMailTimerNotification> modTimers;
-    set<cMailDelTimerNotification> delTimers;
-    set<cMailAnnounceEventNotification> announceEvents;
+    std::set<cMailTimerNotification> newTimers;
+    std::set<cMailTimerNotification> modTimers;
+    std::set<cMailDelTimerNotification> delTimers;
+    std::set<cMailAnnounceEventNotification> announceEvents;
 
-    string mailTemplate;
+    std::string mailTemplate;
 public:
     cMailUpdateNotifier();
     void AddNewTimerNotification(tEventID EventID, tChannelID ChannelID);
     void AddModTimerNotification(tEventID EventID, tChannelID ChannelID, uint timerMod = tmNoChange);
     void AddRemoveTimerNotification(const cTimer* t, const cEvent* e = NULL);
-    void AddRemoveTimerNotification(const string& Formatted, tChannelID ChannelID, time_t Start);
+    void AddRemoveTimerNotification(const std::string& Formatted, tChannelID ChannelID, time_t Start);
     void AddAnnounceEventNotification(tEventID EventID, tChannelID ChannelID, int SearchExtID);
     void SendUpdateNotifications();
 };

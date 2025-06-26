@@ -104,7 +104,7 @@ cBlacklist& cBlacklist::operator= (const cBlacklist &Blacklist)
     char**   catvaluesTemp = this->catvalues;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wclass-memaccess"
-    // TODO: this shallow copy does not duplicate all strings -> can this cause trouble?
+    // TODO: this shallow copy does not duplicate all std::strings -> can this cause trouble?
     memcpy(this, &Blacklist, sizeof(*this));
 #pragma GCC diagnostic pop
     this->catvalues = catvaluesTemp;

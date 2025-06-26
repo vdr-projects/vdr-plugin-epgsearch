@@ -27,8 +27,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <string>
 #include <vdr/plugin.h>
 
-using std::string;
-
 // --- cTimerDone --------------------------------------------------------
 class cTimerDone : public cListObject
 {
@@ -37,8 +35,8 @@ public:
     time_t stop;         // Stop time of the timer
     tChannelID channelID;
     int searchID;
-    string title;
-    string shorttext;
+    std::string title;
+    std::string shorttext;
 
     cTimerDone();
     cTimerDone(const time_t Start, const time_t Stop, const cEvent* pEvent, const int SearchID);

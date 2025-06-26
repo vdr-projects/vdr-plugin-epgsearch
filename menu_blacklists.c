@@ -60,7 +60,7 @@ void cMenuBlacklistsItem::Set(void)
     line << "\t";
 
     if (strlen(blacklist->search) > 0)
-        line << setiosflags(ios::left) << string(blacklist->search);
+        line << setiosflags(ios::left) << std::string(blacklist->search);
     else
         line << setiosflags(ios::left) << "*";
 

@@ -29,8 +29,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchext.h"
 #include "recdone.h"
 
-using std::string;
-
 #define MAXPARSEBUFFER KILOBYTE(10)
 
 #undef CHANNELNAME
@@ -126,8 +124,8 @@ char* GetExtEPGValue(const char* description, const char* catname, const char *f
 char* GetAuxValue(const char* aux, const char* name);
 char* GetAuxValue(const cRecording *recording, const char* name);
 char* GetAuxValue(const cTimer* timer, const char* name);
-string UpdateAuxValue(string aux, string section, string value);
-string UpdateAuxValue(string aux, string section, long num);
+std::string UpdateAuxValue(std::string aux, std::string section, std::string value);
+std::string UpdateAuxValue(std::string aux, std::string section, long num);
 void ToLower(char* szText);
 char *strreplacei(char *s, const char *s1, const char *s2);
 std::string strreplace(std::string& result, const std::string& replaceWhat, const std::string& replaceWithWhat);
@@ -166,17 +164,17 @@ int ChannelNrFromEvent(const cEvent* pEvent);
 void DelTimer(int index);
 char* FixSeparators(char* buffer, char sep);
 cString DateTime(time_t t);
-string NumToString(long l);
-int FindIgnoreCase(const string& expr, const string& query);
-bool EqualsNoCase(const string& a, const string& b);
-string Strip(const string& input);
-string ReplaceAll(const string& input, const string& what, const string& with);
-string GetAlNum(const string& s);
-string EscapeString(const string& S);
-string QuoteApostroph(const string& S);
-string MD5(const string& input);
+std::string NumToString(long l);
+int FindIgnoreCase(const std::string& expr, const std::string& query);
+bool EqualsNoCase(const std::string& a, const std::string& b);
+std::string Strip(const std::string& input);
+std::string ReplaceAll(const std::string& input, const std::string& what, const std::string& with);
+std::string GetAlNum(const std::string& s);
+std::string EscapeString(const std::string& S);
+std::string QuoteApostroph(const std::string& S);
+std::string MD5(const std::string& input);
 time_t GetDateTime(time_t day, int start);
-void SetAux(cTimer* timer, string aux);
+void SetAux(cTimer* timer, std::string aux);
 int msprintf(char **strp, const char *fmt, ...);
 std::string GetCodeset();
 ssize_t Readline(int sockd, char *vptr, size_t maxlen);
@@ -211,7 +209,7 @@ public:
 // a case-insensitive string class
 struct ignorecase_traits : public std::
 #if defined(__GNUC__) && __GNUC__ < 3 && __GNUC_MINOR__ < 96
-        string_char_traits<char>
+        std::string_char_traits<char>
 #else
         char_traits<char>
 #endif

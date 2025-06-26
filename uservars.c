@@ -34,10 +34,10 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 cUserVars UserVars;
 
-string cPlugconfdirVar::dir = "";
-string cExtEPGVar::nameSpace = "epg";
-string cTimerVar::nameSpace = "timer";
-string cSearchVar::nameSpace = "search";
+std::string cPlugconfdirVar::dir = "";
+std::string cExtEPGVar::nameSpace = "epg";
+std::string cTimerVar::nameSpace = "timer";
+std::string cSearchVar::nameSpace = "search";
 
 // cUserVar
 
@@ -47,12 +47,12 @@ cUserVar::cUserVar()
     oldescapeStrings = false;
 }
 
-string cUserVar::Evaluate(const cEvent* e, bool escapeStrings)
+std::string cUserVar::Evaluate(const cEvent* e, bool escapeStrings)
 {
     if (oldEvent && oldEvent == e && oldescapeStrings == escapeStrings)
         return oldResult;
     usedVars.clear();
-    string result;
+    std::string result;
     if (IsShellCmd())
         result = EvaluateShellCmd(e);
     else if (IsConnectCmd())
@@ -75,17 +75,17 @@ string cUserVar::Evaluate(const cEvent* e, bool escapeStrings)
     return result;
 }
 
-string cUserVar::EvaluateShellCmd(const cEvent* e)
+std::string cUserVar::EvaluateShellCmd(const cEvent* e)
 {
     if (!varparser.cmd) return "";
-    string cmdArgs;
+    std::string cmdArgs;
     if (varparser.cmdArgs != "") {
-        string args = varparser.cmdArgs;
+        std::string args = varparser.cmdArgs;
         varparser.compExpr = args; //handle the args as composed expr
         cmdArgs = EvaluateCompExpr(e, true);
     }
     const char* res = varparser.cmd->Execute(cmdArgs.c_str());
-    string result = res ? res : "";
+    std::string result = res ? res : "";
     int crPos = 0; // remove any CR
     while ((crPos = result.find("\n")) >= 0)
         result.replace(crPos, 1, "");
@@ -94,7 +94,7 @@ string cUserVar::EvaluateShellCmd(const cEvent* e)
 }
 
 #define MAX_LINE 1000
-string cUserVar::EvaluateConnectCmd(const cEvent* e)
+std::string cUserVar::EvaluateConnectCmd(const cEvent* e)
 {
     if (varparser.connectAddr == "") return "";
 
@@ -124,7 +124,7 @@ string cUserVar::EvaluateConnectCmd(const cEvent* e)
     }
 
     varparser.compExpr = varparser.cmdArgs;
-    string resexp = EvaluateCompExpr(e, true);
+    std::string resexp = EvaluateCompExpr(e, true);
     sprintf(buffer, "%s\n", resexp.c_str());
     Writeline(conn_s, buffer, strlen(buffer));
     Readline(conn_s, buffer, MAX_LINE - 1);
@@ -133,18 +133,18 @@ string cUserVar::EvaluateConnectCmd(const cEvent* e)
     return buffer;
 }
 
-string cUserVar::EvaluateLengthCmd(const cEvent* e)
+std::string cUserVar::EvaluateLengthCmd(const cEvent* e)
 {
     return NumToString(EvaluateCompExpr(e, false).size());
 }
 
-string cUserVar::EvaluateCondExpr(const cEvent* e, bool escapeStrings)
+std::string cUserVar::EvaluateCondExpr(const cEvent* e, bool escapeStrings)
 {
-    string condresult = "";
+    std::string condresult = "";
     cVarExpr leftExp(varparser.condEqLeft);
-    string resLeft = leftExp.Evaluate(e);
+    std::string resLeft = leftExp.Evaluate(e);
     cVarExpr rightExp(varparser.condEqRight);
-    string resRight = rightExp.Evaluate(e);
+    std::string resRight = rightExp.Evaluate(e);
     if (varparser.condOp == condEq && resLeft == resRight)  condresult = "1"; // assign any value
     if (varparser.condOp == condNeq && resLeft != resRight) condresult = "1"; // assign any value
 
@@ -164,10 +164,10 @@ string cUserVar::EvaluateCondExpr(const cEvent* e, bool escapeStrings)
     }
 }
 
-string cUserVar::EvaluateCompExpr(const cEvent* e, bool escapeStrings)
+std::string cUserVar::EvaluateCompExpr(const cEvent* e, bool escapeStrings)
 {
-    string expr = varparser.compExpr;
-    if (expr.find('%') == string::npos) return expr;
+    std::string expr = varparser.compExpr;
+    if (expr.find('%') == std::string::npos) return expr;
 
     // handle internal vars like title and subtitle
     expr = EvaluateInternalVars(expr, e, escapeStrings);
@@ -181,14 +181,14 @@ string cUserVar::EvaluateCompExpr(const cEvent* e, bool escapeStrings)
     return expr;
 }
 
-string cUserVar::EvaluateInternalVars(const string& Expr, const cEvent* e, bool escapeStrings)
+std::string cUserVar::EvaluateInternalVars(const std::string& Expr, const cEvent* e, bool escapeStrings)
 {
-    string expr = Expr;
-    if (expr.find('%') == string::npos) return expr;
+    std::string expr = Expr;
+    if (expr.find('%') == std::string::npos) return expr;
 
-    std::map<string, cInternalVar*>::iterator it;
+    std::map<std::string, cInternalVar*>::iterator it;
     for (it = UserVars.internalVars.begin(); it != UserVars.internalVars.end(); ++it) {
-        string varName = (it->second)->Name();
+        std::string varName = (it->second)->Name();
         int varPos = 0;
         while ((varPos = FindIgnoreCase(expr, varName)) >= 0) {
             usedVars.insert(it->second);
@@ -198,15 +198,15 @@ string cUserVar::EvaluateInternalVars(const string& Expr, const cEvent* e, bool 
     return expr;
 }
 
-string cUserVar::EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool escapeStrings)
+std::string cUserVar::EvaluateExtEPGVars(const std::string& Expr, const cEvent* e, bool escapeStrings)
 {
-    string expr = Expr;
-    if (expr.find('%') == string::npos) return expr;
+    std::string expr = Expr;
+    if (expr.find('%') == std::string::npos) return expr;
 
-    std::map<string, cExtEPGVar*>::iterator evar;
+    std::map<std::string, cExtEPGVar*>::iterator evar;
     for (evar = UserVars.extEPGVars.begin(); evar != UserVars.extEPGVars.end(); ++evar) {
         // replace ext. EPG variables with leading namespace
-        string varName = evar->second->Name(true);
+        std::string varName = evar->second->Name(true);
         int varPos = 0;
         while ((varPos = FindIgnoreCase(expr, varName)) >= 0) {
             expr.replace(varPos, varName.size(), evar->second->Evaluate(e, escapeStrings));
@@ -223,14 +223,14 @@ string cUserVar::EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool es
     return expr;
 }
 
-string cUserVar::EvaluateUserVars(const string& Expr, const cEvent* e, bool escapeStrings)
+std::string cUserVar::EvaluateUserVars(const std::string& Expr, const cEvent* e, bool escapeStrings)
 {
-    string expr = Expr;
-    if (expr.find('%') == string::npos) return expr;
+    std::string expr = Expr;
+    if (expr.find('%') == std::string::npos) return expr;
 
     std::set<cUserVar*>::iterator it;
     for (it = UserVars.userVars.begin(); it != UserVars.userVars.end(); ++it) {
-        string varName = (*it)->Name();
+        std::string varName = (*it)->Name();
         int varPos = 0;
         while ((varPos = FindIgnoreCase(expr, varName)) >= 0) {
             if (!AddDepVar(*it)) return "";
@@ -240,14 +240,14 @@ string cUserVar::EvaluateUserVars(const string& Expr, const cEvent* e, bool esca
     return expr;
 }
 
-string cUserVar::EvaluateInternalTimerVars(const string& Expr, const cTimer* t)
+std::string cUserVar::EvaluateInternalTimerVars(const std::string& Expr, const cTimer* t)
 {
-    string expr = Expr;
-    if (expr.find('%') == string::npos) return expr;
+    std::string expr = Expr;
+    if (expr.find('%') == std::string::npos) return expr;
 
-    std::map<string, cTimerVar*>::iterator tvar;
+    std::map<std::string, cTimerVar*>::iterator tvar;
     for (tvar = UserVars.internalTimerVars.begin(); tvar != UserVars.internalTimerVars.end(); ++tvar) {
-        string varName = tvar->second->Name();
+        std::string varName = tvar->second->Name();
         int varPos = 0;
 
         while ((varPos = FindIgnoreCase(expr, varName)) >= 0) {
@@ -257,14 +257,14 @@ string cUserVar::EvaluateInternalTimerVars(const string& Expr, const cTimer* t)
     return expr;
 }
 
-string cUserVar::EvaluateInternalSearchVars(const string& Expr, const cSearchExt* s)
+std::string cUserVar::EvaluateInternalSearchVars(const std::string& Expr, const cSearchExt* s)
 {
-    string expr = Expr;
-    if (expr.find('%') == string::npos) return expr;
+    std::string expr = Expr;
+    if (expr.find('%') == std::string::npos) return expr;
 
-    std::map<string, cSearchVar*>::iterator svar;
+    std::map<std::string, cSearchVar*>::iterator svar;
     for (svar = UserVars.internalSearchVars.begin(); svar != UserVars.internalSearchVars.end(); ++svar) {
-        string varName = svar->second->Name();
+        std::string varName = svar->second->Name();
         int varPos = 0;
         while ((varPos = FindIgnoreCase(expr, varName)) >= 0) {
             expr.replace(varPos, varName.size(), svar->second->Evaluate(s));
@@ -273,9 +273,9 @@ string cUserVar::EvaluateInternalSearchVars(const string& Expr, const cSearchExt
     return expr;
 }
 
-bool cUserVar::DependsOnVar(const string& varName)
+bool cUserVar::DependsOnVar(const std::string& varName)
 {
-    string VarName = Strip(varName);
+    std::string VarName = Strip(varName);
     cUserVar* var = UserVars.GetFromName(VarName);
     if (!var) return false;
     return DependsOnVar(var);
@@ -332,12 +332,12 @@ bool cUserVarLine::Parse(char *s)
 }
 
 // cUserVars
-cUserVar* cUserVars::GetFromName(const string& varName, bool log)
+cUserVar* cUserVars::GetFromName(const std::string& varName, bool log)
 {
-    string VarName = Strip(varName);
+    std::string VarName = Strip(varName);
     std::transform(VarName.begin(), VarName.end(), VarName.begin(), tolower);
 
-    std::map<string, cInternalVar*>::iterator ivar = internalVars.find(VarName);
+    std::map<std::string, cInternalVar*>::iterator ivar = internalVars.find(VarName);
     if (ivar != internalVars.end())
         return ivar->second;
 
@@ -346,7 +346,7 @@ cUserVar* cUserVars::GetFromName(const string& varName, bool log)
         if (EqualsNoCase((*uvar)->Name(), VarName))
             return (*uvar);
 
-    std::map<string, cExtEPGVar*>::iterator evar = extEPGVars.find(VarName);
+    std::map<std::string, cExtEPGVar*>::iterator evar = extEPGVars.find(VarName);
     if (evar != extEPGVars.end())
         return evar->second;
 
@@ -356,7 +356,7 @@ cUserVar* cUserVars::GetFromName(const string& varName, bool log)
 }
 
 // cVarExpr
-string cVarExpr::Evaluate(const cEvent* e)
+std::string cVarExpr::Evaluate(const cEvent* e)
 {
     // create a dummy user var
     cUserVar var;
@@ -364,13 +364,13 @@ string cVarExpr::Evaluate(const cEvent* e)
         return "";
 
     LogFile.Log(3, "start evaluating expression '%s'", expr.c_str());
-    string result = var.Evaluate(e);
+    std::string result = var.Evaluate(e);
     LogFile.Log(3, "stop evaluating expression '%s' - result: '%s'", expr.c_str(), result.c_str());
     usedVars = var.usedVars;
     return result;
 }
 
-string cVarExpr::Evaluate(const cTimer* t)
+std::string cVarExpr::Evaluate(const cTimer* t)
 {
     // create a dummy user var
     cUserVar var;
@@ -381,7 +381,7 @@ string cVarExpr::Evaluate(const cTimer* t)
     return var.EvaluateInternalTimerVars(expr, t);
 }
 
-string cVarExpr::Evaluate(const cSearchExt* s)
+std::string cVarExpr::Evaluate(const cSearchExt* s)
 {
     // create a dummy user var
     cUserVar var;
@@ -392,9 +392,9 @@ string cVarExpr::Evaluate(const cSearchExt* s)
     return var.EvaluateInternalSearchVars(expr, s);
 }
 
-bool cVarExpr::DependsOnVar(const string& varName, const cEvent* e)
+bool cVarExpr::DependsOnVar(const std::string& varName, const cEvent* e)
 {
-    string VarName = Strip(varName);
+    std::string VarName = Strip(varName);
     if (FindIgnoreCase(expr, VarName) >= 0)
         return true;
     // create a dummy user var

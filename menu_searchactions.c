@@ -129,7 +129,7 @@ eOSState cMenuSearchActions::Execute()
                 return osBack;
             cSearchExt* copy = new cSearchExt;
             copy->CopyFromTemplate(search);
-            string copyname = string(tr("Copy")) + ": " + search->search;
+            std::string copyname = std::string(tr("Copy")) + ": " + search->search;
             strcpy(copy->search, copyname.c_str());
             cMutexLock SearchExtsLock(&SearchExts);
             copy->ID = SearchExts.GetNewID();

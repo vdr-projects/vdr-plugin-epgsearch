@@ -27,19 +27,19 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include <sstream>
 
-bool cVarParser::Parse(const string& input)
+bool cVarParser::Parse(const std::string& input)
 {
     return ParseAssign(input);
 }
 
-bool cVarParser::ParseAssign(const string& input)
+bool cVarParser::ParseAssign(const std::string& input)
 {
     int assignPos = input.find("=");
     if (assignPos >= 0) {
-        string var(input.begin(), input.begin() + assignPos);
+        std::string var(input.begin(), input.begin() + assignPos);
         if (ParseVar(var)) {
             varName = Strip(var);
-            string assign(input.begin() + assignPos + 1, input.end());
+            std::string assign(input.begin() + assignPos + 1, input.end());
             return ParseExp(assign);
         }
     }
@@ -47,7 +47,7 @@ bool cVarParser::ParseAssign(const string& input)
     return false;
 }
 
-bool cVarParser::ParseExp(const string& input)
+bool cVarParser::ParseExp(const std::string& input)
 {
     // system call?
     int sysPos = input.find("system");
@@ -76,20 +76,20 @@ bool cVarParser::ParseExp(const string& input)
     return true;
 }
 
-bool cVarParser::ParseShellCmd(const string& input)
+bool cVarParser::ParseShellCmd(const std::string& input)
 {
     int cmdPos = input.find("(");
     int cmdArgsBegin = input.find(",");
     int cmdArgsEnd = input.rfind(")");
     if (cmdPos == -1 || cmdArgsEnd == -1) return false;
-    string shellcmd(input.begin() + cmdPos + 1, input.begin() + (cmdArgsBegin >= 0 ? cmdArgsBegin : cmdArgsEnd));
+    std::string shellcmd(input.begin() + cmdPos + 1, input.begin() + (cmdArgsBegin >= 0 ? cmdArgsBegin : cmdArgsEnd));
     shellcmd = Strip(shellcmd);
 
     cmdArgs = "";
     if (cmdArgsBegin >= 0)
-        cmdArgs = string(input.begin() + cmdArgsBegin + 1, input.begin() + cmdArgsEnd);
+        cmdArgs = std::string(input.begin() + cmdArgsBegin + 1, input.begin() + cmdArgsEnd);
 
-    string cmdVDR = "varcmd: " + shellcmd;
+    std::string cmdVDR = "varcmd: " + shellcmd;
     cmd = new cCommand;
     if (!cmd->Parse(cmdVDR.c_str())) {
         LogFile.eSysLog("error parsing command: %s", input.c_str());
@@ -101,12 +101,12 @@ bool cVarParser::ParseShellCmd(const string& input)
     return true;
 }
 
-bool cVarParser::ParseConnectCmd(const string& input)
+bool cVarParser::ParseConnectCmd(const std::string& input)
 {
     int startCon = input.find("(");
     int endCon = input.find(")");
     if (startCon == -1 || endCon == -1) return false;
-    string connect(input.begin() + startCon + 1, input.begin() + endCon);
+    std::string connect(input.begin() + startCon + 1, input.begin() + endCon);
     std::stringstream ss(connect);
     std::string item;
     if (std::getline(ss, item, ','))
@@ -127,21 +127,21 @@ bool cVarParser::ParseConnectCmd(const string& input)
     return true;
 }
 
-bool cVarParser::ParseLengthCmd(const string& input)
+bool cVarParser::ParseLengthCmd(const std::string& input)
 {
     int startLen = input.find("(");
     int endLen = input.find(")");
     if (startLen == -1 || endLen == -1) return false;
-    string arg(input.begin() + startLen + 1, input.begin() + endLen);
+    std::string arg(input.begin() + startLen + 1, input.begin() + endLen);
     compExpr = arg;
     type = cVarParser::lengthcmd;
     return true;
 }
 
-bool cVarParser::ParseCondExp(const string& input)
+bool cVarParser::ParseCondExp(const std::string& input)
 {
     int condEndPos = input.find("?");
-    string cond(input.begin(), input.begin() + condEndPos);
+    std::string cond(input.begin(), input.begin() + condEndPos);
     int condNeqPos = cond.find("!=");
     int condEqPos = cond.find("==");
 
@@ -161,11 +161,11 @@ bool cVarParser::ParseCondExp(const string& input)
         return false;
     }
 
-    string truefalse(input.begin() + condEndPos + 1, input.end());
+    std::string truefalse(input.begin() + condEndPos + 1, input.end());
     int elsePos = truefalse.find(":");
     if (elsePos >= 0) {
-        string truePart(truefalse.begin(), truefalse.begin() + elsePos);
-        string falsePart(truefalse.begin() + elsePos + 1, truefalse.end());
+        std::string truePart(truefalse.begin(), truefalse.begin() + elsePos);
+        std::string falsePart(truefalse.begin() + elsePos + 1, truefalse.end());
         if (ParseVar(truePart) && ParseVar(falsePart)) {
             condvarTrue = Strip(truePart);
             condvarFalse = Strip(falsePart);
@@ -178,7 +178,7 @@ bool cVarParser::ParseCondExp(const string& input)
     return false;
 }
 
-bool cVarParser::ParseEquality(const string& input)
+bool cVarParser::ParseEquality(const std::string& input)
 {
     int condEqPos = input.find("==");
     int condNeqPos = input.find("!=");
@@ -186,8 +186,8 @@ bool cVarParser::ParseEquality(const string& input)
     if (condEqPos >= 0) condOpPos = condEqPos;
     if (condNeqPos >= 0) condOpPos = condNeqPos;
     if (condOpPos == -1) return false;
-    string left(input.begin(), input.begin() + condOpPos);
-    string right(input.begin() + condOpPos + 2, input.end());
+    std::string left(input.begin(), input.begin() + condOpPos);
+    std::string right(input.begin() + condOpPos + 2, input.end());
     if (ParseExp(left) && ParseExp(right)) {
         condEqLeft = Strip(left);
         condEqRight = Strip(right);
@@ -196,9 +196,9 @@ bool cVarParser::ParseEquality(const string& input)
     return false;
 }
 
-bool cVarParser::ParseVar(const string& input)
+bool cVarParser::ParseVar(const std::string& input)
 {
-    string str = Strip(input);
+    std::string str = Strip(input);
     if (str.size() > 2 && str[0] == '%' && str[str.size() - 1] == '%')
         return true;
     return false;

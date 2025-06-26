@@ -25,12 +25,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define __VAR_PARSER_INC__
 
 #include <string>
-#include <vector>
 #include <vdr/config.h>
 #include "epgsearchtools.h"
-
-using std::string;
-using std::vector;
 
 typedef enum {
     condEq = 0,
@@ -48,38 +44,38 @@ class cVarParser
     } exprType;
 
 public:
-    string varName;
-    string condEqLeft;
-    string condEqRight;
+    std::string varName;
+    std::string condEqLeft;
+    std::string condEqRight;
     condOperator condOp;
-    string condvarTrue;
-    string condvarFalse;
-    string compExpr;
+    std::string condvarTrue;
+    std::string condvarFalse;
+    std::string compExpr;
 
     cCommand* cmd;
-    string cmdArgs;
+    std::string cmdArgs;
 
-    string connectAddr;
+    std::string connectAddr;
     int connectPort;
     exprType type;
 
     cVarParser() : cmd(NULL), connectPort(-1), type(composed) {
         condOp = condEq;
     }
-    bool Parse(const string& input);
-    bool ParseExp(const string& input);
+    bool Parse(const std::string& input);
+    bool ParseExp(const std::string& input);
     bool IsCondExpr();
     bool IsShellCmd();
     bool IsConnectCmd();
     bool IsLengthCmd();
 private:
-    bool ParseAssign(const string& input);
-    bool ParseShellCmd(const string& input);
-    bool ParseConnectCmd(const string& input);
-    bool ParseLengthCmd(const string& input);
-    bool ParseCondExp(const string& input);
-    bool ParseEquality(const string& input);
-    bool ParseVar(const string& input);
+    bool ParseAssign(const std::string& input);
+    bool ParseShellCmd(const std::string& input);
+    bool ParseConnectCmd(const std::string& input);
+    bool ParseLengthCmd(const std::string& input);
+    bool ParseCondExp(const std::string& input);
+    bool ParseEquality(const std::string& input);
+    bool ParseVar(const std::string& input);
 };
 
 #endif

@@ -27,8 +27,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include <vdr/tools.h>
 
-using std::string;
-
 // -- cSearchExtCat -----------------------------------------------------------------
 cSearchExtCat::cSearchExtCat(void)
 {
@@ -132,9 +130,9 @@ bool cSearchExtCat::Parse(const char *s)
 const char *cSearchExtCat::ToText(void)
 {
     char* buffer = NULL;
-    string sValues = "";
+    std::string sValues = "";
     for (int i = 0; i < nvalues; i++)
-        sValues += string(values[i]) + ((i < nvalues - 1) ? ", " : "");
+        sValues += std::string(values[i]) + ((i < nvalues - 1) ? ", " : "");
 
     if (format) {
         msprintf(&buffer, "%d|%s,%s|%s|%s|%d",

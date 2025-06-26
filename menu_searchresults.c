@@ -257,8 +257,8 @@ eOSState cMenuSearchResults::Record(void)
             else
                 return AddSubMenu(new cMenuMyEditTimer(timer, !t, item->event));
         } else {
-            string fullaux = "";
-            string aux = "";
+            std::string fullaux = "";
+            std::string aux = "";
             if (item->event) {
                 const cEvent* event = item->event;
                 int bstart = event->StartTime() - timer->StartTime();
@@ -705,7 +705,7 @@ bool cMenuSearchResultsForQuery::BuildList()
        {
           char* szMessage = NULL;
           asprintf(&szMessage, tr("No results! Try again with tolerance %d?"), searchExt->mode == 5?searchExt->fuzzyTolerance+1:1);
-          string sMessage = szMessage;
+          std::string sMessage = szMessage;
           free(szMessage);
           if (Interface->Confirm(sMessage.c_str()))
           {
@@ -747,8 +747,8 @@ bool cMenuSearchResultsForRecs::BuildList()
         for (const cRecording *recording = Recordings->First(); recording; recording = Recordings->Next(recording)) {
             const cRecordingInfo *recInfo = recording->Info();
             if (!recInfo) continue;
-            string s1 = (recInfo && recInfo->Title()) ? recInfo->Title() : "";
-            string s2 = searchExt->search;
+            std::string s1 = (recInfo && recInfo->Title()) ? recInfo->Title() : "";
+            std::string s2 = searchExt->search;
             if (s1.empty() || s2.empty()) continue;
 
             // tolerance for fuzzy searching: 90% of the shorter text length, but at least 1

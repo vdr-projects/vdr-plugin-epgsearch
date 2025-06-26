@@ -24,9 +24,8 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #ifndef __PENDING_NOTIFICATIONS_H
 #define __PENDING_NOTIFICATIONS_H
 
+#include <string>
 #include <vdr/plugin.h>
-
-using std::string;
 
 // --- cPendingNotification --------------------------------------------------------
 class cPendingNotification : public cListObject
@@ -38,15 +37,14 @@ public:
     time_t start;
     uint timerMod;
     int searchID;
-    string formatted;
-
+    std::string formatted;
 
     static char *buffer;
 
     cPendingNotification()
         : type(-1), start(-1), timerMod(-1), searchID(-1) {}
     cPendingNotification(int Type, tEventID EventID, tChannelID ChannelID,  time_t Start, uint TimerMod = -1,
-                         int SearchID = -1, string Formatted = "")
+                         int SearchID = -1, std::string Formatted = "")
         : type(Type), eventID(EventID), channelID(ChannelID), start(Start), timerMod(TimerMod),
           searchID(SearchID), formatted(Formatted) {}
     ~cPendingNotification();

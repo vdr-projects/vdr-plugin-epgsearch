@@ -26,13 +26,10 @@ Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 #include <vdr/thread.h>
 #include "recstatus.h"
 
-using std::vector;
-using std::string;
-
 class cRecdoneThread: public cThread
 {
 private:
-    vector<string>m_fnames;
+    std::vector<std::string>m_fnames;
 public:
     virtual void Action(void);
     cRecdoneThread(void);
