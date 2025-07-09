@@ -125,7 +125,7 @@ Setup angepasst werden):
 Dieses Menü zeigt Befehle an, die auf den ausgewählten Menüeintrag
 angewandt werden können. Es gibt 8 vorgegebene Befehle:
 
- - Wiederholung: Zeigt Wiederholungen an
+ - Wiederholung: Zeigt weitere Sendungen mit gleichem Titel
  - Aufnehmen
  - Umschalten
  - Suche anlegen: schaltet zum Suchmenü und erzeugt eine Suche mit dem
@@ -284,6 +284,7 @@ Eine weitere Möglichkeit ist 'nur umschalten'. Dadurch wird automatisch eine
 Minute vor Beginn der Sendung auf deren Kanal gewechselt. Ebenso kann
 mit 'Ankündigen und Umschalten' die Sendung vor ihrem Beginn angekündigt werden
 und mit 'Ok' zum entsprechenden Kanal gewechselt werden.
+Weitere Aktionen sind 'Ankündigen per Mail' und 'Inaktive Aufnahme'
 
 =item - B<Serienaufnahme:>
 

@@ -34,13 +34,16 @@ is B<':'>:
           must exist as substring.
       3 - matches exactly
       4 - regular expression
+      5 - fuzzy searching (specify tolerance in parameter 42, not available
+          for EPG categories)
  10 - use title? 0/1
  11 - use subtitle? 0/1
  12 - use description? 0/1
  13 - use duration? 0/1
  14 - min duration in hhmm
  15 - max duration in hhmm
- 16 - use as search timer? 0/1
+ 16 - use as search timer? 0/1/2 (with 2 one can specify time margins in
+      parameter 48/49 where the search timer is active)
  17 - use day of week? 0/1
  18 - day of week (0 = Sunday, 1 = Monday...;
       -1 Sunday, -2 Monday, -4 Tuesday, ...; -7 Sun, Mon, Tue)
@@ -70,7 +73,7 @@ is B<':'>:
  32 - compare subtitle when testing for a repeat? 0/1/2
       0 - no
       1 - yes
-      2 - yes or both empty
+      2 - yes or both may be empty
  33 - compare description when testing for a repeat? 0/1
  34 - compare extended EPG info when testing for a repeat?
       This entry is a bit field of the category IDs.
@@ -82,8 +85,9 @@ is B<':'>:
  40 - blacklist usage mode (0 none, 1 selection, 2 all)
  41 - selected blacklist IDs separated with '|'
  42 - fuzzy tolerance value for fuzzy searching
- 43 - use this search in favorites menu (0 no, 1 yes)
- 44 - id of a menu search template
+ 43 - use this search in favorites menu 0/1
+ 44 - ID of the search menu template to use (only available if multiple
+      search result templates are defined in epgsearchmenu.conf)
  45 - auto deletion mode (0 don't delete search timer, 1 delete after given
       count of recordings, 2 delete after given days after first recording)
  46 - count of recordings after which to delete the search timer
@@ -93,9 +97,12 @@ is B<':'>:
  49 - last day where the search timer is active (see parameter 16)
  50 - ignore missing EPG categories? 0/1
  51 - unmute sound if off when used as switch timer
- 52 - percentage of match when comparing the summary of two events (with 'avoid repeats')
- 53 - HEX representation of the content descriptors, each descriptor ID is represented with 2 chars
- 54 - compare date when testing for a repeat? (0=no, 1=same day, 2=same week, 3=same month)
+ 52 - the minimum required match in percent when descriptions are compared
+      to avoid repeats (-> 33)
+ 53 - HEX representation of the content descriptors, each descriptor ID
+      is represented with 2 chars
+ 54 - compare date when testing for a repeat?
+      (0=no, 1=same day, 2=same week, 3=same month)
 
 A ':' in the search term or the directory entry will be translated in a
 '|'. If a '|' exists in the search term, e.g. when using regular

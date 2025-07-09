@@ -19,31 +19,32 @@ Der allgemeine Feldtrenner ist C<':'>.
 
 Folgende Felder sind möglich:
 
-  1 - Einmalige Suchtimer ID
+  1 - Eindeutige Suchtimer ID
   2 - Suchstring
   3 - Verwende Zeit? 0/1
   4 - Startzeit in HHMM
   5 - Stopzeit in HHMM
   6 - Verwende Kanal? 0 = nein,  1 = Intervall, 2 = Kanalgruppe, 3 = nur FTA
-  7 - Wenn 'verwende Kanal' = 1 dann ist Kanal ID[|Kanal ID] im VDR Format,
-      Einträge oder min/max Einträge getrennt durch |, wenn 'Verwende Kanal' = 2
-      dann der Kanalgruppenname
+  7 - Wenn 'Verwende Kanal' = 1 dann ist Kanal ID[|Kanal ID] im VDR Format,
+      ein Eintrag oder min/max getrennt durch |,
+      wenn 'Verwende Kanal' = 2 dann der Kanalgruppenname
   8 - Beachte Gross-/Kleinschreibung? 0/1
   9 - Suchmodus:
       0 - Der gesamte Suchbegriff muss genau so enthalten sein
       1 - Alle Suchbegriffe (Trenner sind Leerzeichen,',', ';', '|' oder '~')
-          müssen enthalten sein.
+          müssen enthalten sein als Teilzeichenketten.
       2 - Mindestens ein Suchbegriff muss enthalten sein (Trenner sind
           Leerzeichen, ',', ';', '|' oder '~').
       3 - Der Suchbegriff muss genau zutreffen
       4 - Regulärer Ausdruck
- 10 - Suche in Titel? 0/1
- 11 - Suche in Untertitel? 0/1
+      5 - Fuzzy Suche (Toleranz in 42), nicht möglich für EPG Kategorien
+ 10 - Suche im Titel? 0/1
+ 11 - Suche im Untertitel? 0/1
  12 - Suche in Beschreibung? 0/1
  13 - Verwende Länge? 0/1
  14 - Minimale Länge der Sendung in HHMM
  15 - Maximale Länge der Sendung in HHMM
- 16 - Verwende als Suchtimer? 0/1
+ 16 - Verwende als Suchtimer? 0/1/2 (2 definiert aktive Zeitspannen -> 48 und 49)
  17 - Verwende Tag der Woche? 0/1
  18 - Tag der Woche (0 = Sonntag, 1 = Montag...;
       -1 Sonntag, -2 Montag, -4 Dienstag, ...; -7 So, Mo, Di)
@@ -68,10 +69,10 @@ Folgende Felder sind möglich:
  29 - vermeide Wiederholungen? 0/1
  30 - erlaubte Anzahl Wiederholungen
  31 - Vergleiche Titel bei Prüfung auf Wiederholung? 0/1
- 32 - Vergleiche Untertitel bei Prüfung auf Wiederholung? 0/1
+ 32 - Vergleiche Untertitel bei Prüfung auf Wiederholung? 0/1/2
       0 - Nein
       1 - Ja
-      2 - Ja oder beide leer
+      2 - Ja, beide dürfen leer sein
  33 - Vergleiche Beschreibung bei Prüfung auf Wiederholung? 0/1
  34 - Vergleiche erweitertes EPG bei Prüfung auf Wiederholung?
       Dieser Eintrag ist ein Bitfeld von Kategorie IDs.
@@ -81,10 +82,26 @@ Folgende Felder sind möglich:
  38 - Schalte x Minuten vor der Sendung um, wenn Aktion = 2
  39 - Pausiere das Anlegene von Timern wenn x Aufnahmen vorhanden sind
  40 - Modus der Ausschlussliste: 0 = Aus, 1 = Wähle aus, 2 = Alle
- 41 - Verwende diese Ausschluss-Suchtimer, IDs getrennt durch '|'
+ 41 - Verwende diese Ausschluss-Suchtimer: IDs getrennt durch '|'
  42 - Fuzzy Toleranz für Suche
- 43 - Verwende diese Suche im Favoriten Menü, 0 = Nein, 1 = Ja
+ 43 - Verwende diese Suche im Favoriten Menü, 0/1
  44 - ID einer Menüvorlage für das Suchergebnis
+      (falls mehrere templates definiert sind in epgsearchmenu.conf)
+ 45 - Automatisches Löschen (0 nie, 1 nach gegebener Anzahl Aufnahmen,
+      2 nach gegebenen Tagen nach der ersten Aufzeichnung)
+ 46 - Anzahl Aufnahmen, nach denen der Suchtimer gelöscht wird
+ 47 - Anzahl der Tage nach der ersten Aufname, nach denen der
+      Suchtimer gelöscht wird
+ 48 - Erster Tag wo der Suchtimer aktiv ist
+ 49 - Letzter Tag wo der Suchtimer aktiv ist
+ 50 - Ignoriere fehlende EPG Kategorien, 0/1
+ 51 - Ton einschalten, falls stumm, wenn als Switchtimer verwendet
+ 52 - Minimal erforderliche Übereinstimmung in der Beschreibung,
+      wenn Wiederholung vermieden werden soll (-> 33)
+ 53 - HEX Repräsentation der Content-Deskriptoren, jede ID mit genau
+      2 Zeichen
+ 54 - Datum vergleichen, wenn auf Wiederholung getestet wird? (0 =nein,
+      1 = gleicher Tag, 2 = gleiche Woche, 3 = gleicher Monat)
 
 Folgende Zeichen werden bei der Speicherung übersetzt:
 

@@ -257,11 +257,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             if (search->Parse(Option)) {
                 cSearchExt *searchTemp = SearchExts.GetSearchFromID(search->ID);
                 if (searchTemp) {
-                    searchTemp->Parse(Option);
-                    LogFile.Log(1, "modified search '%s' (%d) via SVDRP", searchTemp->search, searchTemp->ID);
-                    SearchExts.Save();
-                    if (searchTemp->useAsSearchTimer && !EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
-                        cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
+                    if (searchTemp->Parse(Option)) {
+                        LogFile.Log(1, "modified search '%s' (%d) via SVDRP", searchTemp->search, searchTemp->ID);
+                        SearchExts.Save();
+                        if (searchTemp->useAsSearchTimer && !EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
+                            cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
+                    }
                     delete search;
                     return cString::sprintf("search '%s' with %d modified", searchTemp->search, searchTemp->ID);
                 } else {
