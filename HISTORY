@@ -1,5 +1,18 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2025-06-27
+- delete contentfilter if not set again in EDIS
+- changes in Ext::Parse provided by Stefan Hofmann
+- updated corresponding Manual entries
+- more error checking - avoid crash
+- evaluating return code
+- ignore error lines in epgsearch.conf - read rest
+- forgot README in .gitignore
+
+2025-06-22
+thanks to Stefan Hofmann:
+- get rid of 'using' directives, always use namespace prefix 'std'
+
 2025-05-15
 - provide timer in SetItemEvent with vdr 2.7.5
 thanks to Stefan Hofmann:

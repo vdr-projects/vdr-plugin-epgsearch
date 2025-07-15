@@ -26,8 +26,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_whatson.h"
 #include "menu_commands.h"
 
-using std::set;
-
 extern const char* ButtonBlue[3];
 extern int exitToMainMenu;
 
@@ -75,7 +73,7 @@ bool cMenuFavorites::BuildList()
     }
 
     if (pCompleteSearchResults) {
-        set<const cEvent*> foundEvents;
+        std::set<const cEvent*> foundEvents;
         pCompleteSearchResults->SortBy(CompareEventTime);
 
         for (cSearchResult* pResultObj = pCompleteSearchResults->First();

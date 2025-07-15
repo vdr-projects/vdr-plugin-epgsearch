@@ -21,11 +21,8 @@ The author can be reached at cwieninger@gmx.de
 The project's page is at http://winni.vdr-developer.org/epgsearch
 */
 
-#include <string>
 #include "noannounce.h"
 #include "epgsearchtools.h"
-
-using std::string;
 
 cNoAnnounces NoAnnounces;
 char *cNoAnnounce::buffer = NULL;

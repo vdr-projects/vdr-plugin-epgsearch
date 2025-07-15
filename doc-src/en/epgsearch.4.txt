@@ -102,8 +102,8 @@ is B<':'>:
  11 - use subtitle? 0/1
  12 - use description? 0/1
  13 - use duration? 0/1
- 14 - min duration in minutes
- 15 - max duration in minutes
+ 14 - min duration format: hhmm
+ 15 - max duration format: hhmm
  16 - use as search timer? 0/1/2 (with 2 one can specify time margins in
       parameter 48/49 where the search timer is active)
  17 - use day of week? 0/1
@@ -120,6 +120,8 @@ is B<':'>:
        0 = create a timer
        1 = announce only via OSD (no timer)
        2 = switch only (no timer)
+       3 = announce via OSD and switch (no timer)
+       4 = announce via mail
  27 - use extended EPG info? 0/1
  28 - extended EPG info values. This entry has the following format
       (delimiter is '|' for each category, '#' separates id and value):
@@ -143,18 +145,23 @@ is B<':'>:
  41 - selected blacklist IDs separated with '|'
  42 - fuzzy tolerance value for fuzzy searching
  43 - use this search in favorites menu (0 no, 1 yes)
- 44 - number of the search menu template to use (only available if multiple
+ 44 - ID of the search menu template to use (only available if multiple
       search result templates are defined in epgsearchmenu.conf)
  45 - auto deletion mode (0 don't delete search timer, 1 delete after given
       count of recordings, 2 delete after given days after first recording)
  46 - count of recordings after which to delete the search timer
  47 - count of days after the first recording after which to delete the search
       timer
- 48 - first day where the search timer is active (see parameter 16)
- 49 - last day where the search timer is active (see parameter 16)
+ 48 - first day where the search timer is active (-> 16)
+ 49 - last day where the search timer is active (-> 16)
  50 - ignore missing EPG categories? 0/1
  51 - unmute sound if off when used as switch timer
- 52 - the minimum required match in percent when descriptions are compared to avoid repeats (-> 33)
+ 52 - the minimum required match in percent when descriptions are compared
+      to avoid repeats (-> 33)
+ 53 - HEX representation of the content descriptors, each descriptor ID
+      is represented with 2 chars
+ 54 - compare date when testing for a repeat?
+      (0=no, 1=same day, 2=same week, 3=same month)
 
 A ':' in the search term or the directory entry will be translated in
 a '|'. If a '|' exists in the search term, e.g. when using regular
@@ -384,6 +391,8 @@ the following commands are available:
    assign the next free ID
  * 'DELS <ID>' to delete the search with ID
  * 'EDIS <settings>' to modify an existing search
+   REMARK: An empty value (::) is ignored but
+   search,directory,contentlist are cleared if not replaced with a new value
  * 'UPDS [OSD]' to update the search timers. Passing the optional keyword
    'OSD' pops up an OSD message after the update has finished.
  * 'MODS ID ON|OFF' turns on/off the option 'Use as search timer'.

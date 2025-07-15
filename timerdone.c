@@ -25,8 +25,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "timerdone.h"
 #include "epgsearchtools.h"
 
-using std::string;
-
 cTimersDone TimersDone;
 // -- cTimerDone -----------------------------------------------------------------
 cTimerDone::cTimerDone(void)
@@ -131,7 +129,7 @@ cString cTimerDone::ToText(void) const
 {
     LOCK_CHANNELS_READ;
     const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
-    string info = string(DAYDATETIME(start)) + " - " + string(channel ? channel->Name() : "");
+    std::string info = std::string(DAYDATETIME(start)) + " - " + std::string(channel ? channel->Name() : "");
 
     cString buffer = cString::sprintf("%s:%ld:%ld:%d:%s:%s:%s",
                                       *channelID.ToString(),

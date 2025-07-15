@@ -21,6 +21,7 @@ The author can be reached at cwieninger@gmx.de
 The project's page is at http://winni.vdr-developer.org/epgsearch
 */
 
+#include <string>
 #include <vector>
 #ifdef __FreeBSD__
 #include <netinet/in.h>
@@ -1013,12 +1014,12 @@ void cSearchTimerThread::CheckEPGHours()
 
     // create a string list of the channels found
     if (channelsWithSmallEPG.channels.Count() > 0) {
-        string sBuffer;
+        std::string sBuffer;
         channelInGroup = channelsWithSmallEPG.channels.First();
         while (channelInGroup) {
             const cChannel* channel = channelInGroup->channel;
             if (channel)
-                sBuffer += " " + string(channel->ShortName(true));
+                sBuffer += " " + std::string(channel->ShortName(true));
             channelInGroup = channelsWithSmallEPG.channels.Next(channelInGroup);
         }
 
@@ -1029,7 +1030,7 @@ void cSearchTimerThread::CheckEPGHours()
         }
         if (EPGSearchConfig.checkEPGWarnByMail) {
             cString msgfmt = cString::sprintf(tr("small EPG content on:%s"), sBuffer.c_str());
-            cMailNotifier M(string(tr("VDR EPG check warning")), string(msgfmt));
+            cMailNotifier M(std::string(tr("VDR EPG check warning")), std::string(msgfmt));
         }
     }
 

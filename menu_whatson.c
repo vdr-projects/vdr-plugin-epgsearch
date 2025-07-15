@@ -567,8 +567,8 @@ eOSState cMenuWhatsOnSearch::Record(void)
             else
                 return AddSubMenu(new cMenuMyEditTimer(timer, !t, item->event, item->channel));
         } else {
-            string fullaux = "";
-            string aux = "";
+            std::string fullaux = "";
+            std::string aux = "";
             if (item->event) {
                 const cEvent* event = item->event;
                 int bstart = event->StartTime() - timer->StartTime();

@@ -28,8 +28,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <vdr/skins.h>
 #include <set>
 
-using std::set;
-
 #define MAXTEMPLLEN 2000
 
 class cMenuTemplate
@@ -81,7 +79,7 @@ public:
 class cTemplFile : public cConfig<cTemplLine>
 {
 public:
-    static set<cMenuTemplate*> menuTemplates; // the set of all templates
+    static std::set<cMenuTemplate*> menuTemplates; // the set of all templates
     static char** SearchTemplates; // an array thats stores the name of all search results templates
     cTemplFile();
     static bool Parse(const char *Name, const char *Value);

@@ -847,7 +847,7 @@ eOSState cMenuSetupTimerConflicts::ProcessKey(eKeys Key)
 cMenuSetupMailNotification::cMenuSetupMailNotification(cEPGSearchConfig* Data)
     : cMenuSetupSubMenu(tr("Email notification"), Data)
 {
-    string strHidden(strlen(data->MailAuthPass), '*');
+    std::string strHidden(strlen(data->MailAuthPass), '*');
     strcpy(tmpMailAuthPass, strHidden.c_str());
     Set();
 }
@@ -961,7 +961,7 @@ eOSState cMenuSetupMailNotification::ProcessKey(eKeys Key)
 
     if (bAuthPassWasInEditMode && !bAuthPassIsInEditMode) {
         strcpy(data->MailAuthPass, tmpMailAuthPass);
-        string strHidden(strlen(data->MailAuthPass), '*');
+        std::string strHidden(strlen(data->MailAuthPass), '*');
         strcpy(tmpMailAuthPass, strHidden.c_str());
         Set();
         Display();

@@ -267,7 +267,7 @@ std::list<std::string> cEpgsearchServiceHandler::TimerConflictList(bool relOnly)
 
     if ((relOnly && conflictCheck.numConflicts > 0) ||
         conflictCheck.relevantConflicts > 0) {
-        string sBuffer;
+        std::string sBuffer;
         cList<cConflictCheckTime>* failedList = conflictCheck.GetFailed();
         for (cConflictCheckTime* ct = failedList->First(); ct; ct = failedList->Next(ct)) {
             if (relOnly && ct->ignore) continue;

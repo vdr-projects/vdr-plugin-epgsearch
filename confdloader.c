@@ -30,24 +30,22 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "templatefile.h"
 #include "epgsearchcats.h"
 
-using std::string;
-
 // ---------------------------
 // Loads all files in the conf.d subdirectory of <plugin-config-directory> and
 // applies found settings.
 // ---------------------------
 bool cConfDLoader::Load()
 {
-    const string dirPath(AddDirectory(CONFIGDIR, "conf.d"));
+    const std::string dirPath(AddDirectory(CONFIGDIR, "conf.d"));
     LogFile.Log(2, "loading entries in %s", dirPath.c_str());
     cReadDir d(dirPath.c_str());
     struct dirent* e;
-    string parent("..");
-    string current(".");
+    std::string parent("..");
+    std::string current(".");
     int count = 0;
     bool success = true;
     while ((e = d.Next())) {
-        string direntry = e->d_name;
+        std::string direntry = e->d_name;
         if ((current == direntry) || (parent == direntry) || (direntry[direntry.size() - 1] == '~')) {
             continue;
         }

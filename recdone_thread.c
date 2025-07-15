@@ -83,7 +83,7 @@ void cRecdoneThread::Action(void)
     // incomplete recordings are kept for a while, perhaps they will be resumed
     LOCK_TIMERS_READ; // must be done before TimersRecordingLock
     while (m_fnames.size()) {
-        vector<string>::iterator it = m_fnames.begin();
+        std::vector<std::string>::iterator it = m_fnames.begin();
         const char *m_filename = (*it).c_str();
         LogFile.Log(1, "recdone_thread processing %s", m_filename);
         cMutexLock TimersRecordingLock(&TimersRecording);

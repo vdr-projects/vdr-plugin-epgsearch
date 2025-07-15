@@ -305,8 +305,8 @@ eOSState cMenuMyEditTimer::ProcessKey(eKeys Key)
     if (state == osUnknown) {
         switch (Key) {
         case kOk: {
-            string fullaux = "";
-            string aux = "";
+            std::string fullaux = "";
+            std::string aux = "";
             if (timer && timer->Aux())
                 fullaux = timer->Aux();
 

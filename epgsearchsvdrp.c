@@ -23,6 +23,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <string>
 #include <set>
+#include <iterator>
 #include <iomanip>
 #include <sstream>
 #include <vdr/plugin.h>
@@ -40,13 +41,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "conflictcheck.h"
 #include "menu_main.h"
 
-using std::string;
-using std::set;
-
 template< class Iter > Iter advance_copy(Iter it, std::size_t count = 1)
 {
-    using std::advance;
-    advance(it, count);
+    std::advance(it, count);
     return it;
 }
 
@@ -188,12 +185,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                 return cString::sprintf("Error in search ID \"%s\"", Option);
             }
         } else if (SearchExts.Count() > 0) {
-            string sBuffer;
+            std::string sBuffer;
             cMutexLock SearchExtsLock(&SearchExts);
             for (int i = 0; i < SearchExts.Count(); i++) {
                 cSearchExt* search = SearchExts.Get(i);
                 if (search)
-                    sBuffer += string(search->ToText()) + string((i < SearchExts.Count() - 1) ? "\n" : "");
+                    sBuffer += std::string(search->ToText()) + std::string((i < SearchExts.Count() - 1) ? "\n" : "");
             }
             return sBuffer.c_str();
         } else {
@@ -202,7 +199,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
         }
     } else if (strcasecmp(Command, "DELS") == 0) {
         if (*Option) {
-            string sOption = Option;
+            std::string sOption = Option;
             bool delTimers = false;
             if (strcasestr(Option, "DELT")) {
                 delTimers = true;
@@ -260,11 +257,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             if (search->Parse(Option)) {
                 cSearchExt *searchTemp = SearchExts.GetSearchFromID(search->ID);
                 if (searchTemp) {
-                    searchTemp->Parse(Option);
-                    LogFile.Log(1, "modified search '%s' (%d) via SVDRP", searchTemp->search, searchTemp->ID);
-                    SearchExts.Save();
-                    if (searchTemp->useAsSearchTimer && !EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
-                        cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
+                    if (searchTemp->Parse(Option)) {
+                        LogFile.Log(1, "modified search '%s' (%d) via SVDRP", searchTemp->search, searchTemp->ID);
+                        SearchExts.Save();
+                        if (searchTemp->useAsSearchTimer && !EPGSearchConfig.useSearchTimers) // enable search timer thread if necessary
+                            cSearchTimerThread::Init((cPluginEpgsearch*) cPluginManager::GetPlugin("epgsearch"), true);
+                    }
                     delete search;
                     return cString::sprintf("search '%s' with %d modified", searchTemp->search, searchTemp->ID);
                 } else {
@@ -343,7 +341,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             if (search->Parse(Option)) {
                 cSearchResults* results = search->Run();
                 // transfer to result list
-                string sBuffer;
+                std::string sBuffer;
                 if (results) {
                     results->SortBy(CompareEventTime);
                     cSearchResult *result = results->First();
@@ -381,7 +379,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                                                           "");
 
 
-                        sBuffer += string(cmdbuf) + string(results->Next(result) ? "\n" : "");
+                        sBuffer += std::string(cmdbuf) + std::string(results->Next(result) ? "\n" : "");
                         delete(Timer);
                         result = results->Next(result);
                     }
@@ -442,7 +440,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 
         if (pCompleteSearchResults) {
             // transfer to result list
-            string sBuffer;
+            std::string sBuffer;
             pCompleteSearchResults->SortBy(CompareEventTime);
             cSearchResult *result = pCompleteSearchResults->First();
             while (result && result->search) {
@@ -478,9 +476,9 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                 const cChannel *channel = Channels->GetByChannelID(pEvent->ChannelID(), true, true);
                 int timerMode = hasTimer ? 1 : (result->needsTimer ? 2 : 0);
 
-                string title = pEvent->Title() ? ReplaceAll(pEvent->Title(), "|", "!^pipe!^") : "";
+                std::string title = pEvent->Title() ? ReplaceAll(pEvent->Title(), "|", "!^pipe!^") : "";
                 title = ReplaceAll(title, ":", "|");
-                string shorttext = pEvent->ShortText() ? ReplaceAll(pEvent->ShortText(), "|", "!^pipe!^") : "";
+                std::string shorttext = pEvent->ShortText() ? ReplaceAll(pEvent->ShortText(), "|", "!^pipe!^") : "";
                 shorttext = ReplaceAll(shorttext, ":", "|");
 
                 cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d",
@@ -496,7 +494,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                                                   timerMode > 0 ? result->search->BuildFile(pEvent) : "",
                                                   timerMode);
 
-                sBuffer += string(cmdbuf) + string(pCompleteSearchResults->Next(result) ? "\n" : "");
+                sBuffer += std::string(cmdbuf) + std::string(pCompleteSearchResults->Next(result) ? "\n" : "");
                 delete(Timer);
                 result = pCompleteSearchResults->Next(result);
             }
@@ -519,7 +517,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 
         if (cMenuDirSelect::directorySet.size() > 0) {
             cString sBuffer("");
-            std::set<string>::iterator it;
+            std::set<std::string>::iterator it;
             for (it = cMenuDirSelect::directorySet.begin(); it != cMenuDirSelect::directorySet.end(); ++it) {
                 cString sOldBuffer = sBuffer;
                 sBuffer = cString::sprintf("%s%s\n", *sOldBuffer, (*it).c_str());
@@ -687,11 +685,11 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
             }
         } else if (Blacklists.Count() > 0) {
             cMutexLock BlacklistLock(&Blacklists);
-            string sBuffer;
+            std::string sBuffer;
             for (int i = 0; i < Blacklists.Count(); i++) {
                 cBlacklist *blacklist = Blacklists.Get(i);
                 if (blacklist)
-                    sBuffer += string(blacklist->ToText()) + string((i < Blacklists.Count() - 1) ? "\n" : "");
+                    sBuffer += std::string(blacklist->ToText()) + std::string((i < Blacklists.Count() - 1) ? "\n" : "");
             }
             return sBuffer.c_str();
         } else {
@@ -787,11 +785,11 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                 return cString::sprintf("Error in category ID \"%s\"", Option);
             }
         } else if (SearchExtCats.Count() > 0) {
-            string sBuffer;
+            std::string sBuffer;
             for (int i = 0; i < SearchExtCats.Count(); i++) {
                 cSearchExtCat *SearchExtCat = SearchExtCats.Get(i);
                 if (SearchExtCat)
-                    sBuffer += string(SearchExtCat->ToText()) + string((i < SearchExtCats.Count() - 1) ? "\n" : "");
+                    sBuffer += std::string(SearchExtCat->ToText()) + std::string((i < SearchExtCats.Count() - 1) ? "\n" : "");
             }
             return sBuffer.c_str();
         } else {
@@ -841,11 +839,11 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                     return cString::sprintf("%s: %d", *ch->GetChannelID().ToString(), DefTimerCheckModes.GetMode(ch));
                 } else {
                     LOCK_CHANNELS_READ;
-                    string sBuffer;
+                    std::string sBuffer;
                     for (int i = 0; i < Channels->Count(); i++) {
                         const cChannel* ch = Channels->Get(i);
                         if (ch && !ch->GroupSep())
-                            sBuffer += string(*ch->GetChannelID().ToString()) + string(": ") + NumToString(DefTimerCheckModes.GetMode(ch)) + string((i < Channels->Count() - 1) ? "\n" : "");
+                            sBuffer += std::string(*ch->GetChannelID().ToString()) + std::string(": ") + NumToString(DefTimerCheckModes.GetMode(ch)) + std::string((i < Channels->Count() - 1) ? "\n" : "");
                     }
                     return sBuffer.c_str();
                 }
@@ -854,10 +852,10 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                 return cString::sprintf("setup option not supported");
             }
         } else {
-            string sBuffer;
+            std::string sBuffer;
             sBuffer += "ShowFavoritesMenu: " + NumToString(EPGSearchConfig.showFavoritesMenu) + "\n";
             sBuffer += "UseSearchTimers: " + NumToString(EPGSearchConfig.useSearchTimers) + "\n";
-            sBuffer += "DefRecordingDir: " + string(EPGSearchConfig.defrecdir) + "\n";
+            sBuffer += "DefRecordingDir: " + std::string(EPGSearchConfig.defrecdir) + "\n";
             sBuffer += "AddSubtitleToTimerMode: " + NumToString(EPGSearchConfig.addSubtitleToTimer) + "\n";
             sBuffer += "DefPriority: " + NumToString(EPGSearchConfig.DefPriority) + "\n";
             sBuffer += "DefLifetime: " + NumToString(EPGSearchConfig.DefLifetime) + "\n";
@@ -884,12 +882,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                 return cString::sprintf("Error in search template ID \"%s\"", Option);
             }
         } else if (SearchTemplates.Count() > 0) {
-            string sBuffer;
+            std::string sBuffer;
             cMutexLock SearchExtsLock(&SearchTemplates);
             for (int i = 0; i < SearchTemplates.Count(); i++) {
                 cSearchExt* search = SearchTemplates.Get(i);
                 if (search)
-                    sBuffer += string(search->ToText()) + string((i < SearchTemplates.Count() - 1) ? "\n" : "");
+                    sBuffer += std::string(search->ToText()) + std::string((i < SearchTemplates.Count() - 1) ? "\n" : "");
             }
             return sBuffer.c_str();
         } else {
@@ -993,7 +991,7 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
 
         if ((relOnly && conflictCheck.numConflicts > 0) ||
             conflictCheck.relevantConflicts > 0) {
-            string sBuffer;
+            std::string sBuffer;
             cList<cConflictCheckTime>* failedList = conflictCheck.GetFailed();
             for (cConflictCheckTime* ct = failedList->First(); ct; ct = failedList->Next(ct)) {
                 if (relOnly && ct->ignore) continue;

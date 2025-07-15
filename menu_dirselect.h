@@ -28,10 +28,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <set>
 #include <vdr/menuitems.h>
 
-using std::string;
-using std::set;
-
-
 class cDirExt : public cListObject
 {
 private:
@@ -66,13 +62,13 @@ private:
     char* yellow;
 public:
 
-    static set<string> directorySet;
+    static std::set<std::string> directorySet;
 
     cMenuDirSelect(char*);
     ~cMenuDirSelect();
     void Load();
     void AddDistinct(const char* szText);
-    static void AddVDRFolders(cNestedItem* folder, string parentDirectory = "");
+    static void AddVDRFolders(cNestedItem* folder, std::string parentDirectory = "");
     virtual eOSState ProcessKey(eKeys Key);
     int Level(const char* szDir);
     void ReplaceDirVars();

@@ -67,7 +67,7 @@ void cMenuSearchTemplateItem::Set(void)
 
     line << "\t";
     if (strlen(searchExt->search) > 0)
-        line << setiosflags(ios::left) << string(searchExt->search);
+        line << setiosflags(ios::left) << std::string(searchExt->search);
     else
         line << setiosflags(ios::left) << "*";
 

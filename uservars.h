@@ -35,35 +35,30 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 #include "epgsearchcats.h"
 
-using std::string;
-using std::set;
-using std::map;
-using std::ostringstream;
-
 class cUserVar : public cListObject
 {
     const cEvent* oldEvent; // cache
     bool oldescapeStrings;
 
-    string oldResult;
-    string EvaluateCondExpr(const cEvent* e, bool escapeStrings = false);
-    string EvaluateCompExpr(const cEvent* e, bool escapeStrings = false);
-    string EvaluateShellCmd(const cEvent* e);
-    string EvaluateConnectCmd(const cEvent* e);
-    string EvaluateLengthCmd(const cEvent* e);
+    std::string oldResult;
+    std::string EvaluateCondExpr(const cEvent* e, bool escapeStrings = false);
+    std::string EvaluateCompExpr(const cEvent* e, bool escapeStrings = false);
+    std::string EvaluateShellCmd(const cEvent* e);
+    std::string EvaluateConnectCmd(const cEvent* e);
+    std::string EvaluateLengthCmd(const cEvent* e);
 public:
     cUserVar();
     cVarParser varparser;
-    set<cUserVar*> usedVars;
+    std::set<cUserVar*> usedVars;
 
-    virtual string Evaluate(const cEvent* e, bool escapeStrings = false);
+    virtual std::string Evaluate(const cEvent* e, bool escapeStrings = false);
 
-    string EvaluateInternalVars(const string& Expr, const cEvent* e, bool escapeStrings = false);
-    string EvaluateInternalTimerVars(const string& Expr, const cTimer* t);
-    string EvaluateInternalSearchVars(const string& Expr, const cSearchExt* s);
-    string EvaluateExtEPGVars(const string& Expr, const cEvent* e, bool escapeStrings = false);
-    string EvaluateUserVars(const string& Expr, const cEvent* e, bool escapeStrings = false);
-    virtual string Name(bool = false) {
+    std::string EvaluateInternalVars(const std::string& Expr, const cEvent* e, bool escapeStrings = false);
+    std::string EvaluateInternalTimerVars(const std::string& Expr, const cTimer* t);
+    std::string EvaluateInternalSearchVars(const std::string& Expr, const cSearchExt* s);
+    std::string EvaluateExtEPGVars(const std::string& Expr, const cEvent* e, bool escapeStrings = false);
+    std::string EvaluateUserVars(const std::string& Expr, const cEvent* e, bool escapeStrings = false);
+    virtual std::string Name(bool = false) {
         return varparser.varName;
     }
     virtual bool IsCondExpr() {
@@ -78,7 +73,7 @@ public:
     virtual bool IsLengthCmd() {
         return varparser.IsLengthCmd();
     }
-    bool DependsOnVar(const string& varName);
+    bool DependsOnVar(const std::string& varName);
     bool DependsOnVar(cUserVar* var);
     bool AddDepVar(cUserVar* var);
     void ResetCache();
@@ -86,11 +81,11 @@ public:
 
 class cExtEPGVar : public cUserVar
 {
-    const string name;
-    static string nameSpace;
+    const std::string name;
+    static std::string nameSpace;
 public:
-    cExtEPGVar(const string& Name) : name(Name) {}
-    string Name(bool withNamespace = false) {
+    cExtEPGVar(const std::string& Name) : name(Name) {}
+    std::string Name(bool withNamespace = false) {
         return "%" + (withNamespace ? nameSpace + "." : "") + name + "%";
     }
     bool IsCondExpr() {
@@ -99,16 +94,16 @@ public:
     bool IsShellCmd() {
         return false;
     }
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
 
         cSearchExtCat* SearchExtCat = SearchExtCats.First();
         while (SearchExtCat) {
-            string varName = string("%") + SearchExtCat->name + string("%");
+            std::string varName = std::string("%") + SearchExtCat->name + std::string("%");
             int varPos = FindIgnoreCase(varName, Name());
             if (varPos == 0) {
                 char* value = GetExtEPGValue(e, SearchExtCat);
-                string res =  value ? value : "";
+                std::string res =  value ? value : "";
                 if (escapeStrings) return "'" + EscapeString(res) + "'";
                 else return res;
             }
@@ -120,10 +115,10 @@ public:
 
 class cInternalVar : public cUserVar
 {
-    const string name;
+    const std::string name;
 public:
-    cInternalVar(const string& Name) : name(Name) {}
-    string Name(bool = false) {
+    cInternalVar(const std::string& Name) : name(Name) {}
+    std::string Name(bool = false) {
         return "%" + name + "%";
     }
     bool IsCondExpr() {
@@ -138,8 +133,8 @@ class cTitleVar : public cInternalVar
 {
 public:
     cTitleVar() : cInternalVar("title") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
-        string res = (e && !isempty(e->Title())) ? e->Title() : "";
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
+        std::string res = (e && !isempty(e->Title())) ? e->Title() : "";
         if (escapeStrings) return "'" + EscapeString(res) + "'";
         else return res;
     }
@@ -149,8 +144,8 @@ class cSubtitleVar : public cInternalVar
 {
 public:
     cSubtitleVar() : cInternalVar("subtitle") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
-        string res = (e && !isempty(e->ShortText())) ? e->ShortText() : "";
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
+        std::string res = (e && !isempty(e->ShortText())) ? e->ShortText() : "";
         if (escapeStrings) return "'" + EscapeString(res) + "'";
         else return res;
     }
@@ -160,8 +155,8 @@ class cSummaryVar : public cInternalVar
 {
 public:
     cSummaryVar() : cInternalVar("summary") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
-        string res = (e && !isempty(e->Description())) ? e->Description() : "";
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
+        std::string res = (e && !isempty(e->Description())) ? e->Description() : "";
         if (escapeStrings) return "'" + EscapeString(res) + "'";
         else return res;
     }
@@ -171,9 +166,9 @@ class cHTMLSummaryVar : public cInternalVar
 {
 public:
     cHTMLSummaryVar() : cInternalVar("htmlsummary") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (e && !isempty(e->Description())) {
-            string res = ReplaceAll(e->Description(), "\n", "<br />");
+            std::string res = ReplaceAll(e->Description(), "\n", "<br />");
             if (escapeStrings) return "'" + EscapeString(res) + "'";
             else return res;
         } else
@@ -185,9 +180,9 @@ class cEventIDVar : public cInternalVar
 {
 public:
     cEventIDVar() : cInternalVar("eventid") {}
-    string Evaluate(const cEvent* e,  bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e,  bool escapeStrings = false) {
         if (e) {
-            ostringstream os;
+            std::ostringstream os;
             os << e->EventID();
             return os.str();
         } else return "";
@@ -198,13 +193,13 @@ class cLiveEventIDVar : public cInternalVar
 {
 public:
     cLiveEventIDVar() : cInternalVar("liveeventid") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         LOCK_CHANNELS_READ;
         const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
         if (!channel) return "";
 
-        string res(channel->GetChannelID().ToString());
+        std::string res(channel->GetChannelID().ToString());
         res = "event_" + res;
         res = ReplaceAll(res, ".", "p");
         res = ReplaceAll(res, "-", "m");
@@ -218,8 +213,8 @@ class cTimeVar : public cInternalVar
 {
 public:
     cTimeVar() : cInternalVar("time") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
-        string res = (e ? * (e->GetTimeString()) : "");
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
+        std::string res = (e ? * (e->GetTimeString()) : "");
         if (escapeStrings) return "'" + EscapeString(res) + "'";
         else return res;
     }
@@ -229,8 +224,8 @@ class cTimeEndVar : public cInternalVar
 {
 public:
     cTimeEndVar() : cInternalVar("timeend") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
-        string res = (e ? * (e->GetEndTimeString()) : "");
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
+        std::string res = (e ? * (e->GetEndTimeString()) : "");
         if (escapeStrings) return "'" + EscapeString(res) + "'";
         else return res;
     }
@@ -240,8 +235,8 @@ class cTime_wVar : public cInternalVar
 {
 public:
     cTime_wVar() : cInternalVar("time_w") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
-        string res = (e ? WEEKDAYNAME(e->StartTime()) : "");
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
+        std::string res = (e ? WEEKDAYNAME(e->StartTime()) : "");
         if (escapeStrings) return "'" + EscapeString(res) + "'";
         else return res;
     }
@@ -251,7 +246,7 @@ class cTime_dVar : public cInternalVar
 {
 public:
     cTime_dVar() : cInternalVar("time_d") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         char day[3] = "";
         struct tm tm_r;
@@ -267,9 +262,9 @@ class cTime_lngVar : public cInternalVar
 {
 public:
     cTime_lngVar() : cInternalVar("time_lng") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
-        ostringstream os;
+        std::ostringstream os;
         os << e->StartTime();
         if (escapeStrings) return "'" + EscapeString(os.str()) + "'";
         else return os.str();
@@ -280,10 +275,10 @@ class cTimeSpanVar : public cInternalVar
 {
 public:
     cTimeSpanVar() : cInternalVar("timespan") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         time_t diff = e->StartTime() - time(NULL);
-        string res;
+        std::string res;
         if (labs(diff) >= SECSINDAY) {
             cString buffer;
             if (diff > 0)
@@ -315,7 +310,7 @@ class cLength_Var : public cInternalVar
 {
 public:
     cLength_Var() : cInternalVar("length") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         return (e ? NumToString(e->Duration()) : "");
     }
 };
@@ -324,7 +319,7 @@ class cDateVar : public cInternalVar
 {
 public:
     cDateVar() : cInternalVar("date") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         char date[9] = "";
         struct tm tm_r;
@@ -340,7 +335,7 @@ class cDateShortVar : public cInternalVar
 {
 public:
     cDateShortVar() : cInternalVar("datesh") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         char dateshort[7] = "";
         struct tm tm_r;
@@ -356,7 +351,7 @@ class cDateISOVar : public cInternalVar
 {
 public:
     cDateISOVar() : cInternalVar("date_iso") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         char dateISO[11] = "";
         struct tm tm_r;
@@ -372,7 +367,7 @@ class cYearVar : public cInternalVar
 {
 public:
     cYearVar() : cInternalVar("year") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         char year[5] = "";
         struct tm tm_r;
@@ -388,7 +383,7 @@ class cMonthVar : public cInternalVar
 {
 public:
     cMonthVar() : cInternalVar("month") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         char month[3] = "";
         struct tm tm_r;
@@ -404,7 +399,7 @@ class cDayVar : public cInternalVar
 {
 public:
     cDayVar() : cInternalVar("day") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         char day[3] = "";
         struct tm tm_r;
@@ -420,7 +415,7 @@ class cWeekVar : public cInternalVar
 {
 public:
     cWeekVar() : cInternalVar("week") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         char day[3] = "";
         struct tm tm_r;
@@ -436,7 +431,7 @@ class cChannelNrVar : public cInternalVar
 {
 public:
     cChannelNrVar() : cInternalVar("chnr") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         int chnr = ChannelNrFromEvent(e);
         if (chnr < 0) return "";
         return NumToString(chnr);
@@ -447,11 +442,11 @@ class cChannelShortVar : public cInternalVar
 {
 public:
     cChannelShortVar() : cInternalVar("chsh") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         LOCK_CHANNELS_READ;
         const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
-        string res = channel ? channel->ShortName(true) : "";
+        std::string res = channel ? channel->ShortName(true) : "";
         if (escapeStrings) return "'" + EscapeString(res) + "'";
         else return res;
     }
@@ -461,11 +456,11 @@ class cChannelLongVar : public cInternalVar
 {
 public:
     cChannelLongVar() : cInternalVar("chlng") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         LOCK_CHANNELS_READ;
         const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
-        string res = channel ? channel->Name() : "";
+        std::string res = channel ? channel->Name() : "";
         if (escapeStrings) return "'" + EscapeString(res) + "'";
         else return res;
     }
@@ -475,7 +470,7 @@ class cChannelDataVar : public cInternalVar
 {
 public:
     cChannelDataVar() : cInternalVar("chdata") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         LOCK_CHANNELS_READ;
         const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
@@ -487,14 +482,14 @@ class cChannelGroupVar : public cInternalVar
 {
 public:
     cChannelGroupVar() : cInternalVar("chgrp") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         LOCK_CHANNELS_READ;
         const cChannel *channel = Channels->GetByChannelID(e->ChannelID(), true);
         while (channel && !channel->GroupSep())
             channel = Channels->Prev(channel);
         if (!channel || !channel->Name()) return "";
-        string grpName = channel->Name();
+        std::string grpName = channel->Name();
         if (escapeStrings) return "'" + EscapeString(grpName) + "'";
         else return grpName;
     }
@@ -504,10 +499,10 @@ class cNEWTCmdVar : public cInternalVar
 {
 public:
     cNEWTCmdVar() : cInternalVar("newtcmd") {}
-    string Evaluate(const cEvent* e, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
         if (!e) return "";
         cTimer* timer = new cTimer(e);
-        string newtCmd =  *(timer->ToText());
+        std::string newtCmd =  *(timer->ToText());
         if (escapeStrings) return "'" + EscapeString(newtCmd) + "'";
         else return newtCmd;
     }
@@ -518,7 +513,7 @@ class cColonVar : public cInternalVar
 {
 public:
     cColonVar() : cInternalVar("colon") {}
-    string Evaluate(const cEvent*, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent*, bool escapeStrings = false) {
         return ":";
     }
 };
@@ -527,7 +522,7 @@ class cDateNowVar : public cInternalVar
 {
 public:
     cDateNowVar() : cInternalVar("datenow") {}
-    string Evaluate(const cEvent*, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent*, bool escapeStrings = false) {
         char date[9] = "";
         struct tm tm_r;
         const time_t t = time(NULL);
@@ -542,7 +537,7 @@ class cDateShortNowVar : public cInternalVar
 {
 public:
     cDateShortNowVar() : cInternalVar("dateshnow") {}
-    string Evaluate(const cEvent*, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent*, bool escapeStrings = false) {
         char dateshort[7] = "";
         struct tm tm_r;
         const time_t t = time(NULL);
@@ -557,7 +552,7 @@ class cDateISONowVar : public cInternalVar
 {
 public:
     cDateISONowVar() : cInternalVar("date_iso_now") {}
-    string Evaluate(const cEvent*, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent*, bool escapeStrings = false) {
         char dateISO[11] = "";
         struct tm tm_r;
         const time_t t = time(NULL);
@@ -572,7 +567,7 @@ class cTimeNowVar : public cInternalVar
 {
 public:
     cTimeNowVar() : cInternalVar("timenow") {}
-    string Evaluate(const cEvent*, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent*, bool escapeStrings = false) {
         return TIMESTRING(time(NULL));
     }
 };
@@ -581,7 +576,7 @@ class cVideodirVar : public cInternalVar
 {
 public:
     cVideodirVar() : cInternalVar("videodir") {}
-    string Evaluate(const cEvent*, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent*, bool escapeStrings = false) {
         return cVideoDirectory::Name();
     }
 };
@@ -589,9 +584,9 @@ public:
 class cPlugconfdirVar : public cInternalVar
 {
 public:
-    static string dir;
+    static std::string dir;
     cPlugconfdirVar() : cInternalVar("plugconfdir") {}
-    string Evaluate(const cEvent*, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent*, bool escapeStrings = false) {
         return dir;
     }
 };
@@ -599,9 +594,9 @@ public:
 class cEpgsearchconfdirVar : public cInternalVar
 {
 public:
-    static string dir;
+    static std::string dir;
     cEpgsearchconfdirVar() : cInternalVar("epgsearchdir") {}
-    string Evaluate(const cEvent*, bool escapeStrings = false) {
+    std::string Evaluate(const cEvent*, bool escapeStrings = false) {
         return CONFIGDIR;
     }
 };
@@ -609,22 +604,22 @@ public:
 // timer variables
 class cTimerVar
 {
-    static string nameSpace;
-    const string name;
+    static std::string nameSpace;
+    const std::string name;
 public:
-    cTimerVar(const string& Name) : name(Name) {}
+    cTimerVar(const std::string& Name) : name(Name) {}
     virtual ~cTimerVar() {}
-    string Name() {
+    std::string Name() {
         return "%" + nameSpace + "." + name + "%";
     }
-    virtual string Evaluate(const cTimer* t) = 0;
+    virtual std::string Evaluate(const cTimer* t) = 0;
 };
 
 class cTimerDateVar : public cTimerVar
 {
 public:
     cTimerDateVar() : cTimerVar("date") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t) return "";
         return DATESTRING(t->StartTime());
     }
@@ -634,7 +629,7 @@ class cTimerStartVar : public cTimerVar
 {
 public:
     cTimerStartVar() : cTimerVar("start") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t) return "";
         return TIMESTRING(t->StartTime());
     }
@@ -644,7 +639,7 @@ class cTimerStopVar : public cTimerVar
 {
 public:
     cTimerStopVar() : cTimerVar("stop") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t) return "";
         return TIMESTRING(t->StopTime());
     }
@@ -654,7 +649,7 @@ class cTimerFileVar : public cTimerVar
 {
 public:
     cTimerFileVar() : cTimerVar("file") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t) return "";
         return t->File();
     }
@@ -664,7 +659,7 @@ class cTimerChnrVar : public cTimerVar
 {
 public:
     cTimerChnrVar() : cTimerVar("chnr") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t || !t->Channel()) return "";
         return NumToString(t->Channel()->Number());
     }
@@ -674,7 +669,7 @@ class cTimerChannelShortVar : public cTimerVar
 {
 public:
     cTimerChannelShortVar() : cTimerVar("chsh") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t || !t->Channel()) return "";
         return t->Channel()->ShortName(true);
     }
@@ -684,7 +679,7 @@ class cTimerChannelLongVar : public cTimerVar
 {
 public:
     cTimerChannelLongVar() : cTimerVar("chlng") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t || !t->Channel()) return "";
         return t->Channel()->Name();
     }
@@ -694,7 +689,7 @@ class cTimerSearchVar : public cTimerVar
 {
 public:
     cTimerSearchVar() : cTimerVar("search") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t) return "";
         cSearchExt* s = TriggeredFromSearchTimer(t);
         if (!s) return "";
@@ -706,7 +701,7 @@ class cTimerSearchIDVar : public cTimerVar
 {
 public:
     cTimerSearchIDVar() : cTimerVar("searchid") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t) return "";
         int ID = TriggeredFromSearchTimerID(t);
         if (ID < 0) return "";
@@ -718,12 +713,12 @@ class cTimerLiveIDVar : public cTimerVar
 {
 public:
     cTimerLiveIDVar() : cTimerVar("liveid") {}
-    string Evaluate(const cTimer* t) {
+    std::string Evaluate(const cTimer* t) {
         if (!t || !t->Channel()) return "";
-        ostringstream builder;
+        std::ostringstream builder;
         builder << *(t->Channel()->GetChannelID().ToString()) << ":" << t->WeekDays() << ":"
                 << t->Day() << ":" << t->Start() << ":" << t->Stop();
-        string res = builder.str();
+        std::string res = builder.str();
         res = "timer_" + res;
         res = ReplaceAll(res, ".", "p");
         res = ReplaceAll(res, "-", "m");
@@ -735,22 +730,22 @@ public:
 // search variables
 class cSearchVar
 {
-    const string name;
-    static string nameSpace;
+    const std::string name;
+    static std::string nameSpace;
 public:
-    cSearchVar(const string& Name) : name(Name) {}
+    cSearchVar(const std::string& Name) : name(Name) {}
     virtual ~cSearchVar() {}
-    string Name() {
+    std::string Name() {
         return "%" + nameSpace + "." + name + "%";
     }
-    virtual string Evaluate(const cSearchExt* s) = 0;
+    virtual std::string Evaluate(const cSearchExt* s) = 0;
 };
 
 class cSearchQueryVar : public cSearchVar
 {
 public:
     cSearchQueryVar() : cSearchVar("query") {}
-    string Evaluate(const cSearchExt* s) {
+    std::string Evaluate(const cSearchExt* s) {
         if (!s) return "";
         return s->search;
     }
@@ -760,7 +755,7 @@ class cSearchSeriesVar : public cSearchVar
 {
 public:
     cSearchSeriesVar() : cSearchVar("series") {}
-    string Evaluate(const cSearchExt* s) {
+    std::string Evaluate(const cSearchExt* s) {
         if (!s) return "";
         return NumToString(s->useEpisode);
     }
@@ -818,11 +813,11 @@ public:
     cTimerSearchIDVar timerSearchIDVar;
     cTimerLiveIDVar timerLiveIDVar;
 
-    map<string, cExtEPGVar*> extEPGVars;
-    set<cUserVar*> userVars;
-    map<string, cInternalVar*> internalVars;
-    map<string, cTimerVar*> internalTimerVars;
-    map<string, cSearchVar*> internalSearchVars;
+    std::map<std::string, cExtEPGVar*> extEPGVars;
+    std::set<cUserVar*> userVars;
+    std::map<std::string, cInternalVar*> internalVars;
+    std::map<std::string, cTimerVar*> internalTimerVars;
+    std::map<std::string, cSearchVar*> internalSearchVars;
 
     void InitInternalVars() {
         internalVars[titleVar.Name()] = &titleVar;
@@ -879,7 +874,7 @@ public:
     void InitExtEPGVars() {
         cSearchExtCat* SearchExtCat = SearchExtCats.First();
         while (SearchExtCat) {
-            string varName = SearchExtCat->name;
+            std::string varName = SearchExtCat->name;
             std::transform(varName.begin(), varName.end(), varName.begin(), tolower);
             cExtEPGVar* extEPGVar = new cExtEPGVar(varName);
             extEPGVars[extEPGVar->Name()] =  extEPGVar;
@@ -894,7 +889,7 @@ public:
         }
     }
     ~cUserVars() {
-        std::map<string, cExtEPGVar*>::iterator evar;
+        std::map<std::string, cExtEPGVar*>::iterator evar;
         for (evar = extEPGVars.begin(); evar != extEPGVars.end(); ++evar)
             delete evar->second;
         extEPGVars.clear();
@@ -904,7 +899,7 @@ public:
             delete(*uvar);
         userVars.clear();
     }
-    cUserVar* GetFromName(const string& varName, bool log = true);
+    cUserVar* GetFromName(const std::string& varName, bool log = true);
 };
 
 extern cUserVars UserVars;
@@ -926,14 +921,14 @@ public:
 
 class cVarExpr
 {
-    string expr;
+    std::string expr;
 public:
-    set<cUserVar*> usedVars;
-    cVarExpr(const string& Expr) : expr(Expr) {}
-    string Evaluate(const cEvent* e = NULL);
-    string Evaluate(const cTimer* t);
-    string Evaluate(const cSearchExt* s);
-    bool DependsOnVar(const string& varName, const cEvent* e);
+    std::set<cUserVar*> usedVars;
+    cVarExpr(const std::string& Expr) : expr(Expr) {}
+    std::string Evaluate(const cEvent* e = NULL);
+    std::string Evaluate(const cTimer* t);
+    std::string Evaluate(const cSearchExt* s);
+    bool DependsOnVar(const std::string& varName, const cEvent* e);
 };
 
 #endif

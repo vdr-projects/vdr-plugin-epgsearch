@@ -105,7 +105,7 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
     // collect content string IDs
     std::set<std::string> contentStrings;
     for (unsigned int i = 0; i < CONTENT_DESCRIPTOR_MAX; i++) {
-        const string contentDescr = cEvent::ContentToString(i);
+        const std::string contentDescr = cEvent::ContentToString(i);
         if (!contentDescr.empty() && contentStrings.find(contentDescr) == contentStrings.end()) {
             contentStrings.insert(contentDescr);
             contentStringIDs.push_back(i);
@@ -982,7 +982,7 @@ void cMenuCatValuesSelect::Set()
     int selCount = 0;
     Clear();
 
-    string SearchMode =  string(tr("Search mode")) + ": ";
+    std::string SearchMode =  std::string(tr("Search mode")) + ": ";
     if (searchMode == 0)
         SearchMode += tr("phrase");
     else if (searchMode == 1)

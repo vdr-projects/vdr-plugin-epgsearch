@@ -409,254 +409,267 @@ bool cSearchExt::Parse(const char *s)
 
     *directory = 0;
     *search = 0;
+    contentsFilter = "";
 
     pos = line = strdup(s);
     pos_next = pos + strlen(pos);
     if (*pos_next == '\n') *pos_next = 0;
-    while (*pos) {
+    while (*pos && !disableSearchtimer) {
         while (*pos == ' ') pos++;
-        if (*pos) {
-            if (*pos != ':') {
-                pos_next = strchr(pos, ':');
-                if (!pos_next)
-                    pos_next = pos + strlen(pos);
-                valuelen = pos_next - pos + 1;
-                if (valuelen > sizeof(value)) valuelen = sizeof(value);
-                strn0cpy(value, pos, valuelen);
-                pos = pos_next;
-                switch (parameter) {
-                case 1:
-                    if (!isnumber(value)) return false;
+        if (*pos && *pos != ':') {
+            // process non-blank field
+            pos_next = strchr(pos, ':');
+            if (!pos_next)
+                pos_next = pos + strlen(pos);
+            valuelen = pos_next - pos + 1;
+            if (valuelen > sizeof(value)) valuelen = sizeof(value);
+            strn0cpy(value, pos, valuelen);
+            pos = pos_next;
+            switch (parameter) {
+            case 1:
+                if (!isnumber(value)) {
+                    disableSearchtimer = true;
+                }
+                else
                     ID = atoi(value);
-                    break;
-                case 2:
-                    strreplace(value, '|', ':');
-                    while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
-                    strn0cpy(search, value, sizeof(search));
-                    break;
-                case 3:
-                    useTime = atoi(value);
-                    break;
-                case 4:
-                    startTime = atoi(value);
-                    break;
-                case 5:
-                    stopTime = atoi(value);
-                    break;
-                case 6:
-                    useChannel = atoi(value);
-                    break;
-                case 7:
-                    if (useChannel == 0) {
-                        channelMin = NULL;
-                        channelMax = NULL;
-                    } else if (useChannel == 1) {
-                        int minNum = 0, maxNum = 0;
-                        int fields = sscanf(value, "%d-%d", &minNum, &maxNum);
-                        if (fields == 0) { // stored with ID
+                break;
+            case 2:
+                strreplace(value, '|', ':');
+                while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
+                strn0cpy(search, value, sizeof(search));
+                break;
+            case 3:
+                useTime = atoi(value);
+                break;
+            case 4:
+                startTime = atoi(value);
+                break;
+            case 5:
+                stopTime = atoi(value);
+                break;
+            case 6:
+                useChannel = atoi(value);
+                break;
+            case 7:
+                if (useChannel == 0) {
+                    channelMin = NULL;
+                    channelMax = NULL;
+                } else if (useChannel == 1) {
+                    /* obsolete code never used might crash
+                    int minNum = 0, maxNum = 0;
+                    int fields = sscanf(value, "%d-%d", &minNum, &maxNum);
+
+                    if (fields == 0) { // stored with ID
+                    */
 #ifdef __FreeBSD__
-                            char *channelMinbuffer = MALLOC(char, 32);
-                            char *channelMaxbuffer = MALLOC(char, 32);
-                            int channels = sscanf(value, "%31[^|]|%31[^|]", channelMinbuffer, channelMaxbuffer);
+                    char *channelMinbuffer = MALLOC(char, 32);
+                    char *channelMaxbuffer = MALLOC(char, 32);
+                    int channels = sscanf(value, "%31[^|]|%31[^|]", channelMinbuffer, channelMaxbuffer);
 #else
-                            char *channelMinbuffer = NULL;
-                            char *channelMaxbuffer = NULL;
-                            int channels = sscanf(value, "%m[^|]|%m[^|]", &channelMinbuffer, &channelMaxbuffer);
+                    char *channelMinbuffer = NULL;
+                    char *channelMaxbuffer = NULL;
+                    int channels = sscanf(value, "%m[^|]|%m[^|]", &channelMinbuffer, &channelMaxbuffer);
 #endif
-                            LOCK_CHANNELS_READ;
-                            channelMin = Channels->GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
-                            if (!channelMin) {
-                                LogFile.eSysLog("ERROR: channel '%s' not defined", channelMinbuffer);
-                                channelMin = channelMax = NULL;
-                                disableSearchtimer = true;
-                                useChannel = 0;
-                            }
-                            if (channels == 1)
-                                channelMax = channelMin;
-                            else {
-                                channelMax = Channels->GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
-                                if (!channelMax) {
-                                    LogFile.eSysLog("ERROR: channel '%s' not defined", channelMaxbuffer);
-                                    channelMin = channelMax = NULL;
-                                    disableSearchtimer = true;
-                                    useChannel = 0;
-                                }
-                            }
-                            free(channelMinbuffer);
-                            free(channelMaxbuffer);
+                    LOCK_CHANNELS_READ;
+                    channelMin = Channels->GetByChannelID(tChannelID::FromString(channelMinbuffer), true, true);
+                    if (!channelMin) {
+                        LogFile.eSysLog("ERROR: channel '%s' not defined", channelMinbuffer);
+                        channelMin = channelMax = NULL;
+                        disableSearchtimer = true;
+                        useChannel = 0;
+                    }
+                    if (channels == 1)
+                        channelMax = channelMin;
+                    else {
+                        channelMax = Channels->GetByChannelID(tChannelID::FromString(channelMaxbuffer), true, true);
+                        if (!channelMax) {
+                            LogFile.eSysLog("ERROR: channel '%s' not defined", channelMaxbuffer);
+                            channelMin = channelMax = NULL;
+                            disableSearchtimer = true;
+                            useChannel = 0;
                         }
-                    } else if (useChannel == 2)
-                        channelGroup = strdup(value);
-                    break;
-                case 8:
-                    useCase = atoi(value);
-                    break;
-                case 9:
-                    mode = atoi(value);
-                    break;
-                case 10:
-                    useTitle = atoi(value);
-                    break;
-                case 11:
-                    useSubtitle = atoi(value);
-                    break;
-                case 12:
-                    useDescription = atoi(value);
-                    break;
-                case 13:
-                    useDuration = atoi(value);
-                    break;
-                case 14:
-                    minDuration = atoi(value);
-                    break;
-                case 15:
-                    maxDuration = atoi(value);
-                    break;
-                case 16:
-                    useAsSearchTimer = atoi(value);
-                    break;
-                case 17:
-                    useDayOfWeek = atoi(value);
-                    break;
-                case 18:
-                    DayOfWeek = atoi(value);
-                    break;
-                case 19:
-                    useEpisode = atoi(value);
-                    break;
-                case 20:
-                    strreplace(value, '|', ':');
-                    while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
-                    strn0cpy(directory, value, sizeof(directory));
-                    break;
-                case 21:
-                    Priority = atoi(value);
-                    break;
-                case 22:
-                    Lifetime = atoi(value);
-                    break;
-                case 23:
-                    MarginStart = atoi(value);
-                    break;
-                case 24:
-                    MarginStop = atoi(value);
-                    break;
-                case 25:
-                    useVPS = atoi(value);
-                    break;
-                case 26:
-                    action = atoi(value);
-                    break;
-                case 27:
-                    useExtEPGInfo = atoi(value);
-                    break;
-                case 28:
-                    if (!ParseExtEPGValues(value)) {
-                        LogFile.eSysLog("ERROR reading ext. EPG values - 1");
-                        free(line);
-                        return false;
                     }
-                    break;
-                case 29:
-                    avoidRepeats = atoi(value);
-                    break;
-                case 30:
-                    allowedRepeats = atoi(value);
-                    break;
-                case 31:
-                    compareTitle = atoi(value);
-                    break;
-                case 32:
-                    compareSubtitle = atoi(value);
-                    break;
-                case 33:
-                    compareSummary = atoi(value);
-                    break;
-                case 34:
-                    catvaluesAvoidRepeat = atol(value);
-                    break;
-                case 35:
-                    repeatsWithinDays = atoi(value);
-                    break;
-                case 36:
-                    delAfterDays = atoi(value);
-                    break;
-                case 37:
-                    recordingsKeep = atoi(value);
-                    break;
-                case 38:
-                    switchMinsBefore = atoi(value);
-                    break;
-                case 39:
-                    pauseOnNrRecordings = atoi(value);
-                    break;
-                case 40:
-                    blacklistMode = atoi(value);
-                    break;
-                case 41:
-                    if (blacklistMode == blacklistsSelection && !ParseBlacklistIDs(value)) {
-                        LogFile.eSysLog("ERROR parsing blacklist IDs");
-                        free(line);
-                        return false;
+                    free(channelMinbuffer);
+                    free(channelMaxbuffer);
+                } else if (useChannel == 2) {
+                    if (ChannelGroups.GetIndex(value) == -1) {
+                        LogFile.eSysLog("channel group '%s' does not exist!", value);
+                        useChannel = 0;
+                        disableSearchtimer = true;
                     }
-                    break;
-                case 42:
-                    fuzzyTolerance = atoi(value);
-                    break;
-                case 43:
-                    useInFavorites = atoi(value);
-                    break;
-                case 44:
-                    menuTemplate = atoi(value);
-                    break;
-                case 45:
-                    delMode = atoi(value);
-                    break;
-                case 46:
-                    delAfterCountRecs = atoi(value);
-                    break;
-                case 47:
-                    delAfterDaysOfFirstRec = atoi(value);
-                    break;
-                case 48:
-                    useAsSearchTimerFrom = atol(value);
-                    break;
-                case 49:
-                    useAsSearchTimerTil = atol(value);
-                    break;
-                case 50:
-                    ignoreMissingEPGCats = atoi(value);
-                    break;
-                case 51:
-                    unmuteSoundOnSwitch = atoi(value);
-                    break;
-                case 52:
-                    compareSummaryMatchInPercent = atoi(value);
-                    break;
-                case 53:
-                    strreplace(value, '|', ':');
-                    while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
-                    value[MaxFileName - 1] = '\0';  // simulate strn0cpy()
-                    contentsFilter = value;
-                    break;
-                case 54:
-                    compareDate = atoi(value);
-                    break;
-                default:
-                    break;
-                } //switch
-            }
-            parameter++;
+                    channelGroup = strdup(value);
+                }
+                break;
+            case 8:
+                useCase = atoi(value);
+                break;
+            case 9:
+                mode = atoi(value);
+                break;
+            case 10:
+                useTitle = atoi(value);
+                break;
+            case 11:
+                useSubtitle = atoi(value);
+                break;
+            case 12:
+                useDescription = atoi(value);
+                break;
+            case 13:
+                useDuration = atoi(value);
+                break;
+            case 14:
+                minDuration = atoi(value);
+                break;
+            case 15:
+                maxDuration = atoi(value);
+                break;
+            case 16:
+                useAsSearchTimer = atoi(value);
+                break;
+            case 17:
+                useDayOfWeek = atoi(value);
+                break;
+            case 18:
+                DayOfWeek = atoi(value);
+                break;
+            case 19:
+                useEpisode = atoi(value);
+                break;
+            case 20:
+                strreplace(value, '|', ':');
+                while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
+                strn0cpy(directory, value, sizeof(directory));
+                break;
+            case 21:
+                Priority = atoi(value);
+                break;
+            case 22:
+                Lifetime = atoi(value);
+                break;
+            case 23:
+                MarginStart = atoi(value);
+                break;
+            case 24:
+                MarginStop = atoi(value);
+                break;
+            case 25:
+                useVPS = atoi(value);
+                break;
+            case 26:
+                action = atoi(value);
+                break;
+            case 27:
+                useExtEPGInfo = atoi(value);
+                break;
+            case 28:
+                if (!ParseExtEPGValues(value)) {
+                    LogFile.eSysLog("ERROR reading ext. EPG values - 1");
+                    disableSearchtimer = true;
+                }
+                break;
+            case 29:
+                avoidRepeats = atoi(value);
+                break;
+            case 30:
+                allowedRepeats = atoi(value);
+                break;
+            case 31:
+                compareTitle = atoi(value);
+                break;
+            case 32:
+                compareSubtitle = atoi(value);
+                break;
+            case 33:
+                compareSummary = atoi(value);
+                break;
+            case 34:
+                catvaluesAvoidRepeat = atol(value);
+                break;
+            case 35:
+                repeatsWithinDays = atoi(value);
+                break;
+            case 36:
+                delAfterDays = atoi(value);
+                break;
+            case 37:
+                recordingsKeep = atoi(value);
+                break;
+            case 38:
+                switchMinsBefore = atoi(value);
+                break;
+            case 39:
+                pauseOnNrRecordings = atoi(value);
+                break;
+            case 40:
+                blacklistMode = atoi(value);
+                break;
+            case 41:
+                if (blacklistMode == blacklistsSelection && !ParseBlacklistIDs(value)) {
+                    LogFile.eSysLog("ERROR parsing blacklist IDs");
+                    disableSearchtimer = true;
+                }
+                break;
+            case 42:
+                fuzzyTolerance = atoi(value);
+                break;
+            case 43:
+                useInFavorites = atoi(value);
+                break;
+            case 44:
+                menuTemplate = atoi(value);
+                break;
+            case 45:
+                delMode = atoi(value);
+                break;
+            case 46:
+                delAfterCountRecs = atoi(value);
+                break;
+            case 47:
+                delAfterDaysOfFirstRec = atoi(value);
+                break;
+            case 48:
+                useAsSearchTimerFrom = atol(value);
+                break;
+            case 49:
+                useAsSearchTimerTil = atol(value);
+                break;
+            case 50:
+                ignoreMissingEPGCats = atoi(value);
+                break;
+            case 51:
+                unmuteSoundOnSwitch = atoi(value);
+                break;
+            case 52:
+                compareSummaryMatchInPercent = atoi(value);
+                break;
+            case 53:
+                strreplace(value, '|', ':');
+                while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
+                value[MaxFileName - 1] = '\0';  // simulate strn0cpy()
+                contentsFilter = value;
+                break;
+            case 54:
+                compareDate = atoi(value);
+                break;
+            default:
+                break;
+            } // switch
         }
+        parameter++;
         if (*pos) pos++;
     } //while
 
-    if (disableSearchtimer && useAsSearchTimer) {
-        useAsSearchTimer = false;
-        LogFile.Log(1, "search timer '%s' disabled", search);
+    free(line);
+
+    if (disableSearchtimer) {
+        if (useAsSearchTimer) {
+            useAsSearchTimer = false;
+            LogFile.Log(1, "search timer '%s' disabled", search);
+        }
+        return false; // set error in svdrp
     }
 
-    free(line);
     return (parameter >= 11) ? true : false;
 }
 
@@ -1426,7 +1439,7 @@ bool cSearchExts::Load(const char *FileName)
                         LogFile.eSysLog("error in '%s', line %d\n", fileName, line);
                         delete search;
                         result = false;
-                        break;
+                        // break;   continue with the rest
                     }
                 }
             }

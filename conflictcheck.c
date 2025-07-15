@@ -808,7 +808,7 @@ void cConflictCheck::EvaluateConflCheckCmd()
             std::set<cConflictCheckTimerObj*, TimerObjSort>::iterator it;
             for (it = ct->failedTimers.begin(); it != ct->failedTimers.end(); ++it)
                 if ((*it) && !(*it)->ignore) {
-                    string result = EPGSearchConfig.conflCheckCmd;
+                    std::string result = EPGSearchConfig.conflCheckCmd;
                     LOCK_TIMERS_READ;
                     if (!(*it)->OrigTimer(Timers)) {
                         LogFile.Log(3, "timer has disappeared meanwhile");
