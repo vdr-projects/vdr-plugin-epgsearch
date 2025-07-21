@@ -87,7 +87,7 @@ bool isUTF8 = false;
 cLogFile LogFile;
 char *cLogFile::LogFileName = NULL;
 int cLogFile::loglevellimit = 0;
-bool cPluginEpgsearch::VDR_readyafterStartup = false;
+bool VDR_readyafterStartup = false;
 
 // external SVDRPCommand
 const char *epgsSVDRP::cSVDRPClient::SVDRPSendCmd = "svdrpsend";
@@ -498,15 +498,6 @@ void cPluginEpgsearch::Stop(void)
 {
     cSearchTimerThread::Exit();
     cSwitchTimerThread::Exit();
-}
-
-void cPluginEpgsearch::MainThreadHook(void)
-{
-    if (!VDR_readyafterStartup) {
-        // signal VDR is ready, otherwise the search timer thread could use SVDRP before it works
-        LogFile.Log(2, "VDR ready");
-        VDR_readyafterStartup = true;
-    }
 }
 
 cOsdObject *cPluginEpgsearch::DoInitialSearch(char* rcFilename)

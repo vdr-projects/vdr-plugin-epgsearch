@@ -55,6 +55,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 const char AllowedChars[] = trNOOP("$ abcdefghijklmnopqrstuvwxyz0123456789-.,#~\\^$[]|()*+?{}/:%@&_");
 extern bool isUTF8;
+extern bool VDR_readyafterStartup;
 
 int CompareEventTime(const void *p1, const void *p2)
 {
@@ -374,6 +375,23 @@ void sleepMSec(long ms)
 void sleepSec(long s)
 {
     sleepMSec(s * 1000);
+}
+
+void WaitVDRReady()
+{
+    // if vdr has switched to the first program
+    // we can be sure that SVDRP is setup
+    int count = 0;
+    while (count < 90  && !VDR_readyafterStartup && !cDevice::PrimaryDevice()->HasProgramme()) {
+        cCondWait::SleepMs(2000);
+        count++;
+    }
+    if (count == 90) {
+        LogFile.eSysLog("ERROR - Searchtimers and Switchtimers might not work");
+    } else {
+        LogFile.Log(2, "VDR Ready after %d seconds", count*2);
+    }
+    VDR_readyafterStartup = true; // VDR is ready or we waited 3 minutes
 }
 
 bool SendViaSVDRP(cString SVDRPcmd)

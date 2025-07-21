@@ -1,5 +1,8 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2025-07-21
+- replaced call of MainThreadHook(void)
+
 2025-06-27
 - delete contentfilter if not set again in EDIS
 - changes in Ext::Parse provided by Stefan Hofmann

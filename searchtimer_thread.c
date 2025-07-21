@@ -53,6 +53,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define DAYBUFFERSIZE 32
 
 extern int updateForced;
+extern bool VDR_readyafterStartup;
 
 cSearchTimerThread *cSearchTimerThread::m_Instance = NULL;
 cSearchResults cSearchTimerThread::announceList;
@@ -255,15 +256,17 @@ void cSearchTimerThread::Action(void)
     SetPriority(SEARCHTIMER_NICE);
 
     m_Active = true;
-    // let VDR do its startup
-    if (!cPluginEpgsearch::VDR_readyafterStartup)
-        LogFile.Log(2, "SearchTimerThread: waiting for VDR to become ready...");
-    while (Running() && m_Active && !cPluginEpgsearch::VDR_readyafterStartup)
-        Wait.Wait(1000);
-    if (EPGSearchConfig.delayThreads > 0)
-        LogFile.Log(2, "SearchTimerThread: startup delayed %d seconds", EPGSearchConfig.delayThreads);
-    cCondWait::SleepMs(EPGSearchConfig.delayThreads * 1000);
 
+    // let VDR do its startup
+    if (!VDR_readyafterStartup) {
+        LogFile.Log(2, "SearchTimerThread: waiting for VDR to become ready...");
+        WaitVDRReady();
+    }
+
+    if (EPGSearchConfig.delayThreads > 0) {
+        LogFile.Log(2, "SearchTimerThread: startup delayed %d seconds", EPGSearchConfig.delayThreads);
+        cCondWait::SleepMs(EPGSearchConfig.delayThreads * 1000);
+    }
 
     time_t nextUpdate = time(NULL);
     while (m_Active && Running()) {
