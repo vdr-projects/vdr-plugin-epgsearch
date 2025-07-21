@@ -83,13 +83,13 @@ const cEvent* cConflictCheckTimerObj::SetEventFromSchedule()
         if (timer->HasFlags(tfVps) && Schedule->Events()->First()->Vps()) {
             // VPS timers only match if their start time exactly matches the event's VPS time:
             for (const cEvent *e = Schedule->Events()->First(); e; e = Schedule->Events()->Next(e)) {
-                if (e->StartTime() && e->RunningStatus() != SI::RunningStatusNotRunning) {
-                    // skip outdated events
+                if (e->StartTime()) {  // changes from vdr 2.4 applied
                     int overlap = 0;
-                    Matches(e, &overlap);
-                    if (overlap > FULLMATCH) {
+                    if (Matches(e, &overlap) == tmFull) {
                         Event = e;
-                        break; // take the first matching event
+                        if (overlap > FULLMATCH) {
+                            break; // take the first matching event
+                        }
                     }
                 }
             }
@@ -97,9 +97,16 @@ const cEvent* cConflictCheckTimerObj::SetEventFromSchedule()
             // Normal timers match the event they have the most overlap with:
             int Overlap = 0;
             // Set up the time frame within which to check events:
+#if APIVERSNUM > 30008
+            time_t startTime, stopTime;
+            timer->CalcStartStopTime(startTime,stopTime);
+            time_t TimeFrameBegin = startTime - EPGLIMITBEFORE;
+            time_t TimeFrameEnd   = stopTime  + EPGLIMITAFTER;
+#else
             timer->Matches(0, true);
             time_t TimeFrameBegin = start - EPGLIMITBEFORE;
             time_t TimeFrameEnd   = stop  + EPGLIMITAFTER;
+#endif
             for (const cEvent *e = Schedule->Events()->First(); e; e = Schedule->Events()->Next(e)) {
                 if (e->EndTime() < TimeFrameBegin)
                     continue; // skip events way before the timer starts
@@ -129,22 +136,47 @@ int cConflictCheckTimerObj::Matches(const cEvent *Event, int *Overlap) const
     // gets 200 added to the FULLMATCH.
     if (timer->Channel()->GetChannelID() == Event->ChannelID()) {
         bool UseVps = timer->HasFlags(tfVps) && Event->Vps();
+#if APIVERSNUM > 30008
+        time_t startTime, stopTime;
+        timer->CalcStartStopTime(startTime,stopTime);
+#else
         timer->Matches(UseVps ? Event->Vps() : Event->StartTime(), true);
+#endif
         int overlap = 0;
-        if (UseVps)
-            overlap = (start == Event->Vps()) ? FULLMATCH + (Event->IsRunning() ? 200 : 100) : 0;
-        if (!overlap) {
-            if (start <= Event->StartTime() && Event->EndTime() <= stop)
+        if (UseVps)  // use modifications since vdr 2.4
+#if APIVERSNUM > 30008
+            if (startTime == Event->Vps()) {
+#else
+            if (start == Event->Vps()) {
+#endif
                 overlap = FULLMATCH;
+                if (Event->IsRunning())
+                    overlap += 200;
+                else if (Event->RunningStatus() != SI::RunningStatusNotRunning)
+                    overlap += 100;
+            }
+        else {
+#if APIVERSNUM > 30008
+            if (startTime <= Event->StartTime() && Event->EndTime() <= stopTime)
+#else
+            if (start <= Event->StartTime() && Event->EndTime() <= stop)
+#endif
+                overlap = FULLMATCH;
+#if APIVERSNUM > 30008
+            else if (stopTime <= Event->StartTime() || Event->EndTime() <= startTime)
+#else
             else if (stop <= Event->StartTime() || Event->EndTime() <= start)
+#endif
                 overlap = 0;
             else
+#if APIVERSNUM > 30008
+                overlap = (std::min(stopTime, Event->EndTime()) - std::max(startTime, Event->StartTime())) * FULLMATCH / std::max(Event->Duration(), 1);
+#else
                 overlap = (std::min(stop, Event->EndTime()) - std::max(start, Event->StartTime())) * FULLMATCH / std::max(Event->Duration(), 1);
+#endif
         }
         if (Overlap)
             *Overlap = overlap;
-        if (UseVps)
-            return overlap > FULLMATCH ? tmFull : tmNone;
         return overlap >= FULLMATCH ? tmFull : overlap > 0 ? tmPartial : tmNone;
     }
     return tmNone;
@@ -264,6 +296,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     const cTimer* ti = NULL;
     for (ti = Timers->First(); ti; ti = Timers->Next(ti)) {
         tMax = std::max(tMax, ti->StartTime());
+        if (!ti->HasFlags(tfActive)) continue;
         if (localConflicts && ti->Remote()) continue;
         if (ti->StopTime() - ti->StartTime() == 0) continue; // avoid division by zero in computing recPart
         if (!ti->IsSingleEvent()) continue;
@@ -294,7 +327,7 @@ cList<cConflictCheckTimerObj>* cConflictCheck::CreateCurrentTimerList()
     tMax = std::max(tMax, maxCheck);
     for (ti = Timers->First(); ti; ti = Timers->Next(ti)) {
         if (ti->IsSingleEvent()) continue;
-        if (localConflicts && ti->Remote()) continue;  //JF???
+        if (localConflicts && ti->Remote()) continue;
         time_t day = time(NULL);
         while (day < tMax) {
             if (ti->DayMatches(day)) {
