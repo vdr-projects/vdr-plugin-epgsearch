@@ -3,6 +3,7 @@ VDR Plugin 'epgsearch' Revision History
 2025-07-21
 - replaced call of MainThreadHook(void)
 - replace Matches(time,true) with CalcStartStopTime
+- logical or for content list implemented
 
 2025-06-27
 - delete contentfilter if not set again in EDIS

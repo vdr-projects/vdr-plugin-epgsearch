@@ -162,6 +162,8 @@ is B<':'>:
       is represented with 2 chars
  54 - compare date when testing for a repeat?
       (0=no, 1=same day, 2=same week, 3=same month)
+ 55 - only one descriptor in the contentlist has to match
+      (0= all must be true, 1= any descriptor has to be true)
 
 A ':' in the search term or the directory entry will be translated in
 a '|'. If a '|' exists in the search term, e.g. when using regular

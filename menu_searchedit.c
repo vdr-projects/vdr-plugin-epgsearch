@@ -235,6 +235,7 @@ void cMenuEditSearchExt::Set()
     Add(new cMenuEditBoolItem(tr("Use content descriptor"), &useContentDescriptors, trVDR("no"), trVDR("yes")));
     AddHelp(tr("Help$Set this to 'Yes' if you want to search the contents by a descriptor."));
     if (useContentDescriptors) {
+        Add(new cMenuEditBoolItem(tr("only one content descriptor has to be true"), &data.contentDescriptorsMode, trVDR("no"), trVDR("yes")));
         vector<int>::const_iterator it;
         for (unsigned int i = 0; i < contentStringIDs.size(); i++) {
             int level = (contentStringIDs[i] % 0x10 == 0 ? 1 : 2);
@@ -440,6 +441,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
     int iTemp_useAsSearchTimer = data.useAsSearchTimer;
     int iTemp_useExtEPGInfo = data.useExtEPGInfo;
     int iTemp_useContentDescriptor = useContentDescriptors;
+    int iTemp_contentDescriptorsMode = data.contentDescriptorsMode;
     int iTemp_avoidRepeats = data.avoidRepeats;
     int iTemp_allowedRepeats = data.allowedRepeats;
     int iTemp_delAfterDays = data.delAfterDays;
@@ -457,6 +459,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
         iTemp_useAsSearchTimer != data.useAsSearchTimer ||
         iTemp_useExtEPGInfo != data.useExtEPGInfo ||
         iTemp_useContentDescriptor != useContentDescriptors ||
+        iTemp_contentDescriptorsMode != data.contentDescriptorsMode ||
         iTemp_avoidRepeats != data.avoidRepeats ||
         iTemp_allowedRepeats != data.allowedRepeats ||
         iTemp_delAfterDays != data.delAfterDays ||

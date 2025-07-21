@@ -219,6 +219,10 @@ Some providers deliver content descriptors in their EPG, like "Movie/Drama",
 Select here the descriptors to search for. Multiple choice is possible, that
 must match with all given descriptors (AND operator).
 
+=item - B<Only one content descriptor has to be true>
+
+Select, if any entry in the descriptorlist is enough for a match
+
 =item - B<Use extended EPG info:>
 
 Only available if configured, see below 'Using extended EPG info'.

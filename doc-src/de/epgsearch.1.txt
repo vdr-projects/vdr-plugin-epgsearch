@@ -219,6 +219,10 @@ Einige Provider liefern Kennungen für den Inhalt einer Sendung, z.B.
 Hiermit können diesen Kennungen ausgewählt werden. Es ist auch eine
 Mehrfachauswahl möglich, die dann in allen Kennungen übereinstimmen muss (UND-Verknüpfung).
 
+=item - B<Nur eine Kennung muss enthalten sein>
+
+'Ja' erlaubt eine ODER-Verknüpfung der Kennungen
+
 =item - B<Verw. erweiterte EPG Info>
 
 (nur verfügbar, wenn konfiguriert. Siehe weiter unten 'Verwendung

@@ -148,6 +148,7 @@ public:
     int      compareSummary;
     int      compareSummaryMatchInPercent;
     int      compareDate;
+    int      contentDescriptorsMode;
     int      allowedRepeats;
     unsigned long catvaluesAvoidRepeat;
     int      repeatsWithinDays;

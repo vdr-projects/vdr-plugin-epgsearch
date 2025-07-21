@@ -82,6 +82,7 @@ cSearchExt::cSearchExt(void)
     action = searchTimerActionRecord;
     useExtEPGInfo = false;
     contentsFilter = "";
+    contentDescriptorsMode = 0;
     catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
     int index = 0;
@@ -213,6 +214,7 @@ void cSearchExt::CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSet
     compareSummary = templ->compareSummary;
     compareSummaryMatchInPercent = templ->compareSummaryMatchInPercent;
     compareDate = templ->compareDate;
+    contentDescriptorsMode = templ->contentDescriptorsMode;
     allowedRepeats = templ->allowedRepeats;
     catvaluesAvoidRepeat = templ->catvaluesAvoidRepeat;
     repeatsWithinDays = templ->repeatsWithinDays;
@@ -332,7 +334,7 @@ const char *cSearchExt::ToText()
         }
     }
 
-    msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d:%s:%d",
+    msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d:%s:%d:%d",
              ID,
              tmp_search,
              useTime,
@@ -386,7 +388,8 @@ const char *cSearchExt::ToText()
              unmuteSoundOnSwitch,
              compareSummaryMatchInPercent,
              tmp_contentsFilter,
-             compareDate);
+             compareDate,
+             contentDescriptorsMode);
 
     if (tmp_search) free(tmp_search);
     if (tmp_directory) free(tmp_directory);
@@ -652,6 +655,8 @@ bool cSearchExt::Parse(const char *s)
             case 54:
                 compareDate = atoi(value);
                 break;
+            case 55:
+                contentDescriptorsMode = atoi(value);
             default:
                 break;
             } // switch
@@ -1361,6 +1366,8 @@ bool cSearchExt::IsActiveAt(time_t t)
 
 bool cSearchExt::HasContent(int contentID)
 {
+    // returns true if given contentID is contained in contentsFilter
+    // and syntax is ok
     for (unsigned int i = 0; i < contentsFilter.size(); i += 2) {
         std::string hexContentID = contentsFilter.substr(i, 2);
         if (hexContentID.size() != 2) return false;
@@ -1387,8 +1394,11 @@ void cSearchExt::SetContentFilter(int* contentStringsFlags)
 
 bool cSearchExt::MatchesContentsFilter(const cEvent* e)
 {
+    // returns true if DescriptorsMode is true and any contentID
+    // is matched in the events descriptors,
+    // otherwise each contentID must be matched
     if (!e) return false;
-    // check if each content filter ID is contained in the events descriptors
+    bool found = false;
     for (unsigned int i = 0; i < contentsFilter.size(); i += 2) {
         std::string hexContentID = contentsFilter.substr(i, 2);
         if (hexContentID.size() != 2) return false;
@@ -1396,15 +1406,20 @@ bool cSearchExt::MatchesContentsFilter(const cEvent* e)
         int searchContentID = 0;
         if (!(iss >> std::hex >> searchContentID)) return false;
         int c = 0, eventContentID = 0;
-        bool found = false;
-        while ((eventContentID = e->Contents(c++)) > 0)
+        if (!contentDescriptorsMode)  // one true is not enough
+            found = false;
+        while ((eventContentID = e->Contents(c++)) > 0) {
             if (eventContentID == searchContentID) {
                 found = true;
                 break;
             }
-        if (!found) return false;
+        }
+        if (!contentDescriptorsMode && !found)
+            break; // stop at first not found and return false
+        if (contentDescriptorsMode && found)
+            break; // stop at first found and return true
     }
-    return true;
+    return found;
 }
 
 // -- cSearchExts ----------------------------------------------------------------
