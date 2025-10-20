@@ -61,10 +61,13 @@ public:
         }
         bConnected = (Receive() == SVDRPCONNECT);
         if (!bConnected)
-            LogFile.eSysLog("EPGSearch: could not connect to VDR!");
+            LogFile.eSysLog("could not connect to VDR!");
+        else
+            LogFile.Log(3, "SVDRP connected");
     }
 
     ~cSVDRPClient() {
+        LogFile.Log(3, "SVDRP connection closed");
         if (sock >= 0)
             close(sock);
     }
@@ -73,33 +76,44 @@ public:
         if (!bConnected)
             return false;
 
+        LogFile.Log(3, "SVDRP send %s",cmd);
         cString szCmd = cString::sprintf("%s\r\n", cmd);
-        Send(*szCmd);
-        bool cmdret = (Receive() == CMDSUCCESS);
+        if (!Send(*szCmd))
+            return false; // socket will be closed in ~cSVDRPClient
 
+        long rc = Receive();
+        bool cmdret = (rc == CMDSUCCESS);
+        if (!cmdret)
+            LogFile.Log(2, "command %s got rc %ld", cmd, rc);
+        if (rc < 0)
+            return false;
+
+        // Always only one command so we quit communication
         szCmd = cString::sprintf("QUIT\r\n");
         Send(szCmd);
-
-        long rc = 0;
+        if (!Send(*szCmd))
+            return false;
         if ((rc = Receive()) != SVDRPDISCONNECT)
-            LogFile.eSysLog("could not disconnect (%ld)!", rc);
+            LogFile.eSysLog("could not disconnect (%ld)!", rc); // socket will be closed anyway
 
         close(sock);
         sock = -1;
         return cmdret;
     }
+
     bool Send(const char* szSend) {
         int length = strlen(szSend);
         int sent = 0;
         do {
             sent += send(sock, szSend + sent, length - sent, 0);
             if (sent < 0) {
-                LogFile.eSysLog("error sending command!");
+                LogFile.eSysLog("error sending command (%s)!", strerror(errno));
                 return false;
             }
         } while (sent < length);
         return true;
     }
+
     long Receive() {
         char* csResp = strdup("");
         char ch;
@@ -109,8 +123,13 @@ public:
 
         while (bCheckMultiLine) {
             while (strlen(csResp) < 2 || strcmp(csResp + strlen(csResp) - 2, "\r\n") != 0) {
-                if (recv(sock, &ch, 1, 0) < 0) {
-                    LogFile.eSysLog("EPGSearch: error receiving response!");
+                if (rc = recv(sock, &ch, 1, 0) <= 0) {
+                    if (rc == 0) { // unexpected but necessary to exit while loop
+                        LogFile.Log(2, "SVDRP recv got eof or socket closed");
+                        free(csResp);
+                        return -1;
+                    }
+                    LogFile.eSysLog("error receiving response (%s)!",strerror(errno));
                     free(csResp);
                     return -1;
                 }

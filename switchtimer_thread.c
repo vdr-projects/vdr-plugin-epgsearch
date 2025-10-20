@@ -104,7 +104,8 @@ void cSwitchTimerThread::Action(void)
                         if (doSwitch) {
                             LogFile.Log(1, "switching to channel %d", channel->Number());
                             if (cDevice::CurrentChannel() != channel->Number())
-                                SendViaSVDRP(SwitchCmd);
+                                if (!SendViaSVDRP(SwitchCmd))
+                                    LogFile.Log(1, "sending switch cmd failed");
 
                             if (doUnmute && cDevice::PrimaryDevice()->IsMute())
                                 cDevice::PrimaryDevice()->ToggleMute();
@@ -117,7 +118,8 @@ void cSwitchTimerThread::Action(void)
                             if (SendMsg(Message, true, MSG_DELAY) == kOk) {
                                 LogFile.Log(1, "switching to channel %d", channel->Number());
                                 if (cDevice::CurrentChannel() != channel->Number())
-                                    SendViaSVDRP(SwitchCmd);
+                                    if (!SendViaSVDRP(SwitchCmd))
+                                        LogFile.Log(1, "sending switch cmd failed");
 
                                 if (doUnmute && cDevice::PrimaryDevice()->IsMute())
                                     cDevice::PrimaryDevice()->ToggleMute();

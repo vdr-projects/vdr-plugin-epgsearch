@@ -505,6 +505,8 @@ void cSearchTimerThread::Action(void)
                         else
                             LogFile.Log(1, "modified timer %d for '%s~%s' (%s - %s); search timer: '%s'", index, pEvent->Title(), pEvent->ShortText() ? pEvent->ShortText() : "", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);
                     }
+                    else
+                        LogFile.Log(1, "add/mod timer for '%s~%s' (%s - %s); search timer: '%s' failed", pEvent->Title(), pEvent->ShortText() ? pEvent->ShortText() : "", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);
                     if (Summary) free(Summary);
                     delete timer;
                 }
@@ -783,7 +785,8 @@ void cSearchTimerThread::DelRecording(int index)
 {
     cString cmdbuf = cString::sprintf("DELR %d", index);
     LogFile.Log(2, "delete recording %d", index);
-    SendViaSVDRP(cmdbuf);
+    if (!SendViaSVDRP(cmdbuf))
+      LogFile.Log(1, "delete recording %d failed", index);
 }
 
 void cSearchTimerThread::CheckExpiredRecs()
