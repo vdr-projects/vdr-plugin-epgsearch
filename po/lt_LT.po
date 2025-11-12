@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.7.10\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-04-12 14:45+0200\n"
+"POT-Creation-Date: 2025-12-04 09:45+0100\n"
 "PO-Revision-Date: 2007-08-14 20:21+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: Lithuanian <vdr@linuxtv.org>\n"
@@ -166,7 +166,7 @@ msgid "Ok key"
 msgstr "Ok mygtukas"
 
 msgid ""
-"Help$Choose here the behaviour of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
+"Help$Choose here the behavior of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
 "Note: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."
 msgstr ""
 "Čia nustatykite 'Ok' mygtuko elgseną. Jūs galite naudoti jį aprašymo parodymui arba esamo kanalo perjungimui.\n"
@@ -195,7 +195,7 @@ msgstr ""
 msgid "Show progress in 'Now'"
 msgstr "Rodyti praeitą laiką nuo einamos programos pradžios arba kitaip progresą 'Dabar' skiltyje"
 
-msgid "Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event."
+msgid "Help$Shows a progress bar in 'Overview - Now' that informs about the remaining time of the current event."
 msgstr "Rodo progreso juostą 'Kas rodoma dabar' dalyje, kas suteikia daugiau informacijos apie tai kiek laiko laida dar tęsis."
 
 msgid "Show channel numbers"
@@ -246,15 +246,15 @@ msgstr "Rodyti kanalus be EPG"
 msgid "Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."
 msgstr "Čia pasirinkit 'taip' jei norite rodyti kanalus be EPG 'Kas rodoma dabar' dalyje. Spustelėjus 'Ok' ant įrašų perjungs kanalą."
 
-msgid "Time interval for FRew/FFwd [min]"
-msgstr "Laiko intervalas FRew/FFwd [min]"
+msgid "Time interval for 'FRew' / 'FFwd' [min]"
+msgstr "Laiko intervalas 'FRew' / 'FFwd' [min]"
 
 msgid ""
-"Help$Choose here the time interval which should be used for jumping through the EPG by pressing FRew/FFwd.\n"
+"Help$Choose here the time interval which should be used for jumping through the EPG by pressing 'FRew' / 'FFwd'.\n"
 "\n"
 "(If you don't have those keys, you can toggle to this functionality pressing '0' and get '<<' and '>>' on the keys green and yellow)"
 msgstr ""
-"Čia pasirinkite laiko intervalą kuris bus naudojamas peršokant per EPG įrašus, spaudžiant FRew/FFwd mygtukus.\n"
+"Čia pasirinkite laiko intervalą kuris bus naudojamas peršokant per EPG įrašus, spaudžiant 'FRew' / 'FFwd' mygtukus.\n"
 "\n"
 "\n"
 "(Jei tokių mygtukų jūsū distancinio valdymo pultas neturi, galite keisti parametro vertes paspaudę '0' bei spustelėję ant pasirodžiusių '<<' bei '>>' su žaliu bei geltonu mygtukais)"
@@ -278,11 +278,12 @@ msgstr ""
 msgid "for the next ... hours"
 msgstr "sekančiom ... valandom"
 
-msgid "Help$This value controls the timespan used to display your favorites."
+msgid "Help$This value controls the time span used to display your favorites."
 msgstr "Šis parametras nustato laiko "
 
-msgid "Use user-defined time"
-msgstr "Vartotojo nustatytas laikas"
+#, c-format
+msgid "Use user-defined time %d"
+msgstr "Vartotojo nustatytas laikas %d"
 
 msgid "Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."
 msgstr "Be 'Dabar' bei 'Sekantis' mygtukų, EPG dar galite nurodyti iki keturių kitų laikų, kurie gali būti naudojami spaudinėjant žalią mygtuką."
@@ -360,13 +361,13 @@ msgstr "Nustatymai"
 msgid "Use search timers"
 msgstr "Naudoti paieškos laikmačius"
 
-msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criterions."
+msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criteria."
 msgstr "'Paieškos laikmačiai' gali būti naudojami automatiškam laidų, kurios atitiko paieškos kriterijus, laikmačių sukūrimui."
 
 msgid "  Update interval [min]"
 msgstr "  Atnaujinimų intervalas [min]"
 
-msgid "Help$Specify here the time intervall to be used when searching for events in the background."
+msgid "Help$Specify here the time interval to be used when searching for events in the background."
 msgstr "Čia nurodyti laiko intervalą tarp vykdomos laidų pasikeitimų paieškos."
 
 msgid "  SVDRP port"
@@ -378,7 +379,7 @@ msgstr "Naujų laikmačių kūrimas bei laikmačių pasikeitimai į sistemą įr
 msgid "Delay internal threads ... seconds"
 msgstr ""
 
-msgid "Help$This value delays starting the searchtimer update thread for the given range of seconds"
+msgid "Help$This value delays starting the search-timer update thread for the given range of seconds"
 msgstr ""
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
@@ -393,10 +394,10 @@ msgstr "Čia nurodyti šiuo įskiepu sukurtą numatytąjį laikmačio/įrašo pr
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Čia nurodyti šiuo įskiepu sukurtą numatytąjį laikmačio/įrašo pabaigos uždelsimo laiką po įrašymo pabaigos. Šis parametras taip pat gali būti nustatytas kiekvienai paieškai atskirai."
 
-msgid "AllowedErrors"
+msgid "Allowed errors"
 msgstr ""
 
-msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgid "Help$Specify here the allowed reception errors before a recording is marked incomplete."
 msgstr ""
 
 msgid "No announcements when replaying"
@@ -512,7 +513,7 @@ msgid "every ... minutes"
 msgstr "kas ... minutes"
 
 msgid ""
-"Help$Specify here the time intervall to be used for an automatic conflict check in the background.\n"
+"Help$Specify here the time interval to be used for an automatic conflict check in the background.\n"
 "('0' disables an automatic check)"
 msgstr ""
 "Čia nurodyti automatinių konfliktų paieškų laiko inetrvalą\n"
@@ -521,7 +522,7 @@ msgstr ""
 msgid "if conflicts within next ... minutes"
 msgstr "jei konfliktai kyla per ... minutes"
 
-msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."
+msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check interval to get more OSD notifications about it."
 msgstr "Jei sekantis konfliktas įvyks per duotą minučių skaičių ir norite daugiau informacijos ekrane apie tai, galite nurodyti trumpesnį patikros intervalą."
 
 msgid "Avoid notification when replaying"
@@ -540,8 +541,8 @@ msgid "Time between mails [h]"
 msgstr "Laikas tarp el. laiškų išsiuntimų [h]"
 
 msgid ""
-"Help$Specifiy how much time in [h] you would\n"
-"like to have atleast between two mails.\n"
+"Help$Specify how much time in [h] you would\n"
+"like to have at least between two mails.\n"
 "With '0' you get a new mail after each\n"
 "search timer update with new results."
 msgstr ""
@@ -705,6 +706,24 @@ msgstr "kanalo grupė"
 msgid "only FTA"
 msgstr "tik nekoduoti"
 
+msgid "all selected descriptors"
+msgstr ""
+
+msgid "any selected descriptor"
+msgstr ""
+
+msgid "some selected descriptor per group"
+msgstr ""
+
+msgid "all categories"
+msgstr "visas kategorijas"
+
+msgid "all except missing categories"
+msgstr "visas, izņemot trūkstošās kategorijas"
+
+msgid "at least one category"
+msgstr "vismaz viena kategorija"
+
 msgid "Search term"
 msgstr "Paiškos frazė"
 
@@ -726,11 +745,30 @@ msgstr "Rodyti aprašą"
 msgid "Use description"
 msgstr "Rodyti aprašymą"
 
+msgid "Use parental rating"
+msgstr ""
+
+msgid "  Min. rating"
+msgstr ""
+
+msgid "  Max. rating"
+msgstr ""
+
+#, fuzzy
+msgid "Use content descriptors"
+msgstr "Rodyti aprašymą"
+
+msgid "  Contents matching mode"
+msgstr ""
+
+msgid "  Special characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Rodyti EPG informaciją"
 
-msgid "Ignore missing categories"
-msgstr "Ignoruoti trūkstamas kategorijas"
+msgid "Category matching mode"
+msgstr "Kategoriju atbilstības režīms"
 
 msgid "Use channel"
 msgstr "Naudoti kanalą"
@@ -873,7 +911,7 @@ msgstr "Katalogas"
 msgid "Channel"
 msgstr "Kanalas"
 
-msgid "Childlock"
+msgid "Child lock"
 msgstr "Paveldėtojo užraktas"
 
 msgid "Record on"
@@ -1090,34 +1128,33 @@ msgstr ""
 msgid "Help$This sets the tolerance of fuzzy searching. The value represents the allowed errors."
 msgstr "Tai duoda neapibrėžtą paiešką. Ši reikšmė nurodo galimų klaidų skaičių."
 
-msgid "Help$Set this to 'Yes' if your search should match the case."
+msgid "Help$Set this to 'yes' if your search should match the case."
 msgstr "Pasirinkite 'Taip', jei norite kad paieškos užklausoje paisytumėt raidžių registro."
 
-msgid "Help$Set this to 'Yes' if you like to search in the title of an event."
+msgid "Help$Set this to 'yes' if you like to search in the title of an event."
 msgstr "Pasirinkite 'Taip', jei paiešką norite vykdyti įvykio pavadinime."
 
-msgid "Help$Set this to 'Yes' if you like to search in the episode of an event."
+msgid "Help$Set this to 'yes' if you like to search in the episode of an event."
 msgstr "Pasirinkite 'Taip', jei paiešką norite vykdyti vienoje iš įvykio serijos dalių."
 
-msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
+msgid "Help$Set this to 'yes' if you like to search in the summary of an event."
 msgstr "Pasirinkti 'Taip' jei norite ieškoti įvykio santraukoje."
 
-#, fuzzy
-msgid "Use content descriptor"
-msgstr "Rodyti aprašymą"
+msgid "Help$Set this to 'yes' if you like to consider the parental rating of an event."
+msgstr ""
 
 #, fuzzy
-msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgid "Help$Set this to 'yes' if you want to search the contents by a descriptor."
 msgstr "Pasirinkite 'Taip', jei paiešką norite vykdyti įvykio pavadinime."
 
-msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
+msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'yes'."
 msgstr "Įviokio santrauka gali turėti papildomos informacijos, tokios kaip 'Žanras', 'Kategorija', 'Metai', ... EPGSearch įskiepe vadinamos 'EPG kategorijomis'. Išoriniai EPG tiekėjai dašnai pateikia šitą informaciją. Tai leidžia pagražinti paiešką ir įvesti kitus gražius dalykėlius, tokius kaip 'dienos frazė'. Kad tai panaudotumėt, pasirinkite 'Taip'"
 
-msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
-msgstr "Failas epgsearchcats.conf nusako šio įrašo paieškos būdą, paieška gali būti daroma tiek įvedant tiek pasirenkant reikšmę. Jūs taip pat galite koreguoti jau egzistuojantį reikšmių sąrašą esantį šiame faile."
+msgid "Help$By default, all selected categories must be present in an event's summary and match the specified values for the event to be included in search results. This option allows including events with missing or just some matching categories. But handle this with care to avoid a huge amount of results."
+msgstr "Pēc noklusējuma visām atlasītajām kategorijām ir jābūt iekļautām notikuma kopsavilkumā un jāatbilst norādītajām vērtībām, lai notikums tiktu iekļauts meklēšanas rezultātos. Šī opcija ļauj iekļaut notikumus ar trūkstošām vai tikai dažām atbilstošām kategorijām. Taču rīkojieties uzmanīgi, lai izvairītos no liela rezultātu skaita."
 
-msgid "Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."
-msgstr "Jei pasirinkta kategorija nėra įvykio santraukos dalis, tai paprastai neįtraukia įvykio į paieškos rezultatus. Kad to išvengtumėte, pasirinkite 'Taip', bet darykite tai apgalvotai, nes kitu atveju galite gauti didžiulį skaičių rezultatų."
+msgid "Help$The file 'epgsearchcats.conf' specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
+msgstr "Failas epgsearchcats.conf nusako šio įrašo paieškos būdą, paieška gali būti daroma tiek įvedant tiek pasirenkant reikšmę. Jūs taip pat galite koreguoti jau egzistuojantį reikšmių sąrašą esantį šiame faile."
 
 msgid "Use in favorites menu"
 msgstr "Naudoti mėgiamiausiųjų sąraše."
@@ -1325,18 +1362,26 @@ msgstr "Pereiti į (%d) '%s'?"
 msgid "Programming timer failed!"
 msgstr "Nustatyti laikmačio nepavyko!"
 
-#~ msgid "if present"
-#~ msgstr "jei yra"
+#, c-format
+msgid "in %02ldd"
+msgstr ""
 
-#~ msgid "in %02ldd"
-#~ msgstr "per %02ldd"
+#, c-format
+msgid "%02ldd"
+msgstr ""
 
-#~ msgid "in %02ldh"
-#~ msgstr "per %02ldh"
+#, c-format
+msgid "in %02ldh"
+msgstr ""
 
-#~ msgid "in %02ldm"
-#~ msgstr "per %02ldm"
+#, c-format
+msgid "%02ldh"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Compare expression"
-#~ msgstr "reguliari išraiška"
+#, c-format
+msgid "in %02ldm"
+msgstr ""
+
+#, c-format
+msgid "%02ldm"
+msgstr ""

@@ -25,7 +25,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchtools.h"
 
 cNoAnnounces NoAnnounces;
-char *cNoAnnounce::buffer = NULL;
+
 // -- cNoAnnounce -----------------------------------------------------------------
 cNoAnnounce::cNoAnnounce(void)
 {
@@ -50,10 +50,7 @@ cNoAnnounce::cNoAnnounce(const cEvent* e, time_t NextAnnounce)
 
 cNoAnnounce::~cNoAnnounce(void)
 {
-    if (buffer) {
-        free(buffer);
-        buffer = NULL;
-    }
+    free(buffer);
 }
 
 bool cNoAnnounce::operator== (const cNoAnnounce &arg) const
@@ -122,7 +119,7 @@ bool cNoAnnounce::Parse(const char *s)
     return (parameter >= 5) ? true : false;
 }
 
-const char *cNoAnnounce::ToText(void) const
+const char *cNoAnnounce::ToText(void)
 {
     free(buffer);
     msprintf(&buffer, "%s:%s:%s:%ld:%ld",

@@ -103,9 +103,9 @@ bool cVarParser::ParseShellCmd(const std::string& input)
 
 bool cVarParser::ParseConnectCmd(const std::string& input)
 {
-    int startCon = input.find("(");
-    int endCon = input.find(")");
-    if (startCon == -1 || endCon == -1) return false;
+    std::size_t startCon = input.find("(");
+    std::size_t endCon = input.find(")");
+    if (startCon == std::string::npos || endCon == std::string::npos) return false;
     std::string connect(input.begin() + startCon + 1, input.begin() + endCon);
     std::stringstream ss(connect);
     std::string item;

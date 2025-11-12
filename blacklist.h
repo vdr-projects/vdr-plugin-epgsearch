@@ -25,6 +25,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #define __EPGSEARCHBL_H
 
 #include <vdr/plugin.h>
+#include <string>
 
 class cSearchExt;
 class cSearchResults;
@@ -32,10 +33,17 @@ class cSearchResults;
 class cBlacklist : public cListObject
 {
     friend class cMenuEditSearchExt;
+
+private:
+    // the previously static buffer would bear the risk of race conditions
+    // between class instances or at the service interface
+    char*    buffer;
+
 public:
+    // items follow the sequence of epgsearchblacklists.conf(5), but arrange
+    // dependent items next to each other
     int      ID;
     char     search[MaxFileName];
-    int      options;
     int      useTime;
     int      startTime;
     int      stopTime;
@@ -54,12 +62,19 @@ public:
     int      useDayOfWeek;
     int      DayOfWeek;
     int      useExtEPGInfo;
-    int      ignoreMissingEPGCats;
     char**   catvalues;
+    int      extEPGInfoMatchingMode;
     int      fuzzyTolerance;
     int      isGlobal;
-    static char *buffer;
-public:
+    int      useContentsFilter;     // just for OSD handling
+    std::string contentsFilter;
+    int      contentsCategoryMatchingMode;
+    int      contentsCharacteristicsMatchingMode;
+    int      useParentalRating;
+    int      minParentalRating;
+    int      maxParentalRating;
+
+    public:
     cBlacklist(void);
     virtual ~cBlacklist(void);
     cBlacklist& operator= (const cBlacklist&);
@@ -67,9 +82,6 @@ public:
 
     const char *Search(void) {
         return search;
-    }
-    int Options(void) {
-        return options;
     }
     int StartTime(void) {
         return startTime;
@@ -95,6 +107,9 @@ public:
     bool Save(FILE *f);
     cSearchResults* Run(cSearchResults* pSearchResults = NULL, int MarginStop = 0);
     void CopyFromTemplate(const cSearchExt* templ);
+    bool HasContentID(int contentID);
+    void SetContentsFilter(const int* contentDescriptorFlags);
+    bool MatchesContentsFilter(const cEvent* e);
 };
 
 class cBlacklists : public cConfig<cBlacklist>, public cMutex

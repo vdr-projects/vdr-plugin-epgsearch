@@ -109,14 +109,24 @@ class cSearchExt : public cListObject
 {
     friend class cMenuEditSearchExt;
     friend class cMenuEditTemplate;
+
+private:
+    // the previously static buffer would bear the risk of race conditions
+    // between class instances or at the service interface
+    char*    buffer;
+
 public:
+    // items follow the sequence of epgsearch.conf(5), but arrange
+    // dependent items next to each other
     int      ID;
     char     search[MaxFileName];
-    int      options;
     int      useTime;
     int      startTime;
     int      stopTime;
     int      useChannel;
+    const cChannel *channelMin;
+    const cChannel *channelMax;
+    char*    channelGroup;
     int      useCase;
     int      mode;
     int      useTitle;
@@ -136,25 +146,23 @@ public:
     int      MarginStop;
     int      useVPS;
     int      action;
-    std::string contentsFilter;
     int      useExtEPGInfo;
     char**   catvalues;
-    const cChannel *channelMin;
-    const cChannel *channelMax;
-    char*    channelGroup;
+    int      extEPGInfoMatchingMode;
     int      avoidRepeats;
+    int      allowedRepeats;
     int      compareTitle;
     int      compareSubtitle;
     int      compareSummary;
     int      compareSummaryMatchInPercent;
     int      compareDate;
-    int      allowedRepeats;
     unsigned long catvaluesAvoidRepeat;
     int      repeatsWithinDays;
     int      delAfterDays;
     int      recordingsKeep;
-    int      switchMinsBefore;
     int      pauseOnNrRecordings;
+    int      switchMinsBefore;
+    int      unmuteSoundOnSwitch;
     int      blacklistMode;
     cList<cBlacklistObject> blacklists;
     int      fuzzyTolerance;
@@ -165,10 +173,15 @@ public:
     int      delAfterDaysOfFirstRec;
     time_t   useAsSearchTimerFrom;
     time_t   useAsSearchTimerTil;
-    int      ignoreMissingEPGCats;
-    int      unmuteSoundOnSwitch;
+    int      useContentsFilter;     // just for OSD handling
+    std::string contentsFilter;
+    int      contentsCategoryMatchingMode;
+    int      contentsCharacteristicsMatchingMode;
+    int      useParentalRating;
+    int      minParentalRating;
+    int      maxParentalRating;
     bool     skipRunningEvents;
-    static char *buffer;
+
 public:
     cSearchExt(void);
     virtual ~cSearchExt(void);
@@ -177,9 +190,6 @@ public:
 
     const char *Search(void) {
         return search;
-    }
-    int Options(void) {
-        return options;
     }
     int StartTime(void) {
         return startTime;
@@ -215,8 +225,8 @@ public:
     cTimerObjList* GetTimerList(cTimerObjList* timerList);
     int GetCountRecordings();
     bool IsActiveAt(time_t t);
-    bool HasContent(int contentID);
-    void SetContentFilter(int* contentStringsFlags);
+    bool HasContentID(int contentID);
+    void SetContentsFilter(const int* contentDescriptorFlags);
     bool MatchesContentsFilter(const cEvent* e);
 };
 

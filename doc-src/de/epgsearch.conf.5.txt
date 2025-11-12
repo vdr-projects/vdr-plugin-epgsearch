@@ -1,143 +1,554 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearch.conf> - Die gespeicherten Suchtimer
+F<epgsearch.conf> – Suchen und Suchtimer
 
 =head1 BESCHREIBUNG
 
-Die in epgsearch angelegten Suchtimer werden in dieser Datei gespeichert.
+Die in EPGSearch angelegten Suchen und Suchtimer werden in dieser Datei gespeichert.
 
-Sie sollte nicht manuell editiert werden. Verwende stattdessen lieber SVDRP.
+Diese Datei sollte nicht manuell bearbeitet werden. Nutzen Sie stattdessen die
+Menüs des Plugins, seine SVDRP-Schnittstelle oder zusätzliche Frontends (wie etwa
+F<live>) zum Erstellen, Bearbeiten oder Löschen von Suchen und Suchtimern.
 
 =head1 FORMAT
 
-Aufgrund von möglichen Formatänderungen enthält die Datei eine Versionsangabe.
-Die Format-Version befindet sich in der ersten Zeile der Datei.
+Jede Zeile der Datei repräsentiert eine Suche oder einen Suchtimer
+und umfasst die folgenden Felder:
 
-Der allgemeine Feldtrenner ist C<':'>.
+=over 4
 
-Folgende Felder sind möglich:
+=item B<1 – Eindeutige Kennung (ID)>
 
-  1 - Eindeutige Suchtimer ID
-  2 - Suchstring
-  3 - Verwende Zeit? 0/1
-  4 - Startzeit in HHMM
-  5 - Stopzeit in HHMM
-  6 - Verwende Kanal? 0 = nein,  1 = Intervall, 2 = Kanalgruppe, 3 = nur FTA
-  7 - Wenn 'Verwende Kanal' = 1 dann ist Kanal ID[|Kanal ID] im VDR Format,
-      ein Eintrag oder min/max getrennt durch |,
-      wenn 'Verwende Kanal' = 2 dann der Kanalgruppenname
-  8 - Beachte Gross-/Kleinschreibung? 0/1
-  9 - Suchmodus:
-      0 - Der gesamte Suchbegriff muss genau so enthalten sein
-      1 - Alle Suchbegriffe (Trenner sind Leerzeichen,',', ';', '|' oder '~')
-          müssen enthalten sein als Teilzeichenketten.
-      2 - Mindestens ein Suchbegriff muss enthalten sein (Trenner sind
-          Leerzeichen, ',', ';', '|' oder '~').
-      3 - Der Suchbegriff muss genau zutreffen
-      4 - Regulärer Ausdruck
-      5 - Fuzzy Suche (Toleranz in 42), nicht möglich für EPG Kategorien
- 10 - Suche im Titel? 0/1
- 11 - Suche im Untertitel? 0/1
- 12 - Suche in Beschreibung? 0/1
- 13 - Verwende Länge? 0/1
- 14 - Minimale Länge der Sendung in HHMM
- 15 - Maximale Länge der Sendung in HHMM
- 16 - Verwende als Suchtimer? 0/1/2 (2 definiert aktive Zeitspannen -> 48 und 49)
- 17 - Verwende Tag der Woche? 0/1
- 18 - Tag der Woche (0 = Sonntag, 1 = Montag...;
-      -1 Sonntag, -2 Montag, -4 Dienstag, ...; -7 So, Mo, Di)
- 19 - Verwende als Serienaufnahme? 0/1
- 20 - Verzeichnis für Aufnahme
- 21 - Priorität der Aufnahme
- 22 - Lebensdauer der Aufnahme
- 23 - Zeitpuffer am Anfang in Minuten
- 24 - Zeitpuffer am Ende in Minuten
- 25 - Verwende VPS? 0/1
- 26 - Aktion:
-      0 = Lege Timer an
-      1 = Benachrichtige nur per OSD (kein Timer)
-      2 = Schalte nur um (kein Timer)
- 27 - Verwende erweitertes EPG? 0/1
- 28 - Felder des erweiterten EPGs. Dieser Eintrag hat folgendes Format
-      (Trenner ist '|' für jede Kategorie, '#' trennt ID vom Wert):
-      1 - Die ID der Kategorie des erweiterten EPGs, festgelegt in
-          F<epgsearchcats.conf>, s. C<epgsearchcats.conf(5)>
-      2 - Wert des erweiterten EPGs für diese Kategorie
-          (Ein ':' wird übersetzt in "!^colon^!", z.B. "16:9" -> "16!^colon^!9")
- 29 - vermeide Wiederholungen? 0/1
- 30 - erlaubte Anzahl Wiederholungen
- 31 - Vergleiche Titel bei Prüfung auf Wiederholung? 0/1
- 32 - Vergleiche Untertitel bei Prüfung auf Wiederholung? 0/1/2
-      0 - Nein
-      1 - Ja
-      2 - Ja, beide dürfen leer sein
- 33 - Vergleiche Beschreibung bei Prüfung auf Wiederholung? 0/1
- 34 - Vergleiche erweitertes EPG bei Prüfung auf Wiederholung?
-      Dieser Eintrag ist ein Bitfeld von Kategorie IDs.
- 35 - Erlaube Wiederholungen nur innerhalb x Tagen
- 36 - Lösche eine Aufnahme automatisch nach x Tagen
- 37 - Aber behalte mindestens x Aufnahmen
- 38 - Schalte x Minuten vor der Sendung um, wenn Aktion = 2
- 39 - Pausiere das Anlegene von Timern wenn x Aufnahmen vorhanden sind
- 40 - Modus der Ausschlussliste: 0 = Aus, 1 = Wähle aus, 2 = Alle
- 41 - Verwende diese Ausschluss-Suchtimer: IDs getrennt durch '|'
- 42 - Fuzzy Toleranz für Suche
- 43 - Verwende diese Suche im Favoriten Menü, 0/1
- 44 - ID einer Menüvorlage für das Suchergebnis
-      (falls mehrere templates definiert sind in epgsearchmenu.conf)
- 45 - Automatisches Löschen (0 nie, 1 nach gegebener Anzahl Aufnahmen,
-      2 nach gegebenen Tagen nach der ersten Aufzeichnung)
- 46 - Anzahl Aufnahmen, nach denen der Suchtimer gelöscht wird
- 47 - Anzahl der Tage nach der ersten Aufname, nach denen der
-      Suchtimer gelöscht wird
- 48 - Erster Tag wo der Suchtimer aktiv ist
- 49 - Letzter Tag wo der Suchtimer aktiv ist
- 50 - Ignoriere fehlende EPG Kategorien, 0/1
- 51 - Ton einschalten, falls stumm, wenn als Switchtimer verwendet
- 52 - Minimal erforderliche Übereinstimmung in der Beschreibung,
-      wenn Wiederholung vermieden werden soll (-> 33)
- 53 - HEX Repräsentation der Content-Deskriptoren, jede ID mit genau
-      2 Zeichen
- 54 - Datum vergleichen, wenn auf Wiederholung getestet wird? (0 =nein,
-      1 = gleicher Tag, 2 = gleiche Woche, 3 = gleicher Monat)
+Integer mit einem positiven Wert.
 
-Folgende Zeichen werden bei der Speicherung übersetzt:
+=item B<2 – Suchbegriff ("Abfrage")>
 
- : => |
- | => !^pipe^!
+String zur Festlegung des Suchbegriffs.
 
-Es müssen nicht alle Felder belegt sein. Gefordert sind lediglich die ersten
-11.
+=item B<3 – Uhrzeit verwenden>
 
-=head1 BEISPIELE
+Flag mit den Werten 0 = nein, 1 = ja.
 
- #version 2 - DONT TOUCH THIS!
- 1:Kommissar Beck:0:::2:ÖffRecht:0:0:1:0:0:0:::1:0:0:1:%Category%~%Genre%:50:99:10:60:0:0:0::1:0:1:1:0:0:0:0:0
- 2:* Sägebrecht:0:::2:Hauptsender:0:0:0:0:0:0:::0:0:0:0:%Category%~%Genre%:50:99:10:10:0:0:1:1#|2#|3#|4#|5#|6#Marianne Sägebrecht|7#|8#|9#|10#|11#|12#|13#:1:0:1:0:0:0:0:0:0
+=item B<4 – Start nach [HHMM]>
 
-=head1 SIEHE AUCH
+Integer mit HH = 0..23, MM = 0..59; andere Werte können zu undefiniertem Verhalten führen.
 
-C<epgsearch(1)>
+=item B<5 – Start vor [HHMM]>
 
-=head1 AUTOR (man pages)
+Integer mit HH = 0..23, MM = 0..59; andere Werte können zu undefiniertem Verhalten führen.
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=item B<6 – Kanal verwenden>
+
+Enumeration mit den Werten 0 = nein, 1 = Bereich, 2 = Kanalgruppe, 3 = ohne PayTV.
+
+=item B<7 – Kanalauswahl>
+
+=over 4
+
+=item wenn 'Kanal verwenden' = 1:
+
+String mit C<KanalID> oder C<MinKanalID>|C<MaxKanalID>; die Kanalkennungen
+müssen der VDR-Notation entsprechen (bspw. C<S19.2E-1-1019-10301>).
+
+B<Achtung:> Nach einer Änderung der Kanalreihenfolge sollten die
+Bereichseinstellungen von Suchtimern unbedingt kontrolliert werden!
+
+=item wenn 'Kanal verwenden' = 2:
+
+String mit dem Namen einer zuvor erstellten Kanalgruppe.
+
+=back
+
+=item B<8 – Groß/Kleinschreibung beachten>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<9 – Suchmodus>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = Ausdruck
+
+=item 1 = alle Worte
+
+=item 2 = ein Wort
+
+=item 3 = exakt
+
+=item 4 = regulärer Ausdruck
+
+=item 5 = unscharf (Toleranz im Feld 42; nicht verfügbar für erweiterte
+EPG-Kategorien)
+
+=back
+
+Siehe auch "Ablauf des Suchvorgangs" in B<epgsearch>(4) bezüglich der
+Frage, wie sich diese Einstellungen auf die Suche auswirken.
+
+=item B<10 – Titel verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<11 – Untertitel verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<12 – Beschreibung verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<13 – Dauer verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<14 – Minimale Dauer [HHMM]>
+
+Integer mit HH = 0..23, MM = 0..59; andere Werte können zu undefiniertem Verhalten führen.
+
+=item B<15 – Maximale Dauer [HHMM]>
+
+Integer mit HH = 0..23, MM = 0..59; andere Werte können zu undefiniertem Verhalten führen.
+
+=item B<16 – Als Suchtimer verwenden>
+
+Enumeration den folgenden Werten:
+
+=over 4
+
+=item 0 = nein
+
+=item 1 = ja
+
+=item 2 = Zeitspanne (Felder 48 und 49)
+
+=back
+
+Z<>
+
+=item B<17 – Wochentag verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<18 – Wochentag>
+
+Integer im Wertebereich von −127 bis 6. Die Bedeutung ist zweigeteilt:
+
+=over 4
+
+=item wenn I<Wt> ≥ 0: ein einzelner Wochentag
+
+Enumeration mit den Werten 0 = Sonntag, 1 = Montag, ..., 6 = Samstag.
+
+=item wenn I<Wt> < 0: eine Auswahl von Wochentagen
+
+Integer, in dem die Bits von −I<Wt> die Wochentage darstellen. Die Bitmasken
+ergeben sich aus der Verschiebung von 0x01 um den Enumerationswert eines
+Wochentages:
+
+Z<>
+
+=over 4
+
+=item 0x01 = Sonntag
+
+=item 0x02 = Montag
+
+=item 0x04 = Dienstag
+
+=item 0x08 = Mittwoch
+
+=item 0x10 = Donnerstag
+
+=item 0x20 = Freitag
+
+=item 0x40 = Samstag
+
+=back
+
+Um die gewünschten Wochentage zu kodieren, muss der aus den ODER-verknüpften
+Bitmasken resultierende Wert negiert werden.
+
+Beispiel: −67 (negiert: 0b01000011 = 0x40 | 0x02 | 0x01) kodiert Samstag, Montag und Sonntag
+
+=back
+
+=item B<19 – Serienaufnahme>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<20 – Aufnahmeverzeichnis>
+
+String mit dem Namen eines Verzeichnisses unterhalb des Video-Verzeichnisses des VDR,
+jedoch ohne den Pfad zu diesem Video-Verzeichnis.
+
+=item B<21 – Priorität der Aufzeichnung>
+
+Integer im Wertebereich von 0 bis 99.
+
+=item B<22 – Lebensdauer der Aufzeichnung [Tage]>
+
+Integer im Wertebereich von 0 bis 99.
+
+=item B<23 – Vorlauf zum Timer-Beginn [Minuten]>
+
+Integer mit einem positiven Wert.
+
+=item B<24 – Nachlauf am Timer-Ende [Minuten]>
+
+Integer mit einem positiven Wert.
+
+=item B<25 – VPS verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<26 – Aktion>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = aufnehmen
+
+=item 1 = per OSD ankündigen (kein Timer)
+
+=item 2 = nur umschalten (kein Timer)
+
+=item 3 = per OSD ankündigen und umschalten (kein Timer)
+
+=item 4 = per E-Mail ankündigen
+
+=item 5 = deaktiviert
+
+=back
+
+Z<>
+
+=item B<27 – Erweiterte EPG-Informationen verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<28 – Erweiterte EPG-Kategoriedaten>
+
+Liste der erweiterten EPG-Kategoriedaten, jeweils dargestellt durch
+ein Tupel aus:
+
+=over 4
+
+=item 28.1 – Kennung
+
+Eindeutige Kennung der erweiterten EPG-Kategorie, wie in
+F<epgsearchcats.conf> angegeben.
+
+=item 28.2 – Kategoriedaten
+
+Kommaseparierte Liste von Werten, wie für die EPG-Kategorie in
+F<epgsearchcats.conf> angegeben. Leerzeichen vor und nach
+Kategoriewerten werden ignoriert. Ist in einem Wert ein C<:>
+enthalten, wie etwa in C<16:9>, muss es als C<!^colon^!>
+kodiert werden.
+
+=back
+
+Das Zeichen C<|> trennt benachbarte Kategorientupel, während C<#> die
+Kennungen und Kategorienamen trennt.
+
+Beispiel: C<1#Film, Serie|2#Horror|8#16!^colon^!9>
+
+=item B<29 – Wiederholungen vermeiden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<30 – Erlaubte Wiederholungen>
+
+Integer im Wertebereich von 0 bis 99.
+
+=item B<31 – Titel vergleichen (für den Test auf Wiederholungen)>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<32 – Untertitel vergleichen (für den Test auf Wiederholungen)>
+
+Enumeration mit den Werten 0 = nein, 1 = ja, 2 = falls vorhanden.
+
+=item B<33 – Beschreibung vergleichen (für den Test auf Wiederholungen)>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<34 – Kategorien vergleichen (für den Test auf Wiederholungen)>
+
+Integer, in dem jedes Bit eine erweiterte EPG-Kategorie repräsentiert.
+Die erste in F<epgsearchcats.conf> angegebene EPG-Kategorie wird
+durch Bit 0 (0x01) dargestellt, die zweite durch Bit 1 (0x02) usw.
+Ein Wert ungleich Null aktiviert den Vergleich.
+
+B<Hinweis:> Die Kennungen der erweiterten EPG-Kategorien (Feld 1
+eines EPG-Kategorieeintrags) sind für die Kodierung des Bitfelds nicht
+von Bedeutung. Änderungen der EPG-Kategorien erfordern gegebenenfalls
+eine Aktualisierung von Suchtimern.
+
+=item B<35 – Nur innerhalb von ... Tagen>
+
+Integer im Wertebereich von 0 bis 999.
+
+=item B<36 – Aufzeichnungen nach ... Tagen löschen>
+
+Integer im Wertebereich von 0 bis 999.
+
+=item B<37 – Bis zu ... Aufzeichnungen behalten>
+
+Integer im Wertebereich von 0 bis 999.
+
+=item B<38 – Umschalten ... Minuten vor Start>
+
+Integer im Wertebereich von 0 bis 99; nur relevant für 'Aktion' = 2.
+
+=item B<39 – Pause, wenn ... Aufzeichnungen existieren>
+
+Integer im Wertebereich von 0 bis 999.
+
+=item B<40 – Ausschlusslisten verwenden>
+
+Enumeration mit den Werten 0 = nur globale, 1 = Auswahl, 2 = alle, 3 = keine.
+
+=item B<41 – Genutzte Ausschlusslisten>
+
+Liste mit Kennungen von Ausschlusslisten, jeweils per C<|> getrennt;
+nur relevant für 'Ausschlusslisten verwenden' = 1.
+
+=item B<42 – Unschärfetoleranz>
+
+Integer im Wertebereich von 1 bis 9, der als Schwellwert für die unscharfe
+Suche dient; nur relevant für 'Suchmodus' = 5.
+
+=item B<43 – Im Favoriten-Menü verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<44 – Layout der Suchergebnisse im Favoriten-Menü>
+
+Integer, der auf eine in F<epgsearchmenu.conf> spezifizierte Vorlage für
+Suchergebnisse verweist. Der Wert ist der Index (beginnend bei 0) innerhalb
+aller Einträge mit dem Präfix C<MenuSearchResults>; Details finden sich unter
+"Anpassen der EPG-Menüs" in B<epgsearch>(4).
+
+B<Hinweis:> Dieses Feld ist nur relevant, wenn mehrere Vorlagen für Suchergebnisse
+vorliegen.
+
+=item B<45 – Suchtimer automatisch löschen>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = nicht löschen
+
+=item 1 = nach einer Anzahl von Aufnahmen löschen (Feld 46)
+
+=item 2 = nach einer Anzahl von Tagen nach der ersten Aufnahme löschen (Feld 47)
+
+=back
+
+Z<>
+
+=item B<46 – Nach ... Aufnahmen löschen>
+
+Integer im Wertebereich von 0 bis 999; nur relevant für 'Suchtimer automatisch löschen' = 1.
+
+=item B<47 – Nach ... Tagen nach erster Aufnahme löschen>
+
+Integer im Wertebereich von 0 bis 999; nur relevant für 'Suchtimer automatisch löschen' = 2.
+
+=item B<48 – Erster Tag (als Suchtimer verwenden ab)>
+
+Datum und Zeit in I<Epoch>-Notation (Sekunden seit dem 01.01.1970, 00:00 UTC),
+ab wann der Suchtimer aktiv ist; ein Wert von 0 deaktiviert die Prüfung.
+
+B<Hinweis:> Jeder beliebige I<Epoch>-Wert ist zulässig. Liegt die Zeit
+innerhalb eines Tages (anstelle von Mitternacht), bleibt der Timer inaktiv,
+bis diese Zeit erreicht ist.
+
+=item B<49 – Letzter Tag (als Suchtimer verwenden bis)>
+
+Datum und Zeit in I<Epoch>-Notation (Sekunden seit dem 01.01.1970, 00:00 UTC),
+bis wann der Suchtimer aktiv ist; ein Wert von 0 deaktiviert die Prüfung.
+
+B<Hinweis:> Jeder beliebige I<Epoch>-Wert ist zulässig. Liegt die Zeit
+innerhalb eines Tages (anstelle von Mitternacht), bleibt der Timer aktiv,
+bis diese Zeit erreicht ist.
+
+=item B<50 – Übereinstimmung von erweiterten EPG-Kategorien>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = alle Kategorien
+
+=item 1 = alle außer fehlende Kategorien
+
+=item 2 = mindestens eine Kategorie
+
+=back
+
+Erlaubt die Berücksichtigung von Sendungen mit fehlenden oder nur teilweise
+übereinstimmenden Kategorien. Ohne andere ausreichend einschränkende Kriterien
+könnte dies jedoch zu einer enormen Anzahl von Suchergebnissen führen.
+
+=item B<51 – Ton anschalten>
+
+Flag mit den Werten 0 = nein, 1 = ja; nur relevant für 'Aktion' = 2 oder 3.
+
+=item B<52 – Minimale Übereinstimmung in Prozent>
+
+Integer im Wertebereich von 1 bis 100, der festlegt, wie groß die erforderliche
+Übereinstimmung beim Vergleich der Beschreibungen von Sendungen mindestens sein muss,
+um Wiederholungen  zu vermeiden; nur relevant für 'Beschreibung vergleichen' = 1.
+
+=item B<53 – Inhaltskennungen>
+
+String mit zu prüfenden Inhaltskennungen. Eine Inhaltskennung ist ein Wert von
+0 bis 255 (siehe DIN EN 300 468, Tabelle 18), der als zweistellige Hexadezimalzahl
+kodiert ist. Das obere Nibble (Bits [7..4]) repräsentiert eine Gruppe von Inhalten,
+das untere Nibble (Bits [3..0]) eine Kennung für einen bestimmten Inhalt innerhalb
+dieser Gruppe. Die erste Kennung einer Gruppe mit dem Wert 0 ist üblicherweise eine
+allgemeine Charakterisierung dieser Gruppe (bspw. 0x10 = Film, Drama), wohingegen
+die Werte 1..15 eine untergeordnete, feinere Charakterisierung darstellen
+(wie 0x11 = Detektiv, Thriller; 0x14 = Komödie). Die Inhaltsgruppe 11 (besondere
+Merkmale) entspricht jedoch nicht diesem Schema (wie etwa ersichtlich anhand von
+0xB0 = Originalsprache; 0xB1 = schwarzweiß), weshalb für deren Inhaltskennungen
+eine eigene Art der Übereinstimmung gewählt werden kann.
+
+Die zu prüfenden Inhaltskennungen sind die Verkettung ihrer zweistelligen
+Hexadezimalzahlen ohne Trennzeichen.
+
+B<Beispiel:> Die Inhaltskennungen 17 (Detektiv, Thriller), 20 (Komödie) und
+176 (Originalsprache) werden als C<1114B0> kodiert.
+
+Die Felder 55 (Inhaltskategorien) und 56 (besondere Merkmale) legen fest,
+wann eine Sendung den ausgewählten Inhaltskennungen entspricht.
+
+Ein leerer String bewirkt, dass Inhaltskennungen nicht geprüft werden.
+
+=item B<54 – Zeitpunkt vergleichen (für den Test auf Wiederholungen)>
+
+Enumeration mit den Werten 0 = nein, 1 = gleicher Tag, 2 = gleiche Woche, 3 = gleicher Monat.
+
+=item B<55 – Übereinstimmung von Inhaltskategorien>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = alle gewählten Kennungen
+
+=item 1 = eine der gewählten Kennungen
+
+=item 2 = eine gewählte Kennung je Gruppe
+
+=back
+
+Die Optionen 0 und 1 prüfen über alle Kategoriengruppen hinweg, verwenden aber
+dennoch die Einstellung aus Feld 56 zur Überprüfung der besonderen Merkmale.
+Daher können Kombinationen wie 'UND' für die Kategoriengruppen und 'ODER'
+innerhalb der besonderen Merkmale auftreten und umgekehrt.
+
+Option 2 hingegen verwendet einen zweistufigen Ansatz: Zunächst werden die
+Kategoriengruppen mit ausgewählten Inhaltskennungen geprüft (Gruppen ohne
+ausgewählte Inhaltskennungen entfallen). Eine Kategoriengruppe stimmt überein,
+wenn eine Sendung mindestens eine der für die Gruppe gewählten Inhaltskennungen
+enthält ('eine gewählte', ODER), mit Ausnahme der Gruppe der besonderen Merkmale,
+die stets die Einstellung aus Feld 56 verwendet. Abschließend müssen alle geprüften
+Kategoriengruppen übereinstimmen ('je Gruppe', UND).
+
+Nur relevant, wenn 'Inhaltskennungen' nicht leer ist.
+
+=item B<56 – Übereinstimmung besonderer Inhaltsmerkmale>
+
+Enumeration mit den Werten 0 = alle gewählten Kennungen, 1 = eine der gewählten Kennungen;
+nur relevant, wenn 'Inhaltskennungen' nicht leer ist.
+
+=item B<57 – Altersfreigabe verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<58 – Minimale Altersfreigabe>
+
+Integer im Wertebereich von 0 bis 18.
+
+=item B<59 – Maximale Altersfreigabe>
+
+Integer im Wertebereich von 0 bis 18.
+
+=back
+
+Der Eintrag eines Suchtimers wird als gültig betrachtet, wenn er
+mindestens die ersten 11 Felder abdeckt.
+
+Die Felder ("Parameter") eines Suchtimers sind durch C<:> getrennt.
+Daher wird ein C<:> in Strings, wie etwa dem Suchbegriff oder dem
+Aufnahmeverzeichnis, durch C<|> kodiert. Sollte ein C<|> ebenfalls Teil
+des Strings sein, wie beispielsweise in regulären Ausdrücken, wird
+es durch C<!^pipe^!> kodiert (was zwar unschön, aber aus Gründen der
+Abwärtskompatibilität erforderlich ist).
+
+Felder, die von einem anderen Feld abhängen und aufgrund der Einstellung
+dieses Feldes belanglos sind, können (und sollten) leer gelassen werden.
+Beispielsweise kann ein Suchtimer ohne Zeitbeschränkung die Felder
+'Start nach' und 'Start vor' leer lassen:
+
+=over 4
+
+    1:Meine Lieblingsserie: 0::: 0::0:0
+                            ^^^^
+
+=back
+
+Darüber hinaus werden führende und nachfolgende Leerzeichen um einen
+Feldwert herum verworfen. Dies bedeutet jedoch, dass Strings nicht mit
+Leerzeichen beginnen oder enden können.
+
+B<Hinweis:> Strings in Feldern dürfen nicht in einfachen oder doppelten
+Anführungszeichen eingeschlossen werden, auch wenn dies in der Beschreibung
+so dargestellt sein sollte. Diese Zeichen wurden bei der Kompilierung dieser
+Man-Page eingefügt.
+
+=head1 EXAMPLE
+
+ 1:Columbo:0:::2:Öffentlich-Rechtlich:1:3:1:0:0:0:::1:0:0:1:%Category%~%Genre%:50:99:10:60:0:0:0::1:0:1:1:0:0:0:0:0
+ 2:Schwarzenegger:0:::2:Hauptsender:0:0:0:0:0:0:::0:0:0:0:%Category%~%Genre%:50:99:10:10:0:0:1:1#|2#|3#|4#|5#|6#Arnold Schwarzenegger|7#|8#|9#|10#|11#|12#|13#:1:0:1:0:0:0:0:0:0
+
+=head1 AUTOREN (Man-Pages)
+
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
-
-=head1 COPYRIGHT and LIZENZ
+=head1 COPYRIGHT und LIZENZ
 
 Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -152,13 +563,17 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
 
-Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
-von RSA Data Security, Inc..
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
 
+=head1 SIEHE AUCH
+
+B<epgsearch>(1), B<epgsearch>(4)

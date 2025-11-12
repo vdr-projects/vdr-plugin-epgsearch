@@ -391,7 +391,7 @@ else {
 
 
 
-    ## Send Attachemnts
+    ## Send Attachments
     if ($attachments[0]) {
         ## Disable the alarm so people on modems can send big attachments
         alarm(0) if ($^O !~ /win/i);  ## alarm() doesn't work in win32

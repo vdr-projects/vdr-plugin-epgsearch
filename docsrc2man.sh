@@ -12,6 +12,7 @@
 #
 
 DOCSRC="doc-src"
+status=0
 
 if [ ! -s "epgsearch.c" ]; then
 	echo "Cannot find epgsearch.c. Call this script from epgsearch source directory."
@@ -40,7 +41,14 @@ function man_gen () {
 			echo -ne "create man page: ($1) $(basename "$i" ".txt")..."
 			name=$(echo "$(basename "$i")" | sed -e 's/\.[0-9]\..*$//')
 			sect=$(echo "$i" | sed -e 's/.*\.\([0-9]\)\.txt/\1/')
-			pod2man -u -c "Epgsearch Version $VERSION" -n "$name" --section="$sect" "$i" >"man/$1/$(basename "$i" ".txt")"
+			podchecker -nowarnings "$i" >/dev/null 2>&1
+			if [ $? -ne 0 ]; then
+				echo " failed:"
+				podchecker "$i" 2>&1 | sed 's/^/    /'
+				status=1
+				continue
+			fi
+			pod2man -u -c "EPGSearch Version $VERSION" -n "$name" --section="$sect" "$i" >"man/$1/$(basename "$i" ".txt")" --quotes="'"
 			if [ $? -eq 0 ]; then
 				echo " done."
 			else
@@ -65,13 +73,14 @@ for LANGUAGE in $(ls "$DOCSRC"/); do
 
 	man_dir $LANGUAGE
 	man_gen $LANGUAGE
+	[ $status -eq 0 ] || continue
 	man_gz  $LANGUAGE
 
 done
 
 echo
 
-if [ $PRINT_DEPS -eq 0 ]; then
+if [ $status -eq 0 ] && [ $PRINT_DEPS -eq 0 ]; then
 	for LANGUAGE in $(ls "$DOCSRC"/); do
 
 		[ ! -d "$DOCSRC/$LANGUAGE" ] && continue
@@ -80,7 +89,7 @@ if [ $PRINT_DEPS -eq 0 ]; then
 
 		for i in man/$LANGUAGE/*.gz; do
 			echo -ne "create doc file from man page: ($LANGUAGE) $(basename "$i")..."
-			zcat "$i" | preconv | nroff -man - | col -xbp > "doc/$LANGUAGE/$(basename "$i" ".gz").txt"
+			zcat "$i" | preconv | nroff -man -c | col -xbp > "doc/$LANGUAGE/$(basename "$i" ".gz").txt"
 			echo " done"
 		done
 
@@ -89,4 +98,5 @@ if [ $PRINT_DEPS -eq 0 ]; then
 	echo
 fi
 
+exit $status
 #EOF

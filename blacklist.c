@@ -32,17 +32,16 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_searchedit.h"
 #include "menu_searchresults.h"
 #include <math.h>
+#include <sstream>
 
 cBlacklists Blacklists;
 
 // -- cBlacklist -----------------------------------------------------------------
-char *cBlacklist::buffer = NULL;
-
 cBlacklist::cBlacklist(void)
 {
+    buffer = NULL;
     ID = -1;
     *search = 0;
-    options = 1;
     useTime = false;
     startTime = 0000;
     stopTime = 2359;
@@ -63,9 +62,6 @@ cBlacklist::cBlacklist(void)
     maxDuration = 130;
     useDayOfWeek = false;
     DayOfWeek = 0;
-    buffer = NULL;
-    isGlobal = 0;
-
     useExtEPGInfo = false;
     catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
@@ -76,16 +72,21 @@ cBlacklist::cBlacklist(void)
         SearchExtCat = SearchExtCats.Next(SearchExtCat);
         index++;
     }
-    ignoreMissingEPGCats = 0;
+    extEPGInfoMatchingMode = 0;
     fuzzyTolerance = 1;
+    isGlobal = 0;
+    useContentsFilter = false;
+    contentsCategoryMatchingMode = 0;
+    contentsCharacteristicsMatchingMode = 0;
+    useParentalRating = false;
+    minParentalRating = 0;
+    maxParentalRating = 18;
 }
 
 cBlacklist::~cBlacklist(void)
 {
-    if (buffer) {
-        free(buffer);
-        buffer = NULL;
-    }
+    free(buffer);
+
     if (catvalues) {
         cSearchExtCat *SearchExtCat = SearchExtCats.First();
         int index = 0;
@@ -95,20 +96,32 @@ cBlacklist::~cBlacklist(void)
             index++;
         }
         free(catvalues);
-        catvalues = NULL;
     }
 }
 
 cBlacklist& cBlacklist::operator= (const cBlacklist &Blacklist)
 {
-    char**   catvaluesTemp = this->catvalues;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wclass-memaccess"
-    // TODO: this shallow copy does not duplicate all std::strings -> can this cause trouble?
-    memcpy(this, &Blacklist, sizeof(*this));
-#pragma GCC diagnostic pop
-    this->catvalues = catvaluesTemp;
-
+    ID = Blacklist.ID;
+    strcpy(search, Blacklist.search);
+    useTime = Blacklist.useTime;
+    startTime = Blacklist.startTime;
+    stopTime = Blacklist.stopTime;
+    useChannel = Blacklist.useChannel;
+    channelMin = Blacklist.channelMin;
+    channelMax = Blacklist.channelMax;
+    free(channelGroup);
+    channelGroup = Blacklist.channelGroup ? strdup(Blacklist.channelGroup) : NULL;
+    useCase = Blacklist.useCase;
+    mode = Blacklist.mode;
+    useTitle = Blacklist.useTitle;
+    useSubtitle = Blacklist.useSubtitle;
+    useDescription = Blacklist.useDescription;
+    useDuration = Blacklist.useDuration;
+    minDuration = Blacklist.minDuration;
+    maxDuration = Blacklist.maxDuration;
+    useDayOfWeek = Blacklist.useDayOfWeek;
+    DayOfWeek = Blacklist.DayOfWeek;
+    useExtEPGInfo = Blacklist.useExtEPGInfo;
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
     int index = 0;
     while (SearchExtCat) {
@@ -117,16 +130,29 @@ cBlacklist& cBlacklist::operator= (const cBlacklist &Blacklist)
         SearchExtCat = SearchExtCats.Next(SearchExtCat);
         index++;
     }
+    extEPGInfoMatchingMode = Blacklist.extEPGInfoMatchingMode;
+    fuzzyTolerance = Blacklist.fuzzyTolerance;
+    isGlobal = 0;
+    useContentsFilter = Blacklist.useContentsFilter;
+    contentsFilter = Blacklist.contentsFilter;
+    contentsCategoryMatchingMode = Blacklist.contentsCategoryMatchingMode;
+    contentsCharacteristicsMatchingMode = Blacklist.contentsCharacteristicsMatchingMode;
+    useParentalRating = Blacklist.useParentalRating;
+    minParentalRating = Blacklist.minParentalRating;
+    maxParentalRating = Blacklist.maxParentalRating;
     return *this;
 }
 
 void cBlacklist::CopyFromTemplate(const cSearchExt* templ)
 {
-    options = templ->options;
     useTime = templ->useTime;
     startTime = templ->startTime;
     stopTime = templ->stopTime;
     useChannel = templ->useChannel;
+    channelMin = templ->channelMin;
+    channelMax = templ->channelMax;
+    free(channelGroup);
+    channelGroup = templ->channelGroup ? strdup(templ->channelGroup) : NULL;
     useCase = templ->useCase;
     mode = templ->mode;
     useTitle = templ->useTitle;
@@ -138,8 +164,6 @@ void cBlacklist::CopyFromTemplate(const cSearchExt* templ)
     useDayOfWeek = templ->useDayOfWeek;
     DayOfWeek = templ->DayOfWeek;
     useExtEPGInfo = templ->useExtEPGInfo;
-    isGlobal = 0;
-
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
     int index = 0;
     while (SearchExtCat) {
@@ -147,15 +171,16 @@ void cBlacklist::CopyFromTemplate(const cSearchExt* templ)
         SearchExtCat = SearchExtCats.Next(SearchExtCat);
         index++;
     }
-
-    channelMin = templ->channelMin;
-    channelMax = templ->channelMax;
-    if (channelGroup)
-        free(channelGroup);
-    if (templ->channelGroup)
-        channelGroup = strdup(templ->channelGroup);
+    extEPGInfoMatchingMode = templ->extEPGInfoMatchingMode;
     fuzzyTolerance = templ->fuzzyTolerance;
-    ignoreMissingEPGCats = templ->ignoreMissingEPGCats;
+    isGlobal = 0;
+    useContentsFilter = templ->useContentsFilter;
+    contentsFilter = templ->contentsFilter;
+    contentsCategoryMatchingMode = templ->contentsCategoryMatchingMode;
+    contentsCharacteristicsMatchingMode = templ->contentsCharacteristicsMatchingMode;
+    useParentalRating = templ->useParentalRating;
+    minParentalRating = templ->minParentalRating;
+    maxParentalRating = templ->maxParentalRating;
 }
 
 bool cBlacklist::operator< (const cListObject &ListObject)
@@ -170,16 +195,9 @@ const char *cBlacklist::ToText(void)
     char tmp_Stop[5] = "";
     char tmp_minDuration[5] = "";
     char tmp_maxDuration[5] = "";
+    char* tmp_search = encodeSpecialCharacters(search);
     char* tmp_chanSel = NULL;
-    char* tmp_search = NULL;
     char* tmp_catvalues = NULL;
-
-    free(buffer);
-    tmp_search = strdup(search);
-    while (strstr(tmp_search, "|"))
-        tmp_search = strreplace(tmp_search, "|", "!^pipe^!"); // ugly: replace a pipe with something, that should not happen to be part of a regular expression
-
-    strreplace(tmp_search, ':', '|');
 
     if (useTime) {
         sprintf(tmp_Start, "%04d", startTime);
@@ -211,27 +229,27 @@ const char *cBlacklist::ToText(void)
         while (SearchExtCat) {
             char* catvalue = NULL;
             if (msprintf(&catvalue, "%s", catvalues[index]) != -1) {
-                while (strstr(catvalue, ":"))
-                    catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part ofa category value
-                while (strstr(catvalue, "|"))
-                    catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression
-
+                char* temp = catvalue;
+                catvalue = encodeSpecialCharacters(catvalue, true);
+                free(temp);
                 if (index == 0)
                     msprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
                 else {
-                    char* temp = tmp_catvalues;
+                    temp = tmp_catvalues;
                     msprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
                     free(temp);
                 }
+                free(catvalue);
             }
             SearchExtCat = SearchExtCats.Next(SearchExtCat);
             index++;
-            free(catvalue);
         }
     }
 
-    msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%s:%d:%d:%d",
-             ID,
+    free(buffer);
+    msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:" "%d:%d:%d:%s:%s:%d:%d:%d:%s:%d:"     //  1..20
+                      "%d:%d:%s:%d:%d:%d:%d:%d",                                            // 21..28
+             ID,                        //  1
              tmp_search,
              useTime,
              tmp_Start,
@@ -241,7 +259,7 @@ const char *cBlacklist::ToText(void)
              useCase,
              mode,
              useTitle,
-             useSubtitle,
+             useSubtitle,               // 11
              useDescription,
              useDuration,
              tmp_minDuration,
@@ -251,17 +269,18 @@ const char *cBlacklist::ToText(void)
              useExtEPGInfo,
              useExtEPGInfo ? tmp_catvalues : "",
              fuzzyTolerance,
-             ignoreMissingEPGCats,
-             isGlobal);
+             extEPGInfoMatchingMode,      // 21
+             isGlobal,
+             contentsFilter.c_str(),
+             contentsCategoryMatchingMode,
+             contentsCharacteristicsMatchingMode,
+             useParentalRating,
+             minParentalRating,
+             maxParentalRating);
 
-
-    if (tmp_chanSel)
-        free(tmp_chanSel);
-    if (tmp_search)
-        free(tmp_search);
-    if (tmp_catvalues)
-        free(tmp_catvalues);
-
+    free(tmp_search);
+    free(tmp_chanSel);
+    free(tmp_catvalues);
 
     return buffer;
 }
@@ -274,6 +293,8 @@ bool cBlacklist::Parse(const char *s)
     int parameter = 1;
     int valuelen;
     char value[MaxFileName];
+
+    contentsFilter = "";
 
     pos = line = strdup(s);
     pos_next = pos + strlen(pos);
@@ -293,8 +314,11 @@ bool cBlacklist::Parse(const char *s)
                 case 1:
                     ID = atoi(value);
                     break;
-                case 2:
-                    strcpy(search, value);
+                case 2: {
+                    char* s = decodeSpecialCharacters(value);
+                    strn0cpy(search, s, sizeof(search));
+                    free(s);
+                    }
                     break;
                 case 3:
                     useTime = atoi(value);
@@ -392,10 +416,31 @@ bool cBlacklist::Parse(const char *s)
                     fuzzyTolerance = atoi(value);
                     break;
                 case 21:
-                    ignoreMissingEPGCats = atoi(value);
+                    extEPGInfoMatchingMode = atoi(value);
                     break;
                 case 22:
                     isGlobal = atoi(value);
+                    break;
+                case 23:
+                    // no need for replacing special characters, as these would cause the check to fail
+                    value[MaxFileName - 1] = '\0';  // simulate strn0cpy()
+                    contentsFilter = value;
+                    useContentsFilter = !contentsFilter.empty();
+                    break;
+                case 24:
+                    contentsCategoryMatchingMode = atoi(value);
+                    break;
+                case 25:
+                    contentsCharacteristicsMatchingMode = atoi(value);
+                    break;
+                case 26:
+                    useParentalRating = atoi(value);
+                    break;
+                case 27:
+                    minParentalRating = atoi(value);
+                    break;
+                case 28:
+                    maxParentalRating = atoi(value);
                     break;
                 default:
                     break;
@@ -405,10 +450,6 @@ bool cBlacklist::Parse(const char *s)
         }
         if (*pos) pos++;
     } //while
-
-    strreplace(search, '|', ':');
-    while (strstr(search, "!^pipe^!"))
-        strreplace(search, "!^pipe^!", "|");
 
     free(line);
     return (parameter >= 19) ? true : false;
@@ -486,11 +527,9 @@ bool cBlacklist::ParseExtEPGEntry(const char *s)
                     if (currentid > -1) {
                         int index = SearchExtCats.GetIndexFromID(currentid);
                         if (index > -1) {
-                            while (strstr(value, "!^colon^!"))
-                                strreplace(value, "!^colon^!", ":");
-                            while (strstr(value, "!^pipe^!"))
-                                strreplace(value, "!^pipe^!", "|");
-                            strcpy(catvalues[index], value);
+                            char* s = decodeSpecialCharacters(value, true);
+                            strn0cpy(catvalues[index], s, MaxFileName);
+                            free(s);
                         }
                     }
                     break;
@@ -544,19 +583,11 @@ const cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedule, const 
     }
 
     for (const cEvent *p = p1; p; p = schedule->Events()->Next(p)) {
-        if (!p) {
-            break;
-        }
-
-        if (szTest) {
-            free(szTest);
-            szTest = NULL;
-        }
-
         // ignore events without title
         if (!p->Title() || strlen(p->Title()) == 0)
             continue;
 
+        free(szTest);
         msprintf(&szTest, "%s%s%s%s%s", (useTitle ? p->Title() : ""), (useSubtitle || useDescription) ? "~" : "",
                  (useSubtitle ? p->ShortText() : ""), useDescription ? "~" : "",
                  (useDescription ? p->Description() : ""));
@@ -604,14 +635,22 @@ const cEvent * cBlacklist::GetEventByBlacklist(const cSchedule *schedule, const 
                     continue;
             }
 
+            if (useParentalRating) {
+                int rating = p->ParentalRating();
+                if (minParentalRating > rating || maxParentalRating < rating)
+                    continue;
+            }
+
+            if (useContentsFilter && !MatchesContentsFilter(p))
+                continue;
+
             if (useExtEPGInfo && !MatchesExtEPGInfo(p))
                 continue;
             pe = p;
             break;
         }
     }
-    if (szTest)
-        free(szTest);
+    free(szTest);
     free(searchText);
     return pe;
 }
@@ -632,6 +671,7 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
         }
 
         if (useChannel == 1 && channelMin && channelMax) {
+            // caution: reordering the channels via OSD can yield unexpected results
             if (channelMin->Number() > channel->Number() || channelMax->Number() < channel->Number()) {
                 Schedule = Schedules->Next(Schedule);
                 continue;
@@ -644,7 +684,6 @@ cSearchResults* cBlacklist::Run(cSearchResults* pSearchResults, int MarginStop)
                 continue;
             }
         }
-
         if (useChannel == 3) {
             if (channel->Ca() >= CA_ENCRYPTED_MIN) {
                 Schedule = Schedules->Next(Schedule);
@@ -672,32 +711,124 @@ bool cBlacklist::MatchesExtEPGInfo(const cEvent* e)
 {
     if (!e || !e->Description())
         return false;
+    bool matching = extEPGInfoMatchingMode != 2;
     cSearchExtCat* SearchExtCat = SearchExtCats.First();
     while (SearchExtCat) {
         char* value = NULL;
         int index = SearchExtCats.GetIndexFromID(SearchExtCat->id);
         if (index > -1)
             value = catvalues[index];
-        if (value && strlen(value) > 0) {
+        if (value && SearchExtCat->searchmode >= 10 && atol(value) == 0) // numerical value != 0 ?
+            value = NULL;
+        if (value && *value) {
             char* testvalue = GetExtEPGValue(e, SearchExtCat);
-            if (!testvalue)
-                return false;
-
-            // compare not case sensitive
-            char* valueLower = strdup(value);
-            ToLower(valueLower);
-            ToLower(testvalue);
-            if (!MatchesSearchMode(testvalue, valueLower, SearchExtCat->searchmode, ",;|~", fuzzyTolerance)) {
+            if (!testvalue) {
+                if (extEPGInfoMatchingMode == 0)
+                    return false;
+            } else {
+                // compare case insensitive
+                char* valueLower = strdup(value);
+                ToLower(valueLower);
+                ToLower(testvalue);
+                bool valueMatches = MatchesSearchMode(testvalue, valueLower, SearchExtCat->searchmode, ",;|~", fuzzyTolerance);
                 free(testvalue);
                 free(valueLower);
-                return false;
+                if (extEPGInfoMatchingMode != 2)
+                    matching &= valueMatches;
+                else
+                    matching |= valueMatches;
             }
-            free(testvalue);
-            free(valueLower);
         }
         SearchExtCat = SearchExtCats.Next(SearchExtCat);
     }
-    return true;
+    return matching;
+}
+
+bool cBlacklist::HasContentID(int contentID)
+{
+    for (unsigned int i = 0; i < contentsFilter.size(); i += 2) {
+        std::string hexContentID = contentsFilter.substr(i, 2);
+        if (hexContentID.size() != 2) return false;
+        std::istringstream iss(hexContentID);
+        int tmpContentID = 0;
+        if (!(iss >> std::noshowbase >> std::hex >> tmpContentID)) return false;
+        if (contentID == tmpContentID) return true;
+    }
+    return false;
+}
+
+void cBlacklist::SetContentsFilter(const int* contentDescriptorFlags)
+{
+    // create the hex array of content descriptor IDs
+    std::ostringstream oss;
+    for (unsigned int i = 0; contentDescriptorFlags && i <= CONTENT_DESCRIPTOR_MAX; i++) {
+        if (contentDescriptorFlags[i]) {
+            oss << std::hex << std::noshowbase << i;
+        }
+    }
+    contentsFilter = oss.str();
+}
+
+bool cBlacklist::MatchesContentsFilter(const cEvent* e)
+{
+    if (!e || !e->Contents(0)) return false;
+    // ensure match with VDR settings
+    constexpr unsigned int contentIdentifiersPerGroup = 16;
+    // check if each content filter ID is contained in the events descriptors;
+    // at least one entry within a content group must match, and all non-empty
+    // groups must have at least one matching entry
+    unsigned int checkedGroups = 0;         // set bit indicates that group is contained in contentsFilter
+    unsigned int checkedCharacteristics = 0;
+    unsigned int matchingGroups = 0;        // set bit indicates that at least a matching content ID within the group
+    unsigned int matchingCharacteristics = 0;
+    for (unsigned int i = 0; i < contentsFilter.size(); i += 2) {
+        std::string hexContentID = contentsFilter.substr(i, 2);
+        if (hexContentID.size() != 2) return false;
+        std::istringstream iss(hexContentID);
+        int searchContentID = 0;
+        if (!(iss >> std::hex >> searchContentID)) return false;
+        unsigned int gid = searchContentID / contentIdentifiersPerGroup;
+        unsigned int cid = searchContentID % contentIdentifiersPerGroup;
+        int c = 0, eventContentID = 0;
+        bool found = false;
+        while ((eventContentID = e->Contents(c++)) > 0) {
+            if (gid == 0xB) {
+                // special characteristics use their own matching mode
+                checkedCharacteristics |= 1 << cid;
+                if (eventContentID == searchContentID) {
+                    matchingCharacteristics |= 1 << cid;
+                    found = true;   // to prevent from unintended exit
+                    break;
+                }
+            } else {
+                checkedGroups |= 1 << gid;
+                if (eventContentID == searchContentID) {
+                    if (contentsCategoryMatchingMode == 1) {
+                        // any descriptor satisfies the matching mode
+                        return true;
+                    }
+                    matchingGroups |= 1 << gid;
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (contentsCategoryMatchingMode == 0 && !found) {
+            // only all descriptors satisfy the matching mode
+            return false;
+        }
+    }
+    // check special characteristics w.r.t. matching mode
+    bool characteristicsIsMatching;
+    if (contentsCharacteristicsMatchingMode == 0) {
+        // must be exact match
+        characteristicsIsMatching = checkedCharacteristics == matchingCharacteristics;
+    } else {
+        // one match satisfies, provided that some characteristics was selected at all
+        characteristicsIsMatching = !checkedCharacteristics || matchingCharacteristics;
+    }
+    // some selected descriptor within each touched group
+    return characteristicsIsMatching && (contentsCategoryMatchingMode == 0 || checkedGroups == matchingGroups);
 }
 
 // -- cBlacklists ----------------------------------------------------------------

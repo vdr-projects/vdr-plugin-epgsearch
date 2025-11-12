@@ -1,163 +1,224 @@
+=encoding utf8
+
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchuservars.conf> - User defined variables
+F<epgsearchuservars.conf> – user-defined variables
 
 =head1 DESCRIPTION
 
-In this file you can defines variables which then can be used
-in epgsearch in any play where variables are possible.
+This file defines variables that can be used in EPGSearch wherever
+variables are applicable. This, for example, applies for the default
+recording directory of a manually created timer, the recording
+directory of a search timer, or a customized EPG menu.
 
 =head1 SYNTAX
 
-Variables looks like %Variablename%.
-
-"Variablename" can be consist of any alphanumerical character. Space
-and special characters are not allowed.
-
-The variable names are case-insensitive.
+A variable has the syntax C<%VariableName%>. Its name can comprise all
+alphanumeric characters, but no spaces or other special characters.
 
 Examples for possible names:
 
- %Series% %DocuVar1% %ThemesSubtitleDate1%
+=over 4
+
+    %Series%
+    %DocuVar1%
+    %ThemesSubtitleDate%
+
+=back
+
+Variable names are case-insensitive.
 
 =head2 Assignment
 
- %Series%=New series~Thriller
+Variables always get assigned strings whose spaces are retained.
+This is illustrated by the following examples:
 
-The variable %Series% will be assigned with the string "New series~Thriller".
+=over 4
 
-Assignments are always strings. Spaces stay spaces.
+    %Series%=New series~Thrillers
 
- %Path%=%Series%
+=back
 
-The variable %Path% gets the content of the variable %Series%.
+The variable C<%Series%> will be assigned the string "New series~Thrillers".
+This can be used arbitrarily:
 
-You can do nearly everything:
+=over 4
 
- %Path%=%Serie%~Lost
+    %Path%=%Series%
 
-The variable %Path% contains now the string "New series~Thriller~Lost".
+=back
 
-=head2 Control structures
+The variable C<%Path%> gets the content of the variable C<%Series%> assigned.
 
-You can use simple "if then else" constructions.
+=over 4
 
-These constructions cannot contain strings, only variables.
-Spaces are ignored.
+    %Path%=%Series%~Lost
 
- %Foo%=Other
+=back
 
- %Variable%=%Path% ? %Path% : %Foo%
+The variable C<%Path%> contains the string "New series~Thrillers~Lost".
 
-If %Path% is not empty, assign the content of %Path% to %Variable%,
-otherwise the content of %Foo%.
+=head2 Conditional assignment
 
-"%Path% ?" means "not empty?". You can use other checks.
+Simple if-then-else constructs for assignments are supported by means of
+conditional expressions C<I<if> ? I<then> : I<else>>. Conditional expressions
+cannot contain strings, only variables; spaces are ignored.
 
- %Variable%=%Path%!=5 ? %Path% : %Foo%
+=over 4
 
-"%Path%!=5 ?" means "is %Path% equal 5?"
+    %Foo%=Other
+    %Variable%=%Path% ? %Path% : %Foo%
 
-You can also compare variables.
+=back
 
- %Five%=5
+For the ternary operator C<?:>, the expression C<%Path% ?> means
+"path not empty?". If this is true, C<%Variable%> gets assigned
+the content of C<%Path%>, else the content of C<%Foo%>.
 
- %Variable%=%Path%!=%Five% ? %Path% : %Foo%
+Other checks are supported as well:
 
-Other possible checks:
+=over 4
 
- ==   equal
- !=   not equal
+=over 4
+
+=item == equal
+
+=item != not equal
+
+=back
+
+=back
+
+Thus, for example:
+
+=over 4
+
+    %Variable%=%Path%!=5 ? %Path% : %Foo%
+
+=back
+
+The condition C<%Path%!=5 ?> means "is C<%Path%> not equal 5?".
+
+Comparing variables is also feasible:
+
+=over 4
+
+    %Five%=5
+    %Variable%=%Path%!=%Five% ? %Path% : %Foo%
+
+=back
 
 =head2 Calling a system command
 
-You can call external commands. The returned string will be assigned
-to a variable
+External commands can be called during variable evaluation as well.
+The returned string will be assigned to the respective variable:
 
- %Result%=system(scriptname,%Variable1% %Variable2% -f %Variable3% --dir=%Variable4% --dummy)
+=over 4
 
-Calls the script "scriptname" with the parameters "%Variable1%",
-"%Variable2%", etc. The result will be stored in %Result%.
+    %UserVar%=system(<script-name>[, <parameters>])
 
-You can use as many variables as you want.
+=back
 
-If needed, epgsearch will quote the variable.
+Calls the script F<script-name> with the parameters supplied in the optional list
+C<parameters>. Such a parameter can be an arbitrary expression, optionally containing
+other variables, but no system call or conditional expression.
 
-The script must return a string B<without> line break!
+Example:
 
-If the script returns nothing, an empty string will be assigned to the
-Variable %Result%.
+=over 4
 
-=head2 Possible variables
+    %Result%=system(/usr/local/bin/my-script.sh, -t %Title% -s %Subtitle% -u %MyOtherVar%)
 
-The following variables exist:
+=back
 
- %time%           - start time in format HH:MM
- %timeend%        - end time in format HH:MM
- %date%           - start date in format TT.MM.YY
- %datesh%         - start date in format TT.MM.
- %time_w%         - weekday name
- %time_d%         - start day in format TT
- %time_lng%       - start time in seconds since 1970-01-01 00:00
- %title%          - title
- %subtitle%       - subtitle
- %summary%        - summary
- %htmlsummary%    - summary, where all CR are replaced with '<br />'
- %eventid%        - numeric event ID
+Variables used as parameters will be enclosed in single quotes
+(apostrophes), if needed.
 
- %<epg-category>% - a value from the extended EPG categories, specified in
-                    F<epgsearchcats.conf>, like %genre% or %category%
+The script should return a string B<without line feeds>, since their
+removal may cause undesired results.
+If the script does not return anything, an empty string will be assigned to the
+variable C<%Result%>.
 
- %chnr%           - channel number
- %chsh%           - the short channel name
- %chlng%          - the 'normal' channel name
- %chdata%         - VDR's internal channel representation (e.g. 'S19.2E-1-1101-28106')
+=head2 Calling a TCP service
 
- %colon%          - the sign ':'
- %datenow%        - current date in format TT.MM.YY
- %dateshnow%      - current date in format TT.MM.
- %timenow%        - current time in format HH:MM
- %videodir%       - VDR video directory (e.g. /video)
- %plugconfdir%    - VDR plugin config directory (e.g. /etc/vdr/plugins)
- %epgsearchdir%   - epgsearch config directory (e.g. /etc/vdr/plugins/epgsearch)
+A TCP service can be called with the following syntax:
 
+=over 4
 
-See also C<epgsearchcats.conf(5)>.
+    %Result%=connect(<address>, <port>, [<data>])
 
-=head1 EXAMPLES
+=back
 
- # Weekday, Date, Time
- %DateStr%=%time_w% %date% %time%
+This will connect to C<address> through the given C<port> and pass the optional
+C<data>. The parameter C<address> can be an IP address or the domain name of a
+TCP service. The result returned by the service must be terminated B<with a
+line feed>.
 
- # Themes or Subtitle or Date
- %ThemesSubtitleDate1%=%Subtitle% ? %Subtitle% : %DateStr%
- %ThemesSubtitleDate%=%Themes% ? %Themes% : %ThemesSubtitleDate1%
+=head2 Getting the length of an argument
 
- # Calls this script to get a recording path
- %DocuScript%=system(doku.pl,%Title%,%Subtitle%,%Episode%,%Themes%,%Category%,%Genre%)
- %Docu%=%DocuScript%
+When passing values to the connect or system command, it can be helpful to have
+the length of an argument for simple parsing. The length can be retrieved by:
 
-=head1 SEE ALSO
+=over 4
 
-C<epgsearch(1)>, C<epgsearchcats.conf(5)>
+    %Result%=length(<any arguments>)
 
-=head1 AUTHOR (man pages)
+=back
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+Example:
 
-=head1 REPORT BUGS
+=over 4
 
-Bug reports (german):
+    %TitleLength%=length(%title%)
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+=back
 
-Mailing list:
+=head2 Other variables
 
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+Refer to B<epgsearchmenu.conf>(5) for a list of built-in variables.
+Furthermore, every variable defined in F<epgsearchcats.conf> can be used;
+see B<epgsearchcats.conf>(5) for details.
+
+=head1 Example
+
+    # Weekday, Date, Time
+    %DateStr%=%time_w% %date% %time%
+
+    # Themes or Subtitle or Date
+    %SubtitleDate%=%Subtitle% ? %Subtitle% : %DateStr%
+    %ThemesSubtitleDate%=%Themes% ? %Themes% : %SubtitleDate%
+
+    # Calls a script to get a recording path
+    %DocuScript%=system(docu.pl, -t %Title% -s %Subtitle% -e %Episode% -th %Themes% -c %Category% -g %Genre%)
+    %Docu%=%DocuScript%
+
+=head1 AUTHORS (man pages)
+
+Originally provided by Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Revised and adapted to recent plugin features by the current maintainers.
+
+=head1 PROJECT SITE
+
+The plugin is maintained as GitHub project:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
+
+=head1 REPORTING BUGS
+
+Issues can be reported, and features be suggested, through the project's
+bug tracker:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
 =head1 COPYRIGHT and LICENSE
 
 Copyright (C) 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal), et al.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -172,11 +233,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Or, point your browser to L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
-The author can be reached at cwieninger@gmx.de
+The original author can be reached via L<cwieninger@gmx.de>.
 
-The project's page is at http://winni.vdr-developer.org/epgsearch
+Current maintainers can be reached via the project's GitHub site (see above).
 
-The MD5 code is derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm.
+The MD5 code has been derived from the MD5 Message-Digest Algorithm of RSA Data Security, Inc.
 
+=head1 SEE ALSO
+
+B<epgsearch>(1), B<epgsearch>(4), B<epgsearchcats.conf>(5), B<epgsearchmenu.conf>(5)

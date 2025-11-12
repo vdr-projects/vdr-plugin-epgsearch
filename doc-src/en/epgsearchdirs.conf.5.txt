@@ -1,67 +1,112 @@
+=encoding utf8
+
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchdirs.conf> - List of directories for selecting in epgsearch
+F<epgsearchdirs.conf> – recording directories
 
 =head1 DESCRIPTION
 
-This is one source of the 'Select directory' menu.
+In EPGSearch, you often have to enter entire directory paths,
+for example, when editing search timers. Since this is rather
+tedious, frequently used paths can be specified in this file,
+which can then be easily selected from the menu.
 
-This file contain directories which can be used for search timers or
-ordinary timers.
+This file is one of the sources for the C<Select directory> menu.
+The items displayed are collected from the following sources:
 
-The items displayed are read from the following sources:
+=over 2
 
-   * current recording directories
-   * current timer directories
-   * directories used in search timers
-   * directories specified in F<epgsearchdirs.conf>
+=item * current recording directories
 
-The menu merges theses directories and displays only distinct
-directories. With key 'yellow' one can change the depth of the
-directories shown. If there are items, that contain category variables
-like '%genre%', these entries are always shown before any other
-directories. They are also not level dependent, but are always shown
-with their full directory.
+=item * current timer directories
 
-If this menu is called from the timer edit menu and an item is
-selected that contains the variables "%title%" or "%subtitle" then the
-'file' item of the timer gets cleared, since title or subtitle already
-exist in the 'directory' item.
+=item * directories used in search timers
+
+=item * directories specified in this file
+
+=item * entries in the VDR file F<folders.conf>
+
+=back
+
+The menu consolidates the found directories and displays only distinct
+ones. The key C<yellow> allows changing the level of the directories
+shown. Items containing EPG category variables, like C<%Genre%>,
+always appear before other directories. They also do not depend on
+the level and are shown with their full directory path.
+
+If this menu is called from the timer-edit menu and the selected item
+already contains the variables C<%Title%> or C<%Subtitle>, the timer's
+C<File> entry gets cleared, since title or subtitle already included
+in the C<Directory> item.
 
 =head1 SYNTAX
 
-Each line contains a directory. You can use every variable, internal ones
-those defined in F<epgsearchuservars.conf> and the variables of the
-extended EPG.
+Each line contains the pathname of a directory that can include
+variables, if necessary.
+You can use internal variables, those of EPG categories configured
+in F<epgsearchcats.conf>, and variables defined in F<epgsearchuservars.conf>.
 
-See C<epgsearchcats.conf(5)> and C<epgsearchuservars.conf(5)>.
+The following internal variables are available:
 
-Internal ones:
+=over 4
 
- %time%           - start time in format HH:MM
- %date%           - start date in format TT.MM.YY
- %datesh%         - start date in format TT.MM.
- %time_w%         - weekday name
- %time_d%         - start day in format TT
- %time_lng%       - start time in seconds since 1970-01-01 00:00
- %title%          - title
- %subtitle%       - subtitle
+=item B<%Time%>
+
+An event's start time in 'HH:MM' format.
+
+=item B<%Time_D%>
+
+An event's start date in 'DD' format.
+
+=item B<%Time_W%>
+
+Name of the weekday on which an event starts.
+
+=item B<%Time_Lng%>
+
+An event's start date and time in I<Epoch> encoding
+(i.e., seconds since 1970-01-01 00:00 UTC).
+
+=item B<%Date%>
+
+An event's start date in 'DD.MM.YY' format.
+
+=item B<%DateSh%>
+
+An event's start date in 'DD.MM' format.
+
+=item B<%Title%>
+
+An event's title.
+
+=item B<%Subtitle%>
+
+An event's subtitle.
+
+=back
+
+Also see B<epgsearchcats.conf>(5) and B<epgsearchuservars.conf>(5)
+for further variables.
 
 =head1 EXAMPLE
 
- %Category%~%Genre%
- %Category%~%Genre%~%Title%~%Episode%: %Subtitle%
- Information~Nature~%Title%~%Episode%: %Subtitle%
- %Series%
- Movie~Action
- Movie~Docu
- Movie~Thriller
- Music
- Sports
+=over 4
 
-=head1 SEE ALSO
+   %Category%~%Genre%
+   %Category%~%Genre%~%Title%~%Episode%: %Subtitle%
+   %Series%
+   Information~Nature~%Title%~%Episode%: %Subtitle%
+   Movies~Action
+   Movies~Documentary
+   Movies~Drama
+   Movies~Horror
+   Music
+   Sports
 
-C<epgsearch(1)>, C<epgsearchcats.conf(5)>, C<epgsearchuservars.conf(5)>
+=back
 
 =head1 AUTHOR (man pages)
 
@@ -100,4 +145,8 @@ The author can be reached at cwieninger@gmx.de
 
 The project's page is at http://winni.vdr-developer.org/epgsearch
 
-The MD5 code is derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm.
+The MD5 code has been derived from the MD5 Message-Digest Algorithm of RSA Data Security, Inc.
+
+=head1 SEE ALSO
+
+B<epgsearch>(1), B<epgsearchcats.conf>(5), B<epgsearchuservars.conf>(5)

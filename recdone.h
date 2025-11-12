@@ -34,22 +34,25 @@ class cSearchExt;
 // --- cRecDone --------------------------------------------------------
 class cRecDone : public cListObject
 {
+private:
+    // the previously static buffer would bear the risk of race conditions
+    // between class instances
+    char* buffer;
+
 public:
     char *title;             // Title of this event
     char *shortText;         // Short description of this event
     char *description;       // Description of this event
+    char* rawDescription;
     char *fileName;          // Name used in MsgRecording
     char *aux;               // Aux info
     time_t startTime;        // Start time of the event
     time_t timerStart;       // Start time of the timer
     time_t timerStop;        // Stop time of the timer
-    bool vpsused;
+    bool vpsUsed;
     int duration;            // Duration of event
     int searchID;            // ID of the search, that triggered this recording
     tChannelID channelID;
-
-    char* rawdescription;
-    static char *buffer;
 
     cRecDone();
     cRecDone(const cTimer*, const cEvent* event, cSearchExt* search, const char* name);

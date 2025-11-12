@@ -150,7 +150,7 @@ void cRecdoneThread::Action(void)
                     }
 #endif
                 }
-                bool vpsUsed = found ? tiR->timer->HasFlags(tfVps) && tiR->timer->Event() && tiR->timer->Event()->Vps():tiR->recDone->vpsused;
+                bool vpsUsed = found ? tiR->timer->HasFlags(tfVps) && tiR->timer->Event() && tiR->timer->Event()->Vps():tiR->recDone->vpsUsed;
                 if ((!vpsUsed && now < stopTime) || recFraction < (vpsUsed ? 90 : 98)) { // assure timer has reached its end or at least 98% were recorded
                     complete = false;
 #if defined(APIVERSNUM) && APIVERSNUM > 20503

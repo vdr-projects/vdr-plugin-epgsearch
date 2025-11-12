@@ -211,15 +211,12 @@ cConflictCheck::~cConflictCheck()
         timerList->Clear();
         DELETENULL(timerList);
     }
-    if (devices)
-        delete [] devices;
+    delete [] devices;
 }
 
 void cConflictCheck::InitDevicesInfo()
 {
-    if (devices)
-        delete [] devices;
-
+    delete [] devices;
     devices = new cConflictCheckDevice[MAXDEVICES];
 #ifdef DEBUG_CONFL
     numDevices = 4;

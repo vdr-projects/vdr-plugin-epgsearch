@@ -52,6 +52,8 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
     int iTemp_useDuration = data.useDuration;
     int iTemp_useDayOfWeek = data.useDayOfWeek;
     int iTemp_useAsSearchTimer = data.useAsSearchTimer;
+    int iTemp_useParentalRating = data.useParentalRating;
+    int iTemp_useContentsFilter = data.useContentsFilter;
     int iTemp_useExtEPGInfo = data.useExtEPGInfo;
     int iTemp_avoidRepeats = data.avoidRepeats;
     int iTemp_allowedRepeats = data.allowedRepeats;
@@ -66,6 +68,8 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
         iTemp_useDuration != data.useDuration ||
         iTemp_useDayOfWeek != data.useDayOfWeek ||
         iTemp_useAsSearchTimer != data.useAsSearchTimer ||
+        iTemp_useParentalRating != data.useParentalRating ||
+        iTemp_useContentsFilter != data.useContentsFilter ||
         iTemp_useExtEPGInfo != data.useExtEPGInfo ||
         iTemp_avoidRepeats != data.avoidRepeats ||
         iTemp_allowedRepeats != data.allowedRepeats ||
@@ -210,6 +214,8 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
                     index++;
                 }
 
+                searchExt->SetContentsFilter(data.useContentsFilter ? contentStringFlags : NULL);
+
                 if (data.blacklistMode == blacklistsSelection) {
                     searchExt->blacklists.Clear();
                     cBlacklistObject* blacklistObj = blacklists.First();
@@ -238,8 +244,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
             if (iOnDirectoryItem && !InEditMode(ItemText, IndentMenuItem(tr("Directory")), data.directory))
                 state = AddSubMenu(new cMenuDirSelect(data.directory));
             if (iOnUseChannelGroups || iOnChannelGroup) {
-                if (channelGroupName)
-                    free(channelGroupName);
+                free(channelGroupName);
                 channelGroupName = strdup(menuitemsChGr[channelGroupNr]);
                 state = AddSubMenu(new cMenuChannelGroups(&channelGroupName));
             }
@@ -252,7 +257,7 @@ eOSState cMenuEditTemplate::ProcessKey(eKeys Key)
             if (iOnExtCatItemBrowsable)
                 state = AddSubMenu(new cMenuCatValuesSelect(data.catvalues[iCatIndex], iCatIndex, SearchExtCats.Get(iCatIndex)->searchmode));
             if (iOnUseAsSearchTimer)
-                state = AddSubMenu(new cMenuSearchActivSettings(&data));
+                state = AddSubMenu(new cMenuSearchActivationSettings(&data));
             break;
         case kGreen:
         case kYellow:

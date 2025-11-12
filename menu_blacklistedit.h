@@ -38,12 +38,17 @@ protected:
     int UserDefDayOfWeek;
     int channelGroupNr;
     char* channelGroupName;
-    char** menuitemsChGr;
+    const char** menuitemsChGr;
     int* catvaluesNumeric;
 
-    char *SearchModes[6];
+    const char *SearchModes[6];
     char *DaysOfWeek[8];
-    char *UseChannelSel[4];
+    const char *UseChannelSel[4];
+    const char *ContentsMatchingMode[3];
+    const char *SpecialCharacteristicsMatchingMode[2];
+    const char *EPGInfoMatchingMode[3];
+    std::vector<int> contentStringIDs;
+    int *contentStringFlags;
 
 public:
     cMenuBlacklistEdit(cBlacklist *Blacklist, bool New = false);

@@ -476,10 +476,8 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                 const cChannel *channel = Channels->GetByChannelID(pEvent->ChannelID(), true, true);
                 int timerMode = hasTimer ? 1 : (result->needsTimer ? 2 : 0);
 
-                std::string title = pEvent->Title() ? ReplaceAll(pEvent->Title(), "|", "!^pipe!^") : "";
-                title = ReplaceAll(title, ":", "|");
-                std::string shorttext = pEvent->ShortText() ? ReplaceAll(pEvent->ShortText(), "|", "!^pipe!^") : "";
-                shorttext = ReplaceAll(shorttext, ":", "|");
+                std::string title = pEvent->Title() ? encodeSpecialCharacters(pEvent->Title()) : "";
+                std::string shorttext = pEvent->ShortText() ? encodeSpecialCharacters(pEvent->ShortText()) : "";
 
                 cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d",
                                                   result->search->ID,
@@ -610,6 +608,12 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
         if (*Option) {
             cChannelGroup *changrp = new cChannelGroup;
             if (changrp->Parse(Option)) {
+                cChannelGroup *changrpTemp = ChannelGroups.GetGroupByName(changrp->name);
+                if (changrpTemp) {
+                    ReplyCode = 901;
+                    delete changrp;
+                    return cString::sprintf("channel group '%s' already exists", changrpTemp->name);
+                }
                 LogFile.Log(1, "added channel group '%s' via SVDRP", changrp->name);
                 ChannelGroups.Add(changrp);
                 ChannelGroups.Save();
@@ -634,6 +638,13 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                 if (strlen(oldName) > 0 && strlen(newName) > 0) {
                     cChannelGroup *changrp = ChannelGroups.GetGroupByName(oldName);
                     if (changrp) {
+                        cChannelGroup *changrpTemp = ChannelGroups.GetGroupByName(newName);
+                        if (changrpTemp && strcmp(changrpTemp->name, changrp->name)) {
+                            cString message = cString::sprintf("channel group '%s' already exists", newName);
+                            free(oldName);
+                            ReplyCode = 901;
+                            return message;
+                        }
                         strcpy(changrp->name, newName);
                         cMutexLock SearchExtsLock(&SearchExts);
                         cSearchExt *SearchExt = SearchExts.First();
@@ -653,9 +664,10 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                         return strReturn;
 
                     } else {
+                        cString message = cString::sprintf("channel group '%s' not defined", oldName);
                         free(oldName);
                         ReplyCode = 901;
-                        return cString::sprintf("channel group '%s' not defined", Option);
+                        return message;
                     }
                 }
                 free(oldName);

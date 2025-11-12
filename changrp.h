@@ -67,7 +67,7 @@ public:
     int GetIndex(char* channelGroup);
     cChannelGroup* GetGroupByName(const char* channelGroup);
     cSearchExt* Used(cChannelGroup*);
-    char** CreateMenuitemsList();
+    const char** CreateMenuitemsList();
 };
 
 extern cChannelGroups ChannelGroups;

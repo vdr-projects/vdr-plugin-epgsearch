@@ -2,117 +2,174 @@
 
 =head1 NAME
 
-F<epgsearchcats.conf> - Configuration of the additional EPG information
+F<epgsearchcats.conf> – extended EPG information
 
 =head1 DESCRIPTION
 
-Some EPG providers deliver additional EPG information like the type of
-event, the video and audio format, cast,...
+Some EPG providers deliver supplemental EPG information, like the kind of
+event, the video and audio format, cast, etc. in the content summary.
+Using tools like F<tvmovie2vdr> or F<epg4vdr>, EPG content like this
+can be imported into the VDR.
 
-Using tvm2vdr or epg4vdr you can import this into vdr.  To use this
-information with search timers one has to configure it with the file
-epgsearchcats.conf in your plugins config directory.
+Such information allows, for instance, creating a search for finding
+all tips of the day broadcasted in 16:9 format quite easily.
+For this purpose, EPGSearch scans the summary of an event for lines
+starting with the names of categories, followed by C<:> and a space,
+that have one or more values set in the search timer. The search is
+case-sensitive for both the category name and its values.
 
-Sample files for F<epgsearchcats.conf> are delivered with the plugin in
-the directory 'conf'.
+To use this kind of information in search timers, appropriate settings
+must have been made in the file F<epgsearchcats.conf> in the EPGSearch
+configuration directory.
+Sample files for F<epgsearchcats.conf> can be found in the directory
+F<conf> of EPGSearch. Quite often, copying the one that fits best
+as F<epgsearchcats.conf> to the EPGSearch configuration directory and
+making some minor adjustments might be sufficient. Then just restart
+the VDR and open a search timer's edit menu for making use of the
+EPG categories.
 
-Simply copy the one that fits for you to your plugins config directory with
-filename epgsearchcats.conf and then have a look to the search timers
-edit menu (after a restart of VDR).
-
-Since setting up a new F<epgsearchcats.conf> is a lot of work, I've added
-a small tool 'createcats', that makes the biggest part of the job. It
-should have been compiled with the plugin and exists in the sources
-directory.
-
-See C<createcats(1)> for information about how to use it.
-
-B<Internals:> epgsearch scans the summary of an event for the category
-name followed by ': ' for all categories that have a corresponding
-value set in the search timer. The search is case sensitive regarding
-the category name as also the value.
+Since setting up a new F<epgsearchcats.conf> is quite a lot of work,
+EPGSearch comes with the small tool F<createcats> that does the
+biggest part of the job. It should have been installed to the directory
+of the VDR.
+See B<createcats>(1) for information about how to use it.
 
 =head1 SYNTAX
 
- ID|category name(,format)|name in menu|values separated by ','(option)|searchmode(option)
+Lines within this file have the following format:
 
- - 'ID' should be a unique positive integer
-   (changing the id later on will force you to re-edit your search timers!)
- - 'category name' is the name as delivered by the EPG provider, e.g. 'Genre'
-   you can optionally provide a format specifier for numeric values, e.g.
-   Episode,%02i
- - 'name in menu' is the name displayed in epgsearch.
- - 'values' is an optional list of possible values
- - 'searchmode' specifies the search mode:
-   text comparison:
-    0  - the whole term must appear as substring
-    1  - all single terms (delimiters are ',', ';', '|' or '~')
-         must exist as substrings. This is the default search mode.
-    2  - at least one term (delimiters are ',', ';', '|' or '~')
-         must exist as substring.
-    3  - matches exactly
-    4  - regular expression
-   numerical comparison:
-    10 - less
-    11 - less or equal
-    12 - greater
-    13 - greater or equal
-    14 - equal
-    15 - not equal
+=over 4
+
+    ID|category name[,format]|name in menu|values|search mode
+
+=back
+
+A line's fields have the following meaning:
+
+=over 4
+
+=item B<1 – Unique identifier (ID)>
+
+Integer with a positive value.
+
+B<Caution:> Changing the identifier later on will require
+updating the search timers!
+
+=item B<2 – Category name>
+
+String with the EPG category's name as delivered by the EPG
+provider, like C<Genre>.
+
+If an optional C<format> is supplied, the category value will be
+interpreted as integer and formatted as specified by the format
+string (see C<man printf> for applicable format strings).
+
+=item B<3 – Name in menus>
+
+String with the EPG category's name for display in EPGSearch menus.
+
+=item B<4 – Values>
+
+String with an optional, comma-separated list of values for the
+EPG category.
+
+=item B<5 – Search mode>
+
+Optional enumeration with the following values:
+
+=over 4
+
+B<Textual comparison:>
+
+=over 4
+
+=item 0 = the whole term must appear as substring
+
+=item 1 = all single terms (delimited by one of C<,;|~>)
+must exist as substrings; this is the default search mode
+
+=item 2 = at least one term (delimited by one of C<,;|~>)
+must exist as substring
+
+=item 3 = exact match
+
+=item 4 = regular expression
+
+=back
+
+B<Numerical comparison:>
+
+=over 4
+
+=item 10 = less
+
+=item 11 = less or equal
+
+=item 12 = greater
+
+=item 13 = greater or equal
+
+=item 14 = equal
+
+=item 15 = not equal
+
+=back
+
+=back
+
+=back
 
 =head1 EXAMPLE
 
-(Lines are shortened for correct displaying)
+=over 4
 
-Example for EPG from H�rzu, downloaded from epgdata.com with tvmovie2vdr.
+  1|Category|Kind|Information,Children,Music,Series,Show,Movie,Sports|2
+  2|Genre|Genre|Adventure,Action,Business,Science,Cartoon|2
+  3|Format|Video format|16:9,4:3|2
+  4|Audio|Audio format|Dolby Surround,Dolby,Stereo|2
+  5|Year|Release year||2
+  6|Cast|Cast||2
+  7|Director|Director||2
+  8|Presenter|Presenter||2
+  9|Rating|Rating|Excellent,Great,Average,Acceptable,Poor|2
+  10|Age|Age|6,12,16,18|2
+  11|Country|Country||2
+  12|Themes|Themes||4
+  13|Season,%02i|Season||14
+  14|Season,%02i|Season from||13
+  15|Episode,%02i|Episode||14
 
- 1|Category|Kategorie|Information,Kinder,Musik,Serie,Show,Spielfilm,Sport|2
+=back
 
- 2|Genre|Genre|Abenteuer,Action,Wirtschaft,Wissen,Zeichentrick|2
+Identifiers 13 and 14 refer to the same EPG category, but provide distinct
+menu names for different search modes. As the evaluation sequence is not
+guaranteed, their formats should be identical to avoid unexpected results
+when referencing the category's variable.
 
- 3|Format|Video-Format|16:9,4:3|2
+=head1 AUTHORS (man pages)
 
- 4|Audio|Audio|Dolby Surround,Dolby,Hoerfilm,Stereo|2
+Originally provided by Mike Constabel <epgsearch (at) constabel (dot) net>.
 
- 5|Year|Jahr||2
+Revised and adapted to recent plugin features by the current maintainers.
 
- 6|Cast|Besetzung||2
+=head1 PROJECT SITE
 
- 7|Director|Regisseur||2
+The plugin is maintained as GitHub project:
 
- 8|Moderator|Moderation||2
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
- 9|Rating|Bewertung|Gro�artig besonders wertvoll,Annehmbar,Schwach|2
+=head1 REPORTING BUGS
 
- 10|FSK|FSK|6,12,16,18|2
+Issues can be reported, and features be suggested, through the project's
+bug tracker:
 
- 11|Country|Land||2
-
- 12|Episode|Episode||4
-
- 13|Themes|Thema||4
-
-=head1 SEE ALSO
-
-C<epgsearch(1)>, C<epgsearchcats.conf(5)>, C<createcats(1)>
-
-=head1 AUTHOR (man pages)
-
-Mike Constabel <epgsearch (at) constabel (dot) net>
-
-=head1 REPORT BUGS
-
-Bug reports (german):
-
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
-
-Mailing list:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
 =head1 COPYRIGHT and LICENSE
 
 Copyright (C) 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal), et al.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -127,11 +184,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Or, point your browser to L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
-The author can be reached at cwieninger@gmx.de
+The original author can be reached via L<cwieninger@gmx.de>.
 
-The project's page is at http://winni.vdr-developer.org/epgsearch
+Current maintainers can be reached via the project's GitHub site (see above).
 
-The MD5 code is derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm.
+The MD5 code has been derived from the MD5 Message-Digest Algorithm of RSA Data Security, Inc.
 
+=head1 SEE ALSO
+
+B<epgsearch>(1), B<createcats>(1), B<epgsearchcats.conf>(5)

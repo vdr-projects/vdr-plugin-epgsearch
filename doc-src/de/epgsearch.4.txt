@@ -1,0 +1,2337 @@
+=encoding utf8
+
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
+=head1 NAME
+
+F<EPGSearch> – Suchtimer und Ablösung des VDR-Programm-Menüs
+
+=head1 ÜBERSICHT
+
+Da die frühere F<README>-Datei zu umfangreich geworden ist, dient diese Man-Page
+als Ersatz und erklärt einige Funktionen und Verhaltensweisen im Detail. Es handelt
+sich also nicht um ein Handbuch, sondern eher um eine erweiterte F<README>-Datei.
+
+=head1 INHALT
+
+=over 4
+
+=item  1. Verwendung von Variablen im Verzeichniseintrag eines Suchtimers
+
+=item  2. Das Format der Datei F<epgsearch.conf>
+
+=item  3. Ablauf des Suchvorgangs
+
+=item  4. Wie funktionieren Suchtimer?
+
+=item  5. Wie stößt man ein Timer-Update an?
+
+=item  6. Quellen für das Menü C<Verzeichnis wählen>
+
+=item  7. Sprachabhängige Kommandos für die Programmübersicht
+
+=item  8. Nutzung von anderen Plugins oder Skripten
+
+=item  9. Die SVDRP-Schnittstelle
+
+=item  10. Anpassung von EPG-Menüs
+
+=item  11. Nutzung des Timer-Konfliktmenüs
+
+=item  12. Benutzerdefinierte Variablen
+
+=item  13. Benachrichtigung per E-Mail
+
+=item  14. Das Verzeichnis F<conf.d>
+
+=back
+
+=head1 1. Verwendung von Variablen im Verzeichniseintrag eines Suchtimers
+
+Bei der Verwendung erweiterter EPG-Informationen können Variablen Teil des
+Verzeichniseintrags eines Suchtimers sein. Diese Variablen haben immer die
+Syntax C<%Variable%>. Der Name einer Variablen entspricht dem internen Namen
+der erweiterten EPG-Information, wie er in der Datei F<epgsearchcats.conf>
+angegeben ist. Beispiele finden Sie im Unterverzeichnis F<conf> des Plugins.
+
+Beispiel:
+
+=over 4
+
+    1|Category|Kategorie|Film,Kultur,Serie,Show,Spielfilm,Sport|3
+
+=back
+
+Die Kategorie mit der ID C<1> hat den internen Namen C<Category>. Sie können
+sie daher mit C<%Category%> referenzieren. Variablennamen berücksichtigen keine
+Groß- und Kleinschreibung.
+
+Beispielhafte Verzeichniseinträge könnten so aussehen:
+
+=over 4
+
+    Meine Filme~%Category%
+    Kinderfilme~%category%
+    %CATEGORY%~%genre%
+
+=back
+
+Daneben gibt es drei weitere Variablen:
+
+=over 4
+
+=item B<%Title%>
+
+Der Titel der Sendung.
+
+=item B<%Subtitle%>
+
+Der Untertitel der Sendung.
+
+=item B<%ChLng%>
+
+Der Name des Kanals, auf dem die Sendung läuft.
+
+=back
+
+Wenn weder C<%Title%> noch C<%Subtitle%> angegeben ist oder in einer eingefügten
+benutzerdefinierten Variable vorkommt, wird der Titel beim Erstellen eines Timers
+automatisch an den Verzeichniseintrag angefügt. Wenn im Suchtimer zudem C<Serienaufnahme>
+auf C<ja> gesetzt ist, wird auch der Untertitel noch angefügt. Der Verzeichniseintrag:
+
+=over 4
+
+    %Category%~%Genre%~%Title%~%Subtitle%
+
+=back
+
+ist also gleichwertig zu:
+
+=over 4
+
+    %Category%~%Genre%
+
+=back
+
+wenn C<Serienaufnahme> auf C<ja> steht.
+
+B<Achtung:> Titel und Untertitel werden nicht automatisch angefügt, wenn eine
+der Variablen C<%Title%> oder C<%Subtitle%> im Verzeichniseintrag enthalten
+ist. Dadurch können Verzeichniseinträge wie dieser erstellt werden:
+
+=over 4
+
+    %Category%~%Genre%~%Title%~%Episode%~%Subtitle%
+
+=back
+
+Des Weiteren stehen noch die folgenden Variablen aus dem Suchtimer zur Verfügung:
+
+=over 4
+
+=item B<%Search.Query%>
+
+Der Suchbegriff des Suchtimers.
+
+=item B<%Search.Series%>
+
+Liefert C<1>, wenn C<Serienaufnahme> auf C<ja> steht, sonst C<0>.
+
+=back
+
+Siehe auch B<epgsearchuservars.conf>(5).
+
+=head1 2. Das Format der Datei F<epgsearch.conf>
+
+Jede Zeile der Datei repräsentiert eine Suche oder einen Suchtimer
+und umfasst die folgenden Felder:
+
+=over 4
+
+=item B<1 – Eindeutige Kennung (ID)>
+
+Integer mit einem positiven Wert.
+
+=item B<2 – Suchbegriff ("Abfrage")>
+
+String zur Festlegung des Suchbegriffs.
+
+=item B<3 – Uhrzeit verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<4 – Start nach [HHMM]>
+
+Integer mit HH = 0..23, MM = 0..59; andere Werte können zu undefiniertem Verhalten führen.
+
+=item B<5 – Start vor [HHMM]>
+
+Integer mit HH = 0..23, MM = 0..59; andere Werte können zu undefiniertem Verhalten führen.
+
+=item B<6 – Kanal verwenden>
+
+Enumeration mit den Werten 0 = nein, 1 = Bereich, 2 = Kanalgruppe, 3 = ohne PayTV.
+
+=item B<7 – Kanalauswahl>
+
+=over 4
+
+=item wenn 'Kanal verwenden' = 1:
+
+String mit C<KanalID> oder C<MinKanalID>|C<MaxKanalID>; die Kanalkennungen
+müssen der VDR-Notation entsprechen (bspw. C<S19.2E-1-1019-10301>).
+
+B<Achtung:> Nach einer Änderung der Kanalreihenfolge sollten die
+Bereichseinstellungen von Suchtimern unbedingt kontrolliert werden!
+
+=item wenn 'Kanal verwenden' = 2:
+
+String mit dem Namen einer zuvor erstellten Kanalgruppe.
+
+=back
+
+=item B<8 – Groß/Kleinschreibung beachten>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<9 – Suchmodus>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = Ausdruck
+
+=item 1 = alle Worte
+
+=item 2 = ein Wort
+
+=item 3 = exakt
+
+=item 4 = regulärer Ausdruck
+
+=item 5 = unscharf (Toleranz im Feld 42; nicht verfügbar für erweiterte
+EPG-Kategorien)
+
+=back
+
+Siehe auch "3. Ablauf des Suchvorgangs" bezüglich der Frage, wie sich
+diese Einstellungen auf die Suche auswirken.
+
+=item B<10 – Titel verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<11 – Untertitel verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<12 – Beschreibung verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<13 – Dauer verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<14 – Minimale Dauer [HHMM]>
+
+Integer mit HH = 0..23, MM = 0..59; andere Werte können zu undefiniertem Verhalten führen.
+
+=item B<15 – Maximale Dauer [HHMM]>
+
+Integer mit HH = 0..23, MM = 0..59; andere Werte können zu undefiniertem Verhalten führen.
+
+=item B<16 – Als Suchtimer verwenden>
+
+Enumeration den folgenden Werten:
+
+=over 4
+
+=item 0 = nein
+
+=item 1 = ja
+
+=item 2 = Zeitspanne (Felder 48 und 49)
+
+=back
+
+Z<>
+
+=item B<17 – Wochentag verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<18 – Wochentag>
+
+Integer im Wertebereich von −127 bis 6. Die Bedeutung ist zweigeteilt:
+
+=over 4
+
+=item wenn I<Wt> ≥ 0: ein einzelner Wochentag
+
+Enumeration mit den Werten 0 = Sonntag, 1 = Montag, ..., 6 = Samstag.
+
+=item wenn I<Wt> < 0: eine Auswahl von Wochentagen
+
+Integer, in dem die Bits von −I<Wt> die Wochentage darstellen. Die Bitmasken
+ergeben sich aus der Verschiebung von 0x01 um den Enumerationswert eines
+Wochentages:
+
+Z<>
+
+=over 4
+
+=item 0x01 = Sonntag
+
+=item 0x02 = Montag
+
+=item 0x04 = Dienstag
+
+=item 0x08 = Mittwoch
+
+=item 0x10 = Donnerstag
+
+=item 0x20 = Freitag
+
+=item 0x40 = Samstag
+
+=back
+
+Um die gewünschten Wochentage zu kodieren, muss der aus den ODER-verknüpften
+Bitmasken resultierende Wert negiert werden.
+
+Beispiel: −67 (negiert: 0b01000011 = 0x40 | 0x02 | 0x01) kodiert Samstag, Montag und Sonntag
+
+=back
+
+=item B<19 – Serienaufnahme>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<20 – Aufnahmeverzeichnis>
+
+String mit dem Namen eines Verzeichnisses unterhalb des Video-Verzeichnisses des VDR,
+jedoch ohne den Pfad zu diesem Video-Verzeichnis.
+
+=item B<21 – Priorität der Aufzeichnung>
+
+Integer im Wertebereich von 0 bis 99.
+
+=item B<22 – Lebensdauer der Aufzeichnung [Tage]>
+
+Integer im Wertebereich von 0 bis 99.
+
+=item B<23 – Vorlauf zum Timer-Beginn [Minuten]>
+
+Integer mit einem positiven Wert.
+
+=item B<24 – Nachlauf am Timer-Ende [Minuten]>
+
+Integer mit einem positiven Wert.
+
+=item B<25 – VPS verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<26 – Aktion>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = aufnehmen
+
+=item 1 = per OSD ankündigen (kein Timer)
+
+=item 2 = nur umschalten (kein Timer)
+
+=item 3 = per OSD ankündigen und umschalten (kein Timer)
+
+=item 4 = per E-Mail ankündigen
+
+=item 5 = deaktiviert
+
+=back
+
+Z<>
+
+=item B<27 – Erweiterte EPG-Informationen verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<28 – Erweiterte EPG-Kategoriedaten>
+
+Liste der erweiterten EPG-Kategoriedaten, jeweils dargestellt durch
+ein Tupel aus:
+
+=over 4
+
+=item 28.1 – Kennung
+
+Eindeutige Kennung der erweiterten EPG-Kategorie, wie in
+F<epgsearchcats.conf> angegeben.
+
+=item 28.2 – Kategoriedaten
+
+Kommaseparierte Liste von Werten, wie für die EPG-Kategorie in
+F<epgsearchcats.conf> angegeben. Leerzeichen vor und nach
+Kategoriewerten werden ignoriert. Ist in einem Wert ein C<:>
+enthalten, wie etwa in C<16:9>, muss es als C<!^colon^!>
+kodiert werden.
+
+=back
+
+Das Zeichen C<|> trennt benachbarte Kategorientupel, während C<#> die
+Kennungen und Kategorienamen trennt.
+
+Beispiel: C<1#Film, Serie|2#Horror|8#16!^colon^!9>
+
+=item B<29 – Wiederholungen vermeiden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<30 – Erlaubte Wiederholungen>
+
+Integer im Wertebereich von 0 bis 99.
+
+=item B<31 – Titel vergleichen (für den Test auf Wiederholungen)>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<32 – Untertitel vergleichen (für den Test auf Wiederholungen)>
+
+Enumeration mit den Werten 0 = nein, 1 = ja, 2 = falls vorhanden.
+
+=item B<33 – Beschreibung vergleichen (für den Test auf Wiederholungen)>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<34 – Kategorien vergleichen (für den Test auf Wiederholungen)>
+
+Integer, in dem jedes Bit eine erweiterte EPG-Kategorie repräsentiert.
+Die erste in F<epgsearchcats.conf> angegebene EPG-Kategorie wird
+durch Bit 0 (0x01) dargestellt, die zweite durch Bit 1 (0x02) usw.
+Ein Wert ungleich Null aktiviert den Vergleich.
+
+B<Hinweis:> Die Kennungen der erweiterten EPG-Kategorien (Feld 1
+eines EPG-Kategorieeintrags) sind für die Kodierung des Bitfelds nicht
+von Bedeutung. Änderungen der EPG-Kategorien erfordern gegebenenfalls
+eine Aktualisierung von Suchtimern.
+
+=item B<35 – Nur innerhalb von ... Tagen>
+
+Integer im Wertebereich von 0 bis 999.
+
+=item B<36 – Aufzeichnungen nach ... Tagen löschen>
+
+Integer im Wertebereich von 0 bis 999.
+
+=item B<37 – Bis zu ... Aufzeichnungen behalten>
+
+Integer im Wertebereich von 0 bis 999.
+
+=item B<38 – Umschalten ... Minuten vor Start>
+
+Integer im Wertebereich von 0 bis 99; nur relevant für 'Aktion' = 2.
+
+=item B<39 – Pause, wenn ... Aufzeichnungen existieren>
+
+Integer im Wertebereich von 0 bis 999.
+
+=item B<40 – Ausschlusslisten verwenden>
+
+Enumeration mit den Werten 0 = nur globale, 1 = Auswahl, 2 = alle, 3 = keine.
+
+=item B<41 – Genutzte Ausschlusslisten>
+
+Liste mit Kennungen von Ausschlusslisten, jeweils per C<|> getrennt;
+nur relevant für 'Ausschlusslisten verwenden' = 1.
+
+=item B<42 – Unschärfetoleranz>
+
+Integer im Wertebereich von 1 bis 9, der als Schwellwert für die unscharfe
+Suche dient; nur relevant für 'Suchmodus' = 5.
+
+=item B<43 – Im Favoriten-Menü verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<44 – Layout der Suchergebnisse im Favoriten-Menü>
+
+Integer, der auf eine in F<epgsearchmenu.conf> spezifizierte Vorlage für
+Suchergebnisse verweist. Der Wert ist der Index (beginnend bei 0) innerhalb
+aller Einträge mit dem Präfix C<MenuSearchResults>; Details finden sich unter
+"Anpassen der EPG-Menüs" in B<epgsearch>(4).
+
+B<Hinweis:> Dieses Feld ist nur relevant, wenn mehrere Vorlagen für Suchergebnisse
+vorliegen.
+
+=item B<45 – Suchtimer automatisch löschen>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = nicht löschen
+
+=item 1 = nach einer Anzahl von Aufnahmen löschen (Feld 46)
+
+=item 2 = nach einer Anzahl von Tagen nach der ersten Aufnahme löschen (Feld 47)
+
+=back
+
+Z<>
+
+=item B<46 – Nach ... Aufnahmen löschen>
+
+Integer im Wertebereich von 0 bis 999; nur relevant für 'Suchtimer automatisch löschen' = 1.
+
+=item B<47 – Nach ... Tagen nach erster Aufnahme löschen>
+
+Integer im Wertebereich von 0 bis 999; nur relevant für 'Suchtimer automatisch löschen' = 2.
+
+=item B<48 – Erster Tag (als Suchtimer verwenden ab)>
+
+Datum und Zeit in I<Epoch>-Notation (Sekunden seit dem 01.01.1970, 00:00 UTC),
+ab wann der Suchtimer aktiv ist; ein Wert von 0 deaktiviert die Prüfung.
+
+B<Hinweis:> Jeder beliebige I<Epoch>-Wert ist zulässig. Liegt die Zeit
+innerhalb eines Tages (anstelle von Mitternacht), bleibt der Timer inaktiv,
+bis diese Zeit erreicht ist.
+
+=item B<49 – Letzter Tag (als Suchtimer verwenden bis)>
+
+Datum und Zeit in I<Epoch>-Notation (Sekunden seit dem 01.01.1970, 00:00 UTC),
+bis wann der Suchtimer aktiv ist; ein Wert von 0 deaktiviert die Prüfung.
+
+B<Hinweis:> Jeder beliebige I<Epoch>-Wert ist zulässig. Liegt die Zeit
+innerhalb eines Tages (anstelle von Mitternacht), bleibt der Timer aktiv,
+bis diese Zeit erreicht ist.
+
+=item B<50 – Übereinstimmung von erweiterten EPG-Kategorien>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = alle Kategorien
+
+=item 1 = alle außer fehlende Kategorien
+
+=item 2 = mindestens eine Kategorie
+
+=back
+
+Erlaubt die Berücksichtigung von Sendungen mit fehlenden oder nur teilweise
+übereinstimmenden Kategorien. Ohne andere ausreichend einschränkende Kriterien
+könnte dies jedoch zu einer enormen Anzahl von Suchergebnissen führen.
+
+=item B<51 – Ton anschalten>
+
+Flag mit den Werten 0 = nein, 1 = ja; nur relevant für 'Aktion' = 2 oder 3.
+
+=item B<52 – Minimale Übereinstimmung in Prozent>
+
+Integer im Wertebereich von 1 bis 100, der festlegt, wie groß die erforderliche
+Übereinstimmung beim Vergleich der Beschreibungen von Sendungen mindestens sein muss,
+um Wiederholungen  zu vermeiden; nur relevant für 'Beschreibung vergleichen' = 1.
+
+=item B<53 – Inhaltskennungen>
+
+String mit zu prüfenden Inhaltskennungen. Eine Inhaltskennung ist ein Wert von
+0 bis 255 (siehe DIN EN 300 468, Tabelle 18), der als zweistellige Hexadezimalzahl
+kodiert ist. Das obere Nibble (Bits [7..4]) repräsentiert eine Gruppe von Inhalten,
+das untere Nibble (Bits [3..0]) eine Kennung für einen bestimmten Inhalt innerhalb
+dieser Gruppe. Die erste Kennung einer Gruppe mit dem Wert 0 ist üblicherweise eine
+allgemeine Charakterisierung dieser Gruppe (bspw. 0x10 = Film, Drama), wohingegen
+die Werte 1..15 eine untergeordnete, feinere Charakterisierung darstellen
+(wie 0x11 = Detektiv, Thriller; 0x14 = Komödie). Die Inhaltsgruppe 11 (besondere
+Merkmale) entspricht jedoch nicht diesem Schema (wie etwa ersichtlich anhand von
+0xB0 = Originalsprache; 0xB1 = schwarzweiß), weshalb für deren Inhaltskennungen
+eine eigene Art der Übereinstimmung gewählt werden kann.
+
+Die zu prüfenden Inhaltskennungen sind die Verkettung ihrer zweistelligen
+Hexadezimalzahlen ohne Trennzeichen.
+
+B<Beispiel:> Die Inhaltskennungen 17 (Detektiv, Thriller), 20 (Komödie) und
+176 (Originalsprache) werden als C<1114B0> kodiert.
+
+Die Felder 55 (Inhaltskategorien) und 56 (besondere Merkmale) legen fest,
+wann eine Sendung den ausgewählten Inhaltskennungen entspricht.
+
+Ein leerer String bewirkt, dass Inhaltskennungen nicht geprüft werden.
+
+=item B<54 – Zeitpunkt vergleichen (für den Test auf Wiederholungen)>
+
+Enumeration mit den Werten 0 = nein, 1 = gleicher Tag, 2 = gleiche Woche, 3 = gleicher Monat.
+
+=item B<55 – Übereinstimmung von Inhaltskategorien>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = alle gewählten Kennungen
+
+=item 1 = eine der gewählten Kennungen
+
+=item 2 = eine gewählte Kennung je Gruppe
+
+=back
+
+Die Optionen 0 und 1 prüfen über alle Kategoriengruppen hinweg, verwenden aber
+dennoch die Einstellung aus Feld 56 zur Überprüfung der besonderen Merkmale.
+Daher können Kombinationen wie 'UND' für die Kategoriengruppen und 'ODER'
+innerhalb der besonderen Merkmale auftreten und umgekehrt.
+
+Option 2 hingegen verwendet einen zweistufigen Ansatz: Zunächst werden die
+Kategoriengruppen mit ausgewählten Inhaltskennungen geprüft (Gruppen ohne
+ausgewählte Inhaltskennungen entfallen). Eine Kategoriengruppe stimmt überein,
+wenn eine Sendung mindestens eine der für die Gruppe gewählten Inhaltskennungen
+enthält ('eine gewählte', ODER), mit Ausnahme der Gruppe der besonderen Merkmale,
+die stets die Einstellung aus Feld 56 verwendet. Abschließend müssen alle geprüften
+Kategoriengruppen übereinstimmen ('je Gruppe', UND).
+
+Nur relevant, wenn 'Inhaltskennungen' nicht leer ist.
+
+=item B<56 – Übereinstimmung besonderer Inhaltsmerkmale>
+
+Enumeration mit den Werten 0 = alle gewählten Kennungen, 1 = eine der gewählten Kennungen;
+nur relevant, wenn 'Inhaltskennungen' nicht leer ist.
+
+=item B<57 – Altersfreigabe verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<58 – Minimale Altersfreigabe>
+
+Integer im Wertebereich von 0 bis 18.
+
+=item B<59 – Maximale Altersfreigabe>
+
+Integer im Wertebereich von 0 bis 18.
+
+=back
+
+Der Eintrag eines Suchtimers wird als gültig betrachtet, wenn er
+mindestens die ersten 11 Felder abdeckt.
+
+Die Felder ("Parameter") eines Suchtimers sind durch C<:> getrennt.
+Daher wird ein C<:> in Strings, wie etwa dem Suchbegriff oder dem
+Aufnahmeverzeichnis, durch C<|> kodiert. Sollte ein C<|> ebenfalls Teil
+des Strings sein, wie beispielsweise in regulären Ausdrücken, wird
+es durch C<!^pipe^!> kodiert (was zwar unschön, aber aus Gründen der
+Abwärtskompatibilität erforderlich ist).
+
+Felder, die von einem anderen Feld abhängen und aufgrund der Einstellung
+dieses Feldes belanglos sind, können (und sollten) leer gelassen werden.
+Beispielsweise kann ein Suchtimer ohne Zeitbeschränkung die Felder
+'Start nach' und 'Start vor' leer lassen:
+
+=over 4
+
+    1:Meine Lieblingsserie: 0::: 0::0:0
+                            ^^^^
+
+=back
+
+Darüber hinaus werden führende und nachfolgende Leerzeichen um einen
+Feldwert herum verworfen. Dies bedeutet jedoch, dass Strings nicht mit
+Leerzeichen beginnen oder enden können.
+
+B<Hinweis:> Strings in Feldern dürfen nicht in einfachen oder doppelten
+Anführungszeichen eingeschlossen werden, auch wenn dies in der Beschreibung
+so dargestellt sein sollte. Diese Zeichen wurden bei der Kompilierung dieser
+Man-Page eingefügt.
+
+Siehe auch B<epgsearch.conf>(5).
+
+=head1 3. Ablauf des Suchvorgangs
+
+Zunächst wird für jede Sendung ein temporärer Suchtext erstellt, in dem
+Titel, Untertitel und Beschreibung durch C<~> getrennt sind:
+
+=over 4
+
+    Title~Untertitel~Beschreibung
+
+=back
+
+Abhängig von den Einstellungen von C<Titel verwenden>, C<Untertitel verwenden>
+und C<Beschreibung verwenden> werden die entsprechenden Komponenten entweder
+eingefügt oder bleiben leer.
+
+Wenn C<Groß/klein> nicht gesetzt ist, werden Suchtext und Suchbegriff in
+Kleinbuchstaben umgewandelt.
+
+Je nach Suchmodus wird der Suchbegriff dann im Suchtext gesucht:
+
+=over 4
+
+=item B<Ausdruck>
+
+Stimmt überein, wenn der Suchbegriff an einer beliebigen Stelle im Suchttext
+gefunden wird.
+
+=item B<Alle Worte>
+
+=item B<Ein Wort>
+
+Zunächst wird der Suchbegriff in einzelne Worte zerlegt, die durch eines
+der Zeichen C<,;|~> oder Leerzeichen getrennt sind. Die Suche ist erfolgreich,
+wenn mindestens ein Wort oder alle Worte im Suchtext vorkommen.
+
+=item B<Exakt>
+
+Stimmt überein, wenn Suchbegriff und Suchtext identisch sind.
+
+=item B<Regulärer Ausdruck>
+
+Die Suche erfolgt anhand eines regulären Ausdrucks. Hierfür werden zwei
+Standards unterstützt: erweiterte POSIX- und Perl-kompatible reguläre
+Ausdrücke (PCRE) (siehe F<INSTALL>).
+
+B<Hinweis:> Anders als etwa in Perl, sind führende und abschließende
+C</> als Begrenzungszeichen für den Suchbegriff nicht erforderlich.
+
+=item B<Unscharf>
+
+Vergleicht den Suchbegriff anhand des Levenshtein-Distanz-Algorithmus.
+Der Wert des Feldes C<Unschärfetoleranz> bestimmt, wie groß die Abweichung
+sein darf.
+
+B<Hinweis:> Der Suchbegriff ist bei unscharfer Suche auf 32 Zeichen begrenzt.
+
+=back
+
+War die Suche bisher erfolgreich, werden die weiteren Kriterien (Startzeit,
+Dauer, Wochentag etc.) geprüft.
+
+=head1 4. Wie funktionieren Suchtimer?
+
+Bei jedem Update sortiert das Plugin die Suchtimer zunächst nach Timer-Priorität
+(absteigend) und Suchbegriff, bevor es nach neuen Treffern sucht. Wird ein neuer
+Treffer gefunden, wird ein neuer Timer erstellt.
+
+Bei Serienaufnahmen wird der Untertitel an das Aufnahmeverzeichnis angefügt.
+Viele Anbieter befüllen den Untertitel allerdings erst wenige Tage vor der
+Sendung. Ist dieser nicht verfügbar, verwendet das Plugin vorübergehend Datum
+und Uhrzeit anstelle des Untertitels und ersetzt diese, sobald der Untertitel
+verfügbar ist.
+
+Start- und Endzeitpunkte von Sendungen variieren oft leicht. Um eine Vielzahl
+von Timern für die gleiche Sendung zu vermeiden, prüft das Plugin, ob sich die
+Start- und Stoppzeit eines anderen Timers um nicht mehr als 10 Minuten unterscheiden.
+Bei einer Dauer von weniger als 10 Minuten wird stattdessen die Dauer verglichen.
+
+Bei einer Übereinstimmung wird ein vorhandener Timer angepasst, andernfalls wird
+ein neuer Timer erstellt; inaktive Timer werden nicht aktualisiert. Manuell
+vorgenommene Einstellungen von Priorität oder Lebensdauer werden bei Updates
+nicht verändert.
+
+Wenn C<Aktion> auf die Variante "Ankündigen (kein Timer)" eingestellt ist, wird
+kein Timer erstellt. Stattdessen erfolgt eine Benachrichtigung über die Sendung:
+Bei jedem Suchvorgang wird eine OSD-Meldung angezeigt, jedoch nur, wenn für das
+Ereignis kein Timer vorhanden war. Wenn Timer erstellt oder geändert wurden, wird
+gemäß dem eingestellten Zeitplan eine E-Mail versendet.
+
+=head1 5. Wie stößt man ein Timer-Update an?
+
+Die Aktualisierung der Suchtimer erfolgt in einem eigenen Thread. Eine
+Aktualisierung kann auf verschiedene Weise ausgelöst werden:
+
+=over 4
+
+=item B<Regelmäßig>
+
+Die Suchtimer werden einige Sekunden nach dem Start des VDR aktualisiert. Nach
+Abschluss der Aktualisierung legt die Setup-Option C<Aktualisierungsintervall [min]>
+fest, in welchen Intervallen weitere Aktualisierungen durchgeführt werden sollen.
+
+=item B<Extern>
+
+Der Thread überwacht die Datei C<.epgsearchupdate> im Konfigurationsverzeichnis
+des Plugins. Nach der Ausführung von:
+
+=over 4
+
+    touch /pfad_zur_datei/.epgsearchupdate
+
+=back
+
+wird eine Aktualisierung durchgeführt. Dies bietet eine einfache Möglichkeit,
+beispielsweise beim Ausführen eines Skripts eine Aktualisierung anzustoßen.
+
+=item B<Intern>
+
+Der Aufruf von C<Aktionen> » C<Suchtimer jetzt aktualisieren> oder das Drücken
+von C<3> im Menü C<Sucheinträge> stößt ebenfalls eine Aktualisierung an.
+
+=item B<Von anderen Plugins>
+
+Der Dienst C<Epgsearch-updatesearchtimers-v1.0> kann über die Service-Schnittstelle
+des VDR von anderen Plugins genutzt werden. Der Aufrufer kann eine OSD-Benachrichtigung
+anfordern, sobald die Aktualisierung abgeschlossen ist.
+
+=back
+
+=head1 6. Quellen für das Menü C<Verzeichnis wählen>
+
+Dieses Menü zeigt Verzeichnisse an, die sowohl für Suchtimer als auch für
+normale Timer verwendet werden können. Die angezeigten Elemente stammen aus
+folgenden Quellen:
+
+=over 2
+
+=item * aktuelle Aufnahmeverzeichnisse
+
+=item * in Timern genutzte Verzeichnisse
+
+=item * in Suchtimern genutzte Verzeichnisse
+
+=item * in F<epgsearchdirs.conf> definierte Verzeichnisse, siehe B<epgsearchdirs.conf>(5)
+
+=item * Verzeichnisse aus der Datei F<folders.conf> des VDR
+
+=back
+
+Das Menü führt diese Verzeichnisse zusammen und zeigt jedes Verzeichnis
+nur einmal an. Mit der Taste C<Gelb> lässt sich die Ebene der angezeigten
+Verzeichnisse ändern. Verzeichniseinträge, die EPG-Kategorievariablen wie
+C<%Genre%> enthalten, werden immer vor anderen Verzeichniseinträgen angezeigt.
+Sie sind zudem nicht von der Ebene abhängig, sondern werden immer mit ihrem
+vollständigen Verzeichnispfad angezeigt.
+
+Wird dieses Menü über das Timer-Bearbeitungsmenü aufgerufen und enthält der
+ausgewählte Eintrag bereits die Variablen C<%Title%> oder C<%Subtitle>, wird
+der Eintrag C<Datei> des Timers gelöscht, da Titel oder Untertitel bereits
+im Eintrag C<Verzeichnis> enthalten sind.
+
+Die Liste der Verzeichnisse kann auch über den SVDRP-Befehl C<LSRD> abgerufen
+werden.
+
+=head1 7. Sprachabhängige Kommandos für die Programmübersicht
+
+Wenn eine sprachabhängige Befehlsliste gewünscht wird, kann die Datei
+F<epgsearchcmds.conf> in die entsprechende OSD-Sprache übersetzt und
+unter dem Dateinamen F<epgsearchcmds-E<lt>LOCE<gt>.conf> gespeichert
+werden. Dabei entspricht F<E<lt>LOCE<gt>> dem Sprachcode aus F<i18n.c>:
+
+=over 4
+
+    { "eng,dos",
+      "deu,ger",
+      "slv",
+      "ita",
+      "dut,nla,nld",
+      "por",
+      "fra,fre",
+      "nor",
+      "fin,smi",
+      "pol",
+      "esl,spa",
+      "ell,gre",
+      "sve,swe",
+      "rom,rum",
+      "hun",
+      "cat,cln",
+      "rus",
+      "hrv",
+      "est",
+      "dan"
+      // die vollständige Liste
+      // findet sich im Quellcode
+    }
+
+=back
+
+Wenn für eine Sprache mehrere Codes verfügbar sind (bspw.
+C<deu,ger>), kann ein beliebiger davon verwendet werden.
+
+Liegt eine Datei entsprechend der im VDR eingestellten OSD-Sprache
+vor, wird diese geladen. Existiert eine solche jedoch nicht, wird
+stattdessen versucht, die Datei F<epgsearchcmds.conf> zu laden.
+
+Siehe auch B<epgsearchcmds.conf>(5).
+
+=head1 8. Nutzung von anderen Plugins oder Skripten
+
+Die EPG-Suche und andere Funktionen können von anderen Plugins oder
+Skripten genutzt werden. Es gibt zwei Ansätze:
+
+=head2 8.1. Kommandodatei (vorzugsweise per Skript)
+
+Das Plugin überwacht, ob in seinem Konfigurationsverzeichnis die Datei
+F<.epgsearchrc> vorhanden ist. Diese kann die folgenden Zeilen beinhalten:
+
+=over 4
+
+    Search=Suchbegriff
+    SearchMode=x  // 0 = Ausdruck, 1 = alle (Standard), 2 = ein Wort, 3 = exakt, 4 = reg. Ausdruck
+    ChannelNr=x   // sucht auf einem bestimmen Kanal, wenn angegeben
+    UseTitle=x    // 1 (Standard) oder 0
+    UseSubtitle=x // 1 (Standard) oder 0
+    UseDescr=x    // 1 (Standard) oder 0
+
+=back
+
+Beim Start sucht EPGSearch nach dieser Datei und gibt, falls gefunden, die
+Suchergebnisse für die darin angegebene Suche zurück. Danach wird die Datei
+gelöscht.
+
+Später kann über die SVDRP-Schnittstelle eine weitere Suche gestartet werden.
+Angenommen, die Taste C<Grün> wurde EPGSearch zugewiesen (siehe B<epgsearch>(1),
+Abschnitt 5), kann EPGSearch einfach über F<svdrpsend> aufgerufen werden:
+
+=over 4
+
+    svdrpsend HITK green
+
+=back
+
+Ein Beispielskript F<recrep.sh>, das nach Wiederholungen einer Aufnahme
+sucht, befindet sich im Unterverzeichnis F<scripts> von EPGSearch.
+
+=head2 8.2 Plugin-Schnittstelle (aus anderen Plugins heraus)
+
+Ein Plugin kann mit nur wenigen Codezeilen zwei Funktionen von EPGSearch
+direkt aufrufen:
+
+=over 2
+
+=item * Suche im EPG und Anzeige der Ergebnisse
+
+=item * Aufruf des erweiterten Timer-Editieren-Menüs
+
+=back
+
+Ein einfaches Beispiel-Plugin im Verzeichnis F<source> von EPGSearch
+(F<vdr-epgsearchclient-0.0.1.tgz>) demonstriert die Nutzung.
+
+=head1 9. Die SVDRP-Schnittstelle
+
+EPGSearch implementiert eine SVDRP-Schnittstelle, auf die folgendermaßen
+zugegriffen werden kann:
+
+=over 4
+
+    svdrpsend PLUG epgsearch LSTS
+
+=back
+
+In den folgenden Abschnitten werden die an der SVDRP-Schnittstelle
+verfügbaren Befehle beschrieben.
+
+=head2 9.1 Suche und Suchtimer
+
+=over 4
+
+=item B<LSTS> [I<ID>]
+
+Ruft alle Sucheinträge oder nur den mit der angegebenen I<ID> ab. Das Format
+der zurückgegebenen Daten entspricht dem von F<epgsearch.conf> (siehe oben).
+
+=item B<NEWS> I<Parameter>
+
+Legt einen neuen Sucheintrag an. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearch.conf> (siehe oben).
+
+Die eindeutige Kennung im ersten Feld wird ignoriert. EPGSearch weist
+einem neuen Sucheintrag immer die nächste freie Kennung zu und gibt
+diese in der Antwort bekannt:
+
+=over 4
+
+    svdrpsend PLUG epgsearch NEWS "0:Mustersuche:::::::::"
+
+    220 HostName SVDRP VideoDiskRecorder 2.7.7; ...
+    900 search 'Mustersuche' (with new ID 6) added
+    221 HostName closing connection
+
+=back
+
+=item B<EDIS> I<Parameter>
+
+Ändert einen bestehenden Sucheintrag. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearch.conf> (siehe oben). Die Kennung im ersten
+Feld gibt den zu ändernden Sucheintrag an.
+
+B<Hinweis:> Ein leeres Feld (C<::>) wird ignoriert. Die Werte der Felder
+C<Suchbegriff>, C<Verzeichnis> und C<Inhaltskennungen> werden jedoch
+gelöscht, wenn keine Werte angegeben wurden.
+
+=item B<MODS> I<ID> ON|OFF
+
+Aktiviert (C<ON>) oder deaktiviert (C<OFF>) die Option
+C<Als Suchtimer verwenden> für den Sucheintrag mit der
+angegebenen I<ID>.
+
+=item B<DELS> I<ID>
+
+Löscht den Sucheintrag mit der angegebenen I<ID>.
+
+=item B<SETS> ON|OFF
+
+Startet (C<ON>) oder stoppt (C<OFF>) den im Hintergrund laufenden
+Suchtimer-Thread.
+
+=item B<UPDS> [OSD]
+
+Aktualisiert die Suchtimer. Mit dem optionalen Schlüsselwort C<OSD>
+wird eine OSD-Meldung nach Abschluss der Aktualisierung angezeigt.
+
+=item B<UPDT>
+
+Liest die Datei F<epgsearch.conf> erneut ein, beispielsweise nachdem
+sie von einem externen Tool geändert wurde.
+
+=item B<UPDD>
+
+Liest die Datei F<epgsearchdone.data> erneut ein, beispielsweise nachdem
+sie von einem externen Tool geändert wurde.
+
+=item B<FIND> I<Parameter>
+
+Sucht im EPG nach Sendungen. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearch.conf> (siehe oben).
+
+Für jede gefundene Sendung wird eine Zeile im Format des VDR-Befehls
+C<NEWT> zurückgegeben. Diese beinhaltet die folgenden Felder:
+
+=over 4
+
+    Timer       : // 1 = neuen Timer anlegen
+    Kanal       : // Kanalnummer des VDR
+    Datum       : // Datum, an dem die Sendung läuft [JJJJ-MM-TT]
+    Beginn      : // Beginn der Sendung [HHMM]
+    Ende        : // Ende der Sendung [HHMM]
+    Priorität   : // Priorität bei Aufnahme
+    Lebensdauer : // Lebensdauer bei Aufnahme
+    Datei       : // Datei-Eintrag des Timers
+
+=back
+
+Beispiel:
+
+=over 4
+
+    svdrpsend PLUG epgsearch FIND "0:The Rookie:::::::::"
+
+    220 HostName SVDRP VideoDiskRecorder 2.7.7; ...
+    900 NEWT 1:39:2025-08-07:1753:1845:50:99:The Rookie:
+    221 HostName closing connection
+
+=back
+
+Ein Suchergebnis kann somit unmittelbar zur Programmierung eines
+Timers für die entsprechende Sendung verwendet werden.
+
+B<Hinweis:> Wenn keine VPS-Kennung vorliegt, beinhalten Datum sowie
+Start- und Stoppzeit die in den Parametern angegebenen Zeiten für
+Vor- und Nachlauf.
+
+=item B<QRYS> I<ID>[|I<ID>|...]
+
+Führt die Suche mit der angegebenen I<ID> aus. Weitere IDs können, jeweils
+mit C<|> als Trennzeichen, angefügt werden.
+
+Für jede gefundene Sendung wird eine Zeile in folgendem Format zurückgegeben:
+
+=over 4
+
+    Suche      : // Eindeutige Kennung der Suche
+    Sendung    : // Eindeutige Kennung der Sendung im VDR
+    Titel      : // Titel der Sendung, wobei C<:> durch C<|> ersetzt ist
+    Untertitel : // Untertitel der Sendung, wobei C<:> durch C<|> ersetzt ist
+    Beginn     : // Beginn der Sendung in Epoch-Notation (Sekunden seit dem 01.01.1970, 00:00 UTC)
+    Ende       : // Ende der Sendung in Epoch-Notation (Sekunden seit dem 01.01.1970, 00:00 UTC)
+    Kanal      : // Kanalkennung im VDR-Format (bspw. S19.2E-1-1101-28106)
+    Start      : // Startzeitpunkt des Timers in Epoch-Notation; nur gültig wenn 'Timer' > 0
+    Stop       : // Stoppzeit des Timers in Epoch-Notation; nur gültig wenn 'Timer' > 0
+    Datei      : // Datei-Eintrag des Timers; nur gültig wenn 'Timer' > 0
+    Timer      : // 0 = ohne Timer, 1 = aktiver Timer, ... (Timer-Flags des VDR)
+
+=back
+
+Beispiel:
+
+=over 4
+
+    svdrpsend PLUG epgsearch QRYS 0
+
+    220 HostName SVDRP VideoDiskRecorder 2.7.7; ...
+    900 0:3124:The Rookie:Jagdfieber:1756901400:1756903800:S19.2E-1-1011-11130:1756901280:1756904400:The Rookie~Jagdfieber:1
+    221 HostName closing connection
+
+=back
+
+=item B<QRYS> I<Parameter>
+
+Ruft die Ergebnisse einer Suche anhand der angegebenen I<Parameter> ab.
+Das Datenformat von I<Parameter> entspricht dem von von F<epgsearch.conf>
+(siehe oben), wobei die eindeutige Kennung im ersten Feld ignoriert wird.
+
+=item B<QRYF> [I<Stunden>]
+
+Ruft die Ergebnisse für das Favoriten-Menü ab; das Datenformat entspricht
+dem von C<QRYS>. Der optionale Parameter gibt die Anzahl der Zeitspanne
+in Stunden an (standardmäßig 24 Stunden).
+
+=item B<MENU> [NOW|PRG|SUM]
+
+Ruft eines der Menüs von EPGSearch oder die Beschreibung der aktuellen
+Sendung auf:
+
+=over 2
+
+=item * NOW – Was läuft jetzt?
+
+=item * PRG – Programmübersicht
+
+=item * SUM – Beschreibung der Sendung
+
+=back
+
+B<Achtung:> Das Menü wird nur angezeigt, wenn zu diesem Zeitpunkt kein anderes
+Menü geöffnet ist. Andernfalls wird das aktuell angezeigte Menü geschlossen.
+Daher ist dieser Befehl nicht vollständig deterministisch.
+
+=back
+
+=head2 9.2 Kanalgruppen
+
+=over 4
+
+=item B<LSTC> [I<Name>]
+
+Ruft alle Kanalgruppen oder nur die mit I<Name> bezeichnete ab. Das Format
+der zurückgegebenen Daten entspricht dem von F<epgsearchchangrps.conf>.
+
+=item B<NEWC> I<Parameter>
+
+Erstellt eine neue Kanalgruppe. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearchchangrps.conf>.
+
+=item B<EDIC> I<Parameter>
+
+Ändert eine bestehende Kanalgruppe. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearchchangrps.conf>. Der Name im ersten Feld
+gibt die zu ändernde Kanalgruppe an.
+
+=item B<RENC> I<alterName>|I<neuerName>
+
+Benennt eine bestehende Kanalgruppe um.
+
+=item B<DELC> I<Name>
+
+Löscht eine bestehende Kanalgruppe.
+
+=back
+
+=head2 9.3 Ausschlusslisten
+
+=over 4
+
+=item B<LSTB> [I<ID>]
+
+Ruft alle Ausschlusslisten oder nur die mit der angegebenen I<ID>
+ab. Das Format der zurückgegebenen Daten entspricht dem von
+F<epgsearchblacklists.conf>.
+
+=item B<NEWB> I<Parameter>
+
+Legt eine neue Ausschlussliste an. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearchblacklists.conf>.
+
+Die eindeutige Kennung im ersten Feld wird ignoriert. EPGSearch weist
+einer neuen Ausschlussliste immer die nächste freie Kennung zu und gibt
+diese in der Antwort bekannt:
+
+=over 4
+
+    svdrpsend PLUG epgsearch NEWB "0:Musterliste:::::::::::::::::"
+
+    220 HostName SVDRP VideoDiskRecorder 2.7.7; ...
+    900 blacklist 'Musterliste' (with new ID 3) added
+    221 HostName closing connection
+
+=back
+
+=item B<DELB> I<ID>
+
+Löscht die Ausschlussliste mit der angegeben I<ID>.
+
+=item B<EDIB> I<Parameter>
+
+Ändert eine bestehende Ausschlussliste. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearchblacklists.conf>. Der Name im ersten Feld
+gibt die zu ändernde Ausschlussliste an.
+
+B<Hinweis:> Ein leeres Feld (C<::>) wird ignoriert. Die Werte der Felder
+C<Suchbegriff> und C<Inhaltskennungen> werden jedoch gelöscht, wenn
+keine Werte angegeben wurden.
+
+=back
+
+=head2 9.4 Suchvorlagen
+
+=over 4
+
+=item B<LSTT> [I<ID>]
+
+Ruft alle Suchvorlagen oder nur die mit der angegebenen I<ID> ab. Das Format
+der zurückgegebenen Daten entspricht dem von F<epgsearch.conf> (siehe oben).
+
+=item B<NEWT> I<Parameter>
+
+Legt eine neue Suchvorlage an. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearch.conf> (siehe oben).
+
+Die eindeutige Kennung im ersten Feld wird ignoriert. EPGSearch weist
+einer neuen Suchvorlage immer die nächste freie Kennung zu und gibt
+diese in der Antwort bekannt:
+
+=over 4
+
+    svdrpsend PLUG epgsearch NEWT "0:Mustervorlage:::::::::"
+
+    220 HostName SVDRP VideoDiskRecorder 2.7.7; ...
+    900 search template 'Mustervorlage' (with new ID 4) added
+    221 HostName closing connection
+
+=back
+
+=item B<EDIT> I<Parameter>
+
+Ändert eine bestehende Suchvorlage. Das Datenformat von I<Parameter>
+entspricht dem von F<epgsearch.conf> (siehe oben). Die Kennung im ersten
+Feld gibt die zu ändernde Suchvorlage an.
+
+B<Hinweis:> Ein leeres Feld (C<::>) wird ignoriert. Die Werte der Felder
+C<Suchbegriff> und C<Inhaltskennungen> werden jedoch gelöscht, wenn keine
+Werte angegeben wurden.
+
+=item B<DELT> I<ID>
+
+Löscht die Suchvorlage mit der angegebenen I<ID>.
+
+=item B<DEFT> [I<ID>]
+
+Gibt die eindeutige Kennung (ID) der Standardsuchvorlage zurück. Bei Angabe einer
+I<ID> wird die entsprechende Suchvorlage als neue Standardvorlage festgelegt.
+
+=back
+
+=head2 9.5 Erweiterte EPG-Kategorien
+
+=over 4
+
+=item B<LSTE> [I<ID>]
+
+Ruft alle in F<epgsearchcats.conf> definierten EPG-Kategorien oder nur die
+mit der angegebenen I<ID> ab. Das Format der zurückgegebenen Daten entspricht
+dem von F<epgsearchcats.conf>.
+
+=back
+
+=head2 9.6 Timer-Konflikte
+
+=over 4
+
+=item B<LSCC> [REL]
+
+Ruft die aktuellen Timer-Konflikte ab. Mit der Option C<REL> werden nur
+relevante Konflikte aufgeführt. Die Ergebnisliste sieht ähnlich aus wie
+für das folgende Beispiel zweier Timer-Konflikte zu einer bestimmten Zeit:
+
+=over 4
+
+    1190232780:152|30|50#152#45:45|10|50#152#45
+
+=back
+
+C<1190232780> ist der Zeitpunkt des Konflikts in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC). Diesem folgt die Liste
+der Timer, die miteinander in Konflikt stehen.
+
+C<152|30|50#152#45> ist die Beschreibung des ersten konfliktbehafteten Timers:
+
+=over 2
+
+=item * C<152> ist die ID des Timers, mit der er auch im VDR-Kommando C<LSTT> geführt wird
+
+=item * C<30> ist der Prozentsatz des Timers, der aufgenommen würde (0..100)
+
+=item * C<50#152#45> ist die Liste aller von diesem Konflikt betroffenen Timer
+
+=back
+
+C<45|10|50#152#45> beschreibt einen weiteren Konflikt für diesen Zeitpunkt.
+
+=back
+
+=head2 9.7 Verschiedenes
+
+=over 4
+
+=item B<LSRD>
+
+Ruft alle Verzeichnisse ab, die in Aufzeichnungen, Timern und Suchtimern
+verwendet werden oder in F<epgsearchdirs.conf> definiert sind.
+
+=item B<SETP> [I<Option>]
+
+Gibt eine Liste ausgewählter Setup-Optionen mit ihren aktuellen Werten oder
+nur den aktuellen Wert der angegebenen Setup-Option zurück.
+
+Auf die folgenden Setup-Optionen kann zugegriffen werden:
+
+=over 2
+
+=item * I<ShowFavoritesMenu>
+
+=item * I<UseSearchTimers>
+
+=item * I<DefRecordingDir>
+
+=item * I<AddSubtitleToTimerMode>
+
+=item * I<DefPriority>
+
+=item * I<DefLifetime>
+
+=item * I<DefMarginStart>
+
+=item * I<DefMarginStop>
+
+=back
+
+=back
+
+=head1 10. Anpassung von EPG-Menüs
+
+Die Datei F<epgsearchmenu.conf> im Konfigurationsverzeichnis von
+EPGSearch speichert die Einstellungen zur Anpassung von EPG-Menüs.
+Jede Zeile legt das Erscheinungsbild eines bestimmten Menüs fest.
+Die einzelnen Einträge bestimmen, wie die folgenden Menüs gestaltet
+sein sollen:
+
+=over 4
+
+=item B<MenuWhatsOnNow>
+
+Vorlage für das Menü C<Jetzt>.
+
+=item B<MenuWhatsOnNext>
+
+Vorlage für das Menü C<Nächste>.
+
+=item B<MenuWhatsOnElse>
+
+Vorlage für das Menü einer benutzerdefinierten Zeit.
+
+=item B<MenuSchedule>
+
+Vorlage für das Menü C<Programm>.
+
+=item B<MenuSearchResults>
+
+Vorlage für das Menü C<Suchergebnisse>.
+
+=item B<MenuFavorites>
+
+Vorlage für das Menü C<Favoriten>.
+
+=back
+
+Ein Beispiel:
+
+=over 4
+
+    MenuWhatsOnNow=%chnr%:3|%progrt2s%:5| %time% %t_status%:8|%category%:6| %title% ~ %subtitle%:35
+    MenuWhatsOnNext=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
+    MenuWhatsOnElse=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
+    MenuSchedule=%time% %t_status%:8|%genre%:14| %title% ~ %subtitle%:35
+    MenuFavorites=%chnr%:3|%datesh% %time% %t_status%:14|%genre%:8| %title%%colon%%subtitle%:35
+    MenuSearchResults=%chnr%:3|%datesh% %time% %t_status%:14|%genre%:8| %title%%colon% %subtitle%:35
+
+=back
+
+Der Eintrag C<MenuWhatsOnNow> legt fest, wie eine Zeile für das Menü
+C<Jetzt> beschaffen sein soll. Die Menüzeile beginnt mit der Kanalnummer,
+gefolgt von einem Fortschrittsbalken im Stil von F<text2skin>, einem
+Leerzeichen, dem Sendungsbeginn, dem Timer-Status, der EPG-Kategorie
+(bspw. "Film") und schließlich dem Titel und Untertitel der Sendung.
+
+Nehmen wir außerdem an, dass noch folgender Eintrag hinzugefügt wird:
+
+=over 4
+
+    MenuSearchResultsTagestipp=%chnr%:3|%time_w%:4|%t_status%:3|%genre%:10|%title%%colon% %subtitle%:35
+
+=back
+
+Dies bewirkt, dass im Menü C<Suche editieren> ein zusätzlicher
+Menüpunkt C<Layout des Ergebnis-Menüs> erscheint, der für die Anzeige
+der Suchergebnisse die Auswahl zwischen der Standardvorlage und
+eigenen Vorlagen ermöglicht. Im obigen Beispiel würde C<Tagestipp>
+als zusätzliche Option aufgeführt, da EPGSearch für den Vorlagennamen
+lediglich das Präfix C<MenuSearchResults> entfernt. Zur Anzeige der
+Suchergebnisse wird das gewählte Layout anstelle des Standardlayouts
+verwendet.
+
+Folgende Variablen stehen zur Verfügung (Groß- und Kleinschreibung
+wird ignoriert):
+
+=for time variables
+
+=over 4
+
+=item B<%Time%>
+
+Der Beginn einer Sendung im Format 'HH:MM'.
+
+=item B<%TimeEnd%>
+
+Das Ende einer Sendung im Format 'HH:MM'.
+
+=item B<%Time_D%>
+
+Das Datum des Beginns einer Sendung im Format 'TT'.
+
+=item B<%Time_W%>
+
+Der Name des Wochentages, an dem eine Sendung beginnt.
+
+=item B<%Time_Lng%>
+
+Datum und Startzeit einer Sendung in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC).
+
+=item B<%TimeSpan%>
+
+Die Zeit bis zum Beginn einer Sendung (bspw. C<in 15m>)
+oder die bereits verstrichene Zeit (bspw. C<10m>).
+
+=for date variables
+
+=item B<%Date%>
+
+Das Datum des Beginns einer Sendung im Format 'TT.MM.JJ'.
+
+=item B<%DateSh%>
+
+Das Datum des Beginns einer Sendung im Format 'TT.MM'.
+
+=item B<%Date_ISO%>
+
+Das Datum des Beginns einer Sendung im Format 'JJJJ-MM-TT'.
+
+=item B<%Day%>
+
+Der Tag des Beginns einer Sendung (1..31).
+
+=item B<%Week%>
+
+Die Kalenderwoche, in der eine Sendung beginnt (01..53).
+
+Gemäß ISO-Standard 8601 ist Montag der erste Tag einer Woche.
+Kalenderwoche 1 ist die erste Woche eines Jahres, die mindestens
+vier Tage des Jahres umfasst, also einen Donnerstag bzw. den
+4. Januar enthält.
+
+=item B<%Month%>
+
+Der Monat des Beginns einer Sendung (1..12).
+
+=item B<%Year%>
+
+Das Jahr des Beginns einer Sendung (1970..2038, gegebenenfalls auch später).
+
+=for event-specific variables
+
+=item B<%EventID%>
+
+Die numerische Kennung einer Sendung.
+
+=item B<%LiveEventID%>
+
+Die Kennung einer Sendung, wie sie vom Frontend F<live> verwendet wird.
+
+=item B<%Title%>
+
+Der Titel einer Sendung.
+
+=item B<%Subtitle%>
+
+Der Untertitel einer Sendung.
+
+=item B<%Summary%>
+
+Die Beschreibung einer Sendung.
+
+=item B<%HtmlSummary%>
+
+Die Beschreibung einer Sendung, in der alle Zeilenumbrüche
+durch C<E<lt>br /E<gt>> ersetzt sind.
+
+B<Achtung:> Die in HTML reservierten Zeichen C<E<lt>&"E<gt>> werden nicht
+durch ihre Substitute C<&lt;>, C<&amp;>, C<&quot;> und C<&gt;> ersetzt.
+
+=item B<%E<lt>EPG-KategorieE<gt>%>
+
+Der für eine Sendung zutreffende Wert einer erweiterten EPG-Kategorie
+aus F<epgsearchcats.conf>, etwa C<%Genre%> oder C<%Category%>.
+
+=item B<%Length%>
+
+Die Länge einer Sendung in Sekunden.
+
+=item B<%Status%>
+
+Der Status einer Sendung (entspricht C<%T_Status%%V_Status%%R_Status%>).
+
+=item B<%T_Status%>
+
+Der Status eines Timers (C<T>, C<t> oder C<R>), andernfalls ein Leerzeichen.
+
+=item B<%V_Status%>
+
+Der VPS-Status einer Sendung (C<V>), andernfalls ein Leerzeichen.
+
+=item B<%R_Status%>
+
+Der Status, ob eine Sendung läuft (C<*>), andernfalls ein Leerzeichen.
+
+=back
+
+Für die Menüs benutzerdefinierter Zeiten sowie das Menu C<Suchergebnisse>
+stehen ergänzend noch folgende Variablen zur Verfügung:
+
+=over 4
+
+=item B<%ChNr%>
+
+Die Kanalnummer einer Sendung.
+
+=item B<%ChSh%>
+
+Die Kurzbezeichnung des Kanals einer Sendung.
+
+=item B<%ChLng%>
+
+Der ausführliche Name des Kanals einer Sendung.
+
+=item B<%ChData%>
+
+Die interne Kanalkennung des VDR (bspw. C<S19.2E-1-1101-28106>).
+
+=item B<%Progr%>
+
+Eine grafische Fortschrittsanzeige; nicht verfügbar für das Menü
+C<Suchergebnisse>.
+
+B<Hinweis:> Zur Anzeige der Grafik muss die Schriftart F<VDRSymbols>
+installiert sein.
+
+=item B<%ProgrT2S%>
+
+Eine Fortschrittsanzeige im Stil von F<text2skin>; nicht verfügbar
+für das Menü C<Suchergebnisse>.
+
+=back
+
+Abschließend noch einige allgemeine Variablen:
+
+=over 4
+
+=item B<%TimeNow%>
+
+Die aktuelle Zeit im Format 'HH:MM'.
+
+=item B<%DateNow%>
+
+Das aktuelle Datum im Format 'TT.MM.JJ'.
+
+=item B<%DateShNow%>
+
+Das aktuelle Datum im Format 'TT.MM'.
+
+=item B<%Date_ISO_Now%>
+
+Das aktuelle Datum im Format 'JJJJ-MM-TT'.
+
+=item B<%VideoDir%>
+
+Das Video-Verzeichnis des VDR (bspw. F</video>).
+
+=item B<%PlugConfDir%>
+
+Das Konfigurationsverzeichnis des VDR für die Plugins (bspw. F</etc/vdr/plugins>).
+
+=item B<%EPGSearchDir%>
+
+Das Konfigurationsverzeichnis von EPGSearch (bspw. F</etc/vdr/plugins/epgsearch>)
+
+=item B<%Colon%>
+
+Ein Doppelpunkt.
+
+=back
+
+Des Weiteren können auch Variablen für erweiterte EPG-Kategorien, die in
+F<epgsearchcats.conf> definiert sind, oder benutzerdefinierte Variablen aus
+F<epgsearchuservars.conf> verwendet werden. Bei Variablennamen wird nicht
+zwischen Groß- und Kleinschreibung unterschieden.
+
+Ein Eintrag besteht aus bis zu sechs Tabellenspalten, die durch C<|>
+getrennt sind. Der letzte Eintrag einer jeden Tabellenzeile sollte, durch
+C<:> abgetrennt, die Tabellenbreite in Zeichen angeben.
+
+Wenn Elemente durch Zeichen wie C<~>, C<−> oder C<#> getrennt werden (bspw.
+C<%Title% ~ %Subtitle%>) und am Ende stehende Elemente leer sind, entfernt
+EPGSearch nach Möglichkeit verwaiste Leerräume und Trennzeichen.
+
+Die Werte für die Spaltenbreiten sollten den eigenen Bedürfnissen anpasst
+werden, da das Erscheinungsbild oft von der gewählten Oberfläche abhängt.
+
+Die Datei F<epgsearchmenu.conf> wird nicht bei jedem Aufruf des Plugins neu
+geladen, da dies nur zum Testen der Konfigurationsdatei selbst sinnvoll ist.
+Um ein permanentes Neuladen der Datei zum Testen einer Konfigurationsänderung
+zu aktivieren, ist im Startskript des VDR (bspw. F<runvdr>) der Startparameter
+C<−r> oder C<−−reloadmenuconf> zu ergänzen.
+
+Ein Beispiel für F<epgsearchmenu.conf> befindet sich im Unterverzeichnis
+F<conf> von EPGSearch. Zum schnellen Ausprobieren kann die Datei in das
+Konfigurationsverzeichnis von EPGSearch (bspw. F</etc/vdr/plugins/epgsearch>)
+kopiert werden.
+
+Um Symbole der Schriftart F<VDRSymbols> zu aktivieren, muss die folgende
+Zeile in die Datei eingefügt werden:
+
+=over 4
+
+    WarEagleIcons=1
+
+=back
+
+Die Schriftart F<VDRSymbols> kann von
+L<http://andreas.vdr-developer.org/fonts/download.html>
+heruntergeladen werden.
+
+B<Hinweis:> Wenn eine Datei F<epgsearchmenu.conf> mit einem Eintrag
+für ein bestimmtes Menü vorhanden ist, werden die Standardeinstellungen
+zur Darstellung dieses Menüs ignoriert.
+
+Siehe auch B<epgsearchmenu.conf>(5).
+
+=head1 11. Nutzung des Timer-Konfliktmenüs
+
+Wird im Rahmen der regelmäßigen Hintergrundprüfung ein Konflikt erkannt,
+wird dies per OSD gemeldet. Nach Drücken von C<OK> öffnet sich ein Menü,
+das alle relevanten Konflikte anzeigt. Dieses Menü kann in EPGSearch auch
+über C<Sucheinträge> » C<Aktionen> » C<Auf Timer-Konflikte prüfen> geöffnet
+werden.
+
+Neben den relevanten Konflikten (die Relevanz wird über die Setup-Optionen
+von EPGSearch gesteuert) können auch unwichtige Konflikte erkannt worden sein.
+Durch Drücken von C<Alle anzeigen> wird die vollständige Liste angezeigt.
+Der Titel des Timer-Konfliktmenüs vermerkt immer die Anzahl der relevanten
+Konflikte sowie die Gesamtzahl.
+
+Die Übersicht zeigt zunächst den Zeitpunkt des Auftretens eines Konflikts,
+gefolgt von allen betroffenen Timern. Jeder Timer-Eintrag enthält die
+Kanalnummer und den Kanalnamen, die Priorität des Timers sowie den Prozentsatz,
+der von der Sendung aufgezeichnet würde. Abschließend wird der Datei-Eintrag
+des Timers angezeigt.
+
+Wenn ein Timer-Eintrag ausgewählt und C<OK> gedrückt oder C<Details>
+aufgerufen wird, öffnet sich ein weiteres Menü, das alle in den Konflikt
+involvierten Timer anzeigt. In diesem Menü kann der Konflikt mit folgenden
+Maßnahmen aufgelöst werden:
+
+=over 2
+
+=item * Suche nach einer Wiederholung der Sendung
+
+=item * Deaktivieren oder Löschen eines Timers
+
+=item * Änderung der Start- oder Stoppzeit eines Timers
+oder seiner Priorität
+
+=item * Ausführung anderer Timer-Befehle
+
+=back
+
+Ein Eintrag in diesem Menü besteht aus dem Zeichen C<E<gt>> zur
+Kennzeichnung eines aktiven Timers, der Kanalnummer, den Start-
+und Stoppzeiten, der Priorität, der Nummer des für die Aufnahme
+verwendeten Empfängers (oder C<C> bei einem Konflikt) sowie dem
+Datei-Eintrag des Timers. Durch Drücken von C<OK> auf einem
+ausgewählten Timer wird die Beschreibung zu dessen Sendung
+angezeigt, falls vorhanden.
+
+Beim Verlassen dieses Menüs wird die Übersicht der Timer-Konflikte
+aktualisiert, um zu prüfen, ob ein Konflikt tatsächlich behoben wurde.
+Einige Änderungen an einem Timer in der Detailübersicht (bspw. Änderung
+von Start/Stoppzeit oder Löschen eines Timers) führen ebenfalls zur
+Aktualisierung der Detailübersicht.
+
+B<Hinweis:> Eine versteckte Setup-Option C<ConflCheckCmd> ermöglicht
+die Ausführung eines Befehls für eine Timer, der einen Konflikt
+verursacht. Dieser Befehl muss direkt in die Datei F<setup.conf>
+des VDR eingetragen werden, und zwar wie folgt:
+
+=over 4
+
+    epgsearch.ConflCheckCmd = system(Skript_zur_Konfliktbehandlung.sh, weitere_Argumente wie %Timer.File%)
+
+Die möglichen Argumente finden sich bei "12.3 Aufrufen eines Systembefehls".
+
+=back
+
+Wenn eine automatische Konfliktprüfung durchgeführt wird, wird der Befehl
+auf jeden Timer angewandt, der einen Konflikt verursacht. Der Befehl wird
+nicht angewandt, wenn die Konfliktprüfung über das OSD aufgerufen wird.
+
+Dieser Mechanismus kann beispielsweise dazu verwendet werden, einen Timer
+im Konfliktfall an eine andere VDR-Instanz weiterzuleiten.
+
+=head1 12. Benutzerdefinierte Variablen
+
+Eigene Variable können überall dort genutzt werden, wo Variablen
+zulässig sind.
+Dies gilt beispielsweise für das Standard-Aufnahmeverzeichnis eines
+manuell erstellten Timers, das Aufnahmeverzeichnis eines Suchtimers
+oder ein benutzerdefiniertes EPG-Menü.
+
+Eine Variable hat die Syntax C<%Variablenname%>. Ihr Name darf ausschließlich
+alphanumerische Zeichen enthalten, jedoch keine Leerzeichen oder andere
+Sonderzeichen – auch keine Umlaute.
+
+Beispiele für zulässige Namen:
+
+=over 4
+
+    %Serie%
+    %DokuVar1%
+    %ThemaUntertitelDatum%
+
+=back
+
+Bei Variablennamen wird nicht zwischen Groß- und Kleinschreibung
+unterscheiden.
+
+=head2 12.1 Zuweisung
+
+Variablen werden immer Zeichenfolgen zugewiesen, deren Leerzeichen
+erhalten bleiben. Die folgenden Beispiele veranschaulichen dies:
+
+=over 4
+
+    %Serien%=Neue Serien~Krimis
+
+=back
+
+Der Variable C<%Serien%> wird die Zeichenfolge "Neue Serien~Krimis" zugewiesen.
+Sie lässt sich beliebig weiterverwenden:
+
+=over 4
+
+    %Pfad%=%Serien%
+
+=back
+
+Der Variable C<%Pfad%> wird der Inhalt der Variable C<%Serien%> zugewiesen.
+
+=over 4
+
+    %Pfad%=%Serien%~Tatort
+
+=back
+
+Die Variable C<%Pfad%> enthält die Zeichenfolge "Neue Serien~Krimis~Tatort".
+
+=head2 12.2 Bedingte Zuweisung
+
+Für Zuweisungen werden einfache Wenn-dann-sonst-Konstrukte mittels bedingter
+Ausdrücke (C<I<wenn> ? I<dann> : I<sonst>>) unterstützt. Bedingte Ausdrücke
+dürfen keine Zeichenfolgen enthalten, sondern nur Variablen; Leerzeichen
+werden ignoriert.
+
+=over 4
+
+    %Foo%=Verschiedenes
+    %Variable%=%Pfad% ? %Pfad% : %Foo%
+
+=back
+
+Beim ternären Operator C<?:> steht der Ausdruck C<%Pfad% ?>
+für die Bedingung "Pfad nicht leer?". Wenn dies zutrifft, wird
+C<%Variable%> der Inhalt von C<%Pfad%> zugewiesen, andernfalls
+der Inhalt von C<%Foo%>.
+
+Auch andere Prüfungen sind möglich:
+
+=over 4
+
+=over 4
+
+=item == gleich
+
+=item != ungleich
+
+=back
+
+=back
+
+So zum Beispiel:
+
+=over 4
+
+    %Variable%=%Pfad%!=5 ? %Pfad% : %Foo%
+
+=back
+
+Die Bedingung C<%Path%!=5 ?> bedeutet "ist C<%Pfad%> ungleich 5?".
+
+Der Vergleich von Variablen ist ebenfalls möglich:
+
+=over 4
+
+    %Fuenf%=5
+    %Variable%=%Pfad%!=%Fuenf% ? %Pfad% : %Foo%
+
+=back
+
+Man beachte, dass der Variablenname C<%Fünf%> aufgrund des
+Umlauts ungültig wäre.
+
+=head2 12.3 Aufruf von Systemkommandos
+
+Während der Variablenauswertung können auch externe Befehle aufgerufen werden.
+Die zurückgegebene Zeichenfolge wird der jeweiligen Variablen zugewiesen:
+
+=over 4
+
+    %Ergebnis%=system(<Skriptname>[, <Parameter>])
+
+=back
+
+Ruft das Skript F<Skriptname> mit den in der optionalen Liste C<Parameter>
+angegebenen Parametern auf. Ein solcher Parameter kann ein beliebiger Ausdruck sein,
+der gegebenenfalls andere Variablen enthält, jedoch kein Systemaufruf oder
+bedingter Ausdruck.
+
+Beispiel:
+
+=over 4
+
+    %Ergebnis%=system(/usr/local/bin/mein-skript.sh, -t %Title% -s %Subtitle% -u %EineAndereVariable%)
+
+=back
+
+Als Parameter verwendete Variablen werden bei Bedarf in einfache Anführungszeichen
+(Apostrophe) gesetzt.
+
+Das Skript sollte einen String B<ohne Zeilenvorschübe> zurückgeben, da deren
+Entfernung zu unerwünschten Ergebnissen führen kann. Wenn das Skript nichts
+zurückgibt, wird der Variable C<%Ergebnis%> ein leerer String zugewiesen.
+
+=head2 12.4 Aufruf von TCP-Diensten
+
+in TCP-Dienst kann mit der folgenden Syntax aufgerufen werden:
+
+=over 4
+
+    %Ergebnis%=connect(<Adresse>, <Port>, [<Daten>])
+
+=back
+
+Dadurch wird eine Verbindung zu C<Adresse> über den angegebenen C<Port>
+hergestellt und die optionalen C<Daten> übergeben. Der Parameter C<Adresse>
+kann eine IP-Adresse oder der Domänenname eines TCP-Dienstes sein. Das vom
+Dienst zurückgegebene Ergebnis muss B<mit einem Zeilenvorschub> abgeschlossen
+sein.
+
+=head2 12.5 Länge von Argumenten
+
+Bei der Übergabe von Werten an Verbindungs- oder Systembefehle kann
+es hilfreich sein, zum einfacheren Parsen die Länge eines Arguments
+zu kennen. Diese lässt sich wie folgt ermitteln:
+
+=over 4
+
+    %Ergebnis%=length(<beliebige Argumente>)
+
+=back
+
+Beispiel:
+
+=over 4
+
+    %Titellaenge%=length(%Title%)
+
+=back
+
+=head2 12.6 Weitere Variablen
+
+Eine Liste der internen Variablen findet sich in B<epgsearchmenu.conf>(5).
+Darüber hinaus kann jede in F<epgsearchcats.conf> definierte Variable
+verwendet werden; siehe hierzu auch B<epgsearchcats.conf>(5).
+
+=head2 12.7 Beispiele
+
+ # Wochentag, Datum, Uhrzeit
+ %Datum%=%time_w% %date% %time%
+
+ # Thema oder Untertitel oder Datum
+ %UntertitelDatum%=%Subtitle% ? %Subtitle% : %Datum%
+ %ThemaUntertitelDatum%=%Themes% ? %Themes% : %UntertitelDatum%
+
+ # Aufruf des Skripts, das den Aufnahmepfad erzeugt
+ %DokuScript%=system(doku.pl,%Title%,%Subtitle%,%Episode%,%Themes%,%Category%,%Genre%)
+ %Doku%=%DokuScript%
+
+=head1 13. Benachrichtigung per E-Mail
+
+EPGSearch kann E-Mail-Benachrichtigungen versenden, wenn Timer vom
+Suchtimer-Thread hinzugefügt, geändert oder entfernt werden oder
+wenn Timer-Konflikte erkannt wurden.
+
+=head2 13.1 Einrichten der E-Mail-Benachrichtigung
+
+Zunächst müssen das Skript F<sendEmail.pl> an den Speicherort der
+ausführbaren Dateien (bspw. F</usr/local/bin>) kopiert und die
+E-Mail-Konten im Setup konfiguriert werden. Durch Aufruf von C<Test>
+kann geprüft werden, ob das Senden und Empfangen von E-Mails funktioniert.
+Am Ende der Ausgabe sollte eine Meldung wie C<Email successfully sent>
+erscheinen.
+
+Der Inhalt der E-Mails wird durch die folgenden Dateien definiert:
+
+=over 4
+
+=item B<F<epgsearchupdmail.templ>>
+
+Vorlage für die Benachrichtigung über Suchtimer-Aktualisierungen.
+
+=item B<F<epgsearchconflmail.templ>>
+
+Vorlage für die Benachrichtigung von Timer-Konflikten.
+
+=back
+
+Beispieldateien befinden sich im Verzeichnis F<conf>. Diese
+können in das Konfigurationsverzeichnis von EPGSearch (bspw.
+F</etc/vdr/plugins/epgsearch>) kopiert und nach Bedarf angepasst
+werden.
+
+=head2 13.2 Anpassung der E-Mail-Benachrichtigungen
+
+Der Inhalt der E-Mails kann vielfältig angepasst werden. E-Mails
+können reinen Text oder HTML enthalten (siehe beispielsweise
+F<conf/epgsearchupdmail-html.templ>).
+
+=head3 13.2.1 E-Mails zu Aktualisierungen
+
+Für eine E-Mail zur Meldung von Aktualisierungen müssen folgende
+Abschnitte definiert werden:
+
+=over 4
+
+=item B<Subject>
+
+Der Begriff, der als E-Mail-Betreff verwendet werden soll.
+
+=item B<MailBody>
+
+Der Inhalt der E-Mail. Variablen legen fest, welche Informationen an
+welchen Stellen im Text eingefügt werden sollen.
+
+Die Variable C<%Update.NewTimers%> fügt eine Liste neu erstellter Timer ein.
+Desgleichen fügen die Variablen C<%Update.ModTimers%>, C<%Update.DelTimers%>
+und C<%Update.NewEvents%> entsprechende Listen geänderter beziehungsweise
+gelöschter Timer und Ankündigungen neuer Sendungen ein. Ihre Darstellung
+wird durch die Abschnitte C<Timer> und C<Event> festgelegt.
+
+=item B<Timer>
+
+Vorlage für die Darstellung eines einzelnen Timers. Dieser Abschnitt
+dient der Formatierung eines Timers innerhalb einer Timerübersicht,
+beispielsweise in C<%Update.NewTimers%>.
+
+=item B<Event>
+
+Vorlage für die Darstellung einer einzelnen Sendung. Dieser Abschnitt
+dient der Formatierung einer Sendung innerhalb einer Sendungsübersicht,
+beispielsweise in C<%Update.NewEvents%>.
+
+=back
+
+Alle Abschnitte sind optional. Werden beispielsweise keine Benachrichtigungen
+zu Sendungen genutzt, können innerhalb von C<MailBody> sowohl die Abschnitte
+C<%Update.NewEvents%> als auch die zugehörige Vorlage C<Event> entfallen. Der
+Abschnitt C<MailBody> muss jedoch immer vorhanden sein.
+
+Jeder Abschnitt ist von einem Pseudo-XML-Tag umschlossen. Bei den Tags wird
+nicht zwischen Groß- und Kleinschreibung unterschieden.
+
+=head4 13.2.1.1 Abschnitt C<MailBody>
+
+Die folgenden Variablen stehen im Abschnitt C<MailBody> zur Verfügung:
+
+=over 4
+
+=item B<%Update.NewTimers%>
+
+Wird durch die Liste der bei einer Aktualisierung neu erstellten Timer
+ersetzt. Die Timer werden entsprechend dem Abschnitt C<Timer> formatiert.
+
+=item B<%Update.CountNewTimers%>
+
+Die Anzahl neu erstellter Timer.
+
+=item B<%Update.ModTimers%>
+
+Wie C<%Update.NewTimers%>, jedoch für die geänderten Timer.
+
+=item B<%Update.CountModTimers%>
+
+Die Anzahl geänderter Timer.
+
+=item B<%Update.DelTimers%>
+
+Wie C<%Update.NewTimers%>, jedoch für die gelöschten Timer.
+
+B<Hinweis:> Einem gelöschten Timer ist möglicherweise keine Sendung
+zugeordnet. In diesem Fall werden alle auf Sendungen bezogene Variablen
+im Abschnitt C<Timer> durch eine leere Zeichenfolge ersetzt.
+
+=item B<%Update.CountDelTimers%>
+
+Die Anzahl gelöschter Timer.
+
+=item B<%Update.NewEvents%>
+
+Wird durch die Liste der anzukündigenden Sendungen ersetzt. Diese
+stammen von Suchtimern mit der Aktion C<per E-Mail ankündigen>. Die
+Sendungen werden entsprechend dem Abschnitt C<Event> formatiert.
+
+=item B<%Update.CountNewEvents%>
+
+Die Anzahl anzukündigender Sendungen.
+
+=item B<%DateNow%>
+
+Das aktuelle Datum im Format 'TT.MM.JJ'.
+
+=item B<%DateShNow%>
+
+Das aktuelle Datum im Format 'TT.MM'.
+
+=item B<%TimeNow%>
+
+Die aktuelle Zeit im Format 'HH:MM'.
+
+=item B<%Colon%>
+
+Ein Doppelpunkt.
+
+=back
+
+=head4 13.2.1.2 Abschnitt C<Timer>
+
+Die folgenden Variablen stehen im Abschnitt C<Timer> zur Verfügung:
+
+=over 4
+
+=item B<%Timer.Date%>
+
+Das Datum des Startzeitpunkts eines Timers.
+
+=item B<%Timer.Start%>
+
+Die Startzeit eines Timers.
+
+=item B<%Timer.Stop%>
+
+Die Stoppzeit eines Timers.
+
+=item B<%Timer.File%>
+
+Das Aufnahmeverzeichnis eines Timers.
+
+=item B<%Timer.ChNr%>
+
+Die Kanalnummer eines Timers.
+
+=item B<%Timer.ChSh%>
+
+Die Kurzbezeichnung des Kanals eines Timers.
+
+=item B<%Timer.ChLng%>
+
+Der vollständige Name des Kanals eines Timers.
+
+=item B<%Timer.Search%>
+
+Der Suchbegriff, der einen Timer erzeugt hat.
+
+=item B<%Timer.SearchID%>
+
+Die eindeutige Kennung (ID) der Suche, die einen Timer erzeugt hat.
+
+=item B<%Timer.LiveID%>
+
+Die Kennung eines Timers, wie sie vom Frontend F<live> verwendet wird.
+
+=item B<%Timer.ModReason%>
+
+Die Erläuterung einer Timer-Änderung Als Klartext.
+
+=item B<%E<lt>Variable einer SendungE<gt>%>
+
+Siehe "10. Anpassung von EPG-Menüs".
+
+=item B<%E<lt>EPG-KategorieE<gt>%>
+
+Der für eine Sendung zutreffende Wert einer erweitern EPG-Kategorie
+aus F<epgsearchcats.conf>, etwa C<%Genre%> oder C<%Category%>.
+
+=item B<%E<lt>Benutzerdefinierte VariableE<gt>%>
+
+Siehe "12. Benutzerdefinierte Variablen".
+
+=back
+
+=head4 13.2.1.3 Abschnitt C<Event>
+
+Die folgenden Variablen stehen im Abschnitt C<Event> zur Verfügung:
+
+=over 4
+
+=item B<%Search%>
+
+Der Suchbegriff, der die Benachrichtigung für eine Sendung erzeugt hat.
+
+=item B<%SearchID%>
+
+Die eindeutige Kennung (ID) der Suche, welche die Benachrichtigung
+für eine Sendung erzeugt hat.
+
+=item B<%E<lt>Variable einer SendungE<gt>%>
+
+Siehe "10. Anpassung von EPG-Menüs".
+
+=item B<%E<lt>EPG-KategorieE<gt>%>
+
+Der für eine Sendung zutreffende Wert einer erweiterten EPG-Kategorie
+aus F<epgsearchcats.conf>, etwa C<%Genre%> oder C<%Category%>.
+
+=item B<%E<lt>Benutzerdefinierte VariableE<gt>%>
+
+Siehe "12. Benutzerdefinierte Variablen".
+
+=back
+
+=head3 13.2.2 E-Mails zu Timer-Konflikten
+
+Für eine E-Mail zur Meldung von Timer-Konflikten müssen folgende
+Abschnitte definiert werden:
+
+=over 4
+
+=item B<Subject>
+
+Der Begriff, der als E-Mail-Betreff verwendet werden soll.
+
+=item B<MailBody>
+
+Der Inhalt der E-Mail. Variablen legen fest, welche Informationen an
+welchen Stellen im Text eingefügt werden sollen.
+
+Die Variable C<%Conflict.Conflicts%> fügt eine Liste konfliktbehafteter
+Zeitpunkte ein. Ihre Darstellung wird durch den Abschnitt C<ConflictsAt>
+festgelegt.
+
+B<Hinweis:> Zu einem Zeitpunkt können auch mehrere Timer-Konflikte auftreten.
+
+=item B<ConflictsAt>
+
+Vorlage zur Darstellung des Zeitpunkts, zu dem ein oder mehrere Konflikte
+aufgetreten sind.
+
+=item B<ConflTimer>
+
+Die Beschreibung eines konfliktbehafteten Timers.
+
+=back
+
+=head4 13.2.2.1 Abschnitt C<MailBody>
+
+Die folgenden Variablen stehen im Abschnitt C<MailBody> zur Verfügung:
+
+=over 4
+
+=item B<%Conflict.Count%>
+
+Die Anzahl aller Timer-Konflikte, einschließlich relevanter und
+unwichtiger Konflikte.
+
+=item B<%Conflict.Conflicts%>
+
+Eine Liste der in Konflikt stehenden Timer.
+
+=back
+
+=head4 13.2.2.2 Abschnitt C<ConflictsAt>
+
+Die folgenden Variablen stehen im Abschnitt C<ConflictsAt> zur Verfügung:
+
+=over 4
+
+=item B<%Conflict.Date%>
+
+Das Datum eines Konflikts.
+
+=item B<%Conflict.Time%>
+
+Die Uhrzeit eines Konflikts.
+
+=item B<%Conflict.ConflTimers%>
+
+Eine Liste der zu diesem Zeitpunkt in Konflikt stehenden Timer.
+
+=back
+
+=head4 13.2.2.3 Abschnitt C<ConflictTimer>
+
+Im Abschnitt C<ConflictTimer> können die gleichen Variablen verwendet
+werden wie im Abschnitt C<Timer> einer E-Mail für Aktualisierungen
+(siehe oben).
+
+=head1 14. Das Verzeichnis F<conf.d>
+
+EPGSearch unterstützt ein unter Linux wohlbekanntes Konfigurationsverfahren.
+Diese betrifft die Einstellungen folgender Konfigurationsdateien:
+
+=over 2
+
+=item * F<epgsearchuservars.conf>
+
+=item * F<epgsearchdirs.conf>
+
+=item * F<epgsearchmenu.conf>
+
+=item * F<epgsearchcats.conf>
+
+=back
+
+Deren Einstellungen können auch in einer einzigen Datei beliebigen Namens
+im Unterverzeichnis F<conf.d> im Konfigurationsverzeichnis des Plugins
+bereitgestellt werden (bspw. F</etc/vdr/plugins/epgsearch/conf.d>). Dies
+ermöglicht das schnelle Testen verschiedener Setups durch bloßes Austauschen
+von Dateien, anstatt sie zu bearbeiten. Das Format der Dateien in F<conf.d>
+ist wie folgt:
+
+=over 4
+
+    [<Name eines Abschnitts>]
+    <Einstellungen>
+    ...
+
+    [<Name eines Abschnitts>]
+    <Einstellungen>
+    ...
+
+=back
+
+Dabei entspricht C<Name eines Abschnitts> einem der folgenden
+Schlüsselwörter:
+
+=over 2
+
+=item * I<epgsearchuservars>
+
+=item * I<epgsearchdirs>
+
+=item * I<epgsearchmenu>
+
+=item * I<epgsearchcats>
+
+=back
+
+Das Format von C<Einstellungen> entspricht dem der entsprechenden
+Konfigurationsdatei. Kommentarzeilen, die mit dem Zeichen C<#>
+beginnen, sind ebenso zulässig wie Leerzeilen.
+
+Beim Start liest EPGSearch zunächst die regulären Konfigurationsdateien
+ein und überprüft dann das Unterverzeichnis F<conf.d>. Bereits in anderen
+Dateien definierte Variablen können bei diesem Schritt überschrieben werden.
+Dies wird jedoch durch eine Warnung in der EPGSearch-Logdatei angezeigt.
+
+=head1 AUTOREN (Man-Pages)
+
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
+
+=head1 FEHLER MELDEN
+
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
+
+=head1 COPYRIGHT und LIZENZ
+
+Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
+
+Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+der GNU General Public License, wie von der Free Software Foundation
+veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
+der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+
+Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+ZWECK. Details finden Sie in der GNU General Public License.
+
+Sie sollten ein Exemplar der GNU General Public License zusammen mit
+diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
+Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+auf.
+
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
+
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
+
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
+
+=head1 SIEHE AUCH
+
+B<epgsearch>(1),
+B<epgsearchblacklists.conf>(5),
+B<epgsearchcats.conf>(5),
+B<epgsearchchangrps.conf>(5),
+B<epgsearchcmds.conf>(5),
+B<epgsearchdirs.conf>(5),
+B<epgsearchdone.data>(5),
+B<epgsearchmenu.conf>(5),
+B<epgsearchswitchtimer.conf>(5),
+B<epgsearchuservars.conf>(5)

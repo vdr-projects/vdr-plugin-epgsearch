@@ -38,7 +38,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #endif
 
 extern bool isUTF8;
-using namespace std;
 
 std::string cMailNotifier::MailCmd = "sendEmail.pl";
 
@@ -156,7 +155,7 @@ std::string cMailAnnounceEventNotification::Format(const std::string& templ) con
 
 // -------------
 // cMailNotifier
-cMailNotifier::cMailNotifier(string Subject, std::string Body)
+cMailNotifier::cMailNotifier(std::string Subject, std::string Body)
     : subject(Subject), body(Body)
 {
     if (subject.size() > 0)
@@ -243,7 +242,7 @@ bool cMailNotifier::SendMail(bool force)
     }
 }
 
-bool cMailNotifier::ExecuteMailScript(string ScriptArgs)
+bool cMailNotifier::ExecuteMailScript(std::string ScriptArgs)
 {
     std::string mailCmd = MailCmd;
     LogFile.Log(3, "starting mail script: %s with parameters: %s", mailCmd.c_str(), ScriptArgs.c_str());
@@ -264,7 +263,7 @@ bool cMailNotifier::ExecuteMailScript(string ScriptArgs)
     return true;
 }
 
-bool cMailNotifier::TestMailAccount(string MailAddressTo, std::string MailAddress, std::string MailServer, std::string AuthUser, std::string AuthPass)
+bool cMailNotifier::TestMailAccount(std::string MailAddressTo, std::string MailAddress, std::string MailServer, std::string AuthUser, std::string AuthPass)
 {
     std::string cmdArgs =
         std::string("-v -f \"VDR <") + MailAddress + ">\"" +
@@ -495,7 +494,7 @@ void cMailConflictNotifier::SendConflictNotifications(cConflictCheck& conflictCh
         return;
 
     // check if anything has changed since last mail
-    ostringstream newMailConflicts;
+    std::ostringstream newMailConflicts;
     cList<cConflictCheckTime>* failedList = conflictCheck.GetFailed();
     if (!failedList) return;
 

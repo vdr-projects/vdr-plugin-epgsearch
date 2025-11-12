@@ -43,13 +43,11 @@ cSearchExts SearchExts;
 cSearchExts SearchTemplates;
 
 // -- cSearchExt -----------------------------------------------------------------
-char *cSearchExt::buffer = NULL;
-
 cSearchExt::cSearchExt(void)
 {
+    buffer = NULL;
     ID = -1;
     *search = 0;
-    options = 1;
     useTime = false;
     startTime = 0000;
     stopTime = 2359;
@@ -71,7 +69,6 @@ cSearchExt::cSearchExt(void)
     useAsSearchTimer = false;
     useDayOfWeek = false;
     DayOfWeek = 0;
-    buffer = NULL;
     *directory = 0;
     useEpisode = 0;
     Priority = EPGSearchConfig.DefPriority;
@@ -81,7 +78,6 @@ cSearchExt::cSearchExt(void)
     useVPS = false;
     action = searchTimerActionRecord;
     useExtEPGInfo = false;
-    contentsFilter = "";
     catvalues = (char**) malloc(SearchExtCats.Count() * sizeof(char*));
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
     int index = 0;
@@ -91,20 +87,22 @@ cSearchExt::cSearchExt(void)
         SearchExtCat = SearchExtCats.Next(SearchExtCat);
         index++;
     }
+    extEPGInfoMatchingMode = 0;
     avoidRepeats = 0;
+    allowedRepeats = 0;
     compareTitle = 1;
     compareSubtitle = 1;
     compareSummary = 1;
     compareSummaryMatchInPercent = 90;
     compareDate = 0;
-    allowedRepeats = 0;
     catvaluesAvoidRepeat = 0;
     repeatsWithinDays = 0;
     delAfterDays = 0;
     recordingsKeep = 0;
-    switchMinsBefore = 1;
     pauseOnNrRecordings = 0;
-    blacklistMode = blacklistsOnlyGlobal; // no blacklists
+    switchMinsBefore = 1;
+    unmuteSoundOnSwitch = 0;
+    blacklistMode = blacklistsNone; // no blacklists
     blacklists.Clear();
     fuzzyTolerance = 1;
     useInFavorites = 0;
@@ -114,18 +112,19 @@ cSearchExt::cSearchExt(void)
     delAfterDaysOfFirstRec = 0;
     useAsSearchTimerFrom = 0;
     useAsSearchTimerTil = 0;
-    ignoreMissingEPGCats = 0;
-    unmuteSoundOnSwitch = 0;
+    useContentsFilter = 0;
+    contentsFilter = "";
+    contentsCategoryMatchingMode = 0;
+    contentsCharacteristicsMatchingMode = 0;
+    useParentalRating = 0;
+    minParentalRating = 0;
+    maxParentalRating = 18;
     skipRunningEvents = false;
 }
 
 cSearchExt::~cSearchExt(void)
 {
-    if (buffer) {
-        free(buffer);
-        buffer = NULL;
-    }
-
+    free(buffer);
     if (catvalues) {
         cSearchExtCat *SearchExtCat = SearchExtCats.First();
         int index = 0;
@@ -135,7 +134,6 @@ cSearchExt::~cSearchExt(void)
             index++;
         }
         free(catvalues);
-        catvalues = NULL;
     }
 }
 
@@ -144,27 +142,21 @@ cSearchExt& cSearchExt::operator= (const cSearchExt &SearchExt)
     CopyFromTemplate(&SearchExt);
     ID = SearchExt.ID;
     strcpy(search, SearchExt.search);
-
-    cSearchExtCat *SearchExtCat = SearchExtCats.First();
-    int index = 0;
-    while (SearchExtCat) {
-        *catvalues[index] = 0;
-        strcpy(catvalues[index], SearchExt.catvalues[index]);
-        SearchExtCat = SearchExtCats.Next(SearchExtCat);
-        index++;
-    }
-
     return *this;
 }
 
 void cSearchExt::CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSettings)
 {
-    options = templ->options;
     useTime = templ->useTime;
     startTime = templ->startTime;
     stopTime = templ->stopTime;
-    if (!ignoreChannelSettings)
+    if (!ignoreChannelSettings) {
         useChannel = templ->useChannel;
+        channelMin = templ->channelMin;
+        channelMax = templ->channelMax;
+        free(channelGroup);
+        channelGroup = templ->channelGroup ? strdup(templ->channelGroup) : NULL;
+    }
     useCase = templ->useCase;
     mode = templ->mode;
     useTitle = templ->useTitle;
@@ -185,10 +177,6 @@ void cSearchExt::CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSet
     useVPS = templ->useVPS;
     action = templ->action;
     useExtEPGInfo = templ->useExtEPGInfo;
-    contentsFilter = templ->contentsFilter;
-    switchMinsBefore = templ->switchMinsBefore;
-    pauseOnNrRecordings = templ->pauseOnNrRecordings;
-
     cSearchExtCat *SearchExtCat = SearchExtCats.First();
     int index = 0;
     while (SearchExtCat) {
@@ -196,28 +184,21 @@ void cSearchExt::CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSet
         SearchExtCat = SearchExtCats.Next(SearchExtCat);
         index++;
     }
-
-    if (!ignoreChannelSettings) {
-        channelMin = templ->channelMin;
-        channelMax = templ->channelMax;
-        if (channelGroup) {
-            free(channelGroup);
-            channelGroup = NULL;
-        }
-        if (templ->channelGroup)
-            channelGroup = strdup(templ->channelGroup);
-    }
+    extEPGInfoMatchingMode = templ->extEPGInfoMatchingMode;
     avoidRepeats = templ->avoidRepeats;
+    allowedRepeats = templ->allowedRepeats;
     compareTitle = templ->compareTitle;
     compareSubtitle = templ->compareSubtitle;
     compareSummary = templ->compareSummary;
     compareSummaryMatchInPercent = templ->compareSummaryMatchInPercent;
     compareDate = templ->compareDate;
-    allowedRepeats = templ->allowedRepeats;
     catvaluesAvoidRepeat = templ->catvaluesAvoidRepeat;
     repeatsWithinDays = templ->repeatsWithinDays;
     delAfterDays = templ->delAfterDays;
     recordingsKeep = templ->recordingsKeep;
+    pauseOnNrRecordings = templ->pauseOnNrRecordings;
+    switchMinsBefore = templ->switchMinsBefore;
+    unmuteSoundOnSwitch = templ->unmuteSoundOnSwitch;
     blacklistMode = templ->blacklistMode;
     blacklists.Clear();
     const cBlacklistObject* blacklistObj = templ->blacklists.First();
@@ -233,8 +214,13 @@ void cSearchExt::CopyFromTemplate(const cSearchExt* templ, bool ignoreChannelSet
     delAfterDaysOfFirstRec = templ->delAfterDaysOfFirstRec;
     useAsSearchTimerFrom = templ->useAsSearchTimerFrom;
     useAsSearchTimerTil = templ->useAsSearchTimerTil;
-    ignoreMissingEPGCats = templ->ignoreMissingEPGCats;
-    unmuteSoundOnSwitch = templ->unmuteSoundOnSwitch;
+    useContentsFilter = templ->useContentsFilter;
+    contentsFilter = templ->contentsFilter;
+    contentsCategoryMatchingMode = templ->contentsCategoryMatchingMode;
+    contentsCharacteristicsMatchingMode = templ->contentsCharacteristicsMatchingMode;
+    useParentalRating = templ->useParentalRating;
+    minParentalRating = templ->minParentalRating;
+    maxParentalRating = templ->maxParentalRating;
     skipRunningEvents = templ->skipRunningEvents;
 }
 
@@ -244,15 +230,6 @@ bool cSearchExt::operator< (const cListObject &ListObject)
     return strcasecmp(search, SE->search) < 0;
 }
 
-char* replaceSpecialChars(const char* in)
-{
-    char* tmp_in = strdup(in);
-    while (strstr(tmp_in, "|"))
-        tmp_in = strreplace(tmp_in, "|", "!^pipe^!"); // ugly: replace a pipe with something
-    strreplace(tmp_in, ':', '|');
-    return tmp_in;
-}
-
 const char *cSearchExt::ToText()
 {
     char tmp_Start[5] = "";
@@ -260,13 +237,10 @@ const char *cSearchExt::ToText()
     char tmp_minDuration[5] = "";
     char tmp_maxDuration[5] = "";
     cString tmp_chanSel;
+    char* tmp_search = encodeSpecialCharacters(search);
+    char* tmp_directory = encodeSpecialCharacters(directory);
     char* tmp_catvalues = NULL;
     char* tmp_blacklists = NULL;
-
-    free(buffer);
-    char* tmp_search = replaceSpecialChars(search);
-    char* tmp_directory = replaceSpecialChars(directory);
-    char* tmp_contentsFilter = replaceSpecialChars(contentsFilter.c_str());
 
     if (useTime) {
         sprintf(tmp_Start, "%04d", startTime);
@@ -297,22 +271,22 @@ const char *cSearchExt::ToText()
         int index = 0;
         while (SearchExtCat) {
             char* catvalue = NULL;
-            if (msprintf(&catvalue, "%s", catvalues[index]) == -1) break;
-            while (strstr(catvalue, ":"))
-                catvalue = strreplace(catvalue, ":", "!^colon^!"); // ugly: replace with something, that should not happen to be part of a category value
-            while (strstr(catvalue, "|"))
-                catvalue = strreplace(catvalue, "|", "!^pipe^!"); // ugly: replace with something, that should not happen to be part of a regular expression
-
-            if (index == 0)
-                msprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
-            else {
-                char* temp = tmp_catvalues;
-                msprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
+            if (msprintf(&catvalue, "%s", catvalues[index]) != -1) {
+                char* temp = catvalue;
+                catvalue = encodeSpecialCharacters(catvalue, true);
                 free(temp);
+
+                if (index == 0)
+                    msprintf(&tmp_catvalues, "%d#%s", SearchExtCat->id, catvalue);
+                else {
+                    temp = tmp_catvalues;
+                    msprintf(&tmp_catvalues, "%s|%d#%s", tmp_catvalues, SearchExtCat->id, catvalue);
+                    free(temp);
+                }
+                free(catvalue);
             }
             SearchExtCat = SearchExtCats.Next(SearchExtCat);
             index++;
-            free(catvalue);
         }
     }
 
@@ -332,8 +306,11 @@ const char *cSearchExt::ToText()
         }
     }
 
-    msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:%d:%d:%s:%d",
-             ID,
+    free(buffer);
+    msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:"   "%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:"   //  1..20
+                      "%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:"   "%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:"  // 21..40
+                      "%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:" "%d:%d:%s:%d:%d:%d:%d:%d:%d",      // 41..59
+             ID,                    // 1
              tmp_search,
              useTime,
              tmp_Start,
@@ -343,7 +320,7 @@ const char *cSearchExt::ToText()
              useCase,
              mode,
              useTitle,
-             useSubtitle,
+             useSubtitle,               // 11
              useDescription,
              useDuration,
              tmp_minDuration,
@@ -353,17 +330,17 @@ const char *cSearchExt::ToText()
              DayOfWeek,
              useEpisode,
              tmp_directory,
-             Priority,
+             Priority,                  // 21
              Lifetime,
              MarginStart,
              MarginStop,
              useVPS,
              action,
              useExtEPGInfo,
-             useExtEPGInfo ? tmp_catvalues : "",
+             tmp_catvalues ? tmp_catvalues : "",
              avoidRepeats,
              allowedRepeats,
-             compareTitle,
+             compareTitle,              // 31
              compareSubtitle,
              compareSummary,
              catvaluesAvoidRepeat,
@@ -372,8 +349,8 @@ const char *cSearchExt::ToText()
              recordingsKeep,
              switchMinsBefore,
              pauseOnNrRecordings,
-             blacklistMode,
-             blacklists.Count() > 0 ? tmp_blacklists : "",
+             blacklistMode,             // 40
+             tmp_blacklists ? tmp_blacklists : "",
              fuzzyTolerance,
              useInFavorites,
              menuTemplate,
@@ -382,17 +359,21 @@ const char *cSearchExt::ToText()
              delAfterDaysOfFirstRec,
              useAsSearchTimerFrom,
              useAsSearchTimerTil,
-             ignoreMissingEPGCats,
-             unmuteSoundOnSwitch,
+             extEPGInfoMatchingMode,
+             unmuteSoundOnSwitch,       // 51
              compareSummaryMatchInPercent,
-             tmp_contentsFilter,
-             compareDate);
+             contentsFilter.c_str(),
+             compareDate,
+             contentsCategoryMatchingMode,
+             contentsCharacteristicsMatchingMode,
+             useParentalRating,
+             minParentalRating,
+             maxParentalRating);
 
-    if (tmp_search) free(tmp_search);
-    if (tmp_directory) free(tmp_directory);
-    if (tmp_catvalues) free(tmp_catvalues);
-    if (tmp_blacklists) free(tmp_blacklists);
-    if (tmp_contentsFilter) free(tmp_contentsFilter);
+    free(tmp_search);
+    free(tmp_directory);
+    free(tmp_catvalues);
+    free(tmp_blacklists);
 
     return buffer;
 }
@@ -433,10 +414,11 @@ bool cSearchExt::Parse(const char *s)
                 else
                     ID = atoi(value);
                 break;
-            case 2:
-                strreplace(value, '|', ':');
-                while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
-                strn0cpy(search, value, sizeof(search));
+            case 2: {
+                char* s = decodeSpecialCharacters(value);
+                strn0cpy(search, s, sizeof(search));
+                free(s);
+                }
                 break;
             case 3:
                 useTime = atoi(value);
@@ -536,10 +518,11 @@ bool cSearchExt::Parse(const char *s)
             case 19:
                 useEpisode = atoi(value);
                 break;
-            case 20:
-                strreplace(value, '|', ':');
-                while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
-                strn0cpy(directory, value, sizeof(directory));
+            case 20: {
+                char* s = decodeSpecialCharacters(value);
+                strn0cpy(directory, s, sizeof(directory));
+                free(s);
+                }
                 break;
             case 21:
                 Priority = atoi(value);
@@ -635,7 +618,7 @@ bool cSearchExt::Parse(const char *s)
                 useAsSearchTimerTil = atol(value);
                 break;
             case 50:
-                ignoreMissingEPGCats = atoi(value);
+                extEPGInfoMatchingMode = atoi(value);
                 break;
             case 51:
                 unmuteSoundOnSwitch = atoi(value);
@@ -644,13 +627,28 @@ bool cSearchExt::Parse(const char *s)
                 compareSummaryMatchInPercent = atoi(value);
                 break;
             case 53:
-                strreplace(value, '|', ':');
-                while (strstr(value, "!^pipe^!")) strreplace(value, "!^pipe^!", "|");
+                // no need for replacing special characters, as these would cause the check to fail
                 value[MaxFileName - 1] = '\0';  // simulate strn0cpy()
                 contentsFilter = value;
+                useContentsFilter = !contentsFilter.empty();
                 break;
             case 54:
                 compareDate = atoi(value);
+                break;
+            case 55:
+                contentsCategoryMatchingMode = atoi(value);
+                break;
+            case 56:
+                contentsCharacteristicsMatchingMode = atoi(value);
+                break;
+            case 57:
+                useParentalRating = atoi(value);
+                break;
+            case 58:
+                minParentalRating = atoi(value);
+                break;
+            case 59:
+                maxParentalRating = atoi(value);
                 break;
             default:
                 break;
@@ -705,23 +703,22 @@ char* cSearchExt::BuildFile(const cEvent* pEvent) const
             // ignore existing title and subtitle in file if already used as variables in directory
             msprintf(&pFile, "%s", directory);
 
-        // parse the epxression and evaluate it
+        // parse the expression and evaluate it
         cVarExpr varExprFile(pFile);
-        if (pFile) free(pFile);
+        free(pFile);
         pFile = strdup(varExprFile.Evaluate(pEvent).c_str());
 
         cVarExpr varExprSearchFile(pFile);
-        if (pFile) free(pFile);
+        free(pFile);
         pFile = strdup(varExprSearchFile.Evaluate(this).c_str());
 
-        if (file) free(file);
+        free(file);
         file = strdup(pFile);
         free(pFile);
     }
-// replace some special chars
+    // replace some special chars
     if (file) {
-        while (strstr(file, "|")) file = strreplace(file, "|", "!^pipe^!");
-        while (strstr(file, ":")) file = strreplace(file, ':', '|');
+        file = encodeSpecialCharacters(file);
         while (strstr(file, " ~")) file = strreplace(file, " ~", "~");
         while (strstr(file, "~ ")) file = strreplace(file, "~ ", "~");
     }
@@ -833,17 +830,15 @@ bool cSearchExt::ParseExtEPGEntry(const char *s)
                     int index = SearchExtCats.GetIndexFromID(currentid);
                     if (index > -1 && index < SearchExtCats.Count())
                         strcpy(catvalues[index], "");
-                }
-                break;
+                    }
+                    break;
                 case 2:
                     if (currentid > -1) {
                         int index = SearchExtCats.GetIndexFromID(currentid);
                         if (index > -1 && index < SearchExtCats.Count()) {
-                            while (strstr(value, "!^colon^!"))
-                                strreplace(value, "!^colon^!", ":");
-                            while (strstr(value, "!^pipe^!"))
-                                strreplace(value, "!^pipe^!", "|");
-                            strcpy(catvalues[index], value);
+                            char* s = decodeSpecialCharacters(value, true);
+                            strn0cpy(catvalues[index], s, MaxFileName);
+                            free(s);
                         }
                     }
                     break;
@@ -979,10 +974,16 @@ const cEvent * cSearchExt::GetEventBySearchExt(const cSchedule *schedules, const
                     continue;
                 }
             }
-            if (szTest)
-                free(szTest);
+            free(szTest);
 
-            if (contentsFilter.size() > 0 && !MatchesContentsFilter(p))
+
+            if (useParentalRating) {
+                int rating = p->ParentalRating();
+                if (minParentalRating > rating || maxParentalRating < rating)
+                    continue;
+            }
+
+            if (useContentsFilter && !MatchesContentsFilter(p))
                 continue;
 
             if (useExtEPGInfo && !MatchesExtEPGInfo(p))
@@ -1024,6 +1025,7 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
             }
 
             if (useChannel == 1 && channelMin && channelMax) {
+                // caution: reordering the channels via OSD can yield unexpected results
                 if (channelMin->Number() > channel->Number() || channelMax->Number() < channel->Number()) {
                     Schedule = Schedules->Next(Schedule);
                     continue;
@@ -1036,7 +1038,6 @@ cSearchResults* cSearchExt::Run(int PayTVMode, bool inspectTimerMargin, int eval
                     continue;
                 }
             }
-
             if (useChannel == 3 && noPayTV) {
                 if (channel->Ca() >= CA_ENCRYPTED_MIN) {
                     Schedule = Schedules->Next(Schedule);
@@ -1249,6 +1250,7 @@ bool cSearchExt::MatchesExtEPGInfo(const cEvent* e)
 {
     if (!e || !e->Description())
         return false;
+    bool matching = extEPGInfoMatchingMode != 2;
     cSearchExtCat* SearchExtCat = SearchExtCats.First();
     while (SearchExtCat) {
         char* value = NULL;
@@ -1259,24 +1261,26 @@ bool cSearchExt::MatchesExtEPGInfo(const cEvent* e)
             value = NULL;
         if (value && *value) {
             char* testvalue = GetExtEPGValue(e, SearchExtCat);
-            if (!testvalue)
-                return (ignoreMissingEPGCats ? true : false);
-
-            // compare not case sensitive
-            char* valueLower = strdup(value);
-            ToLower(valueLower);
-            ToLower(testvalue);
-            if (!MatchesSearchMode(testvalue, valueLower, SearchExtCat->searchmode, ",;|~", fuzzyTolerance)) {
+            if (!testvalue) {
+                if (extEPGInfoMatchingMode == 0)
+                    return false;
+            } else {
+                // compare case insensitive
+                char* valueLower = strdup(value);
+                ToLower(valueLower);
+                ToLower(testvalue);
+                bool valueMatches = MatchesSearchMode(testvalue, valueLower, SearchExtCat->searchmode, ",;|~", fuzzyTolerance);
                 free(testvalue);
                 free(valueLower);
-                return false;
+                if (extEPGInfoMatchingMode != 2)
+                    matching &= valueMatches;
+                else
+                    matching |= valueMatches;
             }
-            free(testvalue);
-            free(valueLower);
         }
         SearchExtCat = SearchExtCats.Next(SearchExtCat);
     }
-    return true;
+    return matching;
 }
 
 void cSearchExt::OnOffTimers(bool bOn)
@@ -1359,7 +1363,7 @@ bool cSearchExt::IsActiveAt(time_t t)
     return true;
 }
 
-bool cSearchExt::HasContent(int contentID)
+bool cSearchExt::HasContentID(int contentID)
 {
     for (unsigned int i = 0; i < contentsFilter.size(); i += 2) {
         std::string hexContentID = contentsFilter.substr(i, 2);
@@ -1372,39 +1376,78 @@ bool cSearchExt::HasContent(int contentID)
     return false;
 }
 
-void cSearchExt::SetContentFilter(int* contentStringsFlags)
+void cSearchExt::SetContentsFilter(const int* contentDescriptorFlags)
 {
     // create the hex array of content descriptor IDs
-    contentsFilter = "";
-    for (unsigned int i = 0; contentStringsFlags && i <= CONTENT_DESCRIPTOR_MAX; i++) {
-        if (contentStringsFlags[i]) {
-            std::ostringstream oss;
+    std::ostringstream oss;
+    for (unsigned int i = 0; contentDescriptorFlags && i <= CONTENT_DESCRIPTOR_MAX; i++) {
+        if (contentDescriptorFlags[i]) {
             oss << std::hex << std::noshowbase << i;
-            contentsFilter += oss.str();
         }
     }
+    contentsFilter = oss.str();
 }
 
 bool cSearchExt::MatchesContentsFilter(const cEvent* e)
 {
-    if (!e) return false;
-    // check if each content filter ID is contained in the events descriptors
+    if (!e || !e->Contents(0)) return false;
+    // ensure match with VDR settings
+    constexpr unsigned int contentIdentifiersPerGroup = 16;
+    // check if each content filter ID is contained in the events descriptors;
+    // at least one entry within a content group must match, and all non-empty
+    // groups must have at least one matching entry
+    unsigned int checkedGroups = 0;         // set bit indicates that group is contained in contentsFilter
+    unsigned int checkedCharacteristics = 0;
+    unsigned int matchingGroups = 0;        // set bit indicates that at least a matching content ID within the group
+    unsigned int matchingCharacteristics = 0;
     for (unsigned int i = 0; i < contentsFilter.size(); i += 2) {
         std::string hexContentID = contentsFilter.substr(i, 2);
         if (hexContentID.size() != 2) return false;
         std::istringstream iss(hexContentID);
         int searchContentID = 0;
         if (!(iss >> std::hex >> searchContentID)) return false;
+        unsigned int gid = searchContentID / contentIdentifiersPerGroup;
+        unsigned int cid = searchContentID % contentIdentifiersPerGroup;
         int c = 0, eventContentID = 0;
         bool found = false;
-        while ((eventContentID = e->Contents(c++)) > 0)
-            if (eventContentID == searchContentID) {
-                found = true;
-                break;
+        while ((eventContentID = e->Contents(c++)) > 0) {
+            if (gid == 0xB) {
+                // special characteristics use their own matching mode
+                checkedCharacteristics |= 1 << cid;
+                if (eventContentID == searchContentID) {
+                    matchingCharacteristics |= 1 << cid;
+                    found = true;   // to prevent from unintended exit
+                    break;
+                }
+            } else {
+                checkedGroups |= 1 << gid;
+                if (eventContentID == searchContentID) {
+                    if (contentsCategoryMatchingMode == 1) {
+                        // any descriptor satisfies the matching mode
+                        return true;
+                    }
+                    matchingGroups |= 1 << gid;
+                    found = true;
+                    break;
+                }
             }
-        if (!found) return false;
+        }
+        if (contentsCategoryMatchingMode == 0 && !found) {
+            // only all descriptors satisfy the matching mode
+            return false;
+        }
     }
-    return true;
+    // check special characteristics w.r.t. matching mode
+    bool characteristicsIsMatching;
+    if (contentsCharacteristicsMatchingMode == 0) {
+        // must be exact match
+        characteristicsIsMatching = checkedCharacteristics == matchingCharacteristics;
+    } else {
+        // one match satisfies, provided that some characteristics was selected at all
+        characteristicsIsMatching = !checkedCharacteristics || matchingCharacteristics;
+    }
+    // some selected descriptor within each touched group
+    return characteristicsIsMatching && (contentsCategoryMatchingMode == 0 || checkedGroups == matchingGroups);
 }
 
 // -- cSearchExts ----------------------------------------------------------------

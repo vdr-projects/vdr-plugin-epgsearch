@@ -26,7 +26,7 @@ for LANGUAGE in $(ls "$DOCSRC"/); do
 
 	for i in "$DOCSRC"/$LANGUAGE/*.txt; do
 		echo -ne "create html page: ($LANGUAGE) $(basename "$i" ".txt")..."
-		pod2html --infile="$i" --outfile="html/$LANGUAGE/$(basename "$i" ".txt").html" --norecurse --title="Epgsearch Version $VERSION"
+		pod2html --infile="$i" --outfile="html/$LANGUAGE/$(basename "$i" ".txt").html" --norecurse --title="$(basename "$i" | sed 's/\.\([1-9]\)\.txt/(\1)/') v$VERSION"
 		if [ $? -eq 0 ]; then
 			echo " done."
 		else

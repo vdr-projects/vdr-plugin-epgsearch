@@ -228,8 +228,8 @@ int main(int argc, char *argv[])
             break;
         case 'h':
             printf("usage: createcats [OPTIONS] /path_to/epg.data\n\n");
-            printf("-m N, --minappearance=N    the minimum number a category has to appear\n");
-            printf("                           to be used\n");
+            printf("-m N, --minappearance=N    the minimum number of occurrences for a category\n");
+            printf("                           to be accepted\n");
             printf("-v N, --maxvalues=N        values of a category are omitted if they exceed\n");
             printf("                           this number\n");
             printf("-l N, --maxlength=N        the maximum length of a text to be accepted\n");

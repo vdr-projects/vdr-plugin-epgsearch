@@ -38,12 +38,12 @@ private:
     int  menuTabs[cSkinDisplayMenu::MaxTabs];
 public:
     cMenuTemplate(const char* Name) {
-        strcpy(name, Name);
-        menuTemplate = 0;
+        strn0cpy(name, Name, sizeof(name));
+        menuTemplate = NULL;
         for (int i = 0; i < cSkinDisplayMenu::MaxTabs; i++) menuTabs[i] = 0;
     }
     ~cMenuTemplate() {
-        if (menuTemplate) free(menuTemplate);
+        free(menuTemplate);
     }
     const char* Name(void) {
         return name;

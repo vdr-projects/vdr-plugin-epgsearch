@@ -31,14 +31,17 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 // an event that should not be announced again
 class cNoAnnounce : public cListObject
 {
+private:
+    // the previously static buffer would bear the risk of race conditions
+    // between class instances
+    char* buffer;
+
 public:
     std::string title;       // Title of this event
     std::string shortText;   // Short description of this event
     time_t startTime;        // Start time of the timer
     time_t nextAnnounce;     // time of the next announce
     tChannelID channelID;
-
-    static char *buffer;
 
     cNoAnnounce();
     cNoAnnounce(const cEvent* Event, time_t NextAnnounce = 0);
@@ -47,7 +50,7 @@ public:
 
     static bool Read(FILE *f);
     bool Parse(const char *s);
-    const char *ToText(void) const;
+    const char *ToText(void);
     bool Save(FILE *f);
     bool Valid() {
         return startTime > 0;

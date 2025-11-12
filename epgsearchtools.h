@@ -29,6 +29,13 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchext.h"
 #include "recdone.h"
 
+// escapes for special characters
+#define PIPE  "!^pipe^!"
+#define COLON "!^colon^!"
+
+// number of elements of a static array ('a' defined as a[], not as *a)
+#define LENGTHOF(a) (sizeof(a) / sizeof(*a))
+
 #define MAXPARSEBUFFER KILOBYTE(10)
 
 #undef CHANNELNAME
@@ -144,6 +151,10 @@ inline char *strreplacei(char *s, const char *s1, const char s2)
     return s;
 }
 
+char* encodeSpecialCharacters(const char* s, bool nestedColon = false);
+char* decodeSpecialCharacters(const char* s, bool nestedColon = false);
+std::string encodeSpecialCharacters(std::string_view s, bool nestedColon = false);
+std::string decodeSpecialCharacters(std::string_view s, bool nestedColon = false);
 void sleepMSec(long ms);
 void sleepSec(long s);
 bool SendViaSVDRP(cString SVDRPcmd);
@@ -177,7 +188,7 @@ time_t GetDateTime(time_t day, int start);
 void SetAux(cTimer* timer, std::string aux);
 int msprintf(char **strp, const char *fmt, ...);
 std::string GetCodeset();
-ssize_t Readline(int sockd, char *vptr, size_t maxlen);
+ssize_t Readline(int sockd, char *vptr, size_t size);
 ssize_t Writeline(int sockd, const char *vptr, ssize_t n);
 long getAddrFromString(const char* hostnameOrIp, struct sockaddr_in* addr);
 

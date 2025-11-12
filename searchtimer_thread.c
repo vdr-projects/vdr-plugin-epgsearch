@@ -241,8 +241,8 @@ bool cSearchTimerThread::TimerWasModified(const cTimer* t)
         if (abs(t->StartTime() - StartTime) >= 60 || abs(t->StopTime() - StopTime) >= 60)
             bMod = true;
     }
-    if (start) free(start);
-    if (stop) free(stop);
+    free(start);
+    free(stop);
     return bMod;
 }
 
@@ -335,8 +335,8 @@ void cSearchTimerThread::Action(void)
                     // create the file
                     char* file = NULL;
                     if ((file = searchExt->BuildFile(pEvent)) != NULL) {
-                        while (strstr(file, "!^pipe^!")) file = strreplace(file, "!^pipe^!", "|"); // revert the translation of '|' in BuildFile
-                        if (strstr(file, "!^invalid^!") || strlen(file) == 0) {
+                        while (strstr(file, PIPE)) file = strreplace(file, PIPE, "|"); // revert the translation of '|' in BuildFile
+                        if (strstr(file, "!^invalid^!") || strlen(file) == 0) {        // invalid not inserted anywhere in the code
                             LogFile.eSysLog("Skipping timer due to invalid or empty filename");
                             if (time(NULL) <= timer->StopTime())
                                 pOutdatedTimers->DelTimer(timer);
@@ -402,7 +402,7 @@ void cSearchTimerThread::Action(void)
                             && (t->Aux() != NULL && strcmp(t->Aux(), Summary) == 0)
                            ) {
                             // dir, title, episode name and summary have not changed
-                            if (Summary) free(Summary);
+                            free(Summary);
                             delete timer;
                             free(pFile);
                             continue;
@@ -452,14 +452,14 @@ void cSearchTimerThread::Action(void)
                              cDevice::PrimaryDevice()->Replaying() &&
                              !(updateForced & UPDS_WITH_OSD))  // no announce while replay within automatic updates
                            ) {
-                            if (Summary) free(Summary);
+                            free(Summary);
                             delete timer;
                             continue;
                         }
                         if (!announceList.Lookup(pEvent))
                             announceList.Add(new cSearchResult(pEvent, searchExt->ID));
 
-                        if (Summary) free(Summary);
+                        free(Summary);
                         delete timer;
                         continue;
                     }
@@ -468,13 +468,13 @@ void cSearchTimerThread::Action(void)
                         if (t || // timer already exists or
                             NoAnnounces.InList(pEvent) ||
                             pEvent->StartTime() < time(NULL)) { // already started?
-                            if (Summary) free(Summary);
+                            free(Summary);
                             delete timer;
                             continue;
                         }
                         mailNotifier.AddAnnounceEventNotification(pEvent->EventID(), pEvent->ChannelID(), searchExt->ID);
 
-                        if (Summary) free(Summary);
+                        free(Summary);
                         delete timer;
                         continue;
                     }
@@ -494,7 +494,7 @@ void cSearchTimerThread::Action(void)
                                 cSwitchTimerThread::Init();
                             }
                         }
-                        if (Summary) free(Summary);
+                        free(Summary);
                         delete timer;
                         continue;
                     }
@@ -507,7 +507,7 @@ void cSearchTimerThread::Action(void)
                     }
                     else
                         LogFile.Log(1, "add/mod timer for '%s~%s' (%s - %s); search timer: '%s' failed", pEvent->Title(), pEvent->ShortText() ? pEvent->ShortText() : "", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), searchExt->search);
-                    if (Summary) free(Summary);
+                    free(Summary);
                     delete timer;
                 }
                 delete pSearchResults;
@@ -669,7 +669,7 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, const cTimer* T
     char* tmpSummary = NULL;
     msprintf(&tmpSummary, "<epgsearch>%s</epgsearch>%s", addSummaryFooter, tmpaux ? tmpaux : "");
     free(addSummaryFooter);
-    if (tmpaux) free(tmpaux);
+    free(tmpaux);
     return tmpSummary;
 }
 
@@ -757,7 +757,7 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
             mailNotifier.AddModTimerNotification(pEvent->EventID(), pEvent->ChannelID(), timerMod);
     }
     free(cmdbuf);
-    if (tmpSummary) free(tmpSummary);
+    free(tmpSummary);
 
     return true;
 }
@@ -810,14 +810,14 @@ void cSearchTimerThread::CheckExpiredRecs()
             searchName = GetAuxValue(recording, "search timer");
 
         if (!searchID || !searchName) {
-            if (searchID) free(searchID);
-            if (searchName) free(searchName);
+            free(searchID);
+            free(searchName);
             continue;
         }
         cSearchExt* search = SearchExts.GetSearchFromID(atoi(searchID));
         if (!search || strcmp(search->search, searchName) != 0) {
-            if (searchID) free(searchID);
-            if (searchName) free(searchName);
+            free(searchID);
+            free(searchName);
             continue;
         }
         free(searchID);
@@ -936,7 +936,7 @@ void cSearchTimerThread::CheckManualTimers(void)
                 } else
                     LogFile.Log(1, "ooops - no event found with id %u for manual timer %d", eventID, ti->Id());
 
-                if (szEventID) free(szEventID);
+                free(szEventID);
             }
         }
         if (updateMethod && atoi(updateMethod) == UPD_CHDUR) { // by channel and time?
@@ -974,7 +974,7 @@ void cSearchTimerThread::CheckManualTimers(void)
                 } else
                     LogFile.Log(1, "ooops - no events found touching manual timer %d", ti->Id());
             }
-            if (updateMethod) free(updateMethod);
+            free(updateMethod);
         }
     }
     LogFile.Log(1, "manual timer check finished");

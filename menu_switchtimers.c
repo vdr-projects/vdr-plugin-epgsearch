@@ -28,7 +28,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 class cMenuEditSwitchTimer : public cOsdMenu
 {
 private:
-    char *SwitchModes[3];
+    const char *SwitchModes[3];
     cSwitchTimer *switchTimer;
     cSwitchTimer data;
     bool addIfConfirmed;
@@ -43,9 +43,9 @@ cMenuEditSwitchTimer::cMenuEditSwitchTimer(cSwitchTimer* SwitchTimer, bool New)
 {
     SetMenuCategory(mcPlugin);
 
-    SwitchModes[0] = strdup(tr("Switch"));
-    SwitchModes[1] = strdup(tr("Announce only"));
-    SwitchModes[2] = strdup(tr("Announce and switch"));
+    SwitchModes[0] = tr("Switch");
+    SwitchModes[1] = tr("Announce only");
+    SwitchModes[2] = tr("Announce and switch");
 
     switchTimer = SwitchTimer;
     addIfConfirmed = New;

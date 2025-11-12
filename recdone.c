@@ -34,33 +34,29 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 cRecsDone RecsDone;
 
-char *cRecDone::buffer = NULL;
-
 // -- cRecDone -----------------------------------------------------------------
 
 cRecDone::cRecDone()
 {
+    buffer = NULL;
     title = shortText = description = aux = NULL;
     startTime = 0;
     duration = 0;
-    if (buffer)
-        free(buffer);
-    buffer = NULL;
     searchID = -1;
-    rawdescription = NULL;
+    rawDescription = NULL;
     fileName = NULL;
 }
 
 cRecDone::cRecDone(const cTimer* Timer, const cEvent* Event, cSearchExt* Search, const char* Name)
 {
-    title = shortText = description = aux = rawdescription = NULL;
+    buffer = NULL;
+    title = shortText = description = aux = rawDescription = NULL;
     startTime = 0;
     timerStart = 0;
     timerStop = 0;
-    vpsused = false;
+    vpsUsed = false;
     duration = 0;
     searchID = Search ? Search->ID : -1;
-    buffer = NULL;
     fileName = strdup(Name);
 
     if (Event) {
@@ -78,7 +74,7 @@ cRecDone::cRecDone(const cTimer* Timer, const cEvent* Event, cSearchExt* Search,
                 aux = strdup(Timer->Aux());
             timerStart = Timer->StartTime();
             timerStop = Timer->StopTime();
-            vpsused = Timer->HasFlags(tfVps) && Event->Vps();
+            vpsUsed = Timer->HasFlags(tfVps) && Event->Vps();
         } else {
             channelID = tChannelID::InvalidID;
             aux = NULL;
@@ -88,35 +84,13 @@ cRecDone::cRecDone(const cTimer* Timer, const cEvent* Event, cSearchExt* Search,
 
 cRecDone::~cRecDone()
 {
-    if (buffer) {
-        free(buffer);
-        buffer = NULL;
-    }
-    if (title) {
-        free(title);
-        title = NULL;
-    }
-    if (shortText) {
-        free(shortText);
-        shortText = NULL;
-    }
-    if (description) {
-        free(description);
-        description = NULL;
-    }
-    if (rawdescription) {
-        free(rawdescription);
-        rawdescription = NULL;
-    }
-    if (aux) {
-        free(aux);
-        aux = NULL;
-    }
-    if (fileName) {
-        free(fileName);
-        fileName = NULL;
-    }
-
+    free(buffer);
+    free(title);
+    free(shortText);
+    free(description);
+    free(rawDescription);
+    free(aux);
+    free(fileName);
 }
 
 bool cRecDone::Parse(char *s)
@@ -209,15 +183,12 @@ const char *cRecDone::ToText(void)
     if (tmpInfo)
         strreplace(tmpInfo, '\n', '|');
 
-    if (buffer)
-        free(buffer);
-    buffer = NULL;
-
     LOCK_CHANNELS_READ;
     const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
     if (!channel)
         LogFile.Log(3, "invalid channel in recs done!");
 
+    free(buffer);
     msprintf(&buffer, "R %ld %d %d\nC %s\n%s%s%s%s%s%s%s%s%s%s%s%sr",
              startTime, duration, searchID,
              channel ? CHANNELSTRING(channel) : "",
@@ -226,10 +197,9 @@ const char *cRecDone::ToText(void)
              tmpDescr ? "D " : "", tmpDescr ? tmpDescr : "", tmpDescr ? "\n" : "",
              tmpInfo ? "@ " : "", tmpInfo ? tmpInfo : "", tmpInfo ? "\n" : "");
 
-    if (tmpDescr)
-        free(tmpDescr);
-    if (tmpInfo)
-        free(tmpInfo);
+    free(tmpDescr);
+    free(tmpInfo);
+
     return buffer;
 }
 
@@ -320,7 +290,7 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
         eDescr = event->Description();
         char* rawDescr = GetRawDescription(event->Description());
         eRawDescr = rawDescr ? rawDescr : "";
-        if (rawDescr) free(rawDescr);
+        free(rawDescr);
     }
 
     std::string compareExpression = "";
@@ -347,8 +317,8 @@ int cRecsDone::GetCountRecordings(const cEvent* event, bool compareTitle, int co
         std::string rRawDescr = "";
         if ((compareSummary || catvaluesAvoidRepeat != 0) && recDone->description) {
             rDescr = recDone->description;
-            char* rawDescr = recDone->rawdescription ? recDone->rawdescription : GetRawDescription(recDone->description);
-            recDone->rawdescription = rawDescr;
+            char* rawDescr = recDone->rawDescription ? recDone->rawDescription : GetRawDescription(recDone->description);
+            recDone->rawDescription = rawDescr;
             rRawDescr = rawDescr ? rawDescr : "";
         }
 

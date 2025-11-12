@@ -34,8 +34,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "menu_searchactions.h"
 #include "timerdone.h"
 
-using namespace std;
-
 // --- cMenuSearchExtItem ----------------------------------------------------------
 class cMenuSearchExtItem : public cOsdItem
 {
@@ -55,7 +53,7 @@ cMenuSearchExtItem::cMenuSearchExtItem(cSearchExt* SearchExt)
 
 void cMenuSearchExtItem::Set(void)
 {
-    ostringstream line;
+    std::ostringstream line;
 
     if (searchExt->useAsSearchTimer) {
         if (searchExt->IsActiveAt(time(NULL)))
@@ -66,27 +64,27 @@ void cMenuSearchExtItem::Set(void)
 
     line << "\t";
     if (strlen(searchExt->search) > 0)
-        line << setiosflags(ios::left) << std::string(searchExt->search);
+        line << std::setiosflags(std::ios::left) << std::string(searchExt->search);
     else
-        line << setiosflags(ios::left) << "*";
+        line << std::setiosflags(std::ios::left) << "*";
 
     line << "\t";
     if (searchExt->useChannel == 1) {
         if (searchExt->channelMin != searchExt->channelMax)
-            line << setiosflags(ios::left) << searchExt->channelMin->Number() << " - " << searchExt->channelMax->Number();
+            line << std::setiosflags(std::ios::left) << searchExt->channelMin->Number() << " - " << searchExt->channelMax->Number();
         else
-            line << setiosflags(ios::left) << setw(11) << (searchExt->useChannel ? CHANNELNAME(searchExt->channelMin) : "");
+            line << std::setiosflags(std::ios::left) << std::setw(11) << (searchExt->useChannel ? CHANNELNAME(searchExt->channelMin) : "");
     } else if (searchExt->useChannel == 2)
-        line << setiosflags(ios::left) << setw(11) << searchExt->channelGroup;
+        line << std::setiosflags(std::ios::left) << std::setw(11) << searchExt->channelGroup;
     else
         line << " ";
 
     line << "\t";
     if (searchExt->useTime) {
-        ostringstream timeline;
-        timeline << setfill('0') << setw(2) << searchExt->startTime / 100 << ":" << setw(2) << searchExt->startTime % 100;
+        std::ostringstream timeline;
+        timeline << std::setfill('0') << std::setw(2) << searchExt->startTime / 100 << ":" << std::setw(2) << searchExt->startTime % 100;
         timeline << "\t";
-        timeline << setfill('0') << setw(2) << searchExt->stopTime / 100 << ":" << setw(2) << searchExt->stopTime % 100;
+        timeline << std::setfill('0') << std::setw(2) << searchExt->stopTime / 100 << ":" << std::setw(2) << searchExt->stopTime % 100;
         line << timeline.str();
     } else
         line << "--:--\t--:--";
