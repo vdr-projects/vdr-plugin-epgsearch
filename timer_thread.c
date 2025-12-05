@@ -97,7 +97,7 @@ void cTimerThread::Action(void)
         bool bSuccess = SendViaSVDRP(m_cmd);
         if (!bSuccess) {
             Epgsearch_osdmessage_v1_0* service_data = new Epgsearch_osdmessage_v1_0;
-            service_data->message = strdup(tr("Programming timer failed!"));
+            service_data->message = tr("Programming timer failed!");
             service_data->type = mtError;
             cPluginManager::CallFirstService("Epgsearch-osdmessage-v1.0", service_data);
             delete service_data;

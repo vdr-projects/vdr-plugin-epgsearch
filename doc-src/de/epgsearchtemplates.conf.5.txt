@@ -1,40 +1,47 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchtemplates.conf> - Die gespeicherten Suchtimer-Vorlagen
+F<epgsearchtemplates.conf> – Vorlagen für Suchen und Suchtimer
 
 =head1 BESCHREIBUNG
 
-Für die Suchtimer können Vorlagen angelegt werden. Diese werden hier
-gespeichert.
+Zur einfacheren Erstellung von Suchen und Suchtimern können Vorlagen
+verwendet werden. Die Vorlagen sind in dieser Datei gespeichert.
 
 =head1 FORMAT
 
-Diese Datei hat dasselbe Format wie die Datei F<epgsearch.conf>. Für den
-Aufbau verweise ich auf C<epgsearch.conf(5)>.
+Diese Datei hat dasselbe Format wie die Datei F<epgsearch.conf>. Siehe
+B<epgsearch.conf>(5) für Informationen zu deren Format.
 
-=head1 SIEHE AUCH
+=head1 AUTOREN (Man-Pages)
 
-C<epgsearch(1)>
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
 
-=head1 AUTOR (man pages)
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
-
-=head1 COPYRIGHT and LIZENZ
+=head1 COPYRIGHT und LIZENZ
 
 Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -49,14 +56,17 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
 
-Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
-von RSA Data Security, Inc..
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
 
+=head1 SIEHE AUCH
 
+B<epgsearch>(1), B<epgsearch.conf>(5)

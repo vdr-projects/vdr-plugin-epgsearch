@@ -228,11 +228,11 @@ cSearchExt* cChannelGroups::Used(cChannelGroup* group)
     return NULL;
 }
 
-char** cChannelGroups::CreateMenuitemsList()
+const char** cChannelGroups::CreateMenuitemsList()
 {
-    char** menuitemsChGr = new char*[ChannelGroups.Count() + 1];
+    const char** menuitemsChGr = new const char*[ChannelGroups.Count() + 1];
     cChannelGroup* ChannelGroup = First();
-    menuitemsChGr[0] = strdup("");
+    menuitemsChGr[0] = "";
     int index = 1;
     while (ChannelGroup) {
         menuitemsChGr[index++] = ChannelGroup->name;
@@ -442,7 +442,7 @@ eOSState cMenuEditChannelGroup::ProcessKey(eKeys Key)
                 ERROR(tr("Group name is empty!"));
                 return osContinue;
             }
-            if (addIfConfirmed && ChannelGroups.GetGroupByName(name)) {
+            if ((addIfConfirmed || strcmp(name, group->name)) && ChannelGroups.GetGroupByName(name)) {
                 ERROR(tr("Group name already exists!"));
                 return osContinue;
             }

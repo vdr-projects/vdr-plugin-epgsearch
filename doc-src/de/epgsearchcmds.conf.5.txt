@@ -1,58 +1,163 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchcmds.conf> - EPG-Befehle
+F<epgsearchcmds.conf> – EPG-Befehle
 
 =head1 BESCHREIBUNG
 
-Diese Datei enthält ähnlich der commands.conf oder der reccmds.conf Befehle, die
-auf die in der Programmübersicht ausgewählte Sendung angewandt werden können.
+Diese Datei enthält Befehle, die – ähnlich wie bei den VDR-Dateien
+F<commands.conf> bzw. F<reccmds.conf> – auf eine in der Programmübersicht
+ausgewählte Sendung angewandt werden können. Hierarchische Kommando-Menüs,
+wie sie seit VDR 1.7.12 verfügbar sind, werden jedoch nicht unterstützt.
 
-Intern besitzt epgsearch 8 nicht veränderbare EPG-Befehle.
+Intern besitzt EPGSearch acht fest vorgegebene EPG-Befehle. Sofern die
+Datei F<epgsearchcmds.conf> existiert, werden die darin aufgeführten
+Befehle ab Position 9 gelistet.
 
-Wenn eine F<epgsearchcmds.conf> existiert, werden die darin aufgeführten Befehle
-beginnend mit Nummer 9 gelistet.
+=head2 Lokalisierung
 
-=head2 Sprachen
+Wenn eine sprachabhängige Befehlsliste gewünscht wird, kann die Datei
+F<epgsearchcmds.conf> in die entsprechende OSD-Sprache übersetzt und
+unter dem Dateinamen F<epgsearchcmds-E<lt>LOCE<gt>.conf> gespeichert
+werden. Dabei entspricht F<E<lt>LOCE<gt>> dem Sprachcode aus F<i18n.c>:
 
-Man kann für verschiedene Sprachen unterschiedliche Dateien anlegen. Sie
-müssen dann z.B. F<epgsearchcmds-deu.conf> für deutsch oder
-F<epgsearchcmds-eng.conf> für englisch heissen.
+=over 4
 
-Wenn eine Datei entsprechend der im VDR eingestellten Sprache existiert wird
-diese geladen. Existiert eine solche nicht wird versucht F<epgsearchcmds.conf>
-zu laden.
+    { "eng,dos",
+      "deu,ger",
+      "slv",
+      "ita",
+      "dut,nla,nld",
+      "por",
+      "fra,fre",
+      "nor",
+      "fin,smi",
+      "pol",
+      "esl,spa",
+      "ell,gre",
+      "sve,swe",
+      "rom,rum",
+      "hun",
+      "cat,cln",
+      "rus",
+      "hrv",
+      "est",
+      "dan"
+      // die vollständige Liste
+      // findet sich im Quellcode
+    }
+
+=back
+
+Wenn für eine Sprache mehrere Codes verfügbar sind (bspw.
+C<deu,ger>), kann ein beliebiger davon verwendet werden.
+
+Liegt eine Datei entsprechend der im VDR eingestellten OSD-Sprache
+vor, wird diese geladen. Existiert eine solche jedoch nicht, wird
+stattdessen versucht, die Datei F<epgsearchcmds.conf> zu laden.
+
+=head2 Befehlsparameter
+
+Wenn ein Befehl ausgeführt wird, werden folgende Parameter übergeben:
+
+=over 4
+
+=item B<$1>
+
+Titel der Sendung.
+
+=item B<$2>
+
+Startzeitpunkt der Sendung in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC), wie auch beim Shutdown-Skript.
+
+=item B<$3>
+
+Endzeitpunkt der Sendung in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC).
+
+=item B<$4>
+
+Nummer des Kanals mit der Sendung.
+
+=item B<$5>
+
+Ausführlicher Name des Kanals mit der Sendung.
+
+=item B<$6>
+
+Untertitel der Sendung oder ein leerer String,
+falls nicht vorhanden.
+
+=back
+
+Strings werden beim Aufruf des Kommandos in einfache Anführungszeichen
+(Apostrophe) gesetzt.
 
 =head1 FORMAT
 
-Befehlsname   : Befehl
+Jede Zeile der Datei repräsentiert einen benutzerdefinierten Befehl
+und umfasst die folgenden Felder:
+
+=over 4
+
+=item B<Menüeintrag>
+
+Begriff, unter dem der Befehl in der Befehlsliste erscheinen soll.
+Der Begriff darf kein C<:> enthalten. Endet der Begriff mit C<?>, wird
+vor Ausführung des Befehls eine Bestätigung angefordert.
+
+=item B<Kommando>
+
+Programm oder Skript, das bei Aufruf des Befehls ausgeführt werden soll.
+Die Verwendung vollständiger Pfadnamen wird empfohlen.
+
+=back
+
+Die Felder sind durch C<:> getrennt. Ein im Kommandoaufruf enthaltenes
+C<:> muss nicht gesondert behandelt, das heißt, durch eine spezifische
+Zeichenfolge ersetzt werden.
+
+Zeilen, die mit C<#> beginnen, sind Kommentare und werden ignoriert.
 
 =head1 BEISPIELE
 
-epg2taste (de): /usr/local/vdr/epg2taste.sh
+ Sendung merken?                : /usr/local/bin/rememberevent.sh 0
+ Sendung mit Umschalten merken? : /usr/local/bin/rememberevent.sh 1
+ EPG aufrufen                   : /usr/local/bin/epg2taste.sh
 
-=head1 SIEHE AUCH
+Die genannten und weitere Skripte finden sich im Verzeichnis F<scripts>
+von EPGSearch.
 
-C<epgsearch(1)>
+=head1 AUTOREN (Man-Pages)
 
-=head1 AUTOR (man pages)
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
-
-=head1 COPYRIGHT and LIZENZ
+=head1 COPYRIGHT und LIZENZ
 
 Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -67,14 +172,17 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
 
-Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
-von RSA Data Security, Inc..
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
 
+=head1 SIEHE AUCH
 
+B<epgsearch>(1)

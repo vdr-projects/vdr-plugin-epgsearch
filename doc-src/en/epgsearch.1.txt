@@ -1,448 +1,621 @@
+=encoding utf8
+
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearch> - Searchtimer and replacement of the VDR program menu
+F<EPGSearch> – search timers and replacement of the VDR's default schedules menu
 
 =head1 OVERVIEW
 
-EPG-Search can be used as a replacement for the default schedules
-menu entry. It looks like the standard schedules menu, but adds some
-additional functions:
+EPGSearch can be used as a replacement for the default schedules
+menu. It looks rather the same, but adds some additional functions:
 
- - Commands for EPG entries with 5 built-in commands like 'show repeats',
-   'create search'. One can add own commands for other needs, like adding a
-   VDRAdmin auto-timer.
+=over 2
 
- - Add up to 4 user-defined times to 'now' and 'next' and an optional
-   favorites menu
+=item * The main menu can be configured to replace the VDR's default
+schedule by an extended program guide.
 
- - Searching the EPG: Create reusable queries, which can also be used
-   as 'search timers'.
+=item * The program guide allows switching between the next and the
+current events.
 
- - Search timers: Search for broadcasts in the background and add a
-   timer if one matches (similar to VDRAdmin's auto-timers) or simply
-   make an announcement about it via OSD
+=item * In addition to displaying current and next events, the program
+guide allows viewing the events for up to four user-defined times, as
+well as configurable favorites.
 
- - Avoid double recordings of the same event
-   * timer preview
-   * recognition of broken recordings
-   * fuzzy event comparison
+=item * Shifting the time displayed in the program guide by key press (e.g.,
+by 30 minutes).
 
- - Progress bar in 'What's on now' and 'What's on next'
+=item * Progress bar in the program guide for current and next events.
 
- - Shift the time displayed by key press, e.g. 'What's on now' + 30 minutes
+=item * Built-in commands allow, amongst others, looking for repeats
+of events or create search timers for them. Own commands can be added
+as well, for example, to set up VDRAdmin auto-timers.
 
- - Start menu can be setup between 'Schedule' or 'What's on now'
+=item * Searching the EPG: Create reusable queries, which can also
+be used as search timers.
 
- - background check for timer conflicts with a timer conflict manager
+=item * Search timer: Background search for matching events and
+creation of respective timers (similar to VDRAdmin's auto-timers)
+or just notification via OSD.
 
- - detailed EPG menu (summary) allows jumping to the next/previous
-   event
+=item * Support of content descriptors and extended EPG information
+for search timers.
 
- - support for extended EPG info for search timers
+=item * Avoiding multiple recordings of the same event:
 
- - extension of the timer edit menu with a directory item, user
-   defined weekday selection and a subtitle completion.
+=over 2
 
- - Timer conflict check, informs you over the OSD about conflicts
+=item – timer preview
 
- - Timer conflict menu, show detailed information about the conflicts
-   and let you resolve them
+=item – recognition of broken recordings
 
- - Email notifications about search timer updates and timer conflicts
+=item – fuzzy event comparison
 
-Parts of the sources are based on the repeating-ECG patch from Gerhard Steiner, who gave me the permission to use them. Thanks for his work!
+=back
+
+=item * Extension of the timer-edit menu with a directory item, flexible
+selection of weekdays, and subtitle ("episode name") completion.
+
+=item * Background check for timer conflicts in combination with a
+timer-conflict manager.
+
+=item * Notification of detected timer conflicts via OSD messages.
+
+=item * Detailed information of timer conflicts and suuport for
+resolving them.
+
+=item * E-mail notifications about search-timer updates and timer conflicts.
+
+=back
+
+Z<>
+
+Parts of the sources are based on the F<Repeating-EPG> patch from Gerhard Steiner,
+who authorized their use. Thanks for his work!
 
 =head1 OPTIONS
 
 =over 4
 
-=item -f file,  --svdrpsendcmd=file
+=item B<−f> I<file>,  B<−−svdrpsendcmd>=I<file>
 
-the path to svdrpsend for external SVDRP communication (default is
-internal communication, so this is usually not needed anymore)
+The path to F<svdrpsend> for external SVDRP communication. As internal
+communication will be used by default, this option is usually not required.
 
-=item -c path,  --config=path
+=item B<−c> I<path>,  B<−−config>=I<path>
 
-to specify a specific config directory for all epgsearch config files, default
-is '<plugins configuration directory>/epgsearch'
+Specifies a specific directory for all EPGSearch configuration files (defaults
+to F<E<lt>plugins configuration directoryE<gt>/epgsearch>).
 
-=item -l file,  --logfile=file
+=item B<−l> I<file>,  B<−−logfile>=I<file>
 
-to specify a specific log file for epgsearch (default log file is
-epgsearch.log in the epgsearch config directory)
+Specifies a specific log file for EPGSearch. Default log file is
+F<epgsearch.log> in the EPGSearch configuration directory.
 
-=item -v n,  --verbose=n
+=item -B<v> I<n>,  B<−−verbose>=I<n>
 
-verbose level for log file. Value 0 means no logging. Other values
-are 1 (general messages), 2 (detailed messages), 3 (planned for extra
-detailed info for debugging purposes)
+Verbose level for the log file. Value 0 means no logging. Other values
+are 1 (general messages), 2 (detailed messages), 3 (for debugging purposes).
 
-=item -r,  --reloadmenuconf
+=item B<−r>,  B<−−reloadmenuconf>
 
-reload epgsearchmenu.conf with plugin call. This can be useful when testing
-customized menu layouts.
+Reload F<epgsearchmenu.conf> with each plugin call within the OSD.
+This can be useful when testing customized menu layouts.
 
-=item -m file,  --mailcmd=file
+=item B<−m> I<file>,  B<−−mailcmd>=I<file>
 
-the external command to be used for mail delivery. The default uses
-'sendEmail.pl'. If you are using a different command or script make sure that
-it has the same parameter interface as sendEmail.pl.
+External command to be used for e-mail delivery. The default uses
+F<sendEmail.pl>. When using a different command or script, make sure that
+it has the same parameter interface as F<sendEmail.pl>.
 
 =back
 
 =head1 CONTENT
 
- 1.    Description
- 1.1     Menu commands
- 1.2     Menu search
- 1.2.1     Menu edit search
- 1.2.2     Menu search results
- 1.3     Extended 'now' and 'next'
- 1.4     Menu setup
- 2.    Search timers
- 2.1     'Avoid repeats' - internals
- 2.2     How do we compare two events?
- 2.3     How and when do we compare?
- 3.    Usage from other plugins or scripts
- 4.    Using extended EPG info
- 5.    Replacing the standard schedule menu
- 6.    Add-ons
+=over 3
+
+=item 1. Description
+
+=over 4
+
+=item 1.1 Menu C<Commands>
+
+=item 1.2 Menu C<Search>
+
+=over 6
+
+=item 1.2.1 Menu C<Edit search>
+
+=item 1.2.2 Menu C<Search results>
+
+=back
+
+=item 1.3 Extended C<Now> and C<Next>
+
+=item 1.4 Menu C<Setup>
+
+=over 6
+
+=item 1.4.1 General
+
+=item 1.4.2 EPG menus
+
+=item 1.4.3 User-defined EPG times
+
+=item 1.4.4 Timer programming
+
+=item 1.4.5 Search and search timers
+
+=item 1.4.6 Timer conflict checking
+
+=item 1.4.7 E-mail notification
+
+=back
+
+=back
+
+=item 2. Search timers
+
+=over 4
+
+=item 2.1 Avoiding repeats in detail
+
+=item 2.2 How do we compare two events?
+
+=item 2.3 How and when do we compare?
+
+=over 6
+
+=item 2.3.1 How to use it?
+
+=item 2.3.3 If it does not work correctly
+
+=back
+
+=back
+
+=item 3. Usage from other plugins or scripts
+
+=item 4. Using extended EPG info
+
+=item 5. Replacing the standard schedule menu
+
+=item 6. Add-ons
+
+=back
 
 =head1 1. Description
 
-At first glance EPG-Search looks like the schedules menu entry of VDR.
-By pressing the key '0', one can toggle the bottom color keys to access
+At first glance, EPGSearch looks like the schedules menu entry of the VDR.
+Pressing the key C<0> toggles the bottom color keys for accessing
 additional functions (the default assignment of the color keys can be
-adjusted by setup):
-
+adjusted by setup).
 
 =head2 1.1 Menu Commands
 
 This menu displays commands that can be executed on the current
-item. There are 8 built-in commands:
-
- - Repeats: Searches for events with same title
-
- - Record
-
- - Switch
-
- - Create search
-   Switches to search menu and adds a new search with the name of the current
-   item (to avoid editing the name manually)
-
- - Search in recordings:
-   Search the recordings for a broadcast with the same name
-
- - Mark as 'already recorded':
-   This puts the selected event into the file epgsearchdone.data and instructs
-   epgsearch to avoid recording this event if an according search timer is set
-   to "avoid repeats". An already created timer will be automatically removed
-   with the next search timer update.
-
- - Add/Remove to/from switch list?:
-   Controls the switch list. If there is an event in the switch list, epgsearch
-   will announce it and switch to the event before it starts. To access the
-   complete switch list, call 'Search/Actions/Switch list'.
-
- - Create blacklist:
-   A blacklist is used to ignore events when using search timers. A search
-   timer can be setup to ignore events from arbitrary blacklists.
-
-You can add your own commands to this menu by editing the file
-epgsearchcmds.conf in the epgsearch config directory. There's a sample
-conf file with some sample commands (see directory 'scripts', taken
-from vdr-wiki.de, thanks to the authors).
-
-The format of the file is the same as VDR's commands.conf or
-reccmds.conf. When a command is executed the following parameters
-are passed to it:
-
- $1: the title of the EPG entry
- $2: the start time of the EPG entry as time_t value (like in the
-     shutdown script)
- $3: the end time
- $4: the channel number of the EPG entry
- $5: the long channel name of the EPG entry
- $6: the subtitle of the EPG entry, "" if not present
-
-To execute a command from the main menu you can also press its
-associated number without opening the commands menu.
-
-=head2 1.2 Menu search
-
-Here you can add, edit, delete and execute your own queries on the
-EPG. The usage and behavior of this menu is similar to VDR's timer
-menu.
-
-=head3 1.2.1 Menu edit search
-
-Most things in this menu are quite clear, so only some notes on:
+item. There are eight built-in commands:
 
 =over 4
 
-=item - B<Search term:>
+=item B<Repeats>
 
-The term to search for. If you like to search for more words, separate
-them by blanks. Leaving this empty (combined with search mode
-'Phrase') will match anything. This is useful, if you search e.g. for
-anything that starts between some times on a specific channel.
+Searches for events with same title.
 
-With 'blue' you can also select a template for the new search. If
-one of the templates is set to default, new searches will
-automatically get the settings of the default template.
+=item B<Record>
 
-Note: fuzzy searching is limited to 32 chars!
+Creates a timer for recording the event.
 
-=item - B<Search mode:>
+=item B<Switch>
 
-'Phrase' searches for the expression within the EPG. 'All words'
-requires, that each word of the expression occurs in the EPG item.
-'at least one word' requires, that only one word occurs in the EPG item.
-'Match exactly' requires, that your search term matches exactly the
-found title, subtitle or description.
+Switches to the channel broadcasting the event.
 
-With 'Regular expression' you can setup a regular expression as
-search term. You don't need a leading and trailing '/' in the
-expression. By default these are POSIX extended regular expressions.
-If you like to have Herl compatible regular expression, simply edit
-the plugins Makefile and uncomment '#REGEXLIB = pcre' to
-'REGEXLIB = pcre' (you will need pcreposix installed, comes with
-libpcre from www.pcre.org, but it's already part of most distributions).
+=item B<Create search>
 
-See also C<epgsearch(4)> 'Description of the search process'.
+Switches to the search menu, adding a new search with the name of the current
+event (to avoid entering the name manually).
 
-=item - B<Use content descriptor>
+=item B<Search in recordings>
 
-Some providers deliver content descriptors in their EPG, like "Movie/Drama",
-"Documentation",...(available with vdr-1.7.11)
-Select here the descriptors to search for. Multiple choice is possible, that
-must match with all given descriptors (AND operator).
+Search the recordings for an event with the same name.
 
-=item - B<Use extended EPG info:>
+=item B<Mark as 'already recorded'?>
 
-Only available if configured, see below 'Using extended EPG info'.
+Adds the selected event to the file F<epgsearchdone.data> and instructs
+EPGSearch to avoid recording this event if the related search timer is set
+to C<avoid repeats>. An already created timer will be automatically removed
+with the next search-timer update.
 
-=item - B<Ignore missing categories:>
+=item B<Add/Remove to/from switch list?>
 
-If set to 'Yes' this tells epgsearch that a missing EPG category
-should not exclude an event from the results. Caution: Using this without
-any other criterions could flood your timers.
+Controls the switch list. If an event is in the switch list, EPGSearch
+will announce it and switch to the event before it starts. Call C<Search> »
+C<Actions> » C<Switch list> for accessing the entire switch list.
 
-=item - B<Use channel:>
+=item B<Create blacklist>
 
-Search only for events in the given channels interval, channel
-groups or FTA channels only.
-
-Channel groups (e.g. sport channels or Pay-TV channels) can be
-managed with a sub-menu called with 'blue'.
-
-ATTENTION: After changing the channels order please check the
-settings of your search timers!
-
-=item - B<Use day of week:>
-
-Besides the weekdays you can also set up a user-defined selection,
-e.g. search only on Monday and Friday.
-
-You'll find the user-defined selection in the list after Friday.
-
-=item - B<Use blacklists:>
-
-Blacklists are a way to exclude unwanted events. Select only global, one, more
-or all blacklists here. If any search result is also contained in one of
-the selected blacklists it will be skipped.
-
-=item - B<Use in favorites menu:>
-
-Only available if turned on in setup. With this option you can mark a search
-to be used in the favorites menu. The search results of all these searches are
-listed in the favorites menu.
-
-=item - B<Result menu layout:>
-
-Only available if you have defined more than one menu template for search
-results in epgsearchmenu.conf. This option is used to assign a different menu
-layout for the search results of this search.
-
-=item - B<Use as Search Timer:>
-
-If set to yes, the plugin will do a background scan of the EPG in
-certain intervals and add a timer, if there is a match. You have to
-activate the 'search timers' in the setup. If set to "user defined" one
-can specify time margins with key 'blue' where the search timer is active
-or not.
-
-=item - B<Action:>
-
-Default action is creating a timer for the search results. But you can
-also choose to simply announce the found event via OSD as soon as it is found
-or to automatically switch to the event before it starts. It's also possible to
-get an announcement via OSD before the event starts and to switch to its channel
-with 'Ok'. Further available is 'announce by mail' and 'inactive record'
-
-=item - B<Serial recording:>
-
-If set to yes, the recordings will be stored in a folder with the name
-of the broadcasting and the recordings itself will have the name of
-the episode. If there is no episode name, the date and time of the
-recording will be used.
-
-=item - B<Directory:>
-
-Here you can assign a directory, where the recording should be stored,
-e.g. 'SciFi'. Use the key 'blue' to select directory entries already
-used in other search entries or given by entries in the file
-epgsearchdirs.conf (simply place your directories here one at each line
-without the leading video directory, also see MANUAL).
-If your provider delivers extended EPG infos you can also use
-variables like "%Genre%" or "%Category%" in your directory
-entry. These are replaced with the current EPG info, when a timer is
-created.
-
-See also C<epgsearch(4)> 'Using variables in the directory
-entry of a search timer'.
-
-=item - B<Delete recordings after ... days:>
-
-Some recordings should only be kept for a few days, like news. With
-this feature you can tell epgsearch to delete them automatically
-after ... days.
-
-=item - B<Pause if ... recordings exist:>
-
-If the given numbers of recordings currently exists, then epgsearch
-will not create further timers. After deleting one or more
-recordings it will go on generating new timers.
-
-=item - B<Avoid repeats:>
-
-If you don't want to record repeats, this feature tries to check if
-an event was already recorded/programmed and skips it. Please refer
-to the section 'Avoid repeats - internals' below before using it.
-
-=item - B<Allowed repeats:>
-
-If you like to accept a certain amount of repeats you can give here
-their number.
-
-=item - B<Only repeats within ... days:>
-
-Give here the number of days a repeat has to follow its first
-broadcast. 0 is equal to no restriction.
-
-=item - B<Compare title:>
-
-When comparing to events then specify here if the title should be
-compared.
-
-=item - B<Compare subtitle:>
-
-When comparing to events then specify here if the subtitle should be
-compared. With 'yes' epgsearch will classify two events only as equal if
-their episode names match and are not empty.
-With 'allow empty' two events may be equal if both subtitles are empty.
-Normally you would choose "no" in this case.
-
-=item - B<Compare description:>
-
-When comparing to events then specify here if the description should
-be compared.
-
-For comparison all parts of the description, that look like a
-category value, are removed first. The remaining text will be
-compared. If this is similar at the value of the next option
-(regarding the Levinshtein-Distance algorithm) then it will be accepted as equal.
-
-=item - C<Min. match in %:>
-
-The needed minimum match of descriptions in percent.
-
-=item - B<Compare date:>
-
-Sometimes an event is repeated many times within some period (day, week, month,...), but one
-cannot distinguish the repeats based on the EPG contents. So the only information is its time.
-To use this for comparison select the appropriate period.
-
-=item - B<Compare categories:>
-
-With the button 'setup' you can also specify which categories should
-be compared. As with subtitles an event is different if it has no
-according category value.
-
-=item - B<Priority, lifetime, margins for start and stop:>
-
-Each search timer can have its own settings for these parameters.
-Defaults can be adjusted in the plugins setup.
-
-=item - B<VPS:>
-
-If set to yes, VPS is used, but only, if activated in VDR's setup menu and
-if the broadcasting has VPS information.
-
-=item - B<Auto delete:>
-
-to automatically delete a search timer if the following is true:
-
- * after x recordings, or
- * after x days after the first recording
-
-Only complete recordings are counted. The deletion is executed directly after
-the correspondig recording
+A blacklist is used to ignore events when using search timers. A search
+timer can be set up to ignore events from arbitrary blacklists.
 
 =back
 
-To toggle the flag 'Use as search timer' without editing the search
-entry you can use the key '2'. This will call directly the second
+You can add your own commands to this menu by editing the file
+F<epgsearchcmds.conf> in the EPGSearch configuration directory. There's a sample
+configuration file with some exemplary commands (see directory F<scripts>, taken
+from C<vdr-wiki.de> – thanks to the authors).
+
+The format of the file is the same as VDR's F<commands.conf> or
+F<reccmds.conf>; also see B<epgsearchcmds.conf>(5).
+
+When a command is executed, the following parameters are provided:
+
+=over 4
+
+=item B<$1>
+
+Title of the EPG entry.
+
+=item B<$2>
+
+Start time of the EPG entry in I<Epoch> encoding (i.e., seconds since 1970-01-01 00:00 UTC), like in the shutdown script.
+
+=item B<$3>
+
+Stop time of the EPG entry in I<Epoch> encoding (i.e., seconds since 1970-01-01 00:00 UTC).
+
+=item B<$4>
+
+Channel number of the EPG entry.
+
+=item B<$5>
+
+Long channel name of the EPG entry.
+
+=item B<$6>
+
+Subtitle of the EPG entry, or an empty string if not present.
+
+=back
+
+To execute a command from the main menu, you can also press its
+associated number without opening the commands menu.
+
+=head2 1.2 Menu C<Search>
+
+This menu allows adding, editing, deleting and executing own queries
+on the EPG. The usage and behavior is like the VDR's timer menu.
+
+=head3 1.2.1 Menu C<Edit search>
+
+Most things in this menu are quite clear. Thus, only some notes on
+selected elements:
+
+=over 4
+
+=item B<Search term>
+
+The term to search for. If you like to search for several words, separate
+them by blanks. Leaving this empty (combined with search mode C<phrase>),
+will match anything. This is, for example, useful when searching for all
+EPG entries that start within a span of time on a specific channel.
+
+Using key C<blue>, you can also select a template for the new search. If
+one of the templates is set to default, new searches will
+automatically get the settings of the default template.
+
+B<Note:> Fuzzy searching is limited to 32 characters!
+
+=item B<Search mode>
+
+A search can be performed in several flavors:
+
+=over 4
+
+=item I<Phrase>
+
+Searches for the expression within the EPG.
+
+=item I<All words>
+
+Requires that each word of the expression occurs in the EPG item.
+
+=item I<At least one word>
+
+Requires that at least one word of the expression occurs in the EPG item.
+
+=item I<Match exactly>
+
+Requires that the search term exactly matches the found title, subtitle
+or description. This is particularly helpful for short titles, like "ALF".
+
+=item I<Regular expression>
+
+A regular expression serves as search term. Enclosing C</> characters are
+not required.
+
+If the plugin's F<Makefile> has automatic configuration enabled (no C<#>
+before C<AUTOCONFIG = 1>), Perl-compatible regular expressions (PCRE) will
+be used by default; this requires F<libpcre> or F<libpcre2> being installed.
+Alternatively, POSIX-extended regular expressions featuring approximate
+matching will be employed, which requires F<libtre> on your machine.
+
+Without automatic configuration, simply edit the F<Makefile> and change
+C<#REGEXLIB = pcre2> to C<REGEXLIB = pcre2>, adapt the regular-expression
+library to the one desired, and recompile the plugin. The required library
+must possibly be installed beforehand using the machine's packet manager.
+
+=item I<Fuzzy>
+
+Compares the search term based upon the Levenshtein-Distance algorithm.
+The value of C<Tolerance> determines how much deviation is acceptable.
+
+=back
+
+See also "Description of the search process" in B<epgsearch>(4).
+
+=item B<Use content descriptors>
+
+Some providers deliver content descriptors in their EPGs, like C<movie/drama>,
+C<sports>, and so forth. Such descriptors, which are available since
+VDR 1.7.11, can be included in a search. Multiple selection is possible,
+for which the matching scheme is configurable per search.
+
+All selected descriptors must match by default (AND operator). However, you
+can choose that just one matching descriptor will be sufficient (OR operator).
+As similar content descriptors are arranged into groups, you can alternatively
+define that one match per used group will be sufficient (OR operator within a
+group, AND operator across groups).
+
+Furthermore, special characteristics of events (like original language, black &
+white) are hosted in a distinct group that deviates from this similarity scheme.
+You can specifically define for this group whether all selected descriptors must
+match (defaults to AND operator) or just one of them (OR operator).
+
+=item B<Use extended EPG info>
+
+Only available if configured, see C<Using extended EPG info> below.
+
+=item B<Category matching mode>
+
+By default, all selected categories must be present in the EPG and match the
+specified values. Selecting C<all except missing categories> prevents an event
+from being excluded from the search results simply because a selected category
+is not present in the EPG. Alternatively, you can specify C<at least one category>,
+in which case matching a single category will be sufficient.
+
+B<Caution:> Using an alternate matching mode without other sufficiently limiting
+criteria could flood the timers.
+
+=item B<Use channel>
+
+Search only for events in the given channel interval, channel
+group, or free-to-air (FTA) channels only.
+
+Channel groups (e.g., sport channels or Pay-TV channels) can be
+managed with a submenu invoked with key C<blue>.
+
+B<Attention:> Please check the range settings of your search timers
+after changing the sequence of the channels!
+
+=item B<Use day of week>
+
+Besides the weekdays, you can also create a user-defined selection to
+search, for instance, only on Mondays and Fridays.
+
+You'll find the user-defined selection after the list of weekdays
+(C<So.>, C<Mo.>, ..., C<Sa.>). Press key C<red> for creating or
+changing the selection.
+
+=item B<Use blacklists>
+
+Blacklists allow excluding unwanted events. Select only global lists or one,
+more or all blacklists here. If any search result is also contained in one of
+the selected blacklists, it will be skipped.
+
+=item B<Use in favorites menu>
+
+Only available if turned on in setup. With this option, you can mark a search
+to be used in the favorites menu. The search results of all such searches are
+listed in the favorites menu.
+
+=item B<Result menu layout>
+
+Only available if you have defined more than one menu template for search
+results in F<epgsearchmenu.conf>. This option is used to assign a different menu
+layout for the search results of this search.
+
+=item B<Use as search timer>
+
+If set to C<yes>, the plugin will run background scans of the EPG in
+certain intervals and add a timer if there is a match (you must have
+activated C<Use search timers> in the setup). If set to C<user-defined>, one
+can specify a time span with the key C<blue> during which the search timer
+shall be active.
+
+=item B<Action>
+
+The default action is creating a timer for each search result. But you can
+also choose to simply announce the found event via OSD as soon as it is found
+or to automatically switch to the event before it starts. It's also possible to
+get an announcement via OSD before the event starts and to switch to its channel
+with key C<OK>. Further available is C<Announce by mail> and C<inactive record>.
+
+=item B<Series recording>
+
+If set to C<yes>, the recordings will be stored in a folder with the title as
+name of the series, and each recording will receive the subtitle as episode name.
+If unavailable, the date and time of the broadcast will be used instead.
+
+=item B<Directory>
+
+Here you can assign a directory in which the recording shall be stored,
+like C<SciFi>. Use the key C<blue> to select directory entries already
+used in other search entries. The list can further be extended by entries
+in the file F<epgsearchdirs.conf>, one directory per line without the
+preceding path of the video directory; also see B<epgsearch>(4).
+
+If your provider delivers extended EPG information, you can also use
+variables like C<%Genre%> or C<%Category%> in the directory entry.
+These will be replaced with the event's respective EPG information
+once a timer gets created.
+
+See also "Using variables in the directory entry of a search timer"
+in B<epgsearch>(4).
+
+=item B<Delete recordings after ... days>
+
+Some recordings should only be kept for a few days, like news. With
+this feature, you can instruct EPGSearch to delete them automatically
+after a chosen number of days.
+
+=item B<Pause when ... recordings exist>
+
+If the given number of recordings exists, EPGSearch will not create
+further timers. After deleting one or more of these recordings, new
+timers will be generated again.
+
+=item B<Avoid repeats>
+
+If you don't want to record repeats, this feature tries to check if
+an event was already programmed or recorded and then skips it. Please refer
+to the section "Avoiding repeats in detail" below before using it.
+
+=item B<Allowed repeats>
+
+If you like to accept a certain number of repeats, you can specify
+their number here.
+
+=item B<Only repeats within ... days>
+
+Specify the number of days during which a repeat must follow its first
+broadcast. A value of 0 means no restriction.
+
+=item B<Compare title>
+
+When comparing events, specify whether the title shall be considered.
+
+=item B<Compare subtitle>
+
+When comparing events, specify whether the subtitle shall be considered.
+With C<yes>, EPGSearch will classify two events only as equal if their
+subtitles match and are not empty.
+
+With C<allow empty>, two events may be equal if both subtitles are empty.
+Normally you would choose C<no> in this case.
+
+=item B<Compare description>
+
+When comparing events, specify whether the description shall be considered.
+
+Before comparing two descriptions, all parts looking like category values
+will be removed; the remaining texts will be compared with each other.
+If the percentage of similarity regarding the Levenshtein-Distance
+algorithm complies with the value of the next option, the descriptions
+will be considered equal.
+
+=item B<Min. match in %>
+
+The needed minimum match of descriptions in percent.
+
+=item B<Compare date>
+
+Sometimes a broadcast is repeated many times within some period (day, week,
+month, etc.), but the repeats cannot be distinguished based on the EPG contents.
+So, the only available information is its time. To use this for comparison,
+select the appropriate period.
+
+=item B<Compare categories>
+
+With the button C<Setup> you can also specify which categories should
+be compared. As with subtitles, an event is different if it has no
+corresponding category value.
+
+=item B<Priority, lifetime, margins for start and stop>
+
+Each search timer can have its own settings for these parameters.
+Defaults can be adjusted in the plugin's setup.
+
+=item B<VPS>
+
+If set to C<yes>, VPS will be used if activated in VDR's setup menu and
+if the broadcasting provides VPS information.
+
+=item B<Auto delete>
+
+For automatically deleting a search timer if one of the following conditions
+is met:
+
+=over 2
+
+=item * after ... recordings
+
+=item * after ... days after the first recording
+
+=back
+
+Only complete recordings will be counted. The deletion will be executed directly
+after the respective recording was completed.
+
+=back
+
+To toggle the flag C<Use as search timer> without editing the search
+entry, you can use the key C<2>. This will call directly the second
 command of the command menu.
 
-=head3 1.2.2 Menu search results
+=head3 1.2.2 Menu C<Search results>
 
-This menu displays the search results. A 'T' lets you know, that there
-is already a timer for the event. A 't' means that there's only a
+This menu displays the search results. A C<T> lets you know that there
+is already a timer for the event. A C<t> indicates that there's only a
 partial timer for it, as in standard schedules menu.
 
-=head2 1.3 Extended 'now' and 'next' and favorites
+=head2 1.3 Extended C<Now> and C<Next>
 
-By setup, one can add up to 4 additional times to extend the green
-button, e.g. 'afternoon', 'prime time', 'late night'. Times, that are
-already passed, are skipped (you will not get 'afternoon' at evening) with the
-exception that a time will be displayed for the next day, if it is less then
-20h in the future.
-In these menus you can shift the currently displayed time by pressing
-FastRew or FastFwd to move back and forward in time. If you don't have
-these keys on your remote, you can access this function by pressing
-'0' to toggle the green and yellow button to '<<' and '>>'. This toggling
-can be adjusted by setup.
+The setup allows adding up to four additional times for extending the
+button C<green>, like C<afternoon>, C<prime time>, or C<late night>.
+As past times are skipped, you won't get C<afternoon> in the evening.
+However, if a user-defined time lies less than 20 hours in the future,
+the menu for the next day will be displayed.
 
-You can display a progress bar in 'now' and 'next'.
+You can shift the currently displayed time in this menu back and forth by
+pressing C<FRew> or C<FFwd>. If you don't have these keys on your remote
+control, you can access this function by pressing C<0> to toggle the buttons
+C<green> and C<yellow> to C<E<lt>E<lt>> and C<E<gt>E<gt>>. Toggling can be
+adjusted by setup.
 
-Furthermore you can enable in the setup an favorites list. You can configure
-your searchtimers ("Use in favorite list") to display their results in
-you favorite list. This list display event in the next 24 hours ordered by time.
+You can also have a progress bar displayed in C<Now> and C<Next>.
 
-=head2 1.4 Menu setup
+Furthermore, you can enable a favorites menu in the setup. By enabling
+C<Use in favorites menu>, you can configure a search to display the
+results as favorites. This menu displays events within (by default)
+the next 24 hours in chronological order.
+
+=head2 1.4 Menu C<Setup>
 
 =head3 1.4.1 General
 
 =over 4
 
-=item - B<Hide main menu entry:>
+=item B<Hide main menu entry>
 
-This hides the main menu entry 'search'. Attention: when the plugin is
-assigned to key 'green' then hiding the plugin will give you VDR's
-standard schedule menu (see below to avoid this).
+This hides the main menu entry C<Search>.
 
-=item - B<Main menu entry:>
+B<Attention:> If the plugin is assigned to key C<green>, hiding the plugin
+will give you VDR's standard schedule menu. See below how to avoid this.
+
+=item B<Main menu entry>
 
 If not hidden, the name of main menu entry can be set here. Default is
-'Program guide'. Note: If you set it to something different from the default
-then the main menu entry is no longer dependent on the OSD language. Setting
-it back to default or empty restores this behavior again.
+C<Program guide>.
 
-=item - B<Start menu:>
+B<Note:> When changing the default name, the main menu entry no longer
+depends on the OSD language. Clearing or reverting to the default name
+restores the language mapping again.
 
-Select the starting menu 'Schedules' or 'Now'
+=item B<Start menu>
+
+Select C<Schedules> or C<Now> as start menu.
 
 =back
 
@@ -450,85 +623,88 @@ Select the starting menu 'Schedules' or 'Now'
 
 =over 4
 
-=item - B<Ok key:>
+=item B<OK key>
 
-Choose here the behavior of key 'Ok'. You can use it to display the summary
-or to switch to the corresponding channel. Note: the functionality of key
-'blue' (Switch/Info/Search) depends on this setting.
+Choose here the behavior of key C<OK>. You can use it to display the summary
+or to switch to the corresponding channel.
 
-=item - B<Red key:>
+B<Note:> The function of key C<blue> (C<Switch>, C<Info>, or C<Search>)
+depends on this setting.
 
-Select if you like to have Standard ('Record') or 'Commands' as
-assignment for key 'red'.
+=item B<Red key>
 
-=item - B<Blue key:>
+Select if you like to have C<Record> (default) or C<Commands>
+as assignment for key C<red>.
 
-select if you like to have Standard ('Switch') or 'Search' as
-assignment for key 'blue'.
+=item B<Blue key>
 
-=item - B<Show progress in 'Now':>
+Select if you like to have C<Switch> (default) or C<Search>
+as assignment for key C<blue>.
 
-In the menu 'what's on now' you can display a progress bar, that
-displays the progress of the current item.
+=item B<Show progress in 'Now'>
 
-=item - B<Show channel numbers:>
+Allows displaying a progress bar in the menu C<Now> that
+shows the already elapsed time of the current broadcast.
+
+=item B<Show channel numbers>
 
 Select this if you like to have a leading channel number before each
 item in the EPG menus.
 
-=item - B<Show channel separators:>
+=item B<Show channel separators>
 
-Display channel group separators between channel in the menus
-'Overview now',...
+Select this if you like to have separators between channel groups in
+the menu C<Overview - Now> and its mate menus.
 
-=item - B<Show day separators:>
+=item B<Show day separators>
 
-Display a day separator between events on different days in the
-schedule menu.
+Select this if you like to have a separator between broadcasts on different
+days in the C<Schedule> menu.
 
-=item - B<Show radio channels:>
+=item B<Show radio channels>
 
-Also list radio channels.
+Allows to get radio channels listed.
 
-=item - B<Limit channels from 1 to:>
+=item B<Limit channels from 1 to>
 
-If you have a large channel set you can speed up things when you limit the
-displayed channels with this setting. Use '0' to disable the limit. If the
-current channel is above the limit, the limit is ignored and all channels will
+If you have a large channel set, you can speed up things when you limit the
+displayed channels with this setting. Use C<0> to disable the limit. If the
+current channel is above the limit, the limit is ignored, and all channels will
 be displayed again.
 
-=item - B<'One press' timer creation:>
+=item B<'One press' timer creation>
 
-If set to 'yes' a timer is immediately created when pressing 'Record',
-else the timer edit menu is displayed.
+If set to C<yes>, a timer will immediately be created when pressing C<Record>,
+else the timer-edit menu will be displayed.
 
-=item - B<Show channels without EPG:>
+=item B<Show channels without EPG>
 
-Display channels without EPG to allow switching or create a timer.
+Display channels without EPG to allow switching or creating a timer.
 
-=item - B<Time interval for FR/FF [min]:>
+=item B<Time interval for 'FRew' / 'FFwd' [min]>
 
-In the menus 'now', 'next', 'user def 1', ... you can shift the
-displayed time by pressing FastRew, FastFwd on your remote control.
-Adjust the amount of minutes to jump here.
+In the menus C<Now> and C<Next> as well as the menus with user-defined times,
+the displayed point in time can be shifted by pressing C<FRew> and C<FFwd> on
+the remote control. Adjust the number of minutes to jump here.
 
-=item - B<Toggle Green/Yellow:>
+=item B<Toggle Green/Yellow>
 
-If you don't have FastRew, FastFwd on your remote control, set this to
-yes. When pressing '0' in the menus, this toggles the assignment of
-the color keys and assigns e.g. '<<' and '>>' to 'green' and 'yellow'.
+Set this to C<yes> if you don't have C<FRew> and C<FFwd> on your remote control.
+When pressing C<0> in respective menus, this toggles the assignment of the color
+keys and assigns, for example, C<E<lt>E<lt>> and C<E<gt>E<gt>> to C<green> and
+C<yellow>.
 
-=item - B<Show favorites menu:>
+=item B<Show favorites menu>
 
-A favorites menu can display a list of your favorite broadcasts. Enable this
-if you want an additional menu besides 'Now' and 'Next'. You can choose
+The favorites menu can display a list of your favorite broadcasts. Enable this
+if you want an additional menu besides C<Now> and C<Next>. You can choose
 between displaying this menu before or after the menus with user-defined
-times. Any search can be used as a favorite. You only have to set the option
-'Use in favorites menu' when editing a search.
+times. Any search can be used as a favorite; you only have to set the option
+C<Use in favorites menu> when editing a search.
 
-=item - B<for the next ... hours:>
+=item B<for the next ... hours>
 
-This value lets you adjust the timespan used to display the favorites.
+This value lets you adjust the time span for displaying the favorites.
 
 =back
 
@@ -536,18 +712,18 @@ This value lets you adjust the timespan used to display the favorites.
 
 =over 4
 
-=item - B<Use user time 1..4:>
+=item B<Use user-defined time 1..4>
 
-Add up to 4 user-defined times besides 'now' and 'next'.
+Add up to four user-defined times to C<Now> and C<Next>.
 
-=item - B<Description:>
+=item B<Description>
 
-Name of the user-defined time, e.g. 'Afternoon', 'Prime time', 'Late
-night'.
+Name of the user-defined time, like C<Afternoon>, C<Prime time>, or
+C<Late night>.
 
-=item - B<Time:>
+=item B<Time>
 
-The associated time of the user-defined time.
+The time at which the user-defined span of time starts.
 
 =back
 
@@ -555,43 +731,57 @@ The associated time of the user-defined time.
 
 =over 4
 
-=item - B<Use VDR's timer edit menu:>
+=item B<Use VDR's timer edit menu>
 
-When programming a standard timer epgsearch uses an extended menu,
-that also supports a directory item, user defined weekday selection
-and subtitle completion. If you are using a patched version of VDR,
-that also has an extended timer edit menu and like to use this menu
-rather than epgsearch's then set this option to 'Yes'.
+When programming a standard timer, EPGSearch uses an extended menu
+that also offers a destination directory, distinct weekday selection
+and subtitle completion. If you are using a patched version of the VDR
+that also provides an extended timer edit menu and prefer using this one
+rather than the one of EPGSearch, set this option to C<yes>.
 
-=item - B<Default recording directory:>
+=item B<Default recording directory>
 
 This entry will be used in standard timer programming as default
-directory. You can also use EPG category variables (e.g. 'My
-Movies~%Category%~%Genre%'). When the timer edit menu is launched
-epgsearch tries to replace all variables with the values found in
-the description of the event. If not all variables could be replaced
-then the directory item is left blank.
+directory. You can also use EPG category variables, like
+C<Movies~%Category%~%Genre%>. When the timer edit menu is launched,
+EPGSearch attempts to replace all variables with the values found in
+the description of the event. If not all variables could be replaced,
+the directory entry remains empty.
 
-=item - B<Add episode to manual timers:>
+=item B<Add episode to manual timers>
 
-When manually adding a timer epgsearch can automatically add the
-episode name to the timer file resulting in a sub-folder for the
-later recording, that is named with the episode name. Choose here how
-this should be done. 'smart' tries to recognize if this makes
-sense. Therefore it checks the length of the event and skips the
-subtitle if the event has more than 80min.
+When manually creating a timer, EPGSearch can automatically append the
+subtitle to the timer's filename. This will store the recording
+in a directory named like the title, using the subtitle as episode name.
 
-=item - B<Default timer check method:>
+Choose here whether or how this should be done: based on the length of the event,
+C<smart> attempts to determine whether a subtitle would make sense as an episode
+name. If the event is longer than 80 minutes, no episode name is added.
 
-Manual timers can be checked for EPG changes. Here you can setup the default
+=item B<Default timer check method>
+
+Manual timers can be checked for EPG changes. Here you can set up the default
 check method for each channel. The following methods exist:
-   * no check
-   * by event ID: checks by an event ID supplied by the channel provider.
-   * by channel and time: check by the duration match.
 
-Not all channels provide a proper event ID, so you can setup the default for
-each channel here. When programming a manual timer, this default use used in
-epgsearch's own timer edit menu.
+=over 4
+
+=item I<No check>
+
+Z<>
+
+=item I<By event ID>
+
+Checks by an event ID supplied by the channel provider.
+
+=item I<By channel and time>
+
+Checks by matching the duration.
+
+=back
+
+Not all channels provide a proper event ID. That's why you can set up the default
+for each channel. When programming a manual timer, this default is used in
+EPS-Search's own timer edit menu.
 
 =back
 
@@ -599,563 +789,660 @@ epgsearch's own timer edit menu.
 
 =over 4
 
-=item - B<Use search timers:>
+=item B<Use search timers>
 
-If yes, the plugin makes a background scan of the EPG and adds timers
-if it finds matching entries. This applies only to searches that are
-marked with 'use as search timer'.
+If C<yes>, the plugin runs background scans of the EPG and adds timers
+if matching entries are found. This applies only to searches marked
+with C<Use as search timer>.
 
-Search timers will always be created local, even if SVDRPDefaulthost
-is set to a different host.
+Search timers will always be created locally, even if another default
+host has been set up for recording.
 
-=item - B<Update interval:>
+=item B<Update interval>
 
 The update interval of the background scan for search timers in minutes.
 
-=item - B<SVDRP port:>
+=item B<SVDRP port>
 
-For VDR versions through 1.7.14, the default SVDRP port was 2001. Starting with vdr-1.7.15 it was changed to 6419. If you want to use a port other than the default, set it here to get the search timers working.
+For VDR versions through 1.7.14, the default SVDRP port was 2001. Starting with
+VDR 1.7.15, the port changed to 6419. If you want to use a port other than the default,
+enter its number here to get the search timers working.
 
-=item - B<Delay threads:>
+=item B<Delay internal threads>
 
-The start of the Searchtimer-Update Thread and the following Conflict check can be delayed after VDR-Ready between 0 and 300 seconds (Default is 10 secs).
+The start of the search-timer update thread and the subsequent conflict check can be delayed
+after C<VDR Ready> between 0..300 seconds (defaulting to 10 seconds).
 
-=item - B<Default Priority:>
+=item B<Priority, lifetime, margin at start/stop>
 
-Default priority of generated timers.
+Define the respective default values for newly created search timers.
 
-=item - B<Default Lifetime:>
+=item B<Allowed errors>
 
-Default lifetime of generated timers.
+Allowed errors before a recording is marked as incomplete
+(available since VDR 2.5.4).
 
-=item - B<Margin at start/stop:>
+=item B<No announcements when replaying>
 
-Default margins of generated timers.
+Suppress event announcements while a replay is in progress.
 
-=item - B<Allowed Errors:>
+=item B<Recreate timers after deletion>
 
-Allowed errors before a recording is marked as incomplete.
-(not available in vdr 2.4)
+EPGSearch remembers by default which timers already had been created by
+search timers and will not recreate them if they were removed. Select C<yes>
+for disabling this behavior.
 
-=item - B<No announcements when replaying:>
+=item B<Check if EPG exists for ... [h]>
 
-suppress event announcements while any replay is active.
+If you get EPG content from external providers, the download may fail and thus some
+recordings be skipped because of the missing EPG. With this function one can check if
+EPG content exists for the given number of hours. A value of C<0> disables the check.
 
-=item - B<Recreate timers after deletion:>
+=item B<Warn by OSD>
 
-epgsearch remembers by default which timers where already created by search
-timers and will not recreate them if they were removed. To disable this
-behaviour set this to 'Yes'.
+Set this to C<yes> to receive warnings via OSD.
 
-=item - B<Check if EPG exists for ... [h]:>
+=item B<Warn by mail>
 
-If you get EPG content from external providers it is possible, that something fails and
-some recordings are skipped because of the missing EPG. With this function one can check if
-EPG content exists for the next ... hours. With '0' the check is disabled.
+Set this to C<yes> to receive warning by e-mail. Please configure the
+e-mail account in C<Email notification>.
 
-=item - C<Warn by OSD:>
+=item B<Channel group to check>
 
-Set this to 'Yes' to get warned via OSD.
+Select the channel group to check. It must have been created beforehand
+in C<Channel groups>.
 
-=item - C<Warn by mail:>
+=item B<Ignore PayTV channels>
 
-Set this to 'Yes' to get warned by email. Please configure the email account in
-'email notification'
+Set this to C<yes> if you don't want to include events from PayTV channels
+when searching for a repeat.
 
-=item - C<Channel group to check:>
+=item B<Search templates>
 
-select hier the channel group to check. Perhaps you have to create it before in 'channel groups'
+Here you can manage search templates that can be used when creating new
+searches and search timers.
 
-=item - B<Ignore Pay-TV channels:>
+=item B<Blacklists>
 
-Set this to 'Yes' if you don't want to have events from Pay-TV channels when
-searching for a repeat.
-
-=item - B<Search templates:>
-
-Here you can manage search templates which can be used when creating a
-search.
-
-=item - B<Blacklists:>
-
-Here you can manage blacklists which can be used to suppress unwanted events
+Here you can manage blacklists that can be used to discard unwanted events
 within a search.
+
 A blacklist can also be marked as global. Since the default setting of a search timer
-for 'use blacklists' is 'only global', this is a simple way to exclude unwanted events
-form all search timers, except: If the search timer has the option 'use blacklists: none'
-no blacklists are taken into account. Also the search for repeats within the OSD ignores
-any blacklists.
+for C<Use blacklists> is C<only global>, this is a simple way to exclude unwanted events
+from all search timers.
 
-=item - B<Channel groups:>
+B<But:> If C<Use blacklists> has been set to C<none> for a search timer, blacklists are
+not considered. Furthermore, searching for repeats from within the OSD will ignore
+the blacklists.
 
-Here you can setup channel groups (e.g. Sport channels, Pay-TV
+=item B<Channel groups>
+
+Here you can set up channel groups (e.g., Sport channels, PayTV
 channels) that can be used as criterion in  searches. The same can
-be done in the search edit menu.
+be done in the menu C<Edit search>.
 
 =back
 
-B<Important>: if you get your EPG from external sources make sure that search
-timer updates are disabled while your EPG is updated. The reason for this is
-that epgsearch will remove timers without events assigned to them. This
-situation can exist while the new EPG is feeded to VDR. A simple way to
-disable search timer updates is to use the SVDRP command SETS in your EPG
-update script:
+B<Important:> If your EPG is retrieved from external sources, make sure that
+search-timer updates are disabled while the EPG is updated. The reason for this is
+that EPGSearch will remove timers without events assigned to them. This
+situation can exist while the new EPG is fed into the VDR.
 
-svdrpsend plug epgsearch SETS off
+A simple way to disable search-timer updates is using the SVDRP command C<SETS>
+in the EPG update script:
 
-<your EPG update script>
+=over 4
 
-svdrpsend plug epgsearch SETS on
+    svdrpsend PLUG epgsearch SETS off
+    perform-epg-updates
+    svdrpsend PLUG epgsearch SETS on
+
+=back
 
 =head3 1.4.6 Timer conflict checking
 
 =over 4
 
-=item - B<Ignore below priority:>
+=item B<Ignore below priority>
 
-If a timer will fail with a priority below the given value, you won't get an
-OSD message about this and the conflict will be classified as 'not relevant'
+If a timer should fail with a priority below the given value, you won't get
+an OSD notification, and the conflict will be classified as irrelevant in the
+conflicts overview.
+
+=item B<Ignore conflict duration less ... min.>
+
+If a conflict should only cover the given minutes, you won't get an
+OSD notification, and the conflict will be classified as irrelevant
 in the conflicts overview.
 
-=item - B<Ignore conflict duration less ... min.:>
+=item B<Only check within next ... days>
 
-If a conflict will last only the given minutes it will not produce an OSD
-message and the conflict will be classified as 'not relevant'
-in the conflicts overview.
-
-=item - B<Only check within next ... days:>
-
-Here you can specify the day range that should be used for the conflict
+Here you can specify the range of days that should be used for the conflict
 check.
 
-=item - B<Check also remote conflicts:>
+=item B<Check also remote conflicts>
 
-If SVDRPPeering is active, conflicts for remote timers will be checked, if
-set to "yes". For this to work epgseach-plugin has to be active on the
-remote host too. Default is "no".
+If SVDRP peering is active and set to C<yes>, conflicts for remote timers will
+be checked as well. This requires that the plugin EPGSearch is active on the
+remote host, too. Default is C<no>.
 
-=item - B<After each timer programming:>
+=item B<After each timer programming>
 
-This performs a conflict check after each manual timer programming and - if
-the new/modified timer is involved in a conflict - pops up an OSD message
-about it.
+This performs a conflict check after each manual timer programming and issues
+an OSD message if the new or modified timer should be involved in a conflict.
 
-=item - B<"When a recording starts:>
+=item B<When a recording starts>
 
-Set this to 'yes' if the conflict check should be performed when a recording starts.
-In the case of a conlfict you get immediately a message that informs you about it.
-The message is only displayed if the conflict is within the next 2 hours.
+Set this to C<yes> if the conflict check should be performed when a recording starts.
+In case of a conflict, an OSD notification will be issued immediately. However,
+the message will only be displayed if the conflict lies within the next two hours.
 
-=item - B<After each search timer update:>
+=item B<After each search timer update>
 
-Specify here if you want to have a conflict check after each search timer
-update. If set to 'No':
+Specify here if you want to run a conflict check after each search timer
+update. If set to C<no>, the settings below take effect.
 
-=item - B<every ... minutes:>
+=item B<Every ... minutes>
 
-performs a conflict check in the background every ... minutes and informs
-about relevant conflicts via OSD. Set this to '0' to disable this feature.
+Specifies the cycle for performing conflict checks in the background.
+Relevant conflicts will be notified via OSD. A value of C<0> disables
+this feature.
 
-=item - B<if conflicts within next ... minutes:>
+=item B<If conflicts within next ... minutes>
 
-=over 4
-
-=item - B<every ... minutes:>
-
-if you like to have a more frequent check and OSD notification when a
-conflict appears within the given time, use this feature.
-
-=back
-
-=item - B<Avoid notification when replaying:>
-
-Set this to 'yes' if the don't want to get OSD messages about conflicts if
-you currently replay something. Nevertheless messages will be displayed if
- the first upcoming conflict is within the next 2 hours.
-
-=back
-
-Also have a look at C<epgsearch(4)>, section 'Working with the timer conflict menu'.
-
-=head3 1.4.7 Email notification
-
-Please make sure, that 'sendEmail.pl' is in the path of your executables and
-that the 'epgsearchupdmail.templ' and 'epgsearchconflmail.templ' exists in
-epgsearch's configurations directory!
+If a conflict should be detected within the given interval, the subsequently
+specified check cycle shall be used.
 
 =over 4
 
-=item - B<Search timer notification:>
+=item B<Every ... minutes>
 
-Enable this, if you want to get an email notification, when the search timer
-background thread has
+This allows a more frequent conflict check and OSD notification if a
+conflict should appear within the given time.
 
-  - created a new timer
-  - modified an existing timer
-  - deleted a timer, that was void because of EPG changes or other user
-    actions.
+=back
 
-(Also requires 'Use search timers' in the search timer setup to be activated.)
+=item B<Avoid notification when replaying>
 
-=item - B<Time between mails [h]:>
+Set this to C<yes> if you don't want to get OSD notifications about conflicts
+while replaying some video. Nevertheless, notifications will be displayed if
+the first upcoming conflict is within the next two hours.
 
-For search timer notifications one can set the minimum distance in hours between the mails.
-As soon as this time has elapsed a new mail is sent after the next search timer update.
-A value of '0' means no delay and will cause immediate mail delivery.
+=back
 
-=item - B<Timer conflict notification:>
+Please also consider "Working with the timer-conflict menu" in B<epgsearch>(4).
 
-Enable this, if you want to get an email notification about timer
-conflicts. The notification will only include 'relevant' conflicts as
-specified in the timer conflict setup. epgsearch will always send a new
-notification if there is any change in the current conflicts.
+=head3 1.4.7 E-mail notification
 
-(Also requires 'After each search timer update' or 'every ... minutes' in the
-conflict check setup to be activated.)
+Please make sure that F<sendEmail.pl> is in a directory of C<$PATH> and
+that F<epgsearchupdmail.templ> and F<epgsearchconflmail.templ> exist in
+the configuration directory of EPGSearch.
 
-=item - B<Send to:>
+=over 4
 
-The mail address of the recipient. Note: Some providers (like Arcor) don't
-allow the same address for sender and recipient.
+=item B<Search timer notification>
 
-=item - B<Mail method:>
+Enable this if you want to get an e-mail notification as soon as the search timer
+background thread has:
+
+=over 2
+
+=item • created a new timer
+
+=item • modified an existing timer
+
+=item • deleted a void timer resulting from EPG changes or user actions
+
+=back
+
+In addition, C<Use search timers> must be activated in the search-timer setup.
+
+=item B<Time between mails [h]>
+
+For search timer notifications, this specifies the minimum distance in hours
+between notification e-mails. Once this time has elapsed, a new e-mail will be sent
+after the next search-timer update. A value of C<0> will cause immediate e-mail
+delivery.
+
+=item B<Timer conflict notification>
+
+Enable this to get an e-mail notification about timer conflicts. The notification
+will only include relevant conflicts as specified in the timer conflict setup.
+EPGSearch will only send a new notification if the current conflicts have
+encountered a change.
+
+B<Note:> This requires C<After each search timer update> or C<every ... minutes> to
+be activated in the conflict-check settings.
+
+=item B<Send to>
+
+The full (!) e-mail address of the recipient.
+
+B<Note:> Some providers (like Arcor) don't allow identical e-mail addresses
+for sender and recipient.
+
+=item B<Mail method>
 
 You can choose between:
 
-  - sendEmail.pl: this is a simply script shipped with epgsearch, that allows
-    mail delivery also on systems without a configured mail server. Please
-    copy it to your $PATH
-  - sendmail: requires a properly configured mail system
+=over 4
 
-=item - B<Email address:>
+=item I<sendEmail.pl>
 
-Your full(!) email account address to be used for sending the mail.
+A simple script shipped with EPGSearch that allows e-mail delivery also
+on systems without a configured mail server. The script should be located
+within a directory of C<$PATH>.
 
-=item - B<SMTP server:>
+=item I<sendmail>
 
-The name of your SMTP server to be used for sending the mails.
-
-=item - B<Use SMTP authentication:>
-
-Select 'yes' if your account needs authentication to send mails.
-
-=item - B<AUTH user:>
-
-Specify the accounts username if your account needs authentication.
-
-=item - B<AUTH password:>
-
-Specify the accounts password if your account needs authentication.
-Note: The password is saved as plain text. You have to make sure on your own
-that your system is safe and no VDR configurations files are visible to non
-authorized persons.
+Requires a properly configured e-mail system.
 
 =back
 
-After the account setup, check if it works with 'Test'. If you are
-using 'sendEmail.pl' for mail delivery, there should be something like 'Email
-sent successfully' at the end of the test output. The test function is not
-available for method 'sendmail'.
+=item B<Email address>
 
-Also have a look at C<epgsearch(4)>, section 'Email notifications'.
+The full(!) e-email address of the account to be used for sending
+the notifications.
+
+=item B<SMTP server>
+
+The name of your SMTP server to be used for sending the notifications.
+
+=item B<Use SMTP authentication>
+
+Select C<yes> if your account needs authentication to send e-mails.
+
+=item B<AUTH user>
+
+Specify your account's username if the account requires authentication.
+
+=item B<AUTH password>
+
+Specify your account's password if the account requires authentication.
+
+B<Caution:> The password is saved as plain text. You must make sure that
+the system is secure and no VDR configuration files are accessible for
+unauthorized people.
+
+=back
+
+After the account setup, check with C<Test> that all works as intended. If
+using F<sendEmail.pl> for e-mail delivery, the test output should end with
+something like C<Email sent successfully>. No test function is available
+for F<sendmail>.
+
+Please also consider "E-mail notifications" in B<epgsearch>(4).
 
 =head1 2. Search timers
 
-This is quite the same as VDRAdmin's auto-timers, but needs no external
-software. When you create a search, you can give it an option to use
-it as search timer. Now the plugin scans EPG entries in certain update
-intervals (->setup) in the background and creates timers if there
-are matching entries. If you don't like to get a new timer, but only
-want to be informed about the event set 'Announce only (no timer)' to
-yes.
-Since these search timers are quite useful for serials, you can set
-the  option 'serial recording' in a search, which creates timers
-whose recordings are stored in a folder with the serials name and
-whose entries are named with the episode name. If there is no episode
-name, the plugin names the recording with a date/time string.
+The search timers are rather the same as VDRAdmin's auto-timers but need no
+external software. When creating a search, you can designate it as search timer.
+The plugin then scans EPG entries in certain update intervals in the background
+(see C<Update interval>) and creates timers if matching entries are found. If you
+don't want a new timer to be created, but only want to be notified about the event,
+select C<Announce by OSD>.
 
-To use search timers, you also have to activate them in the plugins setup.
-Also edit the SVDRP port, if you are not using the default 2001.
+Since these search timers are quite useful for television series, you can set the
+option C<Series recording> in a search. This will result in timers whose recordings
+are stored in a folder with the title as name of the series, and each recording will
+receive the subtitle as episode name. If unavailable, the date and time of the
+broadcast will be used instead.
 
-If you want to trigger a background scan manually simply
+To use search timers, you also must activate them in the plugin's setup.
+Also edit the SVDRP port if you are not using the default 2001.
 
-touch /etc/vdr/plugins/epgsearch/.epgsearchupdate
-
-This can also be part of your shutdown script. (Add here a sleep
-afterwards to give the plugin the time to finish the scan.)
-
-For more info about searchtimers please refer to C<epgsearch(4)>,
-'Description of the search process' and 'How do Search Timers work?'
-
-=head2 2.1 'Avoid repeats' - internals
-
-This section explains the feature 'Avoid repeats' for a search timer.
-Sometimes one cannot avoid double recordings of an event only by
-setting the corresponding search criterions.
-
-Therefore the feature 'avoid repeats' tries to check before creating a
-timer, if the same event was already recorded in the past or if there
-is a timer that records the same event. If so, there will be no new
-timer for the event.
-
-=head2 2.2 How do we compare two events?
-
-To check if two events are the same there are many possible settings
-for a search timer. You can choose the title, subtitle, description or
-extended EPG categories within the description of an event to be
-compared with the elements of another event.
-
-This comparison is always done case-sensitive and for the whole
-term. But the description of an event makes an exception of this.
-First all text within the description will be truncated that looks
-like an extended category entry, e.g. 'Rating: tip'. An extended
-category entry is a line of text beginning with max. 40 signs,
-followed by ':' and ending with max. 60 further signs.
-The reason for this cutting is that some categories like the rating of
-an event are not part of the description of the repeat of the same
-event.
-
-The remaining text will now be compared by length. If the difference
-is bigger then 90%, then we rate the description of the two events as
-different. If not, we apply the Levinsthein-Distance-Algorithm (LD),
-which makes a fuzzy text comparison. We accept the description of the
-events as equal, if LD returns a match of more then 90%.
-Since LD is quite runtime intensive (O(mn)), you should not choose
-'compare description' as the only comparison criterion, but combine
-it always with other criterions.
-
-=head2 2.3 How and when do we compare?
-
-As already mentioned each search timer update checks search timers
-with this feature for recordings in the past or an already existing
-timer for the same event.
-
-To remember past recordings epgsearch stores their info in the file
-epgsearchdone.data. You can have a look at the contents of this file
-calling 'show recordings done' in the 'actions' of the searches menu.
-This file only stores info about recordings that are complete,
-i.e. that started and stopped just in time. So a broken recording will
-not be stored in this file and epgsearch will automatically try to
-record the next repeat, if there is any. Starting with vdr 2.5.x also
-recordings with errors are not stored. If you would like to allow a
-certain amount of errors, you can raise the value of "Allowd Errors".
-
-B<How to use it?>
-
-As you see, the whole feature depends on the quality of the EPG.
-After creating such a search timer, you should first check if it does
-what is intended. Therefore the menu of search results has an
-additional mode for the key 'blue' named 'Timer preview'. Here you can
-see, what timers the next update would create. Existing timers are
-labeled with 'T', future timers with 'P'.
-
-Hint: If the programming results in a conflict simply disable the
-conflicting timer in the timers menu. The next search timer update,
-will try to program a different timer for the same event, if it exists.
-
-B<When it works not correctly :-)>
-
-To get a better control of the programming or not-programming of the
-timers when using this feature a log file was introduced. When starting
-epgsearch with the command line option '-v n' where n is the log level
-than you get additional info in the file epgsearch.log. Available log
-levels are 0 (no logging) to 3 (extended logging). See also the manual
-for the command line options.
-
-=head1 3. Usage from other plugins or scripts
-
-See C<epgsearch(4)>.
-
-=head1 4. Using extended EPG info
-
-Some EPG providers deliver additional EPG information like the type of
-event, the video and audio format, cast,... in the content summary.
-
-Note: This is different from the content descriptors introduced in vdr-1.7.11,
-that are delivered as extra data with a common standard. Unfortunately not
-all providers deliver this data, or the set wrong descriptors. So you can
-use the approach of 'extended EPG info' here, which is a way to extract that
-info from the content summary.
-
-Using tvm2vdr or epg4vdr you can import this into vdr.
-To use this information with search timers one has to configure it
-with the file epgsearchcats.conf in the epgsearch config directory. The
-format of the file is as follows:
-
- ID|category name|name in menu|values separated by ','(option)|search mode(option)
-
- - 'ID' should be a unique positive integer
-    (changing the id later on will force you to re-edit your search timers!)
- - 'category name' is the name as delivered by the EPG provider, e.g. 'Genre'
- - 'name in menu' is the name displayed in epgsearch.
- - 'values' is an optional list of possible values
- - 'search mode' specifies the search mode:
-   text comparison:
-   0 - the whole term must appear as substring
-   1 - all single terms (delimiters are ',', ';', '|' or '~')
-       must exist as substrings. This is the default search mode.
-   2 - at least one term (delimiters are ',', ';', '|' or '~')
-       must exist as substring.
-   3 - matches exactly
-   4 - regular expression
-   numerical comparison:
-   10 - less
-   11 - less or equal
-   12 - greater
-   13 - greater or equal
-   14 - equal
-   15 - not equal
-
-Sample files for epgsearchcats.conf are delivered with the plugin in the
-directory 'conf'.
-
-Simply copy the one that fits for you to the epgsearch configuration directory
-filename epgsearchcats.conf and then have a look to the search timers
-edit menu (after a restart of VDR).
-
-Since setting up a new epgsearchcats.conf is a lot of work, I've added
-a small tool 'createcats', that makes the biggest part of the job. It
-should have been compiled with the plugin and exists in the sources
-directory.
-
-See C<createcats(1)> for information about how to use it.
-
-Internals: epgsearch scans the summary of an event for the category
-name followed by ': ' for all categories that have a corresponding
-value set in the search timer. The search is case sensitive regarding
-the category name as also the value.
-
-=head1 5. Replacing the standard schedule menu
-
-To use this plugin as a replacement for the default green key, simply
-put the line
-
- Green   @epgsearch
-
-in your keymacros.conf. If you don't like to get another plugin entry
-in your main menu, first hide it by setup. Then you could use my
-launcher-plugin and put the line
-
- Green @launcher x
-
-in your keymacros.conf, where x is the position of the Epgsearch
-plugin within launchers menu listing.
-
-Another approach is using a patch to VDR that replaces vdr's standard
-schedule menu with epgsearch (vdr-replace-schedulemenu.diff.gz in the
-patches subdir, thanks to the author Uwe/egal@vdrportal). When using
-this patch the entry should look like
-
- Green Schedule
-
-This patch is already included in some patch collections, like the
-Bigpatch.
-
-=head1 6. Add-ons
-
-epgsearch delivers 2 'mini'-plugins. Both require an installed epgsearch (but
-epgsearch can be hided in the main menu):
+If you want to trigger a background scan manually simply execute:
 
 =over 4
 
-=item - B<epgsearchonly:>
-
-For those who only want to use the search feature and/or
-search timers or simply want to have a separate main menu entry for the
-search feature. This plugin creates a main menu entry 'Search' which calls
-epgsearch search menu.
-Activation in VDR start script with "-Pepgsearchonly".
-
-=item - B<conflictcheckonly:>
-
-The timer conflict check can also have its own main menu
-entry which displays epgsearch conflict overview menu. It has a setup option
-to display an information about the last check directly in its main menu entry.
-Activation in VDR start script with "-Pconflictcheckonly".
+    touch /etc/vdr/plugins/epgsearch/.epgsearchupdate
 
 =back
 
-Have fun!
+This command can also be part of your shutdown script. However, a delay
+of several seconds should be appended to give the plugin sufficient time
+for finishing the scan.
 
-Christian Wieninger
+For more info about search timers, please refer to B<epgsearch>(4), sections
+"Description of the search process" and "How do Search Timers work?".
 
-=head1 Advanced description
+=head2 2.1 Avoiding repeats in detail
 
-See C<epgsearch(4)> or read online
+Preventing multiple recordings of a broadcast only by setting respective
+search criteria is not feasible all the time. This section explains the feature
+C<Avoid repeats> for a search timer.
 
-L<http://winni.vdr-developer.org/epgsearch/README.DE>
+The feature C<Avoid repeats> thus checks before creating a timer whether the
+same broadcast has already been recorded in the past or whether a timer for
+recording the same broadcast (but not the same event!) already exists. In this
+case, no new timer for the event will be created.
 
-L<http://winni.vdr-developer.org/epgsearch/README>
+=head2 2.2 How do we compare two events?
 
-L<http://winni.vdr-developer.org/epgsearch/MANUAL>
+For checking whether two events are the same, a search timer offers
+many options. You can choose whether to compare the title, subtitle,
+description or extended EPG categories within the description of an
+event with the respective properties of another event.
 
-=head1 SEE ALSO
+This comparison is always case-sensitive and covers the whole
+term. But an event's description is an exception to this: First,
+all text within the description that looks like an extended category
+entry, like C<Rating: tip>, will be eliminated. Such an extended
+category entry is a line of text starting with up to 40 characters,
+followed by a C<:> character, and ending with at most 60 further
+characters. The reason for this filtering is that some extended
+categories, like the rating of an event, are often not part of
+the repeated event's description anymore.
 
-C<epgsearch.conf(5)>, C<epgsearchcats.conf(5)>, C<epgsearchcmds.conf(5)>, C<epgsearchdirs.conf(5)>, C<epgsearchmenu.conf(5)>, C<epgsearchuservars.conf(5)>, C<epgsearchdone.data(5)>, C<epgsearchswitchtimer.conf(5)>, C<epgsearchblacklists.conf(5)>, C<epgsearchchangrps.conf(5)>
+The resulting text will then be compared by length. If the difference
+exceeds 90 percent, the description of the two events is considered
+different. Otherwise, the Levenshtein-Distance-Algorithm (LD) will be
+applied, which performs a fuzzy text comparison. We accept the description
+of the events as equal if LD yields a match of more than 90 percent.
+
+Since LD is quite run-time intensive (complexity I<O(mn)>), you should not
+choose C<Compare summary> as the only criterion but always combine it with
+other criteria.
+
+=head2 2.3 How and when do we compare?
+
+As already mentioned, each search-timer update checks search timers
+with this feature for recordings in the past or an already existing
+timer for the same event.
+To remember past recordings, EPGSearch stores their information in the file
+F<epgsearchdone.data>. You can inspect the contents of this file by calling
+C<Show recordings done> in the C<Actions> of the C<Search entries> menu.
+This file only stores information about recordings that are complete,
+that is, which started and stopped in time. A broken recording will hence
+not be stored in this file and EPGSearch will automatically attempt to
+record the next repeat, if there is any.
+
+Since VDR 2.5.4, recordings with errors are not stored, too. If you would like
+to allow a certain number of errors, you can raise the value of C<Allowed errors>
+accordingly.
+
+=head3 2.3.1 How to use it?
+
+As you can see, the whole feature depends on the quality of the EPG.
+After creating such a search timer, you should first check if it behaves
+as intended. Therefore, the menu C<Search results> has an additional
+mode for the key C<blue>, called C<Timer preview>. This preview shows which
+timers the next update would create. Existing timers are labeled with C<T>,
+future timers with C<P>.
+
+B<Hint:> If the programming results in a conflict, simply disable the
+conflicting timer in the menu C<Timers>. The next search timer update
+will attempt to program a different timer for the same event, if one
+should exist.
+
+=head3 2.3.3 If it does not work correctly
+
+To gain better insight of whether or why a timer was programmed or not
+when using this feature, a log file was introduced. When starting EPGSearch
+with a log level of 2 or above (C<−v 2>), supplemental information will be
+recorded in the file F<epgsearch.log>. Also refer to the command-line options
+above.
+
+=head1 3. Usage from other plugins or scripts
+
+See B<epgsearch>(4).
+
+=head1 4. Using extended EPG information
+
+Some EPG providers deliver supplemental EPG information, like the kind of
+event, the video and audio format, cast, etc. in the content summary.
+
+B<Note:> This is different from the content descriptors specified in
+DIN EN 300 468, Table 18. These are delivered as supplemental data and
+are supported since VDR 1.7.11. However, not all providers supply such
+data or use correct descriptors. The approach of "extended EPG information"
+thus attempts to extract such information from the content summary.
+
+Using tools like F<tvmovie2vdr> or F<epg4vdr>, EPG content like this
+can be imported into the VDR.
+Such information allows, for instance, creating a search for finding
+all tips of the day broadcasted in 16:9 format quite easily.
+For this purpose, EPGSearch scans the summary of an event for lines
+starting with the names of categories, followed by C<:> and a space,
+that have one or more values set in the search timer. The search is
+case-sensitive for both the category name and its values.
+
+To use this kind of information in search timers, appropriate settings
+must have been made in the file F<epgsearchcats.conf> in the EPGSearch
+configuration directory.
+Lines within this file have the following format:
+
+=over 4
+
+    ID|category name[,format]|name in menu|values|search mode
+
+=back
+
+A line's fields have the following meaning:
+
+=over 4
+
+=item B<1 – Unique identifier (ID)>
+
+Integer with a positive value.
+
+B<Caution:> Changing the identifier later on will require
+updating the search timers!
+
+=item 2 – B<Category name>
+
+String with the EPG category's name as delivered by the EPG
+provider, like C<Genre>.
+
+If an optional C<format> is supplied, the category value will be
+interpreted as integer and formatted as specified by the format
+string (see C<man printf> for applicable format strings).
+
+=item 3 – B<Name in menus>
+
+String with the EPG category's name for display in EPGSearch menus.
+
+=item 4 – B<Values>
+
+String with an optional, comma-separated list of values for the
+EPG category.
+
+=item 5 – B<Search mode>
+
+Optional enumeration with the following values:
+
+=over 4
+
+B<Textual comparison:>
+
+=over 4
+
+=item 0 = the whole term must appear as substring
+
+=item 1 = all single terms (delimited by one of C<,;|~>)
+must exist as substrings; this is the default search mode
+
+=item 2 = at least one term (delimited by one of C<,;|~>)
+must exist as substring
+
+=item 3 = exact match
+
+=item 4 = regular expression
+
+=back
+
+B<Numerical comparison:>
+
+=over 4
+
+=item 10 = less
+
+=item 11 = less or equal
+
+=item 12 = greater
+
+=item 13 = greater or equal
+
+=item 14 = equal
+
+=item 15 = not equal
+
+=back
+
+=back
+
+=back
+
+Sample files for F<epgsearchcats.conf> can be found in the directory
+F<conf> of EPGSearch. Quite often, copying the one that fits best
+as F<epgsearchcats.conf> to the EPGSearch configuration directory and
+making some minor adjustments might be sufficient. Then just restart
+the VDR and open a search timer's edit menu for making use of the
+EPG categories.
+
+Since setting up a new F<epgsearchcats.conf> is quite a lot of work,
+EPGSearch comes with the small tool F<createcats> that does the
+biggest part of the job. It should have been installed to the directory
+of the VDR.
+Simply run:
+
+=over 4
+
+    createcats <path_to>/epg.data
+
+=back
+
+The tool scans the existing EPG information and attempts to extract the
+extended information. The result is a new file F<epgsearchcats.conf>, which
+still needs to be edited because not everything will be exactly right. Then
+copy the file to the plugin's configuration directory.
+
+See B<createcats>(1) for further information on how to use it.
+
+=head1 5. Replacing the standard schedule menu
+
+To use this plugin as a replacement for the VDR's default menu
+C<Schedules> invoked by the key C<green>, simply insert the line:
+
+=over 4
+
+    Green @epgsearch
+
+=back
+
+into F<keymacros.conf>. If you don't like to have the plugin's
+C<Program guide> appearing in the main menu, this menu entry can
+be hidden in the setup.
+
+=head1 6. Add-ons
+
+EPGSearch includes two additional small plugins. Both require an
+installed EPGSearch (but EPGSearch can be hidden in the main menu):
+
+=over 4
+
+=item B<F<epgsearchonly>>
+
+If just the search feature and/or search timers are needed, or a distinct
+main-menu entry for the search feature is desired, this plugin does the job.
+It creates a main-menu entry C<Quick search> that instantly calls the
+EPGSearch menu C<Edit search>.
+
+Activation in the VDR start script with C<−Pepgsearchonly>.
+
+=item B<F<conflictcheckonly>>
+
+The timer-conflict check can also have a main-menu entry of its own for
+instantly opening the EPGSearch menu C<Timer conflicts>. A setup option
+allows displaying the results of the last check directly from its
+main-menu entry.
+
+Activation in the VDR start script with C<−Pconflictcheckonly>.
+
+=back
 
 =head1 FILES
 
-F<epgsearch.conf>
+=over 4
 
-Searchtimers. See C<epgsearch.conf(5)>.
+=item B<F<epgsearch.conf>>
 
-F<epgsearchcats.conf>
+Contains the search timers; see B<epgsearch.conf>(5).
 
-Categories, advanced epg. See C<epgsearchcats.conf(5)>.
+=item B<F<epgsearchblacklists.conf>>
 
-F<epgsearchcmds.conf>
+Contains the blacklists; See B<epgsearchblacklists.conf>(5).
 
-EPG-commands, like the commands in commands.conf. See C<epgsearchcmds.conf(5)>.
+=item B<F<epgsearchcats.conf>>
 
-F<epgsearchdirs.conf>
+Contains the categories for the extended EPG information;
+see B<epgsearchcats.conf>(5).
 
-Pre-defined patches which can be selected while editing an searchtimer. See C<epgsearchdirs.conf(5)>.
+=item B<F<epgsearchchangrps.conf>>
 
-F<epgsearchmenu.conf>
+Defines the channel groups; see B<epgsearchchangrps.conf>(5).
 
-Configuration of the OSD menu layout. See C<epgsearchmenu.conf(5)>.
+=item B<F<epgsearchcmds.conf>>
 
-F<epgsearchuservars.conf>
+Contains commands similar to those of the file F<commands.conf> that can
+be applied to EPG entries; see B<epgsearchcmds.conf>(5).
 
-User defined variables. See C<epgsearchuservars.conf(5)>.
+=item B<F<epgsearchdirs.conf>>
 
-F<epgsearchdone.data>
+Contains predefined paths that can be selected while editing a
+search timer; see B<epgsearchdirs.conf>(5).
 
-The done-data. See C<epgsearchdone.data(5)>.
+=item B<F<epgsearchdone.data>>
 
-F<epgsearchswitchtimers.conf>
+Stores data about successfully recorded search timers; see B<epgsearchdone.data>(5).
 
-The switchtimers. See C<epgsearchswitchtimer.conf(5)>.
+=item B<F<epgsearchmenu.conf>>
 
-F<epgsearchblacklists.conf>
+Defines the layouts of selected OSD menus; see B<epgsearchmenu.conf>(5).
 
-The blacklist. See C<epgsearchblacklists.conf(5)>.
+=item B<F<epgsearchswitchtimers.conf>>
 
-F<epgsearchchangrps.conf>
+Contains the switch timers; see B<epgsearchswitchtimer.conf>(5).
 
-The channelgroups. See C<epgsearchchangrps.conf(5)>.
+=item B<F<epgsearchtemplates.conf>>
 
-F<epgsearchtemplates.conf>
+Contains templates for search timers; see B<epgsearchtemplates.conf>(5).
 
-Templates for searchtimers. See C<epgsearchtemplates.conf(5)>.
+=item B<F<epgsearchuservars.conf>>
 
-=head1 AUTHOR (man pages)
+Provides user-defined variables; see B<epgsearchuservars.conf>(5).
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=back
 
-=head1 REPORT BUGS
+=head1 NOTES
 
-Bugreports (german):
+A detailed description of the plugin's internal functions can be found in
+B<epgsearch>(4).
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+=head1 AUTHORS (man pages)
 
-Mailinglist:
+Originally provided by Mike Constabel <epgsearch (at) constabel (dot) net>.
 
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+Revised and adapted to recent plugin features by the current maintainers.
+
+=head1 PROJECT SITE
+
+The plugin is maintained as GitHub project:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
+
+=head1 REPORTING BUGS
+
+Issues can be reported, and features be suggested, through the project's
+bug tracker:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
 =head1 COPYRIGHT and LICENSE
 
 Copyright (C) 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal), et al.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -1170,10 +1457,24 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Or, point your browser to L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
-The author can be reached at cwieninger@gmx.de
+The original author can be reached via L<cwieninger@gmx.de>.
 
-The project's page is at http://winni.vdr-developer.org/epgsearch
+Current maintainers can be reached via the project's GitHub site (see above).
 
-The MD5 code is derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm.
+The MD5 code has been derived from the MD5 Message-Digest Algorithm of RSA Data Security, Inc.
+
+=head1 SEE ALSO
+
+B<epgsearch>(4),
+B<epgsearch.conf>(5),
+B<epgsearchblacklists.conf>(5),
+B<epgsearchcats.conf>(5),
+B<epgsearchchangrps.conf>(5),
+B<epgsearchcmds.conf>(5),
+B<epgsearchdirs.conf>(5),
+B<epgsearchdone.data>(5),
+B<epgsearchmenu.conf>(5),
+B<epgsearchswitchtimer.conf>(5),
+B<epgsearchuservars.conf>(5)

@@ -74,8 +74,8 @@ void cMenuEventSearch::Set()
     event = eventObj->Event();
     if (!event) return;
 
-    if (szGreen) free(szGreen);
-    if (szYellow) free(szYellow);
+    free(szGreen);
+    free(szYellow);
     szGreen = szYellow = NULL;
 
     if (event) {
@@ -115,8 +115,8 @@ void cMenuEventSearch::Set()
 
 cMenuEventSearch::~cMenuEventSearch()
 {
-    if (szGreen) free(szGreen);
-    if (szYellow) free(szYellow);
+    free(szGreen);
+    free(szYellow);
 }
 
 void cMenuEventSearch::Display(void)
@@ -221,8 +221,8 @@ void cMenuEventSearchSimple::Set()
     event = eventObj->Event();
     if (!event) return;
 
-    if (szGreen) free(szGreen);
-    if (szYellow) free(szYellow);
+    free(szGreen);
+    free(szYellow);
     szGreen = szYellow = NULL;
 
     if (event) {

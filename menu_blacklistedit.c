@@ -43,12 +43,12 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
     : cOsdMenu(tr("Edit blacklist"), 32)
 {
     SetMenuCategory(mcSetupPlugins);
-    SearchModes[0] = strdup(tr("phrase"));
-    SearchModes[1] = strdup(tr("all words"));
-    SearchModes[2] = strdup(tr("at least one word"));
-    SearchModes[3] = strdup(tr("match exactly"));
-    SearchModes[4] = strdup(tr("regular expression"));
-    SearchModes[5] = strdup(tr("fuzzy"));
+    SearchModes[0] = tr("phrase");
+    SearchModes[1] = tr("all words");
+    SearchModes[2] = tr("at least one word");
+    SearchModes[3] = tr("match exactly");
+    SearchModes[4] = tr("regular expression");
+    SearchModes[5] = tr("fuzzy");
 
     DaysOfWeek[0] = strdup(WeekDayName(0));
     DaysOfWeek[1] = strdup(WeekDayName(1));
@@ -59,10 +59,21 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
     DaysOfWeek[6] = strdup(WeekDayName(6));
     DaysOfWeek[7] = strdup(tr("user-defined"));
 
-    UseChannelSel[0] = strdup(trVDR("no"));
-    UseChannelSel[1] = strdup(tr("interval"));
-    UseChannelSel[2] = strdup(tr("channel group"));
-    UseChannelSel[3] = strdup(tr("only FTA"));
+    UseChannelSel[0] = trVDR("no");
+    UseChannelSel[1] = tr("interval");
+    UseChannelSel[2] = tr("channel group");
+    UseChannelSel[3] = tr("only FTA");
+
+    ContentsMatchingMode[0] = tr("all selected descriptors");
+    ContentsMatchingMode[1] = tr("any selected descriptor");
+    ContentsMatchingMode[2] = tr("some selected descriptor per group");
+
+    SpecialCharacteristicsMatchingMode[0] = tr("all selected descriptors");
+    SpecialCharacteristicsMatchingMode[1] = tr("any selected descriptor");
+
+    EPGInfoMatchingMode[0] = tr("all categories");
+    EPGInfoMatchingMode[1] = tr("all except missing categories");
+    EPGInfoMatchingMode[2] = tr("at least one category");
 
     if (New) {
         cSearchExt* SearchTempl = NULL; // copy the default settings, if we have a default template
@@ -108,6 +119,22 @@ cMenuBlacklistEdit::cMenuBlacklistEdit(cBlacklist *Blacklist, bool New)
                 channelGroupNr++;
             }
         }
+
+        // collect content string IDs
+        std::set<std::string> contentStrings;
+        for (unsigned int i = 0; i < CONTENT_DESCRIPTOR_MAX; i++) {
+            const std::string contentDescr = cEvent::ContentToString(i);
+            if (!contentDescr.empty() && contentStrings.find(contentDescr) == contentStrings.end()) {
+                contentStrings.insert(contentDescr);
+                contentStringIDs.push_back(i);
+            }
+        }
+
+        // set the flags for the content descriptors
+        contentStringFlags = (int*) malloc((CONTENT_DESCRIPTOR_MAX + 1) * sizeof(int));
+        for (unsigned int i = 0; i <= CONTENT_DESCRIPTOR_MAX; i++)
+            contentStringFlags[i] = data.HasContentID(i);
+
         catvaluesNumeric = NULL;
         if (SearchExtCats.Count() > 0) {
             catvaluesNumeric = (int*) malloc(SearchExtCats.Count() * sizeof(int));
@@ -137,10 +164,31 @@ void cMenuBlacklistEdit::Set()
     Add(new cMenuEditBoolItem(tr("Use subtitle"), &data.useSubtitle, trVDR("no"), trVDR("yes")));
     Add(new cMenuEditBoolItem(tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));
 
+    Add(new cMenuEditBoolItem(tr("Use parental rating"), &data.useParentalRating, trVDR("no"), trVDR("yes")));
+    if (data.useParentalRating == true) {
+        Add(new cMenuEditIntItem(tr("  Min. rating"), &data.minParentalRating, 0, 18));
+        Add(new cMenuEditIntItem(tr("  Max. rating"), &data.maxParentalRating, 0, 18));
+    }
+
+    Add(new cMenuEditBoolItem(tr("Use content descriptors"), &data.useContentsFilter, trVDR("no"), trVDR("yes")));
+    if (data.useContentsFilter) {
+        Add(new cMenuEditStraItem(tr("  Contents matching mode"), &data.contentsCategoryMatchingMode, 3, ContentsMatchingMode));
+        std::vector<int>::const_iterator it;
+        for (unsigned int i = 0; i < contentStringIDs.size(); i++) {
+            int level = (contentStringIDs[i] % 0x10 == 0 ? 1 : 2);
+            if (contentStringIDs[i] == 0xB0) {
+                Add(new cMenuEditStraItem(tr("  Special characteristics"), &data.contentsCharacteristicsMatchingMode, 2, SpecialCharacteristicsMatchingMode));
+                level = 2;
+            }
+            Add(new cMenuEditBoolItem(IndentMenuItem(tr(cEvent::ContentToString(contentStringIDs[i])), level), &contentStringFlags[contentStringIDs[i]], trVDR("no"), trVDR("yes")));
+        }
+    }
+
     // show Categories only if we have them
     if (SearchExtCats.Count() > 0) {
         Add(new cMenuEditBoolItem(tr("Use extended EPG info"), &data.useExtEPGInfo, trVDR("no"), trVDR("yes")));
         if (data.useExtEPGInfo) {
+            Add(new cMenuEditStraItem(IndentMenuItem(tr("Category matching mode")), &data.extEPGInfoMatchingMode, 3, EPGInfoMatchingMode));
             cSearchExtCat *SearchExtCat = SearchExtCats.First();
             int index = 0;
             while (SearchExtCat) {
@@ -148,22 +196,20 @@ void cMenuBlacklistEdit::Set()
                     Add(new cMenuEditIntItem(IndentMenuItem(SearchExtCat->menuname), &catvaluesNumeric[index], 0, 999999, ""));
                 else
                     Add(new cMenuEditStrItem(IndentMenuItem(SearchExtCat->menuname), data.catvalues[index], MaxFileName, tr(AllowedChars)));
-
                 SearchExtCat = SearchExtCats.Next(SearchExtCat);
                 index++;
             }
-            Add(new cMenuEditBoolItem(IndentMenuItem(tr("Ignore missing categories")), &data.ignoreMissingEPGCats, trVDR("no"), trVDR("yes")));
         }
     }
 
     Add(new cMenuEditStraItem(tr("Use channel"), &data.useChannel, 4, UseChannelSel));
     if (data.useChannel == 1) {
-        Add(new cMenuEditChanItem(tr("  from channel"),      &channelMin));
-        Add(new cMenuEditChanItem(tr("  to channel"),      &channelMax));
+        Add(new cMenuEditChanItem(tr("  from channel"), &channelMin));
+        Add(new cMenuEditChanItem(tr("  to channel"), &channelMax));
     }
     if (data.useChannel == 2) {
         // create the char array for the menu display
-        if (menuitemsChGr) delete [] menuitemsChGr;
+        delete [] menuitemsChGr;
         menuitemsChGr = ChannelGroups.CreateMenuitemsList();
         int oldchannelGroupNr = channelGroupNr;
         channelGroupNr = ChannelGroups.GetIndex(channelGroupName);
@@ -202,22 +248,13 @@ void cMenuBlacklistEdit::Set()
 
 cMenuBlacklistEdit::~cMenuBlacklistEdit()
 {
-    if (blacklist && addIfConfirmed)
-        delete blacklist; // apparently it wasn't confirmed
-    if (menuitemsChGr)
-        free(menuitemsChGr);
-    if (channelGroupName)
-        free(channelGroupName);
-    if (catvaluesNumeric)
-        free(catvaluesNumeric);
-
-    int i;
-    for (i = 0; i <= 4; i++)
-        free(SearchModes[i]);
-    for (i = 0; i <= 7; i++)
+    if (addIfConfirmed) delete blacklist; // apparently it wasn't confirmed
+    delete [] menuitemsChGr;
+    free(channelGroupName);
+    free(catvaluesNumeric);
+    free(contentStringFlags);
+    for (size_t i = 0; i < LENGTHOF(DaysOfWeek); i++)
         free(DaysOfWeek[i]);
-    for (i = 0; i <= 2; i++)
-        free(UseChannelSel[i]);
 }
 
 eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
@@ -229,6 +266,8 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
     int iTemp_useChannel = data.useChannel;
     int iTemp_useDuration = data.useDuration;
     int iTemp_useDayOfWeek = data.useDayOfWeek;
+    int iTemp_useParentalRating = data.useParentalRating;
+    int iTemp_useContentsFilter = data.useContentsFilter;
     int iTemp_useExtEPGInfo = data.useExtEPGInfo;
 
     eOSState state = cOsdMenu::ProcessKey(Key);
@@ -238,6 +277,8 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
         iTemp_useChannel != data.useChannel ||
         iTemp_useDuration != data.useDuration ||
         iTemp_useDayOfWeek != data.useDayOfWeek ||
+        iTemp_useParentalRating != data.useParentalRating ||
+        iTemp_useContentsFilter != data.useContentsFilter ||
         iTemp_useExtEPGInfo != data.useExtEPGInfo) {
         Set();
         Display();
@@ -349,6 +390,8 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
                     index++;
                 }
 
+                blacklist->SetContentsFilter(data.useContentsFilter ? contentStringFlags : NULL);
+
                 if (addIfConfirmed) {
                     cMutexLock BlacklistLock(&Blacklists);
                     blacklist->ID = Blacklists.GetNewID();
@@ -366,8 +409,7 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
 
         case kBlue:
             if (iOnUseChannelGroups || iOnChannelGroup) {
-                if (channelGroupName)
-                    free(channelGroupName);
+                free(channelGroupName);
                 channelGroupName = strdup(menuitemsChGr[channelGroupNr]);
                 state = AddSubMenu(new cMenuChannelGroups(&channelGroupName));
             }
@@ -391,7 +433,12 @@ eOSState cMenuBlacklistEdit::ProcessKey(eKeys Key)
             }
             if (data.useChannel == 2) {
                 channelGroupNr = ChannelGroups.GetIndex(data.channelGroup);
+                free(channelGroupName);
                 channelGroupName = strdup(data.channelGroup);
+            }
+            if (data.useContentsFilter) {
+                for (unsigned int i = 0; i <= CONTENT_DESCRIPTOR_MAX; i++)
+                    contentStringFlags[i] = data.HasContentID(i);
             }
         }
         if (iOnExtCatItemBrowsable && SearchExtCats.Count() > 0) {

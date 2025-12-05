@@ -27,16 +27,9 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 
 cPendingNotifications PendingNotifications;
-char *cPendingNotification::buffer = NULL;
+
 // -- cPendingNotifications -----------------------------------------------------------------
 
-cPendingNotification::~cPendingNotification(void)
-{
-    if (buffer) {
-        free(buffer);
-        buffer = NULL;
-    }
-}
 bool cPendingNotification::Parse(const char *s)
 {
     char *t = skipspace(s + 1);
@@ -111,28 +104,24 @@ bool cPendingNotification::Read(FILE *f)
 }
 
 
-const char *cPendingNotification::ToText(void) const
+const char *cPendingNotification::ToText(void)
 {
     char* tmpFormatted = formatted != "" ? strdup(formatted.c_str()) : NULL;
     if (tmpFormatted)
         strreplace(tmpFormatted, '\n', '|');
-
-    if (buffer)
-        free(buffer);
-    buffer = NULL;
 
     LOCK_CHANNELS_READ;
     const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
     if (!channel)
         LogFile.Log(3, "invalid channel in pending notifications!");
 
+    free(buffer);
     msprintf(&buffer, "N %d %u %d %d %ld\nC %s\n%s%s%sn",
              type, eventID, timerMod, searchID, start,
              channel ? CHANNELSTRING(channel) : "",
              tmpFormatted ? "F " : "", tmpFormatted ? tmpFormatted : "", tmpFormatted ? "\n" : "");
 
-    if (tmpFormatted)
-        free(tmpFormatted);
+    free(tmpFormatted);
 
     return buffer;
 }

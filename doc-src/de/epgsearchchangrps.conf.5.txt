@@ -1,53 +1,61 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchchangrps.conf> - Liste der Kanalgruppen
+F<epgsearchchangrps.conf> – Kanalgruppen
 
 =head1 BESCHREIBUNG
 
-In epgsearch kann man Sender zu Kanalgruppen zusammenfassen die dann in
-den Suchtimern verwendet werden können.
+In EPGSearch lassen sich Sender zu Kanalgruppen zusammenfassen, die
+in Suchen und Suchtimern verwendet werden können. Hierdurch können
+für mehrere Suchen beziehungsweise Suchtimer zu durchsuchende Kanäle
+zentral verwaltet werden.
 
-Hierdurch können für viele Suchtimer auf einmal die durchsuchten Kanäle zentral
-neu konfiguriert werden.
-
-In dieser Datei werden die Kanalgruppen gespeichert.
+Die Kanalgruppen werden in dieser Datei gespeichert.
 
 =head1 FORMAT
 
-Jede Zeile eine Kanalgruppe. Jede Zeile beginnt mit dem Gruppennamen, dahinter, getrennt durch '|',
-die Liste der Kanäle.
+Jede Zeile beschreibt eine Kanalgruppe und beginnt mit dem Gruppennamen,
+gefolgt von der Liste der Kanäle. Ein C<|> dient jeweils als Trennzeichen.
 
-=head1 BEISPIELE
+=head1 BEISPIEL
 
-(Die Zeilen sind gekürzt, daher unvollständig)
+=over 4
 
- Private|S19.2E-133-33-46|S19.2E-133-33-51
- ProsiebenSat.1|S19.2E-133-33-46|S19.2E-133-33-47
- RTL World|S19.2E-1-1089-12003||S19.2E-1-1089-12090
+    Privatsender|S19.2E-133-33-46|S19.2E-133-33-51
+    Pro7-Hauptsender|S19.2E-133-33-46|S19.2E-133-33-47
+    RTL-Hauptsender|S19.2E-1-1089-12003|S19.2E-1-1089-12090
 
-=head1 SIEHE AUCH
+=back
 
-C<epgsearch(1)>
+=head1 AUTOREN (Man-Pages)
 
-=head1 AUTOR (man pages)
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
-
-=head1 COPYRIGHT and LIZENZ
+=head1 COPYRIGHT und LIZENZ
 
 Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -62,14 +70,18 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
 
-Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
-von RSA Data Security, Inc..
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
 
+=head1 SIEHE AUCH
+
+B<epgsearch>(1), B<epgsearch>(4), B<epgsearch.conf>(5)
 

@@ -144,12 +144,9 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
             const cChannel *channel = Channels->GetByChannelID(pEvent->ChannelID(), true, true);
             int timerMode = hasTimer ? 1 : (result->needsTimer ? 2 : 0);
 
-            std::string title = pEvent->Title() ? ReplaceAll(pEvent->Title(), "|", "!^pipe!^") : "";
-            title = ReplaceAll(title, ":", "|");
-            std::string shorttext = pEvent->ShortText() ? ReplaceAll(pEvent->ShortText(), "|", "!^pipe!^") : "";
-            shorttext = ReplaceAll(shorttext, ":", "|");
-            std::string description = pEvent->Description() ? ReplaceAll(pEvent->Description(), "|", "!^pipe!^") : "";
-            description = ReplaceAll(description, ":", "|");
+            std::string title = pEvent->Title() ? encodeSpecialCharacters(pEvent->Title()) : "";
+            std::string shorttext = pEvent->ShortText() ? encodeSpecialCharacters(pEvent->ShortText()) : "";
+            std::string description = pEvent->Description() ? encodeSpecialCharacters(pEvent->Description()) : "";
 
             cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d",
                                               result->search->ID,

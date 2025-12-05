@@ -1,113 +1,370 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchmenu.conf> - Konfiguration der Menüdarstellung
+F<epgsearchmenu.conf> – Konfiguration der EPG-Menüs
 
 =head1 BESCHREIBUNG
 
-Die Darstellung des Menüs des Plugins kann auf die eigenen Wünsche
+Die Darstellung ausgewählter Menüs von EPGSearch kann an eigene Wünsche
 angepasst werden. Die Konfiguration erfolgt mit Hilfe dieser Datei.
+
+Die Datei F<epgsearchmenu.conf> wird nicht bei jedem Aufruf des Plugins neu
+geladen, da dies nur zum Testen der Konfigurationsdatei selbst sinnvoll ist.
+Um ein permanentes Neuladen der Datei zum Testen einer Konfigurationsänderung
+zu aktivieren, ist im Startskript des VDR (bspw. F<runvdr>) der Startparameter
+C<−r> oder C<−−reloadmenuconf> zu ergänzen.
 
 =head1 FORMAT
 
- In dieser Datei können den Variablen
+Jede Zeile legt das Erscheinungsbild eines bestimmten Menüs fest.
+Die einzelnen Einträge bestimmen, wie die folgenden Menüs gestaltet
+sein sollen:
 
- MenuWhatsOnNow
- MenuWhatsOnNext
- MenuWhatsOnElse
- MenuSchedule
- MenuSearchResults
+=over 4
 
-Zeichenketten zugewiesen werden die die Darstellung der Menüs im OSD regeln.
+=item B<MenuWhatsOnNow>
 
-Eine Besonderheit stellt MenuSearchResults. Hier kann man der Variablen
-MenuSearchResults eine beliebige Zeichenkette anhängen:
+Vorlage für das Menü C<Jetzt>.
 
- MenuSearchResultsSerienlayout=...
+=item B<MenuWhatsOnNext>
 
-Dies bewirkt das man beim Editieren eines Suchtimers nun auch dieses Layout
-unter dem Namen "Serienlayout" auswählen kann.
+Vorlage für das Menü C<Nächste>.
 
-So kann man jedem Suchtimer seine eigene OSD Darstellung verpassen.
+=item B<MenuWhatsOnElse>
 
-Es können alle Variablen verwendet werden. Die Variablen aus dem erweiterten
-EPG, die in der F<epgsearchuservars.conf> konfigurierten sowie die folgenden
-internen:
+Vorlage für das Menü einer benutzerdefinierten Zeit.
 
- %title%      - Title der Sendung
- %subtitle%   - Subtitle der Sendung
- %time%       - Startzeit im Format HH:MM
- %date%       - Startzeit im Format TT.MM.YY
- %datesh%     - Startdatum im Format TT.MM.
- %time_w%     - Name des Wochentages
- %time_d%     - Tag der Sendung im Format TT
- %time_lng%   - Startzeit in Sekunden seit 1970-01-01 00:00
- %t_status%   - Timerstatus ('T', 't', 'R')
- %v_status%   - VPS Status
- %r_status%   - Running Status
- %status%     - Kompletter Status, das selbe wie
-                '%t_status%%v_status%%r_status%'
+=item B<MenuSchedule>
 
-Für die Menüs "Was läuft jetzt" und "Suchergebniss", also die Variablen
-MenuWhatsOnNow und MenuSearchResults, stehen fünf weitere Variablen
-zur Verfügung:
+Vorlage für das Menü C<Programm>.
 
- %chnr%       - Kanalnummer
- %chsh%       - Kanalname kurz
- %chlng%      - Kanalname lang
- %chdata%     - VDR's interne Kanaldarstellung (z.B. 'S19.2E-1-1101-28106')
- %progr%      - Grafischer Fortschrittsbalken (nicht für das Menü "Suchergenis")
- %progrT2S%   - Fortschrittsbalken im text2skin Stil (nicht für das Menü "Suchergenis")
+=item B<MenuSearchResults>
 
-Es wird bei den Variablen nicht zwischen Gross-/Kleinschreibung unterschieden.
+Vorlage für das Menü C<Suchergebnisse>.
 
-Ein Eintrag besteht aus bis zu 6 Tabellenspalten, die Spalten werden durch
-'|' getrennt. Der letzte Eintrag jeder Spalte kann die Spaltenbreite durch
-angabe einer Breite in Zeichen festlegen. Die Breitenangabe wird durch ':'
-vom Variablennamen getrennt.
+=item B<MenuFavorites>
 
-Wenn du Trenner wie '~', '-' oder '#' verwendest um einzelne Bestandteile zu
-trennen, z.B. %title% ~ %subtitle%, dann achtet epgsearch darauf das ein
-solcher Trenner nicht am Ende einer Spalte steht.
+Vorlage für das Menü C<Favoriten>.
 
-Die einzelnen Spaltenbreiten sollten angepasst werden, das Aussehen ist vom
-verwendeten Skin abhängig.
+=back
 
-Wenn diese Datei verändert werden soll während VDR läuft kann man dem Plugin
-den Startparamter '-r' oder '--reloadmenuconf' übergeben, die Datei wird dann
-bei jedem öffnen des Menüs neu eingelesen.
+Ohne einen entsprechenden Eintrag verwendet EPGSearch das
+Standardlayout des entsprechenden Menüs.
 
-=head1 BEISPIELE
+Der Eintrag C<MenuSearchResults> weist eine Besonderheit auf: Werden
+je nach Suche unterschiedliche Layouts für die Suchergebnisse gewünscht,
+können weitere Vorlagen erstellt werden. Hierzu ergänzt man für jede
+Vorlage einen Eintrag, bei dem der Name der Vorlage unmittelbar an
+C<MenuSearchResults> angefügt wird, beispielsweise C<MenuSearchResultsTagestipp>.
+Liegt mehr als ein mit C<MenuSearchResults> beginnender Eintrag vor, erscheint
+im Menü C<Suche editieren> ein zusätzlicher Menüpunkt C<Layout des Ergebnis-Menüs>,
+der für die Anzeige der Suchergebnisse die Auswahl zwischen der Standardvorlage
+und eigenen Vorlagen erlaubt.
 
- MenuWhatsOnNow=%chnr%:3|%progrt2s%:5| %time% %t_status%:8|%category%:6| %title% ~ %subtitle%:35
- MenuWhatsOnNext=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
- MenuWhatsOnElse=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
- MenuSchedule=%time% %t_status%:8|%genre%:14| %title% ~ %subtitle%:35
- MenuSearchResults=%chnr%:3|%datesh% %time% %t_status%:14|%genre%:8| %title%%colon% %subtitle%:35
- MenuFavorites=%chnr%:3|%datesh% %time% %t_status%:14|%genre%:8| %title%%colon%%subtitle%:35
+=head1 VARIABLEN
 
-=head1 SIEHE AUCH
+Folgende Variablen stehen zur Verfügung (Groß- und Kleinschreibung
+wird ignoriert):
 
-C<epgsearch(1)>, C<epgsearchcats.conf>, C<epgsearchuservars.conf>
+=for time variables
 
-=head1 AUTOR (man pages)
+=over 4
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=item B<%Time%>
+
+Der Beginn einer Sendung im Format 'HH:MM'.
+
+=item B<%TimeEnd%>
+
+Das Ende einer Sendung im Format 'HH:MM'.
+
+=item B<%Time_D%>
+
+Das Datum des Beginns einer Sendung im Format 'TT'.
+
+=item B<%Time_W%>
+
+Der Name des Wochentages, an dem eine Sendung beginnt.
+
+=item B<%Time_Lng%>
+
+Datum und Startzeit einer Sendung in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC).
+
+=item B<%TimeSpan%>
+
+Die Zeit bis zum Beginn einer Sendung (bspw. C<in 15m>)
+oder die bereits verstrichene Zeit (bspw. C<10m>).
+
+=for date variables
+
+=item B<%Date%>
+
+Das Datum des Beginns einer Sendung im Format 'TT.MM.JJ'.
+
+=item B<%DateSh%>
+
+Das Datum des Beginns einer Sendung im Format 'TT.MM'.
+
+=item B<%Date_ISO%>
+
+Das Datum des Beginns einer Sendung im Format 'JJJJ-MM-TT'.
+
+=item B<%Day%>
+
+Der Tag des Beginns einer Sendung (1..31).
+
+=item B<%Week%>
+
+Die Kalenderwoche, in der eine Sendung beginnt (01..53).
+
+Gemäß ISO-Standard 8601 ist Montag der erste Tag einer Woche.
+Kalenderwoche 1 ist die erste Woche eines Jahres, die mindestens
+vier Tage des Jahres umfasst, also einen Donnerstag bzw. den
+4. Januar enthält.
+
+=item B<%Month%>
+
+Der Monat des Beginns einer Sendung (1..12).
+
+=item B<%Year%>
+
+Das Jahr des Beginns einer Sendung (1970..2038, gegebenenfalls auch später).
+
+=for event-specific variables
+
+=item B<%EventID%>
+
+Die numerische Kennung einer Sendung.
+
+=item B<%LiveEventID%>
+
+Die Kennung einer Sendung, wie sie vom Frontend F<live> verwendet wird.
+
+=item B<%Title%>
+
+Der Titel einer Sendung.
+
+=item B<%Subtitle%>
+
+Der Untertitel einer Sendung.
+
+=item B<%Summary%>
+
+Die Beschreibung einer Sendung.
+
+=item B<%HtmlSummary%>
+
+Die Beschreibung einer Sendung, in der alle Zeilenumbrüche
+durch C<E<lt>br /E<gt>> ersetzt sind.
+
+B<Achtung:> Die in HTML reservierten Zeichen C<E<lt>&"E<gt>> werden nicht
+durch ihre Substitute C<&lt;>, C<&amp;>, C<&quot;> und C<&gt;> ersetzt.
+
+=item B<%E<lt>EPG-KategorieE<gt>%>
+
+Der für eine Sendung zutreffende Wert der entsprechenden EPG-Kategorie
+aus F<epgsearchcats.conf>, etwa C<%Genre%> oder C<%Category%>.
+
+=item B<%Length%>
+
+Die Länge einer Sendung in Sekunden.
+
+=item B<%Status%>
+
+Der Status einer Sendung (entspricht C<%T_Status%%V_Status%%R_Status%>).
+
+=item B<%T_Status%>
+
+Der Status eines Timers (C<T>, C<t> oder C<R>), andernfalls ein Leerzeichen.
+
+=item B<%V_Status%>
+
+Der VPS-Status einer Sendung (C<V>), andernfalls ein Leerzeichen.
+
+=item B<%R_Status%>
+
+Der Status, ob eine Sendung läuft (C<*>), andernfalls ein Leerzeichen.
+
+=back
+
+Für die Menüs benutzerdefinierter Zeiten sowie das Menu C<Suchergebnisse>
+stehen ergänzend noch folgende Variablen zur Verfügung:
+
+=over 4
+
+=item B<%ChNr%>
+
+Die Kanalnummer einer Sendung.
+
+=item B<%ChSh%>
+
+Die Kurzbezeichnung des Kanals einer Sendung.
+
+=item B<%ChLng%>
+
+Der ausführliche Name des Kanals einer Sendung.
+
+=item B<%ChData%>
+
+Die interne Kanalkennung des VDR (bspw. C<S19.2E-1-1101-28106>).
+
+=item B<%Progr%>
+
+Eine grafische Fortschrittsanzeige; nicht verfügbar für das Menü
+C<Suchergebnisse>.
+
+B<Hinweis:> Zur Anzeige der Grafik muss die Schriftart F<VDRSymbols>
+installiert sein.
+
+=item B<%ProgrT2S%>
+
+Eine Fortschrittsanzeige im Stil von F<text2skin>; nicht verfügbar
+für das Menü C<Suchergebnisse>.
+
+=back
+
+Abschließend noch einige allgemeine Variablen:
+
+=over 4
+
+=item B<%TimeNow%>
+
+Die aktuelle Zeit im Format 'HH:MM'.
+
+=item B<%DateNow%>
+
+Das aktuelle Datum im Format 'TT.MM.JJ'.
+
+=item B<%DateShNow%>
+
+Das aktuelle Datum im Format 'TT.MM'.
+
+=item B<%Date_ISO_Now%>
+
+Das aktuelle Datum im Format 'JJJJ-MM-TT'.
+
+=item B<%VideoDir%>
+
+Das Video-Verzeichnis des VDR (bspw. F</video>).
+
+=item B<%PlugConfDir%>
+
+Das Konfigurationsverzeichnis des VDR für die Plugins (bspw. F</etc/vdr/plugins>).
+
+=item B<%EPGSearchDir%>
+
+Das Konfigurationsverzeichnis von EPGSearch (bspw. F</etc/vdr/plugins/epgsearch>)
+
+=item B<%Colon%>
+
+Ein Doppelpunkt.
+
+=back
+
+Des Weiteren können auch Variablen für erweiterte EPG-Kategorien, die in
+F<epgsearchcats.conf> definiert sind, oder benutzerdefinierte Variablen aus
+F<epgsearchuservars.conf> verwendet werden. Bei Variablennamen wird nicht
+zwischen Groß- und Kleinschreibung unterschieden.
+
+Ein Eintrag besteht aus bis zu sechs Tabellenspalten, die durch C<|>
+getrennt sind. Der letzte Eintrag einer jeden Tabellenzeile sollte, durch
+C<:> abgetrennt, die Tabellenbreite in Zeichen angeben.
+
+Wenn Elemente durch Zeichen wie C<~>, C<−> oder C<#> getrennt werden (bspw.
+C<%Title% ~ %Subtitle%>) und am Ende stehende Elemente leer sind, entfernt
+EPGSearch nach Möglichkeit verwaiste Leerräume und Trennzeichen.
+
+Um Symbole der Schriftart F<VDRSymbols> zu aktivieren, muss die folgende
+Zeile in die Datei eingefügt werden:
+
+=over 4
+
+    WarEagleIcons=1
+
+=back
+
+Die Schriftart F<VDRSymbols> kann von
+L<http://andreas.vdr-developer.org/fonts/download.html>
+heruntergeladen werden.
+
+B<Hinweis:> Wenn eine Datei F<epgsearchmenu.conf> mit einem Eintrag
+für ein bestimmtes Menü vorhanden ist, werden die Standardeinstellungen
+zur Darstellung dieses Menüs ignoriert.
+
+=head1 BEISPIEL
+
+Ein Beispiel für F<epgsearchmenu.conf> befindet sich im Unterverzeichnis
+F<conf> von EPGSearch. Zum schnellen Ausprobieren kann die Datei in das
+Konfigurationsverzeichnis von EPGSearch (bspw. F</etc/vdr/plugins/epgsearch>)
+kopiert werden.
+
+=over 4
+
+    MenuWhatsOnNow=%chnr%:3|%progrt2s%:5| %time% %t_status%:8|%category%:6| %title% ~ %subtitle%:35
+    MenuWhatsOnNext=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
+    MenuWhatsOnElse=%chnr%:3|%time% %t_status%:8|%category%:8| %title% ~ %subtitle%:35
+    MenuSchedule=%time% %t_status%:8|%genre%:14| %title% ~ %subtitle%:35
+    MenuFavorites=%chnr%:3|%datesh% %time% %t_status%:14|%genre%:8| %title%%colon%%subtitle%:35
+    MenuSearchResults=%chnr%:3|%datesh% %time% %t_status%:14|%genre%:8| %title%%colon% %subtitle%:35
+
+=back
+
+Der Eintrag C<MenuWhatsOnNow> legt fest, wie eine Zeile für das Menü
+C<Jetzt> beschaffen sein soll. Die Menüzeile beginnt mit der Kanalnummer,
+gefolgt von einem Fortschrittsbalken im Stil von F<text2skin>, einem
+Leerzeichen, dem Sendungsbeginn, dem Timer-Status, der EPG-Kategorie
+(bspw. "Film") und schließlich dem Titel und Untertitel der Sendung.
+
+Nehmen wir außerdem an, dass noch folgender Eintrag hinzugefügt wird:
+
+=over 4
+
+    MenuSearchResultsTagestipp=%chnr%:3|%time_w%:4|%t_status%:3|%genre%:10|%title%%colon% %subtitle%:35
+
+=back
+
+Dies bewirkt, dass im Menü C<Suche editieren> ein zusätzlicher
+Menüpunkt C<Layout des Ergebnis-Menüs> erscheint, der für die Anzeige
+der Suchergebnisse die Auswahl zwischen der Standardvorlage und
+eigenen Vorlagen ermöglicht. Im obigen Beispiel würde C<Tagestipp>
+als zusätzliche Option aufgeführt, da EPGSearch für den Vorlagennamen
+lediglich das Präfix C<MenuSearchResults> entfernt. Zur Anzeige der
+Suchergebnisse wird das gewählte Layout anstelle des Standardlayouts
+verwendet.
+
+Die Werte für die Spaltenbreiten sollten den eigenen Bedürfnissen anpasst
+werden, da das Erscheinungsbild oft von der gewählten Oberfläche abhängt.
+
+=head1 AUTOREN (Man-Pages)
+
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
-
-=head1 COPYRIGHT and LIZENZ
+=head1 COPYRIGHT und LIZENZ
 
 Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -122,14 +379,17 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
 
-Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
-von RSA Data Security, Inc..
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
 
+=head1 SIEHE AUCH
 
+B<epgsearch>(1), B<epgsearchcats.conf>(5), B<epgsearchuservars.conf>(5)

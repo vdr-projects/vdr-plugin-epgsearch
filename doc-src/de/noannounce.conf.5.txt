@@ -1,55 +1,112 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<noannounce.conf> - Liste von Sendungen, die nicht mehr per OSD angekündigt
-werden sollen.
+F<noannounce.conf> – Sendungen, die nicht per OSD angekündigt werden sollen
 
 =head1 BESCHREIBUNG
 
-Diese Datei enthält eine Liste von Sendungen die markiert wurden, sodass diese
-nicht mehr durch den Suchtimer-Hintergrund-Thread per OSD angekündigt werden.
+Diese Datei enthält Sendungen, die nicht per OSD angekündigt werden sollen,
+wenn sie bei der Hintergrundsuche von Suchtimern gefunden wurden.
 
-Wenn während der Ankündigung einer Sendung eine der Tasten '0', ... '9' oder
-'Ok' gedrückt wird, wird nachgefragt, ob zukünftige Ankündigungen vollständig
-(bei den Tasten '0'  oder 'Ok') oder nur für die nächsten  x  Tage (bei den
-Tasten '1' bis '9') unterdrückt werden sollen. Bestätigt man diese Abfrage
-durch ein erneutes 'Ok', wird die Einstellung entsprechend übernommen.
+Drückt man während der Ankündigung einer Sendung eine der Tasten C<OK> oder
+C<0> bis C<9>, wird nachgefragt, ob zukünftige Ankündigungen dauerhaft
+(bei den Tasten C<OK> oder C<0>) oder nur für die nächsten 1 bis 9 Tage
+(entsprechend den Tasten C<1> bis C<9>) unterdrückt werden sollen. Bestätigt
+man diese Abfrage durch ein erneutes Drücken der Taste C<OK>, wird die
+Einstellung übernommen.
 
 =head1 FORMAT
 
-Pro Zeile eine Sendung, die Felder werden durch ':' getrennt.
+Jede Zeile der Datei repräsentiert eine nicht mehr anzukündigende Sendung
+und umfasst die folgenden Felder:
 
-Folgende Felder existieren:
+=over 4
 
-  1 - Titel
-  2 - Episode
-  3 - Kanal-Kennung
-  4 - Startzeit
-  5 - Zeitpunkt für nächste Ankündigung
+=item B<1 – Titel>
 
-=head1 SIEHE AUCH
+String mit dem Titel der Sendung.
 
-C<epgsearch(1)>
+=item B<2 – Untertitel ("Episode")>
 
-=head1 AUTOR (man pages)
+String mit dem Untertitel der Sendung, der oft die Episode einer
+Serie bezeichnet.
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=item B<3 – Kanalkennung>
+
+String mit der Kanalkennung in VDR-Notation (bspw. C<S19.2E-1-1019-10301>).
+
+=item B<4 – Startzeit>
+
+Datum und Startzeit der Sendung in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC).
+
+=item B<5 – Zeitpunkt der nächsten Ankündigung>
+
+Datum und Uhrzeit der nächsten Ankündigung der Sendung in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC).
+
+Ein Wert von 0 bewirkt die dauerhafte Unterdrückung zukünftiger
+Ankündigungen.
+
+=back
+
+Die einzelnen Felder sind durch C<:> getrennt. Daher wird ein C<:>
+in Titel oder Untertitel durch C<|> ersetzt.
+
+=head1 AUTOREN (Man-Pages)
+
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
-
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
 =head1 COPYRIGHT und LIZENZ
 
-Copyright © 2005 - 2007 Christian Wieninger
+Copyright © 2004-2010 Christian Wieninger
 
-Dieses Dokument wird unter den Bedingungen der Gnu Public License
-(GPL) veröffentlicht. Alle Angaben sind nach bestem Wissen, aber
-natürlich ohne Gewähr (no warranty in any kind).
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
+
+Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+der GNU General Public License, wie von der Free Software Foundation
+veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
+der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+
+Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+ZWECK. Details finden Sie in der GNU General Public License.
+
+Sie sollten ein Exemplar der GNU General Public License zusammen mit
+diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
+Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+auf.
+
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
+
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
+
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
+
+=head1 SIEHE AUCH
+
+B<epgsearch>(1)

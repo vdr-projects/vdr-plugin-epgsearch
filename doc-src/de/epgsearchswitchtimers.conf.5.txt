@@ -1,54 +1,102 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchswitchtimer.conf> - Die gespeicherten Umschalttimer
+F<epgsearchswitchtimer.conf> – Umschalttimer
 
 =head1 BESCHREIBUNG
 
-In epgsearch kann man über das Programmenü und die Suchtimer
-Umschalttimer anlegen, die einem zu beginn der Sendung auf die
-Sendung hinweisen oder gleich umschalten.
+In EPGSearch lassen sich Umschalttimer über das Menü C<Programm>
+und anhand von Suchtimern anlegen. Diese weisen rechtzeitig auf den
+Beginn einer Sendung hin oder schalten gleich auf den entsprechenden
+Kanal um.
 
 Die Umschalttimer werden in dieser Datei gespeichert.
 
 =head1 FORMAT
 
-Der allgemeine Feldtrenner ist C<':'>.
+Jede Zeile repräsentiert einen Umschalttimer mit den nachfolgend
+beschriebenen Feldern:
 
-Folgende Felder sind möglich:
+=over 4
 
- 1 - Kanal
- 2 - Event ID
- 3 - Startzeit
- 4 - Vorlaufzeit
- 5 - Nur ankündigen
+=item B<1 – Kanalkennung>
 
-=head1 BEISPIELE
+String mit der Kanalkennung in VDR-Notation (bspw. C<S19.2E-1-1019-10301>).
 
- S19.2E-1-1089-12060:52221:1153322700:1:0
+=item B<2 – Sendungskennung>
 
-=head1 SIEHE AUCH
+Integer mit der eindeutigen Sendungskennung des VDR.
 
-C<epgsearch(1)>
+=item B<3 – Startzeit>
 
-=head1 AUTOR (man pages)
+Datum und Startzeit der Sendung in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC).
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=item B<4 – Vorlauf zum Beginn der Sendung [Minuten]>
+
+Integer mit einem positiven Wert.
+
+=item B<5 – Aktion>
+
+Enumeration mit den folgenden Werten:
+
+=over 4
+
+=item 0 = umschalten
+
+=item 1 = per OSD ankündigen
+
+=item 2 = per OSD ankündigen und umschalten
+
+=back
+
+Z<>
+
+=item B<6 – Ton anschalten>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=back
+
+Die einzelnen Felder eines Umschalttimers sind durch C<:> getrennt.
+
+=head1 BEISPIEL
+
+=over 4
+
+    S19.2E-1-1089-12060:52221:1153322700:1:2:1
+
+=back
+
+=head1 AUTOREN (Man-Pages)
+
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
-
-=head1 COPYRIGHT and LIZENZ
+=head1 COPYRIGHT und LIZENZ
 
 Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -63,15 +111,17 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
 
-Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
-von RSA Data Security, Inc..
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
 
+=head1 SIEHE AUCH
 
-
+B<epgsearch>(1), B<epgsearch>(4)

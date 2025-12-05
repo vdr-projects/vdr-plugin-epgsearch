@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: epgsearch\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-04-12 14:45+0200\n"
+"POT-Creation-Date: 2025-12-04 09:45+0100\n"
 "PO-Revision-Date: 2009-11-02 09:40+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -167,7 +167,7 @@ msgid "Ok key"
 msgstr "Ok klávesa"
 
 msgid ""
-"Help$Choose here the behaviour of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
+"Help$Choose here the behavior of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
 "Note: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."
 msgstr ""
 "Tu si vyberte správanie klávesy 'Ok'. Môžete ju použiť na zobrazenie súhrnu alebo prepnúť na zodpovedajúci kanál.\n"
@@ -196,7 +196,7 @@ msgstr ""
 msgid "Show progress in 'Now'"
 msgstr "Zobraziť proces v 'Now'"
 
-msgid "Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event."
+msgid "Help$Shows a progress bar in 'Overview - Now' that informs about the remaining time of the current event."
 msgstr "Ukazuje priebeh v 'Prehľad - teraz', ktorý informuje o zostávajúcom čase aktuálnej udalosti."
 
 msgid "Show channel numbers"
@@ -247,11 +247,11 @@ msgstr "Zobraziť kanály bez EPG"
 msgid "Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."
 msgstr "Vyberte 'áno', ak chcete zobraziť kanály bez EPG v 'Prehľad - Teraz'. 'Ok' na tejto položieke prepína kanál."
 
-msgid "Time interval for FRew/FFwd [min]"
-msgstr "Časový úsek pre FRew/FFwd [min]"
+msgid "Time interval for 'FRew' / 'FFwd' [min]"
+msgstr "Časový úsek pre 'FRew' / 'FFwd' [min]"
 
 msgid ""
-"Help$Choose here the time interval which should be used for jumping through the EPG by pressing FRew/FFwd.\n"
+"Help$Choose here the time interval which should be used for jumping through the EPG by pressing 'FRew' / 'FFwd'.\n"
 "\n"
 "(If you don't have those keys, you can toggle to this functionality pressing '0' and get '<<' and '>>' on the keys green and yellow)"
 msgstr ""
@@ -278,11 +278,12 @@ msgstr ""
 msgid "for the next ... hours"
 msgstr "Za ďalšie ... hodiny"
 
-msgid "Help$This value controls the timespan used to display your favorites."
+msgid "Help$This value controls the time span used to display your favorites."
 msgstr "Táto hodnota určuje časové rozpätie pre zobrazenie obľúbených."
 
-msgid "Use user-defined time"
-msgstr "Použiť užívateľom definované plánovanie"
+#, c-format
+msgid "Use user-defined time %d"
+msgstr "Použiť užívateľom definované plánovanie %d"
 
 msgid "Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."
 msgstr "Okrem 'teraz' a 'Nasleduje' môžete zadať až 4 iné časy v EPG, ktoré môžu byť použité po opakovanom stlačení zeleného tlačitka, napr 'hlavnom vysielacom čase', 'neskoro v noci',..."
@@ -359,13 +360,13 @@ msgstr "Nastavenie"
 msgid "Use search timers"
 msgstr "Použiť vyhľadávanie časovačov"
 
-msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criterions."
+msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criteria."
 msgstr "Vyhľadávanie vysielacieho času 'možno použiť na automatické vytváranie plánov nahrávania, ktoré zodpovedajú vášmu hľadanému kritériu."
 
 msgid "  Update interval [min]"
 msgstr "  obnovovací interval [min]"
 
-msgid "Help$Specify here the time intervall to be used when searching for events in the background."
+msgid "Help$Specify here the time interval to be used when searching for events in the background."
 msgstr "Zvolte ako často sa majú na pozadí hľadať udalosti."
 
 msgid "  SVDRP port"
@@ -377,7 +378,7 @@ msgstr "Programovanie nových plánov alebo úpravy plánov sa vykonávajú so S
 msgid "Delay internal threads ... seconds"
 msgstr ""
 
-msgid "Help$This value delays starting the searchtimer update thread for the given range of seconds"
+msgid "Help$This value delays starting the search-timer update thread for the given range of seconds"
 msgstr ""
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
@@ -392,10 +393,10 @@ msgstr "Uveďte predvolený nadbytok úvodného záznamu plánu / nahrávky vytv
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Uveďte predvolený nadbytok pri ukončení nahrávania plánu / nahrávky vytvoreným s týmto modulom. Túto hodnotu možno upraviť aj pre každé samostatné hľadanie."
 
-msgid "AllowedErrors"
+msgid "Allowed errors"
 msgstr ""
 
-msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgid "Help$Specify here the allowed reception errors before a recording is marked incomplete."
 msgstr ""
 
 msgid "No announcements when replaying"
@@ -511,7 +512,7 @@ msgid "every ... minutes"
 msgstr "každých ... minút"
 
 msgid ""
-"Help$Specify here the time intervall to be used for an automatic conflict check in the background.\n"
+"Help$Specify here the time interval to be used for an automatic conflict check in the background.\n"
 "('0' disables an automatic check)"
 msgstr ""
 "Zvolte ako často majú byť použité automatické kontroly konfliktov na pozadí. \n"
@@ -520,7 +521,7 @@ msgstr ""
 msgid "if conflicts within next ... minutes"
 msgstr "ak je v rozpore s ďalšou ... minútou"
 
-msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."
+msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check interval to get more OSD notifications about it."
 msgstr "Ak  sa objaví ďalší konflikt v danom počte minút, môžete zvoliť kratší interval kontroly a tak získať viac OSD oznámení. "
 
 msgid "Avoid notification when replaying"
@@ -539,8 +540,8 @@ msgid "Time between mails [h]"
 msgstr ""
 
 msgid ""
-"Help$Specifiy how much time in [h] you would\n"
-"like to have atleast between two mails.\n"
+"Help$Specify how much time in [h] you would\n"
+"like to have at least between two mails.\n"
 "With '0' you get a new mail after each\n"
 "search timer update with new results."
 msgstr ""
@@ -700,6 +701,24 @@ msgstr "skupin kanálov"
 msgid "only FTA"
 msgstr "iba voľne šíritelné"
 
+msgid "all selected descriptors"
+msgstr ""
+
+msgid "any selected descriptor"
+msgstr ""
+
+msgid "some selected descriptor per group"
+msgstr ""
+
+msgid "all categories"
+msgstr "všetky kategórie"
+
+msgid "all except missing categories"
+msgstr "všetky okrem chýbajúcich kategórií"
+
+msgid "at least one category"
+msgstr "aspoň jedna kategória"
+
 msgid "Search term"
 msgstr "Hľadať termín"
 
@@ -721,11 +740,30 @@ msgstr "Použiť titulky"
 msgid "Use description"
 msgstr "Použiť popis"
 
+msgid "Use parental rating"
+msgstr ""
+
+msgid "  Min. rating"
+msgstr ""
+
+msgid "  Max. rating"
+msgstr ""
+
+#, fuzzy
+msgid "Use content descriptors"
+msgstr "Použiť popis"
+
+msgid "  Contents matching mode"
+msgstr ""
+
+msgid "  Special characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Použiť rozšírené EPG informácie"
 
-msgid "Ignore missing categories"
-msgstr "Ignorovať chýbajúce kategórie"
+msgid "Category matching mode"
+msgstr "Režim zhody kategórií"
 
 msgid "Use channel"
 msgstr "Použi kanál"
@@ -868,7 +906,7 @@ msgstr "Adresár"
 msgid "Channel"
 msgstr "Kanál"
 
-msgid "Childlock"
+msgid "Child lock"
 msgstr "Detský zámok"
 
 msgid "Record on"
@@ -1088,34 +1126,33 @@ msgstr ""
 msgid "Help$This sets the tolerance of fuzzy searching. The value represents the allowed errors."
 msgstr "Toto nastaví toleranciu nepresnosti vyhľadávania. Hodnota predstavuje povolené chyby."
 
-msgid "Help$Set this to 'Yes' if your search should match the case."
+msgid "Help$Set this to 'yes' if your search should match the case."
 msgstr "Nastavte 'Áno', ak vaše vyhľadávanie by malo zodpovedať prípadu."
 
-msgid "Help$Set this to 'Yes' if you like to search in the title of an event."
+msgid "Help$Set this to 'yes' if you like to search in the title of an event."
 msgstr "Nastavte 'Áno', ak chcete hľadať v názvoch ."
 
-msgid "Help$Set this to 'Yes' if you like to search in the episode of an event."
+msgid "Help$Set this to 'yes' if you like to search in the episode of an event."
 msgstr "Nastavte 'Áno', ak chcete hľadať v epizóde ."
 
-msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
+msgid "Help$Set this to 'yes' if you like to search in the summary of an event."
 msgstr "Nastavte 'Áno', ak chcete hľadať vo všetkých údajoch."
 
-#, fuzzy
-msgid "Use content descriptor"
-msgstr "Použiť popis"
+msgid "Help$Set this to 'yes' if you like to consider the parental rating of an event."
+msgstr ""
 
 #, fuzzy
-msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgid "Help$Set this to 'yes' if you want to search the contents by a descriptor."
 msgstr "Nastavte 'Áno', ak chcete hľadať v názvoch ."
 
-msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
+msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'yes'."
 msgstr "Súhrn udalostí, môže obsahovať ďalšie informácie, ako 'Žáner', 'Kategória', 'Rok',... tzv 'EPG kategórie' v epgsearch. Vonkajšie EPG služby často takéto informácie poskytujú. To umožňuje kvalitnejšie vyhľadávanie a iné veci, ako je hľadanie 'typ dňa' alebo 'kino na' . Pre použitie nastavte na 'Áno'."
 
-msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
-msgstr "Súbor epgsearchcats.conf špecifikuje režim hľadania pre túto položku. Môže vyhľadávať podľa textu alebo hodnoty. Môžete tiež upravovať zoznam preddefinovaných hodnôt, v tomto súbore, ktorý možno vybrať tu."
+msgid "Help$By default, all selected categories must be present in an event's summary and match the specified values for the event to be included in search results. This option allows including events with missing or just some matching categories. But handle this with care to avoid a huge amount of results."
+msgstr "Predvolene musia byť všetky vybraté kategórie prítomné v súhrne udalosti a zodpovedať zadaným hodnotám, aby sa udalosť zahrnula do výsledkov vyhľadávania. Táto možnosť umožňuje zahrnúť udalosti s chýbajúcimi alebo len niektorými zodpovedajúcimi kategóriami. Zaobchádzajte s tým však opatrne, aby ste sa vyhli veľkému množstvu výsledkov."
 
-msgid "Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."
-msgstr "Ak vybraná kategória nie je súčasťou súhrnu údajov, tak je zvyčajne vylúčená z výsledkov vyhľadávania. Ak chcete tomu predísť, nastavte túto voľbu na 'Áno', ale s mierou prosím , aby sa zabránilo veľkému množstvu výsledkov."
+msgid "Help$The file 'epgsearchcats.conf' specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
+msgstr "Súbor epgsearchcats.conf špecifikuje režim hľadania pre túto položku. Môže vyhľadávať podľa textu alebo hodnoty. Môžete tiež upravovať zoznam preddefinovaných hodnôt, v tomto súbore, ktorý možno vybrať tu."
 
 msgid "Use in favorites menu"
 msgstr "Použiť v obľúbenom menu"
@@ -1326,21 +1363,26 @@ msgstr ""
 msgid "Programming timer failed!"
 msgstr "Chyba programovania plánovača"
 
-#~ msgid "in %02ldd"
-#~ msgstr "v %02ldd"
+#, c-format
+msgid "in %02ldd"
+msgstr ""
 
-#~ msgid "in %02ldh"
-#~ msgstr "v %02ldh"
+#, c-format
+msgid "%02ldd"
+msgstr ""
 
-#~ msgid "in %02ldm"
-#~ msgstr "v %02ldm"
+#, c-format
+msgid "in %02ldh"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Compare expression"
-#~ msgstr "bežný výraz"
+#, c-format
+msgid "%02ldh"
+msgstr ""
 
-#~ msgid "File"
-#~ msgstr "Súbor"
+#, c-format
+msgid "in %02ldm"
+msgstr ""
 
-#~ msgid "Day"
-#~ msgstr "Deň"
+#, c-format
+msgid "%02ldm"
+msgstr ""

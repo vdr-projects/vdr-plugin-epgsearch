@@ -26,6 +26,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #include <vdr/plugin.h>
 #include "epgsearchcfg.h"
+#include <map>
 #include <vector>
 
 class cPluginEpgsearch;
@@ -34,9 +35,9 @@ class cMenuSetupSubMenu : public cOsdMenu
 {
 protected:
     cEPGSearchConfig* data;
-    std::vector<const char*> helpTexts;
     eOSState Help();
-    void AddHelp(const char* helpText);
+    std::map<cOsdItem*, const char*> helpTexts;
+    void AddHelp(cOsdItem* item, const char* helpText);
     virtual eOSState ProcessKey(eKeys Key);
     virtual void Set(void) = 0;
 public:
@@ -83,7 +84,7 @@ public:
 
 class cMenuSetupSearchtimers : public cMenuSetupSubMenu
 {
-    char** menuitemsChGr;
+    const char** menuitemsChGr;
 protected:
     virtual eOSState ProcessKey(eKeys Key);
     void Set(void);

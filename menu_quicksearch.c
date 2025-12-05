@@ -58,15 +58,38 @@ void cMenuQuickSearch::Set()
         Add(new cMenuEditBoolItem(tr("Use subtitle"), &data.useSubtitle, trVDR("no"), trVDR("yes")));
         Add(new cMenuEditBoolItem(tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));
 
+        Add(new cMenuEditBoolItem(tr("Use parental rating"), &data.useParentalRating, trVDR("no"), trVDR("yes")));
+        if (data.useParentalRating == true) {
+            Add(new cMenuEditIntItem(tr("  Min. rating"), &data.minParentalRating, 0, 18));
+            Add(new cMenuEditIntItem(tr("  Max. rating"), &data.maxParentalRating, 0, 18));
+        }
+
+        Add(new cMenuEditBoolItem(tr("Use content descriptors"), &data.useContentsFilter, trVDR("no"), trVDR("yes")));
+        if (data.useContentsFilter) {
+            Add(new cMenuEditStraItem(tr("  Contents matching mode"), &data.contentsCategoryMatchingMode, 3, ContentsMatchingMode));
+            std::vector<int>::const_iterator it;
+            for (unsigned int i = 0; i < contentStringIDs.size(); i++) {
+                int level = (contentStringIDs[i] % 0x10 == 0 ? 1 : 2);
+                if (contentStringIDs[i] == 0xB0) {
+                    Add(new cMenuEditStraItem(tr("  Special characteristics"), &data.contentsCharacteristicsMatchingMode, 2, SpecialCharacteristicsMatchingMode));
+                    level = 2;
+                }
+                Add(new cMenuEditBoolItem(IndentMenuItem(tr(cEvent::ContentToString(contentStringIDs[i])), level), &contentStringFlags[contentStringIDs[i]], trVDR("no"), trVDR("yes")));
+            }
+        }
 
         // show Categories only if we have them
         if (SearchExtCats.Count() > 0) {
             Add(new cMenuEditBoolItem(tr("Use extended EPG info"), &data.useExtEPGInfo, trVDR("no"), trVDR("yes")));
             if (data.useExtEPGInfo) {
+                Add(new cMenuEditStraItem(IndentMenuItem(tr("Category matching mode")), &data.extEPGInfoMatchingMode, 3, EPGInfoMatchingMode));
                 cSearchExtCat *SearchExtCat = SearchExtCats.First();
                 int index = 0;
                 while (SearchExtCat) {
-                    Add(new cMenuEditStrItem(IndentMenuItem(SearchExtCat->menuname), data.catvalues[index], MaxFileName, tr(AllowedChars)));
+                    if (SearchExtCat->searchmode >= 10)
+                        Add(new cMenuEditIntItem(IndentMenuItem(SearchExtCat->menuname), &catvaluesNumeric[index], 0, 999999, ""));
+                    else
+                        Add(new cMenuEditStrItem(IndentMenuItem(SearchExtCat->menuname), data.catvalues[index], MaxFileName, tr(AllowedChars)));
                     SearchExtCat = SearchExtCats.Next(SearchExtCat);
                     index++;
                 }
@@ -80,7 +103,7 @@ void cMenuQuickSearch::Set()
         }
         if (data.useChannel == 2) {
             // create the char array for the menu display
-            if (menuitemsChGr) delete [] menuitemsChGr;
+            delete [] menuitemsChGr;
             menuitemsChGr = ChannelGroups.CreateMenuitemsList();
             int oldchannelGroupNr = channelGroupNr;
             channelGroupNr = ChannelGroups.GetIndex(channelGroupName);
@@ -126,6 +149,8 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
     int iTemp_useChannel = data.useChannel;
     int iTemp_useDuration = data.useDuration;
     int iTemp_useDayOfWeek = data.useDayOfWeek;
+    int iTemp_useParentalRating = data.useParentalRating;
+    int iTemp_useContentsFilter = data.useContentsFilter;
     int iTemp_useExtEPGInfo = data.useExtEPGInfo;
     int iTemp_avoidRepeats = data.avoidRepeats;
     int iTemp_allowedRepeats = data.allowedRepeats;
@@ -139,6 +164,8 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
         iTemp_useChannel != data.useChannel ||
         iTemp_useDuration != data.useDuration ||
         iTemp_useDayOfWeek != data.useDayOfWeek ||
+        iTemp_useParentalRating != data.useParentalRating ||
+        iTemp_useContentsFilter != data.useContentsFilter ||
         iTemp_useExtEPGInfo != data.useExtEPGInfo ||
         iTemp_avoidRepeats != data.avoidRepeats ||
         iTemp_allowedRepeats != data.allowedRepeats ||
@@ -248,6 +275,8 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
                 if (data.DayOfWeek == 7)
                     searchExt->DayOfWeek = UserDefDayOfWeek;
 
+                searchExt->SetContentsFilter(data.useContentsFilter ? contentStringFlags : NULL);
+
                 if (data.blacklistMode == blacklistsSelection) {
                     searchExt->blacklists.Clear();
                     cBlacklistObject* blacklistObj = blacklists.First();
@@ -268,8 +297,7 @@ eOSState cMenuQuickSearch::ProcessKey(eKeys Key)
 
         case kBlue:
             if (iOnUseChannelGroups || iOnChannelGroup) {
-                if (channelGroupName)
-                    free(channelGroupName);
+                free(channelGroupName);
                 channelGroupName = strdup(menuitemsChGr[channelGroupNr]);
                 state = AddSubMenu(new cMenuChannelGroups(&channelGroupName));
             }

@@ -138,9 +138,9 @@ void cMenuMyEditTimer::Set()
     Add(new cMenuEditIntItem(trVDR("Priority"),     &priority, 0, MAXPRIORITY));
     Add(new cMenuEditIntItem(trVDR("Lifetime"),     &lifetime, 0, MAXLIFETIME));
 #ifdef USE_PINPLUGIN
-    if (cOsd::pinValid || !fskProtection) Add(new cMenuEditBoolItem(tr("Childlock"), &fskProtection));
+    if (cOsd::pinValid || !fskProtection) Add(new cMenuEditBoolItem(tr("Child lock"), &fskProtection));
     else {
-        cString buf = cString::sprintf("%s\t%s", tr("Childlock"), fskProtection ? trVDR("yes") : trVDR("no"));
+        cString buf = cString::sprintf("%s\t%s", tr("Child lock"), fskProtection ? trVDR("yes") : trVDR("no"));
         Add(new cOsdItem(buf));
     }
 #endif

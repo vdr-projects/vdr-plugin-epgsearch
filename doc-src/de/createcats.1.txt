@@ -1,0 +1,136 @@
+=encoding utf8
+
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
+=head1 NAME
+
+F<createcats> – Generierung von F<epgsearchcats.conf> anhand der EPG-Daten des VDR
+
+=head1 SYNTAX
+
+B<createcats> [OPTIONEN] F</Pfad_zu/epg.data>
+
+=head1 BESCHREIBUNG
+
+Dieses Tool wird mit EPGSearch ausgeliefert und sollte nach seiner
+Kompilierung im Verzeichnis des Plugins vorliegen. Es hilft beim
+Erstellen der Datei F<epgsearchcats.conf> aus den EPG-Daten des VDR,
+falls die Beispieldateien im Verzeichnis F<conf> nicht den Anforderungen
+entsprechen sollten.
+
+Der Aufruf erfolgt üblicherweise mit:
+
+=over 4
+
+    createcats /Pfad_zu/epg.data
+
+=back
+
+Das Tool verwendet die VDR-Datei F<epg.data> als Argument und durchsucht
+sie nach geeigneten EPG-Informationen. Diese Informationen bestehen jeweils
+aus einem Tupel mit einem Kategorienamen und einem entsprechenden Wert,
+beispielsweise C<Genre: Film>, am Zeilenanfang. In F<epg.data> wird ein
+Zeilenumbruch mittels C<|> kodiert.
+
+Erzeugt wird die Datei F<epgsearchcats.conf>, die in das Konfigurationsverzeichnis
+des Plugins kopiert werden sollte. Vor der produktiven Nutzung sind wohl einige
+Anpassungen erforderlich, da selten alle Einträge der Datei als erweiterte
+EPG-Informationen geeignet sein dürften.
+
+=head1 OPTIONEN
+
+Die vollständige Liste von Argumenten umfasst:
+
+=over 4
+
+=item B<−h>, B<−−help>
+
+Ausgabe eines knappen Hilfetextes.
+
+=item B<−l> I<N>, B<−−maxlength>=I<N>
+
+Maximale Länge eines Textes, um ihn als Kategoriewert
+zu akzeptieren.
+
+Wenn die Länge eines Werts größer als I<N> ist, wird dieser
+Wert nicht in die Werteliste aufgenommen.
+
+=item B<−m> I<N>, B<−−minappearance>=I<N>
+
+Die Mindesthäufigkeit einer Kategorie, um akzeptiert zu werden.
+
+Das Tool ermittelt, wie oft eine Kategorie in den EPG-Daten verwendet
+wird. Ist dieser Wert kleiner als I<N>, wird entsprechende Kategorie
+nicht in die Datei F<epgsearchcats.conf> übernommen.
+
+=item B<−v> I<N>, B<−−maxvalues>=I<N>
+
+Die Werte einer Kategorie bleiben unberücksichtigt, wenn sie die
+festgelegte Anzahl überschreiten.
+
+Ist die Anzahl unterschiedlicher Werte für eine Kategorie größer als I<N>,
+wird für die entsprechende Kategorie keine Werteliste erstellt. Die Kategorie
+wird stattdessen durch einen String repräsentiert, der mit beliebigem Text
+gefüllt werden kann. Andernfalls wird die Kategorie durch ein Menüelement
+zur Auswahl von Kategoriewerten aus der Liste abgebildet.
+
+=back
+
+B<Hinweis:> Die besten Ergebnisse erzielt man, wenn die aktuellen EPG-Daten
+möglichst umfangreich sind. Beim Herunterladen von EPG-Daten von einer externen
+Quelle sollte vor Ausführung von F<createcats> eine Aktualisierung erfolgen.
+
+=head1 AUTOREN (Man-Pages)
+
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
+
+=head1 FEHLER MELDEN
+
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
+
+=head1 COPYRIGHT und LIZENZ
+
+Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
+
+Dieses Programm ist freie Software. Sie können es unter den Bedingungen
+der GNU General Public License, wie von der Free Software Foundation
+veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 2
+der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+
+Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN
+ZWECK. Details finden Sie in der GNU General Public License.
+
+Sie sollten ein Exemplar der GNU General Public License zusammen mit
+diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
+Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+auf.
+
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
+
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
+
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
+
+=head1 SIEHE AUCH
+
+B<epgsearch>(1), B<epgsearch>(4), B<epgsearchcats.conf>(5)

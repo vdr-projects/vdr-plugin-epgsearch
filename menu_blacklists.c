@@ -32,8 +32,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "epgsearchcfg.h"
 #include "menu_searchresults.h"
 
-using namespace std;
-
 // --- cMenuBlacklistsItem ----------------------------------------------------------
 class cMenuBlacklistsItem : public cOsdItem
 {
@@ -53,32 +51,32 @@ cMenuBlacklistsItem::cMenuBlacklistsItem(cBlacklist* Blacklist)
 
 void cMenuBlacklistsItem::Set(void)
 {
-    ostringstream line;
+    std::ostringstream line;
 
     if (blacklist->isGlobal != 0)
-        line << setiosflags(ios::left) << "G";
+        line << std::setiosflags(std::ios::left) << "G";
     line << "\t";
 
     if (strlen(blacklist->search) > 0)
-        line << setiosflags(ios::left) << std::string(blacklist->search);
+        line << std::setiosflags(std::ios::left) << std::string(blacklist->search);
     else
-        line << setiosflags(ios::left) << "*";
+        line << std::setiosflags(std::ios::left) << "*";
 
     line << "\t";
     if (blacklist->useChannel == 1) {
         if (blacklist->channelMin != blacklist->channelMax)
-            line << setiosflags(ios::left) << blacklist->channelMin->Number() << " - " << blacklist->channelMax->Number();
+            line << std::setiosflags(std::ios::left) << blacklist->channelMin->Number() << " - " << blacklist->channelMax->Number();
         else
-            line << setiosflags(ios::left) << setw(11) << (blacklist->useChannel ? CHANNELNAME(blacklist->channelMin) : "");
+            line << std::setiosflags(std::ios::left) << std::setw(11) << (blacklist->useChannel ? CHANNELNAME(blacklist->channelMin) : "");
     } else if (blacklist->useChannel == 2)
-        line << setiosflags(ios::left) << setw(11) << blacklist->channelGroup;
+        line << std::setiosflags(std::ios::left) << std::setw(11) << blacklist->channelGroup;
 
     line << "\t";
     if (blacklist->useTime) {
-        ostringstream timeline;
-        timeline << setfill('0') << setw(2) << blacklist->startTime / 100 << ":" << setw(2) << blacklist->startTime % 100;
+        std::ostringstream timeline;
+        timeline << std::setfill('0') << std::setw(2) << blacklist->startTime / 100 << ":" << std::setw(2) << blacklist->startTime % 100;
         timeline << "\t";
-        timeline << setfill('0') << setw(2) << blacklist->stopTime / 100 << ":" << setw(2) << blacklist->stopTime % 100;
+        timeline << std::setfill('0') << std::setw(2) << blacklist->stopTime / 100 << ":" << std::setw(2) << blacklist->stopTime % 100;
         line << timeline.str();
     } else
         line << "--:--\t--:--";

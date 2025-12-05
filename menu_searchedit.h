@@ -24,6 +24,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #ifndef __MENU_SEARCHEDIT_H
 #define __MENU_SEARCHEDIT_H
 
+#include <map>
 #include <vector>
 #include <string>
 #include "epgsearchext.h"
@@ -41,26 +42,28 @@ protected:
     int UserDefDayOfWeek;
     int channelGroupNr;
     char* channelGroupName;
-    char** menuitemsChGr;
+    const char** menuitemsChGr;
     int* catarrayAvoidRepeats;
     int* catvaluesNumeric;
     cList<cBlacklistObject> blacklists;
 
-    char *SearchModes[6];
+    const char *SearchModes[6];
     char *DaysOfWeek[8];
-    char *UseChannelSel[4];
-    char *SearchTimerModes[6];
-    char *BlacklistModes[4];
-    char *DelModes[3];
-    char *SearchActiveModes[3];
-    char *CompareSubtitleModes[3];
-    char *CompareDateModes[4];
+    const char *UseChannelSel[4];
+    const char *ContentsMatchingMode[3];
+    const char *SpecialCharacteristicsMatchingMode[2];
+    const char *SearchTimerActions[6];
+    const char *BlacklistModes[4];
+    const char *DelModes[3];
+    const char *SearchTimerModes[3];
+    const char *CompareSubtitleModes[3];
+    const char *CompareDateModes[4];
+    const char *EPGInfoMatchingMode[3];
     std::vector<int> contentStringIDs;
-    int useContentDescriptors;
-    int *contentStringsFlags;
+    int *contentStringFlags;
     bool templateMode;
-    std::vector<const char*> helpTexts;
-    void AddHelp(const char* helpText);
+    std::map<cOsdItem*, const char*> helpTexts;
+    void AddHelp(cOsdItem* item, const char* helpText);
 
 public:
     cMenuEditSearchExt(cSearchExt *SearchExt, bool New = false, bool Template = false, bool FromEPG = false);
@@ -123,13 +126,13 @@ public:
 };
 
 
-// --- cMenuSearchActivSettings --------------------------------------------------------
-class cMenuSearchActivSettings : public cOsdMenu
+// --- cMenuSearchActivationSettings --------------------------------------------------------
+class cMenuSearchActivationSettings : public cOsdMenu
 {
 private:
     cSearchExt *searchExt;
 public:
-    cMenuSearchActivSettings(cSearchExt *SearchExt);
+    cMenuSearchActivationSettings(cSearchExt *SearchExt);
     eOSState ProcessKey(eKeys Key);
 };
 

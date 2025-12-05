@@ -1,143 +1,544 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearch.conf> - The searchtimers
+F<epgsearch.conf> – searches and search timers
 
 =head1 DESCRIPTION
 
-This file contains the searchtimers.
+This file contains the searches and search timers created by EPGSearch.
 
-Do not edit it manually, you should use SVDRP.
+The file should not be edited manually. Better use the plugin's menus, its SVDRP
+interface or supplemental front ends (like F<live>) for creating, editing,
+or deleting searches and search timers.
 
 =head1 SYNTAX
 
-Due to some new features there was a change in the format. The format
-is now signed with a comment in the first line. The field delimiter
-is B<':'>:
+Every line within the file represents a search or search timer,
+comprising the following fields:
 
-  1 - unique search timer id
-  2 - the search term
-  3 - use time? 0/1
-  4 - start time in HHMM
-  5 - stop time in HHMM
-  6 - use channel? 0 = no,  1 = Interval, 2 = Channel group, 3 = FTA only
-  7 - if 'use channel' = 1 then channel id[|channel id] in VDR format,
-      one entry or min/max entry separated with |, if 'use channel' = 2
-      then the channel group name
-  8 - match case? 0/1
-  9 - search mode:
-      0 - the whole term must appear as substring
-      1 - all single terms (delimiters are blank,',', ';', '|' or '~')
-          must exist as substrings.
-      2 - at least one term (delimiters are blank, ',', ';', '|' or '~')
-          must exist as substring.
-      3 - matches exactly
-      4 - regular expression
-      5 - fuzzy searching (specify tolerance in parameter 42, not available
-          for EPG categories)
- 10 - use title? 0/1
- 11 - use subtitle? 0/1
- 12 - use description? 0/1
- 13 - use duration? 0/1
- 14 - min duration in hhmm
- 15 - max duration in hhmm
- 16 - use as search timer? 0/1/2 (with 2 one can specify time margins in
-      parameter 48/49 where the search timer is active)
- 17 - use day of week? 0/1
- 18 - day of week (0 = Sunday, 1 = Monday...;
-      -1 Sunday, -2 Monday, -4 Tuesday, ...; -7 Sun, Mon, Tue)
- 19 - use series recording? 0/1
- 20 - directory for recording
- 21 - priority of recording
- 22 - lifetime of recording
- 23 - time margin for start in minutes
- 24 - time margin for stop in minutes
- 25 - use VPS? 0/1
- 26 - action:
-      0 = create a timer
-      1 = announce only via OSD (no timer)
-      2 = switch only (no timer)
-      3 = announce via OSD and switch (no timer)
-      4 = announce via mail
- 27 - use extended EPG info? 0/1
- 28 - extended EPG info values. This entry has the following format
-      (delimiter is '|' for each category, '#' separates id and value):
-      1 - the id of the extended EPG info category as specified in
-          epgsearchcats.conf
-      2 - the value of the extended EPG info category
-          (a ':' will be translated to "!^colon^!", e.g. in "16:9")
- 29 - avoid repeats? 0/1
- 30 - allowed repeats
- 31 - compare title when testing for a repeat? 0/1
- 32 - compare subtitle when testing for a repeat? 0/1/2
-      0 - no
-      1 - yes
-      2 - yes or both may be empty
- 33 - compare description when testing for a repeat? 0/1
- 34 - compare extended EPG info when testing for a repeat?
-      This entry is a bit field of the category IDs.
- 35 - accepts repeats only within x days
- 36 - delete a recording automatically after x days
- 37 - but keep this number of recordings anyway
- 38 - minutes before switch (if action = 2)
- 39 - pause if x recordings already exist
- 40 - blacklist usage mode (0 none, 1 selection, 2 all)
- 41 - selected blacklist IDs separated with '|'
- 42 - fuzzy tolerance value for fuzzy searching
- 43 - use this search in favorites menu 0/1
- 44 - ID of the search menu template to use (only available if multiple
-      search result templates are defined in epgsearchmenu.conf)
- 45 - auto deletion mode (0 don't delete search timer, 1 delete after given
-      count of recordings, 2 delete after given days after first recording)
- 46 - count of recordings after which to delete the search timer
- 47 - count of days after the first recording after which to delete the search
-      timer
- 48 - first day where the search timer is active (see parameter 16)
- 49 - last day where the search timer is active (see parameter 16)
- 50 - ignore missing EPG categories? 0/1
- 51 - unmute sound if off when used as switch timer
- 52 - the minimum required match in percent when descriptions are compared
-      to avoid repeats (-> 33)
- 53 - HEX representation of the content descriptors, each descriptor ID
-      is represented with 2 chars
- 54 - compare date when testing for a repeat?
-      (0=no, 1=same day, 2=same week, 3=same month)
+=over 4
 
-A ':' in the search term or the directory entry will be translated in a
-'|'. If a '|' exists in the search term, e.g. when using regular
-expressions, it will be translated to "!^pipe^!" (I know it's ugly ;-))
+=item B<1 – Unique identifier (ID)>
 
-There's no need to fill all fields, only the first 11 fields must exist.
+Integer with a positive value.
 
+=item B<2 – Search term ("query")>
+
+String specifying the search criterion.
+
+=item B<3 – Use time>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<4 – Start after [HHMM]>
+
+Integer with HH = 0..23, MM = 0..59; other values may result in undefined behavior.
+
+=item B<5 – Start before [HHMM]>
+
+Integer with HH = 0..23, MM = 0..59; other values may result in undefined behavior.
+
+=item B<6 – Use channel>
+
+Enumeration with values 0 = no, 1 = interval, 2 = channel group, 3 = FTA (free-to-air) only.
+
+=item B<7 – Channel selection>
+
+=over 4
+
+=item if 'use channel' = 1:
+
+String with C<ChannelID> or C<MinChannelID>|C<MaxChannelID>; the channel
+identifiers must conform to the VDR notation (e.g., C<S19.2E-1-1019-10301>).
+
+B<Attention:> Please check the range settings of your search timers
+after changing the sequence of the channels!
+
+=item if 'use channel' = 2:
+
+String referring to a previously configured channel-group name.
+
+=back
+
+=item B<8 – Match case>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<9 – Search mode>
+
+Enumeration with the following values:
+
+=over 4
+
+=item 0 = phrase
+
+=item 1 = all words
+
+=item 2 = at least one word
+
+=item 3 = match exactly
+
+=item 4 = regular expression
+
+=item 5 = fuzzy search (tolerance in field 42; not available for extended
+EPG categories)
+
+=back
+
+See "Description of the search process" in B<epgsearch>(4) for how these modes
+control the search.
+
+=item B<10 – Use title>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<11 – Use subtitle>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<12 – Use description>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<13 – Use duration>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<14 – Minimum duration [HHMM]>
+
+Integer with HH = 0..23, MM = 0..59; other values may result in undefined behavior.
+
+=item B<15 – Maximum duration [HHMM]>
+
+Integer with HH = 0..23, MM = 0..59; other values may result in undefined behavior.
+
+=item B<16 – Use as search timer>
+
+Enumeration with the following values:
+
+=over 4
+
+=item 0 = no
+
+=item 1 = yes
+
+=item 2 = time span (fields 48 and 49)
+
+=back
+
+Z<>
+
+=item B<17 – Use day of week>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<18 – Day of week>
+
+Integer value from −127 to 6. The encoding is twofold:
+
+=over 4
+
+=item if I<dow> ≥ 0: individual weekday
+
+Enumeration with values 0 = Sunday, 1 = Monday, ..., 6 = Saturday.
+
+=item if I<dow> < 0: set of weekdays
+
+Integer in which the bits of −I<dow> represent the weekdays. Bit
+masks result from shifting 0x01 by a weekday's enumeration value:
+
+Z<>
+
+=over 4
+
+=item 0x01 = Sunday
+
+=item 0x02 = Monday
+
+=item 0x04 = Tuesday
+
+=item 0x08 = Wednesday
+
+=item 0x10 = Thursday
+
+=item 0x20 = Friday
+
+=item 0x40 = Saturday
+
+=back
+
+To encode the desired set of weekdays, the value resulting from
+their ORed bit masks must be negated.
+
+Example: −67 (negated: 0b01000011 = 0x40 | 0x02 | 0x01) encodes Saturday, Monday, and Sunday
+
+=back
+
+=item B<19 – Series recording>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<20 – Directory for recording>
+
+String with the name of a directory beneath the VDR's video directory,
+but without the path to that video directory.
+
+=item B<21 – Priority of recording>
+
+Integer value from 0 to 99.
+
+=item B<22 – Lifetime of recording [days]>
+
+Integer value from 0 to 99.
+
+=item B<23 – Margin at start [minutes]>
+
+=for consideration:
+Should we limit the margins to some reasonable value, like 2 hours = 0..120?
+
+Integer with a positive value.
+
+=item B<24 – Margin at stop [minutes]>
+
+Integer with a positive value.
+
+=item B<25 – Use VPS>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<26 – Action>
+
+Enumeration with the following values:
+
+=over 4
+
+=item 0 = record
+
+=item 1 = announce by OSD (no timer)
+
+=item 2 = switch only (no timer)
+
+=item 3 = announce by OSD and switch (no timer)
+
+=item 4 = announce by e-mail
+
+=item 5 = inactive record
+
+=back
+
+Z<>
+
+=item B<27 – Use extended EPG information>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<28 – Extended EPG information values>
+
+List of extended EPG category data, each represented by a tuple of:
+
+=over 4
+
+=item 28.1 – Identifier
+
+Unique identifier of the extended EPG category as specified
+in F<epgsearchcats.conf>.
+
+=item 28.2 – Category values
+
+Comma-separated list of values as specified for the EPG category in
+F<epgsearchcats.conf>. Spaces around values are ignored.
+A C<:> character, like in C<16:9>, must be encoded as C<!^colon^!>.
+
+=back
+
+The C<|> character separates adjacent category tuples,
+whereas C<#> separates ID and category names.
+
+Example: C<1#Movie, Series|2#Horror|8#16!^colon^!9>
+
+=item B<29 – Avoid repeats>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<30 – Allowed repeats>
+
+Integer value from 0 to 99.
+
+=item B<31 – Compare title (when testing for repeats)>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<32 – Compare subtitle (when testing for repeats)>
+
+Enumeration with value 0 = no, 1 = yes, 2 = allow empty.
+
+=item B<33 – Compare summary (when testing for repeats)>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<34 – Compare categories (when testing for repeats)>
+
+Integer in which each bit represents an extended EPG category.
+The first EPG category specified in F<epgsearchcats.conf> is
+represented by bit 0 (0x01), the second by bit 1 (0x02), etc.
+A nonzero value enables comparison.
+
+B<Note:> The values of the EPG category identifiers (field 1 of an
+EPG category entry) are of no relevance for encoding the bit field.
+Changes to EPG categories may require an update of search timers.
+
+=item B<35 – Only repeats within ... days>
+
+Integer value from 0 to 999.
+
+=item B<36 – Delete recordings after ... days>
+
+Integer value from 0 to 999.
+
+=item B<37 – Keep ... recordings>
+
+Integer value from 0 to 999.
+
+=item B<38 – Switch ... minutes before start>
+
+Integer value from 0 to 99; only considered if 'action' = 2.
+
+=item B<39 – Pause when ...recordings exist>
+
+Integer value from 0 to 999.
+
+=item B<40 – Blacklist usage mode>
+
+Enumeration with values 0 = only global, 1 = selection, 2 = all, 3 = none.
+
+=item B<41 – Blacklist selection>
+
+List of blacklist identifiers, separated by C<|> characters;
+only considered if 'blacklist usage mode' = 1.
+
+=item B<42 – Fuzzy tolerance>
+
+Integer value from 1 to 9, serving as threshold for fuzzy searching;
+only considered if 'search mode' = 5.
+
+=item B<43 – Use in favorites menu>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<44 – Result menu layout for favorites menu>
+
+Integer referencing a search-result template specified in F<epgsearchmenu.conf>.
+The value is the index (starting at 0) within all entries having a prefix of
+C<MenuSearchResults>; see "10. Customizing the EPG menus" in B<epgsearch>(4)
+for details.
+
+B<Note:> The field is only of relevance if multiple search-result templates
+have been specified.
+
+=item B<45 – Auto delete mode>
+
+Enumeration with the following values:
+
+=over 4
+
+=item 0 = don't delete the search timer
+
+=item 1 = delete after a number of recordings (field 46)
+
+=item 2 = delete after a number of days after the first recording (field 47)
+
+=back
+
+Z<>
+
+=item B<46 – Delete after ... recordings>
+
+Integer value from 0 to 999; only considered if 'auto delete mode' = 1.
+
+=item B<47 – Delete after ... days after first recording>
+
+Integer value from 0 to 999; only considered if 'auto delete mode' = 2.
+
+=item B<48 – First day (use as search timer from)>
+
+Date and time in I<Epoch> encoding (i.e., seconds since 1970-01-01 00:00 UTC)
+from which on the search timer is active; a value of 0 disables the check.
+
+B<Note:> Any I<Epoch> value can be supplied. Thus, providing a time within
+a day (instead of midnight) will keep the timer inactive until that intra-day
+time has been reached.
+
+=item B<49 – Last day (use as search timer until)>
+
+Date and time in I<Epoch> encoding (i.e., seconds since 1970-01-01 00:00 UTC)
+until which the search timer is active; a value of 0 disables the check.
+
+B<Note:> Any I<Epoch> value can be supplied. Thus, providing a time within
+a day (instead of midnight) will keep the timer active until that intra-day
+time has been reached.
+
+=item B<50 – Matching mode of extended EPG information>
+
+Enumeration with the following values:
+
+=over 4
+
+=item 0 = all selected categories
+
+=item 1 = all except missing categories
+
+=item 2 = at least one category
+
+=back
+
+This allows including events with missing or just some matching categories.
+But without other sufficiently limiting criteria, this could yield a huge
+number of results.
+
+=item B<51 – Unmute sound>
+
+Flag with values 0 = no, 1 = yes; only considered if 'action' = 2 or 3.
+
+=item B<52 – Minimum match in percent>
+
+Integer value from 1 to 100, specifying the minimum match required
+to avoid repeats when summaries are to be compared; only considered
+if 'compare summary' = 1.
+
+=item B<53 – Content descriptors>
+
+String with content descriptors to be checked. Content descriptors are
+values from 0 to 255 (see DIN EN 300 468, Table 18), encoded as 2-digit
+hexadecimal numbers. The upper nibble (bits [7..4]) constitutes a content
+group, and the lower nibble (bits [3..0]) represents a distinct descriptor
+within that group. A group's first descriptor with a value of 0 usually is
+a general classification of that group (like 0x10 = movie, drama), whereas
+values 1..15 provide a subordinate, finer classification (like 0x11 = detective,
+thriller; 0x14 = comedy). But since content group 11 (special characteristics)
+does not comply to this scheme (as can be seen from 0xB0 = original language;
+0xB1 = black & white), a distinct matching mode for its descriptors is available.
+
+The content descriptors to be checked are the concatenation of their 2-digit
+hexadecimal values without separators.
+
+B<Example:> Content identifiers 17 (detective, thriller), 20 (comedy) and
+176 (original language) are encoded as C<1114B0>.
+
+The settings of fields 55 (content categories) and 56 (special characteristics)
+determine the conditions for an event to match the selected content descriptors.
+
+Leave empty for not taking content descriptors into account.
+
+=item B<54 – Compare date (when testing for repeats)>
+
+Enumeration with the values 0 = no, 1 = same day, 2 = same week, 3 = same month.
+
+=item B<55 – Matching mode of content categories>
+
+Enumeration with the following values:
+
+=over 4
+
+=item 0 = all selected descriptors
+
+=item 1 = any selected descriptor
+
+=item 2 = some selected descriptor per group
+
+=back
+
+Modes 0 and 1 instantly match across all category groups but nevertheless use the
+matching mode of field 56 for checking the special characteristics. Thus, combinations
+like 'AND' for the category groups and 'OR' within the special characteristics can occur,
+and vice versa.
+
+Mode 2, however, uses a two-stage evaluation: First, category groups with selected
+content descriptors are checked (groups without selected content descriptors are
+not considered). A category group matches if an event includes at least one of the
+group's selected descriptors ('some selected', OR), except for the special-characteristics
+group that again uses the matching mode of field 56. Second, all checked groups must have
+matched ('per group', AND).
+
+Only considered if 'content descriptors' is not empty.
+
+=item B<56 – Matching mode of special characteristics>
+
+Enumeration with values 0 = all selected descriptors, 1 = any selected descriptor;
+only considered if 'content descriptors' is not empty.
+
+=item B<57 – Use parental rating>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<58 – Minimum parental rating>
+
+Integer value from 0 to 18.
+
+=item B<59 – Maximum parental rating>
+
+Integer value from 0 to 18.
+
+=back
+
+A search timer's entry is considered valid if covers at least the first 11 fields.
+
+The fields ("parameters") of a search timer are separated by C<:> characters. Thus,
+a C<:> character in strings, like the search term or the directory, will be encoded
+as C<|> character. If a C<|> character should be part of the string as well, like in
+regular expressions, it will be encoded as C<!^pipe^!> (which is rather ugly but
+required for backward compatibility).
+
+Fields depending on another field and being void due to that field's setting can
+(and actually should) be left empty. For instance, a search timer not having a time
+constraint can leave the fields 'start after' and 'start before' empty:
+
+=over 4
+
+    1:My favorite series: 0::: 0::0:0
+                          ^^^^
+
+=back
+
+Furthermore, leading and trailing whitespace around a field value is discarded.
+This implies, however, that strings cannot start or end with whitespace.
+
+B<Note:> Strings within fields must not be enclosed in quotations marks or apostrophes,
+even if this should be indicated in a field's description. These characters have just
+been inserted during compilation of this man page.
 
 =head1 EXAMPLE
 
- #version 2 - DON'T TOUCH THIS!
- 1:Kommissar Beck:0:::2:�ffRecht:0:0:1:0:0:0:::1:0:0:1:%Category%~%Genre%:50:99:10:60:0:0:0::1:0:1:1:0:0:0:0:0
- 2:* S�gebrecht:0:::2:Hauptsender:0:0:0:0:0:0:::0:0:0:0:%Category%~%Genre%:50:99:10:10:0:0:1:1#|2#|3#|4#|5#|6#Marianne S�gebrecht|7#|8#|9#|10#|11#|12#|13#:1:0:1:0:0:0:0:0:0
+ 1:Columbo:0:::2:Public broadcasting:1:3:1:0:0:0:::1:0:0:1:%Category%~%Genre%:50:99:10:60:0:0:0::1:0:1:1:0:0:0:0:0
+ 2:Schwarzenegger:0:::2:Major stations:0:0:0:0:0:0:::0:0:0:0:%Category%~%Genre%:50:99:10:10:0:0:1:1#|2#|3#|4#|5#|6#Arnold Schwarzenegger|7#|8#|9#|10#|11#|12#|13#:1:0:1:0:0:0:0:0:0
 
-=head1 SEE ALSO
+=head1 AUTHORS (man pages)
 
-C<epgsearch(1)>
+Originally provided by Mike Constabel <epgsearch (at) constabel (dot) net>.
 
-=head1 AUTHOR (man pages)
+Revised and adapted to recent plugin features by the current maintainers.
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=head1 PROJECT SITE
 
-=head1 REPORT BUGS
+The plugin is maintained as GitHub project:
 
-Bug reports (german):
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+=head1 REPORTING BUGS
 
-Mailing list:
+Issues can be reported, and features be suggested, through the project's
+bug tracker:
 
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
 =head1 COPYRIGHT and LICENSE
 
 Copyright (C) 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal), et al.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -152,11 +553,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Or, point your browser to L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
-The author can be reached at cwieninger@gmx.de
+The original author can be reached via L<cwieninger@gmx.de>.
 
-The project's page is at http://winni.vdr-developer.org/epgsearch
+Current maintainers can be reached via the project's GitHub site (see above).
 
-The MD5 code is derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm.
+The MD5 code has been derived from the MD5 Message-Digest Algorithm of RSA Data Security, Inc.
 
+=head1 SEE ALSO
+
+B<epgsearch>(1), B<epgsearch>(4)

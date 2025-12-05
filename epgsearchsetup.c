@@ -76,22 +76,25 @@ eOSState cMenuSetupSubMenu::ProcessKey(eKeys Key)
     return state;
 }
 
-void cMenuSetupSubMenu::AddHelp(const char* helpText)
+void cMenuSetupSubMenu::AddHelp(cOsdItem* item, const char* helpText)
 {
-    helpTexts.push_back(helpText);
+    helpTexts[item] = helpText;
 }
 
 eOSState cMenuSetupSubMenu::Help()
 {
-    const char* ItemText = Get(Current())->Text();
     eOSState state = osContinue;
-    if (Current() < (int) helpTexts.size()) {
-        char* title = NULL;
-        if (msprintf(&title, "%s - %s", tr("Button$Help"), ItemText) != -1) {
-            if (strchr(title, ':'))
-                *strchr(title, ':') = 0;
-            state = AddSubMenu(new cMenuText(title, helpTexts[Current()]));
-            free(title);
+    cOsdItem* item = Get(Current());
+    if (item) {
+        const char* helpText;
+        const char* itemText = item->Text();
+        if (helpText = helpTexts[item]) {
+            char* title = NULL;
+            if (msprintf(&title, "%s - %s", tr("Button$Help"), itemText) != -1) {
+                if (strchr(title, ':')) *strchr(title, ':') = 0;
+                state = AddSubMenu(new cMenuText(title, helpText));
+                free(title);
+            }
         }
     }
     return state;
@@ -350,17 +353,18 @@ void cMenuSetupGeneral::Set()
     int current = Current();
     Clear();
     helpTexts.clear();
+    cOsdItem* item;
 
-    Add(new cMenuEditBoolItem(tr("Hide main menu entry"),         &data->hidemenu,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Hides the main menu entry and may be useful if this plugin is used to replace the original 'Schedule' entry."));
+    Add(item = new cMenuEditBoolItem(tr("Hide main menu entry"),         &data->hidemenu,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Hides the main menu entry and may be useful if this plugin is used to replace the original 'Schedule' entry."));
     if (!data->hidemenu) {
-        Add(new cMenuEditStrItem(IndentMenuItem(tr("Main menu entry")), data->mainmenuentry, sizeof(data->mainmenuentry), tr(AllowedChars)));
-        AddHelp(tr("Help$The name of the main menu entry which defaults to 'Programm guide'."));
+        Add(item = new cMenuEditStrItem(IndentMenuItem(tr("Main menu entry")), data->mainmenuentry, sizeof(data->mainmenuentry), tr(AllowedChars)));
+        AddHelp(item, tr("Help$The name of the main menu entry which defaults to 'Programm guide'."));
     }
-    Add(new cMenuEditBoolItem(tr("Replace original schedule"),    &data->ReplaceOrgSchedule, trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$When VDR is patched to allow this plugin to replace the original 'Schedule' entry, you can de/activate this replacement here."));
-    Add(new cMenuEditStraItem(tr("Start menu"), &data->StartMenu, 2, StartMenuMode));
-    AddHelp(tr("Help$Choose between 'Overview - Now' and 'Schedule' as start menu when this plugin is called."));
+    Add(item = new cMenuEditBoolItem(tr("Replace original schedule"),    &data->ReplaceOrgSchedule, trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$When VDR is patched to allow this plugin to replace the original 'Schedule' entry, you can de/activate this replacement here."));
+    Add(item = new cMenuEditStraItem(tr("Start menu"), &data->StartMenu, 2, StartMenuMode));
+    AddHelp(item, tr("Help$Choose between 'Overview - Now' and 'Schedule' as start menu when this plugin is called."));
 
     SetCurrent(Get(current));
     Display();
@@ -402,44 +406,45 @@ cMenuSetupEPGMenus::cMenuSetupEPGMenus(cEPGSearchConfig* Data)
 
 void cMenuSetupEPGMenus::Set()
 {
+    cOsdItem* item;
     int current = Current();
     Clear();
     helpTexts.clear();
 
-    Add(new cMenuEditStraItem(tr("Ok key"), &data->useOkForSwitch, 2, OkKeyMode));
-    AddHelp(tr("Help$Choose here the behaviour of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\nNote: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."));
+    Add(item = new cMenuEditStraItem(tr("Ok key"), &data->useOkForSwitch, 2, OkKeyMode));
+    AddHelp(item, tr("Help$Choose here the behavior of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\nNote: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."));
 
-    Add(new cMenuEditStraItem(tr("Red key"), &data->redkeymode, 2, RedKeyMode));
-    AddHelp(tr("Help$Choose which standard function ('Record' or 'Commands') you like to have on the red key.\n(Can be toggled with key '0')"));
-    Add(new cMenuEditStraItem(tr("Blue key"), &data->bluekeymode, 2, BlueKeyMode));
-    AddHelp(tr("Help$Choose which standard function ('Switch'/'Info' or 'Search') you like to have on the blue key.\n(Can be toggled with key '0')"));
+    Add(item = new cMenuEditStraItem(tr("Red key"), &data->redkeymode, 2, RedKeyMode));
+    AddHelp(item, tr("Help$Choose which standard function ('Record' or 'Commands') you like to have on the red key.\n(Can be toggled with key '0')"));
+    Add(item = new cMenuEditStraItem(tr("Blue key"), &data->bluekeymode, 2, BlueKeyMode));
+    AddHelp(item, tr("Help$Choose which standard function ('Switch'/'Info' or 'Search') you like to have on the blue key.\n(Can be toggled with key '0')"));
 
-    Add(new cMenuEditBoolItem(tr("Show progress in 'Now'"), &data->showProgress, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event."));
-    Add(new cMenuEditBoolItem(tr("Show channel numbers"), &data->showChannelNr,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Display channel numbers in 'Overview - Now'.\n\n(To completely define your own menu look please inspect the MANUAL)"));
-    Add(new cMenuEditBoolItem(tr("Show channel separators"), &data->showChannelGroups,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Display VDR channel groups as separators between your channels in 'Overview - Now'."));
-    Add(new cMenuEditBoolItem(tr("Show day separators"), &data->showDaySeparators,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Display a separator line at day break in 'Schedule'."));
-    Add(new cMenuEditBoolItem(tr("Show radio channels"), &data->showRadioChannels,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Show also radio channels."));
-    Add(new cMenuEditIntItem(tr("Limit channels from 1 to"), &data->maxChannelMenuNow, 0, 9999));
-    AddHelp(tr("Help$If you have a large channel set you can speed up things when you limit the displayed channels with this setting. Use '0' to disable the limit."));
-    Add(new cMenuEditBoolItem(tr("'One press' timer creation"), &data->onePressTimerCreation,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$When a timer is created with 'Record' you can choose between an immediate creation of the timer or the display of the timer edit menu."));
-    Add(new cMenuEditBoolItem(tr("Show channels without EPG"), &data->showEmptyChannels,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."));
-    Add(new cMenuEditIntItem(tr("Time interval for FRew/FFwd [min]"), &data->timeShiftValue, 1, 9999));
-    AddHelp(tr("Help$Choose here the time interval which should be used for jumping through the EPG by pressing FRew/FFwd.\n\n(If you don't have those keys, you can toggle to this functionality pressing '0' and get '<<' and '>>' on the keys green and yellow)"));
-    Add(new cMenuEditBoolItem(tr("Toggle Green/Yellow"), &data->toggleGreenYellow,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Specify if green and yellow shall also be switched when pressing '0'."));
+    Add(item = new cMenuEditBoolItem(tr("Show progress in 'Now'"), &data->showProgress, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Shows a progress bar in 'Overview - Now' that informs about the remaining time of the current event."));
+    Add(item = new cMenuEditBoolItem(tr("Show channel numbers"), &data->showChannelNr,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Display channel numbers in 'Overview - Now'.\n\n(To completely define your own menu look please inspect the MANUAL)"));
+    Add(item = new cMenuEditBoolItem(tr("Show channel separators"), &data->showChannelGroups,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Display VDR channel groups as separators between your channels in 'Overview - Now'."));
+    Add(item = new cMenuEditBoolItem(tr("Show day separators"), &data->showDaySeparators,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Display a separator line at day break in 'Schedule'."));
+    Add(item = new cMenuEditBoolItem(tr("Show radio channels"), &data->showRadioChannels,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Show also radio channels."));
+    Add(item = new cMenuEditIntItem(tr("Limit channels from 1 to"), &data->maxChannelMenuNow, 0, 9999));
+    AddHelp(item, tr("Help$If you have a large channel set you can speed up things when you limit the displayed channels with this setting. Use '0' to disable the limit."));
+    Add(item = new cMenuEditBoolItem(tr("'One press' timer creation"), &data->onePressTimerCreation,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$When a timer is created with 'Record' you can choose between an immediate creation of the timer or the display of the timer edit menu."));
+    Add(item = new cMenuEditBoolItem(tr("Show channels without EPG"), &data->showEmptyChannels,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."));
+    Add(item = new cMenuEditIntItem(tr("Time interval for 'FRew' / 'FFwd' [min]"), &data->timeShiftValue, 1, 9999));
+    AddHelp(item, tr("Help$Choose here the time interval which should be used for jumping through the EPG by pressing 'FRew' / 'FFwd'.\n\n(If you don't have those keys, you can toggle to this functionality pressing '0' and get '<<' and '>>' on the keys green and yellow)"));
+    Add(item = new cMenuEditBoolItem(tr("Toggle Green/Yellow"), &data->toggleGreenYellow,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Specify if green and yellow shall also be switched when pressing '0'."));
 
-    Add(new cMenuEditStraItem(tr("Show favorites menu"), &data->showFavoritesMenu, 4, FavoritesMenuMode));
-    AddHelp(tr("Help$A favorites menu can display a list of your favorite broadcasts. Enable this if you want an additional menu besides 'Now' and 'Next'\nAny search can be used as a favorite. You only have to set the option 'Use in favorites menu' when editing a search."));
+    Add(item = new cMenuEditStraItem(tr("Show favorites menu"), &data->showFavoritesMenu, 4, FavoritesMenuMode));
+    AddHelp(item, tr("Help$A favorites menu can display a list of your favorite broadcasts. Enable this if you want an additional menu besides 'Now' and 'Next'\nAny search can be used as a favorite. You only have to set the option 'Use in favorites menu' when editing a search."));
     if (data->showFavoritesMenu) {
-        Add(new cMenuEditIntItem(IndentMenuItem(tr("for the next ... hours")), &data->FavoritesMenuTimespan, 1, 9999));
-        AddHelp(tr("Help$This value controls the timespan used to display your favorites."));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(tr("for the next ... hours")), &data->FavoritesMenuTimespan, 1, 9999));
+        AddHelp(item, tr("Help$This value controls the time span used to display your favorites."));
     }
 
     SetCurrent(Get(current));
@@ -462,48 +467,49 @@ cMenuSetupUserdefTimes::cMenuSetupUserdefTimes(cEPGSearchConfig* Data)
 
 void cMenuSetupUserdefTimes::Set()
 {
+    cOsdItem* item;
     int current = Current();
     Clear();
     helpTexts.clear();
 
-    cString szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 1);
-    Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode1].useIt,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
+    cString szUseUserTime = cString::sprintf(tr("Use user-defined time %d"), 1);
+    Add(item = new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode1].useIt,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
     if (data->ShowModes[showUserMode1].GetUsage()) {
-        Add(new cMenuEditStrItem(IndentMenuItem(tr("Description")), data->ShowModes[showUserMode1].description, sizeof(data->ShowModes[showUserMode1].description), trVDR(FileNameChars)));
-        AddHelp(tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
-        Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode1].itime));
-        AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
+        Add(item = new cMenuEditStrItem(IndentMenuItem(tr("Description")), data->ShowModes[showUserMode1].description, sizeof(data->ShowModes[showUserMode1].description), trVDR(FileNameChars)));
+        AddHelp(item, tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
+        Add(item = new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode1].itime));
+        AddHelp(item, tr("Help$Specify the user-defined time here in 'HH:MM'."));
     }
 
-    szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 2);
-    Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode2].useIt,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
+    szUseUserTime = cString::sprintf(tr("Use user-defined time %d"), 2);
+    Add(item = new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode2].useIt,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
     if (data->ShowModes[showUserMode2].GetUsage()) {
-        Add(new cMenuEditStrItem(IndentMenuItem(tr("Description")), data->ShowModes[showUserMode2].description, sizeof(data->ShowModes[showUserMode2].description), trVDR(FileNameChars)));
-        AddHelp(tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
-        Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode2].itime));
-        AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
+        Add(item = new cMenuEditStrItem(IndentMenuItem(tr("Description")), data->ShowModes[showUserMode2].description, sizeof(data->ShowModes[showUserMode2].description), trVDR(FileNameChars)));
+        AddHelp(item, tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
+        Add(item = new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode2].itime));
+        AddHelp(item, tr("Help$Specify the user-defined time here in 'HH:MM'."));
     }
 
-    szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 3);
-    Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode3].useIt,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
+    szUseUserTime = cString::sprintf(tr("Use user-defined time %d"), 3);
+    Add(item = new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode3].useIt,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
     if (data->ShowModes[showUserMode3].GetUsage()) {
-        Add(new cMenuEditStrItem(IndentMenuItem(tr("Description")), data->ShowModes[showUserMode3].description, sizeof(data->ShowModes[showUserMode3].description), trVDR(FileNameChars)));
-        AddHelp(tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
-        Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode3].itime));
-        AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
+        Add(item = new cMenuEditStrItem(IndentMenuItem(tr("Description")), data->ShowModes[showUserMode3].description, sizeof(data->ShowModes[showUserMode3].description), trVDR(FileNameChars)));
+        AddHelp(item, tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
+        Add(item = new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode3].itime));
+        AddHelp(item, tr("Help$Specify the user-defined time here in 'HH:MM'."));
     }
 
-    szUseUserTime = cString::sprintf("%s %d", tr("Use user-defined time"), 4);
-    Add(new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode4].useIt,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
+    szUseUserTime = cString::sprintf(tr("Use user-defined time %d"), 4);
+    Add(item = new cMenuEditBoolItem(szUseUserTime, &data->ShowModes[showUserMode4].useIt,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."));
     if (data->ShowModes[showUserMode4].GetUsage()) {
-        Add(new cMenuEditStrItem(IndentMenuItem(tr("Description")), data->ShowModes[showUserMode4].description, sizeof(data->ShowModes[showUserMode4].description), trVDR(FileNameChars)));
-        AddHelp(tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
-        Add(new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode4].itime));
-        AddHelp(tr("Help$Specify the user-defined time here in 'HH:MM'."));
+        Add(item = new cMenuEditStrItem(IndentMenuItem(tr("Description")), data->ShowModes[showUserMode4].description, sizeof(data->ShowModes[showUserMode4].description), trVDR(FileNameChars)));
+        AddHelp(item, tr("Help$This is the description for your user-defined time as it will appear as label on the green button."));
+        Add(item = new cMenuEditTimeItem(IndentMenuItem(tr("Time")), &data->ShowModes[showUserMode4].itime));
+        AddHelp(item, tr("Help$Specify the user-defined time here in 'HH:MM'."));
     }
 
     SetCurrent(Get(current));
@@ -551,18 +557,19 @@ cMenuSetupTimers::cMenuSetupTimers(cEPGSearchConfig* Data)
 
 void cMenuSetupTimers::Set()
 {
+    cOsdItem* item;
     int current = Current();
     Clear();
     helpTexts.clear();
 
-    Add(new cMenuEditBoolItem(tr("Use VDR's timer edit menu"),         &data->useVDRTimerEditMenu,       trVDR("no"),      trVDR("yes")));
-    AddHelp(tr("Help$This plugin has its own timer edit menu extending the original one with some extra functionality like\n- an additional directory entry\n- user-defined days of week for repeating timers\n- adding an episode name\n- support for EPG variables (see MANUAL)"));
-    Add(new cMenuEditStrItem(tr("Default recording dir"), data->defrecdir, sizeof(data->defrecdir), tr(AllowedChars)));
-    AddHelp(tr("Help$When creating a timer you can specify here a default recording directory."));
-    Add(new cMenuEditStraItem(tr("Add episode to manual timers"), &data->addSubtitleToTimer, 3, AddSubtitleMode));
-    AddHelp(tr("Help$If you create a timer for a series, you can automatically add the episode name.\n\n- never: no addition\n- always: always add episode name if present\n- smart: add only if event lasts less than 80 mins."));
+    Add(item = new cMenuEditBoolItem(tr("Use VDR's timer edit menu"),         &data->useVDRTimerEditMenu,       trVDR("no"),      trVDR("yes")));
+    AddHelp(item, tr("Help$This plugin has its own timer edit menu extending the original one with some extra functionality like\n- an additional directory entry\n- user-defined days of week for repeating timers\n- adding an episode name\n- support for EPG variables (see MANUAL)"));
+    Add(item = new cMenuEditStrItem(tr("Default recording dir"), data->defrecdir, sizeof(data->defrecdir), tr(AllowedChars)));
+    AddHelp(item, tr("Help$When creating a timer you can specify here a default recording directory."));
+    Add(item = new cMenuEditStraItem(tr("Add episode to manual timers"), &data->addSubtitleToTimer, 3, AddSubtitleMode));
+    AddHelp(item, tr("Help$If you create a timer for a series, you can automatically add the episode name.\n\n- never: no addition\n- always: always add episode name if present\n- smart: add only if event lasts less than 80 mins."));
     Add(new cOsdItem(tr("Default timer check method")));
-    AddHelp(tr("Help$Manual timers can be checked for EPG changes. Here you can setup the default check method for each channel. Choose between\n\n- no checking\n- by event ID: checks by an event ID supplied by the channel provider.\n- by channel and time: check by the duration match."));
+    AddHelp(item, tr("Help$Manual timers can be checked for EPG changes. Here you can setup the default check method for each channel. Choose between\n\n- no checking\n- by event ID: checks by an event ID supplied by the channel provider.\n- by channel and time: check by the duration match."));
 
     SetCurrent(Get(current));
     Display();
@@ -631,65 +638,65 @@ cMenuSetupSearchtimers::cMenuSetupSearchtimers(cEPGSearchConfig* Data)
 
 cMenuSetupSearchtimers::~cMenuSetupSearchtimers()
 {
-    if (menuitemsChGr)
-        free(menuitemsChGr);
+    delete [] menuitemsChGr;
 }
 
 void cMenuSetupSearchtimers::Set()
 {
+    cOsdItem* item;
     int current = Current();
     Clear();
     helpTexts.clear();
 
-    Add(new cMenuEditBoolItem(tr("Use search timers"), &data->useSearchTimers, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$'Search timers' can be used to automatically create timers for events that match your search criterions."));
+    Add(item = new cMenuEditBoolItem(tr("Use search timers"), &data->useSearchTimers, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$'Search timers' can be used to automatically create timers for events that match your search criteria."));
     if (data->useSearchTimers) {
-        Add(new cMenuEditIntItem(tr("  Update interval [min]"), &data->UpdateIntervall, 1, 9999));
-        AddHelp(tr("Help$Specify here the time intervall to be used when searching for events in the background."));
-        Add(new cMenuEditIntItem(tr("  SVDRP port"), &data->SVDRPPort, 1, 99999));
-        AddHelp(tr("Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."));
-        Add(new cMenuEditIntItem(tr("Delay internal threads ... seconds"), &data->delayThreads, 0, 300));
-        AddHelp(tr("Help$This value delays starting the searchtimer update thread for the given range of seconds"));
-        Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Default priority")), &data->DefPriority, 0, MAXPRIORITY));
-        AddHelp(tr("Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."));
-        Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Default lifetime (d)")), &data->DefLifetime, 0, MAXLIFETIME));
-        AddHelp(tr("Help$Specify here the default lifetime of timers/recordings created with this plugin. This value can also be adjusted for each search itself."));
-        Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at start (min)")), &data->DefMarginStart));
-        AddHelp(tr("Help$Specify here the default start recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."));
-        Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at stop (min)")), &data->DefMarginStop));
-        AddHelp(tr("Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."));
+        Add(item = new cMenuEditIntItem(tr("  Update interval [min]"), &data->UpdateIntervall, 1, 9999));
+        AddHelp(item, tr("Help$Specify here the time interval to be used when searching for events in the background."));
+        Add(item = new cMenuEditIntItem(tr("  SVDRP port"), &data->SVDRPPort, 1, 99999));
+        AddHelp(item, tr("Help$Programming of new timers or timer changes is done with SVDRP. The default value should be correct, so change it only if you know what you are doing."));
+        Add(item = new cMenuEditIntItem(tr("Delay internal threads ... seconds"), &data->delayThreads, 0, 300));
+        AddHelp(item, tr("Help$This value delays starting the search-timer update thread for the given range of seconds"));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Default priority")), &data->DefPriority, 0, MAXPRIORITY));
+        AddHelp(item, tr("Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Default lifetime (d)")), &data->DefLifetime, 0, MAXLIFETIME));
+        AddHelp(item, tr("Help$Specify here the default lifetime of timers/recordings created with this plugin. This value can also be adjusted for each search itself."));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at start (min)")), &data->DefMarginStart, 0, INT_MAX));
+        AddHelp(item, tr("Help$Specify here the default start recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at stop (min)")), &data->DefMarginStop, 0, INT_MAX));
+        AddHelp(item, tr("Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."));
 #if defined(APIVERSNUM) && APIVERSNUM > 20503
-        Add(new cMenuEditIntItem(IndentMenuItem(tr("AllowedErrors")), &data->AllowedErrors));
-        AddHelp(tr("Specify here the allowed reception errors before a recording is marked incomplete"));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(tr("Allowed errors")), &data->AllowedErrors));
+        AddHelp(item, tr("Help$Specify here the allowed reception errors before a recording is marked incomplete."));
 #endif
-        Add(new cMenuEditBoolItem(IndentMenuItem(tr("No announcements when replaying")), &data->noAnnounceWhileReplay, trVDR("no"), trVDR("yes")));
-        AddHelp(tr("Help$Set this to 'yes' if you don't like to get any announcements of broadcasts if you currently replay anything."));
-        Add(new cMenuEditBoolItem(IndentMenuItem(tr("Recreate timers after deletion")), &data->TimerProgRepeat, trVDR("no"), trVDR("yes")));
-        AddHelp(tr("Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."));
-        Add(new cMenuEditIntItem(IndentMenuItem(tr("Check if EPG exists for ... [h]")), &data->checkEPGHours, 0, 999));
-        AddHelp(tr("Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."));
+        Add(item = new cMenuEditBoolItem(IndentMenuItem(tr("No announcements when replaying")), &data->noAnnounceWhileReplay, trVDR("no"), trVDR("yes")));
+        AddHelp(item, tr("Help$Set this to 'yes' if you don't like to get any announcements of broadcasts if you currently replay anything."));
+        Add(item = new cMenuEditBoolItem(IndentMenuItem(tr("Recreate timers after deletion")), &data->TimerProgRepeat, trVDR("no"), trVDR("yes")));
+        AddHelp(item, tr("Help$Set this to 'yes' if you want timers to be recreated with the next search timer update after deleting them."));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(tr("Check if EPG exists for ... [h]")), &data->checkEPGHours, 0, 999));
+        AddHelp(item, tr("Help$Specify how many hours of future EPG there should be and get warned else after a search timer update."));
         if (data->checkEPGHours > 0) {
-            Add(new cMenuEditBoolItem(IndentMenuItem(tr("Warn by OSD"), 2), &data->checkEPGWarnByOSD, trVDR("no"), trVDR("yes")));
-            AddHelp(tr("Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."));
-            Add(new cMenuEditBoolItem(IndentMenuItem(tr("Warn by mail"), 2), &data->checkEPGWarnByMail, trVDR("no"), trVDR("yes")));
-            AddHelp(tr("Help$Set this to 'yes' if you want get warnings from the EPG check by mail."));
+            Add(item = new cMenuEditBoolItem(IndentMenuItem(tr("Warn by OSD"), 2), &data->checkEPGWarnByOSD, trVDR("no"), trVDR("yes")));
+            AddHelp(item, tr("Help$Set this to 'yes' if you want get warnings from the EPG check via OSD."));
+            Add(item = new cMenuEditBoolItem(IndentMenuItem(tr("Warn by mail"), 2), &data->checkEPGWarnByMail, trVDR("no"), trVDR("yes")));
+            AddHelp(item, tr("Help$Set this to 'yes' if you want get warnings from the EPG check by mail."));
 
             // create the char array for the menu display
-            if (menuitemsChGr) delete [] menuitemsChGr;
+            delete [] menuitemsChGr;
             menuitemsChGr = ChannelGroups.CreateMenuitemsList();
-            Add(new cMenuEditStraItem(IndentMenuItem(tr("Channel group to check"), 2), &data->checkEPGchannelGroupNr, ChannelGroups.Count() + 1, menuitemsChGr));
-            AddHelp(tr("Help$Specify the channel group to check."));
+            Add(item = new cMenuEditStraItem(IndentMenuItem(tr("Channel group to check"), 2), &data->checkEPGchannelGroupNr, ChannelGroups.Count() + 1, menuitemsChGr));
+            AddHelp(item, tr("Help$Specify the channel group to check."));
         }
     }
 
-    Add(new cMenuEditBoolItem(tr("Ignore PayTV channels"), &data->ignorePayTV, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'yes' if don't want to see events on PayTV channels when searching for repeats."));
+    Add(item = new cMenuEditBoolItem(tr("Ignore PayTV channels"), &data->ignorePayTV, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if don't want to see events on PayTV channels when searching for repeats."));
     Add(new cOsdItem(tr("Search templates")));
-    AddHelp(tr("Help$Here you can setup templates for your searches."));
+    AddHelp(item, tr("Help$Here you can setup templates for your searches."));
     Add(new cOsdItem(tr("Blacklists")));
-    AddHelp(tr("Help$Here you can setup blacklists which can be used within a search to exclude events you don't like."));
+    AddHelp(item, tr("Help$Here you can setup blacklists which can be used within a search to exclude events you don't like."));
     Add(new cOsdItem(tr("Channel groups")));
-    AddHelp(tr("Help$Here you can setup channel groups which can be used within a search. These are different to VDR channel groups and represent a set of arbitrary channels, e.g. 'FreeTV'."));
+    AddHelp(item, tr("Help$Here you can setup channel groups which can be used within a search. These are different to VDR channel groups and represent a set of arbitrary channels, e.g. 'FreeTV'."));
 
     SetCurrent(Get(current));
     Display();
@@ -772,44 +779,44 @@ cMenuSetupTimerConflicts::cMenuSetupTimerConflicts(cEPGSearchConfig* Data)
 
 void cMenuSetupTimerConflicts::Set()
 {
+    cOsdItem* item;
     int current = Current();
     Clear();
     helpTexts.clear();
 
-    Add(new cMenuEditIntItem(tr("Ignore below priority"), &data->checkMinPriority, 0, MAXPRIORITY));
-    AddHelp(tr("Help$If a timer with priority below the given value will fail it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."));
-    Add(new cMenuEditIntItem(tr("Ignore conflict duration less ... min."), &data->checkMinDuration, 0, 999));
-    AddHelp(tr("Help$If a conflicts duration is less then the given number of minutes it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."));
-    Add(new cMenuEditIntItem(tr("Only check within next ... days"), &data->checkMaxDays, 1, 14));
-    AddHelp(tr("Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."));
+    Add(item = new cMenuEditIntItem(tr("Ignore below priority"), &data->checkMinPriority, 0, MAXPRIORITY));
+    AddHelp(item, tr("Help$If a timer with priority below the given value will fail it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."));
+    Add(item = new cMenuEditIntItem(tr("Ignore conflict duration less ... min."), &data->checkMinDuration, 0, 999));
+    AddHelp(item, tr("Help$If a conflicts duration is less then the given number of minutes it will not be classified as important. Only important conflicts will produce an OSD message about the conflict after an automatic conflict check."));
+    Add(item = new cMenuEditIntItem(tr("Only check within next ... days"), &data->checkMaxDays, 1, 14));
+    AddHelp(item, tr("Help$This value reduces the conflict check to the given range of days. All other conflicts are classified as 'not yet important'."));
 
-    Add(new cMenuEditBoolItem(tr("Check also remote conflicts"), &data->RemoteConflictCheck, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'yes' if the conflict check should be done for timers set on remote hosts. This needs SVDRPPeering to be set in vdr and Plugin epgsearch running on the remote host."));
+    Add(item = new cMenuEditBoolItem(tr("Check also remote conflicts"), &data->RemoteConflictCheck, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if the conflict check should be done for timers set on remote hosts. This needs SVDRPPeering to be set in vdr and Plugin epgsearch running on the remote host."));
 
     cOsdItem* sep = new cOsdItem(tr("--- Automatic checking ---"));
     sep->SetSelectable(false);
     Add(sep);
-    AddHelp("dummy");
 
-    Add(new cMenuEditBoolItem(tr("After each timer programming"), &data->checkTimerConflAfterTimerProg, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'yes' if the conflict check should be performed after each manual timer programming. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if this timer is involved in any conflict."));
-    Add(new cMenuEditBoolItem(tr("When a recording starts"), &data->checkTimerConflOnRecording, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'yes' if the conflict check should be performed when a recording starts. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if the conflict is within the next 2 hours."));
+    Add(item = new cMenuEditBoolItem(tr("After each timer programming"), &data->checkTimerConflAfterTimerProg, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if the conflict check should be performed after each manual timer programming. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if this timer is involved in any conflict."));
+    Add(item = new cMenuEditBoolItem(tr("When a recording starts"), &data->checkTimerConflOnRecording, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if the conflict check should be performed when a recording starts. In the case of a conflict you get immediately a message that informs you about it. The message is only displayed if the conflict is within the next 2 hours."));
 
-    Add(new cMenuEditBoolItem(tr("After each search timer update"), &data->checkTimerConflictsAfterUpdate, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'yes' if the conflict check should be performed after each search timer update."));
+    Add(item = new cMenuEditBoolItem(tr("After each search timer update"), &data->checkTimerConflictsAfterUpdate, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if the conflict check should be performed after each search timer update."));
     if (!data->checkTimerConflictsAfterUpdate) {
-        Add(new cMenuEditIntItem(IndentMenuItem(tr("every ... minutes")), &data->conflictCheckIntervall, 0, 999));
-        AddHelp(tr("Help$Specify here the time intervall to be used for an automatic conflict check in the background.\n('0' disables an automatic check)"));
-        Add(new cMenuEditIntItem(IndentMenuItem(tr("if conflicts within next ... minutes")), &data->conflictCheckWithinLimit, 0, 9999));
-        AddHelp(tr("Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(tr("every ... minutes")), &data->conflictCheckIntervall, 0, 999));
+        AddHelp(item, tr("Help$Specify here the time interval to be used for an automatic conflict check in the background.\n('0' disables an automatic check)"));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(tr("if conflicts within next ... minutes")), &data->conflictCheckWithinLimit, 0, 9999));
+        AddHelp(item, tr("Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check interval to get more OSD notifications about it."));
         if (data->conflictCheckWithinLimit) {
-            Add(new cMenuEditIntItem(IndentMenuItem(IndentMenuItem(tr("every ... minutes"))), &data->conflictCheckIntervall2, 1, 999));
-            AddHelp(tr("Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."));
+            Add(item = new cMenuEditIntItem(IndentMenuItem(IndentMenuItem(tr("every ... minutes"))), &data->conflictCheckIntervall2, 1, 999));
+            AddHelp(item, tr("Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check interval to get more OSD notifications about it."));
         }
     }
-    Add(new cMenuEditBoolItem(tr("Avoid notification when replaying"), &data->noConflMsgWhileReplay, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'yes' if the don't want to get OSD messages about conflicts if you currently replay something. Nevertheless messages will be displayed if the first upcoming conflict is within the next 2 hours."));
+    Add(item = new cMenuEditBoolItem(tr("Avoid notification when replaying"), &data->noConflMsgWhileReplay, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if the don't want to get OSD messages about conflicts if you currently replay something. Nevertheless messages will be displayed if the first upcoming conflict is within the next 2 hours."));
 
     SetCurrent(Get(current));
     Display();
@@ -854,45 +861,45 @@ cMenuSetupMailNotification::cMenuSetupMailNotification(cEPGSearchConfig* Data)
 
 void cMenuSetupMailNotification::Set()
 {
+    cOsdItem* item;
     int current = Current();
     Clear();
     helpTexts.clear();
 
-    Add(new cMenuEditBoolItem(tr("Search timer notification"), &data->sendMailOnSearchtimers, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'yes' if you want to get an email notification about the search timers that where programmed automatically in the background."));
+    Add(item = new cMenuEditBoolItem(tr("Search timer notification"), &data->sendMailOnSearchtimers, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if you want to get an email notification about the search timers that where programmed automatically in the background."));
 
     if (data->sendMailOnSearchtimers) {
-        Add(new cMenuEditIntItem(IndentMenuItem(tr("Time between mails [h]")), &data->sendMailOnSearchtimerHours,  0, 999999, ""));
-        AddHelp(tr("Help$Specifiy how much time in [h] you would\nlike to have atleast between two mails.\nWith '0' you get a new mail after each\nsearch timer update with new results."));
+        Add(item = new cMenuEditIntItem(IndentMenuItem(tr("Time between mails [h]")), &data->sendMailOnSearchtimerHours,  0, 999999, ""));
+        AddHelp(item, tr("Help$Specify how much time in [h] you would\nlike to have at least between two mails.\nWith '0' you get a new mail after each\nsearch timer update with new results."));
     }
-    Add(new cMenuEditBoolItem(tr("Timer conflict notification"), &data->sendMailOnConflicts, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."));
+    Add(item = new cMenuEditBoolItem(tr("Timer conflict notification"), &data->sendMailOnConflicts, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if you want to get an email notification about the timer conflicts."));
 
-    Add(new cMenuEditStrItem(tr("Send to"), data->MailAddressTo, sizeof(data->MailAddressTo), MailBoxChars));
-    AddHelp(tr("Help$Specify the email address where notifications should be sent to."));
+    Add(item = new cMenuEditStrItem(tr("Send to"), data->MailAddressTo, sizeof(data->MailAddressTo), MailBoxChars));
+    AddHelp(item, tr("Help$Specify the email address where notifications should be sent to."));
 
-    Add(new cMenuEditStraItem(tr("Mail method"), &data->mailViaScript, 2, MailMethod));
-    AddHelp(tr("Help$Specify here the method to use when sending mails.\nYou can choose between\n - 'sendmail': requires a properly configured email system\n - 'SendEmail.pl': simple script for mail delivery"));
+    Add(item = new cMenuEditStraItem(tr("Mail method"), &data->mailViaScript, 2, MailMethod));
+    AddHelp(item, tr("Help$Specify here the method to use when sending mails.\nYou can choose between\n - 'sendmail': requires a properly configured email system\n - 'SendEmail.pl': simple script for mail delivery"));
 
     if (data->mailViaScript) {
         cOsdItem* sep = new cOsdItem(tr("--- Email account ---"));
         sep->SetSelectable(false);
         Add(sep);
-        AddHelp(" dummy");
 
-        Add(new cMenuEditStrItem(tr("Email address"), data->MailAddress, sizeof(data->MailAddress), MailBoxChars));
-        AddHelp(tr("Help$Specify the email address where notifications should be sent from."));
+        Add(item = new cMenuEditStrItem(tr("Email address"), data->MailAddress, sizeof(data->MailAddress), MailBoxChars));
+        AddHelp(item, tr("Help$Specify the email address where notifications should be sent from."));
 
-        Add(new cMenuEditStrItem(tr("SMTP server"), data->MailServer, sizeof(data->MailServer), HostNameChars));
-        AddHelp(tr("Help$Specify the SMTP server that should deliver the notifications. If it's using a port different from the default(25) append the port with \":port\"."));
-        Add(new cMenuEditBoolItem(tr("Use SMTP authentication"), &data->MailUseAuth, trVDR("no"), trVDR("yes")));
-        AddHelp(tr("Help$Set this to 'yes' if your account needs authentication to send mails."));
+        Add(item = new cMenuEditStrItem(tr("SMTP server"), data->MailServer, sizeof(data->MailServer), HostNameChars));
+        AddHelp(item, tr("Help$Specify the SMTP server that should deliver the notifications. If it's using a port different from the default(25) append the port with \":port\"."));
+        Add(item = new cMenuEditBoolItem(tr("Use SMTP authentication"), &data->MailUseAuth, trVDR("no"), trVDR("yes")));
+        AddHelp(item, tr("Help$Set this to 'yes' if your account needs authentication to send mails."));
 
         if (data->MailUseAuth) {
-            Add(new cMenuEditStrItem(IndentMenuItem(tr("Auth user")), data->MailAuthUser, sizeof(data->MailAuthUser), UserNameChars));
-            AddHelp(tr("Help$Specify the auth user, if this account needs authentication for SMTP."));
-            Add(new cMenuEditStrItem(IndentMenuItem(tr("Auth password")), tmpMailAuthPass, sizeof(tmpMailAuthPass), PasswordChars));
-            AddHelp(tr("Help$Specify the auth password, if this account needs authentication for SMTP."));
+            Add(item = new cMenuEditStrItem(IndentMenuItem(tr("Auth user")), data->MailAuthUser, sizeof(data->MailAuthUser), UserNameChars));
+            AddHelp(item, tr("Help$Specify the auth user, if this account needs authentication for SMTP."));
+            Add(item = new cMenuEditStrItem(IndentMenuItem(tr("Auth password")), tmpMailAuthPass, sizeof(tmpMailAuthPass), PasswordChars));
+            AddHelp(item, tr("Help$Specify the auth password, if this account needs authentication for SMTP."));
         }
     }
 

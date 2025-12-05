@@ -1,54 +1,103 @@
+=encoding utf8
+
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchswitchtimer.conf> - The list of switchtimer
+F<epgsearchswitchtimer.conf> – switch timers
 
 =head1 DESCRIPTION
 
-In epgsearch switchtimer can be created via the program menu
-or the searchtimers. These switchtimer can switch the channel
-at the beginning of the event or only inform you about the
-start via OSD.
+Switch timers can be created in EPGSearch via the menu C<Schedules>
+or by means of search timers. They can switch the channel at the
+beginning of an event or just inform about an event's start by OSD.
 
-The switchtimers are saved in this file.
+The switch timers are saved in this file.
 
 =head1 SYNTAX
 
-The delimiter is ':'.
+Every line represents a switch timer,
+comprising the following fields:
 
-This fields are possible:
+=over 4
 
- 1 - Channel
- 2 - Event ID
- 3 - Start time
- 4 - Minutes to switch before event
- 5 - Only inform via OSD
- 6 - unmute sound if off
+=item B<1 – Channel identifier>
+
+String with the channel identifier in VDR notation (e.g., C<S19.2E-1-1019-10301>).
+
+=item B<2 – Event identifier>
+
+Integer with the VDR's unique event identifier.
+
+=item B<3 – Start time>
+
+The event's start date and time in I<Epoch> encoding
+(i.e., seconds since 1970-01-01 00:00 UTC).
+
+=item B<5 – Margin at start [minutes]>
+
+=for consideration:
+Should we limit the margins to some reasonable value, like 2 hours = 0..120?
+
+Integer with a positive value.
+
+=item B<5 – Action>
+
+Enumeration with the following values:
+
+=over 4
+
+=item 0 = switch only
+
+=item 1 = announce by OSD
+
+=item 2 = announce by OSD and switch
+
+=back
+
+Z<>
+
+=item B<6 – Unmute sound>
+
+Flag with values 0 = no, 1 = yes.
+
+=back
+
+The fields of a switch timer are separated by C<:> characters.
 
 =head1 EXAMPLE
 
- S19.2E-1-1089-12060:52221:1153322700:1:0
+=over 4
 
-=head1 SEE ALSO
+    S19.2E-1-1089-12060:52221:1153322700:1:2:1
 
-C<epgsearch(1)>
+=back
 
-=head1 AUTHOR (man pages)
+=head1 AUTHORS (man pages)
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+Originally provided by Mike Constabel <epgsearch (at) constabel (dot) net>.
 
-=head1 REPORT BUGS
+Revised and adapted to recent plugin features by the current maintainers.
 
-Bug reports (german):
+=head1 PROJECT SITE
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+The plugin is maintained as GitHub project:
 
-Mailing list:
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+=head1 REPORTING BUGS
+
+Issues can be reported, and features be suggested, through the project's
+bug tracker:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
 =head1 COPYRIGHT and LICENSE
 
 Copyright (C) 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal), et al.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -63,11 +112,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Or, point your browser to L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
-The author can be reached at cwieninger@gmx.de
+The original author can be reached via L<cwieninger@gmx.de>.
 
-The project's page is at http://winni.vdr-developer.org/epgsearch
+Current maintainers can be reached via the project's GitHub site (see above).
 
-The MD5 code is derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm.
+The MD5 code has been derived from the MD5 Message-Digest Algorithm of RSA Data Security, Inc.
 
+=head1 SEE ALSO
+
+B<epgsearch>(1), B<epgsearch>(4)

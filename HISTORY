@@ -1,5 +1,39 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2025-12-04
+- removed 'HISTORY.DE', as no more changes have been recorded since years
+- revised German translation w.r.t. typos, readability, and style
+- changed menus to use 'tr()' string constants, where possible
+- fixed typos in 'tr()' strings (and other code locations accidentally found)
+- fixed wrong pairs of 'new' operator and 'free()' (instead of 'delete' operator)
+- fixed some memory leaks, like multiple 'strdup()' assignments with just one 'free()'
+- fixed some buffer operations without (correct) capacity checks
+- simplified 'free()' and 'delete' by skipping unnecessary null-pointer test
+- consolidated encoding and decoding of special characters ':' and '|'
+- removed further 'using std' directives missed last time
+- removed orphan 'options' in searches and blacklists (see Version 0.9.15)
+- aligned capabilities (parameter sets) of searches, templates, and blacklists
+- sorted class attributes to have related variables close to each other
+- revised constructors and copy methods to use the same sequence of member access
+- fixed some issues encountered during rework, like template fields not copied
+- supplied some missing parameter ranges in menus, where reasonable
+- rejected duplicate channel-groups names (menu: rename; SVDRP: NEWC, RENC)
+- added parental rating as new search parameter
+- added flexible matching criteria for content descriptors
+- refactored missing EPG categories into category matching mode
+- refactored some identifiers with hard-to-conceive semantics
+- revised 'AddHelp()' to consider menu context, not just position
+- revised man pages ('doc-src' files) to comply to POD syntax
+- updated manuals to cover new (or yet undocumented) features, observing 'man-pages(7)' guidelines
+- added missing German man pages. i.e., 'createcats' and 'epgsearch(4)'
+- disabled insertion of color codes for pages in 'doc' directory
+- added 'Q' macros to 'Makefile' for more silent builds
+- revised detection of 'pin' plugin in build space
+- added POD check to the creation of man files
+
+2025-09-26
+- Makefile: make WITHOUT_xxx variables effective (madmartin)
+
 2025-07-25
 - replace Matches(time,true) with CalcStartStopTime
 
@@ -151,12 +185,12 @@ new:
 
 2013-03-xx; Version 1.0.1 - maintenance release
 new:
-- new Makefile style as introduced in vdr-1.7.36, the old Makefile still exists as 
-  Makefile.before.1.7.36 for previous vdr builds. Many thanks to Copperhead, Stefan 
+- new Makefile style as introduced in vdr-1.7.36, the old Makefile still exists as
+  Makefile.before.1.7.36 for previous vdr builds. Many thanks to Copperhead, Stefan
   Hofmann and Christopher Reimer for their work.
 - implement device bonding in conflict checker, thanks to Joachim Wilke for providing a patch
-- new service interface "Epgsearch-enablesearchtimers-v1.0" to switch the search timers 
-  background update on/off. Updated the sample in source/vdr-epgsearchclient-0.0.2.tgz 
+- new service interface "Epgsearch-enablesearchtimers-v1.0" to switch the search timers
+  background update on/off. Updated the sample in source/vdr-epgsearchclient-0.0.2.tgz
   to use the new service.
 - new format specifier like %02i in the epgsearchcats.conf, thanks to Joe_D for providing
   a patch ('man 5 epgsearchcats.conf' for more information).
@@ -164,10 +198,10 @@ new:
   recordings with vanished search timers.
 - when channel separators are displayed the filling '-' can cause problems in the output
   of graphlcd. Set PLUGIN_EPGSEARCH_SEP_ITEMS=--- in your Make.config to avoid this. Most
-  skins (except classic, st:tng)  will translate '---' into a single line anyway 
+  skins (except classic, st:tng)  will translate '---' into a single line anyway
   (Feature #857, thanks to 'KeineAhnung' for providing a patch)
 - search timers are now processed by their descending timer priority. Search timers with the same priority
-  are sorted by their search term. Thanks to Anonym for providing a patch 
+  are sorted by their search term. Thanks to Anonym for providing a patch
 - new bugtracker at http://projects.vdr-developer.org/projects/plg-epgsearch - thanks to Tobias Grimm
 - dropped old code for vdr < 1.6.0, thanks to Ville Skyttä for whole pile of patches
 - updated MainMenuHooks patch to 1.0.1

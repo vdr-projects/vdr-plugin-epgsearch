@@ -102,6 +102,17 @@ std::string cUserVar::EvaluateConnectCmd(const cEvent* e)
     struct    sockaddr_in servaddr;  /*  socket address structure  */
     char      buffer[MAX_LINE];      /*  character buffer          */
 
+    varparser.compExpr = varparser.cmdArgs;
+    std::string resexp = EvaluateCompExpr(e, true);
+    std::size_t length = resexp.length();
+    if (length + 2 > sizeof(buffer)) {
+        LogFile.eSysLog("error formatting arguments");
+        return "";
+    }
+    memcpy(buffer, resexp.c_str(), length);
+    buffer[length++] = '\n';
+    buffer[length] = '\0';
+
     if ((conn_s = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         LogFile.eSysLog("Error creating listening socket");
         return "";
@@ -123,11 +134,8 @@ std::string cUserVar::EvaluateConnectCmd(const cEvent* e)
         return "";
     }
 
-    varparser.compExpr = varparser.cmdArgs;
-    std::string resexp = EvaluateCompExpr(e, true);
-    sprintf(buffer, "%s\n", resexp.c_str());
-    Writeline(conn_s, buffer, strlen(buffer));
-    Readline(conn_s, buffer, MAX_LINE - 1);
+    Writeline(conn_s, buffer, length);
+    Readline(conn_s, buffer, sizeof(buffer));
 
     close(conn_s);
     return buffer;
@@ -404,4 +412,34 @@ bool cVarExpr::DependsOnVar(const std::string& varName, const cEvent* e)
         return false;
     var.Evaluate(e);
     return var.DependsOnVar(VarName);
+}
+
+std::string cTimeSpanVar::Evaluate(const cEvent* e, bool escapeStrings) {
+    if (!e) return "";
+    time_t diff = e->StartTime() - time(NULL);
+    std::string res;
+    if (labs(diff) >= SECSINDAY) {
+        cString buffer;
+        if (diff > 0)
+            buffer = cString::sprintf(tr("in %02ldd"), long(diff / SECSINDAY));
+        else
+            buffer = cString::sprintf(tr("%02ldd"), long(-diff / SECSINDAY));
+        res = buffer;
+    } else if (labs(diff) >= (60 * 60)) {
+        cString buffer;
+        if (diff > 0)
+            buffer = cString::sprintf(tr("in %02ldh"), long(diff / (60 * 60)));
+        else
+            buffer = cString::sprintf(tr("%02ldh"), long(-diff / (60 * 60)));
+        res = buffer;
+    } else {
+        cString buffer;
+        if (diff > 0)
+            buffer = cString::sprintf(tr("in %02ldm"), long(diff / 60));
+        else
+            buffer = cString::sprintf(tr("%02ldm"), long(-diff / 60));
+        res = buffer;
+    }
+    if (escapeStrings) return "'" + EscapeString(res) + "'";
+    else return res;
 }

@@ -40,8 +40,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <math.h>
 #include "templatefile.h"
 
-using namespace std;
-
 cChannelGroups ChannelGroups;
 cSearchExtCats SearchExtCats;
 
@@ -52,12 +50,12 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
     SetMenuCategory(mcPlugin);
     templateMode = Template;
 
-    SearchModes[0] = strdup(tr("phrase"));
-    SearchModes[1] = strdup(tr("all words"));
-    SearchModes[2] = strdup(tr("at least one word"));
-    SearchModes[3] = strdup(tr("match exactly"));
-    SearchModes[4] = strdup(tr("regular expression"));
-    SearchModes[5] = strdup(tr("fuzzy"));
+    SearchModes[0] = tr("phrase");
+    SearchModes[1] = tr("all words");
+    SearchModes[2] = tr("at least one word");
+    SearchModes[3] = tr("match exactly");
+    SearchModes[4] = tr("regular expression");
+    SearchModes[5] = tr("fuzzy");
 
     DaysOfWeek[0] = strdup(WeekDayName(0));
     DaysOfWeek[1] = strdup(WeekDayName(1));
@@ -68,50 +66,50 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
     DaysOfWeek[6] = strdup(WeekDayName(6));
     DaysOfWeek[7] = strdup(tr("user-defined"));
 
-    UseChannelSel[0] = strdup(trVDR("no"));
-    UseChannelSel[1] = strdup(tr("interval"));
-    UseChannelSel[2] = strdup(tr("channel group"));
-    UseChannelSel[3] = strdup(tr("only FTA"));
+    UseChannelSel[0] = trVDR("no");
+    UseChannelSel[1] = tr("interval");
+    UseChannelSel[2] = tr("channel group");
+    UseChannelSel[3] = tr("only FTA");
 
-    SearchTimerModes[0] = strdup(tr("Record"));
-    SearchTimerModes[1] = strdup(tr("Announce by OSD"));
-    SearchTimerModes[2] = strdup(tr("Switch only"));
-    SearchTimerModes[3] = strdup(tr("Announce and switch"));
-    SearchTimerModes[4] = strdup(tr("Announce by mail"));
-    SearchTimerModes[5] = strdup(tr("Inactive record"));
+    ContentsMatchingMode[0] = tr("all selected descriptors");
+    ContentsMatchingMode[1] = tr("any selected descriptor");
+    ContentsMatchingMode[2] = tr("some selected descriptor per group");
 
-    BlacklistModes[0] = strdup(tr("only globals"));
-    BlacklistModes[1] = strdup(tr("Selection"));
-    BlacklistModes[2] = strdup(tr("all"));
-    BlacklistModes[3] = strdup(trVDR("none"));
+    SpecialCharacteristicsMatchingMode[0] = tr("all selected descriptors");
+    SpecialCharacteristicsMatchingMode[1] = tr("any selected descriptor");
 
-    DelModes[0] = strdup(trVDR("no"));
-    DelModes[1] = strdup(tr("count recordings"));
-    DelModes[2] = strdup(tr("count days"));
+    SearchTimerActions[0] = tr("Record");
+    SearchTimerActions[1] = tr("Announce by OSD");
+    SearchTimerActions[2] = tr("Switch only");
+    SearchTimerActions[3] = tr("Announce and switch");
+    SearchTimerActions[4] = tr("Announce by mail");
+    SearchTimerActions[5] = tr("Inactive record");
 
-    SearchActiveModes[0] = strdup(trVDR("no"));
-    SearchActiveModes[1] = strdup(trVDR("yes"));
-    SearchActiveModes[2] = strdup(tr("user-defined"));
+    BlacklistModes[0] = tr("only globals");
+    BlacklistModes[1] = tr("Selection");
+    BlacklistModes[2] = tr("all");
+    BlacklistModes[3] = trVDR("no");
 
-    CompareSubtitleModes[0] = strdup(trVDR("no"));
-    CompareSubtitleModes[1] = strdup(trVDR("yes"));
-    CompareSubtitleModes[2] = strdup(tr("allow empty"));
+    DelModes[0] = trVDR("no");
+    DelModes[1] = tr("count recordings");
+    DelModes[2] = tr("count days");
 
-    CompareDateModes[0] = strdup(trVDR("no"));
-    CompareDateModes[1] = strdup(tr("same day"));
-    CompareDateModes[2] = strdup(tr("same week"));
-    CompareDateModes[3] = strdup(tr("same month"));
+    SearchTimerModes[0] = trVDR("no");
+    SearchTimerModes[1] = trVDR("yes");
+    SearchTimerModes[2] = tr("user-defined");
 
-    // collect content string IDs
-    std::set<std::string> contentStrings;
-    for (unsigned int i = 0; i < CONTENT_DESCRIPTOR_MAX; i++) {
-        const std::string contentDescr = cEvent::ContentToString(i);
-        if (!contentDescr.empty() && contentStrings.find(contentDescr) == contentStrings.end()) {
-            contentStrings.insert(contentDescr);
-            contentStringIDs.push_back(i);
-        }
-    }
-    useContentDescriptors = false;
+    CompareSubtitleModes[0] = trVDR("no");
+    CompareSubtitleModes[1] = trVDR("yes");
+    CompareSubtitleModes[2] = tr("allow empty");
+
+    CompareDateModes[0] = trVDR("no");
+    CompareDateModes[1] = tr("same day");
+    CompareDateModes[2] = tr("same week");
+    CompareDateModes[3] = tr("same month");
+
+    EPGInfoMatchingMode[0] = tr("all categories");
+    EPGInfoMatchingMode[1] = tr("all except missing categories");
+    EPGInfoMatchingMode[2] = tr("at least one category");
 
     if (!templateMode && New) {
         cSearchExt* SearchTempl = NULL; // copy the default settings, if we have a default template
@@ -161,12 +159,20 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
             }
         }
 
-        contentStringsFlags = NULL;
+        // collect content string IDs
+        std::set<std::string> contentStrings;
+        for (unsigned int i = 0; i < CONTENT_DESCRIPTOR_MAX; i++) {
+            const std::string contentDescr = cEvent::ContentToString(i);
+            if (!contentDescr.empty() && contentStrings.find(contentDescr) == contentStrings.end()) {
+                contentStrings.insert(contentDescr);
+                contentStringIDs.push_back(i);
+            }
+        }
+
         // set the flags for the content descriptors
-        contentStringsFlags = (int*) malloc((CONTENT_DESCRIPTOR_MAX + 1) * sizeof(int));
+        contentStringFlags = (int*) malloc((CONTENT_DESCRIPTOR_MAX + 1) * sizeof(int));
         for (unsigned int i = 0; i <= CONTENT_DESCRIPTOR_MAX; i++)
-            contentStringsFlags[i] = data.HasContent(i);
-        useContentDescriptors = (data.contentsFilter.size() > 0);
+            contentStringFlags[i] = data.HasContentID(i);
 
         catarrayAvoidRepeats = NULL;
         catvaluesNumeric = NULL;
@@ -196,82 +202,113 @@ cMenuEditSearchExt::cMenuEditSearchExt(cSearchExt *SearchExt, bool New, bool Tem
     }
 }
 
-void cMenuEditSearchExt::AddHelp(const char* helpText)
+void cMenuEditSearchExt::AddHelp(cOsdItem* item, const char* helpText)
 {
-    helpTexts.push_back(helpText);
+    helpTexts[item] = helpText;
+}
+
+eOSState cMenuEditSearchExt::Help()
+{
+    eOSState state = osContinue;
+    cOsdItem* item = Get(Current());
+    if (item) {
+        const char* helpText;
+        const char* itemText = item->Text();
+        if (helpText = helpTexts[item]) {
+            char* title = NULL;
+            if (msprintf(&title, "%s - %s", tr("Button$Help"), itemText) != -1) {
+                if (strchr(title, ':')) *strchr(title, ':') = 0;
+                state = AddSubMenu(new cMenuText(title, helpText));
+                free(title);
+            }
+        }
+    }
+    return state;
 }
 
 void cMenuEditSearchExt::Set()
 {
+    cOsdItem* item;
     int current = Current();
     Clear();
     helpTexts.clear();
 
     if (templateMode) {
-        Add(new cMenuEditStrItem(tr("Template name"), data.search, sizeof(data.search), tr(AllowedChars)));
-        AddHelp(tr("Help$Specify the name of the template."));
+        Add(item = new cMenuEditStrItem(tr("Template name"), data.search, sizeof(data.search), tr(AllowedChars)));
+        AddHelp(item, tr("Help$Specify the name of the template."));
     } else {
-        Add(new cMenuEditStrItem(tr("Search term"), data.search, sizeof(data.search), tr(AllowedChars)));
-        AddHelp(tr("Help$Specify here the term to search for."));
+        Add(item = new cMenuEditStrItem(tr("Search term"), data.search, sizeof(data.search), tr(AllowedChars)));
+        AddHelp(item, tr("Help$Specify here the term to search for."));
     }
 
-    Add(new cMenuEditStraItem(tr("Search mode"),     &data.mode, 6, SearchModes));
-    AddHelp(tr("Help$The following search modes exist:\n\n- phrase: searches for sub terms\n- all words: all single words must appear\n- at least one word: at least one single word must appear\n- match exactly: must match exactly\n- regular expression: match a regular expression\n- fuzzy searching: searches approximately"));
+    Add(item = new cMenuEditStraItem(tr("Search mode"),     &data.mode, 6, SearchModes));
+    AddHelp(item, tr("Help$The following search modes exist:\n\n- phrase: searches for sub terms\n- all words: all single words must appear\n- at least one word: at least one single word must appear\n- match exactly: must match exactly\n- regular expression: match a regular expression\n- fuzzy searching: searches approximately"));
 
     if (data.mode == 5) { // fuzzy
         Add(new cMenuEditIntItem(IndentMenuItem(tr("Tolerance")), &data.fuzzyTolerance, 1, 9));
-        AddHelp(tr("Help$This sets the tolerance of fuzzy searching. The value represents the allowed errors."));
+        AddHelp(item, tr("Help$This sets the tolerance of fuzzy searching. The value represents the allowed errors."));
     }
 
-    Add(new cMenuEditBoolItem(tr("Match case"), &data.useCase, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'Yes' if your search should match the case."));
-    Add(new cMenuEditBoolItem(tr("Use title"), &data.useTitle, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'Yes' if you like to search in the title of an event."));
-    Add(new cMenuEditBoolItem(tr("Use subtitle"), &data.useSubtitle, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'Yes' if you like to search in the episode of an event."));
-    Add(new cMenuEditBoolItem(tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'Yes' if you like to search in the summary of an event."));
+    Add(item = new cMenuEditBoolItem(tr("Match case"), &data.useCase, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if your search should match the case."));
+    Add(item = new cMenuEditBoolItem(tr("Use title"), &data.useTitle, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if you like to search in the title of an event."));
+    Add(item = new cMenuEditBoolItem(tr("Use subtitle"), &data.useSubtitle, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if you like to search in the episode of an event."));
+    Add(item = new cMenuEditBoolItem(tr("Use description"), &data.useDescription, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if you like to search in the summary of an event."));
 
-    Add(new cMenuEditBoolItem(tr("Use content descriptor"), &useContentDescriptors, trVDR("no"), trVDR("yes")));
-    AddHelp(tr("Help$Set this to 'Yes' if you want to search the contents by a descriptor."));
-    if (useContentDescriptors) {
-        vector<int>::const_iterator it;
+    Add(item = new cMenuEditBoolItem(tr("Use parental rating"), &data.useParentalRating, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if you like to consider the parental rating of an event."));
+    if (data.useParentalRating == true) {
+        Add(new cMenuEditIntItem(tr("  Min. rating"), &data.minParentalRating, 0, 18));
+        Add(new cMenuEditIntItem(tr("  Max. rating"), &data.maxParentalRating, 0, 18));
+    }
+
+    Add(item = new cMenuEditBoolItem(tr("Use content descriptors"), &data.useContentsFilter, trVDR("no"), trVDR("yes")));
+    AddHelp(item, tr("Help$Set this to 'yes' if you want to search the contents by a descriptor."));
+    if (data.useContentsFilter) {
+        Add(new cMenuEditStraItem(tr("  Contents matching mode"), &data.contentsCategoryMatchingMode, 3, ContentsMatchingMode));
+        std::vector<int>::const_iterator it;
         for (unsigned int i = 0; i < contentStringIDs.size(); i++) {
             int level = (contentStringIDs[i] % 0x10 == 0 ? 1 : 2);
-            Add(new cMenuEditBoolItem(IndentMenuItem(tr(cEvent::ContentToString(contentStringIDs[i])), level), &contentStringsFlags[contentStringIDs[i]], trVDR("no"), trVDR("yes")));
+            if (contentStringIDs[i] == 0xB0) {
+                Add(new cMenuEditStraItem(tr("  Special characteristics"), &data.contentsCharacteristicsMatchingMode, 2, SpecialCharacteristicsMatchingMode));
+                level = 2;
+            }
+            Add(new cMenuEditBoolItem(IndentMenuItem(tr(cEvent::ContentToString(contentStringIDs[i])), level), &contentStringFlags[contentStringIDs[i]], trVDR("no"), trVDR("yes")));
         }
     }
 
     // show Categories only if we have them
     if (SearchExtCats.Count() > 0) {
-        Add(new cMenuEditBoolItem(tr("Use extended EPG info"), &data.useExtEPGInfo, trVDR("no"), trVDR("yes")));
-        AddHelp(tr("Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."));
+        Add(item = new cMenuEditBoolItem(tr("Use extended EPG info"), &data.useExtEPGInfo, trVDR("no"), trVDR("yes")));
+        AddHelp(item, tr("Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'yes'."));
         if (data.useExtEPGInfo) {
+            Add(item = new cMenuEditStraItem(IndentMenuItem(tr("Category matching mode")), &data.extEPGInfoMatchingMode, 3, EPGInfoMatchingMode));
+            AddHelp(item, tr("Help$By default, all selected categories must be present in an event's summary and match the specified values for the event to be included in search results. This option allows including events with missing or just some matching categories. But handle this with care to avoid a huge amount of results."));
             cSearchExtCat *SearchExtCat = SearchExtCats.First();
             int index = 0;
             while (SearchExtCat) {
                 if (SearchExtCat->searchmode >= 10)
-                    Add(new cMenuEditIntItem(IndentMenuItem(SearchExtCat->menuname), &catvaluesNumeric[index], 0, 999999, ""));
+                    Add(item = new cMenuEditIntItem(IndentMenuItem(SearchExtCat->menuname), &catvaluesNumeric[index], 0, 999999, ""));
                 else
-                    Add(new cMenuEditStrItem(IndentMenuItem(SearchExtCat->menuname), data.catvalues[index], MaxFileName, tr(AllowedChars)));
-                AddHelp(tr("Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."));
-
+                    Add(item = new cMenuEditStrItem(IndentMenuItem(SearchExtCat->menuname), data.catvalues[index], MaxFileName, tr(AllowedChars)));
+                AddHelp(item, tr("Help$The file 'epgsearchcats.conf' specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."));
                 SearchExtCat = SearchExtCats.Next(SearchExtCat);
                 index++;
             }
-            Add(new cMenuEditBoolItem(IndentMenuItem(tr("Ignore missing categories")), &data.ignoreMissingEPGCats, trVDR("no"), trVDR("yes")));
-            AddHelp(tr("Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."));
         }
     }
 
     Add(new cMenuEditStraItem(tr("Use channel"), &data.useChannel, 4, UseChannelSel));
     if (data.useChannel == 1) {
-        Add(new cMenuEditChanItem(tr("  from channel"),      &channelMin));
-        Add(new cMenuEditChanItem(tr("  to channel"),      &channelMax));
+        Add(new cMenuEditChanItem(tr("  from channel"), &channelMin));
+        Add(new cMenuEditChanItem(tr("  to channel"), &channelMax));
     }
     if (data.useChannel == 2) {
         // create the char array for the menu display
-        if (menuitemsChGr) delete [] menuitemsChGr;
+        delete [] menuitemsChGr;
         menuitemsChGr = ChannelGroups.CreateMenuitemsList();
         int oldchannelGroupNr = channelGroupNr;
         channelGroupNr = ChannelGroups.GetIndex(channelGroupName);
@@ -287,8 +324,8 @@ void cMenuEditSearchExt::Set()
 
     Add(new cMenuEditBoolItem(tr("Use time"), &data.useTime, trVDR("no"), trVDR("yes")));
     if (data.useTime == true) {
-        Add(new cMenuEditTimeItem(tr("  Start after"),        &data.startTime));
-        Add(new cMenuEditTimeItem(tr("  Start before"),         &data.stopTime));
+        Add(new cMenuEditTimeItem(tr("  Start after"), &data.startTime));
+        Add(new cMenuEditTimeItem(tr("  Start before"), &data.stopTime));
     }
     Add(new cMenuEditBoolItem(tr("Use duration"), &data.useDuration, trVDR("no"), trVDR("yes")));
     if (data.useDuration == true) {
@@ -313,9 +350,9 @@ void cMenuEditSearchExt::Set()
         Add(new cMenuEditStraItem(tr("Result menu layout"), &data.menuTemplate, countSearchTemplates, cTemplFile::SearchTemplates));
     }
 
-    Add(new cMenuEditStraItem(tr("Use as search timer"), &data.useAsSearchTimer, 3, SearchActiveModes));
+    Add(new cMenuEditStraItem(tr("Use as search timer"), &data.useAsSearchTimer, 3, SearchTimerModes));
     if (data.useAsSearchTimer) {
-        Add(new cMenuEditStraItem(IndentMenuItem(tr("Action")), &data.action, 6, SearchTimerModes));
+        Add(new cMenuEditStraItem(IndentMenuItem(tr("Action")), &data.action, 6, SearchTimerActions));
         if (data.action == searchTimerActionSwitchOnly) {
             Add(new cMenuEditIntItem(IndentMenuItem(tr("Switch ... minutes before start")), &data.switchMinsBefore, 0, 99));
             Add(new cMenuEditBoolItem(IndentMenuItem(tr("Unmute sound")), &data.unmuteSoundOnSwitch, trVDR("no"), trVDR("yes")));
@@ -361,8 +398,8 @@ void cMenuEditSearchExt::Set()
 
             Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Priority")), &data.Priority, 0, MAXPRIORITY));
             Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Lifetime")), &data.Lifetime, 0, MAXLIFETIME));
-            Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at start (min)")), &data.MarginStart, -INT_MAX, INT_MAX));
-            Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at stop (min)")), &data.MarginStop, -INT_MAX, INT_MAX));
+            Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at start (min)")), &data.MarginStart, 0, INT_MAX));
+            Add(new cMenuEditIntItem(IndentMenuItem(trVDR("Setup.Recording$Margin at stop (min)")), &data.MarginStop, 0, INT_MAX));
             Add(new cMenuEditBoolItem(IndentMenuItem(tr("VPS")), &data.useVPS, trVDR("no"), trVDR("yes")));
         }
         if ((data.action == searchTimerActionRecord) || (data.action == searchTimerActionInactiveRecord)) {
@@ -378,54 +415,14 @@ void cMenuEditSearchExt::Set()
 
 cMenuEditSearchExt::~cMenuEditSearchExt()
 {
-    if (searchExt && addIfConfirmed)
-        delete searchExt; // apparently it wasn't confirmed
-    if (menuitemsChGr)
-        free(menuitemsChGr);
-    if (channelGroupName)
-        free(channelGroupName);
-    if (catarrayAvoidRepeats)
-        free(catarrayAvoidRepeats);
-    if (catvaluesNumeric)
-        free(catvaluesNumeric);
-    if (contentStringsFlags)
-        free(contentStringsFlags);
-
-    int i;
-    for (i = 0; i <= 5; i++)
-        free(SearchModes[i]);
-    for (i = 0; i <= 7; i++)
+    if (addIfConfirmed) delete searchExt; // apparently it wasn't confirmed
+    delete [] menuitemsChGr;
+    free(channelGroupName);
+    free(catarrayAvoidRepeats);
+    free(catvaluesNumeric);
+    free(contentStringFlags);
+    for (size_t i = 0; i < LENGTHOF(DaysOfWeek); i++)
         free(DaysOfWeek[i]);
-    for (i = 0; i <= 3; i++)
-        free(UseChannelSel[i]);
-    for (i = 0; i <= 5; i++)
-        free(SearchTimerModes[i]);
-    for (i = 0; i <= 3; i++)
-        free(BlacklistModes[i]);
-    for (i = 0; i <= 2; i++)
-        free(DelModes[i]);
-    for (i = 0; i <= 2; i++)
-        free(SearchActiveModes[i]);
-    for (i = 0; i <= 2; i++)
-        free(CompareSubtitleModes[i]);
-    for (i = 0; i <= 3; i++)
-        free(CompareDateModes[i]);
-}
-
-eOSState cMenuEditSearchExt::Help()
-{
-    const char* ItemText = Get(Current())->Text();
-    eOSState state = osContinue;
-    if (Current() < (int) helpTexts.size()) {
-        char* title = NULL;
-        if (msprintf(&title, "%s - %s", tr("Button$Help"), ItemText) != -1) {
-            if (strchr(title, ':'))
-                *strchr(title, ':') = 0;
-            state = AddSubMenu(new cMenuText(title, helpTexts[Current()]));
-            free(title);
-        }
-    }
-    return state;
 }
 
 eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
@@ -438,8 +435,9 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
     int iTemp_useDuration = data.useDuration;
     int iTemp_useDayOfWeek = data.useDayOfWeek;
     int iTemp_useAsSearchTimer = data.useAsSearchTimer;
+    int iTemp_useParentalRating = data.useParentalRating;
+    int iTemp_useContentsFilter = data.useContentsFilter;
     int iTemp_useExtEPGInfo = data.useExtEPGInfo;
-    int iTemp_useContentDescriptor = useContentDescriptors;
     int iTemp_avoidRepeats = data.avoidRepeats;
     int iTemp_allowedRepeats = data.allowedRepeats;
     int iTemp_delAfterDays = data.delAfterDays;
@@ -455,8 +453,9 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
         iTemp_useDuration != data.useDuration ||
         iTemp_useDayOfWeek != data.useDayOfWeek ||
         iTemp_useAsSearchTimer != data.useAsSearchTimer ||
+        iTemp_useParentalRating != data.useParentalRating ||
+        iTemp_useContentsFilter != data.useContentsFilter ||
         iTemp_useExtEPGInfo != data.useExtEPGInfo ||
-        iTemp_useContentDescriptor != useContentDescriptors ||
         iTemp_avoidRepeats != data.avoidRepeats ||
         iTemp_allowedRepeats != data.allowedRepeats ||
         iTemp_delAfterDays != data.delAfterDays ||
@@ -619,7 +618,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
                     index++;
                 }
 
-                searchExt->SetContentFilter(useContentDescriptors ? contentStringsFlags : NULL);
+                searchExt->SetContentsFilter(data.useContentsFilter ? contentStringFlags : NULL);
 
                 if (data.blacklistMode == blacklistsSelection) {
                     searchExt->blacklists.Clear();
@@ -654,8 +653,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
             if (iOnDirectoryItem && !InEditMode(ItemText, IndentMenuItem(tr("Directory")), data.directory))
                 state = AddSubMenu(new cMenuDirSelect(data.directory));
             if (iOnUseChannelGroups || iOnChannelGroup) {
-                if (channelGroupName)
-                    free(channelGroupName);
+                free(channelGroupName);
                 channelGroupName = strdup(menuitemsChGr[channelGroupNr]);
                 state = AddSubMenu(new cMenuChannelGroups(&channelGroupName));
             }
@@ -670,7 +668,7 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
             if (iOnExtCatItemBrowsable)
                 state = AddSubMenu(new cMenuCatValuesSelect(data.catvalues[iCatIndex], iCatIndex, SearchExtCats.Get(iCatIndex)->searchmode));
             if (iOnUseAsSearchTimer)
-                state = AddSubMenu(new cMenuSearchActivSettings(&data));
+                state = AddSubMenu(new cMenuSearchActivationSettings(&data));
             break;
         case kGreen:
             state = osContinue;
@@ -695,7 +693,12 @@ eOSState cMenuEditSearchExt::ProcessKey(eKeys Key)
             }
             if (data.useChannel == 2) {
                 channelGroupNr = ChannelGroups.GetIndex(data.channelGroup);
+                free(channelGroupName);
                 channelGroupName = strdup(data.channelGroup);
+            }
+            if (data.useContentsFilter) {
+                for (unsigned int i = 0; i <= CONTENT_DESCRIPTOR_MAX; i++)
+                    contentStringFlags[i] = data.HasContentID(i);
             }
             if (SearchExtCats.Count() > 0) {
                 cSearchExtCat *SearchExtCat = SearchExtCats.First();
@@ -844,7 +847,7 @@ cMenuBlacklistsSelection::cMenuBlacklistsSelection(cList<cBlacklistObject>* pBla
 
 cMenuBlacklistsSelection::~cMenuBlacklistsSelection()
 {
-    if (blacklistsSel) delete [] blacklistsSel;
+    delete [] blacklistsSel;
 }
 
 // --- cMenuBlacklistsSelectionItem ----------------------------------------------------------
@@ -1066,8 +1069,8 @@ eOSState cMenuCatValuesSelect::ProcessKey(eKeys Key)
     return state;
 }
 
-// --- cMenuSearchActivSettings --------------------------------------------------------
-cMenuSearchActivSettings::cMenuSearchActivSettings(cSearchExt *SearchExt)
+// --- cMenuSearchActivationSettings --------------------------------------------------------
+cMenuSearchActivationSettings::cMenuSearchActivationSettings(cSearchExt *SearchExt)
     : cOsdMenu(tr("Activation of search timer"), 25)
 {
     SetMenuCategory(mcPlugin);
@@ -1079,7 +1082,7 @@ cMenuSearchActivSettings::cMenuSearchActivSettings(cSearchExt *SearchExt)
     }
 }
 
-eOSState cMenuSearchActivSettings::ProcessKey(eKeys Key)
+eOSState cMenuSearchActivationSettings::ProcessKey(eKeys Key)
 {
     eOSState state = cOsdMenu::ProcessKey(Key);
     if (state == osUnknown) {

@@ -41,7 +41,7 @@ public:
         directory = strdup(text);
     }
     ~cMenuDirItem() {
-        if (directory) free(directory);
+        free(directory);
     }
     virtual int Compare(const cListObject &ListObject) const;
 };
@@ -77,7 +77,7 @@ cMenuDirSelect::cMenuDirSelect(char* szDirectory)
 
 cMenuDirSelect::~cMenuDirSelect()
 {
-    if (yellow) free(yellow);
+    free(yellow);
 }
 
 int cMenuDirSelect::Level(const char* szDir)
@@ -227,12 +227,9 @@ void cMenuDirSelect::Load()
             break;
         }
     }
-    if (oldSelection) free(oldSelection);
+    free(oldSelection);
 
-    if (yellow) {
-        free(yellow);
-        yellow = NULL;
-    }
+    free(yellow);
     msprintf(&yellow, "%s %d", tr("Button$Level"), (CurLevel == MaxLevel ? 1 : CurLevel + 1));
     SetHelp(NULL, NULL, MaxLevel == 1 ? NULL : yellow, tr("Button$Select"));
     Display();

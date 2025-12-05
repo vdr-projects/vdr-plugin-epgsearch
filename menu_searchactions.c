@@ -39,8 +39,6 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "searchtimer_thread.h"
 #include "menu_searchedit.h"
 
-using namespace std;
-
 #define ACTION_COUNTER 11
 extern int updateForced;
 // --- cMenuSearchActions ---------------------------------------------------------

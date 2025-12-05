@@ -33,7 +33,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 // Data structure for service "Epgsearch-search-v1.0"
 struct Epgsearch_search_v1_0 {
 // in
-    char* query;               // search term
+    const char* query;         // search term
     int mode;                  // search mode (0=phrase, 1=and, 2=or, 3=regular expression)
     int channelNr;             // channel number to search in (0=any)
     bool useTitle;             // search in title
@@ -46,29 +46,29 @@ struct Epgsearch_search_v1_0 {
 // Data structure for service "Epgsearch-exttimeredit-v1.0"
 struct Epgsearch_exttimeredit_v1_0 {
 // in
-    cTimer* timer;             // pointer to the timer to edit
-    bool bNew;                 // flag that indicates, if this is a new timer or an existing one
-    const cEvent* event;             // pointer to the event corresponding to this timer (may be NULL)
+    cTimer* timer;              // pointer to the timer to edit
+    bool bNew;                  // flag that indicates, if this is a new timer or an existing one
+    const cEvent* event;        // pointer to the event corresponding to this timer (may be NULL)
 // out
-    cOsdMenu* pTimerMenu;   // pointer to the menu of results
+    cOsdMenu* pTimerMenu;       // pointer to the menu of results
 };
 
 // Data structure for service "Epgsearch-enablesearchtimers-v1.0"
 struct Epgsearch_enablesearchtimers_v1_0 {
 // in
-    bool enable;           // enable search timer thread?
+    bool enable;                // enable search timer thread?
 };
 
 // Data structure for service "Epgsearch-updatesearchtimers-v1.0"
 struct Epgsearch_updatesearchtimers_v1_0 {
 // in
-    bool showMessage;           // inform via osd when finished?
+    bool showMessage;           // inform via OSD when finished?
 };
 
 // Data structure for service "Epgsearch-osdmessage-v1.0"
 struct Epgsearch_osdmessage_v1_0 {
 // in
-    char* message;             // the message to display
+    const char* message;        // the message to display
     eMessageType type;
 };
 
@@ -76,27 +76,27 @@ struct Epgsearch_osdmessage_v1_0 {
 struct EpgSearchMenu_v1_0 {
 // in
 // out
-    cOsdMenu* Menu;   // pointer to the menu
+    cOsdMenu* Menu;             // pointer to the menu
 };
 
 // Data structure for service "Epgsearch-lastconflictinfo-v1.0"
 struct Epgsearch_lastconflictinfo_v1_0 {
 // in
 // out
-    time_t nextConflict;       // next conflict date, 0 if none
-    int relevantConflicts;     // number of relevant conflicts
-    int totalConflicts;        // total number of conflicts
+    time_t nextConflict;        // next conflict date, 0 if none
+    int relevantConflicts;      // number of relevant conflicts
+    int totalConflicts;         // total number of conflicts
 };
 
 // Data structure for service "Epgsearch-searchresults-v1.0"
 struct Epgsearch_searchresults_v1_0 {
 // in
-    char* query;               // search term
-    int mode;                  // search mode (0=phrase, 1=and, 2=or, 3=regular expression)
-    int channelNr;             // channel number to search in (0=any)
-    bool useTitle;             // search in title
-    bool useSubTitle;          // search in subtitle
-    bool useDescription;       // search in description
+    const char* query;          // search term
+    int mode;                   // search mode (0=phrase, 1=and, 2=or, 3=regular expression)
+    int channelNr;              // channel number to search in (0=any)
+    bool useTitle;              // search in title
+    bool useSubTitle;           // search in subtitle
+    bool useDescription;        // search in description
 // out
 
     class cServiceSearchResult : public cListObject
@@ -113,12 +113,12 @@ struct Epgsearch_searchresults_v1_0 {
 struct Epgsearch_switchtimer_v1_0 {
 // in
     const cEvent* event;
-    int mode;                  // mode (0=query existence, 1=add/modify, 2=delete)
+    int mode;                   // mode (0=query existence, 1=add/modify, 2=delete)
 // in/out
     int switchMinsBefore;
     int announceOnly;
 // out
-    bool success;              // result
+    bool success;               // result
 };
 
 // Data structures for service "Epgsearch-services-v1.0"

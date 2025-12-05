@@ -107,7 +107,7 @@ cPluginEpgsearch::~cPluginEpgsearch()
     cSearchTimerThread::Exit();
     cSwitchTimerThread::Exit();
     cConflictCheckThread::Exit();
-    if (ConfigDir) free(ConfigDir);
+    free(ConfigDir);
 }
 
 const char* cPluginEpgsearch::Version(void)
@@ -192,7 +192,7 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
             EPGSearchConfig.useExternalSVDRP = 1;
             break;
         case 'c':
-            if (ConfigDir) free(ConfigDir);
+            free(ConfigDir);
             ConfigDir = strdup(optarg);
             break;
         case 'l':

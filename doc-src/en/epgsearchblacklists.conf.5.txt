@@ -1,53 +1,134 @@
+=encoding utf8
+
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchblacklists.conf> - Blacklist
+F<epgsearchblacklists.conf> – blacklist for searches and search timers
 
 =head1 DESCRIPTION
 
-You can create blacklists in epgsearch and use them in searchtimers.
+Blacklists can be created for searches and search timers and are saved
+in this file.
 
-A blacklist entry is like a normal searchtimer which is saved in the file
-F<epgsearchblacklists.conf>.
+Blacklists are essentially the same as normal searches. One or more
+blacklists can be selected for each search or search timer as needed.
 
-While editing an searchtimer you can select one ore more blacklist entries.
+As an example, consider a search timer "Crime" that is intended to find all
+crime series. The blacklist "Columbo", on the other hand, retrieves all
+episodes of the crime series "Columbo."
 
-=head2 USAGE
-
-Searchtimer "Action" use blacklist "Damme".
-
-Blacklist entry "Damme" searches "Damme"
-
-First the searchtimer searches all films with "Action".
-
-Then for each search result epgsearch will test if the result matches
-against "Damme". If so, the result will be dismissed.
+If the blacklist "Columbo" is added to the search timer "Crime", all crime
+series are first searched for, and the results are then compared with the results
+in the blacklist. Events that are also included in the results of the blacklist
+are then discarded.
 
 =head1 SYNTAX
 
-This file uses the same syntax as F<epgsearch.conf> except that theres no <use as searchtimer> field.
-So there's a shift by one field from this position. Because that, see C<epgsearch.conf(5)>.
+This file has a format similar to F<epgsearch.conf>.
+However, blacklists are no search timers, but rather "simple" searches.
+Therefore, the fields ("parameters") that are only needed for timer
+management, such as C<use as search timer>, are irrelevant and omitted.
+The fields are also arranged differently than in search timers for
+historical reasons.
 
-=head1 SEE ALSO
+Blacklists include the following fields, which (with the exception of
+field 22) are also present in search timers:
 
-C<epgsearch(1)>, C<epgsearch.conf(5)>
+=over 4
 
-=head1 AUTHOR (man pages)
+=item B<1 – Unique identifier>
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=item B<2 – Search term>
 
-=head1 REPORT BUGS
+=item B<3 – Use time>
 
-Bug reports (german):
+=item B<4 – Start after [HHMM]>
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+=item B<5 – Start before [HHMM]>
 
-Mailing list:
+=item B<6 – Use channel>
 
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+=item B<7 – Channel selection>
+
+=item B<8 – Match case>
+
+=item B<9 – Search mode>
+
+=item B<10 – Use title>
+
+=item B<11 – Use subtitle>
+
+=item B<12 – Use description>
+
+=item B<13 – Use duration>
+
+=item B<14 – Minimum duration [HHMM]>
+
+=item B<15 – Maximum duration [HHMM]>
+
+=item B<16 – Use day of week>
+
+=item B<17 – Day of week>
+
+=item B<18 – Use extended EPG information>
+
+=item B<19 – Extended EPG information values>
+
+=item B<20 – Fuzzy tolerance>
+
+=item B<21 – Matching mode of extended EPG information>
+
+Z<>
+
+=item B<22 – Use as global blacklist>
+
+Flag with values 0 = no, 1 = yes.
+
+=item B<23 – Content descriptors>
+
+=item B<24 – Matching mode of content categories>
+
+=item B<25 – Matching mode of special characteristics>
+
+=item B<26 – Use parental rating>
+
+=item B<27 – Minimum parental rating>
+
+=item B<28 – Maximum parental rating>
+
+=back
+
+A blacklists's entry is considered valid if covers at least the first 19 fields.
+
+For common fields of blacklists and search timers, the specifications
+from B<epgsearch.conf>(5) apply.
+
+=head1 AUTHORS (man pages)
+
+Originally provided by Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Revised and adapted to recent plugin features by the current maintainers.
+
+=head1 PROJECT SITE
+
+The plugin is maintained as GitHub project:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
+
+=head1 REPORTING BUGS
+
+Issues can be reported, and features be suggested, through the project's
+bug tracker:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
 =head1 COPYRIGHT and LICENSE
 
 Copyright (C) 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal), et al.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -62,10 +143,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-Or, point your browser to http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Or, point your browser to L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
-The author can be reached at cwieninger@gmx.de
+The original author can be reached via L<cwieninger@gmx.de>.
 
-The project's page is at http://winni.vdr-developer.org/epgsearch
+Current maintainers can be reached via the project's GitHub site (see above).
 
-The MD5 code is derived from the RSA Data Security, Inc. MD5 Message-Digest Algorithm.
+The MD5 code has been derived from the MD5 Message-Digest Algorithm of RSA Data Security, Inc.
+
+=head1 SEE ALSO
+
+B<epgsearch>(1), B<epgsearch.conf>(5)

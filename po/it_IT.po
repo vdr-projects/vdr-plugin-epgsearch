@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR 1.5.7\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-04-12 14:45+0200\n"
+"POT-Creation-Date: 2025-12-04 09:45+0100\n"
 "PO-Revision-Date: 2011-07-17 17:46+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: Italian <vdr@linuxtv.org>\n"
@@ -171,7 +171,7 @@ msgid "Ok key"
 msgstr "Tasto Ok"
 
 msgid ""
-"Help$Choose here the behaviour of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
+"Help$Choose here the behavior of key 'Ok'. You can use it to display the summary or to switch to the corresponding channel.\n"
 "Note: the functionality of key 'blue' (Switch/Info/Search) depends on this setting."
 msgstr ""
 "Scegli il comportamento del tasto 'Ok'. Puoi usarlo per vedere il sommario o cambiare il canale corrispondente.\n"
@@ -200,7 +200,7 @@ msgstr ""
 msgid "Show progress in 'Now'"
 msgstr "Visualizza progresso in 'Adesso'"
 
-msgid "Help$Shows a progressbar in 'Overview - Now' that informs about the remaining time of the current event."
+msgid "Help$Shows a progress bar in 'Overview - Now' that informs about the remaining time of the current event."
 msgstr "Mostra una barra d'avanzamento in 'Sommario - Adesso' che informa sul tempo rimanente dell'evento attuale."
 
 msgid "Show channel numbers"
@@ -251,15 +251,15 @@ msgstr "Mostra canali senza EPG"
 msgid "Help$Choose 'yes' here if you want to display channels without EPG in 'Overview - Now'. 'Ok' on these entries switches the channel."
 msgstr "Scegli 'sì' se vuoi vedere i canali senza EPG in 'Sommario - Adesso'. 'Ok' in questi valori cambia il canale."
 
-msgid "Time interval for FRew/FFwd [min]"
-msgstr "Intervallo tempo FRew/FFwd [min]"
+msgid "Time interval for 'FRew' / 'FFwd' [min]"
+msgstr "Intervallo tempo 'FRew' / 'FFwd' [min]"
 
 msgid ""
-"Help$Choose here the time interval which should be used for jumping through the EPG by pressing FRew/FFwd.\n"
+"Help$Choose here the time interval which should be used for jumping through the EPG by pressing 'FRew' / 'FFwd'.\n"
 "\n"
 "(If you don't have those keys, you can toggle to this functionality pressing '0' and get '<<' and '>>' on the keys green and yellow)"
 msgstr ""
-"Scegli l'intervallo di tempo che dovrebbe essere usato per spostarsi attraverso l'EPG premendo FRew/FFwd.\n"
+"Scegli l'intervallo di tempo che dovrebbe essere usato per spostarsi attraverso l'EPG premendo 'FRew' / 'FFwd'.\n"
 "\n"
 "(Se non hai questi tasti, puoi impostare questa funzione premendo '0' ed avere '<<' e '>>' sui tasti verde e giallo)"
 
@@ -282,11 +282,12 @@ msgstr ""
 msgid "for the next ... hours"
 msgstr "per le prossime ... ore"
 
-msgid "Help$This value controls the timespan used to display your favorites."
+msgid "Help$This value controls the time span used to display your favorites."
 msgstr "Questo valore controlla il tipo di ora usata per visualizzare i tuoi preferiti."
 
-msgid "Use user-defined time"
-msgstr "Utilizza ora utente"
+#, c-format
+msgid "Use user-defined time %d"
+msgstr "Utilizza ora utente %d"
 
 msgid "Help$Besides 'Now' and 'Next' you can specify up to 4 other times in the EPG which can be used by repeatedly pressing the green key, e.g. 'prime time', 'late night',..."
 msgstr "All'interno di 'Adesso' e 'Prossimi' puoi specificare fino ad altre 4 ore nell'EPG che può essere usato ripetutamente premendo il tasto verde, esempio 'prima serata', 'tarda sera',..."
@@ -363,13 +364,13 @@ msgstr "Opzioni"
 msgid "Use search timers"
 msgstr "Utilizza timer di ricerca"
 
-msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criterions."
+msgid "Help$'Search timers' can be used to automatically create timers for events that match your search criteria."
 msgstr "'Cerca timer' può essere usato per creare automaticamente timer per eventi che corrispondano a criteri di ricerca."
 
 msgid "  Update interval [min]"
 msgstr "  Intervallo aggiorn. [min]"
 
-msgid "Help$Specify here the time intervall to be used when searching for events in the background."
+msgid "Help$Specify here the time interval to be used when searching for events in the background."
 msgstr "Specifica l'intervallo di tempo da usare durante la ricerca di eventi in sottofondo."
 
 msgid "  SVDRP port"
@@ -381,7 +382,7 @@ msgstr "La programmazione di nuovi timer o la modifica dei timer viene fatta con
 msgid "Delay internal threads ... seconds"
 msgstr ""
 
-msgid "Help$This value delays starting the searchtimer update thread for the given range of seconds"
+msgid "Help$This value delays starting the search-timer update thread for the given range of seconds"
 msgstr ""
 
 msgid "Help$Specify here the default priority of timers created with this plugin. This value can also be adjusted for each search itself."
@@ -396,10 +397,10 @@ msgstr "Specifica qui il margine predefinito di inizio della registrazione dei t
 msgid "Help$Specify here the default stop recording margin of timers/recordings created with this plugin. This value can also be adjusted for each search itself."
 msgstr "Specifica qui il margine predefinito di fine registrazione dei timer/registrazioni creati con questo plugin. Questo valore può anche essere adattato per ciascuna ricerca."
 
-msgid "AllowedErrors"
+msgid "Allowed errors"
 msgstr ""
 
-msgid "Specify here the allowed reception errors before a recording is marked incomplete"
+msgid "Help$Specify here the allowed reception errors before a recording is marked incomplete."
 msgstr ""
 
 msgid "No announcements when replaying"
@@ -508,7 +509,7 @@ msgid "every ... minutes"
 msgstr "ogni ... minuti"
 
 msgid ""
-"Help$Specify here the time intervall to be used for an automatic conflict check in the background.\n"
+"Help$Specify here the time interval to be used for an automatic conflict check in the background.\n"
 "('0' disables an automatic check)"
 msgstr ""
 "Specifica qui l'intervallo da usare per la verifica automatica di un conflitto in sottofondo.\n"
@@ -517,7 +518,7 @@ msgstr ""
 msgid "if conflicts within next ... minutes"
 msgstr "in conflitto entro i prossimi ... minuti"
 
-msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check intervall to get more OSD notifications about it."
+msgid "Help$If the next conflict will appear in the given number of minutes you can specify here a shorter check interval to get more OSD notifications about it."
 msgstr "Se il prossimo conflitto comparirà nel numero dato di minuti puoi specificare qui un intervallo di verifica più breve per avere più notifiche OSD su di esso."
 
 msgid "Avoid notification when replaying"
@@ -536,8 +537,8 @@ msgid "Time between mails [h]"
 msgstr "Tempo tra le email [h]"
 
 msgid ""
-"Help$Specifiy how much time in [h] you would\n"
-"like to have atleast between two mails.\n"
+"Help$Specify how much time in [h] you would\n"
+"like to have at least between two mails.\n"
 "With '0' you get a new mail after each\n"
 "search timer update with new results."
 msgstr ""
@@ -703,6 +704,24 @@ msgstr "gruppo canali"
 msgid "only FTA"
 msgstr "solo gratuiti"
 
+msgid "all selected descriptors"
+msgstr ""
+
+msgid "any selected descriptor"
+msgstr ""
+
+msgid "some selected descriptor per group"
+msgstr ""
+
+msgid "all categories"
+msgstr "tutte le categorie"
+
+msgid "all except missing categories"
+msgstr "tutte tranne le categorie mancanti"
+
+msgid "at least one category"
+msgstr "almeno una categoria"
+
 msgid "Search term"
 msgstr "Termine ricerca"
 
@@ -724,11 +743,29 @@ msgstr "Utilizza sottotitolo"
 msgid "Use description"
 msgstr "Utilizza descrizione"
 
+msgid "Use parental rating"
+msgstr ""
+
+msgid "  Min. rating"
+msgstr ""
+
+msgid "  Max. rating"
+msgstr ""
+
+msgid "Use content descriptors"
+msgstr "Utilizza contenuto descrizione"
+
+msgid "  Contents matching mode"
+msgstr ""
+
+msgid "  Special characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Utilizza informazioni EPG estesa"
 
-msgid "Ignore missing categories"
-msgstr "Ignora categorie mancanti"
+msgid "Category matching mode"
+msgstr "Modalità di corrispondenza delle categorie"
 
 msgid "Use channel"
 msgstr "Utilizza canale"
@@ -871,7 +908,7 @@ msgstr "Directory"
 msgid "Channel"
 msgstr "Canale"
 
-msgid "Childlock"
+msgid "Child lock"
 msgstr "Filtro famiglia"
 
 msgid "Record on"
@@ -1086,32 +1123,32 @@ msgstr ""
 msgid "Help$This sets the tolerance of fuzzy searching. The value represents the allowed errors."
 msgstr "Questo imposta la tolleranza della ricerca imprecisa. Il valore rappresenta gli errori ammessi."
 
-msgid "Help$Set this to 'Yes' if your search should match the case."
+msgid "Help$Set this to 'yes' if your search should match the case."
 msgstr "Imposta 'Sì' nel caso la ricerca dovesse corrispondere."
 
-msgid "Help$Set this to 'Yes' if you like to search in the title of an event."
+msgid "Help$Set this to 'yes' if you like to search in the title of an event."
 msgstr "Imposta 'Sì' se vuoi cercare il titolo di un evento."
 
-msgid "Help$Set this to 'Yes' if you like to search in the episode of an event."
+msgid "Help$Set this to 'yes' if you like to search in the episode of an event."
 msgstr "Imposta 'Sì' se vuoi cercare l'episodio di un evento."
 
-msgid "Help$Set this to 'Yes' if you like to search in the summary of an event."
+msgid "Help$Set this to 'yes' if you like to search in the summary of an event."
 msgstr "Imposta 'Sì' se vuoi cercare il sommario di un evento."
 
-msgid "Use content descriptor"
-msgstr "Utilizza contenuto descrizione"
+msgid "Help$Set this to 'yes' if you like to consider the parental rating of an event."
+msgstr ""
 
-msgid "Help$Set this to 'Yes' if you want to search the contents by a descriptor."
+msgid "Help$Set this to 'yes' if you want to search the contents by a descriptor."
 msgstr "Imposta 'Sì' se vuoi cercare i contenuti per descrizione."
 
-msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'Yes'."
+msgid "Help$The summary of an event, can contain additional information like 'Genre', 'Category', 'Year',... called 'EPG categories' within EPGSearch. External EPG providers often deliver this information. This allows refining a search and other nice things, like searching for the 'tip of the day'. To use it set this to 'yes'."
 msgstr "Il sommario di un evento, può contenere informazione addizionale come 'Genere', 'Categoria', 'Anno',... chiamata 'Categorie EPG' all'interno di EPGSearch. I fornitori di EPG esterni spesso inviano questa informazione. Questo ti permette di rifinire una ricerca e altre cosette, come la ricerca per il 'consiglio del giorno'. Per usarlo imposta 'Sì'."
 
-msgid "Help$The file epgsearchcats.conf specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
-msgstr "Il file epgsearchcats.conf specifica la modalità di ricerca per questo valore. Uno può cercare per testo o per valore. Puoi anche modificare un elenco di valori predefiniti in questo file che può essere qui selezionato."
+msgid "Help$By default, all selected categories must be present in an event's summary and match the specified values for the event to be included in search results. This option allows including events with missing or just some matching categories. But handle this with care to avoid a huge amount of results."
+msgstr "Per impostazione predefinita, tutte le categorie selezionate devono essere presenti nel riepilogo di un evento e corrispondere ai valori specificati affinché l'evento venga incluso nei risultati di ricerca. Questa opzione consente di includere eventi con categorie mancanti o solo alcune corrispondenti. Tuttavia, è consigliabile gestire questa opzione con cautela per evitare un'eccessiva quantità di risultati."
 
-msgid "Help$If a selected category is not part of the summary of an event this normally excludes this event from the search results. To avoid this, set this option to 'Yes', but please handle this with care to avoid a huge amount of results."
-msgstr "Se una categoria selezionata non è parte del sommario di un evento questo normalmente esclude questo evento dai risultati di ricerca. Per evitare ciò, imposta 'Sì' come opzione, ma gestiscilo con attenzione per evitare una grande quantità di risultati."
+msgid "Help$The file 'epgsearchcats.conf' specifies the search mode for this entry. One can search by text or by value. You can also edit a list of predefined values in this file that can be selected here."
+msgstr "Il file epgsearchcats.conf specifica la modalità di ricerca per questo valore. Uno può cercare per testo o per valore. Puoi anche modificare un elenco di valori predefiniti in questo file che può essere qui selezionato."
 
 msgid "Use in favorites menu"
 msgstr "Utilizza nel menu preferiti"
@@ -1317,20 +1354,26 @@ msgstr "Cambiare a (%d) '%s'?"
 msgid "Programming timer failed!"
 msgstr "Programmazione timer fallito!"
 
-#~ msgid "if present"
-#~ msgstr "se presente"
+#, c-format
+msgid "in %02ldd"
+msgstr ""
 
-#~ msgid "in %02ldd"
-#~ msgstr "in %02ldd"
+#, c-format
+msgid "%02ldd"
+msgstr ""
 
-#~ msgid "in %02ldh"
-#~ msgstr "in %02ldh"
+#, c-format
+msgid "in %02ldh"
+msgstr ""
 
-#~ msgid "in %02ldm"
-#~ msgstr "in %02ldm"
+#, c-format
+msgid "%02ldh"
+msgstr ""
 
-#~ msgid "File"
-#~ msgstr "File"
+#, c-format
+msgid "in %02ldm"
+msgstr ""
 
-#~ msgid "Day"
-#~ msgstr "Giorno"
+#, c-format
+msgid "%02ldm"
+msgstr ""

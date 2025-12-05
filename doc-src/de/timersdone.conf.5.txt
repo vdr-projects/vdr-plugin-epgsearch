@@ -1,53 +1,96 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<timersdone.conf> - Liste von anstehenden Timern, die von Suchtimern erzeugt
-wurden.
+
+F<timersdone.conf> – anstehende Timer, die von Suchtimern erzeugt wurden
 
 =head1 BESCHREIBUNG
 
-Diese Datei enthält eine Liste von anstendenden Timern, die von Suchtimern
-erzeugt wurden. Wenn die Setup-Option 'Timer nach Löschen neuprogrammieren'
-auf nein steht, benutzt epgsearch diese Liste, um zu prüfen, ob ein Timer
-bereits angelegt wurde und erstellt den Timer in diesem Fall nicht nochmals.
-Sobald die zugehörige Aufnahme stattgefunden hat, wird der Timer automatisch
+Diese Datei enthält anstehende Timer, die von Suchtimern erzeugt wurden.
+Wenn die Setup-Option C<Timer nach Löschen neu programmieren> auf C<nein>
+steht, benutzt EPGSearch diese Liste zur Prüfung, ob ein Timer bereits
+angelegt wurde, und erstellt den Timer in diesem Fall nicht erneut. Sobald
+die zugehörige Aufnahme stattgefunden hat, wird der Timer automatisch
 aus dieser Liste entfernt.
 
 =head1 FORMAT
 
-Pro Zeile ein Timer, die Felder werden durch ':' getrennt.
+Jede Zeile der Datei repräsentiert einen anstehenden Timer
+und umfasst die folgenden Felder:
 
-Folgende Felder existieren:
+=over 4
 
-  1 - Kanal-Kennung
-  2 - Startzeit
-  3 - Stopzeit
-  4 - Suchtimer-ID
-  5 - Titel der Sendung
-  6 - Untertitel der Sendung
+=item B<1 – Kanalkennung>
 
-=head1 SIEHE AUCH
+String mit der Kanalkennung des Timers in VDR-Notation
+(bspw. C<S19.2E-1-1019-10301>).
 
-C<epgsearch(1)>
+=item B<2 – Startzeit>
 
-=head1 AUTOR (man pages)
+Datum und Startzeit des Timers in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC).
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=item B<3 – Stoppzeit>
+
+Datum und Stoppzeit des Timers in I<Epoch>-Notation
+(Sekunden seit dem 01.01.1970, 00:00 UTC).
+
+=item B<4 – Kennung des Suchtimers>
+
+Integer mit der eindeutigen Kennung des Suchtimers,
+der den Timer erzeugt hat.
+
+=item B<5 – Titel>
+
+String mit dem Titel der Sendung.
+
+=item B<6 – Untertitel>
+
+String mit dem Untertitel der Sendung.
+
+=item B<7 – Details>
+
+String mit Datum und Startzeit des Timers sowie dem Namen
+(oder ersatzweise der Nummer) des Kanals.
+
+=back
+
+Die einzelnen Felder sind durch C<:> getrennt. Daher wird ein C<:>
+in Titel, Untertitel oder Details durch C<|> ersetzt.
+
+=head1 BEISPIEL
+
+    S19.2E-1-1011-11130:1757678880:1757682000:47:The Rookie:Die Checkliste:Fr. 12.09. 14|08 - zdf_neo HD
+
+=head1 AUTOREN (Man-Pages)
+
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
-
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
 =head1 COPYRIGHT und LIZENZ
 
-Copyright (c) 2005-2006 Christian Wieninger
+Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -62,12 +105,17 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
 
-Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
-von RSA Data Security, Inc..
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
+
+=head1 SIEHE AUCH
+
+B<epgsearch>(1)

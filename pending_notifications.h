@@ -30,6 +30,11 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 // --- cPendingNotification --------------------------------------------------------
 class cPendingNotification : public cListObject
 {
+private:
+    // the previously static buffer would bear the risk of race conditions
+    // between class instances
+    char* buffer;
+
 public:
     int type;
     tEventID eventID;
@@ -39,19 +44,17 @@ public:
     int searchID;
     std::string formatted;
 
-    static char *buffer;
-
     cPendingNotification()
-        : type(-1), start(-1), timerMod(-1), searchID(-1) {}
+        : buffer(NULL), type(-1), start(-1), timerMod(-1), searchID(-1) {}
     cPendingNotification(int Type, tEventID EventID, tChannelID ChannelID,  time_t Start, uint TimerMod = -1,
                          int SearchID = -1, std::string Formatted = "")
-        : type(Type), eventID(EventID), channelID(ChannelID), start(Start), timerMod(TimerMod),
+        : buffer(NULL), type(Type), eventID(EventID), channelID(ChannelID), start(Start), timerMod(TimerMod),
           searchID(SearchID), formatted(Formatted) {}
-    ~cPendingNotification();
+    ~cPendingNotification() { free(buffer); }
 
     static bool Read(FILE *f);
     bool Parse(const char *s);
-    const char *ToText(void) const;
+    const char *ToText(void);
     bool Save(FILE *f);
 };
 

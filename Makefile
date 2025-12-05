@@ -13,15 +13,15 @@
 ### to change an option just edit the value: 0 => false, 1 => true
 
 
-### edit one of these lines to '1', if you don't want the addon epgsearchonly, 
+### edit one of these lines to '1', if you don't want the addon epgsearchonly,
 ### conflictcheckonly or quickepgsearch
 
-WITHOUT_EPGSEARCHONLY=0
-WITHOUT_CONFLICTCHECKONLY=0
-WITHOUT_QUICKSEARCH=0
+WITHOUT_EPGSEARCHONLY = 0
+WITHOUT_CONFLICTCHECKONLY = 0
+WITHOUT_QUICKSEARCH = 0
 
 ### edit this to '0' if you don't want epgsearch to auto config itself
-AUTOCONFIG=1
+AUTOCONFIG = 1
 
 ### if AUTOCONFIG is not active you can manually enable the
 ### optional modules or patches for other plugins
@@ -65,10 +65,8 @@ VERSION = $(shell grep 'static const char VERSION\[\] *=' $(PLUGIN).c | awk '{ p
 # Use package data if installed...otherwise assume we're under the VDR source directory:
 
 PKG_CONFIG ?= pkg-config
-
-#PKGCFG   = $(if $(VDRDIR),$(shell $(PKG_CONFIG) --variable=$(1) $(VDRDIR)/vdr.pc),$(shell $(PKG_CONFIG) --variable=$(1) vdr || $(PKG_CONFIG) --variable=$(1) ../../../vdr.pc))
 PKGCFG   = $(if $(VDRDIR),$(shell $(PKG_CONFIG) --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." $(PKG_CONFIG) --variable=$(1) vdr))
- 
+
 LIBDIR   = $(call PKGCFG,libdir)
 LOCDIR   = $(call PKGCFG,locdir)
 MANDIR   = $(call PKGCFG,mandir)
@@ -95,13 +93,13 @@ ifeq ($(AUTOCONFIG),1)
 		REGEXLIB = tre
 	endif
 
-	ifeq (exists, $(shell test -e ../pin && echo exists))
+	ifeq (exists, $(shell test -e ../pin -o -e ../*plugin-pin && echo exists))
 		USE_PINPLUGIN = 1
 	endif
-	ifeq (exists, $(shell test -e ../graphtft && echo exists))
+	ifeq (exists, $(shell test -e ../graphtft -o -e ../*plugin-graphtft && echo exists))
 		USE_GRAPHTFT = 1
 	endif
-	ifeq (exists, $(shell test -e ../graphtftng && echo exists))
+	ifeq (exists, $(shell test -e ../graphtftng -o -e ../*plugin-graphtftng && echo exists))
 		USE_GRAPHTFT = 1
 	endif
 endif
@@ -119,7 +117,7 @@ PACKAGE = vdr-$(ARCHIVE)
 
 INCLUDES +=
 
-DEFINES += 
+DEFINES +=
 
 ifneq ($(SENDMAIL),)
 DEFINES += -DSENDMAIL='"$(SENDMAIL)"'
@@ -227,8 +225,9 @@ endif
 DEPFILE_DOC = .dependencies_doc
 DEPFILE_stmp = .doc_stmp
 $(DEPFILE_DOC): Makefile
+	@echo DEP
 	@rm -f $(DEPFILE_DOC)
-	@./docsrc2man.sh --depend $(DEPFILE_stmp) > $(DEPFILE_DOC)
+	$(Q)./docsrc2man.sh --depend $(DEPFILE_stmp) > $(DEPFILE_DOC)
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE_DOC)
@@ -287,55 +286,60 @@ createcats: createcats.o Makefile
 	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS) createcats.o -o $@
 
 $(DEPFILE_stmp):
-	./docsrc2man.sh
-	./docsrc2html.sh
-	ln -sf ./doc/en/epgsearch.4.txt MANUAL
-	ln -sf ./doc/en/epgsearch.1.txt README
-	ln -sf ./doc/de/epgsearch.1.txt README.DE
+	$(Q)./docsrc2man.sh && ./docsrc2html.sh
+	$(Q)ln -sf ./doc/en/epgsearch.4.txt MANUAL
+	$(Q)ln -sf ./doc/de/epgsearch.4.txt MANUAL.DE
+	$(Q)ln -sf ./doc/en/epgsearch.1.txt README
+	$(Q)ln -sf ./doc/de/epgsearch.1.txt README.DE
 	@rm -f $(DEPFILE_stmp)
 	@date > $(DEPFILE_stmp)
 
 docs: $(DEPFILE_stmp)
 
 install-$(PLUGIN): libvdr-$(PLUGIN).so
-	@echo IN $@
+	@echo IN $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN).so.$(APIVERSION)
 	$(Q)install -D libvdr-$(PLUGIN).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN).so.$(APIVERSION)
 
 install-$(PLUGIN2): libvdr-$(PLUGIN2).so
-	@echo IN $@
+	@echo IN $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN2).so.$(APIVERSION)
 	$(Q)install -D libvdr-$(PLUGIN2).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN2).so.$(APIVERSION)
 
 install-$(PLUGIN3): libvdr-$(PLUGIN3).so
-	@echo IN $@
+	@echo IN $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN3).so.$(APIVERSION)
 	$(Q)install -D libvdr-$(PLUGIN3).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN3).so.$(APIVERSION)
 
 install-$(PLUGIN4): libvdr-$(PLUGIN4).so
-	@echo IN $@
+	@echo IN $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN4).so.$(APIVERSION)
 	$(Q)install -D libvdr-$(PLUGIN4).so $(DESTDIR)$(LIBDIR)/libvdr-$(PLUGIN4).so.$(APIVERSION)
 
 install-conf:
-	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/conf.d
-	@for i in conf/*; do\
-	    if ! [ -e $(DESTDIR)$(CONFDIR)/plugins/$$i ] ; then\
-	        cp -p $$i $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN);\
+	@echo IN $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/conf.d
+	$(Q)mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/conf.d
+	$(Q)for file in `cd conf; ls -1`; do\
+	    if ! [ -e $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/$$file ] ; then\
+	        cp -p conf/$$file $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN);\
 	        fi\
 	    done
 
 install-doc: docs
-	mkdir -p $(DESTDIR)$(MANDIR)/man1
-	mkdir -p $(DESTDIR)$(MANDIR)/man4
-	mkdir -p $(DESTDIR)$(MANDIR)/man5
-	mkdir -p $(DESTDIR)$(MANDIR)/de/man1
-	mkdir -p $(DESTDIR)$(MANDIR)/de/man5
-	cp man/en/*1.gz $(DESTDIR)$(MANDIR)/man1/
-	cp man/en/*4.gz $(DESTDIR)$(MANDIR)/man4/
-	cp man/en/*5.gz $(DESTDIR)$(MANDIR)/man5/
-	cp man/de/*1.gz $(DESTDIR)$(MANDIR)/de/man1/
-	cp man/de/*5.gz $(DESTDIR)$(MANDIR)/de/man5/
+	@echo IN $(DESTDIR)$(MANDIR)
+	$(Q)mkdir -p $(DESTDIR)$(MANDIR)/man1
+	$(Q)mkdir -p $(DESTDIR)$(MANDIR)/man4
+	$(Q)mkdir -p $(DESTDIR)$(MANDIR)/man5
+	$(Q)mkdir -p $(DESTDIR)$(MANDIR)/de/man1
+	$(Q)mkdir -p $(DESTDIR)$(MANDIR)/de/man4
+	$(Q)mkdir -p $(DESTDIR)$(MANDIR)/de/man5
+	$(Q)cp man/en/*1.gz $(DESTDIR)$(MANDIR)/man1/
+	$(Q)cp man/en/*4.gz $(DESTDIR)$(MANDIR)/man4/
+	$(Q)cp man/en/*5.gz $(DESTDIR)$(MANDIR)/man5/
+	$(Q)cp man/de/*1.gz $(DESTDIR)$(MANDIR)/de/man1/
+	$(Q)cp man/de/*4.gz $(DESTDIR)$(MANDIR)/de/man4/
+	$(Q)cp man/de/*5.gz $(DESTDIR)$(MANDIR)/de/man5/
 
 install-bin: createcats
-	mkdir -p $(DESTDIR)$(BINDIR)
-	cp createcats $(DESTDIR)$(BINDIR)
+	@echo IN $(DESTDIR)$(BINDIR)/createcats
+	$(Q)mkdir -p $(DESTDIR)$(BINDIR)
+	$(Q)cp createcats $(DESTDIR)$(BINDIR)
 
 install: install-lib install-i18n install-conf install-doc install-bin
 
@@ -368,5 +372,5 @@ clean:
 	@-rm -f $(OBJS) $(OBJS2) $(OBJS3) $(OBJS4) $(DEPFILE) *.so *.tgz core* createcats createcats.o pod2*.tmp
 	@-find . \( -name "*~" -o -name "#*#" \) -print0 | xargs -0r rm -f
 	@-rm -rf doc html man
-	@-rm -f MANUAL README README.DE
+	@-rm -f MANUAL MANUAL.DE README README.DE
 	@-rm -f $(DEPFILE_stmp) $(DEPFILE_DOC)

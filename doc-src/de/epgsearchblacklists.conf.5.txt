@@ -1,52 +1,137 @@
 =encoding utf8
 
+=for syntax specification:
+https://perldoc.perl.org/perlpod
+
 =head1 NAME
 
-F<epgsearchblacklists.conf> - Die gespeicherten Auschlusslisten-Suchtimer
+F<epgsearchblacklists.conf> – Ausschlusslisten für Suchen und Suchtimer
 
 =head1 BESCHREIBUNG
 
-In epgsearch können Ausschlusslisten (Blacklists) angelegt werden.
+Für Suchen und Suchtimer können Ausschlusslisten (Blacklists) angelegt
+werden.
 
-Dies sind im Grunde normale Suchtimer die in der Datei
-F<epgsearchblacklists.conf> gespeichert werden. Zu jedem Suchtimer kann
-man dann einen oder mehrere Einträge aus der Ausschlussliste auswählen.
+Ausschlusslisten, die in dieser Datei gespeichert werden, entsprechen
+im Grunde normalen Suchen. Für jede Suche bzw. jeden Suchtimer können
+bei Bedarf eine oder mehrere Ausschlusslisten auswählt werden.
 
-=head2 Funktion
+Als Beispiel diene ein Suchtimer "Krimis", der alle Kriminalserien finden
+soll. Die Ausschlussliste "Tatort" hingegen ermittelt alle Sendungen der
+Krimiserie "Tatort".
 
-Suchtimer "Krimi" verwendet Ausschlusssuchtimer "Tatort"
-
-Ausschlusssuchtimer "Tatort" sucht "Tatort"
-
-Es werden alle Krimis gesucht und anschliessend wird nachgesehen ob ein
-Ergebnisse auf den Ausschlusssuchtimer zutrifft. Dieses wird dann verworfen.
+Wird die Ausschlussliste "Tatort" dem Suchtimer "Krimis" hinzugefügt, werden
+zunächst alle Kriminalserien gesucht und die Treffer anschließend mit den Treffern
+der Ausschlussliste abgeglichen. Sendungen, die auch in den Ergebnissen der
+Ausschlussliste enthalten sind, werden dann verworfen.
 
 =head1 FORMAT
 
-Diese Datei hat dasselbe Format wie die Datei F<epgsearch.conf>. Für den
-Aufbau verweise ich auf C<epgsearch.conf(5)>.
+Diese Datei hat ein ähnliches Format wie die Datei F<epgsearch.conf>.
+Allerdings sind Ausschlusslisten keine Suchtimer, sondern nur "einfache"
+Suchen. Deshalb sind die lediglich für das Timer-Management relevanten
+Felder ("Parameter"), wie etwa C<als Suchtimer verwenden>, ohne Belang
+und entfallen. Auch sind die Felder aus historischen Gründen anders
+angeordnet als bei Suchtimern.
 
-=head1 SIEHE AUCH
+Ausschlusslisten umfassen die folgenden Felder, die (mit Ausnahme von
+Feld 22) auch bei Suchtimern vorliegen:
 
-C<epgsearch(1)>
+=over 4
 
-=head1 AUTOR (man pages)
+=item B<1 – Eindeutige Kennung>
 
-Mike Constabel <epgsearch (at) constabel (dot) net>
+=item B<2 – Suchbegriff>
+
+=item B<3 – Uhrzeit verwenden>
+
+=item B<4 – Start nach [HHMM]>
+
+=item B<5 – Start vor [HHMM]>
+
+=item B<6 – Kanal verwenden>
+
+=item B<7 – Kanalauswahl>
+
+=item B<8 – Groß/Kleinschreibung beachten>
+
+=item B<9 – Suchmodus>
+
+=item B<10 – Titel verwenden>
+
+=item B<11 – Untertitel verwenden>
+
+=item B<12 – Beschreibung verwenden>
+
+=item B<13 – Dauer verwenden>
+
+=item B<14 – Minimale Dauer [HHMM]>
+
+=item B<15 – Maximale Dauer [HHMM]>
+
+=item B<16 – Wochentag verwenden>
+
+=item B<17 – Wochentag>
+
+=item B<18 – Erweiterte EPG-Informationen verwenden>
+
+=item B<19 – Erweiterte EPG-Kategoriedaten>
+
+=item B<20 – Unschärfetoleranz>
+
+=item B<21 – Übereinstimmung von erweiterten EPG-Kategorien>
+
+Z<>
+
+=item B<22 – Als globale Liste verwenden>
+
+Flag mit den Werten 0 = nein, 1 = ja.
+
+=item B<23 – Inhaltskennungen>
+
+=item B<24 – Übereinstimmung von Inhaltskategorien>
+
+=item B<25 – Übereinstimmung besonderer Inhaltsmerkmale>
+
+=item B<26 – Altersfreigabe verwenden>
+
+=item B<27 – Minimale Altersfreigabe>
+
+=item B<28 – Maximale Altersfreigabe>
+
+=back
+
+Der Eintrag einer Ausschlussliste wird als gültig betrachtet, wenn er
+mindestens die ersten 19 Felder abdeckt.
+
+Für gemeinsame Felder von Ausschlusslisten und Suchtimern gelten die
+Spezifikationen aus B<epgsearch.conf>(5).
+
+=head1 AUTOREN (Man-Pages)
+
+Ursprünglich erstellt von Mike Constabel <epgsearch (at) constabel (dot) net>.
+
+Überarbeitet und an die aktuellen Features von EPGSearch adaptiert durch die
+derzeitigen Maintainer.
+
+=head1 PROJEKTSEITE
+
+Das Plugin wird als Projekt auf GitHub geführt:
+
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/>
 
 =head1 FEHLER MELDEN
 
-Fehlerberichte bitte im Bugtracker.
+Fehlerberichte sowie Feature-Anfragen können über den Bugtracker
+des Projekts eingespeist werden:
 
-L<http://projects.vdr-developer.org/projects/plg-epgsearch>
+L<https://github.com/vdr-projects/vdr-plugin-epgsearch/issues/>
 
-Mailinglist:
-
-L<http://www.vdr-developer.org/mailman/listinfo/epgsearch>
-
-=head1 COPYRIGHT and LIZENZ
+=head1 COPYRIGHT und LIZENZ
 
 Copyright © 2004-2010 Christian Wieninger
+
+Copyright © 2011-2025 TomJoad (VDR-Portal) et al.
 
 Dieses Programm ist freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -61,14 +146,17 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht, schreiben Sie an die
 Free Software Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-Oder rufen Sie in Ihrem Browser http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Oder rufen Sie in Ihrem Browser L<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 auf.
 
-Der Author kann über cwieninger@gmx.de erreicht werden.
+Der ursprüngliche Autor kann über L<cwieninger@gmx.de> erreicht werden.
 
-Die Projektseite ist http://winni.vdr-developer.org/epgsearch
+Die aktuellen Maintainer können über die Projektseite auf GitHub
+(siehe oben) erreicht werden.
 
-Der MD5-Code ist abgeleitet aus dem Message-Digest Algorithm
-von RSA Data Security, Inc..
+Der MD5-Code ist abgeleitet aus dem Message-Digest-Algorithmus MD5
+von RSA Data Security, Inc.
 
+=head1 SIEHE AUCH
 
+B<epgsearch>(1), B<epgsearch.conf>(5)
