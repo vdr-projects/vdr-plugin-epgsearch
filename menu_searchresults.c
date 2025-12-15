@@ -683,7 +683,19 @@ cMenuSearchResultsForQuery::cMenuSearchResultsForQuery(const char *query, bool I
     // create a dummy search
     if (query) {
         searchExt = new cSearchExt;
-        strcpy(searchExt->search, query);
+        // remove episode numbers from title "xxxx (nn/mm)"
+        // as displayed by some ARD channels
+        size_t n = strlen(query) + 1;
+        if (n > 2) {
+            char *t = (char *)query + n - 2;
+            if (n && *t == ')') {
+                n--;
+                while (strchr("0123456789/( ", *--t) && t > query) {
+                    n--;
+                }
+            }
+        }
+        strn0cpy(searchExt->search, query, n);
         searchExt->mode = 0; // substring
         searchExt->useTitle = 1;
         searchExt->useSubtitle = 0;
