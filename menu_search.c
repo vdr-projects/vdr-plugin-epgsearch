@@ -89,6 +89,18 @@ void cMenuSearchExtItem::Set(void)
     } else
         line << "--:--\t--:--";
 
+    line << "\t";
+    time_t lastRec = RecsDone.GetTimeOfLastRecording(searchExt);
+    if (lastRec) {
+        std::ostringstream timeline;
+        std::tm *tm_ptr = std::localtime(&lastRec);
+        timeline << std::put_time(tm_ptr, "%Y-%m-%d %H:%M");
+        line << timeline.str();
+    }
+        /*
+      else // if we add more columns
+        line << "                ";
+        */
     SetText(strdup(line.str().c_str()), false);
 }
 
@@ -126,7 +138,7 @@ void cMenuEPGSearchExt::UpdateTitle()
         total++;
     }
 
-    cString buffer = cString::sprintf("%s (%d/%d %s)", tr("Search entries"), active, total, tr("active"));
+    cString buffer = cString::sprintf("%s (%d/%d %s) - %s - %s - %s - %s", tr("Search entries"), active, total, tr("active"),tr("Search"),tr("Channels"),tr("useTime"),tr("lastRecording"));
     SetTitle(buffer);
     Display();
 }

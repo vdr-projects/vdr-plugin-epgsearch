@@ -441,3 +441,23 @@ int cRecsDone::GetTotalCountRecordings(cSearchExt* search, cRecDone** first)
 
     return count;
 }
+
+time_t cRecsDone::GetTimeOfLastRecording(cSearchExt* search)
+{
+    if (!search) return 0;
+    cMutexLock RecsDoneLock(this);
+    cRecDone* lastrecDone = NULL;
+    cRecDone* recDone = First();
+    while (recDone) {
+        if (recDone->searchID == search->ID) {
+            if (!lastrecDone) lastrecDone = recDone;
+            else if (lastrecDone->startTime < recDone->startTime)
+                lastrecDone = recDone;
+        }
+        recDone = Next(recDone);
+    }
+    if (lastrecDone)
+        return lastrecDone->startTime;
+    else
+        return (time_t)NULL;
+}

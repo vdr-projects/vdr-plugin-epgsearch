@@ -1036,6 +1036,15 @@ msgstr "Sucheinträge"
 msgid "active"
 msgstr "aktiv"
 
+msgid "Channels"
+msgstr "Kanäle"
+
+msgid "useTime"
+msgstr "Uhrzeit"
+
+msgid "lastRecording"
+msgstr "letzte Aufnahme"
+
 msgid "Edit$Delete search?"
 msgstr "Suche löschen?"
 

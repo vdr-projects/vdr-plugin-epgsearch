@@ -81,6 +81,7 @@ public:
     int GetCountRecordings(const cEvent* event, cSearchExt* search, cRecDone** first = NULL, int matchLimit = 90);
     int GetCountRecordings(const cEvent*, bool compareTitle, int compareSubtitle, bool compareSummary, int compareDate, unsigned long, cRecDone** first = NULL, int matchLimit = 90);
     int GetTotalCountRecordings(cSearchExt* search, cRecDone** first);
+    time_t GetTimeOfLastRecording(cSearchExt* search);
     void RemoveSearchID(int ID);
     bool Load(const char *FileName = NULL);
     bool Save(void);
