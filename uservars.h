@@ -480,7 +480,18 @@ public:
     }
 };
 
-// independet variables
+class cAuxVar : public cInternalVar
+{
+public:
+    cAuxVar() : cInternalVar("aux") {}
+    std::string Evaluate(const cEvent* e, bool escapeStrings = false) {
+        std::string res = (e && !isempty(e->Aux())) ? e->Aux() : "";
+        if (escapeStrings) return "'" + EscapeString(res) + "'";
+        else return res;
+    }
+};
+
+// independent variables
 class cColonVar : public cInternalVar
 {
 public:
@@ -762,6 +773,7 @@ public:
     cChannelDataVar chDataVar;
     cChannelGroupVar chGroupVar;
     cNEWTCmdVar newtCmdVar;
+    cAuxVar auxVar;
     cSearchQueryVar searchQueryVar;
     cSearchSeriesVar searchSeriesVar;
 
@@ -818,6 +830,7 @@ public:
         internalVars[chDataVar.Name()] = &chDataVar;
         internalVars[chGroupVar.Name()] = &chGroupVar;
         internalVars[newtCmdVar.Name()] = &newtCmdVar;
+        internalVars[auxVar.Name()] = &auxVar;
 
         internalVars[colonVar.Name()] = &colonVar;
         internalVars[dateNowVar.Name()] = &dateNowVar;

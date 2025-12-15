@@ -157,6 +157,10 @@ Der Untertitel einer Sendung.
 
 Die Beschreibung einer Sendung.
 
+=item B<%Aux%>
+
+Die Zusatzinfo (z.B. epg2vdr) einer Sendung.
+
 =item B<%HtmlSummary%>
 
 Die Beschreibung einer Sendung, in der alle Zeilenumbrüche

@@ -153,6 +153,10 @@ An event's subtitle.
 
 An event's summary.
 
+=item B<%Aux%>
+
+An event's auxiliary information.
+
 =item B<%HtmlSummary%>
 
 An event's summary with all line feeds replaced by C<E<lt>br /E<gt>>.
