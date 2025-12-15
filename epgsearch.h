@@ -42,7 +42,6 @@ public:
     virtual bool Initialize(void);
     virtual bool Start(void);
     virtual void Stop(void);
-    virtual void MainThreadHook(void);
     virtual const char *MainMenuEntry(void);
     virtual cOsdObject *MainMenuAction(void);
     virtual cMenuSetupPage *SetupMenu(void);

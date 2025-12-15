@@ -36,6 +36,8 @@ int cConflictCheckThread::m_cacheTotalConflicts = 0;
 bool cConflictCheckThread::m_runOnce = false;
 bool cConflictCheckThread::m_forceUpdate = false;
 
+extern bool VDR_readyafterStartup;
+
 cConflictCheckThread::cConflictCheckThread(cPluginEpgsearch* thePlugin)
     : cThread("EPGSearch: conflictcheck")
 {
@@ -88,10 +90,10 @@ void cConflictCheckThread::Action(void)
     m_Active = true;
     // let VDR do its startup
     if (!m_runOnce) {
-        if (!cPluginEpgsearch::VDR_readyafterStartup)
+        if (!VDR_readyafterStartup) {
             LogFile.Log(2, "ConflictCheckThread: waiting for VDR to become ready...");
-        while (m_Active && !cPluginEpgsearch::VDR_readyafterStartup)
-            Wait.Wait(1000);
+            WaitVDRReady();
+        }
         if (EPGSearchConfig.delayThreads > 0)
             LogFile.Log(2, "ConflictCheckThread: startup delayed %d seconds", EPGSearchConfig.delayThreads);
         cCondWait::SleepMs(EPGSearchConfig.delayThreads * 1000);

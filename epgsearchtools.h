@@ -157,6 +157,7 @@ std::string encodeSpecialCharacters(std::string_view s, bool nestedColon = false
 std::string decodeSpecialCharacters(std::string_view s, bool nestedColon = false);
 void sleepMSec(long ms);
 void sleepSec(long s);
+void WaitVDRReady();
 bool SendViaSVDRP(cString SVDRPcmd);
 int SendMsg(cString Message, bool confirm = false, int seconds = 0, eMessageType messageType = mtInfo);
 bool InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue);

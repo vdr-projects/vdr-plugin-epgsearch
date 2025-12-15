@@ -30,6 +30,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 
 #define MSG_DELAY 7
 
+extern bool VDR_readyafterStartup;
 cSwitchTimerThread *cSwitchTimerThread::m_Instance = NULL;
 
 cSwitchTimerThread::cSwitchTimerThread(void)
@@ -73,10 +74,10 @@ void cSwitchTimerThread::Action(void)
     m_Active = true;
 
     // let VDR do its startup
-    if (!cPluginEpgsearch::VDR_readyafterStartup)
+    if (!VDR_readyafterStartup) {
         LogFile.Log(2, "SwitchTimerThread: waiting for VDR to become ready...");
-    while (m_Active && !cPluginEpgsearch::VDR_readyafterStartup)
-        Wait.Wait(1000);
+        WaitVDRReady();
+    }
 
     time_t nextUpdate = time(NULL);
     while (m_Active) {

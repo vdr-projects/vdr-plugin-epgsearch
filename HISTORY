@@ -1,5 +1,13 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2025-12-15
+- set version to 2.4.2
+- replaced deprecated call of MainThreadHook(void)
+- add column with "time of last recording" to search timer results
+- Search for repeats in EPG menu will ignore (episodes) in title
+- Add general searchtimer config to limit days of timer creation
+- Add current searchtimer id to some log messages
+
 2025-12-04
 - removed 'HISTORY.DE', as no more changes have been recorded since years
 - revised German translation w.r.t. typos, readability, and style
