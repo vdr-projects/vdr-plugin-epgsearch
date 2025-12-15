@@ -902,6 +902,10 @@ Falls C<ja>, erscheint die Warnung als OSD-Einblendung.
 Falls ja, wird die Warnung per E-Mail versandt. Hierfür bitte das
 E-Mail-Konto unter C<E-Mail-Benachrichtigung> konfigurieren.
 
+=item B<Zeitbegrenzung für Timer>
+
+Timer werden nur in dieser Zeitspanne (Tage) erzeugt.
+
 =item B<Zu prüfende Kanalgruppe>
 
 Hier die Kanalgruppe auswählen, für welche die Prüfung durchgeführt

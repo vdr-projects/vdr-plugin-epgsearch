@@ -89,6 +89,7 @@ cEPGSearchConfig::cEPGSearchConfig(void)
     checkEPGWarnByOSD = 1;
     checkEPGWarnByMail = 0;
     checkEPGchannelGroupNr = -1;
+    limitDaysOfCreation = 999;
     strcpy(conflCheckCmd, "");
     ReplaceOrgSchedule = 0;
     sendMailOnSearchtimers = 0;

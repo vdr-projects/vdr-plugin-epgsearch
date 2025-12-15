@@ -164,6 +164,7 @@ public:
     int checkEPGWarnByOSD;
     int checkEPGWarnByMail;
     int checkEPGchannelGroupNr;
+    int limitDaysOfCreation;
     time_t lastMailOnSearchtimerAt;
     char conflCheckCmd[MaxFileName * 10];
 };

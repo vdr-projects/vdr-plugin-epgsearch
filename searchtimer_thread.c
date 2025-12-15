@@ -380,12 +380,12 @@ void cSearchTimerThread::Action(void)
                             continue;
                         }
                         if (TimerWasModified(t)) { // don't touch timer modified by user
-                            LogFile.Log(2, "timer for '%s~%s' (%s - %s, channel %d) modified by user - won't be touched", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
+                            LogFile.Log(2, "timer for '%s~%s' (%s - %s, channel %d, sid %d) modified by user - won't be touched", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), searchExt->ID);
                             delete timer;
                             continue;
                         }
                         if (triggerID > -1 && triggerID != searchExt->ID) {
-                            LogFile.Log(2, "timer for '%s~%s' (%s - %s, channel %d) already created by search id %d - won't be touched", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), triggerID);
+                            LogFile.Log(2, "timer for '%s~%s' (%s - %s, channel %d, sid %d) already created by search id %d - won't be touched", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), triggerID, searchExt->ID);
                             delete timer;
                             continue;
                         }
@@ -422,7 +422,7 @@ void cSearchTimerThread::Action(void)
                                 if (timerMod & tmStartStop)
                                     LogFile.Log(3, "timer for '%s~%s' (%s - %s, channel %d) : start/stop has changed", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                                 if (timerMod & tmFile)
-                                    LogFile.Log(3, "timer for '%s~%s' (%s - %s, channel %d) : title and/or episdode has changed (old: %s, new: %s", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), timer ? timer->File() : "", pFile);
+                                    LogFile.Log(3, "timer for '%s~%s' (%s - %s, channel %d) : title and/or episode has changed (new: %s, old: %s)", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), timer ? timer->File() : "", pFile);
                                 if (timerMod & tmAuxEventID)
                                     LogFile.Log(3, "timer for '%s~%s' (%s - %s, channel %d) : aux info for event id has changed", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                             }
@@ -434,7 +434,7 @@ void cSearchTimerThread::Action(void)
 
                         if (t->Recording() && t->StopTime() == timer->StopTime()) {
                             // only update recording timers if stop time has changed, since all other settings can't be modified
-                            LogFile.Log(2, "timer for '%s~%s' (%s - %s, channel %d) already recording - no changes possible", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
+                            LogFile.Log(2, "timer for '%s~%s' (%s - %s, channel %d sid %d) already recording - no changes possible", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent));
                             delete timer;
                             continue;
                         }
@@ -445,6 +445,11 @@ void cSearchTimerThread::Action(void)
                         }
                     }
 
+                    if (pEvent->StartTime() > now + EPGSearchConfig.limitDaysOfCreation * 86400) {
+                        LogFile.Log(2, "timer for '%s-%s' (%s - %s, channel %d, sid %d) too many days in the future", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), searchExt->ID);
+                        delete timer;
+                        continue;
+                    }
                     if (searchExt->action == searchTimerActionAnnounceViaOSD) {
                         if (t || // timer already exists or
                             NoAnnounces.InList(pEvent) || // announcement not wanted anymore or

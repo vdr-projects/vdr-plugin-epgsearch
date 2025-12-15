@@ -662,6 +662,7 @@ bool cPluginEpgsearch::SetupParse(const char *Name, const char *Value)
     if (!strcasecmp(Name, "CheckEPGWarnByOSD"))  EPGSearchConfig.checkEPGWarnByOSD = atoi(Value);
     if (!strcasecmp(Name, "CheckEPGWarnByMail"))  EPGSearchConfig.checkEPGWarnByMail = atoi(Value);
     if (!strcasecmp(Name, "CheckEPGChannelgroup"))  EPGSearchConfig.checkEPGchannelGroupNr = atoi(Value);
+    if (!strcasecmp(Name, "LimitDaysOfCreation"))  EPGSearchConfig.limitDaysOfCreation = atoi(Value);
 
     if (!strcasecmp(Name, "TimeIntervallFRFF"))  EPGSearchConfig.timeShiftValue = atoi(Value);
     if (!strcasecmp(Name, "ToggleGreenYellow"))  EPGSearchConfig.toggleGreenYellow = atoi(Value);

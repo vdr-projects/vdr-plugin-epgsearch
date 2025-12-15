@@ -229,6 +229,7 @@ void cMenuEPGSearchSetup::Store(void)
     SetupStore("CheckEPGWarnByOSD",  EPGSearchConfig.checkEPGWarnByOSD);
     SetupStore("CheckEPGWarnByMail",  EPGSearchConfig.checkEPGWarnByMail);
     SetupStore("CheckEPGChannelgroup",  EPGSearchConfig.checkEPGchannelGroupNr);
+    SetupStore("LimitDaysOfCreation",  EPGSearchConfig.limitDaysOfCreation);
 
     SetupStore("NoAnnounceWhileReplay",  EPGSearchConfig.noAnnounceWhileReplay);
     SetupStore("TimerProgRepeat",  EPGSearchConfig.TimerProgRepeat);
@@ -687,6 +688,8 @@ void cMenuSetupSearchtimers::Set()
             Add(item = new cMenuEditStraItem(IndentMenuItem(tr("Channel group to check"), 2), &data->checkEPGchannelGroupNr, ChannelGroups.Count() + 1, menuitemsChGr));
             AddHelp(item, tr("Help$Specify the channel group to check."));
         }
+        Add(item = new cMenuEditIntItem(IndentMenuItem(tr("Limit days of timer creation")), &data->limitDaysOfCreation, 1, 999));
+        AddHelp(item, tr("Help$Number of days in the future timers will be created."));
     }
 
     Add(item = new cMenuEditBoolItem(tr("Ignore PayTV channels"), &data->ignorePayTV, trVDR("no"), trVDR("yes")));
