@@ -27,7 +27,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include "services.h"
 #include "mainmenushortcut.h"
 
-static const char VERSION[]        = "0.0.1";
+static const char VERSION[]        = "2.4.5";
 static const char DESCRIPTION[]    = trNOOP("Quick search for broadcasts");
 static const char MAINMENUENTRY[]  = trNOOP("Quick search");
 static const char SETUPTEXT[]      = trNOOP("Show in main menu");
