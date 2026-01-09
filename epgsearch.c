@@ -90,7 +90,7 @@ int cLogFile::loglevellimit = 0;
 bool VDR_readyafterStartup = false;
 
 // external SVDRPCommand
-const char *epgsSVDRP::cSVDRPClient::SVDRPSendCmd = "svdrpsend";
+const char *cEpgsSVDRPClient::SVDRPSendCmd = "svdrpsend";
 
 cPluginEpgsearch::cPluginEpgsearch(void)
 {
@@ -188,7 +188,7 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
         switch (c) {
 
         case 'f':
-            epgsSVDRP::cSVDRPClient::SVDRPSendCmd = optarg;
+            cEpgsSVDRPClient::SVDRPSendCmd = optarg;
             EPGSearchConfig.useExternalSVDRP = 1;
             break;
         case 'c':
@@ -212,9 +212,9 @@ bool cPluginEpgsearch::ProcessArgs(int argc, char *argv[])
         }
     }
 
-    if (EPGSearchConfig.useExternalSVDRP && access(epgsSVDRP::cSVDRPClient::SVDRPSendCmd, F_OK) != 0) {
-        LogFile.eSysLog("ERROR - can't find svdrpsend script: '%s'", epgsSVDRP::cSVDRPClient::SVDRPSendCmd);
-        epgsSVDRP::cSVDRPClient::SVDRPSendCmd = NULL;
+    if (EPGSearchConfig.useExternalSVDRP && access(cEpgsSVDRPClient::SVDRPSendCmd, F_OK) != 0) {
+        LogFile.eSysLog("ERROR - can't find svdrpsend script: '%s'", cEpgsSVDRPClient::SVDRPSendCmd);
+        cEpgsSVDRPClient::SVDRPSendCmd = NULL;
     }
 
     return true;

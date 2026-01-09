@@ -249,7 +249,7 @@ bool cSearchTimerThread::TimerWasModified(const cTimer* t)
 
 void cSearchTimerThread::Action(void)
 {
-    if (EPGSearchConfig.useExternalSVDRP && !epgsSVDRP::cSVDRPClient::SVDRPSendCmd) {
+    if (EPGSearchConfig.useExternalSVDRP && !cEpgsSVDRPClient::SVDRPSendCmd) {
         LogFile.eSysLog("ERROR - SVDRPSend script not specified or does not exist (use -f option)");
         return;
     }
@@ -747,8 +747,10 @@ bool cSearchTimerThread::AddModTimer(cTimer* Timer, int index, cSearchExt* searc
                  Timer->File(),
                  tmpSummary ? tmpSummary : "");
 
-    if (!SendViaSVDRP(cmdbuf))
+    if (!SendViaSVDRP(cmdbuf)) {
+        free(cmdbuf);
         return false;
+    }
 
     if (gl_timerStatusMonitor) gl_timerStatusMonitor->SetConflictCheckAdvised();
 
@@ -910,7 +912,7 @@ void cSearchTimerThread::CheckManualTimers(void)
     for (const cTimer *ti = Timers->First(); ti && m_Active; ti = Timers->Next(ti)) {
         if (TriggeredFromSearchTimerID(ti) != -1) continue; // manual timer?
 
-        if (TimerWasModified(ti)) {
+        if (TimerWasModified(ti)) {  // no VPS and start or stop differs more than 60 seconds from AUX value
             LogFile.Log(2, "timer for '%s' (%s, channel %s) modified by user - won't be touched", ti->File(), DAYDATETIME(ti->StartTime()), CHANNELNAME(ti->Channel()));
             continue; // don't update timers modified by user
         }

@@ -428,11 +428,11 @@ void WaitVDRReady()
     // if vdr has switched to the first program
     // we can be sure that SVDRP is setup
     int count = 0;
-    while (count < 90  && !VDR_readyafterStartup && !cDevice::PrimaryDevice()->HasProgramme()) {
+    while (count < 30 && !VDR_readyafterStartup && !SendViaSVDRP("PING")) {
         cCondWait::SleepMs(2000);
         count++;
     }
-    if (count == 90) {
+    if (count == 30) {  // no svdrp communication for 60 seconds
         LogFile.eSysLog("Please check svdrp - Searchtimers and Switchtimers might not work");
     } else {
         LogFile.Log(2, "VDR Ready after %d seconds", count*2);
@@ -446,26 +446,33 @@ bool SendViaSVDRP(cString SVDRPcmd)
     cString cmdbuf;
     if (EPGSearchConfig.useExternalSVDRP) {
         cmdbuf = cString::sprintf("%s -p %d \"%s\"",
-                                  epgsSVDRP::cSVDRPClient::SVDRPSendCmd,
+                                  cEpgsSVDRPClient::SVDRPSendCmd,
                                   EPGSearchConfig.SVDRPPort,
                                   *SVDRPcmd);
-
         FILE *p = popen(cmdbuf, "r");
-        if (p)
+        if (p) {
+            char response[4];
+            if ((fgets(response, 4, p) == NULL) || (strncmp(response, "220", 3) != 0)) {
+                LogFile.Log(2, "no or invalid response to '%s'", *cmdbuf);
+                bSuccess = false;
+            }
             pclose(p);
+        }
         else {
             LogFile.eSysLog("can't open pipe for command '%s'", *cmdbuf);
             bSuccess = false;
         }
     } else {
         cmdbuf = SVDRPcmd;
-        epgsSVDRP::cSVDRPClient client;
+        cEpgsSVDRPClient client;
         if (!client.SendCmd(*cmdbuf)) {
-            LogFile.eSysLog("command '%s' failed", *cmdbuf);
+            if (VDR_readyafterStartup)
+                LogFile.eSysLog("command '%s' failed", *cmdbuf);
+            else
+                LogFile.Log(2, "command '%s' failed", *cmdbuf);
             bSuccess = false;
         }
     }
-
     return bSuccess;
 }
 

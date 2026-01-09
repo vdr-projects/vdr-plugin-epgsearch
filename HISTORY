@@ -1,5 +1,9 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2026-01-04
+- Reworked svdrclient.h (get rid of namespace, new svdrpclient.c)
+- check response when using external svdrp
+- New method to check svdrp ready during startup
 2025-12-15
 - set version to 2.4.5
 - set version of quickepgsearch epgsearchonly conflictcheckonly to 2.4.5

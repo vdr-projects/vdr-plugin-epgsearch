@@ -80,7 +80,7 @@ void cTimerThread::Stop(void)
 void cTimerThread::Action(void)
 {
     m_Active = true;
-    if (EPGSearchConfig.useExternalSVDRP && !epgsSVDRP::cSVDRPClient::SVDRPSendCmd) {
+    if (EPGSearchConfig.useExternalSVDRP && !cEpgsSVDRPClient::SVDRPSendCmd) {
         LogFile.eSysLog("ERROR - SVDRPSend script not specified or does not exist (use -f option)");
         m_Active = false;
         return;
