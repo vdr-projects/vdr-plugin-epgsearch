@@ -435,11 +435,11 @@ msgstr "Zu prüfende Kanalgruppe"
 msgid "Help$Specify the channel group to check."
 msgstr "Hier die zu prüfende Kanalgruppe auswählen."
 
-msgid "Limit days of timer creation"
-msgstr "Begrenze Timer auf die nächsten Tage"
+msgid "Limit timer creation [d]"
+msgstr "Zeitbegrenzung für Timer [t]"
 
-msgid "Help$Number of days in the future timers will be created."
-msgstr "Tage in der Zukunft, wo noch Timer erzeugt werden"
+msgid "Help$Limits the creation of timers to a time span in days. A value of '0' disables the limitation."
+msgstr "Begrenzt die Erzeugung von Timern auf einen Zeitraum in Tagen. Ein Wert von '0' deaktiviert die Begrenzung."
 
 msgid "Ignore PayTV channels"
 msgstr "PayTV-Sender ignorieren"

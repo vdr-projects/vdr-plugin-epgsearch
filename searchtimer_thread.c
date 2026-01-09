@@ -448,7 +448,8 @@ void cSearchTimerThread::Action(void)
                         }
                     }
 
-                    if (pEvent->StartTime() > now + EPGSearchConfig.limitDaysOfCreation * 86400) {
+                    int limitSecondsOfCreation = EPGSearchConfig.limitDaysOfCreation * 86400;
+                    if (limitSecondsOfCreation > 0 && pEvent->StartTime() > now + limitSecondsOfCreation) {
                         LogFile.Log(2, "timer for '%s-%s' (%s - %s, channel %d, sid %d) too many days in the future", pEvent->Title() ? pEvent->Title() : "no title", pEvent->ShortText() ? pEvent->ShortText() : "no subtitle", GETDATESTRING(pEvent), GETTIMESTRING(pEvent), ChannelNrFromEvent(pEvent), searchExt->ID);
                         delete timer;
                         continue;

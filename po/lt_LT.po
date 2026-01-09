@@ -443,6 +443,12 @@ msgstr "Kanalo grupė"
 msgid "Help$Specify the channel group to check."
 msgstr "Nurodyti šablono pavadinimą."
 
+msgid "Limit timer creation [d]"
+msgstr ""
+
+msgid "Help$Limits the creation of timers to a time span in days. A value of '0' disables the limitation."
+msgstr ""
+
 msgid "Ignore PayTV channels"
 msgstr "Ignoruoti Mokamus kanalus"
 

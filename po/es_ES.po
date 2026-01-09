@@ -434,6 +434,12 @@ msgstr "Grupo de canales a comprobar"
 msgid "Help$Specify the channel group to check."
 msgstr "Especifique el grupo de canales a comprobar."
 
+msgid "Limit timer creation [d]"
+msgstr ""
+
+msgid "Help$Limits the creation of timers to a time span in days. A value of '0' disables the limitation."
+msgstr ""
+
 msgid "Ignore PayTV channels"
 msgstr "Ignorar los canales de pago"
 

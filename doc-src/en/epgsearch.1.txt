@@ -852,9 +852,10 @@ e-mail account in C<Email notification>.
 Select the channel group to check. It must have been created beforehand
 in C<Channel groups>.
 
-=item B<Limit days of timer creation>
+=item B<Limit timer creation [d]>
 
-Limits the creation of timers to this timespan (days).
+Limits the creation of timers to a time span in days. A value of C<0> disables
+the limitation.
 
 =item B<Ignore PayTV channels>
 

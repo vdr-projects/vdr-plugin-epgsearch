@@ -902,9 +902,10 @@ Falls C<ja>, erscheint die Warnung als OSD-Einblendung.
 Falls ja, wird die Warnung per E-Mail versandt. Hierfür bitte das
 E-Mail-Konto unter C<E-Mail-Benachrichtigung> konfigurieren.
 
-=item B<Zeitbegrenzung für Timer>
+=item B<Zeitbegrenzung für Timer [t]>
 
-Timer werden nur in dieser Zeitspanne (Tage) erzeugt.
+Begrenzt die Erzeugung von Timern auf einen Zeitraum in Tagen. Ein Wert
+von C<0> deaktiviert die Begrenzung.
 
 =item B<Zu prüfende Kanalgruppe>
 

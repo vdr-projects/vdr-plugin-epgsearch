@@ -436,10 +436,10 @@ msgstr "Grupa kanałów do sprawdzenia"
 msgid "Help$Specify the channel group to check."
 msgstr "Podaj grupę kanałów do sprawdzenia."
 
-msgid "Limit days of timer creation"
+msgid "Limit timer creation [d]"
 msgstr "Ogranicz dodawanie w planie nagrań do dni"
 
-msgid "Help$Number of days in the future timers will be created."
+msgid "Help$Limits the creation of timers to a time span in days. A value of '0' disables the limitation."
 msgstr "Liczba dni, w których nowe pozycje w planie nagrań zostaną utworzone."
 
 msgid "Ignore PayTV channels"
