@@ -520,9 +520,9 @@ cList<cConflictCheckTime>* cConflictCheck::CreateRemoteConflictList(cList<cConfl
                     LogFile.Log(2, "remote conflictcheck line %s", line);
                     int Id, recPart;
                     char rest[256];
-                    time_t evaltime;
-                    sscanf(line, "%ld:%d|%s", &evaltime, &Id, rest);
-                    cConflictCheckTime* checkTime = new cConflictCheckTime(evaltime);
+                    intmax_t evaltime;
+                    sscanf(line, "%jd:%d|%s", &evaltime, &Id, rest);
+                    cConflictCheckTime* checkTime = new cConflictCheckTime((time_t)evaltime);
                     if (!failedList)
                         failedList = new cList<cConflictCheckTime>;
                     LogFile.Log(2, "added remote checkTime %s to failedList", DAYDATETIME(evaltime));

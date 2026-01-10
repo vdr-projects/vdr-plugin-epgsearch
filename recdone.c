@@ -128,14 +128,14 @@ bool cRecDone::Read(FILE *f)
         switch (*s) {
         case 'R':
             if (!recDone) {
-                time_t StartTime;
+                intmax_t StartTime;
                 int Duration, SearchID;
-                int n = sscanf(t, "%ld %d %d", &StartTime, &Duration, &SearchID);
+                int n = sscanf(t, "%jd %d %d", &StartTime, &Duration, &SearchID);
                 if (n == 3) {
                     recDone = new cRecDone;
                     if (recDone) {
                         recDone->searchID = SearchID;
-                        recDone->startTime = StartTime;
+                        recDone->startTime = (time_t)StartTime;
                         recDone->duration = Duration;
                         RecsDone.Add(recDone);
                     }
@@ -189,8 +189,8 @@ const char *cRecDone::ToText(void)
         LogFile.Log(3, "invalid channel in recs done!");
 
     free(buffer);
-    msprintf(&buffer, "R %ld %d %d\nC %s\n%s%s%s%s%s%s%s%s%s%s%s%sr",
-             startTime, duration, searchID,
+    msprintf(&buffer, "R %jd %d %d\nC %s\n%s%s%s%s%s%s%s%s%s%s%s%sr",
+             (intmax_t)startTime, duration, searchID,
              channel ? CHANNELSTRING(channel) : "",
              title ? "T " : "", title ? title : "", title ? "\n" : "",
              shortText ? "S " : "", shortText ? shortText : "", shortText ? "\n" : "",

@@ -149,9 +149,9 @@ cString cSwitchTimer::ToText(bool& ignore)
     LOCK_CHANNELS_READ;
     const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
     if (!channel) return NULL;
-    cString buffer = cString::sprintf("%s:%u:%ld:%d:%d:%d",
+    cString buffer = cString::sprintf("%s:%u:%jd:%d:%d:%d",
                                       CHANNELSTRING(channel), eventID,
-                                      startTime, switchMinsBefore,
+                                      (intmax_t)startTime, switchMinsBefore,
                                       mode, unmute ? 1 : 0);
     return buffer;
 }

@@ -273,10 +273,10 @@ eOSState cMenuSearchCommands::Execute(void)
 
             {
                 LOCK_CHANNELS_READ;
-                buffer = cString::sprintf("'%s' %ld %ld %d '%s' '%s'",
+                buffer = cString::sprintf("'%s' %jd %jd %d '%s' '%s'",
                                           EscapeString(event->Title()).c_str(),
-                                          event->StartTime(),
-                                          event->EndTime(),
+                                          (intmax_t)(event->StartTime()),
+                                          (intmax_t)(event->EndTime()),
                                           ChannelNrFromEvent(event),
                                           EscapeString(Channels->GetByChannelID(event->ChannelID(), true, true)->Name()).c_str(),
                                           EscapeString(event->ShortText() ? event->ShortText() : "").c_str());

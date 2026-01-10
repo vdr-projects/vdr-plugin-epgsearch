@@ -479,16 +479,16 @@ cString cPluginEpgsearch::SVDRPCommand(const char *Command, const char *Option, 
                 std::string title = pEvent->Title() ? encodeSpecialCharacters(pEvent->Title()) : "";
                 std::string shorttext = pEvent->ShortText() ? encodeSpecialCharacters(pEvent->ShortText()) : "";
 
-                cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d",
+                cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%jd:%jd:%s:%jd:%jd:%s:%d",
                                                   result->search->ID,
                                                   pEvent->EventID(),
                                                   title.c_str(),
                                                   shorttext.c_str(),
-                                                  pEvent->StartTime(),
-                                                  pEvent->EndTime(),
+                                                  (intmax_t)(pEvent->StartTime()),
+                                                  (intmax_t)(pEvent->EndTime()),
                                                   CHANNELSTRING(channel),
-                                                  timerMode > 0 ? start : -1,
-                                                  timerMode > 0 ? stop : -1,
+                                                  timerMode > 0 ? (intmax_t)start : -1,
+                                                  timerMode > 0 ? (intmax_t)stop : -1,
                                                   timerMode > 0 ? result->search->BuildFile(pEvent) : "",
                                                   timerMode);
 

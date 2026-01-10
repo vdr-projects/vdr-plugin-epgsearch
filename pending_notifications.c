@@ -57,8 +57,8 @@ bool cPendingNotification::Read(FILE *f)
             if (!p) {
                 tEventID EventID;
                 int Type, TimerMod, SearchID;
-                time_t Start;
-                int n = sscanf(t, "%d %u %d %d %ld", &Type, &EventID, &TimerMod, &SearchID, &Start);
+                intmax_t Start;
+                int n = sscanf(t, "%d %u %d %d %jd", &Type, &EventID, &TimerMod, &SearchID, &Start);
                 if (n == 5) {
                     p = new cPendingNotification;
                     if (p) {
@@ -66,7 +66,7 @@ bool cPendingNotification::Read(FILE *f)
                         p->eventID = EventID;
                         p->timerMod = TimerMod;
                         p->searchID = SearchID;
-                        p->start = Start;
+                        p->start = (time_t)Start;
 
                         PendingNotifications.Add(p);
                     }
@@ -116,8 +116,8 @@ const char *cPendingNotification::ToText(void)
         LogFile.Log(3, "invalid channel in pending notifications!");
 
     free(buffer);
-    msprintf(&buffer, "N %d %u %d %d %ld\nC %s\n%s%s%sn",
-             type, eventID, timerMod, searchID, start,
+    msprintf(&buffer, "N %d %u %d %d %jd\nC %s\n%s%s%sn",
+             type, eventID, timerMod, searchID, (intmax_t)start,
              channel ? CHANNELSTRING(channel) : "",
              tmpFormatted ? "F " : "", tmpFormatted ? tmpFormatted : "", tmpFormatted ? "\n" : "");
 

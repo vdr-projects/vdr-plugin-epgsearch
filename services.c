@@ -148,17 +148,17 @@ std::list<std::string> cEpgsearchServiceHandler::TranslateResults(cSearchResults
             std::string shorttext = pEvent->ShortText() ? encodeSpecialCharacters(pEvent->ShortText()) : "";
             std::string description = pEvent->Description() ? encodeSpecialCharacters(pEvent->Description()) : "";
 
-            cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%s:%ld:%ld:%s:%ld:%ld:%s:%d",
+            cString cmdbuf = cString::sprintf("%d:%u:%s:%s:%s:%jd:%jd:%s:%jd:%jd:%s:%d",
                                               result->search->ID,
                                               pEvent->EventID(),
                                               title.c_str(),
                                               shorttext.c_str(),
                                               description.c_str(),
-                                              pEvent->StartTime(),
-                                              pEvent->EndTime(),
+                                              (intmax_t)(pEvent->StartTime()),
+                                              (intmax_t)(pEvent->EndTime()),
                                               CHANNELSTRING(channel),
-                                              timerMode > 0 ? start : -1,
-                                              timerMode > 0 ? stop : -1,
+                                              timerMode > 0 ? (intmax_t)start : -1,
+                                              timerMode > 0 ? (intmax_t)stop : -1,
                                               timerMode > 0 ? result->search->BuildFile(pEvent) : "",
                                               timerMode);
 

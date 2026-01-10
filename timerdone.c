@@ -131,10 +131,10 @@ cString cTimerDone::ToText(void) const
     const cChannel *channel = Channels->GetByChannelID(channelID, true, true);
     std::string info = std::string(DAYDATETIME(start)) + " - " + std::string(channel ? channel->Name() : "");
 
-    cString buffer = cString::sprintf("%s:%ld:%ld:%d:%s:%s:%s",
+    cString buffer = cString::sprintf("%s:%jd:%jd:%d:%s:%s:%s",
                                       *channelID.ToString(),
-                                      start,
-                                      stop,
+                                      (intmax_t)start,
+                                      (intmax_t)stop,
                                       searchID,
                                       ReplaceAll(title, ":", "|").c_str(),
                                       ReplaceAll(shorttext, ":", "|").c_str(),

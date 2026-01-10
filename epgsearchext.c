@@ -309,7 +309,7 @@ const char *cSearchExt::ToText()
     free(buffer);
     msprintf(&buffer, "%d:%s:%d:%s:%s:%d:%s:%d:%d:%d:"   "%d:%d:%d:%s:%s:%d:%d:%d:%d:%s:"   //  1..20
                       "%d:%d:%d:%d:%d:%d:%d:%s:%d:%d:"   "%d:%d:%d:%ld:%d:%d:%d:%d:%d:%d:"  // 21..40
-                      "%s:%d:%d:%d:%d:%d:%d:%ld:%ld:%d:" "%d:%d:%s:%d:%d:%d:%d:%d:%d",      // 41..59
+                      "%s:%d:%d:%d:%d:%d:%d:%jd:%jd:%d:" "%d:%d:%s:%d:%d:%d:%d:%d:%d",      // 41..59
              ID,                    // 1
              tmp_search,
              useTime,
@@ -357,8 +357,8 @@ const char *cSearchExt::ToText()
              delMode,
              delAfterCountRecs,
              delAfterDaysOfFirstRec,
-             useAsSearchTimerFrom,
-             useAsSearchTimerTil,
+             (intmax_t)useAsSearchTimerFrom,
+             (intmax_t)useAsSearchTimerTil,
              extEPGInfoMatchingMode,
              unmuteSoundOnSwitch,       // 51
              compareSummaryMatchInPercent,

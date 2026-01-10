@@ -653,11 +653,11 @@ char* cSearchTimerThread::SummaryExtended(cSearchExt* searchExt, const cTimer* T
     time_t stop  = eStop + (UseVPS ? 0 : (searchExt->MarginStop * 60));
 
     char* addSummaryFooter = NULL;
-    msprintf(&addSummaryFooter, "<channel>%d - %s</channel><searchtimer>%s</searchtimer><start>%ld</start><stop>%ld</stop><s-id>%d</s-id><eventid>%ld</eventid>",
+    msprintf(&addSummaryFooter, "<channel>%d - %s</channel><searchtimer>%s</searchtimer><start>%jd</start><stop>%jd</stop><s-id>%d</s-id><eventid>%ld</eventid>",
              Timer->Channel()->Number(), CHANNELNAME(Timer->Channel()),
              searchExt->search,
-             start,
-             stop,
+             (intmax_t)start,
+             (intmax_t)stop,
              searchExt->ID,
              (long) pEvent->EventID());
 

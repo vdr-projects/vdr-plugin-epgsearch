@@ -122,12 +122,12 @@ bool cNoAnnounce::Parse(const char *s)
 const char *cNoAnnounce::ToText(void)
 {
     free(buffer);
-    msprintf(&buffer, "%s:%s:%s:%ld:%ld",
+    msprintf(&buffer, "%s:%s:%s:%jd:%jd",
              ReplaceAll(title, ":", "|").c_str(),
              ReplaceAll(shortText, ":", "|").c_str(),
              *channelID.ToString(),
-             startTime,
-             nextAnnounce);
+             (intmax_t)startTime,
+             (intmax_t)nextAnnounce);
     return buffer;
 }
 
