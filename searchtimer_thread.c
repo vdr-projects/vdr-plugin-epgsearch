@@ -851,16 +851,24 @@ void cSearchTimerThread::CheckExpiredRecs()
             continue;
         }
         LogFile.Log(1, "delete expired recording '%s' from %s, search timer %s", recording->Name(), DAYDATETIME(recording->Start()), recordingObj->search->search);
-        cRecordControl *rc = cRecordControls::GetRecordControl(recording->FileName());
-        if (!rc) {
+        if (recording->IsInUse()) {
+            LogFile.Log(1, "recording in use - not deleted");
+            continue;
+        }
+        else {
             if (!recording->Delete())
                 LogFile.Log(1, "error deleting recording!");
             else {
+#if APIVERSNUM >= 30010
+                LOCK_DELETEDRECORDINGS_WRITE;
+                Recordings->Del(recording, false);
+                DeletedRecordings->Add(recording);
+#else
                 Recordings->DelByName(recording->FileName());
+#endif
                 Recordings->SetModified();
             }
-        } else
-            LogFile.Log(1, "recording already in use by a timer!");
+        }
     }
     LogFile.Log(1, "check for expired recordings finished");
 }
