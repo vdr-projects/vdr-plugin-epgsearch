@@ -1,5 +1,10 @@
 VDR Plugin 'epgsearch' Revision History
 ---------------------------------------
+2026-02-10
+- Set version to 2.4.6
+- Adaptation to vdr 2.7.8
+- fix time_t usage for 32bit systems (Soeren Moch)
+- added svdrpclient.c needed for previous commit
 2026-01-04
 - Reworked svdrclient.h (get rid of namespace, new svdrpclient.c)
 - check response when using external svdrp
